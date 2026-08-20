@@ -1,0 +1,64 @@
+spring:
+  application:
+    name: anhsensei-backend
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:dev}
+
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://db.vdzlkldjhxdzoztgcagy.supabase.co:5432/postgres?sslmode=require}
+    username: ${DATABASE_USERNAME:postgres}
+    password: ${DATABASE_PASSWORD:duonggiakien}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+      idle-timeout: 300000
+      connection-timeout: 20000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+server:
+  port: ${BACKEND_PORT:8080}
+  servlet:
+    context-path: /api/v1
+
+app:
+  jwt:
+    secret: ${JWT_SIGNING_SECRET:default_jwt_secret_must_be_overridden_in_env_file_32_chars}
+    access-token-expiration-ms: 900000 # 15 minutes
+    refresh-token-expiration-ms: 604800000 # 7 days
+  supabase:
+    url: ${SUPABASE_URL:https://vdzlkldjhxdzoztgcagy.supabase.co}
+    service-key: ${SUPABASE_SERVICE_KEY:dummy_key}
+  ai:
+    api-key: ${AI_API_KEY:dummy_ai_key}
+    timeout-ms: 15000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,prometheus
+  endpoint:
+    health:
+      show-details: when_authorized
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html

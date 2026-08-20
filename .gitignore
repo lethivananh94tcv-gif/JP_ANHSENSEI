@@ -1,0 +1,38 @@
+# Build and Target directories
+**/target/
+**/.next/
+**/out/
+**/dist/
+**/build/
+
+# Node dependencies
+**/node_modules/
+
+# Environment and Secrets
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDEs & Editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*.tmp
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+**/logs/
+
+# Test output & Coverage
+**/coverage/
+.nyc_output/
+playwright-report/
+test-results/
+
+# Maven wrapper jar if not needed
+!.mvn/wrapper/maven-wrapper.jar
