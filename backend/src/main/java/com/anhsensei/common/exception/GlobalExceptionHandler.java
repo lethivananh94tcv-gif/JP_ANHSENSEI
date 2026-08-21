@@ -3,6 +3,8 @@ package com.anhsensei.common.exception;
 import com.anhsensei.common.response.ErrorResponse;
 import com.anhsensei.common.response.FieldErrorDetail;
 import com.anhsensei.common.util.CorrelationIdFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.slf4j.MDC;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +19,27 @@ import java.util.List;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     @ExceptionHandler(BusinessException.class)
     public ResponseEntity<ErrorResponse> handleBusinessException(BusinessException ex) {
         String correlationId = MDC.get(CorrelationIdFilter.CORRELATION_ID_KEY);
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.BAD_REQUEST.value(),
                 ex.getCode(),
+                ex.getMessage(),
+                null,
+                correlationId
+        );
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler({IllegalArgumentException.class, IllegalStateException.class})
+    public ResponseEntity<ErrorResponse> handleIllegalArgumentException(RuntimeException ex) {
+        String correlationId = MDC.get(CorrelationIdFilter.CORRELATION_ID_KEY);
+        ErrorResponse errorResponse = new ErrorResponse(
+                HttpStatus.BAD_REQUEST.value(),
+                "BAD_REQUEST",
                 ex.getMessage(),
                 null,
                 correlationId
@@ -51,11 +68,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
+        log.error("Unhandled exception occurred: ", ex);
         String correlationId = MDC.get(CorrelationIdFilter.CORRELATION_ID_KEY);
         ErrorResponse errorResponse = new ErrorResponse(
                 HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "INTERNAL_SERVER_ERROR",
-                "Đã có lỗi hệ thống xảy ra. Vui lòng thử lại sau.",
+                ex.getMessage() != null ? ex.getMessage() : "Đã có lỗi hệ thống xảy ra. Vui lòng thử lại sau.",
                 null,
                 correlationId
         );

@@ -16,7 +16,7 @@ public class JwtTokenProvider {
     @Value("${app.jwt.secret}")
     private String jwtSecret;
 
-    @Value("${app.jwt.access-token-expiration-ms}")
+    @Value("${app.jwt.access-token-expiration-ms:900000}")
     private long jwtExpirationInMs;
 
     private SecretKey getSigningKey() {
@@ -32,6 +32,7 @@ public class JwtTokenProvider {
                 .subject(Long.toString(userId))
                 .claim("email", email)
                 .claim("role", role)
+                .claim("type", "ACCESS")
                 .issuedAt(now)
                 .expiration(expiryDate)
                 .signWith(getSigningKey())
@@ -50,8 +51,14 @@ public class JwtTokenProvider {
 
     public boolean validateToken(String authToken) {
         try {
-            Jwts.parser().verifyWith(getSigningKey()).build().parseSignedClaims(authToken);
-            return true;
+            Claims claims = Jwts.parser()
+                    .verifyWith(getSigningKey())
+                    .build()
+                    .parseSignedClaims(authToken)
+                    .getPayload();
+
+            String tokenType = claims.get("type", String.class);
+            return "ACCESS".equals(tokenType);
         } catch (Exception ex) {
             return false;
         }

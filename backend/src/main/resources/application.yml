@@ -31,6 +31,18 @@ spring:
     baseline-on-migrate: true
     locations: classpath:db/migration
 
+  mail:
+    host: ${SPRING_MAIL_HOST:smtp.gmail.com}
+    port: ${SPRING_MAIL_PORT:587}
+    username: ${SPRING_MAIL_USERNAME:lethivananh.94tcv@gmail.com}
+    password: ${SPRING_MAIL_PASSWORD:tjfzhilujxcxstqt}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
 server:
   port: ${BACKEND_PORT:8080}
   servlet:
