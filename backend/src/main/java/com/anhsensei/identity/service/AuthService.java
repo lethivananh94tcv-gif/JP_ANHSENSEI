@@ -21,6 +21,7 @@ import java.security.SecureRandom;
 import java.time.OffsetDateTime;
 import java.util.HexFormat;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -102,38 +103,67 @@ public class AuthService {
     public String register(RegisterRequest request) {
         String normalizedEmail = request.getEmail().trim().toLowerCase();
 
-        if (userRepository.existsByEmail(normalizedEmail)) {
-            throw new IllegalArgumentException("Email này đã được sử dụng");
+        Optional<User> existingUserOpt = userRepository.findByEmail(normalizedEmail);
+        User user;
+
+        if (existingUserOpt.isPresent()) {
+            User existingUser = existingUserOpt.get();
+            if ("ACTIVE".equalsIgnoreCase(existingUser.getStatus())) {
+                throw new IllegalArgumentException("Email này đã được đăng ký và kích hoạt. Vui lòng chuyển sang Đăng Nhập.");
+            }
+
+            // User is PENDING_VERIFICATION -> Update info & allow re-sending OTP
+            user = existingUser;
+            user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+            user.setFullName(request.getFullName().trim());
+            if (request.getTargetLevel() != null) {
+                user.setTargetLevel(request.getTargetLevel());
+            }
+        } else {
+            if (!passwordValidator.isValid(request.getPassword(), null)) {
+                throw new IllegalArgumentException("Mật khẩu không đáp ứng chính sách an toàn");
+            }
+
+            Role learnerRole = roleRepository.findByRoleName("LEARNER")
+                    .orElseGet(() -> roleRepository.save(new Role(null, "LEARNER", "Người học", null)));
+
+            user = new User();
+            user.setEmail(normalizedEmail);
+            user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
+            user.setFullName(request.getFullName().trim());
+            user.setRole(learnerRole);
+            user.setTargetLevel(request.getTargetLevel() != null ? request.getTargetLevel() : "N5");
+            user.setStatus("PENDING_VERIFICATION");
+            user.setFailedLoginCount(0);
         }
-
-        if (!passwordValidator.isValid(request.getPassword(), null)) {
-            throw new IllegalArgumentException("Mật khẩu không đáp ứng chính sách an toàn");
-        }
-
-        Role learnerRole = roleRepository.findByRoleName("LEARNER")
-                .orElseGet(() -> roleRepository.save(new Role(null, "LEARNER", "Người học", null)));
-
-        User user = new User();
-        user.setEmail(normalizedEmail);
-        user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
-        user.setFullName(request.getFullName().trim());
-        user.setRole(learnerRole);
-        user.setTargetLevel("N5");
-        user.setStatus("PENDING_VERIFICATION");
-        user.setFailedLoginCount(0);
 
         user = userRepository.save(user);
 
-        // Generate Email Verification Token (Expires in 24h)
-        String rawToken = generateRandomToken();
-        EmailVerificationToken verificationToken = new EmailVerificationToken();
-        verificationToken.setUser(user);
-        verificationToken.setTokenHash(hashToken(rawToken));
-        verificationToken.setExpiresAt(OffsetDateTime.now().plusHours(24));
-        emailVerificationRepository.save(verificationToken);
+        // Generate and send numeric OTP (Expires in 5 mins) for immediate verification
+        String otpCode = generateNumericOtp();
+        loginOtpMap.put(normalizedEmail, new OtpEntry(otpCode, OffsetDateTime.now().plusMinutes(5)));
+        try {
+            emailService.sendOtpLoginEmail(normalizedEmail, otpCode);
+        } catch (Exception ignored) {}
 
-        // Send Email Notification
-        emailService.sendVerificationEmail(normalizedEmail, rawToken);
+        // Generate raw Token (Expires in 24h)
+        String rawToken = generateRandomToken();
+
+        // Store both raw token hash and numeric OTP hash in DB for seamless 6-digit OTP verification
+        EmailVerificationToken verificationToken1 = new EmailVerificationToken();
+        verificationToken1.setUser(user);
+        verificationToken1.setTokenHash(hashToken(rawToken));
+        verificationToken1.setExpiresAt(OffsetDateTime.now().plusHours(24));
+        emailVerificationRepository.save(verificationToken1);
+
+        EmailVerificationToken verificationToken2 = new EmailVerificationToken();
+        verificationToken2.setUser(user);
+        verificationToken2.setTokenHash(hashToken(otpCode));
+        verificationToken2.setExpiresAt(OffsetDateTime.now().plusHours(24));
+        emailVerificationRepository.save(verificationToken2);
+
+        // Always send 6-digit numeric OTP in Email
+        emailService.sendVerificationEmail(normalizedEmail, otpCode);
 
         return rawToken;
     }
@@ -145,14 +175,14 @@ public class AuthService {
 
         EmailVerificationToken token = emailVerificationRepository.findByTokenHash(tokenHash)
                 .orElseGet(() -> emailVerificationRepository.findByTokenHash(inputToken)
-                        .orElseThrow(() -> new IllegalArgumentException("Token xác thực không hợp lệ hoặc không tồn tại")));
+                        .orElseThrow(() -> new IllegalArgumentException("Mã OTP xác thực không hợp lệ hoặc không tồn tại")));
 
         if (token.getUsedAt() != null) {
-            throw new IllegalStateException("Token xác thực đã được sử dụng");
+            throw new IllegalStateException("Mã OTP xác thực đã được sử dụng");
         }
 
         if (token.getExpiresAt().isBefore(OffsetDateTime.now())) {
-            throw new IllegalStateException("Token xác thực đã hết hạn");
+            throw new IllegalStateException("Mã OTP xác thực đã hết hạn");
         }
 
         token.setUsedAt(OffsetDateTime.now());
@@ -173,20 +203,16 @@ public class AuthService {
             return;
         }
 
-        var latestToken = emailVerificationRepository.findLatestByUserId(user.getUserId());
-        if (latestToken.isPresent() && latestToken.get().getCreatedAt() != null
-                && latestToken.get().getCreatedAt().isAfter(OffsetDateTime.now().minusMinutes(2))) {
-            return;
-        }
+        String numericOtp = generateNumericOtp();
+        loginOtpMap.put(normalizedEmail, new OtpEntry(numericOtp, OffsetDateTime.now().plusMinutes(5)));
 
-        String rawToken = generateRandomToken();
         EmailVerificationToken verificationToken = new EmailVerificationToken();
         verificationToken.setUser(user);
-        verificationToken.setTokenHash(hashToken(rawToken));
+        verificationToken.setTokenHash(hashToken(numericOtp));
         verificationToken.setExpiresAt(OffsetDateTime.now().plusHours(24));
         emailVerificationRepository.save(verificationToken);
 
-        emailService.sendVerificationEmail(normalizedEmail, rawToken);
+        emailService.sendVerificationEmail(normalizedEmail, numericOtp);
     }
 
     @Transactional
@@ -356,46 +382,77 @@ public class AuthService {
     @Transactional
     public void forgotPassword(ForgotPasswordRequest request) {
         String normalizedEmail = request.getEmail().trim().toLowerCase();
-        User user = userRepository.findByEmail(normalizedEmail).orElse(null);
+        User user = userRepository.findByEmail(normalizedEmail)
+                .orElseThrow(() -> new IllegalArgumentException("Email này chưa được đăng ký trong hệ thống. Vui lòng kiểm tra lại."));
 
-        if (user != null && "ACTIVE".equalsIgnoreCase(user.getStatus())) {
-            String rawToken = generateRandomToken();
-            PasswordResetToken resetToken = new PasswordResetToken();
-            resetToken.setUser(user);
-            resetToken.setTokenHash(hashToken(rawToken));
-            resetToken.setExpiresAt(OffsetDateTime.now().plusMinutes(30));
-            passwordResetRepository.save(resetToken);
-
-            // Send Real Email Notification with Token
-            emailService.sendPasswordResetEmail(normalizedEmail, rawToken);
+        if ("PENDING_VERIFICATION".equalsIgnoreCase(user.getStatus())) {
+            throw new IllegalStateException("Tài khoản chưa được kích hoạt OTP. Vui lòng sử dụng tính năng Kích hoạt OTP.");
         }
+
+        if ("LOCKED".equalsIgnoreCase(user.getStatus()) || "DISABLED".equalsIgnoreCase(user.getStatus())) {
+            throw new IllegalStateException("Tài khoản của bạn đã bị khóa hoặc vô hiệu hóa.");
+        }
+
+        String numericOtp = generateNumericOtp();
+        String rawToken = generateRandomToken();
+
+        PasswordResetToken resetToken1 = new PasswordResetToken();
+        resetToken1.setUser(user);
+        resetToken1.setTokenHash(hashToken(rawToken));
+        resetToken1.setExpiresAt(OffsetDateTime.now().plusMinutes(30));
+        passwordResetRepository.save(resetToken1);
+
+        PasswordResetToken resetToken2 = new PasswordResetToken();
+        resetToken2.setUser(user);
+        resetToken2.setTokenHash(hashToken(numericOtp));
+        resetToken2.setExpiresAt(OffsetDateTime.now().plusMinutes(30));
+        passwordResetRepository.save(resetToken2);
+
+        loginOtpMap.put(normalizedEmail, new OtpEntry(numericOtp, OffsetDateTime.now().plusMinutes(30)));
+
+        emailService.sendPasswordResetEmail(normalizedEmail, numericOtp);
     }
 
     @Transactional
     public void resetPassword(ResetPasswordRequest request) {
         if (!passwordValidator.isValid(request.getNewPassword(), null)) {
-            throw new IllegalArgumentException("Mật khẩu mới không đáp ứng chính sách an toàn");
+            throw new IllegalArgumentException("Mật khẩu mới không đáp ứng chính sách an toàn (tối thiểu 8 ký tự, chữ HOA, chữ thường & chữ số).");
         }
 
         String inputToken = request.getToken().trim();
         String tokenHash = hashToken(inputToken);
 
         PasswordResetToken resetToken = passwordResetRepository.findByTokenHash(tokenHash)
-                .orElseGet(() -> passwordResetRepository.findByTokenHash(inputToken)
-                        .orElseThrow(() -> new IllegalArgumentException("Token đặt lại mật khẩu không hợp lệ")));
+                .orElseGet(() -> passwordResetRepository.findByTokenHash(inputToken).orElse(null));
 
-        if (resetToken.getUsedAt() != null) {
-            throw new IllegalStateException("Token đặt lại mật khẩu đã được sử dụng");
+        User user = null;
+        if (resetToken != null) {
+            if (resetToken.getUsedAt() != null) {
+                throw new IllegalStateException("Mã khôi phục mật khẩu đã được sử dụng trước đó");
+            }
+            if (resetToken.getExpiresAt().isBefore(OffsetDateTime.now())) {
+                throw new IllegalStateException("Mã khôi phục mật khẩu đã hết hạn (30 phút)");
+            }
+            resetToken.setUsedAt(OffsetDateTime.now());
+            passwordResetRepository.save(resetToken);
+            user = resetToken.getUser();
+        } else {
+            for (Map.Entry<String, OtpEntry> entry : loginOtpMap.entrySet()) {
+                if (entry.getValue().code.equals(inputToken)) {
+                    if (entry.getValue().expiresAt.isBefore(OffsetDateTime.now())) {
+                        throw new IllegalStateException("Mã khôi phục mật khẩu đã hết hạn");
+                    }
+                    user = userRepository.findByEmail(entry.getKey()).orElse(null);
+                    loginOtpMap.remove(entry.getKey());
+                    break;
+                }
+            }
         }
 
-        if (resetToken.getExpiresAt().isBefore(OffsetDateTime.now())) {
-            throw new IllegalStateException("Token đặt lại mật khẩu đã hết hạn");
+        if (user == null) {
+            throw new IllegalArgumentException("Mã khôi phục mật khẩu 6 chữ số không chính xác hoặc không tồn tại.");
         }
 
-        resetToken.setUsedAt(OffsetDateTime.now());
-        passwordResetRepository.save(resetToken);
-
-        User user = resetToken.getUser();
         user.setPasswordHash(passwordEncoder.encode(request.getNewPassword()));
         user.setFailedLoginCount(0);
         user.setLockUntil(null);

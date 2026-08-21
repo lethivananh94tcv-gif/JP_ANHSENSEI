@@ -68,7 +68,7 @@ class AuthServiceUnitTest {
     @DisplayName("Test 1 & 11: Email được trim/lowercase, tài khoản tạo mới ở dạng PENDING_VERIFICATION")
     void testRegisterEmailNormalizationAndPendingVerification() {
         RegisterRequest request = new RegisterRequest("  Nguyễn Văn A  ", "  TestUSER@Example.COM  ", "Password123!");
-        when(userRepository.existsByEmail("testuser@example.com")).thenReturn(false);
+        when(userRepository.findByEmail("testuser@example.com")).thenReturn(Optional.empty());
 
         ArgumentCaptor<User> userCaptor = ArgumentCaptor.forClass(User.class);
         when(userRepository.save(userCaptor.capture())).thenAnswer(invocation -> {
@@ -88,10 +88,13 @@ class AuthServiceUnitTest {
     }
 
     @Test
-    @DisplayName("Test 2: Email trùng khác chữ hoa/thường bị từ chối")
-    void testDuplicateEmailRejection() {
+    @DisplayName("Test 2: Email trùng đã ACTIVE bị từ chối")
+    void testDuplicateActiveEmailRejection() {
         RegisterRequest request = new RegisterRequest("Nguyễn Văn B", "EXISTING@Example.com", "Password123!");
-        when(userRepository.existsByEmail("existing@example.com")).thenReturn(true);
+        User activeUser = new User();
+        activeUser.setEmail("existing@example.com");
+        activeUser.setStatus("ACTIVE");
+        when(userRepository.findByEmail("existing@example.com")).thenReturn(Optional.of(activeUser));
 
         assertThrows(IllegalArgumentException.class, () -> authService.register(request));
     }
@@ -250,10 +253,10 @@ class AuthServiceUnitTest {
     }
 
     @Test
-    @DisplayName("Test 27: Forgot password trả về thông báo chung, không tiết lộ email tồn tại")
+    @DisplayName("Test 27: Forgot password ném ra ngoại lệ khi email không tồn tại trong hệ thống")
     void testForgotPasswordGenericResponse() {
         when(userRepository.findByEmail("nonexistent@example.com")).thenReturn(Optional.empty());
 
-        assertDoesNotThrow(() -> authService.forgotPassword(new ForgotPasswordRequest("nonexistent@example.com")));
+        assertThrows(IllegalArgumentException.class, () -> authService.forgotPassword(new ForgotPasswordRequest("nonexistent@example.com")));
     }
 }
