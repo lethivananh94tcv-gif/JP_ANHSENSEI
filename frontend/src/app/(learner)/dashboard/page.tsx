@@ -1,69 +1,216 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import { useEffect, useState, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import {
+  UserProfile,
+  LevelSummary,
+  LessonSummary,
+  DailyReviewViewModel,
+  WeeklyActivityDay,
+} from "@/types/learner";
 
-interface UserProfile {
-  userId: number;
-  fullName: string;
-  email: string;
-  role: string;
-}
+import LearnerHeader from "@/components/learner/LearnerHeader";
+import WelcomeSection from "@/components/learner/WelcomeSection";
+import ContinueLearningCard from "@/components/learner/ContinueLearningCard";
+import DailyReviewCard from "@/components/learner/DailyReviewCard";
+import LearningPathSection from "@/components/learner/LearningPathSection";
+import LearningTypeGrid from "@/components/learner/LearningTypeGrid";
+import RecommendationSection from "@/components/learner/RecommendationSection";
+import WeeklyAchievementCard from "@/components/learner/WeeklyAchievementCard";
+import MotivationBanner from "@/components/learner/MotivationBanner";
+import LearnerFooter from "@/components/learner/LearnerFooter";
+import HomeSkeleton from "@/components/learner/HomeSkeleton";
+import HomeErrorState from "@/components/learner/HomeErrorState";
 
 export default function LearnerDashboardPage() {
-  const [user, setUser] = useState<UserProfile | null>(null);
+  const router = useRouter();
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
+  const [user, setUser] = useState<UserProfile | null>(null);
+  const [levels, setLevels] = useState<LevelSummary[]>([]);
+  const [recommendedLessons, setRecommendedLessons] = useState<LessonSummary[]>([]);
+  const [currentLesson, setCurrentLesson] = useState<LessonSummary | null>(null);
+
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string>("");
+
+  // Stat placeholders
+  const [streakDays] = useState<number | null>(null);
+  const [todayMinutes] = useState<number | null>(null);
+  const [dailyGoalMinutes] = useState<number | null>(20);
+
+  // Review & activity placeholders
+  const [reviewData] = useState<DailyReviewViewModel>({
+    dueVocabCount: 0,
+    dueKanjiCount: 0,
+    dueGrammarCount: 0,
+    isAvailable: false,
+  });
+
+  const [dailyActivities] = useState<WeeklyActivityDay[] | null>(null);
+
+  const getAuthHeaders = (): HeadersInit => {
+    const token =
+      typeof window !== "undefined"
+        ? localStorage.getItem("access_token") || localStorage.getItem("auth_token")
+        : "";
+    return token ? { Authorization: `Bearer ${token}` } : {};
+  };
+
+  const loadData = useCallback(async () => {
+    try {
+      setLoading(true);
+      setError("");
+
+      // 1. Auth Guard Check
+      if (typeof window !== "undefined") {
+        const storedUser = localStorage.getItem("user");
+        if (!storedUser) {
+          router.replace("/login");
+          return;
+        }
+
         try {
-          setUser(JSON.parse(storedUser));
+          const parsedUser = JSON.parse(storedUser);
+          if (parsedUser.role === "ADMIN") {
+            router.replace("/admin");
+            return;
+          }
+          setUser(parsedUser);
         } catch (e) {
           console.error("Failed to parse user data", e);
+          router.replace("/login");
+          return;
         }
       }
+
+      // 2. Fetch Published Levels from real API
+      const levelsRes = await fetch("/api/v1/curriculum/levels", {
+        headers: getAuthHeaders(),
+      });
+
+      if (levelsRes.status === 401 || levelsRes.status === 403) {
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("auth_token");
+        localStorage.removeItem("user");
+        router.replace("/login");
+        return;
+      }
+
+      if (!levelsRes.ok) {
+        throw new Error("Không thể tải danh sách trình độ từ hệ thống.");
+      }
+
+      const levelsData: LevelSummary[] = await levelsRes.json();
+      setLevels(Array.isArray(levelsData) ? levelsData : []);
+
+      // 3. Fetch Published Lessons for the first published level
+      const publishedLevels = (Array.isArray(levelsData) ? levelsData : []).filter(
+        (l) => l.status === "PUBLISHED"
+      );
+
+      if (publishedLevels.length > 0) {
+        const targetLevel = publishedLevels[0];
+        const lessonsRes = await fetch(`/api/v1/curriculum/levels/${targetLevel.levelId}/lessons`, {
+          headers: getAuthHeaders(),
+        });
+
+        if (lessonsRes.ok) {
+          const lessonsData: LessonSummary[] = await lessonsRes.json();
+          const pubLessons = (Array.isArray(lessonsData) ? lessonsData : []).filter(
+            (les) => les.status === "PUBLISHED"
+          );
+
+          setRecommendedLessons(pubLessons);
+          if (pubLessons.length > 0) {
+            setCurrentLesson(pubLessons[0]);
+          }
+        }
+      }
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Đã xảy ra lỗi khi kết nối máy chủ.");
+    } finally {
+      setLoading(false);
     }
-  }, []);
+  }, [router]);
+
+  useEffect(() => {
+    loadData();
+  }, [loadData]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-[#F5EFE6]">
+        <LearnerHeader user={user} />
+        <HomeSkeleton />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-[#F5EFE6]">
+        <LearnerHeader user={user} />
+        <HomeErrorState message={error} onRetry={loadData} />
+      </div>
+    );
+  }
 
   return (
-    <main className="min-h-screen bg-[#F5EFE6]/30 p-8">
-      <div className="mx-auto max-w-4xl space-y-6">
-        <div className="flex items-center justify-between rounded-2xl bg-white p-6 shadow-md border border-[#8B6F5A]/20">
-          <div>
-            <h1 className="text-3xl font-bold text-[#8B6F5A]">
-              Dashboard Học Viên
-            </h1>
-            <p className="mt-1 text-sm text-[#6E5E52]">
-              Chào mừng trở lại, <strong className="text-[#2D241E]">{user ? user.fullName : "Học viên"}</strong>!
-            </p>
-          </div>
-          <Link
-            href="/"
-            className="rounded-lg bg-[#8B6F5A] px-4 py-2 text-sm font-semibold text-white transition hover:bg-[#8B6F5A]/90"
-          >
-            ← Về Trang Chủ
-          </Link>
-        </div>
+    <div className="min-h-screen bg-[#F5EFE6] font-sans text-[#231917] selection:bg-[#C65D4B]/20 selection:text-[#C65D4B]">
+      {/* 1. Header */}
+      <LearnerHeader user={user} />
 
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-          <div className="rounded-xl bg-white p-6 shadow border border-gray-100 text-center">
-            <span className="text-3xl">🔥</span>
-            <h3 className="mt-2 font-bold text-[#8B6F5A]">Chuỗi Học (Streak)</h3>
-            <p className="text-2xl font-extrabold text-[#C65D4B] mt-1">1 ngày</p>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+        {/* 2 & 3. Welcome Section & Quick Stats */}
+        <WelcomeSection
+          user={user}
+          streakDays={streakDays}
+          todayMinutes={todayMinutes}
+          dailyGoalMinutes={dailyGoalMinutes}
+        />
+
+        {/* 4 & 5. Primary Actions Area (65% Continue Learning / 35% Daily Review) */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <div className="lg:col-span-8 flex flex-col">
+            <ContinueLearningCard
+              currentLesson={currentLesson}
+              progressPercent={0}
+              completedParts={0}
+              totalParts={4}
+            />
           </div>
-          <div className="rounded-xl bg-white p-6 shadow border border-gray-100 text-center">
-            <span className="text-3xl">📚</span>
-            <h3 className="mt-2 font-bold text-[#8B6F5A]">Mục Tiêu</h3>
-            <p className="text-2xl font-extrabold text-[#8B6F5A] mt-1">JLPT N5</p>
+          <div className="lg:col-span-4 flex flex-col">
+            <DailyReviewCard reviewData={reviewData} />
           </div>
-          <div className="rounded-xl bg-white p-6 shadow border border-gray-100 text-center">
-            <span className="text-3xl">🎴</span>
-            <h3 className="mt-2 font-bold text-[#8B6F5A]">Flashcards</h3>
-            <p className="text-2xl font-extrabold text-[#8B6F5A] mt-1">20 thẻ/ngày</p>
+        </section>
+
+        {/* 6. Learning Path Section */}
+        <LearningPathSection levels={levels} />
+
+        {/* 7. Quick Learning Categories Grid */}
+        <LearningTypeGrid />
+
+        {/* 8 & 9. Recommendations & Weekly Achievement (65% Recommendations / 35% Achievement) */}
+        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
+          <div className="lg:col-span-8 flex flex-col">
+            <RecommendationSection recommendedLessons={recommendedLessons} />
           </div>
-        </div>
-      </div>
-    </main>
+          <div className="lg:col-span-4 flex flex-col">
+            <WeeklyAchievementCard
+              totalMinutes={null}
+              percentageChange={null}
+              dailyActivities={dailyActivities}
+            />
+          </div>
+        </section>
+
+        {/* 10. Motivation Banner */}
+        <MotivationBanner />
+      </main>
+
+      {/* 11. Learner Footer */}
+      <LearnerFooter />
+    </div>
   );
 }

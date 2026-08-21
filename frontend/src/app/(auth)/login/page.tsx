@@ -203,12 +203,18 @@ export default function LoginPage() {
 
   const saveAuthAndRedirect = (data: any) => {
     if (typeof window !== "undefined") {
+      localStorage.setItem("access_token", data.accessToken);
       localStorage.setItem("auth_token", data.accessToken);
       if (data.refreshToken) {
         localStorage.setItem("refresh_token", data.refreshToken);
       }
       localStorage.setItem("user", JSON.stringify(data));
-      window.location.href = "/";
+
+      if (data.role === "ADMIN") {
+        window.location.href = "/admin";
+      } else {
+        window.location.href = "/dashboard";
+      }
     }
   };
 

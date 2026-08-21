@@ -34,5 +34,10 @@ Thumbs.db
 playwright-report/
 test-results/
 
+# Scratch scripts & temp files
+**/scratch/
+check_db.js
+~$*
+
 # Maven wrapper jar if not needed
 !.mvn/wrapper/maven-wrapper.jar

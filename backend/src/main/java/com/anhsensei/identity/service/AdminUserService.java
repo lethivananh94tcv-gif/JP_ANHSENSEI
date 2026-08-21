@@ -28,6 +28,10 @@ public class AdminUserService {
 
     @Transactional
     public void lockUser(Long adminUserId, Long targetUserId, String reason, String ipAddress) {
+        if (adminUserId != null && adminUserId.equals(targetUserId)) {
+            throw new IllegalArgumentException("Admin không thể tự khóa tài khoản của chính mình");
+        }
+
         User target = userRepository.findById(targetUserId)
                 .orElseThrow(() -> new IllegalArgumentException("Người dùng không tồn tại"));
 
@@ -54,6 +58,10 @@ public class AdminUserService {
     public void unlockUser(Long adminUserId, Long targetUserId, String reason, String ipAddress) {
         User target = userRepository.findById(targetUserId)
                 .orElseThrow(() -> new IllegalArgumentException("Người dùng không tồn tại"));
+
+        if (!"LOCKED".equalsIgnoreCase(target.getStatus())) {
+            throw new IllegalArgumentException("Chỉ có thể mở khóa tài khoản đang ở trạng thái LOCKED.");
+        }
 
         String oldStatus = target.getStatus();
         target.setStatus("ACTIVE");

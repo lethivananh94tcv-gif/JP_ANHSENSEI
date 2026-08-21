@@ -17,9 +17,25 @@ import java.util.Map;
 public class AdminUserController {
 
     private final AdminUserService adminUserService;
+    private final com.anhsensei.identity.repository.UserRepository userRepository;
 
-    public AdminUserController(AdminUserService adminUserService) {
+    public AdminUserController(
+            AdminUserService adminUserService,
+            com.anhsensei.identity.repository.UserRepository userRepository
+    ) {
         this.adminUserService = adminUserService;
+        this.userRepository = userRepository;
+    }
+
+    @GetMapping
+    public ResponseEntity<org.springframework.data.domain.Page<com.anhsensei.identity.dto.UserSummaryDto>> getUsers(
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "10") int size
+    ) {
+        org.springframework.data.domain.Page<com.anhsensei.identity.dto.UserSummaryDto> pageRes = userRepository
+                .findAll(org.springframework.data.domain.PageRequest.of(page, size))
+                .map(com.anhsensei.identity.dto.UserSummaryDto::new);
+        return ResponseEntity.ok(pageRes);
     }
 
     @PostMapping("/{userId}/lock")
