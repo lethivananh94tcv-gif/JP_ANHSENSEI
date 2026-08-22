@@ -102,7 +102,7 @@ export default function LearnerLessonsPage() {
             {lessons.map((lsn) => (
               <Link
                 key={lsn.lessonId}
-                href={`/lessons/${lsn.lessonId}`}
+                href={`/lessons/${lsn.sortOrder}`}
                 className="bg-white hover:bg-[#FAF3EB] border-2 border-[#DED3C8] hover:border-[#C65D4B] rounded-2xl p-5 text-center cursor-pointer shadow-2xs hover:shadow-md transition-all flex flex-col justify-between items-center space-y-3 group min-h-[160px]"
               >
                 <div className="flex items-center gap-1.5">

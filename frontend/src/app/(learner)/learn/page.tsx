@@ -115,7 +115,7 @@ export default function LearnerLearnPage() {
                 <p className="text-xs text-white/80">Cấp độ {continueLesson.levelCode} • {continueLesson.estimatedMinutes || 30} phút</p>
               </div>
               <Link
-                href={`/lessons/${continueLesson.lessonId}`}
+                href={`/lessons/${continueLesson.sortOrder}`}
                 className="px-6 py-3 rounded-2xl bg-white text-[#8B6F5A] font-bold text-sm shadow-md hover:bg-[#F5EFE6] transition flex items-center gap-2 shrink-0"
               >
                 <PlayCircle className="w-5 h-5 text-[#C65D4B]" /> Vào học ngay
@@ -168,7 +168,7 @@ export default function LearnerLearnPage() {
                   {lessons.map((lesson) => (
                     <Link
                       key={lesson.lessonId}
-                      href={`/lessons/${lesson.lessonId}`}
+                      href={`/lessons/${lesson.sortOrder}`}
                       className="bg-[#FFFCF7] rounded-3xl p-6 border border-[#8B6F5A]/20 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all flex flex-col justify-between group"
                     >
                       <div className="space-y-3">

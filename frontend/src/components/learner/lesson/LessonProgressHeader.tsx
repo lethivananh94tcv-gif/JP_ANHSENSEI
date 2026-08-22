@@ -4,6 +4,7 @@ import Link from "next/link";
 
 interface LessonProgressHeaderProps {
   lessonId: string;
+  sortOrder?: number;
   lessonTitle: string;
   levelCode: string;
   learnedCount: number;
@@ -14,6 +15,7 @@ interface LessonProgressHeaderProps {
 
 export default function LessonProgressHeader({
   lessonId,
+  sortOrder,
   lessonTitle,
   levelCode,
   learnedCount,
@@ -34,7 +36,7 @@ export default function LessonProgressHeader({
             Trình độ {levelCode || "JLPT"}
           </Link>
           <span>/</span>
-          <span className="text-[#231917] font-bold">Bài học #{lessonId}</span>
+          <span className="text-[#231917] font-bold">Bài học #{sortOrder || lessonId}</span>
         </nav>
 
         <button

@@ -33,6 +33,7 @@ export default function LearnerLessonStudyPage() {
 
   const [lessonTitle, setLessonTitle] = useState<string>(`Bài học #${lessonId}`);
   const [levelCode, setLevelCode] = useState<string>("N5");
+  const [sortOrder, setSortOrder] = useState<number | undefined>(undefined);
 
   const [vocabularies, setVocabularies] = useState<VocabularyDto[]>([]);
   const [kanjis, setKanjis] = useState<LessonKanjiDto[]>([]);
@@ -74,6 +75,7 @@ export default function LearnerLessonStudyPage() {
         if (res.data) {
           setLessonTitle(res.data.title || `Bài học #${lessonId}`);
           setLevelCode(res.data.levelCode || "N5");
+          if (res.data.sortOrder) setSortOrder(res.data.sortOrder);
           setVocabularies(res.data.vocabularies || []);
           setKanjis(res.data.kanjis || []);
           setGrammars(res.data.grammars || []);
@@ -183,6 +185,7 @@ export default function LearnerLessonStudyPage() {
         {/* Lesson Progress Summary Header */}
         <LessonProgressHeader
           lessonId={lessonId}
+          sortOrder={sortOrder}
           lessonTitle={lessonTitle}
           levelCode={levelCode}
           totalItemsCount={totalItemsCount}
