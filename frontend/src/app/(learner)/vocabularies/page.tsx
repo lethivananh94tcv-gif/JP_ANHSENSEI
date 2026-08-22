@@ -90,8 +90,15 @@ export default function LearnerVocabulariesHubPage() {
           return p && p.status === "IN_PROGRESS";
         });
 
+        const uncompletedLessons = publishedLessons.filter((l) => {
+          const p = currentProgressMap[l.lessonId] || currentProgressMap[l.sortOrder];
+          return !p || p.status !== "COMPLETED";
+        });
+
         if (inProgressLessons.length > 0) {
           activeLesson = inProgressLessons[0];
+        } else if (uncompletedLessons.length > 0) {
+          activeLesson = uncompletedLessons[0];
         }
       }
 
@@ -159,8 +166,42 @@ export default function LearnerVocabulariesHubPage() {
         progressRes.value.data.forEach((p) => {
           pMap[p.lessonId] = p;
         });
-        setProgressMap(pMap);
       }
+
+      // Sync local storage completion fallbacks so 100% completed lessons immediately reflect outside
+      if (typeof window !== "undefined") {
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && (key.startsWith("completed_lesson_") || key.startsWith("learned_items_lesson_"))) {
+            const lessonIdNum = Number(key.replace("completed_lesson_", "").replace("learned_items_lesson_", ""));
+            if (lessonIdNum) {
+              let isComp = false;
+              if (key.startsWith("completed_lesson_")) {
+                const val = localStorage.getItem(key);
+                isComp = val === "100" || val === "true";
+              } else {
+                try {
+                  const arr = JSON.parse(localStorage.getItem(key) || "[]");
+                  if (Array.isArray(arr) && arr.length > 0) {
+                    isComp = true;
+                  }
+                } catch {}
+              }
+
+              if (isComp && (!pMap[lessonIdNum] || pMap[lessonIdNum].completionPercent < 100)) {
+                pMap[lessonIdNum] = {
+                  progressId: lessonIdNum,
+                  lessonId: lessonIdNum,
+                  status: "COMPLETED",
+                  completionPercent: 100,
+                  lastAccessedAt: new Date().toISOString(),
+                };
+              }
+            }
+          }
+        }
+      }
+      setProgressMap(pMap);
 
       // Determine Selected Level
       const paramLevel = searchParams.get("level");

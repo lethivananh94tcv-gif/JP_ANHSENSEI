@@ -162,6 +162,29 @@ export default function LearnerLessonStudyPage() {
 
   const isLessonMastered = totalItemsCount > 0 && totalLearnedCount === totalItemsCount;
 
+  // 100% Completion Sync to API and LocalStorage
+  useEffect(() => {
+    if (isLessonMastered && lessonId) {
+      if (typeof window !== "undefined") {
+        localStorage.setItem(`completed_lesson_${lessonId}`, "100");
+        if (sortOrder) {
+          localStorage.setItem(`completed_lesson_${sortOrder}`, "100");
+        }
+      }
+
+      apiClient("/learner/progress", {
+        method: "POST",
+        body: JSON.stringify({
+          lessonId: Number(lessonId),
+          status: "COMPLETED",
+          progressPercentage: 100,
+        }),
+      }).catch((err) => {
+        console.error("Failed to sync completed progress to backend:", err);
+      });
+    }
+  }, [isLessonMastered, lessonId, sortOrder]);
+
   if (loading) return <LessonDetailSkeleton />;
   if (error) return <HomeErrorState message={error} onRetry={fetchStudyContent} />;
 
@@ -178,6 +201,8 @@ export default function LearnerLessonStudyPage() {
       />
     );
   }
+
+  const nextLessonIdCalc = sortOrder ? Number(sortOrder) + 1 : Number(lessonId) + 1;
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] flex flex-col font-sans text-[#2C2421]">
@@ -200,6 +225,7 @@ export default function LearnerLessonStudyPage() {
         {isLessonMastered && (
           <LessonCompletedBanner
             levelCode={levelCode}
+            nextLessonId={nextLessonIdCalc}
           />
         )}
 
