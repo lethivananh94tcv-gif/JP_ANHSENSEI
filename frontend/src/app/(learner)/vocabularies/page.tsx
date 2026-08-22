@@ -51,6 +51,7 @@ export default function LearnerVocabulariesHubPage() {
   const [error, setError] = useState<string>("");
   const [correlationId, setCorrelationId] = useState<string | undefined>(undefined);
   const [isAllLessonsOpen, setIsAllLessonsOpen] = useState<boolean>(false);
+  const [modalMode, setModalMode] = useState<"list" | "cards" | "typing" | null>(null);
 
   // Load Lessons for a Level safely without race condition
   const loadLessonsForLevel = useCallback(async (
@@ -220,11 +221,19 @@ export default function LearnerVocabulariesHubPage() {
     updateUrlParams(selectedLevelCode, lesson.sortOrder || lesson.lessonId);
   };
 
-  // Mode Selection Navigation
+  // Mode Selection Navigation -> Prompt user with lesson selector modal
   const handleSelectMode = (mode: "list" | "cards" | "typing") => {
-    if (!selectedLesson) return;
-    const lessonNum = selectedLesson.sortOrder || selectedLesson.lessonId;
-    router.push(`/lessons/${lessonNum}?mode=${mode}`);
+    setModalMode(mode);
+    setIsAllLessonsOpen(true);
+  };
+
+  const handleOpenLesson = (lesson: LessonItem, mode?: "list" | "cards" | "typing" | null) => {
+    const lessonNum = lesson.sortOrder || lesson.lessonId;
+    if (mode) {
+      router.push(`/lessons/${lessonNum}?mode=${mode}`);
+    } else {
+      router.push(`/lessons/${lessonNum}`);
+    }
   };
 
   // Primary Action Buttons Navigation
@@ -327,7 +336,7 @@ export default function LearnerVocabulariesHubPage() {
             {/* 4. Three Study Modes Selector */}
             <VocabularyModeSelector
               onSelectMode={handleSelectMode}
-              disabled={!selectedLesson}
+              disabled={lessons.length === 0}
             />
 
             {/* 5. Recent Lesson List */}
@@ -339,7 +348,10 @@ export default function LearnerVocabulariesHubPage() {
                 progressMap={progressMap}
                 onSelectLesson={handleSelectLesson}
                 onOpenLesson={handleContinueLesson}
-                onOpenAllLessons={() => setIsAllLessonsOpen(true)}
+                onOpenAllLessons={() => {
+                  setModalMode(null);
+                  setIsAllLessonsOpen(true);
+                }}
               />
             )}
           </div>
@@ -355,12 +367,16 @@ export default function LearnerVocabulariesHubPage() {
       <VocabularyAllLessonsModal
         isOpen={isAllLessonsOpen}
         levelCode={selectedLevelCode}
+        targetMode={modalMode}
         lessons={lessons}
         progressMap={progressMap}
         selectedLessonId={selectedLesson?.sortOrder || selectedLesson?.lessonId}
-        onClose={() => setIsAllLessonsOpen(false)}
+        onClose={() => {
+          setIsAllLessonsOpen(false);
+          setModalMode(null);
+        }}
         onSelectLesson={handleSelectLesson}
-        onOpenLesson={handleContinueLesson}
+        onOpenLesson={handleOpenLesson}
       />
     </div>
   );

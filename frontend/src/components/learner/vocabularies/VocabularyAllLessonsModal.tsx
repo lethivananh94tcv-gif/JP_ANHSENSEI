@@ -6,17 +6,19 @@ import { LessonItem, LessonProgressItem } from "./types";
 interface VocabularyAllLessonsModalProps {
   isOpen: boolean;
   levelCode: string;
+  targetMode?: "list" | "cards" | "typing" | null;
   lessons: LessonItem[];
   progressMap: Record<number, LessonProgressItem>;
   selectedLessonId?: number;
   onClose: () => void;
   onSelectLesson: (lesson: LessonItem) => void;
-  onOpenLesson: (lesson: LessonItem) => void;
+  onOpenLesson: (lesson: LessonItem, mode?: "list" | "cards" | "typing" | null) => void;
 }
 
 export default function VocabularyAllLessonsModal({
   isOpen,
   levelCode,
+  targetMode = null,
   lessons,
   progressMap,
   selectedLessonId,
@@ -26,6 +28,13 @@ export default function VocabularyAllLessonsModal({
 }: VocabularyAllLessonsModalProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED">("all");
+
+  const modalTitle = useMemo(() => {
+    if (targetMode === "list") return `📖 Chọn Bài Học Để Xem Từ (${levelCode})`;
+    if (targetMode === "cards") return `🎴 Chọn Bài Học Để Lật Thẻ (${levelCode})`;
+    if (targetMode === "typing") return `⌨️ Chọn Bài Học Để Luyện Gõ (${levelCode})`;
+    return `Tất Cả Bài Học ${levelCode}`;
+  }, [targetMode, levelCode]);
 
   const filteredLessons = useMemo(() => {
     return lessons
@@ -60,7 +69,7 @@ export default function VocabularyAllLessonsModal({
         <div className="flex items-center justify-between border-b border-[#DED3C8]/60 pb-4">
           <div>
             <h3 id="modal-title" className="text-xl font-serif font-black text-[#302A26]">
-              Tất Cả Bài Học {levelCode}
+              {modalTitle}
             </h3>
             <p className="text-xs text-[#756A62]">
               Tổng cộng {filteredLessons.length} bài học phù hợp
@@ -137,13 +146,25 @@ export default function VocabularyAllLessonsModal({
               const isCompleted = completionPercent === 100;
               const isInProgress = completionPercent > 0 && !isCompleted;
 
-              const actionLabel = isCompleted ? "Học lại" : isInProgress ? "Học tiếp" : "Bắt đầu";
+              const defaultActionLabel = isCompleted ? "Học lại" : isInProgress ? "Học tiếp" : "Bắt đầu";
+              const actionBtnLabel =
+                targetMode === "list"
+                  ? "Xem từ ➔"
+                  : targetMode === "cards"
+                  ? "Lật thẻ ➔"
+                  : targetMode === "typing"
+                  ? "Luyện gõ ➔"
+                  : defaultActionLabel;
 
               return (
                 <div
                   key={lsn.lessonId}
                   onClick={() => {
-                    onSelectLesson(lsn);
+                    if (targetMode) {
+                      onOpenLesson(lsn, targetMode);
+                    } else {
+                      onSelectLesson(lsn);
+                    }
                     onClose();
                   }}
                   className={`p-4 rounded-2xl border transition-all flex items-center justify-between gap-4 cursor-pointer ${
@@ -171,12 +192,12 @@ export default function VocabularyAllLessonsModal({
                       type="button"
                       onClick={(e) => {
                         e.stopPropagation();
-                        onOpenLesson(lsn);
+                        onOpenLesson(lsn, targetMode);
                         onClose();
                       }}
-                      className="px-4 py-2 bg-[#C65D4B] hover:bg-[#b54f3e] text-white font-extrabold text-xs rounded-xl shadow-2xs cursor-pointer"
+                      className="px-4 py-2 bg-[#C65D4B] hover:bg-[#b54f3e] text-white font-extrabold text-xs rounded-xl shadow-2xs cursor-pointer whitespace-nowrap"
                     >
-                      {actionLabel}
+                      {actionBtnLabel}
                     </button>
                   </div>
                 </div>

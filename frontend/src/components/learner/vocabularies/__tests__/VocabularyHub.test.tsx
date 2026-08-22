@@ -24,7 +24,7 @@ describe("Vocabulary Hub Data Helpers & Types", () => {
   });
 
   it("calculates correct status and completion labels for lessons", () => {
-    const completionPercent = 60;
+    const completionPercent: number = 60;
     const isCompleted = completionPercent === 100;
     const isInProgress = completionPercent > 0 && !isCompleted;
     const actionLabel = isCompleted ? "Học lại" : isInProgress ? "Học tiếp" : "Bắt đầu";
