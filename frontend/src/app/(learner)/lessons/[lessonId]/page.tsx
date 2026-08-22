@@ -177,6 +177,18 @@ export default function LearnerLessonStudyPage() {
   if (loading) return <LessonDetailSkeleton />;
   if (error) return <HomeErrorState message={error} onRetry={fetchStudyContent} />;
 
+  if (vocabStudyMode === "flashcard") {
+    return (
+      <FlashcardStudyMode
+        vocabularies={vocabularies}
+        lessonId={lessonId}
+        levelCode={levelCode}
+        lessonTitle={lessonTitle}
+        onBack={() => setVocabStudyMode("list")}
+      />
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#FDFBF7] flex flex-col font-sans text-[#2C2421]">
       <LearnerHeader user={user} />
@@ -201,19 +213,7 @@ export default function LearnerLessonStudyPage() {
           />
         )}
 
-        {/* Primary Content Category Tabs (Only if Kanji or Grammar items exist) */}
-        {(kanjis.length > 0 || grammars.length > 0) && (
-          <LessonContentTabs
-            activeTab={activeTab}
-            vocabCount={vocabularies.length}
-            kanjiCount={kanjis.length}
-            grammarCount={grammars.length}
-            onTabChange={(tab) => {
-              setActiveTab(tab);
-              setVocabStudyMode("list");
-            }}
-          />
-        )}
+
 
         {/* Dynamic Study Content View */}
         <div className="space-y-6">
@@ -236,7 +236,7 @@ export default function LearnerLessonStudyPage() {
                   <button
                     onClick={() => setVocabStudyMode("flashcard")}
                     className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer ${
-                      vocabStudyMode === "flashcard"
+                      (vocabStudyMode as string) === "flashcard"
                         ? "bg-[#C65D4B] text-white shadow-xs"
                         : "text-[#6E5E52] hover:text-[#2C2421]"
                     }`}
@@ -275,8 +275,6 @@ export default function LearnerLessonStudyPage() {
                     />
                   ))}
                 </div>
-              ) : vocabStudyMode === "flashcard" ? (
-                <FlashcardStudyMode vocabularies={vocabularies} lessonId={lessonId} />
               ) : (
                 <TypingStudyMode vocabularies={vocabularies} />
               )}

@@ -2,10 +2,14 @@
 
 export interface VocabularyDto {
   vocabularyId: number;
+  id?: number;
   word: string;
   kana: string;
   kanjiForm?: string;
+  romaji?: string;
   meaningVi: string;
+  exampleJp?: string;
+  exampleVi?: string;
   partOfSpeech?: string;
   audioUrl?: string;
   notes?: string;
