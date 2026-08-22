@@ -217,8 +217,22 @@ export default function AdminImportPage() {
             if (valRes.ok) {
               const validatedJob = await valRes.json();
               setJob(validatedJob);
+              
+              // Fetch validation errors if any
+              try {
+                const errRes = await fetch(`http://localhost:8080/api/v1/admin/import-jobs/${jobId}/errors`, { headers: getHeaders() });
+                if (errRes.ok) {
+                  const errList = await errRes.json();
+                  setErrors(errList);
+                }
+              } catch (e) {}
+
               setStep(2);
-              setMsg(`✓ Đã phân tích thành công! Đã phát hiện ${validatedJob.totalRows || validatedJob.validRows} từ vựng từ tệp Excel.`);
+              if (validatedJob.invalidRows > 0) {
+                setMsg(`⚠️ Đã phân tích xong! Phát hiện ${validatedJob.invalidRows} dòng bị lỗi cần chỉnh sửa trong file Excel.`);
+              } else {
+                setMsg(`✓ Đã phân tích thành công! Đã phát hiện ${validatedJob.totalRows || validatedJob.validRows} từ vựng sẵn sàng nạp vào DB.`);
+              }
               return;
             } else {
               lastErrText = await valRes.text();
@@ -492,10 +506,34 @@ export default function AdminImportPage() {
               </div>
 
               <div className="bg-rose-50 p-4 rounded-2xl border border-rose-300 text-center">
-                <span className="text-2xl font-black text-rose-800">{errors.length}</span>
+                <span className="text-2xl font-black text-rose-800">{job.invalidRows || errors.length}</span>
                 <p className="text-xs font-bold text-rose-800">Dòng bị lỗi</p>
               </div>
             </div>
+
+            {/* Error Details Table */}
+            {errors.length > 0 && (
+              <div className="bg-rose-50 border border-rose-200 p-5 rounded-2xl space-y-3">
+                <h4 className="text-xs font-extrabold text-rose-900 uppercase tracking-wide">
+                  ⚠️ Danh Sách Các Dòng Bị Lỗi Dữ Liệu ({errors.length} lỗi)
+                </h4>
+                <div className="max-h-48 overflow-y-auto space-y-2 pr-2 text-xs">
+                  {errors.map((err, idx) => (
+                    <div key={idx} className="bg-white p-3 rounded-xl border border-rose-200 flex justify-between items-center text-rose-900">
+                      <div>
+                        <span className="font-bold bg-rose-100 text-rose-800 px-2 py-0.5 rounded-md mr-2">
+                          Dòng #{err.rowNumber || err.row}
+                        </span>
+                        <span className="font-semibold text-gray-800">
+                          [{err.columnName || err.field || "Dữ liệu"}]
+                        </span>{" "}
+                        {err.message || err.errorMessage}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             <div className="flex justify-between pt-4 border-t border-[#DED3C8]">
               <button
@@ -507,8 +545,12 @@ export default function AdminImportPage() {
 
               <button
                 onClick={handleCommit}
-                disabled={loading}
-                className="px-8 py-3 bg-[#C65D4B] hover:bg-[#a84c3c] text-white font-extrabold text-xs rounded-xl shadow-sm transition-all"
+                disabled={loading || (job.invalidRows && job.invalidRows > 0)}
+                className={`px-8 py-3 font-extrabold text-xs rounded-xl shadow-sm transition-all ${
+                  job.invalidRows && job.invalidRows > 0
+                    ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+                    : "bg-[#C65D4B] hover:bg-[#a84c3c] text-white"
+                }`}
               >
                 {loading ? "Đang Nạp Dữ Liệu..." : "Xác Nhận Nạp Vào DB ➔"}
               </button>
