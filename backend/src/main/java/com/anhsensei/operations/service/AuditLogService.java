@@ -33,11 +33,26 @@ public class AuditLogService {
         auditLog.setAction(action);
         auditLog.setEntityType(entityType);
         auditLog.setEntityId(entityId);
-        auditLog.setOldValue(oldValue);
-        auditLog.setNewValue(newValue);
+        auditLog.setOldValue(toJson(oldValue));
+        auditLog.setNewValue(toJson(newValue));
         auditLog.setIpAddress(ipAddress);
         auditLog.setCorrelationId(correlationId);
 
         auditLogRepository.save(auditLog);
+    }
+
+    private static final com.fasterxml.jackson.databind.ObjectMapper MAPPER = new com.fasterxml.jackson.databind.ObjectMapper();
+
+    private String toJson(String val) {
+        if (val == null) return null;
+        String trimmed = val.trim();
+        if ((trimmed.startsWith("{") && trimmed.endsWith("}")) || (trimmed.startsWith("[") && trimmed.endsWith("]"))) {
+            return trimmed;
+        }
+        try {
+            return MAPPER.writeValueAsString(val);
+        } catch (Exception e) {
+            return "{\"value\":\"" + val + "\"}";
+        }
     }
 }

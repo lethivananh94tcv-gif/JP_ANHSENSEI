@@ -63,12 +63,21 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/auth/**",
                                 "/public/**",
+                                "/curriculum/**",
+                                "/api/v1/curriculum/**",
+                                "/learner/levels/**",
+                                "/api/v1/learner/levels/**",
+                                "/learner/lessons/**",
+                                "/api/v1/learner/lessons/**",
+                                "/learner/continue-learning",
+                                "/api/v1/learner/continue-learning",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
                                 "/actuator/health"
                         ).permitAll()
-                        .requestMatchers("/curriculum/**").hasAnyRole("LEARNER", "ADMIN")
+                        .requestMatchers("/learner/profile", "/api/v1/learner/profile").hasRole("LEARNER")
+                        .requestMatchers("/learner/**", "/api/v1/learner/**").hasAnyRole("LEARNER", "ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );

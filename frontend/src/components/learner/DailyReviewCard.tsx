@@ -56,18 +56,12 @@ export default function DailyReviewCard({ reviewData }: DailyReviewCardProps) {
       </div>
 
       <div className="z-10 pt-2">
-        {isDataAvailable ? (
-          <button className="w-full py-3 bg-[#FFFDF9] hover:bg-white text-[#C65D4B] border border-[#C65D4B]/40 font-bold text-xs rounded-xl shadow-2xs transition-all">
-            Ôn ngay trong 10 phút ➔
-          </button>
-        ) : (
-          <Link
-            href="/levels"
-            className="w-full block text-center py-3 bg-[#FFFDF9] hover:bg-white text-[#8B6F5A] border border-[#DED3C8] font-bold text-xs rounded-xl transition-all"
-          >
-            Vào thư viện bài học ➔
-          </Link>
-        )}
+        <Link
+          href="/flashcards"
+          className="w-full block text-center py-3 bg-[#FFFDF9] hover:bg-white text-[#C65D4B] border border-[#C65D4B]/40 font-bold text-xs rounded-xl shadow-2xs transition-all"
+        >
+          Ôn tập Flashcards ngay ➔
+        </Link>
       </div>
     </div>
   );

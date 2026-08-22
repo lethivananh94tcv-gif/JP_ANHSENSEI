@@ -26,11 +26,11 @@ export default function LearnerLevelsPage() {
         const res = await fetch("/api/v1/curriculum/levels", {
           headers,
         });
-        if (!res.ok) throw new Error("Vui lòng đăng nhập để xem danh sách Trình độ học.");
+        if (!res.ok) throw new Error("Không thể tải danh sách Trình độ học.");
         const data = await res.json();
         setLevels(data);
-      } catch (err: any) {
-        setError(err.message || "Không thể tải dữ liệu.");
+      } catch (err: unknown) {
+        setError(err instanceof Error ? err.message : "Không thể tải dữ liệu.");
       } finally {
         setLoading(false);
       }
@@ -60,15 +60,21 @@ export default function LearnerLevelsPage() {
 
         {/* Error Notification */}
         {error && (
-          <div className="p-4 bg-amber-50 border-l-4 border-amber-500 text-amber-800 rounded-xl text-sm font-medium">
-            ⚠️ {error}
+          <div className="p-6 bg-amber-50 border border-amber-300 rounded-2xl text-amber-900 text-sm font-medium flex flex-col sm:flex-row items-center justify-between gap-4 shadow-2xs">
+            <span>⚠️ {error}</span>
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-[#C65D4B] text-white font-bold text-xs rounded-xl shadow-xs hover:bg-[#a84c3c] transition-all shrink-0"
+            >
+              🔄 Tải lại trang
+            </button>
           </div>
         )}
 
         {/* Levels Grid */}
         {loading ? (
           <div className="text-center py-16 text-[#6E5E52]">Đang tải danh sách trình độ...</div>
-        ) : levels.length === 0 ? (
+        ) : !error && levels.length === 0 ? (
           <div className="bg-white rounded-2xl p-12 text-center text-[#6E5E52] border border-[#EFE9E1]">
             Chưa có trình độ nào được xuất bản (PUBLISHED). Vui lòng quay lại sau!
           </div>

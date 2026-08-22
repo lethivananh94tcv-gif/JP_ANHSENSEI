@@ -12,6 +12,10 @@ public interface LessonKanjiRepository extends JpaRepository<LessonKanji, Lesson
 
     List<LessonKanji> findByLesson_LessonIdOrderBySortOrderAsc(Long lessonId);
 
+    List<LessonKanji> findByLesson_LessonIdAndKanji_StatusAndKanji_DeletedAtIsNullOrderBySortOrderAsc(Long lessonId, String status);
+
+    boolean existsByLesson_LessonIdAndKanji_KanjiId(Long lessonId, Long kanjiId);
+
     @Query("SELECT CASE WHEN COUNT(lk) > 0 THEN true ELSE false END FROM LessonKanji lk WHERE lk.lesson.lessonId = :lessonId AND lk.kanji.status = 'PUBLISHED' AND lk.kanji.deletedAt IS NULL")
     boolean existsPublishedKanjiByLessonId(@Param("lessonId") Long lessonId);
 

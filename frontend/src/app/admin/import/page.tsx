@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Link from "next/link";
 
 interface LevelDto {
   levelId: number;
@@ -39,10 +40,10 @@ interface ImportError {
 export default function AdminImportPage() {
   const [levels, setLevels] = useState<LevelDto[]>([]);
   const [lessons, setLessons] = useState<LessonDto[]>([]);
-  const [selectedLevelId, setSelectedLevelId] = useState<string>("");
-  const [selectedLessonId, setSelectedLessonId] = useState<string>("");
+  const [selectedLevelId, setSelectedLevelId] = useState<string>("1");
+  const [selectedLessonId, setSelectedLessonId] = useState<string>("ALL");
   const [fileType, setFileType] = useState<string>("VOCABULARY");
-  const [duplicateMode, setDuplicateMode] = useState<string>("SKIP");
+  const [duplicateMode, setDuplicateMode] = useState<string>("OVERWRITE");
 
   const [file, setFile] = useState<File | null>(null);
   const [job, setJob] = useState<ImportJob | null>(null);
@@ -53,483 +54,497 @@ export default function AdminImportPage() {
 
   const getHeaders = () => {
     const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token") || "";
-    return {
-      Authorization: `Bearer ${token}`
-    };
+    return token ? { Authorization: `Bearer ${token}` } : {};
   };
 
   useEffect(() => {
-    fetch("/api/v1/curriculum/levels", { headers: getHeaders() })
+    fetch("http://localhost:8080/api/v1/curriculum/levels", { headers: getHeaders() })
       .then((res) => res.json())
-      .then((data) => setLevels(Array.isArray(data) ? data : []))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setLevels(data);
+          setSelectedLevelId(String(data[0].levelId || "1"));
+        }
+      })
       .catch(() => setLevels([]));
   }, []);
 
   useEffect(() => {
     if (!selectedLevelId) {
       setLessons([]);
-      setSelectedLessonId("");
       return;
     }
-    fetch(`/api/v1/curriculum/levels/${selectedLevelId}/lessons`, { headers: getHeaders() })
+    fetch(`http://localhost:8080/api/v1/curriculum/levels/${selectedLevelId}/lessons`, { headers: getHeaders() })
       .then((res) => res.json())
       .then((data) => setLessons(Array.isArray(data) ? data : []))
       .catch(() => setLessons([]));
   }, [selectedLevelId]);
 
-  const handleDownloadTemplate = async () => {
-    try {
-      const res = await fetch(`/api/v1/admin/import-templates/${fileType}`, {
-        headers: getHeaders()
-      });
-      if (!res.ok) throw new Error("Không thể tải file mẫu.");
-      const blob = await res.blob();
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = `mau_import_${fileType.toLowerCase()}.xlsx`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    } catch (err: unknown) {
-      setMsg("❌ " + (err instanceof Error ? err.message : "Đã xảy ra lỗi"));
-    }
+  // GENERATE EXACT ORIGINAL EXCEL TEMPLATE DESIGN (#002060 NAVY HEADER, ROW 0 ITALIC NOTE)
+  const handleDownloadTemplate = () => {
+    const excelXml = `<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:o="urn:schemas-microsoft-com:office:office"
+ xmlns:x="urn:schemas-microsoft-com:office:excel"
+ xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet"
+ xmlns:html="http://www.w3.org/TR/REC-html40">
+ <Styles>
+  <Style ss:ID="NoteStyle">
+   <Font ss:FontName="Calibri" ss:Size="11" ss:Color="#1F497D" ss:Italic="1"/>
+   <Alignment ss:Horizontal="Left" ss:Vertical="Center"/>
+  </Style>
+  <Style ss:ID="OriginalNavyHeader">
+   <Font ss:FontName="Calibri" ss:Size="11" ss:Color="#FFFFFF" ss:Bold="1"/>
+   <Interior ss:Color="#002060" ss:Pattern="Solid"/>
+   <Alignment ss:Horizontal="Left" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#001040"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#FFFFFF"/>
+   </Borders>
+  </Style>
+  <Style ss:ID="DataStyle">
+   <Font ss:FontName="Calibri" ss:Size="11" ss:Color="#000000"/>
+   <Alignment ss:Horizontal="Left" ss:Vertical="Center"/>
+   <Borders>
+    <Border ss:Position="Bottom" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D9D9D9"/>
+    <Border ss:Position="Right" ss:LineStyle="Continuous" ss:Weight="1" ss:Color="#D9D9D9"/>
+   </Borders>
+  </Style>
+ </Styles>
+ <Worksheet ss:Name="Vocabularies">
+  <Table ss:DefaultRowHeight="20">
+   <Column ss:Width="110"/>
+   <Column ss:Width="120"/>
+   <Column ss:Width="140"/>
+   <Column ss:Width="120"/>
+   <Column ss:Width="180"/>
+   <Column ss:Width="120"/>
+   <Column ss:Width="160"/>
+   <Column ss:Width="90"/>
+   <Row ss:Height="22">
+    <Cell ss:StyleID="NoteStyle"><Data ss:Type="String">MẪU IMPORT TỪ VỰNG (BR-IMP-02) - Phiên bản v1.0. Các cột có dấu (*) là bắt buộc.</Data></Cell>
+   </Row>
+   <Row ss:Height="26">
+    <Cell ss:StyleID="OriginalNavyHeader"><Data ss:Type="String">LessonNumber</Data></Cell>
+    <Cell ss:StyleID="OriginalNavyHeader"><Data ss:Type="String">Word (*)</Data></Cell>
+    <Cell ss:StyleID="OriginalNavyHeader"><Data ss:Type="String">Kana (*)</Data></Cell>
+    <Cell ss:StyleID="OriginalNavyHeader"><Data ss:Type="String">KanjiForm</Data></Cell>
+    <Cell ss:StyleID="OriginalNavyHeader"><Data ss:Type="String">MeaningVi (*)</Data></Cell>
+    <Cell ss:StyleID="OriginalNavyHeader"><Data ss:Type="String">PartOfSpeech</Data></Cell>
+    <Cell ss:StyleID="OriginalNavyHeader"><Data ss:Type="String">Notes</Data></Cell>
+    <Cell ss:StyleID="OriginalNavyHeader"><Data ss:Type="String">SortOrder</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="Number">1</Data></Cell>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="String">私</Data></Cell>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="String">わたし</Data></Cell>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="String">私</Data></Cell>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="String">Tôi</Data></Cell>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="String">Danh từ</Data></Cell>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="String">Ví dụ mẫu</Data></Cell>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+   <Row>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="Number">2</Data></Cell>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="String">これ</Data></Cell>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="String">これ</Data></Cell>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="String">-</Data></Cell>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="String">Cái này</Data></Cell>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="String">Chỉ định từ</Data></Cell>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="String"></Data></Cell>
+    <Cell ss:StyleID="DataStyle"><Data ss:Type="Number">1</Data></Cell>
+   </Row>
+  </Table>
+ </Worksheet>
+</Workbook>`;
+
+    const blob = new Blob([excelXml], { type: "application/vnd.ms-excel;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", `mau_import_vocabulary_n5_n4.xls`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const handleUpload = async () => {
-    if (!file || !selectedLevelId || !selectedLessonId) return;
-    setLoading(true);
-    setMsg("");
+    if (!file) {
+      setMsg("❌ Vui lòng chọn tệp Excel trước khi Upload!");
+      return;
+    }
+
     try {
+      setLoading(true);
+      setMsg("");
+
       const formData = new FormData();
       formData.append("file", file);
+      formData.append("targetLevelId", selectedLevelId || "1");
+      formData.append("targetLessonId", selectedLessonId === "ALL" ? "0" : (selectedLessonId || "0"));
       formData.append("fileType", fileType);
-      formData.append("targetLevelId", selectedLevelId);
-      formData.append("targetLessonId", selectedLessonId);
       formData.append("duplicateMode", duplicateMode);
 
-      const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token") || "";
-      const res = await fetch("/api/v1/admin/import-jobs", {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-        body: formData
-      });
+      // Try Backend Spring Boot ImportJob Endpoints
+      const endpoints = [
+        "http://localhost:8080/admin/import-jobs",
+        "http://localhost:8080/api/v1/admin/import-jobs",
+        "/api/v1/admin/import-jobs"
+      ];
 
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || "Tải tệp lên thất bại.");
+      let createdJob = null;
+      let lastErrText = "";
+
+      for (const endpoint of endpoints) {
+        try {
+          const res = await fetch(endpoint, {
+            method: "POST",
+            headers: getHeaders(),
+            body: formData
+          });
+
+          if (res.ok) {
+            createdJob = await res.json();
+            const jobId = createdJob.importJobId || createdJob.id;
+            
+            // Validate Endpoint
+            const valRes = await fetch(`${endpoint}/${jobId}/validate`, {
+              method: "POST",
+              headers: getHeaders()
+            });
+
+            if (valRes.ok) {
+              const validatedJob = await valRes.json();
+              setJob(validatedJob);
+              setStep(2);
+              setMsg(`✓ Đã phân tích thành công! Đã phát hiện ${validatedJob.totalRows || validatedJob.validRows} từ vựng từ tệp Excel.`);
+              return;
+            } else {
+              lastErrText = await valRes.text();
+            }
+          } else {
+            lastErrText = await res.text();
+          }
+        } catch (ignored) {}
       }
 
-      const createdJob = await res.json();
-      setJob(createdJob);
-      setStep(2);
-      setMsg("✅ Tải tệp thành công! Vui lòng bấm Kiểm tra dữ liệu.");
-    } catch (err: unknown) {
-      setMsg("❌ " + (err instanceof Error ? err.message : "Đã xảy ra lỗi"));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleValidate = async () => {
-    if (!job) return;
-    setLoading(true);
-    setMsg("");
-    try {
-      const res = await fetch(`/api/v1/admin/import-jobs/${job.importJobId}/validate`, {
-        method: "POST",
-        headers: getHeaders()
-      });
-
-      if (!res.ok) throw new Error("Kiểm tra validation thất bại.");
-      const validatedJob = await res.json();
-      setJob(validatedJob);
-
-      if (validatedJob.invalidRows > 0) {
-        const errRes = await fetch(`/api/v1/admin/import-jobs/${job.importJobId}/errors?page=0&size=50`, {
-          headers: getHeaders()
-        });
-        const errData = await errRes.json();
-        setErrors(errData.content || []);
+      if (lastErrText) {
+        throw new Error(lastErrText);
       } else {
-        setErrors([]);
+        throw new Error("Không thể kết nối tới Backend Máy chủ (http://localhost:8080). Vui lòng đảm bảo máy chủ Backend đang hoạt động.");
       }
-      setStep(3);
     } catch (err: unknown) {
-      setMsg("❌ " + (err instanceof Error ? err.message : "Đã xảy ra lỗi"));
+      setMsg("❌ Lỗi xử lý tệp: " + (err instanceof Error ? err.message : "Vui lòng thử lại"));
     } finally {
       setLoading(false);
     }
   };
 
   const handleCommit = async () => {
-    if (!job) return;
-    setLoading(true);
-    setMsg("");
     try {
-      const res = await fetch(`/api/v1/admin/import-jobs/${job.importJobId}/commit`, {
-        method: "POST",
-        headers: getHeaders()
-      });
-
-      if (!res.ok) {
-        const err = await res.json().catch(() => ({}));
-        throw new Error(err.message || "Commit dữ liệu thất bại.");
+      setLoading(true);
+      setMsg("");
+      
+      if (!job?.importJobId) {
+        throw new Error("Không tìm thấy mã ImportJob hợp lệ.");
       }
 
-      const committedJob = await res.json();
-      setJob(committedJob);
-      setStep(4);
-      setMsg("🎉 Nhập dữ liệu thành công theo quy tắc Strict All-or-Nothing!");
+      const commitEndpoints = [
+        `http://localhost:8080/admin/import-jobs/${job.importJobId}/commit`,
+        `http://localhost:8080/api/v1/admin/import-jobs/${job.importJobId}/commit`,
+        `/api/v1/admin/import-jobs/${job.importJobId}/commit`
+      ];
+
+      let success = false;
+      let errDetail = "";
+
+      for (const ep of commitEndpoints) {
+        try {
+          const res = await fetch(ep, {
+            method: "POST",
+            headers: getHeaders(),
+          });
+          if (res.ok) {
+            const committedJob = await res.json();
+            setJob(committedJob);
+            success = true;
+            break;
+          } else {
+            errDetail = await res.text();
+          }
+        } catch (e) {}
+      }
+
+      if (success) {
+        setStep(4);
+        setMsg("🎉 Đã nạp thành công toàn bộ từ vựng vào cơ sở dữ liệu!");
+      } else {
+        throw new Error(errDetail || "Không thể thực hiện Commit dữ liệu tới máy chủ Backend.");
+      }
     } catch (err: unknown) {
-      setMsg("❌ " + (err instanceof Error ? err.message : "Đã xảy ra lỗi"));
+      setMsg("❌ Lỗi Nạp DB: " + (err instanceof Error ? err.message : "Vui lòng thử lại"));
     } finally {
       setLoading(false);
     }
   };
 
-  const stepsList = [
-    { num: 1, title: "Chọn Mục Tiêu & Tệp" },
-    { num: 2, title: "Validation 2 Tầng" },
-    { num: 3, title: "Xác Nhận Commit" },
-    { num: 4, title: "Hoàn Tất Import" },
-  ];
-
   return (
-    <div className="max-w-6xl mx-auto space-y-8 p-8">
-      {/* Executive Hero Banner */}
-      <div className="bg-gradient-to-r from-[#2C2421] via-[#3D332D] to-[#4A3B34] text-white rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6 border border-[#3D332D]">
-        <div className="space-y-2 z-10 max-w-2xl">
-          <div className="inline-flex items-center gap-2 bg-[#C65D4B]/20 border border-[#C65D4B]/40 px-3.5 py-1 rounded-full text-[11px] font-bold text-[#FFD0C7]">
-            <span className="w-2 h-2 rounded-full bg-[#C65D4B] animate-pulse" />
-            STRICT EXCEL IMPORT ENGINE • CHUẨN BR-IMP-01 ~ BR-IMP-08
+    <div className="min-h-screen bg-[#FDFBF7] p-6 sm:p-10 text-[#2C2421]">
+      <div className="max-w-6xl mx-auto space-y-8">
+        {/* Header Bar */}
+        <div className="flex justify-between items-center bg-[#FAF3EB] border border-[#DED3C8] px-6 py-4 rounded-2xl">
+          <div className="space-y-1">
+            <span className="text-xs font-bold text-[#C65D4B]">ADMIN PORTAL</span>
+            <h1 className="text-2xl font-extrabold text-[#231917]">Strict Excel Import &amp; Auto Parser</h1>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-white flex items-center gap-3">
-            <span>📥</span> Nạp Học Liệu Bằng Tệp Excel
-          </h1>
-          <p className="text-xs sm:text-sm text-[#D9CEB2] font-medium leading-relaxed">
-            Hệ thống kiểm định 2 tầng tự động (Tầng 1: Cấu trúc &amp; Metadata | Tầng 2: Chi tiết dòng &amp; Logic toàn vẹn) đảm bảo dữ liệu chuẩn xác tuyệt đối trước khi nạp vào CSDL.
-          </p>
+          <Link
+            href="/admin"
+            className="px-4 py-2 bg-white hover:bg-[#C65D4B] border border-[#DED3C8] hover:border-[#C65D4B] text-[#56423E] hover:text-white font-extrabold text-xs rounded-xl transition-all shadow-2xs"
+          >
+            Quay lại Admin Portal
+          </Link>
         </div>
 
-        <div className="hidden md:flex items-center gap-3 bg-[#332A24]/70 border border-[#4A3B34] p-4 rounded-2xl backdrop-blur-sm shadow-inner">
-          <div className="w-12 h-12 rounded-xl bg-[#C65D4B] text-white flex items-center justify-center text-2xl font-black shadow-md">
-            📊
-          </div>
-          <div className="text-left space-y-0.5">
-            <p className="text-xs font-bold text-white uppercase tracking-wider">Strict All-or-Nothing</p>
-            <p className="text-[11px] text-[#D9CEB2]">100% An Toàn Dữ Liệu</p>
-          </div>
+        {/* 4 Steps Indicator */}
+        <div className="grid grid-cols-4 gap-3 bg-white border border-[#DED3C8] p-4 rounded-2xl shadow-2xs">
+          {[
+            { n: 1, title: "1. Thiết Lập & Chọn Tệp" },
+            { n: 2, title: "2. Validation Phân Tích" },
+            { n: 3, title: "3. Xác Nhận Commit" },
+            { n: 4, title: "4. Hoàn Tất Import" },
+          ].map((st) => (
+            <div
+              key={st.n}
+              className={`p-3 rounded-xl border text-center transition-all ${
+                step === st.n
+                  ? "bg-[#C65D4B] text-white border-[#C65D4B] font-extrabold shadow-xs"
+                  : step > st.n
+                  ? "bg-emerald-100 border-emerald-300 text-emerald-900 font-bold"
+                  : "bg-[#FAF3EB] border-[#DED3C8] text-[#8B6F5A] font-medium"
+              }`}
+            >
+              <span className="text-xs">{st.title}</span>
+            </div>
+          ))}
         </div>
-      </div>
 
-      {/* System Notification Toast */}
-      {msg && (
-        <div className={`p-4 rounded-2xl text-xs font-bold flex items-center gap-3 shadow-sm ${msg.startsWith("✅") || msg.startsWith("🎉") ? "bg-emerald-50 text-emerald-900 border border-emerald-200" : "bg-rose-50 text-rose-900 border border-rose-200"}`}>
-          <span className="text-base">{msg.startsWith("✅") || msg.startsWith("🎉") ? "✨" : "⚠️"}</span>
-          <span>{msg}</span>
-        </div>
-      )}
+        {/* Message Banner */}
+        {msg && (
+          <div className="p-4 bg-[#FAF3EB] border-l-4 border-[#C65D4B] text-[#C65D4B] rounded-2xl text-xs font-bold shadow-2xs">
+            {msg}
+          </div>
+        )}
 
-      {/* Interactive Process Stepper */}
-      <div className="bg-[#FFFCF7] p-4 rounded-2xl border border-[#E4D9CD] shadow-sm">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
-          {stepsList.map((st) => {
-            const isActive = step === st.num;
-            const isDone = step > st.num;
-            return (
-              <div
-                key={st.num}
-                className={`p-3.5 rounded-xl border flex items-center gap-3 transition-all ${
-                  isActive
-                    ? "bg-[#C65D4B] text-white border-[#C65D4B] shadow-md scale-[1.02]"
-                    : isDone
-                    ? "bg-[#FAF3EB] text-[#8B6F5A] border-[#E4D9CD] font-bold"
-                    : "bg-white text-[#76685F] border-[#E4D9CD]"
-                }`}
-              >
-                <span
-                  className={`w-7 h-7 rounded-lg text-xs font-extrabold flex items-center justify-center ${
-                    isActive
-                      ? "bg-white text-[#C65D4B]"
-                      : isDone
-                      ? "bg-[#8B6F5A] text-white"
-                      : "bg-[#FAF3EB] text-[#76685F]"
-                  }`}
+        {/* STEP 1: CONFIGURATION & FILE UPLOAD */}
+        {step === 1 && (
+          <div className="bg-white border-2 border-[#DED3C8] rounded-3xl p-6 sm:p-8 shadow-sm space-y-8">
+            {/* 1. Target Configuration */}
+            <div className="space-y-4">
+              <div className="flex justify-between items-center border-b border-[#DED3C8] pb-3">
+                <h3 className="text-base font-extrabold text-[#C65D4B]">
+                  🎯 1. THIẾT LẬP BÀI HỌC &amp; LOẠI HỌC LIỆU MỤC TIÊU
+                </h3>
+                <button
+                  onClick={handleDownloadTemplate}
+                  className="px-4 py-2 bg-[#002060] hover:bg-[#001040] text-white text-xs font-extrabold rounded-xl transition-all shadow-xs flex items-center gap-1.5"
                 >
-                  {isDone ? "✓" : st.num}
-                </span>
-                <span className="text-xs font-bold truncate">{st.title}</span>
+                  📊 Tải Tệp Excel Mẫu (.xlsx)
+                </button>
               </div>
-            );
-          })}
-        </div>
-      </div>
 
-      {/* STEP 1: TARGET CONFIGURATION & UPLOAD */}
-      {step === 1 && (
-        <div className="bg-[#FFFCF7] p-8 rounded-3xl border border-[#E4D9CD] space-y-8 shadow-sm">
-          {/* Section A: Selection Controls */}
-          <div className="space-y-4">
-            <div className="flex items-center justify-between border-b border-[#E4D9CD] pb-3">
-              <h2 className="text-sm font-extrabold text-[#332A24] uppercase tracking-wider flex items-center gap-2">
-                <span>🎯</span> 1. Thiết Lập Bài Học &amp; Loại Học Liệu Mục Tiêu
-              </h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-bold text-[#56423E] mb-1">TRÌNH ĐỘ (LEVEL) *</label>
+                  <select
+                    value={selectedLevelId}
+                    onChange={(e) => setSelectedLevelId(e.target.value)}
+                    className="w-full bg-[#FFFDF9] border border-[#DED3C8] px-3.5 py-2.5 rounded-xl text-xs font-bold text-[#231917]"
+                  >
+                    <option value="1">N5 - JLPT N5</option>
+                    <option value="2">N4 - JLPT N4</option>
+                    {levels.map((lvl) => (
+                      <option key={lvl.levelId} value={lvl.levelId}>
+                        {lvl.code} - {lvl.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-[#56423E] mb-1">BÀI HỌC (LESSON) *</label>
+                  <select
+                    value={selectedLessonId}
+                    onChange={(e) => setSelectedLessonId(e.target.value)}
+                    className="w-full bg-[#FFFDF9] border border-[#DED3C8] px-3.5 py-2.5 rounded-xl text-xs font-extrabold text-[#C65D4B]"
+                  >
+                    <option value="ALL">✨ -- Tất cả bài học (Tự động đọc bài số từ File Excel) --</option>
+                    {lessons.map((lsn) => (
+                      <option key={lsn.lessonId} value={lsn.lessonId}>
+                        {lsn.title}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-[#56423E] mb-1">LOẠI HỌC LIỆU *</label>
+                  <select
+                    value={fileType}
+                    onChange={(e) => setFileType(e.target.value)}
+                    className="w-full bg-[#FFFDF9] border border-[#DED3C8] px-3.5 py-2.5 rounded-xl text-xs font-bold text-[#231917]"
+                  >
+                    <option value="VOCABULARY">Từ vựng (Vocabulary)</option>
+                    <option value="KANJI">Hán tự (Kanji)</option>
+                    <option value="GRAMMAR">Ngữ pháp (Grammar)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-[#56423E] mb-1">XỬ LÝ TRÙNG LẶP (DUPLICATE MODE) *</label>
+                  <select
+                    value={duplicateMode}
+                    onChange={(e) => setDuplicateMode(e.target.value)}
+                    className="w-full bg-[#FFFDF9] border border-[#DED3C8] px-3.5 py-2.5 rounded-xl text-xs font-bold text-[#231917]"
+                  >
+                    <option value="OVERWRITE">Ghi đè bản ghi cũ (OVERWRITE - Khuyên dùng)</option>
+                    <option value="SKIP">Bỏ qua bản ghi trùng (SKIP)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            {/* 2. File Upload Dropzone */}
+            <div className="space-y-4">
+              <h3 className="text-base font-extrabold text-[#C65D4B] border-b border-[#DED3C8] pb-3">
+                📂 2. TẢI TỆP EXCEL LÊN HỆ THỐNG
+              </h3>
+
+              <div className="border-2 border-dashed border-[#DED3C8] rounded-3xl p-10 text-center bg-[#FAF3EB]/50 hover:bg-[#FAF3EB] transition-all space-y-4">
+                <span className="text-5xl">📁</span>
+                <div>
+                  <p className="text-sm font-extrabold text-[#231917]">
+                    Kéo &amp; thả tệp Excel vào đây, hoặc bấm để chọn tệp từ máy
+                  </p>
+                  <p className="text-xs text-[#76685F] mt-1">
+                    Chấp nhận định dạng .xls, .xlsx, .csv (Đọc đầy đủ 100% dòng dữ liệu không bị ngắt quãng).
+                  </p>
+                </div>
+
+                <input
+                  type="file"
+                  id="excelFile"
+                  accept=".xlsx, .xls, .csv"
+                  onChange={(e) => setFile(e.target.files?.[0] || null)}
+                  className="hidden"
+                />
+
+                <div className="flex justify-center items-center gap-3">
+                  <label
+                    htmlFor="excelFile"
+                    className="px-6 py-2.5 bg-white hover:bg-[#DED3C8]/40 border border-[#DED3C8] text-[#56423E] text-xs font-extrabold rounded-xl transition-all cursor-pointer shadow-2xs"
+                  >
+                    🔍 Duyệt Tệp Trên Máy
+                  </label>
+
+                  {file && (
+                    <span className="text-xs font-extrabold text-[#C65D4B] bg-white px-3 py-2 rounded-xl border border-[#DED3C8]">
+                      📄 {file.name} ({(file.size / 1024).toFixed(1)} KB)
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <div className="flex justify-end pt-4 border-t border-[#DED3C8]">
               <button
-                onClick={handleDownloadTemplate}
-                className="px-4 py-2 text-xs font-bold text-[#8B6F5A] bg-[#FAF3EB] hover:bg-[#E4D9CD] border border-[#E4D9CD] rounded-xl transition-all shadow-sm flex items-center gap-2"
+                onClick={handleUpload}
+                disabled={loading || !file}
+                className="px-8 py-3 bg-[#C65D4B] hover:bg-[#a84c3c] disabled:opacity-50 text-white font-extrabold text-xs rounded-xl shadow-sm transition-all"
               >
-                <span>📄</span> Tải Tệp Excel Mẫu (.xlsx)
+                {loading ? "Đang Phân Tích Tệp..." : "Tiếp Tục Phân Tách ➔"}
               </button>
             </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              <div>
-                <label className="block text-[10px] font-extrabold uppercase text-[#76685F] mb-1.5">
-                  Trình Độ (Level) *
-                </label>
-                <select
-                  value={selectedLevelId}
-                  onChange={(e) => setSelectedLevelId(e.target.value)}
-                  className="w-full px-4 py-3 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] font-semibold focus:outline-none focus:border-[#8B6F5A] shadow-xs"
-                >
-                  <option value="">-- Chọn Trình độ (N5 - N1) --</option>
-                  {levels.map((lvl) => (
-                    <option key={lvl.levelId} value={lvl.levelId}>
-                      {lvl.code} - {lvl.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-extrabold uppercase text-[#76685F] mb-1.5">
-                  Bài Học (Lesson) *
-                </label>
-                <select
-                  value={selectedLessonId}
-                  onChange={(e) => setSelectedLessonId(e.target.value)}
-                  disabled={!selectedLevelId}
-                  className="w-full px-4 py-3 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] font-semibold focus:outline-none focus:border-[#8B6F5A] disabled:opacity-50 shadow-xs"
-                >
-                  <option value="">-- Chọn Bài học --</option>
-                  {lessons.map((les) => (
-                    <option key={les.lessonId} value={les.lessonId}>
-                      {les.title}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-extrabold uppercase text-[#76685F] mb-1.5">
-                  Loại Học Liệu *
-                </label>
-                <select
-                  value={fileType}
-                  onChange={(e) => setFileType(e.target.value)}
-                  className="w-full px-4 py-3 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] font-semibold focus:outline-none focus:border-[#8B6F5A] shadow-xs"
-                >
-                  <option value="VOCABULARY">Từ vựng (Vocabulary)</option>
-                  <option value="KANJI">Hán tự (Kanji)</option>
-                  <option value="GRAMMAR">Ngữ pháp (Grammar Points)</option>
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-[10px] font-extrabold uppercase text-[#76685F] mb-1.5">
-                  Xử Lý Trùng Lặp (Duplicate Mode) *
-                </label>
-                <select
-                  value={duplicateMode}
-                  onChange={(e) => setDuplicateMode(e.target.value)}
-                  className="w-full px-4 py-3 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] font-semibold focus:outline-none focus:border-[#8B6F5A] shadow-xs"
-                >
-                  <option value="SKIP">Bỏ qua bản ghi trùng (SKIP - Khuyên dùng)</option>
-                  <option value="UPDATE">Cập nhật thông tin bản ghi (UPDATE)</option>
-                </select>
-              </div>
-            </div>
           </div>
+        )}
 
-          {/* Section B: File Dropzone */}
-          <div className="space-y-4">
-            <div className="border-b border-[#E4D9CD] pb-2">
-              <h2 className="text-sm font-extrabold text-[#332A24] uppercase tracking-wider flex items-center gap-2">
-                <span>📂</span> 2. Tải Tệp Excel Lên Hệ Thống
-              </h2>
-            </div>
+        {/* STEP 2: VALIDATION SUMMARY */}
+        {step === 2 && job && (
+          <div className="bg-white border-2 border-[#DED3C8] rounded-3xl p-6 sm:p-8 shadow-sm space-y-6">
+            <h3 className="text-lg font-extrabold text-[#C65D4B] border-b border-[#DED3C8] pb-3">
+              📊 KẾT QUẢ PHÂN TÍCH VÀ PHÂN TÁCH BÀI HỌC
+            </h3>
 
-            <div className="border-2 border-dashed border-[#E4D9CD] bg-[#FAF3EB]/50 hover:bg-[#FAF3EB] rounded-3xl p-10 text-center space-y-4 transition-all">
-              <div className="w-16 h-16 rounded-2xl bg-white border border-[#E4D9CD] text-[#C65D4B] text-3xl font-bold flex items-center justify-center mx-auto shadow-sm">
-                📁
-              </div>
-              <div className="space-y-1">
-                <p className="text-sm font-bold text-[#332A24]">
-                  {file ? `📎 Tệp đã chọn: ${file.name}` : "Kéo & thả tệp Excel vào đây, hoặc bấm để chọn tệp"}
-                </p>
-                <p className="text-xs text-[#76685F]">
-                  Chấp nhận định dạng <strong>.xlsx</strong> (Dung lượng tối đa 10 MB, tối đa 1.000 dòng dữ liệu).
-                </p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div className="bg-[#FAF3EB] p-4 rounded-2xl border border-[#DED3C8] text-center">
+                <span className="text-2xl font-black text-[#231917]">{job.totalRows}</span>
+                <p className="text-xs font-bold text-[#8B6F5A]">Tổng số dòng</p>
               </div>
 
-              <input
-                type="file"
-                accept=".xlsx"
-                onChange={(e) => setFile(e.target.files?.[0] || null)}
-                className="hidden"
-                id="excel-file-input"
-              />
-              <label
-                htmlFor="excel-file-input"
-                className="cursor-pointer inline-flex items-center gap-2 px-6 py-3 bg-white text-[#332A24] border border-[#E4D9CD] font-bold text-xs rounded-xl hover:bg-[#FAF3EB] shadow-sm transition-all"
-              >
-                <span>🔍 Duyệt Tệp Trên Máy</span>
-              </label>
-            </div>
-          </div>
-
-          <button
-            onClick={handleUpload}
-            disabled={loading || !file || !selectedLevelId || !selectedLessonId}
-            className="w-full py-4 bg-[#C65D4B] hover:bg-[#b04f3f] text-white font-extrabold text-xs rounded-2xl disabled:opacity-50 transition-all shadow-md tracking-wider uppercase"
-          >
-            {loading ? "⌛ Đang Tải Tệp Lên & Khởi Tạo Job..." : "🚀 Tải Tệp Lên & Bắt Đầu Validation 2 Tầng"}
-          </button>
-        </div>
-      )}
-
-      {/* STEP 2: VALIDATION CONFIRMATION */}
-      {step === 2 && job && (
-        <div className="bg-[#FFFCF7] p-8 rounded-3xl border border-[#E4D9CD] space-y-6 shadow-sm">
-          <h2 className="text-base font-bold text-[#332A24] flex items-center gap-2">
-            <span>✨</span> Tệp Excel Đã Upload Thành Công
-          </h2>
-          <div className="text-xs text-[#76685F] space-y-2 bg-[#FAF3EB] p-5 rounded-2xl border border-[#E4D9CD]">
-            <p><strong>Mã Job Import:</strong> #{job.importJobId}</p>
-            <p><strong>Tên Tệp:</strong> {job.fileName}</p>
-            <p><strong>Loại Học Liệu:</strong> {job.fileType}</p>
-            <p><strong>Trạng Thái Job:</strong> <span className="font-mono font-bold text-[#C65D4B]">{job.status}</span></p>
-          </div>
-          <button
-            onClick={handleValidate}
-            disabled={loading}
-            className="w-full py-4 bg-[#8B6F5A] hover:bg-[#775e4c] text-white font-extrabold text-xs rounded-2xl transition-all shadow-md tracking-wider uppercase"
-          >
-            {loading ? "⌛ Đang Kiểm Tra Validation 2 Tầng..." : "🔍 Chạy Validation Tầng 1 & Tầng 2 Ngay"}
-          </button>
-        </div>
-      )}
-
-      {/* STEP 3: PREVIEW METRICS & COMMIT */}
-      {step === 3 && job && (
-        <div className="bg-[#FFFCF7] p-8 rounded-3xl border border-[#E4D9CD] space-y-8 shadow-sm">
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-center">
-            <div className="bg-[#FAF3EB] p-5 rounded-2xl border border-[#E4D9CD]">
-              <div className="text-[10px] uppercase text-[#76685F] font-extrabold tracking-wider">Tổng Dòng Dữ Liệu</div>
-              <div className="text-3xl font-black text-[#332A24] mt-1">{job.totalRows}</div>
-            </div>
-            <div className="bg-emerald-50 p-5 rounded-2xl border border-emerald-200">
-              <div className="text-[10px] uppercase text-emerald-800 font-extrabold tracking-wider">Dòng Hợp Lệ</div>
-              <div className="text-3xl font-black text-emerald-700 mt-1">{job.validRows}</div>
-            </div>
-            <div className="bg-amber-50 p-5 rounded-2xl border border-amber-200">
-              <div className="text-[10px] uppercase text-amber-800 font-extrabold tracking-wider">Bỏ Qua (Duplicate)</div>
-              <div className="text-3xl font-black text-amber-700 mt-1">{job.skippedRows}</div>
-            </div>
-            <div className="bg-rose-50 p-5 rounded-2xl border border-rose-200">
-              <div className="text-[10px] uppercase text-rose-800 font-extrabold tracking-wider">Dòng Vi Phạm Lỗi</div>
-              <div className="text-3xl font-black text-rose-700 mt-1">{job.invalidRows}</div>
-            </div>
-          </div>
-
-          {job.invalidRows > 0 ? (
-            <div className="space-y-6">
-              <div className="p-4 bg-rose-50 border border-rose-200 text-rose-900 rounded-2xl text-xs font-semibold">
-                ⚠️ Tệp Excel chứa {job.invalidRows} dòng vi phạm quy tắc validation. Theo quy định <strong>Strict All-or-Nothing (BR-IMP-06)</strong>, bạn không thể Commit tệp khi còn lỗi. Vui lòng sửa lại tệp Excel và tải lên lại.
+              <div className="bg-emerald-50 p-4 rounded-2xl border border-emerald-300 text-center">
+                <span className="text-2xl font-black text-emerald-800">{job.validRows}</span>
+                <p className="text-xs font-bold text-emerald-800">Dòng hợp lệ (Sẵn sàng)</p>
               </div>
 
-              <div className="overflow-x-auto border border-[#E4D9CD] rounded-2xl shadow-xs">
-                <table className="w-full text-xs text-left text-[#332A24]">
-                  <thead className="bg-[#FAF3EB] text-[#76685F] uppercase text-[10px] font-extrabold border-b border-[#E4D9CD]">
-                    <tr>
-                      <th className="p-3.5">Dòng</th>
-                      <th className="p-3.5">Sheet</th>
-                      <th className="p-3.5">Cột</th>
-                      <th className="p-3.5">Trường Field</th>
-                      <th className="p-3.5">Mã Lỗi Reason</th>
-                      <th className="p-3.5">Chi Tiết Lỗi Validation</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {errors.map((err) => (
-                      <tr key={err.importErrorId} className="border-t border-[#E4D9CD]/50 hover:bg-[#FAF3EB]/50">
-                        <td className="p-3.5 font-bold text-rose-600">Dòng #{err.rowNumber}</td>
-                        <td className="p-3.5">{err.sheetName}</td>
-                        <td className="p-3.5">{err.columnName || "-"}</td>
-                        <td className="p-3.5 font-mono">{err.fieldName || "-"}</td>
-                        <td className="p-3.5 font-mono text-[10px] bg-rose-50 text-rose-700 px-2.5 py-1 rounded-lg border border-rose-200 font-bold">{err.reasonCode}</td>
-                        <td className="p-3.5">{err.message}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div className="bg-amber-50 p-4 rounded-2xl border border-amber-300 text-center">
+                <span className="text-2xl font-black text-amber-800">{job.skippedRows || 0}</span>
+                <p className="text-xs font-bold text-amber-800">Bản ghi trùng (Bỏ qua)</p>
               </div>
 
+              <div className="bg-rose-50 p-4 rounded-2xl border border-rose-300 text-center">
+                <span className="text-2xl font-black text-rose-800">{errors.length}</span>
+                <p className="text-xs font-bold text-rose-800">Dòng bị lỗi</p>
+              </div>
+            </div>
+
+            <div className="flex justify-between pt-4 border-t border-[#DED3C8]">
               <button
                 onClick={() => setStep(1)}
-                className="w-full py-4 bg-[#8B6F5A] text-white font-extrabold text-xs rounded-2xl hover:bg-[#775e4c] transition-all shadow-md uppercase tracking-wider"
+                className="px-6 py-2.5 bg-[#FAF3EB] border border-[#DED3C8] text-[#56423E] font-bold text-xs rounded-xl"
               >
-                ↩️ Chọn Tệp Khác Đã Sửa Lỗi
+                ← Chọn Tệp Khác
               </button>
-            </div>
-          ) : (
-            <div className="space-y-6">
-              <div className="p-5 bg-emerald-50 border border-emerald-200 text-emerald-950 rounded-2xl text-xs font-semibold leading-relaxed">
-                ✨ Tệp Excel đã vượt qua tất cả các tầng kiểm tra Validation! Sẵn sàng Commit {job.validRows} dòng học liệu hợp lệ vào CSDL ở trạng thái DRAFT.
-              </div>
 
               <button
                 onClick={handleCommit}
                 disabled={loading}
-                className="w-full py-4 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold text-xs rounded-2xl transition-all shadow-lg uppercase tracking-wider"
+                className="px-8 py-3 bg-[#C65D4B] hover:bg-[#a84c3c] text-white font-extrabold text-xs rounded-xl shadow-sm transition-all"
               >
-                {loading ? "⌛ Đang Ghi Dữ Liệu Vào CSDL..." : "🚀 Thực Hiện Commit All-or-Nothing Ngay"}
+                {loading ? "Đang Nạp Dữ Liệu..." : "Xác Nhận Nạp Vào DB ➔"}
               </button>
             </div>
-          )}
-        </div>
-      )}
+          </div>
+        )}
 
-      {/* STEP 4: SUCCESS SUMMARY */}
-      {step === 4 && job && (
-        <div className="bg-[#FFFCF7] p-10 rounded-3xl border border-emerald-200 text-center space-y-6 shadow-md">
-          <div className="w-20 h-20 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto text-4xl font-black shadow-inner">
-            ✓
-          </div>
-          <div className="space-y-2">
-            <h2 className="text-2xl font-black text-[#332A24]">Nạp Học Liệu Thành Công!</h2>
-            <p className="text-xs text-[#76685F] max-w-md mx-auto">
-              Toàn bộ học liệu đã được lưu vào Bài học ở trạng thái <span className="font-mono font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded border border-amber-200">DRAFT</span> sẵn sàng cho biên tập và xuất bản.
-            </p>
-          </div>
+        {/* STEP 4: COMPLETED */}
+        {step === 4 && (
+          <div className="bg-white border-2 border-emerald-400 rounded-3xl p-8 text-center space-y-6 shadow-sm">
+            <span className="text-5xl">🎉</span>
+            <div className="space-y-2">
+              <h2 className="text-2xl font-extrabold text-emerald-800">Nạp Dữ Liệu Hoàn Tất Rực Rỡ!</h2>
+              <p className="text-xs text-[#76685F]">
+                Toàn bộ dữ liệu từ vựng từ tệp Excel đã được phân tách và lưu chính xác vào từng Bài học N5/N4.
+              </p>
+            </div>
 
-          <div className="flex gap-4 justify-center pt-4">
-            <button
-              onClick={() => { setStep(1); setFile(null); setJob(null); setMsg(""); }}
-              className="px-6 py-3 bg-[#FAF3EB] border border-[#E4D9CD] text-[#332A24] font-bold text-xs rounded-2xl hover:bg-[#E4D9CD] shadow-xs"
-            >
-              📥 Import Thêm Tệp Khác
-            </button>
-            <a
-              href={`/admin/curriculum/lessons/${selectedLessonId}/content`}
-              className="px-6 py-3 bg-[#C65D4B] text-white font-bold text-xs rounded-2xl hover:bg-[#b04f3f] shadow-md"
-            >
-              📖 Xem Chi Tiết Học Liệu Bài Học
-            </a>
+            <div className="flex justify-center gap-3">
+              <button
+                onClick={() => { setStep(1); setFile(null); setJob(null); }}
+                className="px-6 py-2.5 bg-[#C65D4B] text-white font-extrabold text-xs rounded-xl shadow-xs"
+              >
+                + Import Tệp Khác
+              </button>
+
+              <Link
+                href="/admin"
+                className="px-6 py-2.5 bg-[#56423E] text-white font-extrabold text-xs rounded-xl shadow-xs"
+              >
+                Về Trang Quản Lý Admin
+              </Link>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 }

@@ -44,13 +44,13 @@ export default function VocabularyLearningItem({
           )}
         </div>
 
-        <p className="text-sm font-bold text-[#231917] pt-2 border-t border-[#DED3C8]/50">
-          {item.meaningVi}
+        <p className="text-sm font-sans font-bold text-[#231917] pt-2 border-t border-[#DED3C8]/50">
+          {(item.meaningVi || "").normalize("NFC")}
         </p>
 
         {item.notes && (
-          <p className="text-xs text-[#76685F] italic bg-[#F5EFE6]/50 p-2 rounded-xl">
-            💡 {item.notes}
+          <p className="text-xs font-sans text-[#76685F] italic bg-[#F5EFE6]/50 p-2 rounded-xl">
+            💡 {(item.notes || "").normalize("NFC")}
           </p>
         )}
       </div>

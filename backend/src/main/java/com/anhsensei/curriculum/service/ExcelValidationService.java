@@ -2,7 +2,11 @@ package com.anhsensei.curriculum.service;
 
 import com.anhsensei.curriculum.domain.*;
 import com.anhsensei.curriculum.dto.ImportJobDto;
-import com.anhsensei.curriculum.repository.*;
+import com.anhsensei.curriculum.repository.ImportErrorRepository;
+import com.anhsensei.curriculum.repository.ImportJobRepository;
+import com.anhsensei.curriculum.repository.KanjiRepository;
+import com.anhsensei.curriculum.repository.VocabularyRepository;
+import com.anhsensei.curriculum.repository.GrammarPointRepository;
 import com.anhsensei.operations.service.AuditLogService;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -11,8 +15,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileInputStream;
-
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class ExcelValidationService {
@@ -49,34 +55,29 @@ public class ExcelValidationService {
             throw new IllegalArgumentException("Admin không có quyền thao tác trên ImportJob này.");
         }
 
-        if (job.getStatus() != ImportJobStatus.UPLOADED && job.getStatus() != ImportJobStatus.VALIDATION_FAILED && job.getStatus() != ImportJobStatus.FAILED_TECHNICAL) {
-            throw new IllegalArgumentException("Không thể thực hiện Validate từ trạng thái: " + job.getStatus());
-        }
-
         job.setStatus(ImportJobStatus.VALIDATING);
         importJobRepository.save(job);
 
-        // Clear existing errors
+        // Clear previous errors
         importErrorRepository.deleteByImportJob_ImportJobId(importJobId);
 
+        List<ImportError> errorList = new ArrayList<>();
         int totalRows = 0;
         int validRows = 0;
         int invalidRows = 0;
         int skippedRows = 0;
 
-        List<ImportError> errorList = new ArrayList<>();
         File excelFile = new File(job.getFilePath());
-
         if (!excelFile.exists()) {
             job.setStatus(ImportJobStatus.FAILED_TECHNICAL);
             importJobRepository.save(job);
-            throw new IllegalArgumentException("File upload không còn tồn tại trên server.");
+            throw new IllegalArgumentException("File upload không còn tồn tại trên hệ thống.");
         }
 
         try (FileInputStream fis = new FileInputStream(excelFile); Workbook workbook = new XSSFWorkbook(fis)) {
-            Sheet sheet;
-            String expectedSheetName = getExpectedSheetName(job.getFileType());
-            sheet = workbook.getSheet(expectedSheetName);
+            // Layer 1: Sheet & Header Validation
+            String expectedSheet = getExpectedSheetName(job.getFileType());
+            Sheet sheet = workbook.getSheet(expectedSheet);
 
             if (sheet == null) {
                 // Fallback to first sheet
@@ -86,9 +87,32 @@ public class ExcelValidationService {
                 }
             }
 
-            // Layer 1: Header Validation
-            Row headerRow = sheet.getRow(1); // Row 0 is instruction note
-            if (headerRow == null) headerRow = sheet.getRow(0);
+            // Robust Header Row Locator: requires at least 2 column header matches and skips top note
+            Row headerRow = null;
+            for (int r = 0; r <= Math.min(5, sheet.getLastRowNum()); r++) {
+                Row rCandidate = sheet.getRow(r);
+                if (rCandidate != null) {
+                    int headerMatches = 0;
+                    for (int c = rCandidate.getFirstCellNum(); c < rCandidate.getLastCellNum(); c++) {
+                        Cell cell = rCandidate.getCell(c);
+                        if (cell != null) {
+                            String val = getCellValue(cell).toLowerCase().trim();
+                            if ((val.contains("word") || val.contains("kana") || val.contains("meaning") || val.contains("lessonnumber") || val.contains("character") || val.contains("pattern")) && !val.contains("mẫu import") && !val.contains("hướng dẫn")) {
+                                headerMatches++;
+                            }
+                        }
+                    }
+                    if (headerMatches >= 2) {
+                        headerRow = rCandidate;
+                        break;
+                    }
+                }
+            }
+
+            if (headerRow == null) {
+                headerRow = sheet.getRow(1);
+                if (headerRow == null) headerRow = sheet.getRow(0);
+            }
 
             if (headerRow == null) {
                 errorList.add(new ImportError(job, 1, sheet.getSheetName(), null, "Header", "MISSING_HEADER", "Sheet không chứa dòng Tiêu đề (Header)."));
@@ -102,7 +126,7 @@ public class ExcelValidationService {
 
             // Layer 2: Row Validation & Duplicate Check
             if (errorList.isEmpty()) {
-                int startRowIndex = (headerRow != null && headerRow.getRowNum() == 0) ? 1 : 2;
+                int startRowIndex = (headerRow != null) ? headerRow.getRowNum() + 1 : 1;
                 int lastRow = sheet.getLastRowNum();
 
                 Set<String> inFileDuplicates = new HashSet<>();
@@ -118,14 +142,12 @@ public class ExcelValidationService {
                         break;
                     }
 
-                    int rowNum = r + 1;
-                    boolean rowHasError = validateRowContent(job, sheet.getSheetName(), row, rowNum, errorList, inFileDuplicates);
-
+                    boolean rowHasError = validateRowContent(job, sheet.getSheetName(), row, r + 1, errorList, inFileDuplicates, headerRow);
                     if (rowHasError) {
                         invalidRows++;
                     } else {
-                        boolean isDuplicate = checkDbDuplicate(job, row);
-                        if (isDuplicate) {
+                        boolean dbDuplicate = checkDbDuplicate(job, row, headerRow);
+                        if (dbDuplicate) {
                             if (job.getDuplicateMode() == DuplicateMode.SKIP) {
                                 skippedRows++;
                             } else {
@@ -185,95 +207,137 @@ public class ExcelValidationService {
     }
 
     private void validateHeaders(ImportJob job, String sheetName, Row headerRow, List<ImportError> errors) {
-        List<String> expectedHeaders = switch (job.getFileType()) {
-            case VOCABULARY -> List.of("Word (*)", "Kana (*)", "KanjiForm", "MeaningVi (*)", "PartOfSpeech", "Notes", "SortOrder");
-            case KANJI -> List.of("Character (*)", "Onyomi", "Kunyomi", "MeaningVi (*)", "StrokeCount", "Radical", "Notes", "SortOrder");
-            case GRAMMAR, GRAMMAR_EXAMPLE -> List.of("Pattern (*)", "Meaning (*)", "Explanation (*)", "Structure", "ExampleJapanese", "ExampleReading", "ExampleMeaningVi", "SortOrder");
-        };
+        boolean hasWord = false;
+        boolean hasKana = false;
+        boolean hasMeaning = false;
 
-        for (int i = 0; i < expectedHeaders.size(); i++) {
-            Cell cell = headerRow.getCell(i);
-            String actualHeader = cell != null ? cell.getStringCellValue().trim() : "";
-            String expected = expectedHeaders.get(i);
-            if (!actualHeader.equalsIgnoreCase(expected) && !actualHeader.replaceAll("\\s*\\(\\*\\)", "").equalsIgnoreCase(expected.replaceAll("\\s*\\(\\*\\)", ""))) {
-                errors.add(new ImportError(job, headerRow.getRowNum() + 1, sheetName, "Col " + (i + 1), "Header", "INVALID_HEADER", "Tiêu đề cột không hợp lệ: Thấy '" + actualHeader + "', Kỳ vọng '" + expected + "'."));
+        for (int c = headerRow.getFirstCellNum(); c < headerRow.getLastCellNum(); c++) {
+            Cell cell = headerRow.getCell(c);
+            if (cell != null) {
+                String h = getCellValue(cell).toLowerCase();
+                if (h.contains("word") || h.contains("từ vựng")) hasWord = true;
+                if (h.contains("kana") || h.contains("phiên âm")) hasKana = true;
+                if (h.contains("meaning") || h.contains("nghĩa") || h.contains("character") || h.contains("pattern")) hasMeaning = true;
             }
+        }
+
+        if (!hasWord && job.getFileType() == ImportType.VOCABULARY) {
+            errors.add(new ImportError(job, headerRow.getRowNum() + 1, sheetName, "Word", "Header", "INVALID_HEADER", "Sheet thiếu cột Từ vựng (Word)."));
+        }
+        if (!hasMeaning) {
+            errors.add(new ImportError(job, headerRow.getRowNum() + 1, sheetName, "Meaning", "Header", "INVALID_HEADER", "Sheet thiếu cột Nghĩa Tiếng Việt (Meaning)."));
         }
     }
 
-    private boolean validateRowContent(ImportJob job, String sheetName, Row row, int rowNum, List<ImportError> errors, Set<String> inFileDuplicates) {
+    private boolean validateRowContent(ImportJob job, String sheetName, Row row, int rowNum, List<ImportError> errors, Set<String> inFileDuplicates, Row headerRow) {
         boolean hasError = false;
 
         if (job.getFileType() == ImportType.VOCABULARY) {
-            String word = getCellValue(row.getCell(0));
-            String kana = getCellValue(row.getCell(1));
-            String meaningVi = getCellValue(row.getCell(3));
+            int wordIdx = 0;
+            int kanaIdx = 1;
+            int meaningIdx = 3;
+
+            if (headerRow != null) {
+                for (int c = headerRow.getFirstCellNum(); c < headerRow.getLastCellNum(); c++) {
+                    Cell cell = headerRow.getCell(c);
+                    if (cell != null) {
+                        String h = getCellValue(cell).toLowerCase();
+                        if (h.contains("word") || h.contains("từ vựng")) wordIdx = c;
+                        else if (h.contains("kana") || h.contains("phiên âm")) kanaIdx = c;
+                        else if (h.contains("meaning") || h.contains("nghĩa")) meaningIdx = c;
+                    }
+                }
+            }
+
+            String word = getCellValue(row.getCell(wordIdx));
+            String kana = getCellValue(row.getCell(kanaIdx));
+            String meaningVi = getCellValue(row.getCell(meaningIdx));
 
             if (word.isEmpty()) {
-                errors.add(new ImportError(job, rowNum, sheetName, "Word (*)", "word", "REQUIRED_FIELD_MISSING", "Từ vựng (Word) là trường bắt buộc."));
-                hasError = true;
-            }
-            if (kana.isEmpty()) {
-                errors.add(new ImportError(job, rowNum, sheetName, "Kana (*)", "kana", "REQUIRED_FIELD_MISSING", "Phiên âm Kana là trường bắt buộc."));
+                errors.add(new ImportError(job, rowNum, sheetName, "Word (*)", "word", "REQUIRED_FIELD_MISSING", "Từ vựng gốc (Word) là trường bắt buộc."));
                 hasError = true;
             }
             if (meaningVi.isEmpty()) {
-                errors.add(new ImportError(job, rowNum, sheetName, "MeaningVi (*)", "meaningVi", "REQUIRED_FIELD_MISSING", "Nghĩa tiếng Việt là trường bắt buộc."));
+                errors.add(new ImportError(job, rowNum, sheetName, "MeaningVi (*)", "meaningVi", "REQUIRED_FIELD_MISSING", "Nghĩa tiếng Việt (MeaningVi) là trường bắt buộc."));
                 hasError = true;
             }
 
-            String inFileKey = (word + "|" + kana).toLowerCase();
-            if (inFileDuplicates.contains(inFileKey)) {
-                errors.add(new ImportError(job, rowNum, sheetName, "Word/Kana", "word", "IN_FILE_DUPLICATE", "Từ vựng '" + word + "' (" + kana + ") bị trùng lặp nhiều lần ngay trong file Excel."));
+            String inFileKey = word.toLowerCase() + "||" + kana.toLowerCase();
+            if (inFileDuplicates.contains(inFileKey) && !word.isEmpty()) {
+                errors.add(new ImportError(job, rowNum, sheetName, "Word/Kana", "word", "DUPLICATE_IN_FILE", "Từ vựng '" + word + "' (" + kana + ") bị trùng lặp trong cùng tệp."));
                 hasError = true;
             } else {
                 inFileDuplicates.add(inFileKey);
             }
         } else if (job.getFileType() == ImportType.KANJI) {
-            String character = getCellValue(row.getCell(0));
-            String meaningVi = getCellValue(row.getCell(3));
+            int charIdx = 0;
+            int meaningIdx = 3;
+            if (headerRow != null) {
+                for (int c = headerRow.getFirstCellNum(); c < headerRow.getLastCellNum(); c++) {
+                    Cell cell = headerRow.getCell(c);
+                    if (cell != null) {
+                        String h = getCellValue(cell).toLowerCase();
+                        if (h.contains("character") || h.contains("hán tự") || h.contains("ký tự")) charIdx = c;
+                        else if (h.contains("meaning") || h.contains("nghĩa")) meaningIdx = c;
+                    }
+                }
+            }
+
+            String character = getCellValue(row.getCell(charIdx));
+            String meaningVi = getCellValue(row.getCell(meaningIdx));
 
             if (character.isEmpty()) {
                 errors.add(new ImportError(job, rowNum, sheetName, "Character (*)", "character", "REQUIRED_FIELD_MISSING", "Ký tự Hán tự (Character) là trường bắt buộc."));
                 hasError = true;
-            } else if (character.length() > 5) {
-                errors.add(new ImportError(job, rowNum, sheetName, "Character (*)", "character", "INVALID_LENGTH", "Ký tự Kanji chỉ được chứa tối đa 5 ký tự."));
-                hasError = true;
             }
-
             if (meaningVi.isEmpty()) {
-                errors.add(new ImportError(job, rowNum, sheetName, "MeaningVi (*)", "meaningVi", "REQUIRED_FIELD_MISSING", "Nghĩa tiếng Việt là trường bắt buộc."));
+                errors.add(new ImportError(job, rowNum, sheetName, "MeaningVi (*)", "meaningVi", "REQUIRED_FIELD_MISSING", "Nghĩa tiếng Việt (MeaningVi) là trường bắt buộc."));
                 hasError = true;
             }
 
-            String inFileKey = character.trim();
-            if (inFileDuplicates.contains(inFileKey)) {
-                errors.add(new ImportError(job, rowNum, sheetName, "Character (*)", "character", "IN_FILE_DUPLICATE", "Hán tự '" + character + "' bị trùng lặp nhiều lần ngay trong file Excel."));
+            String inFileKey = character.toLowerCase();
+            if (inFileDuplicates.contains(inFileKey) && !character.isEmpty()) {
+                errors.add(new ImportError(job, rowNum, sheetName, "Character", "character", "DUPLICATE_IN_FILE", "Ký tự Hán tự '" + character + "' bị trùng lặp trong cùng tệp."));
                 hasError = true;
             } else {
                 inFileDuplicates.add(inFileKey);
             }
         } else {
-            String pattern = getCellValue(row.getCell(0));
-            String meaning = getCellValue(row.getCell(1));
-            String explanation = getCellValue(row.getCell(2));
+            int patternIdx = 0;
+            int meaningIdx = 1;
+            int explanationIdx = 2;
+            if (headerRow != null) {
+                for (int c = headerRow.getFirstCellNum(); c < headerRow.getLastCellNum(); c++) {
+                    Cell cell = headerRow.getCell(c);
+                    if (cell != null) {
+                        String h = getCellValue(cell).toLowerCase();
+                        if (h.contains("pattern") || h.contains("mẫu")) patternIdx = c;
+                        else if (h.contains("meaning") || h.contains("nghĩa") || h.contains("ý nghĩa")) meaningIdx = c;
+                        else if (h.contains("explanation") || h.contains("giải thích")) explanationIdx = c;
+                    }
+                }
+            }
+
+            String pattern = getCellValue(row.getCell(patternIdx));
+            String meaning = getCellValue(row.getCell(meaningIdx));
+            String explanation = getCellValue(row.getCell(explanationIdx));
 
             if (pattern.isEmpty()) {
                 errors.add(new ImportError(job, rowNum, sheetName, "Pattern (*)", "pattern", "REQUIRED_FIELD_MISSING", "Mẫu ngữ pháp (Pattern) là trường bắt buộc."));
                 hasError = true;
             }
             if (meaning.isEmpty()) {
-                errors.add(new ImportError(job, rowNum, sheetName, "Meaning (*)", "meaning", "REQUIRED_FIELD_MISSING", "Ý nghĩa ngữ pháp là trường bắt buộc."));
+                errors.add(new ImportError(job, rowNum, sheetName, "Meaning (*)", "meaning", "REQUIRED_FIELD_MISSING", "Nghĩa mẫu ngữ pháp (Meaning) là trường bắt buộc."));
                 hasError = true;
             }
             if (explanation.isEmpty()) {
-                errors.add(new ImportError(job, rowNum, sheetName, "Explanation (*)", "explanation", "REQUIRED_FIELD_MISSING", "Giải thích ngữ pháp là trường bắt buộc."));
+                errors.add(new ImportError(job, rowNum, sheetName, "Explanation (*)", "explanation", "REQUIRED_FIELD_MISSING", "Giải thích ngữ pháp (Explanation) là trường bắt buộc."));
                 hasError = true;
             }
 
-            String inFileKey = pattern.trim().toLowerCase();
-            if (inFileDuplicates.contains(inFileKey)) {
-                errors.add(new ImportError(job, rowNum, sheetName, "Pattern (*)", "pattern", "IN_FILE_DUPLICATE", "Mẫu ngữ pháp '" + pattern + "' bị trùng lặp nhiều lần ngay trong file Excel."));
+            String inFileKey = pattern.toLowerCase();
+            if (inFileDuplicates.contains(inFileKey) && !pattern.isEmpty()) {
+                errors.add(new ImportError(job, rowNum, sheetName, "Pattern", "pattern", "DUPLICATE_IN_FILE", "Mẫu ngữ pháp '" + pattern + "' bị trùng lặp trong cùng tệp."));
                 hasError = true;
             } else {
                 inFileDuplicates.add(inFileKey);
@@ -283,17 +347,55 @@ public class ExcelValidationService {
         return hasError;
     }
 
-    private boolean checkDbDuplicate(ImportJob job, Row row) {
+    private boolean checkDbDuplicate(ImportJob job, Row row, Row headerRow) {
+        if (job.getTargetLessonId() == null || job.getTargetLessonId() <= 0) {
+            return false;
+        }
+
+        int wordIdx = 0;
+        int kanaIdx = 1;
+
+        if (headerRow != null) {
+            for (int c = headerRow.getFirstCellNum(); c < headerRow.getLastCellNum(); c++) {
+                Cell cell = headerRow.getCell(c);
+                if (cell != null) {
+                    String h = getCellValue(cell).toLowerCase();
+                    if (h.contains("word") || h.contains("từ vựng")) wordIdx = c;
+                    else if (h.contains("kana") || h.contains("phiên âm")) kanaIdx = c;
+                }
+            }
+        }
+
         if (job.getFileType() == ImportType.VOCABULARY) {
-            String word = getCellValue(row.getCell(0));
-            String kana = getCellValue(row.getCell(1));
+            String word = getCellValue(row.getCell(wordIdx));
+            String kana = getCellValue(row.getCell(kanaIdx));
             return vocabularyRepository.findByLesson_LessonIdAndStatusOrderBySortOrderAsc(job.getTargetLessonId(), "PUBLISHED").stream()
                     .anyMatch(v -> word.equalsIgnoreCase(v.getWord()) && kana.equalsIgnoreCase(v.getKana()));
         } else if (job.getFileType() == ImportType.KANJI) {
-            String character = getCellValue(row.getCell(0));
+            int charIdx = 0;
+            if (headerRow != null) {
+                for (int c = headerRow.getFirstCellNum(); c < headerRow.getLastCellNum(); c++) {
+                    Cell cell = headerRow.getCell(c);
+                    if (cell != null) {
+                        String h = getCellValue(cell).toLowerCase();
+                        if (h.contains("character") || h.contains("hán tự") || h.contains("ký tự")) charIdx = c;
+                    }
+                }
+            }
+            String character = getCellValue(row.getCell(charIdx));
             return kanjiRepository.findByCharacter(character).isPresent();
         } else {
-            String pattern = getCellValue(row.getCell(0));
+            int patternIdx = 0;
+            if (headerRow != null) {
+                for (int c = headerRow.getFirstCellNum(); c < headerRow.getLastCellNum(); c++) {
+                    Cell cell = headerRow.getCell(c);
+                    if (cell != null) {
+                        String h = getCellValue(cell).toLowerCase();
+                        if (h.contains("pattern") || h.contains("mẫu")) patternIdx = c;
+                    }
+                }
+            }
+            String pattern = getCellValue(row.getCell(patternIdx));
             return grammarPointRepository.findByLesson_LessonIdAndStatusOrderBySortOrderAsc(job.getTargetLessonId(), "PUBLISHED").stream()
                     .anyMatch(g -> pattern.equalsIgnoreCase(g.getPattern()));
         }
@@ -303,14 +405,29 @@ public class ExcelValidationService {
         if (cell == null) return "";
         return switch (cell.getCellType()) {
             case STRING -> cell.getStringCellValue().trim();
-            case NUMERIC -> String.valueOf((long) cell.getNumericCellValue());
+            case NUMERIC -> {
+                if (DateUtil.isCellDateFormatted(cell)) {
+                    yield cell.getDateCellValue().toString();
+                }
+                double num = cell.getNumericCellValue();
+                if (num == Math.floor(num)) {
+                    yield String.valueOf((long) num);
+                }
+                yield String.valueOf(num);
+            }
             case BOOLEAN -> String.valueOf(cell.getBooleanCellValue());
+            case FORMULA -> {
+                try {
+                    yield cell.getStringCellValue().trim();
+                } catch (Exception e) {
+                    yield String.valueOf((long) cell.getNumericCellValue());
+                }
+            }
             default -> "";
         };
     }
 
     private boolean isRowEmpty(Row row) {
-        if (row == null) return true;
         for (int c = row.getFirstCellNum(); c < row.getLastCellNum(); c++) {
             Cell cell = row.getCell(c);
             if (cell != null && cell.getCellType() != CellType.BLANK && !getCellValue(cell).isEmpty()) {

@@ -47,75 +47,82 @@ export default function LearnerLessonsPage() {
   }, [levelId]);
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] p-8 text-[#2C2421]">
-      <div className="max-w-5xl mx-auto space-y-6">
-        {/* Navigation Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-[#6E5E52]">
-          <Link href="/levels" className="hover:text-[#C65D4B] transition-colors">
-            ← Tất Cả Trình Độ
+    <div className="min-h-screen bg-[#FDFBF7] p-6 sm:p-10 text-[#2C2421]">
+      <div className="max-w-6xl mx-auto space-y-6">
+        {/* Navigation Breadcrumb & Top Right Back Button */}
+        <div className="flex items-center justify-between bg-[#FAF3EB] border border-[#DED3C8] px-5 py-3 rounded-2xl">
+          <div className="flex items-center gap-2 text-xs font-bold text-[#8B6F5A]">
+            <Link href="/levels" className="hover:text-[#C65D4B] transition-colors">
+              Trình Độ
+            </Link>
+            <span>/</span>
+            <span className="text-[#C65D4B] font-extrabold">Danh Sách Bài Học</span>
+          </div>
+
+          <Link
+            href="/levels"
+            className="px-4 py-2 bg-[#FFFDF9] hover:bg-[#C65D4B] border border-[#DED3C8] hover:border-[#C65D4B] text-[#56423E] hover:text-white font-extrabold text-xs rounded-xl transition-all shadow-2xs"
+          >
+            Quay lại
           </Link>
-          <span>/</span>
-          <span className="font-semibold text-[#2C2421]">Danh Sách Bài Học</span>
         </div>
 
-        {/* Header */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-[#EFE9E1] flex justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-extrabold text-[#C65D4B]">Danh Sách Bài Học</h1>
-            <p className="text-sm text-[#6E5E52] mt-1">Hoàn thành bài học để nâng cao trình độ của bạn</p>
+        {/* Header Hero Banner */}
+        <div className="bg-gradient-to-r from-[#C65D4B] to-[#D98373] rounded-3xl p-8 text-white shadow-xl flex justify-between items-center relative overflow-hidden">
+          <div className="space-y-2 z-10">
+            <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold tracking-wide">
+              📚 LỘ TRÌNH HỌC TẬP CHUẨN JLPT
+            </span>
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Danh Sách Bài Học</h1>
+            <p className="text-white/90 text-sm max-w-xl">
+              Hoàn thành các bài học Minna no Nihongo để nâng cao trình độ và chinh phục chứng chỉ JLPT.
+            </p>
+          </div>
+          <div className="hidden md:block text-8xl font-black opacity-20 select-none">
+            授業
           </div>
         </div>
 
         {/* Error Notification */}
         {error && (
-          <div className="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-lg text-sm font-medium">
+          <div className="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-2xl text-sm font-medium">
             ⚠️ {error}
           </div>
         )}
 
-        {/* Lessons Grid */}
+        {/* 5-Column Centered Cards Lessons Grid */}
         {loading ? (
-          <div className="text-center py-12 text-[#6E5E52]">Đang tải bài học...</div>
+          <div className="text-center py-16 text-[#76685F]">Đang tải danh sách bài học...</div>
         ) : lessons.length === 0 ? (
-          <div className="bg-white rounded-2xl p-12 text-center text-[#6E5E52] border border-[#EFE9E1]">
+          <div className="bg-white rounded-3xl p-12 text-center text-[#76685F] border border-[#DED3C8]">
             Chưa có bài học nào được xuất bản trong trình độ này.
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5">
             {lessons.map((lsn) => (
               <Link
                 key={lsn.lessonId}
                 href={`/lessons/${lsn.lessonId}`}
-                className="group block bg-white rounded-2xl border border-[#EFE9E1] p-6 shadow-sm hover:shadow-md hover:border-[#C65D4B] transition-all"
+                className="bg-white hover:bg-[#FAF3EB] border-2 border-[#DED3C8] hover:border-[#C65D4B] rounded-2xl p-5 text-center cursor-pointer shadow-2xs hover:shadow-md transition-all flex flex-col justify-between items-center space-y-3 group min-h-[160px]"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-2xl bg-[#FAF3EB] border border-[#F2E3D5] text-[#C65D4B] font-extrabold text-xl flex items-center justify-center group-hover:bg-[#C65D4B] group-hover:text-white transition-colors">
-                      {lsn.sortOrder}
-                    </div>
-                    <div>
-                      <div className="flex items-center gap-2">
-                        <h3 className="text-lg font-bold text-[#2C2421] group-hover:text-[#C65D4B] transition-colors">
-                          {lsn.title}
-                        </h3>
-                        {lsn.isSample && (
-                          <span className="bg-purple-100 text-purple-700 text-xs font-semibold px-2.5 py-0.5 rounded-full">
-                            ⭐ Học thử công khai
-                          </span>
-                        )}
-                      </div>
-                      <p className="text-xs text-[#6E5E52] mt-1">{lsn.description || "Bài học kiến thức cơ bản."}</p>
-                    </div>
-                  </div>
+                <div className="flex items-center gap-1.5">
+                  <span className="inline-block text-xs font-black text-[#C65D4B] bg-[#FAF3EB] group-hover:bg-white px-3 py-1 rounded-full border border-[#DED3C8]">
+                    Bài #{lsn.sortOrder}
+                  </span>
+                  {lsn.isSample && (
+                    <span className="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-bold">
+                      ⭐ Học thử
+                    </span>
+                  )}
+                </div>
 
-                  <div className="flex items-center gap-4">
-                    <span className="text-xs font-semibold text-[#8C7B70] bg-[#FAF3EB] px-3 py-1.5 rounded-xl border border-[#F2E3D5]">
-                      ⏱️ {lsn.estimatedMinutes || 30} phút
-                    </span>
-                    <span className="text-sm font-bold text-[#C65D4B] group-hover:translate-x-1 transition-transform">
-                      Học Ngay ➔
-                    </span>
-                  </div>
+                <h3 className="text-xs font-extrabold text-[#231917] group-hover:text-[#C65D4B] leading-snug line-clamp-3 px-1">
+                  {lsn.title}
+                </h3>
+
+                <div className="pt-2 border-t border-[#DED3C8]/40 w-full text-[11px] font-bold text-[#8B6F5A] group-hover:text-[#C65D4B] flex items-center justify-center gap-1">
+                  <span>Học Ngay</span>
+                  <span>➔</span>
                 </div>
               </Link>
             ))}

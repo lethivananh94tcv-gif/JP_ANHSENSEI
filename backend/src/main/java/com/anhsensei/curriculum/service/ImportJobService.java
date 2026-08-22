@@ -51,34 +51,37 @@ public class ImportJobService {
         // 1. Security & File Validation (BR-IMP-01)
         fileSecurityValidator.validateFile(file);
 
-        // 2. Target Level & Target Lesson Validation (BR-IMP-04)
+        // 2. Target Level Validation (BR-IMP-04)
         Level level = levelRepository.findById(targetLevelId)
                 .orElseThrow(() -> new IllegalArgumentException("Trình độ (Level) ID không tồn tại: " + targetLevelId));
         if ("ARCHIVED".equalsIgnoreCase(level.getStatus())) {
             throw new IllegalArgumentException("Trình độ đã bị lưu trữ (ARCHIVED), không thể import.");
         }
 
-        Lesson lesson = lessonRepository.findById(targetLessonId)
-                .orElseThrow(() -> new IllegalArgumentException("Bài học (Lesson) ID không tồn tại: " + targetLessonId));
-        if ("ARCHIVED".equalsIgnoreCase(lesson.getStatus())) {
-            throw new IllegalArgumentException("Bài học đã bị lưu trữ (ARCHIVED), không thể import.");
-        }
-
-        if (lesson.getLevel() == null || !targetLevelId.equals(lesson.getLevel().getLevelId())) {
-            throw new IllegalArgumentException("Bài học ID " + targetLessonId + " không thuộc Trình độ ID " + targetLevelId);
+        // Allow targetLessonId = 0 / null for Multi-Lesson Import (Automatic lesson number reading from Excel)
+        if (targetLessonId != null && targetLessonId > 0) {
+            Lesson lesson = lessonRepository.findById(targetLessonId).orElse(null);
+            if (lesson != null) {
+                if ("ARCHIVED".equalsIgnoreCase(lesson.getStatus())) {
+                    throw new IllegalArgumentException("Bài học đã bị lưu trữ (ARCHIVED), không thể import.");
+                }
+                if (lesson.getLevel() == null || !targetLevelId.equals(lesson.getLevel().getLevelId())) {
+                    throw new IllegalArgumentException("Bài học ID " + targetLessonId + " không thuộc Trình độ ID " + targetLevelId);
+                }
+            }
         }
 
         // 3. Save file securely
         String cleanFileName = fileSecurityValidator.sanitizeFilename(file.getOriginalFilename());
         String savedFilePath;
         try {
-            Path uploadDir = Path.of("scratch", "uploads");
+            Path uploadDir = Path.of("scratch", "uploads").toAbsolutePath();
             Files.createDirectories(uploadDir);
             Path destPath = uploadDir.resolve(System.currentTimeMillis() + "_" + cleanFileName);
-            file.transferTo(destPath.toFile());
-            savedFilePath = destPath.toAbsolutePath().toString();
+            Files.copy(file.getInputStream(), destPath, java.nio.file.StandardCopyOption.REPLACE_EXISTING);
+            savedFilePath = destPath.toString();
         } catch (IOException e) {
-            throw new RuntimeException("Lỗi lưu trữ file upload", e);
+            throw new RuntimeException("Lỗi lưu trữ file upload: " + e.getMessage(), e);
         }
 
         // 4. Create & Save ImportJob
@@ -89,27 +92,30 @@ public class ImportJobService {
         job.setFileType(fileType);
         job.setTemplateVersion("v1.0");
         job.setTargetLevelId(targetLevelId);
-        job.setTargetLessonId(targetLessonId);
-        job.setDuplicateMode(duplicateMode != null ? duplicateMode : DuplicateMode.SKIP);
+        Long safeLessonId = (targetLessonId != null && targetLessonId > 0) ? targetLessonId : 1L;
+        job.setTargetLessonId(safeLessonId);
+        job.setDuplicateMode(duplicateMode);
         job.setStatus(ImportJobStatus.UPLOADED);
+        job.setTotalRows(0);
+        job.setValidRows(0);
+        job.setInvalidRows(0);
+        job.setSkippedRows(0);
 
         ImportJob saved = importJobRepository.save(job);
 
-        // 5. Audit Log (BR-IMP-08)
         auditLogService.logAction(
                 adminId,
-                "IMPORT_JOB_UPLOADED",
+                "IMPORT_JOB_CREATED",
                 "ImportJob",
                 saved.getImportJobId().toString(),
                 null,
-                "Uploaded file: " + cleanFileName + " (Type: " + fileType + ", TargetLesson: " + targetLessonId + ")",
+                "UPLOADED",
                 ipAddress
         );
 
         return new ImportJobDto(saved);
     }
 
-    @Transactional(readOnly = true)
     public ImportJobDto getImportJobById(Long id) {
         ImportJob job = importJobRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy ImportJob có ID: " + id));

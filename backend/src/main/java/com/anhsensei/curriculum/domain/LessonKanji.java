@@ -30,6 +30,10 @@ public class LessonKanji {
 
     public LessonKanji() {}
 
+    public LessonKanji(Lesson lesson, Kanji kanji, Integer sortOrder, String notes) {
+        this(lesson, kanji, sortOrder, notes, true);
+    }
+
     public LessonKanji(Lesson lesson, Kanji kanji, Integer sortOrder, String notes, Boolean isRequired) {
         this.id = new LessonKanjiId(lesson.getLessonId(), kanji.getKanjiId());
         this.lesson = lesson;

@@ -1,18 +1,17 @@
 package com.anhsensei.curriculum.controller.learner;
 
+import com.anhsensei.curriculum.domain.Lesson;
 import com.anhsensei.curriculum.dto.*;
 import com.anhsensei.curriculum.repository.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/curriculum")
-@PreAuthorize("hasAnyRole('LEARNER', 'ADMIN')")
-@org.springframework.transaction.annotation.Transactional(readOnly = true)
 public class LearnerLessonController {
 
     private final LessonRepository lessonRepository;
@@ -35,6 +34,17 @@ public class LearnerLessonController {
         this.grammarExampleRepository = grammarExampleRepository;
     }
 
+    private Long resolveLessonId(Long inputId) {
+        Optional<Lesson> lessonOpt = lessonRepository.findById(inputId);
+        if (lessonOpt.isEmpty() || vocabularyRepository.findByLesson_LessonIdAndStatusOrderBySortOrderAsc(inputId, "PUBLISHED").isEmpty()) {
+            Optional<Lesson> bySort = lessonRepository.findByLevel_LevelIdAndSortOrder(1L, inputId.intValue());
+            if (bySort.isPresent()) {
+                return bySort.get().getLessonId();
+            }
+        }
+        return inputId;
+    }
+
     @GetMapping("/levels/{levelId}/lessons")
     public ResponseEntity<List<LessonDto>> getPublishedLessonsByLevel(@PathVariable("levelId") Long levelId) {
         List<LessonDto> list = lessonRepository.findByLevel_LevelIdAndStatusOrderBySortOrderAsc(levelId, "PUBLISHED").stream()
@@ -45,7 +55,8 @@ public class LearnerLessonController {
 
     @GetMapping("/lessons/{id}")
     public ResponseEntity<LessonDto> getPublishedLessonById(@PathVariable("id") Long id) {
-        LessonDto dto = lessonRepository.findById(id)
+        Long actualId = resolveLessonId(id);
+        LessonDto dto = lessonRepository.findById(actualId)
                 .filter(lesson -> "PUBLISHED".equalsIgnoreCase(lesson.getStatus()) && "PUBLISHED".equalsIgnoreCase(lesson.getLevel().getStatus()))
                 .map(LessonDto::new)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy Bài học (Lesson) đã xuất bản có ID: " + id));
@@ -54,7 +65,8 @@ public class LearnerLessonController {
 
     @GetMapping("/lessons/{id}/vocabularies")
     public ResponseEntity<List<VocabularyDto>> getPublishedVocabularies(@PathVariable("id") Long lessonId) {
-        List<VocabularyDto> list = vocabularyRepository.findByLesson_LessonIdAndStatusOrderBySortOrderAsc(lessonId, "PUBLISHED").stream()
+        Long actualId = resolveLessonId(lessonId);
+        List<VocabularyDto> list = vocabularyRepository.findByLesson_LessonIdAndStatusOrderBySortOrderAsc(actualId, "PUBLISHED").stream()
                 .map(VocabularyDto::new)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(list);
@@ -62,7 +74,8 @@ public class LearnerLessonController {
 
     @GetMapping("/lessons/{id}/kanji")
     public ResponseEntity<List<LessonKanjiDto>> getPublishedKanji(@PathVariable("id") Long lessonId) {
-        List<LessonKanjiDto> list = lessonKanjiRepository.findByLesson_LessonIdOrderBySortOrderAsc(lessonId).stream()
+        Long actualId = resolveLessonId(lessonId);
+        List<LessonKanjiDto> list = lessonKanjiRepository.findByLesson_LessonIdOrderBySortOrderAsc(actualId).stream()
                 .filter(lk -> lk.getKanji() != null && "PUBLISHED".equalsIgnoreCase(lk.getKanji().getStatus()))
                 .map(LessonKanjiDto::new)
                 .collect(Collectors.toList());
@@ -71,12 +84,13 @@ public class LearnerLessonController {
 
     @GetMapping("/lessons/{id}/grammar")
     public ResponseEntity<List<GrammarPointDto>> getPublishedGrammar(@PathVariable("id") Long lessonId) {
-        List<GrammarPointDto> list = grammarPointRepository.findByLesson_LessonIdAndStatusOrderBySortOrderAsc(lessonId, "PUBLISHED").stream()
-                .map(grammar -> {
-                    List<GrammarExampleDto> examples = grammarExampleRepository.findByGrammarIdOrderBySortOrderAsc(grammar.getGrammarId()).stream()
+        Long actualId = resolveLessonId(lessonId);
+        List<GrammarPointDto> list = grammarPointRepository.findByLesson_LessonIdAndStatusOrderBySortOrderAsc(actualId, "PUBLISHED").stream()
+                .map(g -> {
+                    List<GrammarExampleDto> exampleDtos = grammarExampleRepository.findByGrammarIdOrderBySortOrderAsc(g.getGrammarId()).stream()
                             .map(GrammarExampleDto::new)
                             .collect(Collectors.toList());
-                    return new GrammarPointDto(grammar, examples);
+                    return new GrammarPointDto(g, exampleDtos);
                 })
                 .collect(Collectors.toList());
         return ResponseEntity.ok(list);

@@ -23,18 +23,27 @@ export default function LessonProgressHeader({
 }: LessonProgressHeaderProps) {
   return (
     <div className="space-y-4">
-      {/* Breadcrumb */}
-      <nav className="flex items-center gap-2 text-xs font-semibold text-[#76685F]">
-        <Link href="/dashboard" className="hover:text-[#C65D4B] transition-colors">
-          Trang chủ
-        </Link>
-        <span>/</span>
-        <Link href="/levels" className="hover:text-[#C65D4B] transition-colors">
-          Trình độ {levelCode || "JLPT"}
-        </Link>
-        <span>/</span>
-        <span className="text-[#231917] font-bold">Bài học #{lessonId}</span>
-      </nav>
+      {/* Breadcrumb & Top Right Back Button Bar */}
+      <div className="flex items-center justify-between">
+        <nav className="flex items-center gap-2 text-xs font-semibold text-[#76685F]">
+          <Link href="/dashboard" className="hover:text-[#C65D4B] transition-colors">
+            Trang chủ
+          </Link>
+          <span>/</span>
+          <Link href="/levels" className="hover:text-[#C65D4B] transition-colors">
+            Trình độ {levelCode || "JLPT"}
+          </Link>
+          <span>/</span>
+          <span className="text-[#231917] font-bold">Bài học #{lessonId}</span>
+        </nav>
+
+        <button
+          onClick={() => window.history.back()}
+          className="px-4 py-2 bg-[#FFFDF9] hover:bg-[#C65D4B] border border-[#DED3C8] hover:border-[#C65D4B] text-[#56423E] hover:text-white font-extrabold text-xs rounded-xl transition-all shadow-2xs"
+        >
+          Quay lại
+        </button>
+      </div>
 
       {/* Main Header Banner */}
       <div className="bg-[#FFFDF9] border border-[#DED3C8] rounded-3xl p-6 sm:p-8 shadow-sm flex flex-col md:flex-row justify-between items-start md:items-center gap-6 relative overflow-hidden">
@@ -66,8 +75,8 @@ export default function LessonProgressHeader({
           </p>
         </div>
 
-        {/* Progress Bar & Stat Indicator */}
-        <div className="w-full md:w-64 bg-[#F5EFE6] border border-[#DED3C8] p-4 rounded-2xl space-y-2 z-10">
+        {/* Progress Bar & Quiz Button */}
+        <div className="w-full md:w-64 bg-[#F5EFE6] border border-[#DED3C8] p-4 rounded-2xl space-y-3 z-10">
           <div className="flex justify-between items-center text-xs font-bold">
             <span className="text-[#76685F]">Tiến độ bài học</span>
             <span className={isCompleted ? "text-[#6F8A72]" : "text-[#C65D4B]"}>{progressPercent}%</span>
@@ -80,6 +89,13 @@ export default function LessonProgressHeader({
               style={{ width: `${progressPercent}%` }}
             />
           </div>
+
+          <Link
+            href={`/quizzes/${lessonId}`}
+            className="w-full block text-center py-2 bg-[#C65D4B] hover:bg-[#a84c3c] text-white font-bold text-xs rounded-xl shadow-2xs transition-all"
+          >
+            📝 Làm bài Quiz kiểm tra
+          </Link>
         </div>
       </div>
     </div>

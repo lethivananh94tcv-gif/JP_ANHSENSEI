@@ -2,6 +2,7 @@ package com.anhsensei.curriculum.service;
 
 import com.anhsensei.curriculum.domain.ImportType;
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class ExcelTemplateService {
                 noteCell.setCellStyle(noteStyle);
 
                 Row headerRow = sheet.createRow(1);
-                String[] headers = {"Word (*)", "Kana (*)", "KanjiForm", "MeaningVi (*)", "PartOfSpeech", "Notes", "SortOrder"};
+                String[] headers = {"LessonNumber", "Word (*)", "Kana (*)", "KanjiForm", "MeaningVi (*)", "PartOfSpeech", "Notes", "SortOrder"};
                 for (int i = 0; i < headers.length; i++) {
                     Cell cell = headerRow.createCell(i);
                     cell.setCellValue(headers[i]);
@@ -33,15 +34,28 @@ public class ExcelTemplateService {
                     sheet.setColumnWidth(i, 20 * 256);
                 }
 
-                // Sample row
-                Row sample = sheet.createRow(2);
-                sample.createCell(0).setCellValue("私");
-                sample.createCell(1).setCellValue("わたし");
-                sample.createCell(2).setCellValue("私");
-                sample.createCell(3).setCellValue("Tôi");
-                sample.createCell(4).setCellValue("Danh từ");
-                sample.createCell(5).setCellValue("Ví dụ mẫu");
-                sample.createCell(6).setCellValue(1);
+                // Sample row 1 (Lesson 1)
+                Row sample1 = sheet.createRow(2);
+                sample1.createCell(0).setCellValue(1);
+                sample1.createCell(1).setCellValue("私");
+                sample1.createCell(2).setCellValue("わたし");
+                sample1.createCell(3).setCellValue("私");
+                sample1.createCell(4).setCellValue("Tôi");
+                sample1.createCell(5).setCellValue("Danh từ");
+                sample1.createCell(6).setCellValue("Giới thiệu bản thân");
+                sample1.createCell(7).setCellValue(1);
+
+                // Sample row 2 (Lesson 2)
+                Row sample2 = sheet.createRow(3);
+                sample2.createCell(0).setCellValue(2);
+                sample2.createCell(1).setCellValue("これ");
+                sample2.createCell(2).setCellValue("これ");
+                sample2.createCell(3).setCellValue("-");
+                sample2.createCell(4).setCellValue("Cái này");
+                sample2.createCell(5).setCellValue("Chỉ định từ");
+                sample2.createCell(6).setCellValue("Đồ vật");
+                sample2.createCell(7).setCellValue(1);
+
             } else if (type == ImportType.KANJI) {
                 sheet = workbook.createSheet("Kanjis");
                 Row noteRow = sheet.createRow(0);
@@ -50,7 +64,7 @@ public class ExcelTemplateService {
                 noteCell.setCellStyle(noteStyle);
 
                 Row headerRow = sheet.createRow(1);
-                String[] headers = {"Character (*)", "Onyomi", "Kunyomi", "MeaningVi (*)", "StrokeCount", "Radical", "Notes", "SortOrder"};
+                String[] headers = {"LessonNumber", "Character (*)", "Onyomi", "Kunyomi", "MeaningVi (*)", "StrokeCount", "Radical", "Notes", "SortOrder"};
                 for (int i = 0; i < headers.length; i++) {
                     Cell cell = headerRow.createCell(i);
                     cell.setCellValue(headers[i]);
@@ -59,14 +73,15 @@ public class ExcelTemplateService {
                 }
 
                 Row sample = sheet.createRow(2);
-                sample.createCell(0).setCellValue("日");
-                sample.createCell(1).setCellValue("ニチ, ジツ");
-                sample.createCell(2).setCellValue("hi, ka");
-                sample.createCell(3).setCellValue("Mặt trời, ngày");
-                sample.createCell(4).setCellValue(4);
-                sample.createCell(5).setCellValue("日");
-                sample.createCell(6).setCellValue("Hán tự cơ bản");
-                sample.createCell(7).setCellValue(1);
+                sample.createCell(0).setCellValue(1);
+                sample.createCell(1).setCellValue("日");
+                sample.createCell(2).setCellValue("ニチ, ジツ");
+                sample.createCell(3).setCellValue("hi, ka");
+                sample.createCell(4).setCellValue("Mặt trời, ngày");
+                sample.createCell(5).setCellValue(4);
+                sample.createCell(6).setCellValue("日");
+                sample.createCell(7).setCellValue("Hán tự cơ bản");
+                sample.createCell(8).setCellValue(1);
             } else {
                 sheet = workbook.createSheet("GrammarPoints");
                 Row noteRow = sheet.createRow(0);
@@ -75,7 +90,7 @@ public class ExcelTemplateService {
                 noteCell.setCellStyle(noteStyle);
 
                 Row headerRow = sheet.createRow(1);
-                String[] headers = {"Pattern (*)", "Meaning (*)", "Explanation (*)", "Structure", "ExampleJapanese", "ExampleReading", "ExampleMeaningVi", "SortOrder"};
+                String[] headers = {"LessonNumber", "Pattern (*)", "Meaning (*)", "Explanation (*)", "Structure", "ExampleJapanese", "ExampleReading", "ExampleMeaningVi", "SortOrder"};
                 for (int i = 0; i < headers.length; i++) {
                     Cell cell = headerRow.createCell(i);
                     cell.setCellValue(headers[i]);
@@ -84,14 +99,15 @@ public class ExcelTemplateService {
                 }
 
                 Row sample = sheet.createRow(2);
-                sample.createCell(0).setCellValue("～は～です");
-                sample.createCell(1).setCellValue("N1 là N2");
-                sample.createCell(2).setCellValue("Mẫu câu khẳng định cơ bản trong tiếng Nhật.");
-                sample.createCell(3).setCellValue("N1 は N2 です");
-                sample.createCell(4).setCellValue("わたしはたなかです。");
-                sample.createCell(5).setCellValue("Watashi wa Tanaka desu.");
-                sample.createCell(6).setCellValue("Tôi là Tanaka.");
-                sample.createCell(7).setCellValue(1);
+                sample.createCell(0).setCellValue(1);
+                sample.createCell(1).setCellValue("～は～です");
+                sample.createCell(2).setCellValue("N1 là N2");
+                sample.createCell(3).setCellValue("Mẫu câu khẳng định cơ bản trong tiếng Nhật.");
+                sample.createCell(4).setCellValue("N1 は N2 です");
+                sample.createCell(5).setCellValue("わたしはたなかです。");
+                sample.createCell(6).setCellValue("Watashi wa Tanaka desu.");
+                sample.createCell(7).setCellValue("Tôi là Tanaka.");
+                sample.createCell(8).setCellValue(1);
             }
 
             workbook.write(out);
@@ -107,9 +123,12 @@ public class ExcelTemplateService {
         font.setBold(true);
         font.setColor(IndexedColors.WHITE.getIndex());
         style.setFont(font);
-        style.setFillForegroundColor(IndexedColors.DARK_TEAL.getIndex());
+        
+        // Match exact dark navy header style from original template (#002060 / Dark Teal)
+        style.setFillForegroundColor(IndexedColors.DARK_BLUE.getIndex());
         style.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        style.setAlignment(HorizontalAlignment.CENTER);
+        style.setAlignment(HorizontalAlignment.LEFT);
+        style.setVerticalAlignment(VerticalAlignment.CENTER);
         return style;
     }
 

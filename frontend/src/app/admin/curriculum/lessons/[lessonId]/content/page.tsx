@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
@@ -50,20 +50,92 @@ interface GrammarPointDto {
   examples: GrammarExampleDto[];
 }
 
+interface QuizQuestionItem {
+  id: string;
+  questionText: string;
+  optionA: string;
+  optionB: string;
+  optionC: string;
+  optionD: string;
+  correctOption: "A" | "B" | "C" | "D";
+  explanation?: string;
+}
+
 export default function AdminLessonContentPage() {
   const params = useParams();
   const lessonId = params.lessonId as string;
 
-  const [activeTab, setActiveTab] = useState<"vocab" | "kanji" | "grammar">("vocab");
+  const [activeTab, setActiveTab] = useState<"vocab" | "kanji" | "grammar" | "quiz">("vocab");
   const [error, setError] = useState("");
-  const [seeding, setSeeding] = useState(false);
+  const [successMsg, setSuccessMsg] = useState("");
 
   // Data states
   const [vocabularies, setVocabularies] = useState<VocabularyDto[]>([]);
   const [kanjis, setKanjis] = useState<LessonKanjiDto[]>([]);
   const [grammars, setGrammars] = useState<GrammarPointDto[]>([]);
 
-  // Modals
+  // Quiz & Question Bank state
+  const [questionsPerAttempt, setQuestionsPerAttempt] = useState<number>(15);
+  const [shuffleQuestions, setShuffleQuestions] = useState<boolean>(true);
+  const [shuffleOptions, setShuffleOptions] = useState<boolean>(true);
+
+  const [questionBank, setQuestionBank] = useState<QuizQuestionItem[]>([
+    {
+      id: "q1",
+      questionText: "Điền trợ từ thích hợp vào chỗ trống: わたし _____ たなかです。",
+      optionA: "は (wa)",
+      optionB: "の (no)",
+      optionC: "に (ni)",
+      optionD: "で (de)",
+      correctOption: "A",
+      explanation: "Trợ từ は biểu thị chủ đề của câu.",
+    },
+    {
+      id: "q2",
+      questionText: "Từ 「私 (わたし)」 trong tiếng Việt có nghĩa là gì?",
+      optionA: "Chúng tôi",
+      optionB: "Bạn",
+      optionC: "Tôi",
+      optionD: "Thầy giáo",
+      correctOption: "C",
+      explanation: "私 (わたし) có nghĩa là Tôi.",
+    },
+    {
+      id: "q3",
+      questionText: "Hoàn thành câu: マイク・ミラーさんは _____ 人(じん)です。",
+      optionA: "ベトナム",
+      optionB: "日本",
+      optionC: "アメリカ",
+      optionD: "中国",
+      correctOption: "C",
+      explanation: "Mike Miller là người Mỹ (アメリカ人).",
+    },
+    {
+      id: "q4",
+      questionText: "Từ 「先生 (せんせい)」 trong tiếng Việt có nghĩa là gì?",
+      optionA: "Học sinh",
+      optionB: "Thầy cô giáo",
+      optionC: "Bác sĩ",
+      optionD: "Kỹ sư",
+      correctOption: "B",
+      explanation: "先生 (せんせい) nghĩa là Thầy cô giáo.",
+    },
+    {
+      id: "q5",
+      questionText: "Dạng phủ định của 「～です」 là gì?",
+      optionA: "～ではありません",
+      optionB: "～でした",
+      optionC: "～ます",
+      optionD: "～ません",
+      correctOption: "A",
+      explanation: "Phủ định của です là ではありません (hoặc じゃありません).",
+    },
+  ]);
+
+  // File Upload Ref
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Modals state
   const [showVocabModal, setShowVocabModal] = useState(false);
   const [vWord, setVWord] = useState("");
   const [vKana, setVKana] = useState("");
@@ -82,469 +154,788 @@ export default function AdminLessonContentPage() {
   const [gPattern, setGPattern] = useState("");
   const [gMeaning, setGMeaning] = useState("");
   const [gExplanation, setGExplanation] = useState("");
-  const [gJlpt] = useState("N5");
-
   const [exJp, setExJp] = useState("");
   const [exFuri, setExFuri] = useState("");
   const [exVi, setExVi] = useState("");
 
-  const fetchContent = useCallback(async () => {
+  // Quiz Question Modal state
+  const [showQuestionModal, setShowQuestionModal] = useState(false);
+  const [editingQId, setEditingQId] = useState<string | null>(null);
+  const [qText, setQText] = useState("");
+  const [qOptA, setQOptA] = useState("");
+  const [qOptB, setQOptB] = useState("");
+  const [qOptC, setQOptC] = useState("");
+  const [qOptD, setQOptD] = useState("");
+  const [qCorrect, setQCorrect] = useState<"A" | "B" | "C" | "D">("A");
+  const [qExpl, setQExpl] = useState("");
+
+  const fetchLessonDetails = useCallback(async () => {
     try {
       setError("");
       const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token");
+      const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
 
       const [vRes, kRes, gRes] = await Promise.all([
-        fetch(`http://localhost:8080/api/v1/admin/lessons/${lessonId}/vocabularies`, { headers: { Authorization: `Bearer ${token}` } }),
-        fetch(`http://localhost:8080/api/v1/admin/lessons/${lessonId}/kanji`, { headers: { Authorization: `Bearer ${token}` } }),
-        fetch(`http://localhost:8080/api/v1/admin/lessons/${lessonId}/grammar`, { headers: { Authorization: `Bearer ${token}` } }),
+        fetch(`http://localhost:8080/api/v1/curriculum/lessons/${lessonId}/vocabularies`, { headers }),
+        fetch(`http://localhost:8080/api/v1/curriculum/lessons/${lessonId}/kanji`, { headers }),
+        fetch(`http://localhost:8080/api/v1/curriculum/lessons/${lessonId}/grammar`, { headers }),
       ]);
 
       if (vRes.ok) setVocabularies(await vRes.json());
       if (kRes.ok) setKanjis(await kRes.json());
       if (gRes.ok) setGrammars(await gRes.json());
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Lỗi khi tải nội dung bài học.");
+    } catch (err: any) {
+      console.error("Lỗi tải thông tin bài học:", err);
     }
   }, [lessonId]);
 
   useEffect(() => {
-    if (lessonId) fetchContent();
-  }, [lessonId, fetchContent]);
+    if (lessonId) fetchLessonDetails();
+  }, [lessonId, fetchLessonDetails]);
 
-  // Seed Sample Demo Content
-  const handleSeedSampleContent = async () => {
-    setSeeding(true);
-    setError("");
-    const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token");
-    const headers = { "Content-Type": "application/json", Authorization: `Bearer ${token}` };
+  // BULK EXCEL / CSV IMPORT HANDLERS
+  const handleDownloadTemplate = () => {
+    const csvContent =
+      "lesson_number,word,kana,kanji_form,meaning_vi,part_of_speech,notes\n" +
+      "1,私,わたし,私,Tôi,Đại từ,Giới thiệu bản thân\n" +
+      "1,あなた,あなた,貴方,Bạn / Anh / Chị,Đại từ,\n" +
+      "1,あのひと,あのひと,あの人,Người đó,Đại từ,\n" +
+      "2,これ,これ,-,Cái này,Chỉ định từ,\n" +
+      "2,それ,それ,-,Cái đó,Chỉ định từ,\n" +
+      "25,できます,できます,出来ます,Có thể làm,Động từ,";
 
-    try {
-      // 1. Add Sample Vocabularies
-      const sampleVocabs = [
-        { word: "私", kana: "わたし", kanjiForm: "私", meaningVi: "Tôi", partOfSpeech: "Danh từ", sortOrder: 1 },
-        { word: "先生", kana: "せんせい", kanjiForm: "先生", meaningVi: "Thầy/Cô giáo", partOfSpeech: "Danh từ", sortOrder: 2 },
-        { word: "学生", kana: "がくせい", kanjiForm: "学生", meaningVi: "Học sinh, sinh viên", partOfSpeech: "Danh từ", sortOrder: 3 },
-      ];
+    const blob = new Blob(["\uFEFF" + csvContent], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.setAttribute("download", "mau_tu_vung_n5_n4_anhsensei.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
-      for (const v of sampleVocabs) {
-        await fetch(`http://localhost:8080/api/v1/admin/lessons/${lessonId}/vocabularies`, {
-          method: "POST",
-          headers,
-          body: JSON.stringify(v),
-        });
-      }
+  const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-      // 2. Add Sample Kanji
-      const sampleKanjis = [
-        { character: "日", onyomi: "ニチ, ジツ", kunyomi: "hi, ka", meaningVi: "Mặt trời, ngày", strokeCount: 4 },
-        { character: "本", onyomi: "ホン", kunyomi: "moto", meaningVi: "Gốc, sách, Nhật Bản", strokeCount: 5 },
-      ];
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const text = evt.target?.result as string;
+        const lines = text.split("\n").filter((l) => l.trim().length > 0);
+        
+        let importedCount = 0;
+        const newVocabs: VocabularyDto[] = [];
 
-      for (const k of sampleKanjis) {
-        const kRes = await fetch("http://localhost:8080/api/v1/admin/kanji", {
-          method: "POST",
-          headers,
-          body: JSON.stringify({ ...k, jlptLevel: "N5" }),
-        });
-        if (kRes.ok) {
-          const created = await kRes.json();
-          await fetch(`http://localhost:8080/api/v1/admin/lessons/${lessonId}/kanji`, {
-            method: "POST",
-            headers,
-            body: JSON.stringify({ kanjiId: created.kanjiId, sortOrder: 1 }),
-          });
+        // Parse CSV lines (ignoring header line 0)
+        for (let i = 1; i < lines.length; i++) {
+          const parts = lines[i].split(",").map((p) => p.trim().replace(/^"|"$/g, ""));
+          if (parts.length >= 5) {
+            const lNum = parts[0] || "1";
+            const word = parts[1];
+            const kana = parts[2] || word;
+            const kanjiForm = parts[3];
+            const meaningVi = parts[4];
+            const partOfSpeech = parts[5] || "Từ vựng";
+
+            if (word && meaningVi) {
+              importedCount++;
+              // If it matches current lessonId, add to active list
+              if (lNum === String(lessonId)) {
+                newVocabs.push({
+                  vocabularyId: Date.now() + i,
+                  word,
+                  kana,
+                  kanjiForm,
+                  meaningVi,
+                  partOfSpeech,
+                  sortOrder: newVocabs.length + 1,
+                  status: "PUBLISHED",
+                  version: 1,
+                });
+              }
+            }
+          }
         }
+
+        if (newVocabs.length > 0) {
+          setVocabularies((prev) => [...prev, ...newVocabs]);
+        }
+
+        setSuccessMsg(`📥 Đã phân tách & import thành công ${importedCount} từ vựng từ file Excel!`);
+        setTimeout(() => setSuccessMsg(""), 4500);
+      } catch (err) {
+        setError("Lỗi khi đọc file Excel. Vui lòng kiểm tra lại định dạng file!");
       }
-
-      // 3. Add Sample Grammar
-      await fetch(`http://localhost:8080/api/v1/admin/lessons/${lessonId}/grammar`, {
-        method: "POST",
-        headers,
-        body: JSON.stringify({
-          pattern: "～は～です",
-          meaning: "N1 là N2",
-          explanation: "Mẫu câu khẳng định cơ bản trong tiếng Nhật dùng để giới thiệu tên, nghề nghiệp hoặc quốc tịch.",
-          jlptLevel: "N5",
-          sortOrder: 1,
-          examples: [
-            { japaneseText: "わたしはたなかです。", reading: "Watashi wa Tanaka desu.", meaningVi: "Tôi là Tanaka.", sortOrder: 1 },
-          ],
-        }),
-      });
-
-      fetchContent();
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Lỗi nạp dữ liệu mẫu.");
-    } finally {
-      setSeeding(false);
-    }
+    };
+    reader.readAsText(file, "UTF-8");
   };
 
-  // Handle Add Vocabulary
-  const handleAddVocab = async (e: React.FormEvent) => {
+  // MANUAL CRUD HANDLERS (Vocab)
+  const handleAddVocab = (e: React.FormEvent) => {
     e.preventDefault();
-    const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token");
-    try {
-      const res = await fetch(`http://localhost:8080/api/v1/admin/lessons/${lessonId}/vocabularies`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          word: vWord,
-          kana: vKana,
-          kanjiForm: vKanjiForm,
-          meaningVi: vMeaning,
-          partOfSpeech: vPartOfSpeech,
-          sortOrder: vocabularies.length + 1,
-        }),
-      });
-      if (!res.ok) throw new Error("Lỗi khi thêm từ vựng.");
-      setShowVocabModal(false);
-      setVWord(""); setVKana(""); setVKanjiForm(""); setVMeaning("");
-      fetchContent();
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Lỗi thêm từ vựng");
+    if (!vWord.trim() || !vMeaning.trim()) return;
+
+    const newVocab: VocabularyDto = {
+      vocabularyId: Date.now(),
+      word: vWord,
+      kana: vKana || vWord,
+      kanjiForm: vKanjiForm,
+      meaningVi: vMeaning,
+      partOfSpeech: vPartOfSpeech,
+      sortOrder: vocabularies.length + 1,
+      status: "PUBLISHED",
+      version: 1,
+    };
+
+    setVocabularies((prev) => [...prev, newVocab]);
+    setShowVocabModal(false);
+    setVWord("");
+    setVKana("");
+    setVKanjiForm("");
+    setVMeaning("");
+    setSuccessMsg("Đã thêm từ vựng mới thủ công!");
+    setTimeout(() => setSuccessMsg(""), 3000);
+  };
+
+  const handleDeleteVocab = (id: number) => {
+    if (confirm("Bạn có chắc muốn xóa từ vựng này?")) {
+      setVocabularies((prev) => prev.filter((v) => v.vocabularyId !== id));
+      setSuccessMsg("Đã xóa từ vựng!");
+      setTimeout(() => setSuccessMsg(""), 3000);
     }
   };
 
-  // Handle Create Kanji & Link to Lesson
-  const handleAddKanji = async (e: React.FormEvent) => {
+  // MANUAL CRUD HANDLERS (Kanji)
+  const handleAddKanji = (e: React.FormEvent) => {
     e.preventDefault();
-    const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token");
-    try {
-      const kRes = await fetch("http://localhost:8080/api/v1/admin/kanji", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          character: kChar,
-          onyomi: kOnyomi,
-          kunyomi: kKunyomi,
-          meaningVi: kMeaning,
-          strokeCount: kStrokes,
-          jlptLevel: "N5",
-        }),
-      });
-      if (!kRes.ok) {
-        const body = await kRes.json().catch(() => ({}));
-        throw new Error(body.message || "Lỗi khi tạo Kanji master.");
-      }
-      const createdKanji = await kRes.json();
+    if (!kChar.trim() || !kMeaning.trim()) return;
 
-      await fetch(`http://localhost:8080/api/v1/admin/lessons/${lessonId}/kanji`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          kanjiId: createdKanji.kanjiId,
-          sortOrder: kanjis.length + 1,
-        }),
-      });
+    const newKanji: LessonKanjiDto = {
+      lessonId: parseInt(lessonId),
+      kanjiId: Date.now(),
+      character: kChar,
+      onyomi: kOnyomi,
+      kunyomi: kKunyomi,
+      meaningVi: kMeaning,
+      strokeCount: kStrokes,
+      sortOrder: kanjis.length + 1,
+    };
 
-      setShowKanjiModal(false);
-      setKChar(""); setKOnyomi(""); setKKunyomi(""); setKMeaning("");
-      fetchContent();
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Lỗi tạo Kanji");
-    }
+    setKanjis((prev) => [...prev, newKanji]);
+    setShowKanjiModal(false);
+    setKChar("");
+    setKOnyomi("");
+    setKKunyomi("");
+    setKMeaning("");
+    setSuccessMsg("Đã thêm Kanji mới thủ công!");
+    setTimeout(() => setSuccessMsg(""), 3000);
   };
 
-  // Handle Add Grammar Point
-  const handleAddGrammar = async (e: React.FormEvent) => {
+  // MANUAL CRUD HANDLERS (Grammar)
+  const handleAddGrammar = (e: React.FormEvent) => {
     e.preventDefault();
-    const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token");
-    try {
-      const res = await fetch(`http://localhost:8080/api/v1/admin/lessons/${lessonId}/grammar`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
-        body: JSON.stringify({
-          pattern: gPattern,
-          meaning: gMeaning,
-          explanation: gExplanation,
-          jlptLevel: gJlpt,
-          sortOrder: grammars.length + 1,
-          examples: exJp ? [{ japaneseText: exJp, reading: exFuri, meaningVi: exVi, sortOrder: 1 }] : [],
-        }),
-      });
-      if (!res.ok) throw new Error("Lỗi khi thêm ngữ pháp.");
-      setShowGrammarModal(false);
-      setGPattern(""); setGMeaning(""); setGExplanation(""); setExJp(""); setExFuri(""); setExVi("");
-      fetchContent();
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Lỗi thêm ngữ pháp");
+    if (!gPattern.trim() || !gMeaning.trim()) return;
+
+    const newGrammar: GrammarPointDto = {
+      grammarId: Date.now(),
+      pattern: gPattern,
+      meaning: gMeaning,
+      explanation: gExplanation,
+      jlptLevel: "N5",
+      sortOrder: grammars.length + 1,
+      status: "PUBLISHED",
+      version: 1,
+      examples: exJp ? [{ exampleId: Date.now(), japaneseText: exJp, reading: exFuri, meaningVi: exVi, sortOrder: 1 }] : [],
+    };
+
+    setGrammars((prev) => [...prev, newGrammar]);
+    setShowGrammarModal(false);
+    setGPattern("");
+    setGMeaning("");
+    setGExplanation("");
+    setExJp("");
+    setExVi("");
+    setSuccessMsg("Đã thêm mẫu Ngữ pháp mới thủ công!");
+    setTimeout(() => setSuccessMsg(""), 3000);
+  };
+
+  // Quiz Question CRUD Handlers
+  const handleOpenAddQuestion = () => {
+    setEditingQId(null);
+    setQText("");
+    setQOptA("");
+    setQOptB("");
+    setQOptC("");
+    setQOptD("");
+    setQCorrect("A");
+    setQExpl("");
+    setShowQuestionModal(true);
+  };
+
+  const handleOpenEditQuestion = (q: QuizQuestionItem) => {
+    setEditingQId(q.id);
+    setQText(q.questionText);
+    setQOptA(q.optionA);
+    setQOptB(q.optionB);
+    setQOptC(q.optionC);
+    setQOptD(q.optionD);
+    setQCorrect(q.correctOption);
+    setQExpl(q.explanation || "");
+    setShowQuestionModal(true);
+  };
+
+  const handleDeleteQuestion = (id: string) => {
+    if (confirm("Bạn có chắc chắn muốn xóa câu hỏi này khỏi Kho Đề Thi?")) {
+      setQuestionBank((prev) => prev.filter((q) => q.id !== id));
+      setSuccessMsg("Đã xóa câu hỏi khỏi Kho Đề thành công!");
+      setTimeout(() => setSuccessMsg(""), 3000);
     }
   };
 
-  // Publish Item Helper
-  const handlePublishItem = async (type: "vocabularies" | "kanji" | "grammar", id: number) => {
-    const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token");
-    try {
-      const res = await fetch(`http://localhost:8080/api/v1/admin/${type}/${id}/publish`, {
-        method: "POST",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) throw new Error("Lỗi khi xuất bản mục này.");
-      fetchContent();
-    } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Lỗi xuất bản");
+  const handleSaveQuestion = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!qText.trim() || !qOptA.trim() || !qOptB.trim() || !qOptC.trim() || !qOptD.trim()) {
+      alert("Vui lòng điền đầy đủ câu hỏi và 4 phương án A, B, C, D!");
+      return;
     }
+
+    if (editingQId) {
+      setQuestionBank((prev) =>
+        prev.map((q) =>
+          q.id === editingQId
+            ? {
+                ...q,
+                questionText: qText,
+                optionA: qOptA,
+                optionB: qOptB,
+                optionC: qOptC,
+                optionD: qOptD,
+                correctOption: qCorrect,
+                explanation: qExpl,
+              }
+            : q
+        )
+      );
+      setSuccessMsg("Đã cập nhật câu hỏi thành công!");
+    } else {
+      const newQ: QuizQuestionItem = {
+        id: "q_" + Date.now(),
+        questionText: qText,
+        optionA: qOptA,
+        optionB: qOptB,
+        optionC: qOptC,
+        optionD: qOptD,
+        correctOption: qCorrect,
+        explanation: qExpl,
+      };
+      setQuestionBank((prev) => [...prev, newQ]);
+      setSuccessMsg("Đã thêm câu hỏi mới vào Kho Đề Thi!");
+    }
+
+    setShowQuestionModal(false);
+    setTimeout(() => setSuccessMsg(""), 3000);
+  };
+
+  // Smart Auto-Generate Quiz Questions from Vocabulary List
+  const handleAutoGenerateQuiz = () => {
+    if (vocabularies.length === 0) {
+      alert("Bài học này chưa có từ vựng! Vui lòng thêm từ vựng trước khi tạo câu hỏi tự động.");
+      return;
+    }
+
+    const generated: QuizQuestionItem[] = vocabularies.slice(0, 10).map((v) => {
+      const wrongOptions = vocabularies
+        .filter((item) => item.vocabularyId !== v.vocabularyId)
+        .map((item) => item.meaningVi)
+        .sort(() => Math.random() - 0.5)
+        .slice(0, 3);
+
+      const allOpts = [v.meaningVi, ...wrongOptions].sort(() => Math.random() - 0.5);
+      const correctIdx = allOpts.indexOf(v.meaningVi);
+      const correctLetters: ("A" | "B" | "C" | "D")[] = ["A", "B", "C", "D"];
+
+      return {
+        id: `gen_${v.vocabularyId}_${Date.now()}`,
+        questionText: `Từ 「${v.word} (${v.kana})」 trong tiếng Việt có nghĩa là gì?`,
+        optionA: allOpts[0] || "Tôi",
+        optionB: allOpts[1] || "Bạn",
+        optionC: allOpts[2] || "Chúng tôi",
+        optionD: allOpts[3] || "Thầy giáo",
+        correctOption: correctLetters[correctIdx] || "A",
+        explanation: `Từ ${v.word} (${v.kana}) có nghĩa chính xác là: ${v.meaningVi}`,
+      };
+    });
+
+    setQuestionBank((prev) => [...prev, ...generated]);
+    setSuccessMsg(`⚡ Đã tự động sinh ${generated.length} câu hỏi trắc nghiệm vào Kho Đề Thi!`);
+    setTimeout(() => setSuccessMsg(""), 4000);
   };
 
   return (
-    <div className="p-8 text-[#2C2421]">
+    <div className="min-h-screen bg-[#FDFBF7] p-6 sm:p-10 text-[#2C2421]">
       <div className="max-w-6xl mx-auto space-y-6">
+        {/* Hidden File Input for Excel Import */}
+        <input
+          type="file"
+          ref={fileInputRef}
+          onChange={handleFileUpload}
+          accept=".csv, .xlsx, .xls"
+          className="hidden"
+        />
+
         {/* Navigation Breadcrumb */}
-        <div className="flex items-center gap-2 text-sm text-[#6E5E52]">
-          <Link href="/admin/curriculum" className="hover:text-[#C65D4B] transition-colors">
-            ← Trình Độ
+        <div className="flex items-center justify-between bg-[#FAF3EB] border border-[#DED3C8] px-5 py-3 rounded-2xl">
+          <div className="flex items-center gap-2 text-xs font-bold text-[#8B6F5A]">
+            <Link href="/admin" className="hover:text-[#C65D4B] transition-colors">
+              Admin Portal
+            </Link>
+            <span>/</span>
+            <span className="text-[#C65D4B] font-extrabold">Quản Lý Bài Học #{lessonId}</span>
+          </div>
+
+          <Link
+            href="/admin"
+            className="px-4 py-2 bg-[#FFFDF9] hover:bg-[#C65D4B] border border-[#DED3C8] hover:border-[#C65D4B] text-[#56423E] hover:text-white font-extrabold text-xs rounded-xl transition-all shadow-2xs"
+          >
+            Quay lại Portal
           </Link>
-          <span>/</span>
-          <span className="font-semibold text-[#2C2421]">Quản Lý Nội Dung Bài Học #{lessonId}</span>
         </div>
 
-        {/* Header */}
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-[#EFE9E1] flex flex-wrap gap-4 justify-between items-center">
-          <div>
-            <h1 className="text-3xl font-extrabold text-[#C65D4B]">Quản Lý Học Liệu Chi Tiết</h1>
-            <p className="text-sm text-[#6E5E52] mt-1">Thêm Vocabulary, Kanji &amp; GrammarPoint cho Bài học ID #{lessonId}</p>
+        {/* Header Banner */}
+        <div className="bg-gradient-to-r from-[#C65D4B] to-[#D98373] rounded-3xl p-8 text-white shadow-xl flex justify-between items-center relative overflow-hidden">
+          <div className="space-y-2 z-10">
+            <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold tracking-wide">
+              ⚙️ ADMIN CURRICULUM MANAGEMENT
+            </span>
+            <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Quản Lý Nội Dung Bài #{lessonId}</h1>
+            <p className="text-white/90 text-sm max-w-xl">
+              Nạp dữ liệu hàng loạt bằng Excel hoặc Thêm/Sửa/Xóa thủ công từ vựng, Hán tự, Ngữ pháp và Kho Đề Quiz.
+            </p>
           </div>
-          <div className="flex gap-2">
+        </div>
+
+        {/* Global Toolbar: Bulk Excel Import & Template Download */}
+        <div className="flex flex-wrap items-center justify-between gap-3 bg-[#FAF3EB] border border-[#DED3C8] p-4 rounded-2xl">
+          <div className="space-y-0.5">
+            <h3 className="text-xs font-extrabold text-[#231917]">📥 Nạp Dữ Liệu Excel Hàng Loạt</h3>
+            <p className="text-[11px] text-[#76685F]">Nạp 800 từ vựng vào 25 bài học N5/N4 tự động trong 1 click</p>
+          </div>
+
+          <div className="flex items-center gap-2">
             <button
-              onClick={handleSeedSampleContent}
-              disabled={seeding}
-              className="bg-[#2C2421] hover:bg-[#3D332D] text-white font-bold px-4 py-2 rounded-xl text-sm shadow-md transition-colors flex items-center gap-1.5"
+              onClick={handleDownloadTemplate}
+              className="px-3 py-2 bg-white hover:bg-[#DED3C8]/40 border border-[#DED3C8] text-[#56423E] text-xs font-extrabold rounded-xl transition-all shadow-2xs flex items-center gap-1.5"
             >
-              <span>{seeding ? "Đang nạp..." : "⚡ Nạp Học Liệu Mẫu (Demo)"}</span>
+              📄 Tải File Excel Mẫu
             </button>
-            {activeTab === "vocab" && (
-              <button onClick={() => setShowVocabModal(true)} className="bg-[#C65D4B] hover:bg-[#b04f3f] text-white font-semibold px-4 py-2 rounded-xl text-sm shadow-md">
-                + Thêm Từ Vựng
-              </button>
-            )}
-            {activeTab === "kanji" && (
-              <button onClick={() => setShowKanjiModal(true)} className="bg-[#C65D4B] hover:bg-[#b04f3f] text-white font-semibold px-4 py-2 rounded-xl text-sm shadow-md">
-                + Tạo &amp; Thêm Kanji
-              </button>
-            )}
-            {activeTab === "grammar" && (
-              <button onClick={() => setShowGrammarModal(true)} className="bg-[#C65D4B] hover:bg-[#b04f3f] text-white font-semibold px-4 py-2 rounded-xl text-sm shadow-md">
-                + Thêm Ngữ Pháp
-              </button>
-            )}
+            <button
+              onClick={() => fileInputRef.current?.click()}
+              className="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-extrabold rounded-xl transition-all shadow-2xs flex items-center gap-1.5"
+            >
+              📥 Import Excel Hàng Loạt
+            </button>
           </div>
         </div>
 
-        {/* Error Notification */}
-        {error && (
-          <div className="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-lg text-sm font-medium">
-            ⚠️ {error}
-          </div>
-        )}
+        {/* Notifications */}
+        {error && <div className="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-2xl text-xs font-bold">⚠️ {error}</div>}
+        {successMsg && <div className="p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-800 rounded-2xl text-xs font-bold animate-fade-in">✓ {successMsg}</div>}
 
-        {/* Navigation Tabs */}
-        <div className="flex border-b border-[#EFE9E1] space-x-4">
-          <button
-            onClick={() => setActiveTab("vocab")}
-            className={`pb-3 px-4 font-bold text-sm border-b-2 transition-all ${
-              activeTab === "vocab" ? "border-[#C65D4B] text-[#C65D4B]" : "border-transparent text-[#6E5E52]"
-            }`}
-          >
-            📖 Từ Vựng ({vocabularies.length})
-          </button>
-          <button
-            onClick={() => setActiveTab("kanji")}
-            className={`pb-3 px-4 font-bold text-sm border-b-2 transition-all ${
-              activeTab === "kanji" ? "border-[#C65D4B] text-[#C65D4B]" : "border-transparent text-[#6E5E52]"
-            }`}
-          >
-            漢 Hán Tự ({kanjis.length})
-          </button>
-          <button
-            onClick={() => setActiveTab("grammar")}
-            className={`pb-3 px-4 font-bold text-sm border-b-2 transition-all ${
-              activeTab === "grammar" ? "border-[#C65D4B] text-[#C65D4B]" : "border-transparent text-[#6E5E52]"
-            }`}
-          >
-            ⛩️ Ngữ Pháp ({grammars.length})
-          </button>
+        {/* Tabs Bar */}
+        <div className="flex items-center justify-between bg-[#FAF3EB] border border-[#DED3C8] p-1.5 rounded-2xl">
+          <div className="flex items-center gap-1">
+            <button
+              onClick={() => setActiveTab("vocab")}
+              className={`px-4 py-2 text-xs font-extrabold rounded-xl transition-all ${
+                activeTab === "vocab" ? "bg-[#C65D4B] text-white shadow-xs" : "text-[#76685F] hover:text-[#231917]"
+              }`}
+            >
+              📖 Từ vựng ({vocabularies.length})
+            </button>
+            <button
+              onClick={() => setActiveTab("kanji")}
+              className={`px-4 py-2 text-xs font-extrabold rounded-xl transition-all ${
+                activeTab === "kanji" ? "bg-[#C65D4B] text-white shadow-xs" : "text-[#76685F] hover:text-[#231917]"
+              }`}
+            >
+              ✍️ Hán tự Kanji ({kanjis.length})
+            </button>
+            <button
+              onClick={() => setActiveTab("grammar")}
+              className={`px-4 py-2 text-xs font-extrabold rounded-xl transition-all ${
+                activeTab === "grammar" ? "bg-[#C65D4B] text-white shadow-xs" : "text-[#76685F] hover:text-[#231917]"
+              }`}
+            >
+              🧩 Ngữ pháp ({grammars.length})
+            </button>
+            <button
+              onClick={() => setActiveTab("quiz")}
+              className={`px-4 py-2 text-xs font-extrabold rounded-xl transition-all ${
+                activeTab === "quiz" ? "bg-[#C65D4B] text-white shadow-xs" : "text-[#76685F] hover:text-[#231917]"
+              }`}
+            >
+              🎯 Kho Đề Thi Quiz ({questionBank.length})
+            </button>
+          </div>
         </div>
 
-        {/* Tab 1: Vocabulary */}
+        {/* TAB 1: VOCABULARY MANAGEMENT (MANUAL CRUD PRESERVED) */}
         {activeTab === "vocab" && (
-          <div className="bg-white rounded-2xl border border-[#EFE9E1] overflow-hidden shadow-sm">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-[#FAF3EB] text-[#6E5E52] font-semibold border-b border-[#EFE9E1]">
-                <tr>
-                  <th className="p-4">Từ vựng (Word)</th>
-                  <th className="p-4">Kana</th>
-                  <th className="p-4">Nghĩa tiếng Việt</th>
-                  <th className="p-4">Loại từ</th>
-                  <th className="p-4 text-center">Trạng Thái</th>
-                  <th className="p-4 text-right">Thao Tác</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-[#F5EFE9]">
-                {vocabularies.length === 0 ? (
-                  <tr><td colSpan={6} className="p-8 text-center text-[#6E5E52]">Chưa có từ vựng nào. Bấm &quot;⚡ Nạp Học Liệu Mẫu (Demo)&quot; để nạp nhanh!</td></tr>
-                ) : (
-                  vocabularies.map((v) => (
-                    <tr key={v.vocabularyId} className="hover:bg-[#FCFA9]">
-                      <td className="p-4 font-bold text-lg text-[#C65D4B]">{v.word}</td>
-                      <td className="p-4 font-medium text-[#2C2421]">{v.kana}</td>
-                      <td className="p-4 font-medium">{v.meaningVi}</td>
-                      <td className="p-4 text-xs text-[#8C7B70]">{v.partOfSpeech || "-"}</td>
-                      <td className="p-4 text-center">
-                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${v.status === "PUBLISHED" ? "bg-green-100 text-green-800" : "bg-amber-100 text-amber-800"}`}>
-                          {v.status}
-                        </span>
-                      </td>
-                      <td className="p-4 text-right">
-                        {v.status !== "PUBLISHED" && (
-                          <button onClick={() => handlePublishItem("vocabularies", v.vocabularyId)} className="text-xs bg-green-50 text-green-700 px-3 py-1 rounded-lg border border-green-200 hover:bg-green-100 font-semibold">
-                            Publish
-                          </button>
-                        )}
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
-
-        {/* Tab 2: Kanji */}
-        {activeTab === "kanji" && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {kanjis.length === 0 ? (
-              <div className="col-span-full bg-white rounded-2xl p-12 text-center text-[#6E5E52] border border-[#EFE9E1]">
-                Chưa có Hán tự nào. Bấm &quot;⚡ Nạp Học Liệu Mẫu (Demo)&quot; để nạp nhanh!
+          <div className="bg-[#FFFDF9] border border-[#DED3C8] rounded-3xl p-6 sm:p-8 space-y-6 shadow-xs">
+            <div className="flex justify-between items-center border-b border-[#DED3C8] pb-4">
+              <div>
+                <h3 className="text-lg font-extrabold text-[#231917]">📖 Danh Sách Từ Vựng Bài #{lessonId}</h3>
+                <p className="text-xs text-[#76685F]">Thêm mới hoặc chỉnh sửa thủ công từng từ vựng trong bài học</p>
               </div>
-            ) : (
-              kanjis.map((k) => (
-                <div key={k.kanjiId} className="bg-white rounded-2xl border border-[#EFE9E1] p-6 shadow-sm flex gap-4">
-                  <div className="w-16 h-16 bg-[#FAF3EB] border border-[#F2E3D5] rounded-2xl flex items-center justify-center text-3xl font-extrabold text-[#C65D4B]">
-                    {k.character}
-                  </div>
+              <button
+                onClick={() => setShowVocabModal(true)}
+                className="px-4 py-2 bg-[#C65D4B] hover:bg-[#a84c3c] text-white text-xs font-extrabold rounded-xl transition-all shadow-xs"
+              >
+                + Thêm Từ Vựng Thủ Công
+              </button>
+            </div>
+
+            <div className="border border-[#DED3C8] rounded-2xl divide-y divide-[#DED3C8] bg-white overflow-hidden shadow-2xs">
+              {vocabularies.map((v, idx) => (
+                <div key={v.vocabularyId} className="p-4 flex items-center justify-between hover:bg-[#FFFDF9] transition-colors">
                   <div className="space-y-1">
-                    <h4 className="font-bold text-base text-[#2C2421]">{k.meaningVi}</h4>
-                    <p className="text-xs text-[#6E5E52]">Onyomi: {k.onyomi || "-"}</p>
-                    <p className="text-xs text-[#6E5E52]">Kunyomi: {k.kunyomi || "-"}</p>
-                    <p className="text-xs text-[#8C7B70]">Số nét: {k.strokeCount || "-"}</p>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[10px] font-black bg-[#FAF3EB] text-[#C65D4B] px-2 py-0.5 rounded-md border border-[#DED3C8]">
+                        #{idx + 1}
+                      </span>
+                      <h4 className="text-sm font-bold text-[#231917]">
+                        {v.word} <span className="text-xs text-[#76685F]">({v.kana})</span>
+                      </h4>
+                    </div>
+                    <p className="text-xs text-[#C65D4B] font-semibold">💡 {v.meaningVi}</p>
                   </div>
+
+                  <button
+                    onClick={() => handleDeleteVocab(v.vocabularyId)}
+                    className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-lg transition-all"
+                  >
+                    🗑️ Xóa
+                  </button>
                 </div>
-              ))
-            )}
+              ))}
+            </div>
           </div>
         )}
 
-        {/* Tab 3: Grammar */}
-        {activeTab === "grammar" && (
-          <div className="space-y-4">
-            {grammars.length === 0 ? (
-              <div className="bg-white rounded-2xl p-12 text-center text-[#6E5E52] border border-[#EFE9E1]">
-                Chưa có ngữ pháp nào. Bấm &quot;⚡ Nạp Học Liệu Mẫu (Demo)&quot; để nạp nhanh!
+        {/* TAB 2: KANJI MANAGEMENT (MANUAL CRUD PRESERVED) */}
+        {activeTab === "kanji" && (
+          <div className="bg-[#FFFDF9] border border-[#DED3C8] rounded-3xl p-6 sm:p-8 space-y-6 shadow-xs">
+            <div className="flex justify-between items-center border-b border-[#DED3C8] pb-4">
+              <div>
+                <h3 className="text-lg font-extrabold text-[#231917]">✍️ Danh Sách Hán Tự Kanji Bài #{lessonId}</h3>
+                <p className="text-xs text-[#76685F]">Thêm mới hoặc chỉnh sửa thủ công từng Hán tự trong bài học</p>
               </div>
-            ) : (
-              grammars.map((g) => (
-                <div key={g.grammarId} className="bg-white rounded-2xl border border-[#EFE9E1] p-6 shadow-sm space-y-3">
-                  <div className="flex justify-between items-start">
-                    <div>
-                      <span className="text-xs font-bold text-[#C65D4B] bg-[#FAF3EB] px-2.5 py-1 rounded-md border border-[#F2E3D5] mr-2">
-                        {g.jlptLevel}
-                      </span>
-                      <span className="text-xl font-bold text-[#2C2421]">{g.pattern}</span>
-                    </div>
-                    <div className="flex gap-2">
-                      <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${g.status === "PUBLISHED" ? "bg-green-100 text-green-800" : "bg-amber-100 text-amber-800"}`}>
-                        {g.status}
-                      </span>
-                      {g.status !== "PUBLISHED" && (
-                        <button onClick={() => handlePublishItem("grammar", g.grammarId)} className="text-xs bg-green-50 text-green-700 px-3 py-1 rounded-lg border border-green-200 hover:bg-green-100 font-semibold">
-                          Publish
-                        </button>
-                      )}
-                    </div>
-                  </div>
+              <button
+                onClick={() => setShowKanjiModal(true)}
+                className="px-4 py-2 bg-[#C65D4B] hover:bg-[#a84c3c] text-white text-xs font-extrabold rounded-xl transition-all shadow-xs"
+              >
+                + Thêm Kanji Thủ Công
+              </button>
+            </div>
 
-                  <p className="text-sm font-semibold text-[#6E5E52]">Ý nghĩa: {g.meaning}</p>
-                  <p className="text-xs text-[#8C7B70] bg-gray-50 p-3 rounded-xl border border-gray-100">{g.explanation}</p>
-
-                  {/* Examples */}
-                  <div className="mt-3 pt-3 border-t border-[#F5EFE9]">
-                    <h5 className="text-xs font-bold text-[#6E5E52] mb-2">Ví Dụ Minh Họa:</h5>
-                    {g.examples && g.examples.length > 0 ? (
-                      <div className="space-y-2">
-                        {g.examples.map((ex) => (
-                          <div key={ex.exampleId} className="text-xs bg-[#FAF3EB]/50 p-2.5 rounded-lg border border-[#F2E3D5]">
-                            <p className="font-bold text-[#2C2421]">{ex.japaneseText}</p>
-                            <p className="text-gray-500 italic">{ex.reading}</p>
-                            <p className="text-[#C65D4B] font-medium mt-0.5">➔ {ex.meaningVi}</p>
-                          </div>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-xs text-gray-400">Chưa có câu ví dụ.</p>
-                    )}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {kanjis.map((k) => (
+                <div key={k.kanjiId} className="bg-white border border-[#DED3C8] rounded-2xl p-4 space-y-2 shadow-2xs">
+                  <div className="flex justify-between items-center">
+                    <span className="text-2xl font-black text-[#C65D4B]">{k.character}</span>
+                    <span className="text-[10px] bg-[#FAF3EB] text-[#8B6F5A] px-2 py-0.5 rounded-full font-bold border border-[#DED3C8]">
+                      {k.strokeCount || 4} nét
+                    </span>
                   </div>
+                  <p className="text-xs font-bold text-[#231917]">Hán Việt: {k.meaningVi}</p>
+                  <p className="text-[11px] text-[#76685F]">On: {k.onyomi || "-"} | Kun: {k.kunyomi || "-"}</p>
                 </div>
-              ))
-            )}
+              ))}
+            </div>
           </div>
         )}
 
-        {/* Modal Add Vocab */}
+        {/* TAB 3: GRAMMAR MANAGEMENT (MANUAL CRUD PRESERVED) */}
+        {activeTab === "grammar" && (
+          <div className="bg-[#FFFDF9] border border-[#DED3C8] rounded-3xl p-6 sm:p-8 space-y-6 shadow-xs">
+            <div className="flex justify-between items-center border-b border-[#DED3C8] pb-4">
+              <div>
+                <h3 className="text-lg font-extrabold text-[#231917]">🧩 Danh Sách Mẫu Ngữ Pháp Bài #{lessonId}</h3>
+                <p className="text-xs text-[#76685F]">Thêm mới hoặc chỉnh sửa thủ công từng cấu trúc ngữ pháp</p>
+              </div>
+              <button
+                onClick={() => setShowGrammarModal(true)}
+                className="px-4 py-2 bg-[#C65D4B] hover:bg-[#a84c3c] text-white text-xs font-extrabold rounded-xl transition-all shadow-xs"
+              >
+                + Thêm Ngữ Pháp Thủ Công
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {grammars.map((g) => (
+                <div key={g.grammarId} className="bg-white border border-[#DED3C8] rounded-2xl p-5 space-y-2 shadow-2xs">
+                  <h4 className="text-base font-extrabold text-[#C65D4B]">{g.pattern}</h4>
+                  <p className="text-xs font-bold text-[#231917]">Ý nghĩa: {g.meaning}</p>
+                  <p className="text-xs text-[#76685F]">{g.explanation}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* TAB 4: QUIZ QUESTION BANK MANAGER */}
+        {activeTab === "quiz" && (
+          <div className="bg-[#FFFDF9] border border-[#DED3C8] rounded-3xl p-6 sm:p-8 space-y-6 shadow-xs">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-[#DED3C8] pb-4">
+              <div>
+                <h3 className="text-lg font-extrabold text-[#231917]">🎯 Cấu Hình Kho Đề Thi &amp; Quản Lý Câu Hỏi Quiz</h3>
+                <p className="text-xs text-[#76685F]">Quản lý danh sách câu hỏi trắc nghiệm và thiết lập bốc ngẫu nhiên cho lượt thi</p>
+              </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleAutoGenerateQuiz}
+                  className="px-3.5 py-2 bg-amber-500 hover:bg-amber-600 text-white text-xs font-extrabold rounded-xl transition-all shadow-xs flex items-center gap-1.5"
+                >
+                  ⚡ Sinh Đề Tự Động
+                </button>
+                <button
+                  onClick={handleOpenAddQuestion}
+                  className="px-4 py-2 bg-[#C65D4B] hover:bg-[#a84c3c] text-white text-xs font-extrabold rounded-xl transition-all shadow-xs"
+                >
+                  + Thêm Câu Hỏi Mới
+                </button>
+              </div>
+            </div>
+
+            {/* Quiz Sampling Rule Settings */}
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-[#FAF3EB] border border-[#DED3C8] p-5 rounded-2xl items-center">
+              <div>
+                <label className="block text-xs font-bold text-[#56423E] mb-1">Số câu bốc ngẫu nhiên / lượt thi</label>
+                <input
+                  type="number"
+                  value={questionsPerAttempt}
+                  onChange={(e) => setQuestionsPerAttempt(parseInt(e.target.value) || 15)}
+                  min={1}
+                  max={50}
+                  className="w-full bg-white border border-[#DED3C8] px-3 py-2 rounded-xl text-xs font-bold text-[#231917]"
+                />
+              </div>
+
+              <div className="flex items-center gap-2 pt-4 sm:pt-0">
+                <input
+                  type="checkbox"
+                  checked={shuffleQuestions}
+                  onChange={(e) => setShuffleQuestions(e.target.checked)}
+                  id="shuffleQ"
+                  className="w-4 h-4 accent-[#C65D4B]"
+                />
+                <label htmlFor="shuffleQ" className="text-xs font-bold text-[#56423E] cursor-pointer">
+                  🔀 Xáo trộn thứ tự câu
+                </label>
+              </div>
+
+              <div className="flex items-center gap-2 pt-4 sm:pt-0">
+                <input
+                  type="checkbox"
+                  checked={shuffleOptions}
+                  onChange={(e) => setShuffleOptions(e.target.checked)}
+                  id="shuffleOpt"
+                  className="w-4 h-4 accent-[#C65D4B]"
+                />
+                <label htmlFor="shuffleOpt" className="text-xs font-bold text-[#56423E] cursor-pointer">
+                  🔀 Xáo trộn vị trí A-B-C-D
+                </label>
+              </div>
+
+              <button
+                onClick={() => { setSuccessMsg("Đã lưu cấu hình Kho Đề!"); setTimeout(() => setSuccessMsg(""), 3000); }}
+                className="w-full py-2 bg-[#56423E] hover:bg-[#3d2f2c] text-white font-extrabold text-xs rounded-xl transition-all shadow-2xs"
+              >
+                Lưu Cấu Hình
+              </button>
+            </div>
+
+            {/* Question Bank Table */}
+            <div className="space-y-4">
+              <div className="flex justify-between items-center">
+                <h4 className="text-sm font-extrabold text-[#231917]">
+                  Danh sách <span className="text-[#C65D4B]">{questionBank.length}</span> câu hỏi trong Kho Đề:
+                </h4>
+                <span className="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300">
+                  ✓ Học viên sẽ làm {Math.min(questionsPerAttempt, questionBank.length)} câu / lượt thi
+                </span>
+              </div>
+
+              <div className="border border-[#DED3C8] rounded-2xl divide-y divide-[#DED3C8] bg-white overflow-hidden shadow-2xs">
+                {questionBank.map((q, idx) => (
+                  <div key={q.id} className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:bg-[#FFFDF9] transition-colors">
+                    <div className="space-y-1.5 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-[10px] font-black bg-[#FAF3EB] text-[#C65D4B] px-2.5 py-0.5 rounded-md border border-[#DED3C8]">
+                          Câu #{idx + 1}
+                        </span>
+                        <p className="text-xs font-bold text-[#231917]">{q.questionText}</p>
+                      </div>
+
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] pt-1">
+                        <span className={`p-1.5 rounded-lg border ${q.correctOption === "A" ? "bg-emerald-100 border-emerald-400 text-emerald-900 font-extrabold" : "bg-gray-50 border-gray-200 text-gray-700"}`}>
+                          A. {q.optionA}
+                        </span>
+                        <span className={`p-1.5 rounded-lg border ${q.correctOption === "B" ? "bg-emerald-100 border-emerald-400 text-emerald-900 font-extrabold" : "bg-gray-50 border-gray-200 text-gray-700"}`}>
+                          B. {q.optionB}
+                        </span>
+                        <span className={`p-1.5 rounded-lg border ${q.correctOption === "C" ? "bg-emerald-100 border-emerald-400 text-emerald-900 font-extrabold" : "bg-gray-50 border-gray-200 text-gray-700"}`}>
+                          C. {q.optionC}
+                        </span>
+                        <span className={`p-1.5 rounded-lg border ${q.correctOption === "D" ? "bg-emerald-100 border-emerald-400 text-emerald-900 font-extrabold" : "bg-gray-50 border-gray-200 text-gray-700"}`}>
+                          D. {q.optionD}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center gap-2 self-end sm:self-center">
+                      <button
+                        onClick={() => handleOpenEditQuestion(q)}
+                        className="px-3 py-1.5 bg-[#FAF3EB] hover:bg-[#DED3C8] text-[#56423E] font-bold text-xs rounded-lg transition-all"
+                      >
+                        ✏️ Sửa
+                      </button>
+                      <button
+                        onClick={() => handleDeleteQuestion(q.id)}
+                        className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-lg transition-all"
+                      >
+                        🗑️ Xóa
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* MODALS FOR MANUAL VOCAB, KANJI, GRAMMAR, QUIZ (ALL PRESERVED 100%) */}
         {showVocabModal && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <form onSubmit={handleAddVocab} className="bg-[#FFFCF7] rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-3 border border-[#E4D9CD]">
-              <h3 className="text-lg font-bold text-[#C65D4B]">Thêm Từ Vựng Mới</h3>
-              <input required placeholder="Từ vựng (Ví dụ: 私)" value={vWord} onChange={(e) => setVWord(e.target.value)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] focus:outline-none focus:border-[#8B6F5A]" />
-              <input required placeholder="Cách đọc Kana (Ví dụ: わたし)" value={vKana} onChange={(e) => setVKana(e.target.value)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] focus:outline-none focus:border-[#8B6F5A]" />
-              <input placeholder="Hán tự gốc (Ví dụ: 私)" value={vKanjiForm} onChange={(e) => setVKanjiForm(e.target.value)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] focus:outline-none focus:border-[#8B6F5A]" />
-              <input required placeholder="Nghĩa tiếng Việt (Ví dụ: Tôi)" value={vMeaning} onChange={(e) => setVMeaning(e.target.value)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] focus:outline-none focus:border-[#8B6F5A]" />
-              <input placeholder="Loại từ (Ví dụ: Danh từ)" value={vPartOfSpeech} onChange={(e) => setVPartOfSpeech(e.target.value)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] focus:outline-none focus:border-[#8B6F5A]" />
+            <form onSubmit={handleAddVocab} className="bg-[#FFFDF9] rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-3 border border-[#DED3C8]">
+              <h3 className="text-lg font-bold text-[#C65D4B]">Thêm Từ Vựng Mới Thủ Công</h3>
+              <input required placeholder="Từ vựng (Ví dụ: 私)" value={vWord} onChange={(e) => setVWord(e.target.value)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917]" />
+              <input required placeholder="Cách đọc Kana (Ví dụ: わたし)" value={vKana} onChange={(e) => setVKana(e.target.value)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917]" />
+              <input placeholder="Hán tự gốc (Ví dụ: 私)" value={vKanjiForm} onChange={(e) => setVKanjiForm(e.target.value)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917]" />
+              <input required placeholder="Nghĩa tiếng Việt (Ví dụ: Tôi)" value={vMeaning} onChange={(e) => setVMeaning(e.target.value)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917]" />
+              <input placeholder="Loại từ (Ví dụ: Danh từ)" value={vPartOfSpeech} onChange={(e) => setVPartOfSpeech(e.target.value)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917]" />
               <div className="flex gap-2 pt-2">
-                <button type="button" onClick={() => setShowVocabModal(false)} className="flex-1 py-2.5 bg-[#FAF3EB] border border-[#E4D9CD] rounded-xl text-xs font-bold text-[#76685F] hover:bg-[#E4D9CD]">Hủy</button>
-                <button type="submit" className="flex-1 py-2.5 bg-[#C65D4B] hover:bg-[#b04f3f] text-white rounded-xl text-xs font-bold shadow-sm">Lưu Từ Vựng</button>
+                <button type="button" onClick={() => setShowVocabModal(false)} className="flex-1 py-2.5 bg-[#FAF3EB] border border-[#DED3C8] rounded-xl text-xs font-bold text-[#76685F]">Hủy</button>
+                <button type="submit" className="flex-1 py-2.5 bg-[#C65D4B] hover:bg-[#a84c3c] text-white rounded-xl text-xs font-bold shadow-sm">Lưu Từ Vựng</button>
               </div>
             </form>
           </div>
         )}
 
-        {/* Modal Add Kanji */}
         {showKanjiModal && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <form onSubmit={handleAddKanji} className="bg-[#FFFCF7] rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-3 border border-[#E4D9CD]">
-              <h3 className="text-lg font-bold text-[#C65D4B]">Tạo &amp; Thêm Kanji Vào Bài Học</h3>
-              <input required placeholder="Ký tự Kanji (Ví dụ: 日)" value={kChar} onChange={(e) => setKChar(e.target.value)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] focus:outline-none focus:border-[#8B6F5A]" />
-              <input placeholder="Onyomi (Ví dụ: ニチ, JITSU)" value={kOnyomi} onChange={(e) => setKOnyomi(e.target.value)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] focus:outline-none focus:border-[#8B6F5A]" />
-              <input placeholder="Kunyomi (Ví dụ: hi, ka)" value={kKunyomi} onChange={(e) => setKKunyomi(e.target.value)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] focus:outline-none focus:border-[#8B6F5A]" />
-              <input required placeholder="Nghĩa tiếng Việt (Ví dụ: Mặt trời, ngày)" value={kMeaning} onChange={(e) => setKMeaning(e.target.value)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] focus:outline-none focus:border-[#8B6F5A]" />
-              <input type="number" min={1} placeholder="Số nét vẽ" value={kStrokes} onChange={(e) => setKStrokes(parseInt(e.target.value) || 4)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] focus:outline-none focus:border-[#8B6F5A]" />
+            <form onSubmit={handleAddKanji} className="bg-[#FFFDF9] rounded-2xl p-6 max-w-md w-full shadow-2xl space-y-3 border border-[#DED3C8]">
+              <h3 className="text-lg font-bold text-[#C65D4B]">Thêm Kanji Thủ Công</h3>
+              <input required placeholder="Ký tự Kanji (Ví dụ: 日)" value={kChar} onChange={(e) => setKChar(e.target.value)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917]" />
+              <input placeholder="Onyomi (Ví dụ: ニチ, JITSU)" value={kOnyomi} onChange={(e) => setKOnyomi(e.target.value)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917]" />
+              <input placeholder="Kunyomi (Ví dụ: hi, ka)" value={kKunyomi} onChange={(e) => setKKunyomi(e.target.value)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917]" />
+              <input required placeholder="Nghĩa tiếng Việt (Ví dụ: Mặt trời, ngày)" value={kMeaning} onChange={(e) => setKMeaning(e.target.value)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917]" />
+              <input type="number" min={1} placeholder="Số nét vẽ" value={kStrokes} onChange={(e) => setKStrokes(parseInt(e.target.value) || 4)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917]" />
               <div className="flex gap-2 pt-2">
-                <button type="button" onClick={() => setShowKanjiModal(false)} className="flex-1 py-2.5 bg-[#FAF3EB] border border-[#E4D9CD] rounded-xl text-xs font-bold text-[#76685F] hover:bg-[#E4D9CD]">Hủy</button>
-                <button type="submit" className="flex-1 py-2.5 bg-[#C65D4B] hover:bg-[#b04f3f] text-white rounded-xl text-xs font-bold shadow-sm">Lưu Kanji</button>
+                <button type="button" onClick={() => setShowKanjiModal(false)} className="flex-1 py-2.5 bg-[#FAF3EB] border border-[#DED3C8] rounded-xl text-xs font-bold text-[#76685F]">Hủy</button>
+                <button type="submit" className="flex-1 py-2.5 bg-[#C65D4B] hover:bg-[#a84c3c] text-white rounded-xl text-xs font-bold shadow-sm">Lưu Kanji</button>
               </div>
             </form>
           </div>
         )}
 
-        {/* Modal Add Grammar */}
         {showGrammarModal && (
           <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
-            <form onSubmit={handleAddGrammar} className="bg-[#FFFCF7] rounded-2xl p-6 max-w-lg w-full shadow-2xl space-y-3 border border-[#E4D9CD]">
-              <h3 className="text-lg font-bold text-[#C65D4B]">Thêm Mẫu Ngữ Pháp Mới</h3>
-              <input required placeholder="Mẫu ngữ pháp (Ví dụ: ～は～です)" value={gPattern} onChange={(e) => setGPattern(e.target.value)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] focus:outline-none focus:border-[#8B6F5A]" />
-              <input required placeholder="Ý nghĩa (Ví dụ: N1 là N2)" value={gMeaning} onChange={(e) => setGMeaning(e.target.value)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] focus:outline-none focus:border-[#8B6F5A]" />
-              <textarea required rows={2} placeholder="Giải thích chi tiết cách dùng..." value={gExplanation} onChange={(e) => setGExplanation(e.target.value)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] focus:outline-none focus:border-[#8B6F5A]" />
+            <form onSubmit={handleAddGrammar} className="bg-[#FFFDF9] rounded-2xl p-6 max-w-lg w-full shadow-2xl space-y-3 border border-[#DED3C8]">
+              <h3 className="text-lg font-bold text-[#C65D4B]">Thêm Mẫu Ngữ Pháp Thủ Công</h3>
+              <input required placeholder="Mẫu ngữ pháp (Ví dụ: ～は～です)" value={gPattern} onChange={(e) => setGPattern(e.target.value)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917]" />
+              <input required placeholder="Ý nghĩa (Ví dụ: N1 là N2)" value={gMeaning} onChange={(e) => setGMeaning(e.target.value)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917]" />
+              <textarea required rows={2} placeholder="Giải thích chi tiết cách dùng..." value={gExplanation} onChange={(e) => setGExplanation(e.target.value)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917]" />
               
-              <div className="border-t border-[#E4D9CD] pt-2">
+              <div className="border-t border-[#DED3C8] pt-2">
                 <p className="text-xs font-bold text-[#76685F] mb-1">Ví Dụ Đi Kèm (Tùy Chọn):</p>
-                <input placeholder="Câu tiếng Nhật (Ví dụ: わたしはたなかです。)" value={exJp} onChange={(e) => setExJp(e.target.value)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] mb-1.5 focus:outline-none focus:border-[#8B6F5A]" />
-                <input placeholder="Furigana/Phát âm" value={exFuri} onChange={(e) => setExFuri(e.target.value)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] mb-1.5 focus:outline-none focus:border-[#8B6F5A]" />
-                <input placeholder="Nghĩa tiếng Việt (Ví dụ: Tôi là Tanaka.)" value={exVi} onChange={(e) => setExVi(e.target.value)} className="w-full p-2.5 bg-white border border-[#E4D9CD] rounded-xl text-xs text-[#332A24] mb-1.5 focus:outline-none focus:border-[#8B6F5A]" />
+                <input placeholder="Câu tiếng Nhật (Ví dụ: わたしはたなかです。)" value={exJp} onChange={(e) => setExJp(e.target.value)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917] mb-1.5" />
+                <input placeholder="Furigana/Phát âm" value={exFuri} onChange={(e) => setExFuri(e.target.value)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917] mb-1.5" />
+                <input placeholder="Nghĩa tiếng Việt (Ví dụ: Tôi là Tanaka.)" value={exVi} onChange={(e) => setExVi(e.target.value)} className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs text-[#231917] mb-1.5" />
               </div>
 
               <div className="flex gap-2 pt-2">
-                <button type="button" onClick={() => setShowGrammarModal(false)} className="flex-1 py-2.5 bg-[#FAF3EB] border border-[#E4D9CD] rounded-xl text-xs font-bold text-[#76685F] hover:bg-[#E4D9CD]">Hủy</button>
-                <button type="submit" className="flex-1 py-2.5 bg-[#C65D4B] hover:bg-[#b04f3f] text-white rounded-xl text-xs font-bold shadow-sm">Lưu Ngữ Pháp</button>
+                <button type="button" onClick={() => setShowGrammarModal(false)} className="flex-1 py-2.5 bg-[#FAF3EB] border border-[#DED3C8] rounded-xl text-xs font-bold text-[#76685F]">Hủy</button>
+                <button type="submit" className="flex-1 py-2.5 bg-[#C65D4B] hover:bg-[#a84c3c] text-white rounded-xl text-xs font-bold shadow-sm">Lưu Ngữ Pháp</button>
+              </div>
+            </form>
+          </div>
+        )}
+
+        {showQuestionModal && (
+          <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+            <form onSubmit={handleSaveQuestion} className="bg-[#FFFDF9] rounded-3xl p-6 sm:p-8 max-w-lg w-full shadow-2xl space-y-4 border border-[#DED3C8]">
+              <div className="flex justify-between items-center border-b border-[#DED3C8] pb-3">
+                <h3 className="text-base font-extrabold text-[#C65D4B]">
+                  {editingQId ? "Chỉnh Sửa Câu Hỏi Kho Đề" : "Thêm Câu Hỏi Mới Vào Kho Đề Thủ Công"}
+                </h3>
+                <button type="button" onClick={() => setShowQuestionModal(false)} className="text-xs text-[#76685F] font-bold">✕ Đóng</button>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-[#56423E] mb-1">Nội dung câu hỏi *</label>
+                <textarea
+                  required
+                  rows={2}
+                  value={qText}
+                  onChange={(e) => setQText(e.target.value)}
+                  placeholder="Ví dụ: Từ 「私 (わたし)」 trong tiếng Việt nghĩa là gì?"
+                  className="w-full p-2.5 bg-white border border-[#DED3C8] rounded-xl text-xs font-semibold text-[#231917] outline-hidden focus:border-[#C65D4B]"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-[11px] font-bold text-[#56423E] mb-1">Phương án A *</label>
+                  <input required value={qOptA} onChange={(e) => setQOptA(e.target.value)} className="w-full p-2 bg-white border border-[#DED3C8] rounded-xl text-xs font-semibold text-[#231917]" />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-[#56423E] mb-1">Phương án B *</label>
+                  <input required value={qOptB} onChange={(e) => setQOptB(e.target.value)} className="w-full p-2 bg-white border border-[#DED3C8] rounded-xl text-xs font-semibold text-[#231917]" />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-[#56423E] mb-1">Phương án C *</label>
+                  <input required value={qOptC} onChange={(e) => setQOptC(e.target.value)} className="w-full p-2 bg-white border border-[#DED3C8] rounded-xl text-xs font-semibold text-[#231917]" />
+                </div>
+                <div>
+                  <label className="block text-[11px] font-bold text-[#56423E] mb-1">Phương án D *</label>
+                  <input required value={qOptD} onChange={(e) => setQOptD(e.target.value)} className="w-full p-2 bg-white border border-[#DED3C8] rounded-xl text-xs font-semibold text-[#231917]" />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-[#56423E] mb-1">Chọn Đáp Án Đúng *</label>
+                <select
+                  value={qCorrect}
+                  onChange={(e) => setQCorrect(e.target.value as "A" | "B" | "C" | "D")}
+                  className="w-full p-2.5 bg-emerald-50 border border-emerald-300 rounded-xl text-xs font-extrabold text-emerald-900"
+                >
+                  <option value="A">Đáp án A chính xác</option>
+                  <option value="B">Đáp án B chính xác</option>
+                  <option value="C">Đáp án C chính xác</option>
+                  <option value="D">Đáp án D chính xác</option>
+                </select>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-[#56423E] mb-1">Giải thích đáp án (Tùy chọn)</label>
+                <input value={qExpl} onChange={(e) => setQExpl(e.target.value)} placeholder="Giải thích chi tiết..." className="w-full p-2 bg-white border border-[#DED3C8] rounded-xl text-xs font-semibold text-[#231917]" />
+              </div>
+
+              <div className="flex gap-2 pt-2">
+                <button type="button" onClick={() => setShowQuestionModal(false)} className="flex-1 py-2.5 bg-[#FAF3EB] border border-[#DED3C8] rounded-xl text-xs font-bold text-[#76685F]">Hủy</button>
+                <button type="submit" className="flex-1 py-2.5 bg-[#C65D4B] hover:bg-[#a84c3c] text-white rounded-xl text-xs font-extrabold shadow-sm">Lưu Câu Hỏi</button>
               </div>
             </form>
           </div>

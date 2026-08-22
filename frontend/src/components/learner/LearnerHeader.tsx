@@ -6,7 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { UserProfile } from "@/types/learner";
 
 interface LearnerHeaderProps {
-  user: UserProfile | null;
+  user?: UserProfile | null;
 }
 
 export default function LearnerHeader({ user }: LearnerHeaderProps) {
@@ -25,11 +25,11 @@ export default function LearnerHeader({ user }: LearnerHeaderProps) {
 
   const navItems = [
     { name: "Trang chủ", href: "/dashboard", active: pathname === "/dashboard" },
-    { name: "Lộ trình", href: "/levels", active: pathname.startsWith("/levels") },
-    { name: "Từ vựng", href: "/levels", active: false, badge: "N5-N3" },
-    { name: "Ngữ pháp", href: "/levels", active: false, badge: "N5-N3" },
-    { name: "Kanji", href: "/levels", active: false, badge: "N5-N3" },
-    { name: "Luyện tập", href: "/levels", active: false, badge: "Sắp có" },
+    { name: "Từ vựng", href: "/vocabularies", active: pathname.startsWith("/vocabularies"), badge: "N5-N1" },
+    { name: "Ngữ pháp", href: "/grammar", active: pathname.startsWith("/grammar"), badge: "N5-N1" },
+    { name: "Kanji", href: "/kanji", active: pathname.startsWith("/kanji"), badge: "N5-N1" },
+    { name: "Luyện tập", href: "/vocabularies", active: false, badge: "Luyện đề" },
+    { name: "Giao tiếp", href: "/communication", active: pathname.startsWith("/communication"), badge: "Mới" },
   ];
 
   return (
@@ -110,11 +110,18 @@ export default function LearnerHeader({ user }: LearnerHeaderProps) {
                   🏠 Trang chủ Học viên
                 </Link>
                 <Link
-                  href="/levels"
+                  href="/learn"
                   onClick={() => setIsUserMenuOpen(false)}
                   className="block px-3 py-2 text-xs font-semibold text-[#56423E] hover:bg-[#F5EFE6] rounded-xl transition-colors"
                 >
                   📚 Thư viện Bài học JLPT
+                </Link>
+                <Link
+                  href="/profile"
+                  onClick={() => setIsUserMenuOpen(false)}
+                  className="block px-3 py-2 text-xs font-semibold text-[#56423E] hover:bg-[#F5EFE6] rounded-xl transition-colors"
+                >
+                  ⚙️ Hồ sơ &amp; Mục tiêu
                 </Link>
                 {user?.role === "ADMIN" && (
                   <Link

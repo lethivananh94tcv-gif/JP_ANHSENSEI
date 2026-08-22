@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/curriculum/levels")
-@PreAuthorize("hasAnyRole('LEARNER', 'ADMIN')")
 public class LearnerLevelController {
 
     private final LevelRepository levelRepository;

@@ -3,12 +3,15 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useParams, useSearchParams } from "next/navigation";
 import { UserProfile } from "@/types/learner";
+import { apiClient } from "@/lib/api/client";
 
 import LearnerHeader from "@/components/learner/LearnerHeader";
 import LearnerFooter from "@/components/learner/LearnerFooter";
 import LessonProgressHeader from "@/components/learner/lesson/LessonProgressHeader";
 import LessonContentTabs from "@/components/learner/lesson/LessonContentTabs";
 import VocabularyLearningItem, { VocabularyDto } from "@/components/learner/lesson/VocabularyLearningItem";
+import FlashcardStudyMode from "@/components/learner/lesson/FlashcardStudyMode";
+import TypingStudyMode from "@/components/learner/lesson/TypingStudyMode";
 import KanjiLearningItem, { LessonKanjiDto } from "@/components/learner/lesson/KanjiLearningItem";
 import GrammarLearningItem, { GrammarPointDto } from "@/components/learner/lesson/GrammarLearningItem";
 import LessonCompletedBanner from "@/components/learner/lesson/LessonCompletedBanner";
@@ -22,6 +25,7 @@ export default function LearnerLessonStudyPage() {
 
   const initialTab = (searchParams.get("tab") as "vocab" | "kanji" | "grammar") || "vocab";
   const [activeTab, setActiveTab] = useState<"vocab" | "kanji" | "grammar">(initialTab);
+  const [vocabStudyMode, setVocabStudyMode] = useState<"list" | "flashcard" | "typing">("list");
 
   const [user, setUser] = useState<UserProfile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -65,33 +69,26 @@ export default function LearnerLessonStudyPage() {
       setLoading(true);
       setError("");
 
-      const token =
-        typeof window !== "undefined"
-          ? localStorage.getItem("access_token") || localStorage.getItem("auth_token")
-          : "";
-      const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
+      try {
+        const res = await apiClient<any>(`/learner/lessons/${lessonId}/content`);
+        if (res.data) {
+          setLessonTitle(res.data.title || `Bài học #${lessonId}`);
+          setLevelCode(res.data.levelCode || "N5");
+          setVocabularies(res.data.vocabularies || []);
+          setKanjis(res.data.kanjis || []);
+          setGrammars(res.data.grammars || []);
+        }
+      } catch (e) {
+        // Fallback fetch directly from curriculum endpoint
+        const [vRes, kRes, gRes] = await Promise.all([
+          fetch(`http://localhost:8080/api/v1/curriculum/lessons/${lessonId}/vocabularies`),
+          fetch(`http://localhost:8080/api/v1/curriculum/lessons/${lessonId}/kanji`),
+          fetch(`http://localhost:8080/api/v1/curriculum/lessons/${lessonId}/grammar`),
+        ]);
 
-      const [vRes, kRes, gRes] = await Promise.all([
-        fetch(`/api/v1/curriculum/lessons/${lessonId}/vocabularies`, { headers }),
-        fetch(`/api/v1/curriculum/lessons/${lessonId}/kanji`, { headers }),
-        fetch(`/api/v1/curriculum/lessons/${lessonId}/grammar`, { headers }),
-      ]);
-
-      let vData: VocabularyDto[] = [];
-      let kData: LessonKanjiDto[] = [];
-      let gData: GrammarPointDto[] = [];
-
-      if (vRes.ok) vData = await vRes.json();
-      if (kRes.ok) kData = await kRes.json();
-      if (gRes.ok) gData = await gRes.json();
-
-      setVocabularies(Array.isArray(vData) ? vData : []);
-      setKanjis(Array.isArray(kData) ? kData : []);
-      setGrammars(Array.isArray(gData) ? gData : []);
-
-      // If lesson metadata fetch exists
-      if (gData.length > 0 && gData[0].jlptLevel) {
-        setLevelCode(gData[0].jlptLevel);
+        if (vRes.ok) setVocabularies(await vRes.json());
+        if (kRes.ok) setKanjis(await kRes.json());
+        if (gRes.ok) setGrammars(await gRes.json());
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : "Đã xảy ra lỗi khi kết nối máy chủ.");
@@ -104,8 +101,10 @@ export default function LearnerLessonStudyPage() {
     if (lessonId) fetchStudyContent();
   }, [lessonId, fetchStudyContent]);
 
-  // Toggle individual item learned status
-  const handleToggleLearned = (itemKey: string) => {
+  // Toggle individual item learned status & post learning activity
+  const handleToggleLearned = async (itemKey: string) => {
+    const isNew = !learnedItemKeys.has(itemKey);
+
     setLearnedItemKeys((prev) => {
       const updated = new Set(prev);
       if (updated.has(itemKey)) {
@@ -119,135 +118,217 @@ export default function LearnerLessonStudyPage() {
       }
       return updated;
     });
+
+    // Record activity on backend when newly completed
+    if (isNew) {
+      const [typePrefix, rawId] = itemKey.split("_");
+      const contentId = Number(rawId);
+      let contentType = "";
+      if (typePrefix === "v") contentType = "VOCABULARY";
+      else if (typePrefix === "g") contentType = "GRAMMAR";
+      else if (typePrefix === "k") contentType = "KANJI";
+
+      if (contentType && contentId) {
+        try {
+          await apiClient("/learner/activities", {
+            method: "POST",
+            body: JSON.stringify({ contentType, contentId, durationSeconds: 15 }),
+          });
+        } catch (err) {
+          console.error("Failed to post activity", err);
+        }
+      }
+    }
   };
 
-  // Calculate totals & progress percent
-  const totalItemsCount = useMemo(() => {
-    return vocabularies.length + kanjis.length + grammars.length;
-  }, [vocabularies.length, kanjis.length, grammars.length]);
-
-  const learnedCount = useMemo(() => {
+  // Computations for progress indicators
+  const totalItemsCount = vocabularies.length + kanjis.length + grammars.length;
+  const totalLearnedCount = useMemo(() => {
     let count = 0;
-    vocabularies.forEach((v) => {
-      if (learnedItemKeys.has(`v_${v.vocabularyId}`)) count++;
-    });
-    kanjis.forEach((k) => {
-      if (learnedItemKeys.has(`k_${k.kanjiId}`)) count++;
-    });
-    grammars.forEach((g) => {
-      if (learnedItemKeys.has(`g_${g.grammarId}`)) count++;
-    });
+    vocabularies.forEach((v) => { if (learnedItemKeys.has(`v_${v.vocabularyId}`)) count++; });
+    kanjis.forEach((k) => { if (learnedItemKeys.has(`k_${k.kanjiId}`)) count++; });
+    grammars.forEach((g) => { if (learnedItemKeys.has(`g_${g.grammarId}`)) count++; });
     return count;
   }, [vocabularies, kanjis, grammars, learnedItemKeys]);
 
-  const progressPercent = useMemo(() => {
+  const overallProgressPercentage = useMemo(() => {
     if (totalItemsCount === 0) return 0;
-    return Math.min(Math.round((learnedCount / totalItemsCount) * 100), 100);
-  }, [learnedCount, totalItemsCount]);
+    return Math.round((totalLearnedCount / totalItemsCount) * 100);
+  }, [totalLearnedCount, totalItemsCount]);
 
-  const isCompleted = totalItemsCount > 0 && learnedCount === totalItemsCount;
+  const activeTabLearnedCount = useMemo(() => {
+    if (activeTab === "vocab") return vocabularies.filter((v) => learnedItemKeys.has(`v_${v.vocabularyId}`)).length;
+    if (activeTab === "kanji") return kanjis.filter((k) => learnedItemKeys.has(`k_${k.kanjiId}`)).length;
+    if (activeTab === "grammar") return grammars.filter((g) => learnedItemKeys.has(`g_${g.grammarId}`)).length;
+    return 0;
+  }, [activeTab, vocabularies, kanjis, grammars, learnedItemKeys]);
+
+  const activeTabTotalCount = useMemo(() => {
+    if (activeTab === "vocab") return vocabularies.length;
+    if (activeTab === "kanji") return kanjis.length;
+    if (activeTab === "grammar") return grammars.length;
+    return 0;
+  }, [activeTab, vocabularies, kanjis, grammars]);
+
+  const isLessonMastered = totalItemsCount > 0 && totalLearnedCount === totalItemsCount;
+
+  if (loading) return <LessonDetailSkeleton />;
+  if (error) return <HomeErrorState message={error} onRetry={fetchStudyContent} />;
 
   return (
-    <div className="min-h-screen bg-[#F5EFE6] font-sans text-[#231917] flex flex-col justify-between">
-      <div>
-        <LearnerHeader user={user} />
+    <div className="min-h-screen bg-[#FDFBF7] flex flex-col font-sans text-[#2C2421]">
+      <LearnerHeader user={user} />
 
-        <main className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-          {loading ? (
-            <LessonDetailSkeleton />
-          ) : error ? (
-            <HomeErrorState message={error} onRetry={fetchStudyContent} />
-          ) : (
-            <>
-              {/* Header Progress & Banner */}
-              <LessonProgressHeader
-                lessonId={lessonId}
-                lessonTitle={lessonTitle}
-                levelCode={levelCode}
-                learnedCount={learnedCount}
-                totalCount={totalItemsCount}
-                progressPercent={progressPercent}
-                isCompleted={isCompleted}
-              />
+      <main className="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-8 space-y-8">
+        {/* Lesson Progress Summary Header */}
+        <LessonProgressHeader
+          lessonId={lessonId}
+          lessonTitle={lessonTitle}
+          levelCode={levelCode}
+          totalItemsCount={totalItemsCount}
+          totalLearnedCount={totalLearnedCount}
+          progressPercentage={overallProgressPercentage}
+        />
 
-              {/* Completion Banner */}
-              {isCompleted && (
-                <LessonCompletedBanner
-                  levelCode={levelCode}
-                  nextLessonId={Number(lessonId) + 1}
-                />
-              )}
+        {/* Lesson Completed Banner */}
+        {isLessonMastered && (
+          <LessonCompletedBanner
+            lessonTitle={lessonTitle}
+            totalItems={totalItemsCount}
+            onRestart={() => {
+              setLearnedItemKeys(new Set());
+              if (typeof window !== "undefined") {
+                localStorage.removeItem(`learned_items_lesson_${lessonId}`);
+              }
+            }}
+          />
+        )}
 
-              {/* Content Tabs Navigation */}
-              <LessonContentTabs
-                activeTab={activeTab}
-                vocabCount={vocabularies.length}
-                kanjiCount={kanjis.length}
-                grammarCount={grammars.length}
-                onTabChange={setActiveTab}
-              />
+        {/* Primary Content Category Tabs */}
+        <LessonContentTabs
+          activeTab={activeTab}
+          vocabCount={vocabularies.length}
+          kanjiCount={kanjis.length}
+          grammarCount={grammars.length}
+          onTabChange={(tab) => {
+            setActiveTab(tab);
+            setVocabStudyMode("list");
+          }}
+        />
 
-              {/* Content Items Area */}
-              {activeTab === "vocab" && (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  {vocabularies.length === 0 ? (
-                    <div className="col-span-full bg-[#FFFDF9] rounded-3xl p-12 text-center text-[#76685F] border border-[#DED3C8]">
-                      Chưa có bài từ vựng nào trong bài học này.
-                    </div>
-                  ) : (
-                    vocabularies.map((v) => (
-                      <VocabularyLearningItem
-                        key={v.vocabularyId}
-                        item={v}
-                        isLearned={learnedItemKeys.has(`v_${v.vocabularyId}`)}
-                        onToggleLearned={() => handleToggleLearned(`v_${v.vocabularyId}`)}
-                      />
-                    ))
-                  )}
+        {/* Dynamic Study Content View */}
+        <div className="space-y-6">
+          {/* TAB 1: VOCABULARY */}
+          {activeTab === "vocab" && (
+            <div className="space-y-6">
+              {/* Study Mode Selector Sub-bar */}
+              <div className="flex items-center justify-between bg-[#FAF3EB] border border-[#DED3C8] p-2 rounded-2xl">
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => setVocabStudyMode("list")}
+                    className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
+                      vocabStudyMode === "list"
+                        ? "bg-[#C65D4B] text-white shadow-xs"
+                        : "text-[#6E5E52] hover:text-[#2C2421]"
+                    }`}
+                  >
+                    📋 Danh sách ({vocabularies.length})
+                  </button>
+                  <button
+                    onClick={() => setVocabStudyMode("flashcard")}
+                    className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
+                      vocabStudyMode === "flashcard"
+                        ? "bg-[#C65D4B] text-white shadow-xs"
+                        : "text-[#6E5E52] hover:text-[#2C2421]"
+                    }`}
+                  >
+                    🎴 Flashcard Quizlet
+                  </button>
+                  <button
+                    onClick={() => setVocabStudyMode("typing")}
+                    className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
+                      vocabStudyMode === "typing"
+                        ? "bg-[#C65D4B] text-white shadow-xs"
+                        : "text-[#6E5E52] hover:text-[#2C2C21]"
+                    }`}
+                  >
+                    ⌨️ Luyện gõ Tiếng Nhật
+                  </button>
                 </div>
-              )}
 
-              {activeTab === "kanji" && (
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {kanjis.length === 0 ? (
-                    <div className="col-span-full bg-[#FFFDF9] rounded-3xl p-12 text-center text-[#76685F] border border-[#DED3C8]">
-                      Chưa có Hán tự nào trong bài học này.
-                    </div>
-                  ) : (
-                    kanjis.map((k) => (
-                      <KanjiLearningItem
-                        key={k.kanjiId}
-                        item={k}
-                        isLearned={learnedItemKeys.has(`k_${k.kanjiId}`)}
-                        onToggleLearned={() => handleToggleLearned(`k_${k.kanjiId}`)}
-                      />
-                    ))
-                  )}
-                </div>
-              )}
+                <span className="hidden sm:inline-block text-[11px] text-[#8C7B70] font-medium pr-2">
+                  Luyện tập tự do không làm ảnh hưởng tiến độ bài học
+                </span>
+              </div>
 
-              {activeTab === "grammar" && (
-                <div className="space-y-6">
-                  {grammars.length === 0 ? (
-                    <div className="bg-[#FFFDF9] rounded-3xl p-12 text-center text-[#76685F] border border-[#DED3C8]">
-                      Chưa có cấu trúc ngữ pháp nào trong bài học này.
-                    </div>
-                  ) : (
-                    grammars.map((g) => (
-                      <GrammarLearningItem
-                        key={g.grammarId}
-                        item={g}
-                        isLearned={learnedItemKeys.has(`g_${g.grammarId}`)}
-                        onToggleLearned={() => handleToggleLearned(`g_${g.grammarId}`)}
-                      />
-                    ))
-                  )}
+              {vocabularies.length === 0 ? (
+                <div className="bg-white rounded-2xl p-12 text-center text-[#6E5E52] border border-[#EFE9E1]">
+                  Chưa có bài từ vựng nào trong bài học này.
                 </div>
+              ) : vocabStudyMode === "list" ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {vocabularies.map((v) => (
+                    <VocabularyLearningItem
+                      key={v.vocabularyId}
+                      item={v}
+                      isLearned={learnedItemKeys.has(`v_${v.vocabularyId}`)}
+                      onToggleLearned={() => handleToggleLearned(`v_${v.vocabularyId}`)}
+                    />
+                  ))}
+                </div>
+              ) : vocabStudyMode === "flashcard" ? (
+                <FlashcardStudyMode vocabularies={vocabularies} lessonId={lessonId} />
+              ) : (
+                <TypingStudyMode vocabularies={vocabularies} />
               )}
-            </>
+            </div>
           )}
-        </main>
-      </div>
+
+          {/* TAB 2: KANJI */}
+          {activeTab === "kanji" && (
+            <div className="space-y-6">
+              {kanjis.length === 0 ? (
+                <div className="bg-white rounded-2xl p-12 text-center text-[#6E5E52] border border-[#EFE9E1]">
+                  Chưa có Hán tự (Kanji) nào trong bài học này.
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {kanjis.map((k) => (
+                    <KanjiLearningItem
+                      key={k.kanjiId}
+                      item={k}
+                      isLearned={learnedItemKeys.has(`k_${k.kanjiId}`)}
+                      onToggleLearned={() => handleToggleLearned(`k_${k.kanjiId}`)}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* TAB 3: GRAMMAR */}
+          {activeTab === "grammar" && (
+            <div className="space-y-6">
+              {grammars.length === 0 ? (
+                <div className="bg-white rounded-2xl p-12 text-center text-[#6E5E52] border border-[#EFE9E1]">
+                  Chưa có mẫu ngữ pháp nào trong bài học này.
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {grammars.map((g) => (
+                    <GrammarLearningItem
+                      key={g.grammarId}
+                      item={g}
+                      isLearned={learnedItemKeys.has(`g_${g.grammarId}`)}
+                      onToggleLearned={() => handleToggleLearned(`g_${g.grammarId}`)}
+                    />
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </main>
 
       <LearnerFooter />
     </div>
