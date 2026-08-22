@@ -463,7 +463,7 @@ public class ExcelCommitService {
 
         if (!exJp.isEmpty()) {
             GrammarExample example = new GrammarExample();
-            example.setGrammarPoint(savedGrammar);
+            example.setGrammarId(savedGrammar.getGrammarId());
             example.setJapaneseText(exJp);
             example.setReading(exReading);
             example.setMeaningVi(exVi);
