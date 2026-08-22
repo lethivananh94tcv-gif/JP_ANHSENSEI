@@ -355,8 +355,8 @@ export default function LearnerVocabulariesHubPage() {
 
         {/* 3. Two-Column Main Content & Sidebar Layout */}
         <div className="flex flex-col lg:flex-row items-start gap-6 sm:gap-8">
-          {/* Main Content Area (72%) */}
-          <div className="w-full lg:w-[72%] space-y-6 sm:space-y-8">
+          {/* Main Content Area (68%) */}
+          <div className="w-full lg:w-[68%] space-y-6 sm:space-y-8">
             {lessonsLoading ? (
               <div className="w-full bg-[#FFFCF7] border border-[#DED3C8] rounded-3xl p-8 h-[160px] animate-pulse" />
             ) : selectedLesson ? (
@@ -397,8 +397,8 @@ export default function LearnerVocabulariesHubPage() {
             )}
           </div>
 
-          {/* Sidebar Area (28%) */}
-          <div className="w-full lg:w-[28%] shrink-0">
+          {/* Sidebar Area (32%) */}
+          <div className="w-full lg:w-[32%] shrink-0">
             <VocabularySidebar streakData={streakData} />
           </div>
         </div>
