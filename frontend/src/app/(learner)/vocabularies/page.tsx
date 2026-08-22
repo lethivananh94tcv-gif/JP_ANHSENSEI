@@ -51,7 +51,7 @@ export default function LearnerVocabulariesHubPage() {
   const [error, setError] = useState<string>("");
   const [correlationId, setCorrelationId] = useState<string | undefined>(undefined);
   const [isAllLessonsOpen, setIsAllLessonsOpen] = useState<boolean>(false);
-  const [modalMode, setModalMode] = useState<"list" | "cards" | "typing" | null>(null);
+  const [modalMode, setModalMode] = useState<"list" | "cards" | "typing" | "match" | null>(null);
 
   // Load Lessons for a Level safely without race condition
   const loadLessonsForLevel = useCallback(async (
@@ -222,12 +222,12 @@ export default function LearnerVocabulariesHubPage() {
   };
 
   // Mode Selection Navigation -> Prompt user with lesson selector modal
-  const handleSelectMode = (mode: "list" | "cards" | "typing") => {
+  const handleSelectMode = (mode: "list" | "cards" | "typing" | "match") => {
     setModalMode(mode);
     setIsAllLessonsOpen(true);
   };
 
-  const handleOpenLesson = (lesson: LessonItem, mode?: "list" | "cards" | "typing" | null) => {
+  const handleOpenLesson = (lesson: LessonItem, mode?: "list" | "cards" | "typing" | "match" | null) => {
     const targetId = lesson.lessonId;
     if (mode) {
       router.push(`/lessons/${targetId}?mode=${mode}`);
