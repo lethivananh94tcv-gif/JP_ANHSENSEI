@@ -18,9 +18,13 @@ export class ApiError extends Error {
   }
 }
 
+export interface ApiClientOptions extends RequestInit {
+  throwOnError?: boolean;
+}
+
 export async function apiClient<T>(
   endpoint: string,
-  options: RequestInit = {}
+  options: ApiClientOptions = {}
 ): Promise<ApiResponse<T>> {
   const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
 
@@ -30,27 +34,61 @@ export async function apiClient<T>(
     ...(options.headers || {}),
   };
 
+  const { throwOnError = false, ...fetchOptions } = options;
+
   const config: RequestInit = {
-    ...options,
+    ...fetchOptions,
     headers,
   };
 
-  const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
+  try {
+    const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
 
-  if (!response.ok) {
-    let errorData: ErrorResponse;
-    try {
-      errorData = await response.json();
-    } catch {
-      errorData = {
+    if (!response.ok) {
+      let errorData: ErrorResponse;
+      try {
+        errorData = await response.json();
+      } catch {
+        errorData = {
+          timestamp: new Date().toISOString(),
+          status: response.status,
+          code: "HTTP_ERROR",
+          message: response.statusText || "HTTP Request failed",
+        };
+      }
+
+      if (throwOnError) {
+        throw new ApiError(errorData);
+      }
+
+      console.warn(`[ApiClient] Request to ${endpoint} returned status ${response.status}:`, errorData.message);
+
+      return {
+        success: false,
+        data: null as unknown as T,
+        message: errorData.message || "HTTP Request failed",
         timestamp: new Date().toISOString(),
-        status: response.status,
-        code: "HTTP_ERROR",
-        message: response.statusText || "HTTP Request failed",
       };
     }
-    throw new ApiError(errorData);
-  }
 
-  return response.json();
+    return await response.json();
+  } catch (err: unknown) {
+    if (err instanceof ApiError) {
+      throw err;
+    }
+
+    const fallbackMessage = err instanceof Error ? err.message : "Network error";
+    console.warn(`[ApiClient] Network/Fetch error on ${endpoint}:`, fallbackMessage);
+
+    if (throwOnError) {
+      throw err;
+    }
+
+    return {
+      success: false,
+      data: null as unknown as T,
+      message: fallbackMessage,
+      timestamp: new Date().toISOString(),
+    };
+  }
 }
