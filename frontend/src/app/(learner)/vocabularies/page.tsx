@@ -246,15 +246,15 @@ export default function LearnerVocabulariesHubPage() {
     await loadLessonsForLevel(targetLvl, continueData, progressMap);
   };
 
-  // Synchronize Level & Lesson into URL without full page reload
+  // Synchronize Level & Lesson into URL silently without page reload
   const updateUrlParams = useCallback((levelCode: string, lessonNumber: number) => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.set("level", levelCode);
-    params.set("lessonId", String(lessonNumber));
-    startTransition(() => {
-      router.replace(`/vocabularies?${params.toString()}`, { scroll: false });
-    });
-  }, [searchParams, router]);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("level", levelCode);
+      url.searchParams.set("lessonId", String(lessonNumber));
+      window.history.replaceState(null, "", url.toString());
+    }
+  }, []);
 
   // Lesson selection handler
   const handleSelectLesson = (lesson: LessonItem) => {
