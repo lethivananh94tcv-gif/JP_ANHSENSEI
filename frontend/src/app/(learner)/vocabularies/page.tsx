@@ -353,54 +353,46 @@ export default function LearnerVocabulariesHubPage() {
           onSelectLevel={handleSelectLevel}
         />
 
-        {/* 3. Two-Column Main Content & Sidebar Layout */}
-        <div className="flex flex-col lg:flex-row items-start gap-6 sm:gap-8">
-          {/* Main Content Area (68%) */}
-          <div className="w-full lg:w-[68%] space-y-6 sm:space-y-8">
-            {lessonsLoading ? (
-              <div className="w-full bg-[#FFFCF7] border border-[#DED3C8] rounded-3xl p-8 h-[160px] animate-pulse" />
-            ) : selectedLesson ? (
-              <SelectedLessonProgress
-                lesson={selectedLesson}
-                progress={progressMap[selectedLesson.lessonId] || progressMap[selectedLesson.sortOrder]}
-                dueData={dueData}
-                onContinueLesson={handleContinueLesson}
-                onReviewDueFlashcards={handleReviewDueFlashcards}
-              />
-            ) : (
-              <VocabularyHubEmptyState
-                title={`Cấp độ ${selectedLevelCode} chưa có bài học`}
-                description="Hệ thống đang chuẩn bị dữ liệu bài học cho trình độ này."
-              />
-            )}
-
-            {/* 4. Three Study Modes Selector */}
-            <VocabularyModeSelector
-              onSelectMode={handleSelectMode}
-              disabled={lessons.length === 0}
+        {/* 3. Main Full-Width Study Workspace */}
+        <div className="w-full space-y-6 sm:space-y-8">
+          {lessonsLoading ? (
+            <div className="w-full bg-[#FFFCF7] border border-[#DED3C8] rounded-3xl p-8 h-[160px] animate-pulse" />
+          ) : selectedLesson ? (
+            <SelectedLessonProgress
+              lesson={selectedLesson}
+              progress={progressMap[selectedLesson.lessonId] || progressMap[selectedLesson.sortOrder]}
+              dueData={dueData}
+              onContinueLesson={handleContinueLesson}
+              onReviewDueFlashcards={handleReviewDueFlashcards}
             />
+          ) : (
+            <VocabularyHubEmptyState
+              title={`Cấp độ ${selectedLevelCode} chưa có bài học`}
+              description="Hệ thống đang chuẩn bị dữ liệu bài học cho trình độ này."
+            />
+          )}
 
-            {/* 5. Recent Lesson List */}
-            {lessons.length > 0 && (
-              <RecentLessonList
-                levelCode={selectedLevelCode}
-                lessons={lessons}
-                selectedLessonId={selectedLesson?.sortOrder || selectedLesson?.lessonId}
-                progressMap={progressMap}
-                onSelectLesson={handleSelectLesson}
-                onOpenLesson={handleContinueLesson}
-                onOpenAllLessons={() => {
-                  setModalMode(null);
-                  setIsAllLessonsOpen(true);
-                }}
-              />
-            )}
-          </div>
+          {/* 4. Three Study Modes Selector */}
+          <VocabularyModeSelector
+            onSelectMode={handleSelectMode}
+            disabled={lessons.length === 0}
+          />
 
-          {/* Sidebar Area (32%) */}
-          <div className="w-full lg:w-[32%] shrink-0">
-            <VocabularySidebar streakData={streakData} />
-          </div>
+          {/* 5. Recent Lesson List */}
+          {lessons.length > 0 && (
+            <RecentLessonList
+              levelCode={selectedLevelCode}
+              lessons={lessons}
+              selectedLessonId={selectedLesson?.sortOrder || selectedLesson?.lessonId}
+              progressMap={progressMap}
+              onSelectLesson={handleSelectLesson}
+              onOpenLesson={handleContinueLesson}
+              onOpenAllLessons={() => {
+                setModalMode(null);
+                setIsAllLessonsOpen(true);
+              }}
+            />
+          )}
         </div>
       </main>
 
