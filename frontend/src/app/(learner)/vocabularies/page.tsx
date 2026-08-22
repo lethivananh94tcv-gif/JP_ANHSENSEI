@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useTransition } from "react";
+import { useEffect, useState, useCallback, useTransition, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { apiClient, ApiError } from "@/lib/api/client";
@@ -246,20 +246,18 @@ export default function LearnerVocabulariesHubPage() {
     await loadLessonsForLevel(targetLvl, continueData, progressMap);
   };
 
-  // Synchronize Level & Lesson into URL silently without page reload
-  const updateUrlParams = useCallback((levelCode: string, lessonNumber: number) => {
-    if (typeof window !== "undefined") {
-      const url = new URL(window.location.href);
-      url.searchParams.set("level", levelCode);
-      url.searchParams.set("lessonId", String(lessonNumber));
-      window.history.replaceState(null, "", url.toString());
-    }
-  }, []);
+  // Prevent page data re-initialization on searchParams changes
+  const isInitializedRef = useRef(false);
 
-  // Lesson selection handler
+  // Lesson selection handler (pure local state update, zero page reloads)
   const handleSelectLesson = (lesson: LessonItem) => {
     setSelectedLesson(lesson);
-    updateUrlParams(selectedLevelCode, lesson.sortOrder || lesson.lessonId);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.searchParams.set("level", selectedLevelCode);
+      url.searchParams.set("lessonId", String(lesson.sortOrder || lesson.lessonId));
+      window.history.replaceState(null, "", url.toString());
+    }
   };
 
   // Mode Selection Navigation -> Prompt user with lesson selector modal
@@ -309,7 +307,10 @@ export default function LearnerVocabulariesHubPage() {
   });
 
   useEffect(() => {
-    initializePageData();
+    if (!isInitializedRef.current) {
+      isInitializedRef.current = true;
+      initializePageData();
+    }
   }, [initializePageData]);
 
   if (loading) {
