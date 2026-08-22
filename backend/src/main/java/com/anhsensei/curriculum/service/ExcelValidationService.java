@@ -351,6 +351,10 @@ public class ExcelValidationService {
     }
 
     private boolean checkDbDuplicate(ImportJob job, Row row, Row headerRow) {
+        if (job.getDuplicateMode() == DuplicateMode.OVERWRITE || job.getDuplicateMode() == DuplicateMode.UPDATE) {
+            return false;
+        }
+
         if (job.getTargetLessonId() == null || job.getTargetLessonId() <= 0) {
             return false;
         }

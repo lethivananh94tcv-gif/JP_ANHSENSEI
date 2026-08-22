@@ -92,7 +92,7 @@ public class ImportJobService {
         job.setFileType(fileType);
         job.setTemplateVersion("v1.0");
         job.setTargetLevelId(targetLevelId);
-        Long safeLessonId = (targetLessonId != null && targetLessonId > 0) ? targetLessonId : 1L;
+        Long safeLessonId = (targetLessonId != null && targetLessonId > 0) ? targetLessonId : 0L;
         job.setTargetLessonId(safeLessonId);
         job.setDuplicateMode(duplicateMode);
         job.setStatus(ImportJobStatus.UPLOADED);

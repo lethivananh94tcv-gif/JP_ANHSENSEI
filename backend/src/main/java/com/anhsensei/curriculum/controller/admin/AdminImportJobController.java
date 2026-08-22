@@ -63,9 +63,13 @@ public class AdminImportJobController {
 
         DuplicateMode duplicateMode;
         try {
-            duplicateMode = DuplicateMode.valueOf(duplicateModeStr.toUpperCase());
+            if ("OVERWRITE".equalsIgnoreCase(duplicateModeStr)) {
+                duplicateMode = DuplicateMode.UPDATE;
+            } else {
+                duplicateMode = DuplicateMode.valueOf(duplicateModeStr.toUpperCase());
+            }
         } catch (Exception e) {
-            duplicateMode = DuplicateMode.SKIP;
+            duplicateMode = DuplicateMode.UPDATE;
         }
 
         ImportJobDto created = importJobService.createImportJob(
