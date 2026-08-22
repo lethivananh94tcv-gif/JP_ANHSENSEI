@@ -52,9 +52,13 @@ export default function AdminImportPage() {
   const [loading, setLoading] = useState<boolean>(false);
   const [msg, setMsg] = useState<string>("");
 
-  const getHeaders = () => {
+  const getHeaders = (): Record<string, string> => {
     const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token") || "";
-    return token ? { Authorization: `Bearer ${token}` } : {};
+    const headers: Record<string, string> = {};
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+    return headers;
   };
 
   useEffect(() => {
@@ -522,12 +526,12 @@ export default function AdminImportPage() {
                     <div key={idx} className="bg-white p-3 rounded-xl border border-rose-200 flex justify-between items-center text-rose-900">
                       <div>
                         <span className="font-bold bg-rose-100 text-rose-800 px-2 py-0.5 rounded-md mr-2">
-                          Dòng #{err.rowNumber || err.row}
+                          Dòng #{err.rowNumber || idx + 1}
                         </span>
                         <span className="font-semibold text-gray-800">
-                          [{err.columnName || err.field || "Dữ liệu"}]
+                          [{err.columnName || err.fieldName || "Dữ liệu"}]
                         </span>{" "}
-                        {err.message || err.errorMessage}
+                        {err.message || "Lỗi không xác định"}
                       </div>
                     </div>
                   ))}
@@ -545,7 +549,7 @@ export default function AdminImportPage() {
 
               <button
                 onClick={handleCommit}
-                disabled={loading || (job.invalidRows && job.invalidRows > 0)}
+                disabled={loading || Boolean(job.invalidRows && job.invalidRows > 0)}
                 className={`px-8 py-3 font-extrabold text-xs rounded-xl shadow-sm transition-all ${
                   job.invalidRows && job.invalidRows > 0
                     ? "bg-gray-300 text-gray-500 cursor-not-allowed"

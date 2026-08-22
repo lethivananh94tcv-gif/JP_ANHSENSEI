@@ -23,13 +23,13 @@ export default function LearnerHeader({ user }: LearnerHeaderProps) {
     router.replace("/login");
   };
 
-  const navItems = [
+  const navItems: { name: string; href: string; active: boolean; badge?: string }[] = [
     { name: "Trang chủ", href: "/dashboard", active: pathname === "/dashboard" },
-    { name: "Từ vựng", href: "/vocabularies", active: pathname.startsWith("/vocabularies"), badge: "N5-N1" },
-    { name: "Ngữ pháp", href: "/grammar", active: pathname.startsWith("/grammar"), badge: "N5-N1" },
-    { name: "Kanji", href: "/kanji", active: pathname.startsWith("/kanji"), badge: "N5-N1" },
-    { name: "Luyện tập", href: "/vocabularies", active: false, badge: "Luyện đề" },
-    { name: "Giao tiếp", href: "/communication", active: pathname.startsWith("/communication"), badge: "Mới" },
+    { name: "Lộ trình", href: "/learn", active: pathname.startsWith("/learn") },
+    { name: "Từ vựng", href: "/vocabularies", active: pathname.startsWith("/vocabularies"), badge: "Center" },
+    { name: "Ngữ pháp", href: "/grammar", active: pathname.startsWith("/grammar") },
+    { name: "Kanji", href: "/kanji", active: pathname.startsWith("/kanji") },
+    { name: "Luyện tập", href: "/flashcards", active: pathname.startsWith("/flashcards") },
   ];
 
   return (

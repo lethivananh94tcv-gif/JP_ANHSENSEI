@@ -197,14 +197,7 @@ export default function LearnerLessonStudyPage() {
         {/* Lesson Completed Banner */}
         {isLessonMastered && (
           <LessonCompletedBanner
-            lessonTitle={lessonTitle}
-            totalItems={totalItemsCount}
-            onRestart={() => {
-              setLearnedItemKeys(new Set());
-              if (typeof window !== "undefined") {
-                localStorage.removeItem(`learned_items_lesson_${lessonId}`);
-              }
-            }}
+            levelCode={levelCode}
           />
         )}
 

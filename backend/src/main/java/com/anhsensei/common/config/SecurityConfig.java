@@ -71,6 +71,8 @@ public class SecurityConfig {
                                 "/api/v1/learner/lessons/**",
                                 "/learner/continue-learning",
                                 "/api/v1/learner/continue-learning",
+                                "/admin/import-jobs/**",
+                                "/api/v1/admin/import-jobs/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
