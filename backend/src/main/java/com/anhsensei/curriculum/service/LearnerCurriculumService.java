@@ -41,15 +41,17 @@ public class LearnerCurriculumService {
     }
 
     private Lesson resolveLesson(Long lessonId) {
-        Optional<Lesson> lessonOpt = lessonRepository.findById(lessonId);
-        if (lessonOpt.isEmpty() || vocabularyRepository.findByLesson_LessonIdAndStatusOrderBySortOrderAsc(lessonId, "PUBLISHED").isEmpty()) {
-            // Fallback by sortOrder in N5 level (Level ID 1) if user passes 1..5 instead of lesson_id (77, 78, 79, 80)
-            Optional<Lesson> bySort = lessonRepository.findByLevel_LevelIdAndSortOrder(1L, lessonId.intValue());
-            if (bySort.isPresent()) {
-                lessonOpt = bySort;
-            }
+        if (lessonId == null) {
+            throw new ResourceNotFoundException("Lesson", "id", 0);
         }
-        return lessonOpt.orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
+        Optional<Lesson> lessonOpt = lessonRepository.findById(lessonId);
+        if (lessonOpt.isPresent()) {
+            return lessonOpt.get();
+        }
+        return lessonRepository.findAll().stream()
+                .filter(l -> l.getSortOrder() != null && l.getSortOrder().equals(lessonId.intValue()))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
     }
 
     @Transactional(readOnly = true)

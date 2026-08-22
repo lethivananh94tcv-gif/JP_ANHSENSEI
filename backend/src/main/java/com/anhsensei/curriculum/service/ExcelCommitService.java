@@ -251,11 +251,20 @@ public class ExcelCommitService {
                             Optional<Lesson> matchedLesson = Optional.empty();
                             if (job.getTargetLevelId() != null && job.getTargetLevelId() > 0) {
                                 matchedLesson = lessonRepository.findByLevel_LevelIdAndSortOrder(job.getTargetLevelId(), lessonNum);
-                            }
-                            if (matchedLesson.isEmpty()) {
-                                matchedLesson = lessonRepository.findAll().stream()
-                                        .filter(l -> l.getSortOrder() != null && l.getSortOrder().equals(lessonNum))
-                                        .findFirst();
+                                if (matchedLesson.isEmpty()) {
+                                    Level targetLevel = levelRepository.findById(job.getTargetLevelId()).orElse(null);
+                                    if (targetLevel != null) {
+                                        Lesson newLesson = new Lesson();
+                                        newLesson.setLevel(targetLevel);
+                                        newLesson.setTitle("Bài " + lessonNum);
+                                        newLesson.setSortOrder(lessonNum);
+                                        newLesson.setStatus("PUBLISHED");
+                                        newLesson.setPublishedAt(java.time.OffsetDateTime.now());
+                                        newLesson.setCreatedBy(job.getAdminId());
+                                        newLesson.setUpdatedBy(job.getAdminId());
+                                        matchedLesson = Optional.of(lessonRepository.save(newLesson));
+                                    }
+                                }
                             }
                             if (matchedLesson.isPresent()) {
                                 Lesson l = matchedLesson.get();

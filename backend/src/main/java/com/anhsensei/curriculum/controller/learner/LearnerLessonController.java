@@ -35,12 +35,10 @@ public class LearnerLessonController {
     }
 
     private Long resolveLessonId(Long inputId) {
+        if (inputId == null) return null;
         Optional<Lesson> lessonOpt = lessonRepository.findById(inputId);
-        if (lessonOpt.isEmpty() || vocabularyRepository.findByLesson_LessonIdAndStatusOrderBySortOrderAsc(inputId, "PUBLISHED").isEmpty()) {
-            Optional<Lesson> bySort = lessonRepository.findByLevel_LevelIdAndSortOrder(1L, inputId.intValue());
-            if (bySort.isPresent()) {
-                return bySort.get().getLessonId();
-            }
+        if (lessonOpt.isPresent()) {
+            return inputId;
         }
         return inputId;
     }
