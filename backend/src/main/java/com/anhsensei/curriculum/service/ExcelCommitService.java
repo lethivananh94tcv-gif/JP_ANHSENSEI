@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -250,7 +251,21 @@ public class ExcelCommitService {
                         if (lessonNum > 0) {
                             Optional<Lesson> matchedLesson = Optional.empty();
                             if (job.getTargetLevelId() != null && job.getTargetLevelId() > 0) {
-                                matchedLesson = lessonRepository.findByLevel_LevelIdAndSortOrder(job.getTargetLevelId(), lessonNum);
+                                List<Lesson> levelLessons = lessonRepository.findByLevel_LevelIdOrderBySortOrderAsc(job.getTargetLevelId());
+                                matchedLesson = levelLessons.stream()
+                                        .filter(l -> l.getTitle() != null && (
+                                                l.getTitle().startsWith("Bài " + lessonNum + ":") ||
+                                                l.getTitle().startsWith("Bài " + lessonNum + " ") ||
+                                                l.getTitle().equals("Bài " + lessonNum)
+                                        ))
+                                        .findFirst();
+
+                                if (matchedLesson.isEmpty()) {
+                                    matchedLesson = levelLessons.stream()
+                                            .filter(l -> l.getSortOrder() == lessonNum)
+                                            .findFirst();
+                                }
+
                                 if (matchedLesson.isEmpty()) {
                                     Level targetLevel = levelRepository.findById(job.getTargetLevelId()).orElse(null);
                                     if (targetLevel != null) {

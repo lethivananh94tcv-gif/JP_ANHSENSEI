@@ -228,11 +228,11 @@ export default function LearnerVocabulariesHubPage() {
   };
 
   const handleOpenLesson = (lesson: LessonItem, mode?: "list" | "cards" | "typing" | null) => {
-    const lessonNum = lesson.sortOrder || lesson.lessonId;
+    const targetId = lesson.lessonId;
     if (mode) {
-      router.push(`/lessons/${lessonNum}?mode=${mode}`);
+      router.push(`/lessons/${targetId}?mode=${mode}`);
     } else {
-      router.push(`/lessons/${lessonNum}`);
+      router.push(`/lessons/${targetId}`);
     }
   };
 
@@ -240,17 +240,17 @@ export default function LearnerVocabulariesHubPage() {
   const handleContinueLatest = () => {
     if (continueData && continueData.lessonId) {
       const mode = continueData.lastMode || "cards";
-      router.push(`/lessons/${continueData.sortOrder || continueData.lessonId}?mode=${mode}`);
+      router.push(`/lessons/${continueData.lessonId}?mode=${mode}`);
     } else if (selectedLesson) {
-      router.push(`/lessons/${selectedLesson.sortOrder || selectedLesson.lessonId}?mode=cards`);
+      router.push(`/lessons/${selectedLesson.lessonId}?mode=cards`);
     } else if (lessons.length > 0) {
-      router.push(`/lessons/${lessons[0].sortOrder || lessons[0].lessonId}?mode=cards`);
+      router.push(`/lessons/${lessons[0].lessonId}?mode=cards`);
     }
   };
 
   const handleContinueLesson = () => {
     if (!selectedLesson) return;
-    router.push(`/lessons/${selectedLesson.sortOrder || selectedLesson.lessonId}`);
+    router.push(`/lessons/${selectedLesson.lessonId}`);
   };
 
   const handleReviewDueFlashcards = () => {
