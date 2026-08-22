@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { apiClient, ApiError } from "@/lib/api/client";
 import LearnerHeader from "@/components/learner/LearnerHeader";
+import { Sparkles } from "lucide-react";
 
 import {
   LearnerProfile,
@@ -23,6 +24,7 @@ import VocabularyModeSelector from "@/components/learner/vocabularies/Vocabulary
 import RecentLessonList from "@/components/learner/vocabularies/RecentLessonList";
 import VocabularySidebar from "@/components/learner/vocabularies/VocabularySidebar";
 import VocabularyAllLessonsModal from "@/components/learner/vocabularies/VocabularyAllLessonsModal";
+import JapaneseKanaChartModal from "@/components/learner/vocabularies/JapaneseKanaChartModal";
 import VocabularyHubSkeleton from "@/components/learner/vocabularies/VocabularyHubSkeleton";
 import { VocabularyHubErrorState, VocabularyHubEmptyState } from "@/components/learner/vocabularies/VocabularyHubErrorState";
 
@@ -52,6 +54,7 @@ export default function LearnerVocabulariesHubPage() {
   const [correlationId, setCorrelationId] = useState<string | undefined>(undefined);
   const [isAllLessonsOpen, setIsAllLessonsOpen] = useState<boolean>(false);
   const [modalMode, setModalMode] = useState<"list" | "cards" | "typing" | "match" | null>(null);
+  const [isKanaModalOpen, setIsKanaModalOpen] = useState<boolean>(false);
 
   // Load Lessons for a Level safely without race condition
   const loadLessonsForLevel = useCallback(async (
@@ -360,6 +363,33 @@ export default function LearnerVocabulariesHubPage() {
           onSelectLevel={handleSelectLevel}
         />
 
+        {/* Kana Alphabet Quick Access Banner */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-gradient-to-r from-[#FFFDF9] via-[#FAF3EB] to-[#F5EFE6] border-2 border-[#DED3C8] rounded-3xl p-5 sm:p-6 shadow-md hover:border-[#C65D4B]/50 transition-colors">
+          <div className="flex items-center gap-3.5">
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#8B6F5A] via-[#C65D4B] to-[#FF8C78] text-white font-jp font-black text-2xl flex items-center justify-center shadow-md shrink-0">
+              あ
+            </div>
+            <div className="space-y-0.5">
+              <h4 className="text-sm sm:text-base font-extrabold text-[#231917] flex items-center gap-2">
+                <span>Bảng Chữ Cái Tiếng Nhật Kana (Hiragana & Katakana)</span>
+                <Sparkles className="w-4 h-4 text-[#C65D4B]" />
+              </h4>
+              <p className="text-xs text-[#76685F] font-medium">
+                Tra cứu phát âm giọng bản xứ 🔊, tập đọc 46 ký tự Hiragana & Katakana chuẩn JLPT N5
+              </p>
+            </div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => setIsKanaModalOpen(true)}
+            className="w-full sm:w-auto px-6 py-3 bg-[#C65D4B] hover:bg-[#B04F3F] text-white font-black text-xs rounded-2xl shadow-lg border border-white/20 transition-all hover:scale-105 cursor-pointer flex items-center justify-center gap-2 shrink-0"
+          >
+            <Sparkles className="w-4 h-4 text-amber-300" />
+            <span>Mở Bảng Chữ Cái Kana ➔</span>
+          </button>
+        </div>
+
         {/* 3. Main Full-Width Study Workspace */}
         <div className="w-full space-y-6 sm:space-y-8">
           {lessonsLoading ? (
@@ -419,6 +449,12 @@ export default function LearnerVocabulariesHubPage() {
         }}
         onSelectLesson={handleSelectLesson}
         onOpenLesson={handleOpenLesson}
+      />
+
+      {/* Japanese Kana Alphabet Chart Modal */}
+      <JapaneseKanaChartModal
+        isOpen={isKanaModalOpen}
+        onClose={() => setIsKanaModalOpen(false)}
       />
     </div>
   );
