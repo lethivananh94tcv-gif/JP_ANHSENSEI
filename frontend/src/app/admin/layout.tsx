@@ -147,7 +147,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         {/* Sidebar Footer: Learner View & User Profile & Logout */}
         <div className="p-4 border-t border-[#3D332D] space-y-3">
           <Link
-            href="/levels"
+            href="/dashboard"
             className="w-full flex items-center justify-center gap-2 bg-[#3D332D] hover:bg-[#4A3E38] text-[#FAF3EB] text-xs font-bold py-2.5 rounded-xl border border-[#4A3E38] transition-colors"
           >
             <span>👁️ Góc Nhìn Học Viên</span>

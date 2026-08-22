@@ -78,7 +78,7 @@ public class SecurityConfig {
                                 "/swagger-ui.html",
                                 "/actuator/health"
                         ).permitAll()
-                        .requestMatchers("/learner/profile", "/api/v1/learner/profile").hasRole("LEARNER")
+                        .requestMatchers("/learner/profile", "/api/v1/learner/profile").hasAnyRole("LEARNER", "ADMIN")
                         .requestMatchers("/learner/**", "/api/v1/learner/**").hasAnyRole("LEARNER", "ADMIN")
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/learner/profile")
-@PreAuthorize("hasRole('LEARNER')")
+@PreAuthorize("hasAnyRole('LEARNER', 'ADMIN')")
 public class LearnerProfileController {
 
     private final LearnerProfileService learnerProfileService;
