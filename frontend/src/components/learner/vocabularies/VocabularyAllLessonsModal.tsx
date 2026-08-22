@@ -135,7 +135,6 @@ export default function VocabularyAllLessonsModal({
                   key={lsn.lessonId}
                   onClick={() => {
                     onSelectLesson(lsn);
-                    onOpenLesson(lsn, targetMode);
                     onClose();
                   }}
                   className={`p-4 rounded-2xl border-2 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 cursor-pointer ${

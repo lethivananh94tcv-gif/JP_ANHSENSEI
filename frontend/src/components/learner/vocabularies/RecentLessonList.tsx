@@ -169,10 +169,7 @@ export default function RecentLessonList({
                 >
                   <Card3DTilt>
                     <div
-                      onClick={() => {
-                        onSelectLesson(lsn);
-                        onOpenLesson(lsn);
-                      }}
+                      onClick={() => onSelectLesson(lsn)}
                       aria-current={isSelected ? "true" : undefined}
                       className={`p-4 sm:p-5 rounded-3xl border-2 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 cursor-pointer shadow-lg relative overflow-hidden group ${
                         isSelected
