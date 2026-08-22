@@ -201,17 +201,19 @@ export default function LearnerLessonStudyPage() {
           />
         )}
 
-        {/* Primary Content Category Tabs */}
-        <LessonContentTabs
-          activeTab={activeTab}
-          vocabCount={vocabularies.length}
-          kanjiCount={kanjis.length}
-          grammarCount={grammars.length}
-          onTabChange={(tab) => {
-            setActiveTab(tab);
-            setVocabStudyMode("list");
-          }}
-        />
+        {/* Primary Content Category Tabs (Only if Kanji or Grammar items exist) */}
+        {(kanjis.length > 0 || grammars.length > 0) && (
+          <LessonContentTabs
+            activeTab={activeTab}
+            vocabCount={vocabularies.length}
+            kanjiCount={kanjis.length}
+            grammarCount={grammars.length}
+            onTabChange={(tab) => {
+              setActiveTab(tab);
+              setVocabStudyMode("list");
+            }}
+          />
+        )}
 
         {/* Dynamic Study Content View */}
         <div className="space-y-6">
@@ -223,7 +225,7 @@ export default function LearnerLessonStudyPage() {
                 <div className="flex items-center gap-1">
                   <button
                     onClick={() => setVocabStudyMode("list")}
-                    className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
+                    className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer ${
                       vocabStudyMode === "list"
                         ? "bg-[#C65D4B] text-white shadow-xs"
                         : "text-[#6E5E52] hover:text-[#2C2421]"
@@ -233,20 +235,20 @@ export default function LearnerLessonStudyPage() {
                   </button>
                   <button
                     onClick={() => setVocabStudyMode("flashcard")}
-                    className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
+                    className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer ${
                       vocabStudyMode === "flashcard"
                         ? "bg-[#C65D4B] text-white shadow-xs"
                         : "text-[#6E5E52] hover:text-[#2C2421]"
                     }`}
                   >
-                    🎴 Flashcard Quizlet
+                    🎴 Thẻ ghi nhớ
                   </button>
                   <button
                     onClick={() => setVocabStudyMode("typing")}
-                    className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
+                    className={`px-4 py-2 text-xs font-bold rounded-xl transition-all cursor-pointer ${
                       vocabStudyMode === "typing"
                         ? "bg-[#C65D4B] text-white shadow-xs"
-                        : "text-[#6E5E52] hover:text-[#2C2C21]"
+                        : "text-[#6E5E52] hover:text-[#2C2421]"
                     }`}
                   >
                     ⌨️ Luyện gõ Tiếng Nhật
