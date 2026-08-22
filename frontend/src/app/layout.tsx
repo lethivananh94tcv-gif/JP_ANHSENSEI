@@ -19,6 +19,14 @@ const notoSerifJP = Noto_Serif_JP({
 export const metadata: Metadata = {
   title: "ANH SENSEI — Nền tảng tự học tiếng Nhật JLPT N5 - N3",
   description: "Tự học tiếng Nhật với Flashcard Spaced Repetition, Quiz tự động chấm và AI Tutor RAG",
+  icons: {
+    icon: [
+      { url: "/favicon.svg", type: "image/svg+xml" },
+      { url: "/icon.svg", type: "image/svg+xml" },
+    ],
+    shortcut: "/favicon.svg",
+    apple: "/favicon.svg",
+  },
 };
 
 export default function RootLayout({
