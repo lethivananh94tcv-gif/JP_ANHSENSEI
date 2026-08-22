@@ -382,8 +382,6 @@ export default function AdminImportPage() {
                     onChange={(e) => setSelectedLevelId(e.target.value)}
                     className="w-full bg-[#FFFDF9] border border-[#DED3C8] px-3.5 py-2.5 rounded-xl text-xs font-bold text-[#231917]"
                   >
-                    <option value="1">N5 - JLPT N5</option>
-                    <option value="2">N4 - JLPT N4</option>
                     {levels.map((lvl) => (
                       <option key={lvl.levelId} value={lvl.levelId}>
                         {lvl.code} - {lvl.name}
