@@ -1,49 +1,57 @@
 /**
- * Plays an authentic cute Japanese Cat Meow Sound ("Nyaa~!", "Nyaan~!")
- * using Web Audio API synthesis + SpeechSynthesis voice effect.
+ * Plays a realistic acoustic Cat Meow sound effect ("Meo meo~")
+ * using Web Audio API multi-oscillator formant synthesis.
  */
 export const playCatMeowSound = () => {
   try {
     if (typeof window === "undefined") return;
 
-    // 1. Web Audio API Oscillator Cat Meow Pitch Sweep
     const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
-    if (AudioContextClass) {
-      const ctx = new AudioContextClass();
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
+    if (!AudioContextClass) return;
 
-      osc.type = "sine";
-      const now = ctx.currentTime;
+    const ctx = new AudioContextClass();
+    const now = ctx.currentTime;
 
-      // Realistic cute cat meow pitch sweep ("Nyaa-oow~")
-      osc.frequency.setValueAtTime(650, now);
-      osc.frequency.exponentialRampToValueAtTime(1050, now + 0.12);
-      osc.frequency.exponentialRampToValueAtTime(480, now + 0.4);
+    // Master Volume Envelope
+    const masterGain = ctx.createGain();
+    masterGain.gain.setValueAtTime(0, now);
+    masterGain.gain.linearRampToValueAtTime(0.45, now + 0.06);
+    masterGain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
 
-      gain.gain.setValueAtTime(0, now);
-      gain.gain.linearRampToValueAtTime(0.35, now + 0.08);
-      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.4);
+    // Formant Filter to simulate physical Cat Vocal Tract ("M-e-o-w")
+    const filter = ctx.createBiquadFilter();
+    filter.type = "bandpass";
+    filter.Q.setValueAtTime(3.2, now);
+    filter.frequency.setValueAtTime(650, now);
+    filter.frequency.linearRampToValueAtTime(1450, now + 0.16);
+    filter.frequency.exponentialRampToValueAtTime(450, now + 0.55);
 
-      osc.connect(gain);
-      gain.connect(ctx.destination);
+    // Fundamental Voice Pitch Sweep
+    const osc1 = ctx.createOscillator();
+    osc1.type = "sawtooth";
+    osc1.frequency.setValueAtTime(400, now);
+    osc1.frequency.linearRampToValueAtTime(760, now + 0.18);
+    osc1.frequency.exponentialRampToValueAtTime(340, now + 0.55);
 
-      osc.start(now);
-      osc.stop(now + 0.4);
-    }
+    // Harmonic Overtone for realistic feline timbre
+    const osc2 = ctx.createOscillator();
+    osc2.type = "sine";
+    osc2.frequency.setValueAtTime(800, now);
+    osc2.frequency.linearRampToValueAtTime(1520, now + 0.18);
+    osc2.frequency.exponentialRampToValueAtTime(680, now + 0.55);
 
-    // 2. Japanese Voice Synthesizer "Nyaa~!" Effect
-    if ("speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const meowPhrases = ["ニャー！", "ニャン！", "にゃーお！", "ニャー〜！"];
-      const randomMeow = meowPhrases[Math.floor(Math.random() * meowPhrases.length)];
-      const utt = new SpeechSynthesisUtterance(randomMeow);
-      utt.lang = "ja-JP";
-      utt.pitch = 1.7;
-      utt.rate = 1.5;
-      window.speechSynthesis.speak(utt);
-    }
+    // Connect Audio Nodes
+    osc1.connect(filter);
+    osc2.connect(filter);
+    filter.connect(masterGain);
+    masterGain.connect(ctx.destination);
+
+    // Play Meow Sound
+    osc1.start(now);
+    osc2.start(now);
+    osc1.stop(now + 0.55);
+    osc2.stop(now + 0.55);
   } catch (e) {
-    console.error("Cat meow sound playback error:", e);
+    console.error("Cat meow sound error:", e);
   }
 };
