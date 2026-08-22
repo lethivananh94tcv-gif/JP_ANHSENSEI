@@ -21,16 +21,23 @@ public class DataSeeder implements CommandLineRunner {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
+    private final org.springframework.jdbc.core.JdbcTemplate jdbcTemplate;
 
-    public DataSeeder(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder) {
+    public DataSeeder(UserRepository userRepository, RoleRepository roleRepository, PasswordEncoder passwordEncoder, org.springframework.jdbc.core.JdbcTemplate jdbcTemplate) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
     @Transactional
     public void run(String... args) {
+        // 0. Ensure target_lesson_id in import_jobs allows NULL values
+        try {
+            jdbcTemplate.execute("ALTER TABLE import_jobs ALTER COLUMN target_lesson_id DROP NOT NULL;");
+        } catch (Exception ignored) {}
+
         // 1. Ensure ADMIN Role exists
         Role adminRole = roleRepository.findByRoleName("ADMIN")
                 .orElseGet(() -> roleRepository.save(new Role(null, "ADMIN", "Quản trị viên hệ thống", null)));
