@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import { playCatMeowSound } from "@/lib/utils/catSound";
 
 interface ManekiNeko3DProps {
   onClick?: () => void;
@@ -9,10 +10,15 @@ interface ManekiNeko3DProps {
 }
 
 export default function ManekiNeko3D({ onClick, className = "" }: ManekiNeko3DProps) {
+  const handleClick = () => {
+    playCatMeowSound();
+    if (onClick) onClick();
+  };
+
   return (
     <div
-      onClick={onClick}
-      title="Bấm vào Chú Mèo Thần Tài để Rút Quẻ May Mắn Mỗi Ngày! 🐾"
+      onClick={handleClick}
+      title="Bấm vào Chú Mèo Thần Tài để nghe Mèo Kêu & Rút Quẻ May Mắn! 🐾"
       className={`relative cursor-pointer group flex flex-col items-center justify-center select-none ${className}`}
     >
       {/* Floating Ambient Glow */}

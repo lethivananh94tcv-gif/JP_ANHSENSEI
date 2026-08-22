@@ -5,6 +5,8 @@ import { DueFlashcardsCountData } from "./types";
 import { Sparkles, Play, Flame, ArrowRight, HelpCircle, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
+import { playCatMeowSound } from "@/lib/utils/catSound";
+
 interface VocabularyHeroProps {
   onContinueLatest: () => void;
   dueData?: DueFlashcardsCountData | null;
@@ -40,6 +42,7 @@ export default function VocabularyHero({
   const [catQuoteIndex, setCatQuoteIndex] = useState(0);
 
   const handleCatClick = () => {
+    playCatMeowSound();
     setCatQuoteIndex((prev) => {
       let nextIndex = Math.floor(Math.random() * catQuotes.length);
       while (nextIndex === prev && catQuotes.length > 1) {
