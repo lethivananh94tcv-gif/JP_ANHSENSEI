@@ -289,9 +289,10 @@ export default function LearnerVocabulariesHubPage() {
     }
   };
 
-  const handleContinueLesson = () => {
-    if (!selectedLesson) return;
-    router.push(`/lessons/${selectedLesson.lessonId}`);
+  const handleContinueLesson = (lessonToOpen?: LessonItem) => {
+    const target = lessonToOpen || selectedLesson;
+    if (!target) return;
+    router.push(`/lessons/${target.lessonId}`);
   };
 
   const handleReviewDueFlashcards = () => {
@@ -301,6 +302,11 @@ export default function LearnerVocabulariesHubPage() {
       router.push("/flashcards");
     }
   };
+
+  const nextSuggestedLesson = lessons.find((l) => {
+    const p = progressMap[l.lessonId] || progressMap[l.sortOrder];
+    return !p || (p.completionPercent < 100 && p.status !== "COMPLETED");
+  });
 
   useEffect(() => {
     initializePageData();
@@ -360,7 +366,9 @@ export default function LearnerVocabulariesHubPage() {
           ) : selectedLesson ? (
             <SelectedLessonProgress
               lesson={selectedLesson}
+              nextLesson={nextSuggestedLesson}
               progress={progressMap[selectedLesson.lessonId] || progressMap[selectedLesson.sortOrder]}
+              nextLessonProgress={nextSuggestedLesson ? (progressMap[nextSuggestedLesson.lessonId] || progressMap[nextSuggestedLesson.sortOrder]) : null}
               dueData={dueData}
               onContinueLesson={handleContinueLesson}
               onReviewDueFlashcards={handleReviewDueFlashcards}
