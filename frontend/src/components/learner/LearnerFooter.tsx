@@ -7,7 +7,7 @@ export default function LearnerFooter() {
     <footer className="mt-12 border-t border-[#DED3C8] bg-[#FFFDF9] py-8 text-[#76685F]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs">
         <div className="flex items-center gap-2">
-          <span className="font-serif font-black text-base text-[#231917] tracking-wider">
+          <span className="font-black text-base text-[#231917] tracking-wider">
             ANH SENSEI
           </span>
           <span className="text-[10px] font-medium text-[#76685F]">

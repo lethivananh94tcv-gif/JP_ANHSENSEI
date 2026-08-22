@@ -2,73 +2,126 @@
 
 import { useState, useEffect, useRef } from "react";
 import { VocabularyDto } from "./VocabularyLearningItem";
+import { Sparkles, CheckCircle2, AlertCircle, RotateCcw, ArrowRight, Lightbulb } from "lucide-react";
 
 interface TypingStudyModeProps {
   vocabularies: VocabularyDto[];
 }
 
-// Basic Kana to Romaji converter for instant validation
-function convertKanaToRomajiVariants(kanaStr: string): string[] {
+// Complete Hepburn & Kunrei-shiki Romaji Converter Engine
+function toRomajiVariants(kanaStr: string): string[] {
   if (!kanaStr) return [];
-  
-  // Direct common mappings
-  const map: Record<string, string[]> = {
-    わたし: ["watashi", "watasi"],
-    わたしたち: ["watashitachi", "watasitachi"],
-    あなた: ["anata"],
-    あのひと: ["anohito"],
-    あのかた: ["anokata"],
-    みなさん: ["minasan", "minnasan"],
-    せんせい: ["sensei"],
-    きょうし: ["kyoushi", "kyoshi"],
-    gakusei: ["gakusei"],
-    かいしゃいん: ["kaishain"],
-    しゃいん: ["shain"],
-    ぎんこういん: ["ginkoin", "ginkouin"],
-    いしゃ: ["isha"],
-    けんきゅうしゃ: ["kenkyuusha", "kenkyusha"],
-    エンジニア: ["enjinia"],
-    だいがく: ["daigaku"],
-    びょういん: ["byouin", "byoin"],
-    でんき: ["denki"],
-    だれ: ["dare"],
-    どなた: ["donata"],
-    さい: ["sai"],
-    なんさい: ["nansai"],
-    おいくつ: ["oikutsu"],
-    はい: ["hai"],
-    いいえ: ["iie"],
-    はじめまして: ["hajimemashite", "hazimemasite"],
-    どうぞよろしく: ["douzoyoroshiku", "dozoyoroshiku"],
+
+  const s = kanaStr.trim().toLowerCase();
+  const variants = new Set<string>();
+
+  const digraphs: Record<string, string> = {
+    "きゃ": "kya", "きゅ": "kyu", "きょ": "kyo",
+    "しゃ": "sha", "しゅ": "shu", "しょ": "sho",
+    "ちゃ": "cha", "ちゅ": "chu", "ちょ": "cho",
+    "にゃ": "nya", "にゅ": "nyu", "にょ": "nyo",
+    "ひゃ": "hya", "ひゅ": "hyu", "ひょ": "hyo",
+    "みゃ": "mya", "みゅ": "myu", "みょ": "myo",
+    "りゃ": "rya", "りゅ": "ryu", "りょ": "ryo",
+    "ぎゃ": "gya", "ぎゅ": "gyu", "ぎょ": "gyo",
+    "じゃ": "ja", "じゅ": "ju", "じょ": "jo",
+    "びゃ": "bya", "びゅ": "byu", "びょ": "byo",
+    "ぴゃ": "pya", "ぴゅ": "pyu", "ぴょ": "pyo",
+    "キャ": "kya", "キュ": "kyu", "キョ": "kyo",
+    "シャ": "sha", "シュ": "shu", "ショ": "sho",
+    "チャ": "cha", "チュ": "chu", "チョ": "cho",
+    "ニャ": "nya", "ニュ": "nyu", "ニョ": "nyo",
+    "ヒャ": "hya", "ヒュ": "hyu", "ヒョ": "hyo",
+    "ミャ": "mya", "ミュ": "myu", "ミョ": "myo",
+    "リャ": "rya", "リュ": "ryu", "リョ": "ryo",
+    "ギャ": "gya", "ギュ": "gyu", "ギョ": "gyo",
+    "ジャ": "ja", "ジュ": "ju", "ジョ": "jo",
+    "ビャ": "bya", "ビュ": "byu", "ビョ": "byo",
+    "ピャ": "pya", "ピュ": "pyu", "ピョ": "pyo",
   };
 
-  const normKana = kanaStr.trim().toLowerCase();
-  if (map[normKana]) return map[normKana];
-
-  // Character-by-character conversion fallback
-  const charMap: Record<string, string> = {
-    あ: "a", い: "i", う: "u", え: "e", お: "o",
-    か: "ka", き: "ki", く: "ku", け: "ke", こ: "ko",
-    さ: "sa", し: "shi", す: "su", せ: "se", そ: "so",
-    た: "ta", ち: "chi", つ: "tsu", て: "te", と: "to",
-    な: "na", に: "ni", ぬ: "nu", ね: "ne", の: "no",
-    は: "ha", ひ: "hi", ふ: "fu", へ: "he", ほ: "ho",
-    ま: "ma", み: "mi", む: "mu", め: "me", も: "mo",
-    や: "ya", ゆ: "yu", よ: "yo",
-    ら: "ra", り: "ri", る: "ru", れ: "re", ろ: "ro",
-    わ: "wa", を: "wo", ん: "n",
-    が: "ga", ぎ: "gi", ぐ: "gu", げ: "ge", ご: "go",
-    ざ: "za", じ: "ji", ず: "zu", ぜ: "ze", ぞ: "zo",
-    だ: "da", ぢ: "ji", づ: "zu", で: "de", ど: "do",
-    ば: "ba", び: "bi", ぶ: "bu", べ: "be", ぼ: "bo",
-    ぱ: "pa", ぴ: "pi", ぷ: "pu", ぺ: "pe", ぽ: "po",
+  const singles: Record<string, string> = {
+    "あ": "a", "い": "i", "う": "u", "え": "e", "お": "o",
+    "か": "ka", "き": "ki", "く": "ku", "け": "ke", "こ": "ko",
+    "さ": "sa", "し": "shi", "す": "su", "せ": "se", "そ": "so",
+    "た": "ta", "ち": "chi", "つ": "tsu", "て": "te", "と": "to",
+    "な": "na", "に": "ni", "ぬ": "nu", "ね": "ne", "の": "no",
+    "は": "ha", "ひ": "hi", "ふ": "fu", "へ": "he", "ほ": "ho",
+    "ま": "ma", "み": "mi", "む": "mu", "め": "me", "も": "mo",
+    "や": "ya", "ゆ": "yu", "よ": "yo",
+    "ら": "ra", "り": "ri", "る": "ru", "れ": "re", "ろ": "ro",
+    "わ": "wa", "を": "wo", "ん": "n",
+    "が": "ga", "ぎ": "gi", "ぐ": "gu", "げ": "ge", "ご": "go",
+    "ざ": "za", "じ": "ji", "ず": "zu", "ぜ": "ze", "ぞ": "zo",
+    "だ": "da", "ぢ": "ji", "づ": "zu", "で": "de", "ど": "do",
+    "ば": "ba", "び": "bi", "ぶ": "bu", "べ": "be", "ぼ": "bo",
+    "ぱ": "pa", "ぴ": "pi", "ぷ": "pu", "ぺ": "pe", "ぽ": "po",
+    "ア": "a", "イ": "i", "ウ": "u", "エ": "e", "オ": "o",
+    "カ": "ka", "キ": "ki", "ク": "ku", "ケ": "ke", "コ": "ko",
+    "サ": "sa", "シ": "shi", "ス": "su", "セ": "se", "ソ": "so",
+    "タ": "ta", "チ": "chi", "ツ": "tsu", "テ": "te", "ト": "to",
+    "ナ": "na", "ニ": "ni", "ヌ": "nu", "ネ": "ne", "ノ": "no",
+    "ハ": "ha", "ヒ": "hi", "フ": "fu", "ヘ": "he", "ホ": "ho",
+    "マ": "ma", "ミ": "mi", "ム": "mu", "メ": "me", "モ": "mo",
+    "ヤ": "ya", "ユ": "yu", "ヨ": "yo",
+    "ラ": "ra", "リ": "ri", "ル": "ru", "レ": "re", "ロ": "ro",
+    "ワ": "wa", "ヲ": "wo", "ン": "n",
+    "ガ": "ga", "ギ": "gi", "グ": "gu", "ゲ": "ge", "ゴ": "go",
+    "ザ": "za", "ジ": "ji", "ズ": "zu", "ゼ": "ze", "ゾ": "zo",
+    "ダ": "da", "ヂ": "ji", "ヅ": "zu", "デ": "de", "ド": "do",
+    "バ": "ba", "ビ": "bi", "ブ": "bu", "ベ": "be", "ボ": "bo",
+    "パ": "pa", "ピ": "pi", "プ": "pu", "ペ": "pe", "ポ": "po",
   };
 
-  let romaji = "";
-  for (const ch of normKana) {
-    romaji += charMap[ch] || ch;
+  let mainRomaji = "";
+  let i = 0;
+  while (i < s.length) {
+    if ((s[i] === "っ" || s[i] === "ッ") && i + 1 < s.length) {
+      const nextPair = s.substring(i + 1, i + 3);
+      const nextChar = s[i + 1];
+      let nextRomaji = "";
+      if (digraphs[nextPair]) {
+        nextRomaji = digraphs[nextPair];
+      } else if (singles[nextChar]) {
+        nextRomaji = singles[nextChar];
+      }
+      if (nextRomaji) {
+        mainRomaji += nextRomaji[0];
+      }
+      i++;
+      continue;
+    }
+
+    const pair = s.substring(i, i + 2);
+    if (digraphs[pair]) {
+      mainRomaji += digraphs[pair];
+      i += 2;
+      continue;
+    }
+
+    const ch = s[i];
+    if (singles[ch]) {
+      mainRomaji += singles[ch];
+    } else {
+      mainRomaji += ch;
+    }
+    i++;
   }
-  return [romaji];
+
+  variants.add(mainRomaji);
+  const kunrei = mainRomaji
+    .replace(/shi/g, "si")
+    .replace(/chi/g, "ti")
+    .replace(/tsu/g, "tu")
+    .replace(/ji/g, "zi")
+    .replace(/fu/g, "hu");
+  variants.add(kunrei);
+
+  if (mainRomaji.endsWith("masu")) {
+    variants.add(mainRomaji.replace(/masu$/, ""));
+  }
+
+  return Array.from(variants);
 }
 
 export default function TypingStudyMode({ vocabularies }: TypingStudyModeProps) {
@@ -77,6 +130,7 @@ export default function TypingStudyMode({ vocabularies }: TypingStudyModeProps) 
   const [userInput, setUserInput] = useState("");
   const [status, setStatus] = useState<"IDLE" | "CORRECT" | "WRONG">("IDLE");
   const [score, setScore] = useState(0);
+  const [showHint, setShowHint] = useState(false);
 
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -86,6 +140,7 @@ export default function TypingStudyMode({ vocabularies }: TypingStudyModeProps) 
     setUserInput("");
     setStatus("IDLE");
     setScore(0);
+    setShowHint(false);
   }, [vocabularies]);
 
   const currentCard = cards[currentIndex];
@@ -104,18 +159,17 @@ export default function TypingStudyMode({ vocabularies }: TypingStudyModeProps) 
     if (currentCard.word) validTargets.add(normalize(currentCard.word));
     if (currentCard.kana) validTargets.add(normalize(currentCard.kana));
     if (currentCard.kanjiForm) validTargets.add(normalize(currentCard.kanjiForm));
+    if (currentCard.romaji) validTargets.add(normalize(currentCard.romaji));
 
-    // Add Romaji variants for Kana
     if (currentCard.kana) {
-      const romajiVariants = convertKanaToRomajiVariants(currentCard.kana);
+      const romajiVariants = toRomajiVariants(currentCard.kana);
       romajiVariants.forEach((variant) => validTargets.add(normalize(variant)));
     }
     if (currentCard.word) {
-      const romajiVariants = convertKanaToRomajiVariants(currentCard.word);
+      const romajiVariants = toRomajiVariants(currentCard.word);
       romajiVariants.forEach((variant) => validTargets.add(normalize(variant)));
     }
 
-    // STRICT MATCH CHECK: Input must be in validTargets set!
     const isMatched = validTargets.has(normInput);
 
     if (isMatched) {
@@ -130,6 +184,7 @@ export default function TypingStudyMode({ vocabularies }: TypingStudyModeProps) 
     if (cards.length === 0) return;
     setUserInput("");
     setStatus("IDLE");
+    setShowHint(false);
     setCurrentIndex((prev) => (prev + 1) % cards.length);
     setTimeout(() => inputRef.current?.focus(), 100);
   };
@@ -152,33 +207,55 @@ export default function TypingStudyMode({ vocabularies }: TypingStudyModeProps) 
 
   if (!cards || cards.length === 0) {
     return (
-      <div className="bg-[#FFFDF9] border border-[#DED3C8] rounded-3xl p-8 text-center text-[#76685F]">
+      <div className="bg-[#FFFDF9] border border-[#DED3C8] rounded-3xl p-8 text-center text-[#76685F] font-bold">
         Không có từ vựng nào để luyện gõ.
       </div>
     );
   }
 
+  const romajiAnswer = currentCard?.kana ? toRomajiVariants(currentCard.kana)[0] : currentCard?.romaji || "";
+  const firstLetterHint = romajiAnswer ? `${romajiAnswer[0]}...` : "";
+
   return (
     <div className="space-y-6 max-w-xl mx-auto">
       {/* Header */}
-      <div className="flex items-center justify-between bg-[#FAF3EB] border border-[#DED3C8] px-5 py-3 rounded-2xl">
-        <span className="text-xs font-extrabold text-[#56423E]">
-          Từ thứ <span className="text-[#C65D4B]">{currentIndex + 1}</span> / {cards.length}
+      <div className="flex items-center justify-between bg-[#FAF3EB] border border-[#DED3C8] px-5 py-3 rounded-2xl shadow-xs">
+        <span className="text-xs font-black text-[#56423E]">
+          Từ thứ <span className="text-[#C65D4B] font-black">{currentIndex + 1}</span> / {cards.length}
         </span>
-        <span className="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">
+        <span className="text-xs font-black text-emerald-800 bg-emerald-100 px-3.5 py-1 rounded-full border border-emerald-300">
           🎯 Điểm: {score}
         </span>
       </div>
 
       {/* Main Prompt Card */}
-      <div className="bg-[#FFFDF9] border-2 border-[#DED3C8] rounded-3xl p-8 text-center space-y-6 shadow-sm">
-        <span className="bg-[#FAF3EB] text-[#8B6F5A] border border-[#DED3C8] text-[10px] font-bold px-3 py-1 rounded-full uppercase">
-          Nhập từ Tiếng Nhật tương ứng (Romaji / Kana / Kanji)
-        </span>
+      <div className="bg-gradient-to-br from-[#FFFDF9] via-[#FAF3EB] to-[#F5EFE6] border-2 border-[#DED3C8] rounded-3xl p-8 text-center space-y-6 shadow-xl relative overflow-hidden">
+        <div className="flex items-center justify-between">
+          <span className="bg-white text-[#C65D4B] border border-[#C65D4B]/30 text-[10px] font-black px-3.5 py-1 rounded-full uppercase shadow-2xs">
+            Gõ Romaji hoặc Kana tương ứng
+          </span>
 
-        <h2 className="text-3xl sm:text-4xl font-sans font-bold text-[#C65D4B]">
-          {(currentCard.meaningVi || "").normalize("NFC")}
-        </h2>
+          {/* Optional Hint Button */}
+          <button
+            type="button"
+            onClick={() => setShowHint(!showHint)}
+            className="text-[11px] font-black text-amber-700 bg-amber-100 hover:bg-amber-200 border border-amber-300 px-3 py-1 rounded-xl transition-all flex items-center gap-1 cursor-pointer"
+          >
+            <Lightbulb className="w-3.5 h-3.5 text-amber-600" />
+            <span>{showHint ? `Gợi ý: ${firstLetterHint}` : "Xem gợi ý"}</span>
+          </button>
+        </div>
+
+        <div className="space-y-1">
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-[#C65D4B] leading-tight">
+            {(currentCard.meaningVi || "").normalize("NFC")}
+          </h2>
+          {showHint && (
+            <p className="text-xs text-[#8B6F5A] font-extrabold pt-1">
+              💡 Chữ cái đầu: <span className="font-mono text-[#C65D4B] font-black uppercase">{firstLetterHint}</span>
+            </p>
+          )}
+        </div>
 
         {/* Input Field */}
         <div className="space-y-3">
@@ -191,8 +268,8 @@ export default function TypingStudyMode({ vocabularies }: TypingStudyModeProps) 
               if (status !== "IDLE") setStatus("IDLE");
             }}
             onKeyDown={handleKeyDown}
-            placeholder="Gõ Romaji (ví dụ: watashi) hoặc わたし / 私..."
-            className={`w-full px-5 py-3.5 text-center text-lg font-jp font-semibold rounded-2xl border-2 outline-hidden transition-all ${
+            placeholder="Gõ Romaji (ví dụ: watashi) hoặc Hiragana..."
+            className={`w-full px-5 py-4 text-center text-lg font-black rounded-2xl border-2 outline-hidden transition-all shadow-inner ${
               status === "CORRECT"
                 ? "border-emerald-500 bg-emerald-50 text-emerald-900"
                 : status === "WRONG"
@@ -204,7 +281,8 @@ export default function TypingStudyMode({ vocabularies }: TypingStudyModeProps) 
 
           {/* Feedback Section */}
           {status === "CORRECT" && (
-            <div className="p-3 bg-emerald-100 border border-emerald-300 text-emerald-800 text-xs font-bold rounded-xl animate-fade-in flex items-center justify-center gap-2">
+            <div className="p-3 bg-emerald-500/20 border border-emerald-500/40 text-emerald-800 text-xs font-black rounded-xl animate-fade-in flex items-center justify-center gap-2">
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <span>🎉 Chính xác!</span>
               <span className="font-jp text-sm">
                 ({currentCard.word} {currentCard.kana && currentCard.kana !== currentCard.word ? `/ ${currentCard.kana}` : ""})
@@ -213,11 +291,13 @@ export default function TypingStudyMode({ vocabularies }: TypingStudyModeProps) 
           )}
 
           {status === "WRONG" && (
-            <div className="p-3 bg-red-100 border border-red-300 text-red-800 text-xs font-bold rounded-xl animate-fade-in space-y-1">
-              <p>⚠️ Chưa chính xác!</p>
-              <p className="font-jp text-sm">
-                Đáp án chuẩn: <span className="font-bold underline">{currentCard.word}</span>{" "}
-                {currentCard.kana && currentCard.kana !== currentCard.word ? `(${currentCard.kana})` : ""}
+            <div className="p-3.5 bg-rose-500/15 border border-rose-500/30 text-rose-900 text-xs font-bold rounded-xl animate-fade-in space-y-1">
+              <div className="flex items-center justify-center gap-1.5 font-black text-rose-700">
+                <AlertCircle className="w-4 h-4 text-rose-600" />
+                <span>Chưa chính xác!</span>
+              </div>
+              <p className="font-jp text-xs">
+                Romaji chuẩn: <span className="font-mono font-black text-[#C65D4B]">{romajiAnswer}</span> • Kanji: <span className="font-bold underline">{currentCard.word}</span> {currentCard.kana ? `(${currentCard.kana})` : ""}
               </p>
             </div>
           )}
@@ -229,7 +309,7 @@ export default function TypingStudyMode({ vocabularies }: TypingStudyModeProps) 
             <button
               onClick={handleCheck}
               disabled={!userInput.trim()}
-              className="px-8 py-3 bg-[#C65D4B] hover:bg-[#a84c3c] disabled:opacity-50 text-white font-bold text-xs rounded-xl transition-all shadow-sm"
+              className="px-8 py-3 bg-[#C65D4B] hover:bg-[#B04F3F] disabled:opacity-50 text-white font-black text-xs sm:text-sm rounded-2xl transition-all shadow-md cursor-pointer hover:scale-105"
             >
               Kiểm tra (Enter)
             </button>
@@ -237,23 +317,26 @@ export default function TypingStudyMode({ vocabularies }: TypingStudyModeProps) 
             <>
               <button
                 onClick={handleRetrySameWord}
-                className="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-extrabold text-xs rounded-xl shadow-sm transition-all"
+                className="px-6 py-3 bg-amber-500 hover:bg-amber-600 text-white font-black text-xs sm:text-sm rounded-2xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
               >
-                🔄 Gõ lại từ này
+                <RotateCcw className="w-4 h-4" />
+                <span>Gõ lại từ này</span>
               </button>
               <button
                 onClick={handleNext}
-                className="px-6 py-3 bg-[#56423E] hover:bg-[#3d2f2c] text-white font-extrabold text-xs rounded-xl shadow-sm transition-all"
+                className="px-6 py-3 bg-[#231917] hover:bg-[#C65D4B] text-white font-black text-xs sm:text-sm rounded-2xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
               >
-                Từ tiếp theo ►
+                <span>Từ tiếp theo</span>
+                <ArrowRight className="w-4 h-4" />
               </button>
             </>
           ) : (
             <button
               onClick={handleNext}
-              className="px-8 py-3 bg-[#56423E] hover:bg-[#3d2f2c] text-white font-bold text-xs rounded-xl shadow-sm"
+              className="px-8 py-3 bg-[#231917] hover:bg-[#C65D4B] text-white font-black text-xs sm:text-sm rounded-2xl shadow-md transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105"
             >
-              Từ tiếp theo ►
+              <span>Từ tiếp theo</span>
+              <ArrowRight className="w-4 h-4" />
             </button>
           )}
         </div>

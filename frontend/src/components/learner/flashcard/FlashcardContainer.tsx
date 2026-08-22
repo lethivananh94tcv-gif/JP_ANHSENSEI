@@ -40,6 +40,7 @@ export default function FlashcardContainer({
   const [deck, setDeck] = useState<FlashcardItemDto[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
+  const [isSwapped, setIsSwapped] = useState<boolean>(false); // Front <-> Back Swap State
   const [isShuffle, setIsShuffle] = useState<boolean>(false);
   const [isAutoplay, setIsAutoplay] = useState<boolean>(false);
 
@@ -132,6 +133,11 @@ export default function FlashcardContainer({
     setIsFlipped((prev) => !prev);
   }, []);
 
+  const handleToggleSwap = useCallback(() => {
+    setIsSwapped((prev) => !prev);
+    setIsFlipped(false);
+  }, []);
+
   const handleRate = useCallback(
     (rating: FlashcardRating) => {
       if (!currentCard) return;
@@ -160,7 +166,6 @@ export default function FlashcardContainer({
         return next;
       });
 
-      // Notify optional API sync
       if (onReviewApiSync) {
         onReviewApiSync(currentCard, rating);
       }
@@ -170,7 +175,6 @@ export default function FlashcardContainer({
     [currentCard, onReviewApiSync, handleNext]
   );
 
-  // Toggle Shuffle
   const handleToggleShuffle = () => {
     if (deck.length === 0) return;
     const nextState = !isShuffle;
@@ -186,12 +190,10 @@ export default function FlashcardContainer({
     setIsFlipped(false);
   };
 
-  // Toggle Autoplay
   const handleToggleAutoplay = () => {
     setIsAutoplay((prev) => !prev);
   };
 
-  // Autoplay Effect
   useEffect(() => {
     if (isAutoplay && !isFinished && deck.length > 0) {
       autoplayTimerRef.current = setTimeout(() => {
@@ -207,10 +209,8 @@ export default function FlashcardContainer({
     };
   }, [isAutoplay, isFlipped, isFinished, deck.length, handleNext]);
 
-  // Keyboard Shortcuts Listener
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      // Do NOT trigger shortcuts when typing in input/textarea or when exit modal is open
       if (
         showExitModal ||
         ["INPUT", "TEXTAREA", "SELECT"].includes((e.target as HTMLElement)?.tagName) ||
@@ -246,7 +246,6 @@ export default function FlashcardContainer({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleFlip, handleNext, handlePrev, handleRate, showExitModal, isFinished]);
 
-  // Exit Confirmation Handler
   const handleRequestBack = () => {
     if (!isFinished && (masteredIds.size > 0 || unmasteredIds.size > 0 || currentIndex > 0)) {
       setShowExitModal(true);
@@ -260,7 +259,6 @@ export default function FlashcardContainer({
     if (onBack) onBack();
   };
 
-  // Restart Options
   const handleRetryUnmastered = () => {
     const retryItems = items.filter(
       (item) => unmasteredIds.has(item.id) || somewhatIds.has(item.id)
@@ -295,7 +293,6 @@ export default function FlashcardContainer({
     }
   };
 
-  // Render Loading State
   if (loading) {
     return (
       <div className="min-h-screen bg-[#FDFBF7] text-[#302A26]">
@@ -305,7 +302,6 @@ export default function FlashcardContainer({
     );
   }
 
-  // Render Error State
   if (error) {
     return (
       <div className="min-h-screen bg-[#FDFBF7] text-[#302A26]">
@@ -315,7 +311,6 @@ export default function FlashcardContainer({
     );
   }
 
-  // Render Empty State
   if (!items || items.length === 0) {
     return (
       <div className="min-h-screen bg-[#FDFBF7] text-[#302A26]">
@@ -351,14 +346,12 @@ export default function FlashcardContainer({
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] text-[#302A26] flex flex-col justify-between select-none">
-      {/* Toast Warning Popup */}
       {toastMessage && (
         <div className="fixed top-4 left-1/2 -translate-x-1/2 z-50 bg-[#302A26] text-white text-xs font-bold px-4 py-2.5 rounded-2xl shadow-xl animate-fade-in">
           {toastMessage}
         </div>
       )}
 
-      {/* Top Header */}
       <FlashcardHeader
         levelCode={levelCode}
         lessonTitle={lessonTitle}
@@ -366,7 +359,6 @@ export default function FlashcardContainer({
         onBack={handleRequestBack}
       />
 
-      {/* Main Single Viewport Container */}
       <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-4 flex flex-col justify-between items-center">
         {isFinished ? (
           <FlashcardCompletionScreen
@@ -379,7 +371,6 @@ export default function FlashcardContainer({
           />
         ) : (
           <div className="w-full flex flex-col justify-between items-center flex-1 space-y-4 my-auto">
-            {/* Progress & Controls Bar */}
             <FlashcardProgressBar
               currentIndex={currentIndex}
               totalCount={deck.length}
@@ -387,21 +378,22 @@ export default function FlashcardContainer({
               masteredCount={masteredIds.size}
               isShuffle={isShuffle}
               isAutoplay={isAutoplay}
+              isSwapped={isSwapped}
               onToggleShuffle={handleToggleShuffle}
               onToggleAutoplay={handleToggleAutoplay}
+              onToggleSwap={handleToggleSwap}
             />
 
-            {/* 3D Flashcard */}
             {currentCard && (
               <FlashcardCard3D
                 card={currentCard}
                 isFlipped={isFlipped}
+                isSwapped={isSwapped}
                 onFlip={handleFlip}
                 onAudioError={() => showToast("Phát âm tự động không khả dụng trên trình duyệt của bạn.")}
               />
             )}
 
-            {/* Rating Controls Bar */}
             <FlashcardRatingBar
               isFlipped={isFlipped}
               onFlip={handleFlip}
@@ -412,13 +404,11 @@ export default function FlashcardContainer({
               hasNext={currentIndex < deck.length - 1}
             />
 
-            {/* Keyboard Shortcuts Legend */}
             <FlashcardShortcutLegend />
           </div>
         )}
       </main>
 
-      {/* Exit Confirmation Modal */}
       {showExitModal && (
         <div className="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs flex items-center justify-center p-4 animate-fade-in">
           <div className="bg-[#FFFDF9] border-2 border-[#DED3C8] rounded-3xl p-6 sm:p-8 max-w-sm w-full shadow-2xl text-center space-y-5">

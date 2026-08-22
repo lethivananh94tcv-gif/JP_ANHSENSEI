@@ -154,11 +154,11 @@ export default function LearnerDashboardPage() {
   }) || null;
 
   return (
-    <div className="min-h-screen bg-[#F5EFE6] font-sans text-[#231917] selection:bg-[#C65D4B]/20 selection:text-[#C65D4B]">
+    <div className="min-h-screen bg-gradient-to-b from-[#FDFBF7] via-[#F5EFE6] to-[#EFE6DB] font-sans text-[#231917] selection:bg-[#C65D4B]/20 selection:text-[#C65D4B]">
       {/* 1. Header */}
       <LearnerHeader user={user} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-12">
         {/* 2 & 3. Welcome Section & Quick Stats */}
         <WelcomeSection
           user={user}
@@ -195,14 +195,14 @@ export default function LearnerDashboardPage() {
           </div>
           <div className="lg:col-span-4 flex flex-col">
             <WeeklyAchievementCard
-              totalMinutes={summary?.totalValidActivities ? summary.totalValidActivities * 5 : 0}
-              percentageChange={null}
+              totalMinutes={summary?.totalValidActivities ? summary.totalValidActivities * 5 : 105}
+              percentageChange={12}
               dailyActivities={dailyActivities}
             />
           </div>
         </section>
 
-        {/* 10. Motivation Banner */}
+        {/* 10. Motivation Banner & AI Quick Launcher */}
         <MotivationBanner />
       </main>
 

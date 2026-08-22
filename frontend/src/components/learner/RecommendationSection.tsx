@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { LessonSummary } from "@/types/learner";
+import { Sparkles, Play, ArrowRight } from "lucide-react";
+import Card3DTilt from "@/components/ui/Card3DTilt";
+import { motion } from "framer-motion";
 
 interface RecommendationSectionProps {
   recommendedLessons: LessonSummary[];
@@ -12,45 +15,62 @@ export default function RecommendationSection({ recommendedLessons }: Recommenda
 
   return (
     <div className="space-y-4">
-      <div>
-        <h2 className="text-xl sm:text-2xl font-serif font-extrabold text-[#231917] tracking-tight">
-          Đề xuất cho bạn
-        </h2>
-        <p className="text-xs text-[#76685F]">Các bài học mới nhất được ban biên tập xuất bản</p>
+      <div className="flex items-center justify-between">
+        <div>
+          <div className="inline-flex items-center gap-1.5 text-xs font-black text-[#C65D4B] uppercase tracking-wider bg-[#F5EFE6] px-3.5 py-1 rounded-full border border-[#DED3C8]">
+            <Sparkles className="w-4 h-4 text-[#C65D4B]" />
+            <span>Bài Học Nổi Bật N5 – N3</span>
+          </div>
+          <h2 className="text-xl sm:text-2xl font-black text-[#231917] tracking-tight pt-1">
+            Đề xuất dành riêng cho bạn
+          </h2>
+        </div>
+        <Link
+          href="/learn"
+          className="text-xs font-extrabold text-[#C65D4B] hover:text-[#B04F3F] transition-colors inline-flex items-center gap-1"
+        >
+          <span>Tất cả bài học</span>
+          <ArrowRight className="w-3.5 h-3.5" />
+        </Link>
       </div>
 
       {topLessons.length === 0 ? (
-        <div className="bg-[#FFFDF9] rounded-3xl p-6 border border-[#DED3C8] text-center text-xs text-[#76685F]">
+        <div className="bg-white rounded-3xl p-6 border border-[#DED3C8] text-center text-xs text-[#76685F] shadow-xs">
           Chưa có bài học đề xuất nào. Vui lòng khám phá thư viện bài học!
         </div>
       ) : (
         <div className="space-y-3">
           {topLessons.map((les) => (
-            <div
-              key={les.lessonId}
-              className="bg-[#FFFDF9] border border-[#DED3C8] rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-2xs hover:shadow-sm hover:border-[#8B6F5A]/40 transition-all group"
-            >
-              <div className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-xl bg-[#F5EFE6] border border-[#DED3C8]/60 text-[#C65D4B] font-serif font-extrabold text-sm flex items-center justify-center flex-shrink-0">
-                  {les.levelCode || "N5"}
-                </div>
-                <div>
-                  <h3 className="text-sm font-bold text-[#231917] group-hover:text-[#C65D4B] transition-colors">
-                    {les.title}
-                  </h3>
-                  <p className="text-xs text-[#76685F] line-clamp-1">
-                    {les.description || "Nội dung bài học chuẩn hóa thiết kế khoa học."}
-                  </p>
-                </div>
-              </div>
+            <Card3DTilt key={les.lessonId}>
+              <div className="bg-gradient-to-br from-[#FFFDF9] via-[#FAF3EB] to-[#F5EFE6] border border-[#DED3C8] hover:border-[#C65D4B]/50 rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 shadow-md hover:shadow-xl transition-all duration-300 group">
+                <div className="flex items-center gap-4">
+                  {/* 3D Level Emblem */}
+                  <motion.div
+                    whileHover={{ scale: 1.1, rotate: 4 }}
+                    className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-[#C65D4B] to-[#FF8C78] text-white font-jp font-black text-sm flex items-center justify-center flex-shrink-0 shadow-md shadow-[#C65D4B]/30 border border-white/40"
+                  >
+                    {les.levelCode || "N5"}
+                  </motion.div>
 
-              <Link
-                href={`/lessons/${les.lessonId}`}
-                className="px-4 py-2 bg-[#F5EFE6] hover:bg-[#8B6F5A] text-[#8B6F5A] hover:text-white border border-[#DED3C8] font-bold text-xs rounded-xl transition-all shadow-2xs flex-shrink-0"
-              >
-                Bắt đầu ➔
-              </Link>
-            </div>
+                  <div>
+                    <h3 className="text-sm sm:text-base font-extrabold text-[#231917] group-hover:text-[#C65D4B] transition-colors">
+                      {les.title}
+                    </h3>
+                    <p className="text-xs text-[#76685F] line-clamp-1 mt-0.5 font-medium">
+                      {les.description || "Nội dung bài học chuẩn hóa Minna no Nihongo thiết kế khoa học."}
+                    </p>
+                  </div>
+                </div>
+
+                <Link
+                  href={`/lessons/${les.lessonId}`}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#C65D4B] hover:bg-[#B04F3F] text-white font-black text-xs rounded-xl transition-all shadow-md flex-shrink-0 hover:scale-105"
+                >
+                  <Play className="w-3.5 h-3.5 fill-current" />
+                  <span>Bắt đầu bài học</span>
+                </Link>
+              </div>
+            </Card3DTilt>
           ))}
         </div>
       )}

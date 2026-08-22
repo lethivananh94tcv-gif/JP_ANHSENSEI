@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from "react";
 import Script from "next/script";
+import Link from "next/link";
 import { motion } from "framer-motion";
-import { ArrowRight, KeyRound, Mail, User, ShieldCheck, Sparkles, EyeOff, Eye, Loader2, CheckCircle2, AlertCircle, LockKeyhole, Check, CircleDot, Info, RefreshCw } from "lucide-react";
+import { ArrowRight, ArrowLeft, KeyRound, Mail, User, ShieldCheck, Sparkles, EyeOff, Eye, Loader2, CheckCircle2, AlertCircle, LockKeyhole, Check, CircleDot, Info, RefreshCw } from "lucide-react";
 
 declare global {
   interface Window {
@@ -786,6 +787,14 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
       />
 
       <div className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-gradient-to-br from-[#FDFBF7] via-[#F5EFE6] to-[#E8DFD5] p-4 sm:p-8 font-sans">
+        {/* Back to Home Button */}
+        <Link
+          href="/"
+          className="absolute top-4 left-4 sm:top-6 sm:left-6 z-50 flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-white/90 hover:bg-white text-[#8B6F5A] hover:text-[#C65D4B] font-bold text-xs sm:text-sm backdrop-blur-md border border-[#8B6F5A]/20 shadow-md transition-all hover:scale-105"
+        >
+          <ArrowLeft className="w-4 h-4" /> Quay lại Trang chủ
+        </Link>
+
         {/* Background Pattern */}
         <div className="absolute inset-0 opacity-10 bg-[radial-gradient(#8B6F5A_1px,transparent_1px)] [background-size:16px_16px] pointer-events-none" />
 

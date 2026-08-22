@@ -2,7 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
+import LearnerDashboardPage from "./(learner)/dashboard/page";
 import {
   Sparkles,
   BookOpen,
@@ -20,35 +22,41 @@ import {
 } from "lucide-react";
 
 export default function Home() {
-  const [currentUser, setCurrentUser] = useState<{ name?: string; email?: string; role?: string } | null>(null);
+  const router = useRouter();
+  const [currentUser, setCurrentUser] = useState<{ name?: string; fullName?: string; email?: string; role?: string } | null>(null);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       const storedUser = localStorage.getItem("user");
-      if (storedUser) {
+      const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token");
+      if (storedUser && token) {
         try {
-          setCurrentUser(JSON.parse(storedUser));
+          const parsed = JSON.parse(storedUser);
+          if (parsed.role === "ADMIN") {
+            router.replace("/admin");
+            return;
+          }
+          setCurrentUser(parsed);
         } catch (e) {
           console.error("Failed to parse user data from localStorage", e);
         }
       }
+      setIsCheckingAuth(false);
     }
-  }, []);
+  }, [router]);
+
+  if (isCheckingAuth) {
+    return null;
+  }
+
+  if (currentUser) {
+    return <LearnerDashboardPage />;
+  }
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] text-[#2C221E] font-sans selection:bg-[#C65D4B]/20 selection:text-[#C65D4B]">
-      {/* Logged in User Notification Bar (If applicable) */}
-      {currentUser && (
-        <div className="bg-[#8B6F5A] text-white px-4 py-2 text-center text-sm font-medium flex items-center justify-center gap-3">
-          <span>👋 Chào mừng <strong>{currentUser.name || currentUser.email}</strong>! Bạn đang ở Trang chủ Khách.</span>
-          <Link
-            href={currentUser.role === "ADMIN" ? "/admin" : "/dashboard"}
-            className="inline-flex items-center gap-1 bg-[#C65D4B] hover:bg-[#b04f3f] text-white px-3 py-1 rounded-full text-xs font-semibold transition-colors shadow-sm"
-          >
-            Vào Bảng điều khiển của bạn <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
-      )}
 
       {/* Header / Navigation Bar */}
       <header className="sticky top-0 z-50 backdrop-blur-md bg-[#FDFBF7]/85 border-b border-[#8B6F5A]/15 shadow-sm transition-all">
@@ -83,29 +91,18 @@ export default function Home() {
           </nav>
 
           <div className="flex items-center gap-3">
-            {currentUser ? (
-              <Link
-                href={currentUser.role === "ADMIN" ? "/admin" : "/dashboard"}
-                className="flex items-center gap-2 rounded-xl bg-[#8B6F5A] px-5 py-2.5 font-semibold text-white hover:bg-[#735a47] transition shadow-md shadow-[#8B6F5A]/20"
-              >
-                <User className="w-4 h-4" /> Bảng điều khiển
-              </Link>
-            ) : (
-              <>
-                <Link
-                  href="/login"
-                  className="rounded-xl px-5 py-2.5 font-semibold text-[#8B6F5A] hover:bg-[#8B6F5A]/10 transition text-sm"
-                >
-                  Đăng nhập
-                </Link>
-                <Link
-                  href="/register"
-                  className="rounded-xl bg-gradient-to-r from-[#8B6F5A] to-[#C65D4B] px-5 py-2.5 font-semibold text-white hover:opacity-95 transition text-sm shadow-md shadow-[#C65D4B]/20 flex items-center gap-1.5"
-                >
-                  Đăng ký miễn phí <ArrowRight className="w-4 h-4" />
-                </Link>
-              </>
-            )}
+            <Link
+              href="/login"
+              className="rounded-xl px-5 py-2.5 font-semibold text-[#8B6F5A] hover:bg-[#8B6F5A]/10 transition text-sm"
+            >
+              Đăng nhập
+            </Link>
+            <Link
+              href="/register"
+              className="rounded-xl bg-gradient-to-r from-[#8B6F5A] to-[#C65D4B] px-5 py-2.5 font-semibold text-white hover:opacity-95 transition text-sm shadow-md shadow-[#C65D4B]/20 flex items-center gap-1.5"
+            >
+              Đăng ký miễn phí <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </header>
