@@ -5,8 +5,6 @@ import { DueFlashcardsCountData } from "./types";
 import { Sparkles, Play, Flame, ArrowRight, HelpCircle, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
-import { playCatMeowSound } from "@/lib/utils/catSound";
-
 interface VocabularyHeroProps {
   onContinueLatest: () => void;
   dueData?: DueFlashcardsCountData | null;
@@ -42,7 +40,6 @@ export default function VocabularyHero({
   const [catQuoteIndex, setCatQuoteIndex] = useState(0);
 
   const handleCatClick = () => {
-    playCatMeowSound();
     setCatQuoteIndex((prev) => {
       let nextIndex = Math.floor(Math.random() * catQuotes.length);
       while (nextIndex === prev && catQuotes.length > 1) {
@@ -160,11 +157,10 @@ export default function VocabularyHero({
               type="button"
               onClick={onContinueLatest}
               disabled={disabled}
-              className={`relative group/btn overflow-hidden px-6 py-3 font-black text-xs sm:text-sm rounded-2xl shadow-lg border border-white/20 transition-all flex items-center justify-center gap-2 ${
-                disabled
-                  ? "bg-white/10 text-white/40 cursor-not-allowed border-transparent"
-                  : "bg-gradient-to-r from-[#C65D4B] via-[#B04F3F] to-[#8B6F5A] hover:from-[#B04F3F] hover:to-[#765844] text-white hover:scale-105 active:scale-98 cursor-pointer"
-              }`}
+              className={`relative group/btn overflow-hidden px-6 py-3 font-black text-xs sm:text-sm rounded-2xl shadow-lg border border-white/20 transition-all flex items-center justify-center gap-2 ${disabled
+                ? "bg-white/10 text-white/40 cursor-not-allowed border-transparent"
+                : "bg-gradient-to-r from-[#C65D4B] via-[#B04F3F] to-[#8B6F5A] hover:from-[#B04F3F] hover:to-[#765844] text-white hover:scale-105 active:scale-98 cursor-pointer"
+                }`}
             >
               <Play className="w-4 h-4 fill-white" />
               <span>Tiếp tục bài học dở dang</span>
