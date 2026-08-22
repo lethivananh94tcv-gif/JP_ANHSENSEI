@@ -237,6 +237,7 @@ public class ExcelValidationService {
             int kanaIdx = 1;
             int meaningIdx = 3;
 
+            int lessonCol = -1;
             if (headerRow != null) {
                 for (int c = headerRow.getFirstCellNum(); c < headerRow.getLastCellNum(); c++) {
                     Cell cell = headerRow.getCell(c);
@@ -245,6 +246,7 @@ public class ExcelValidationService {
                         if (h.contains("word") || h.contains("từ vựng")) wordIdx = c;
                         else if (h.contains("kana") || h.contains("phiên âm")) kanaIdx = c;
                         else if (h.contains("meaning") || h.contains("nghĩa")) meaningIdx = c;
+                        else if (h.contains("lesson")) lessonCol = c;
                     }
                 }
             }
@@ -252,6 +254,7 @@ public class ExcelValidationService {
             String word = getCellValue(row.getCell(wordIdx));
             String kana = getCellValue(row.getCell(kanaIdx));
             String meaningVi = getCellValue(row.getCell(meaningIdx));
+            String lessonVal = lessonCol >= 0 ? getCellValue(row.getCell(lessonCol)) : "";
 
             if (word.isEmpty()) {
                 errors.add(new ImportError(job, rowNum, sheetName, "Word (*)", "word", "REQUIRED_FIELD_MISSING", "Từ vựng gốc (Word) là trường bắt buộc."));
@@ -262,9 +265,9 @@ public class ExcelValidationService {
                 hasError = true;
             }
 
-            String inFileKey = word.toLowerCase() + "||" + kana.toLowerCase();
+            String inFileKey = lessonVal + "||" + word.toLowerCase() + "||" + kana.toLowerCase() + "||" + meaningVi.toLowerCase();
             if (inFileDuplicates.contains(inFileKey) && !word.isEmpty()) {
-                errors.add(new ImportError(job, rowNum, sheetName, "Word/Kana", "word", "DUPLICATE_IN_FILE", "Từ vựng '" + word + "' (" + kana + ") bị trùng lặp trong cùng tệp."));
+                errors.add(new ImportError(job, rowNum, sheetName, "Word/Kana", "word", "DUPLICATE_IN_FILE", "Từ vựng '" + word + "' (" + kana + " - " + meaningVi + ") bị trùng lặp trong cùng tệp."));
                 hasError = true;
             } else {
                 inFileDuplicates.add(inFileKey);
