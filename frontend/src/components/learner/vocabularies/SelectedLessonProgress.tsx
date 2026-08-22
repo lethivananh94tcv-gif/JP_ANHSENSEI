@@ -84,10 +84,15 @@ export default function SelectedLessonProgress({
               Ôn ngay ➔
             </button>
           </div>
-        ) : (
+        ) : completionPercent > 0 || status === "IN_PROGRESS" || status === "COMPLETED" ? (
           <div className="bg-[#FAF3EB] border border-[#DED3C8] px-4 py-2.5 rounded-2xl text-xs font-bold text-[#8B6F5A] flex items-center gap-2">
             <span>✓</span>
             <span>Hôm nay đã ôn xong</span>
+          </div>
+        ) : (
+          <div className="bg-[#FAF3EB] border border-[#DED3C8] px-4 py-2.5 rounded-2xl text-xs font-bold text-[#8B6F5A] flex items-center gap-2">
+            <span>🌱</span>
+            <span>Chưa có thẻ đến hạn</span>
           </div>
         )}
       </div>
