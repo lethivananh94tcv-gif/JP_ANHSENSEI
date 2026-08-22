@@ -1,11 +1,7 @@
 "use client";
 
-import Card3DTilt from "@/components/ui/Card3DTilt";
-import { BookOpen, Layers, Keyboard, Sparkles, ArrowRight, Gamepad2 } from "lucide-react";
-import { motion } from "framer-motion";
-
 interface VocabularyModeSelectorProps {
-  onSelectMode: (mode: "list" | "cards" | "typing" | "match") => void;
+  onSelectMode: (mode: "list" | "cards" | "typing") => void;
   disabled?: boolean;
 }
 
@@ -16,86 +12,81 @@ export default function VocabularyModeSelector({
   const modes = [
     {
       key: "list" as const,
-      title: "Xem Từ Vựng",
-      subtext: "Tra cứu & đọc furigana",
-      badge: "Tra cứu nhanh",
-      orbGrad: "from-[#C65D4B] to-[#FF8C78]",
-      icon: BookOpen,
+      title: "Xem từ",
+      subtext: "Tra cứu nhanh",
+      bgColor: "bg-[#F3D99B]",
+      borderColor: "border-[#E5C77F]",
+      textColor: "text-[#302A26]",
+      icon: (
+        <svg className="w-6 h-6 text-[#8B6F5A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+        </svg>
+      ),
     },
     {
       key: "cards" as const,
-      title: "Lật Thẻ 3D Flashcards",
-      subtext: "Nhớ từ bằng thuật toán SRS",
-      badge: "Ghi nhớ 3D",
-      orbGrad: "from-[#8B6F5A] to-[#A3856F]",
-      icon: Layers,
+      title: "Lật thẻ",
+      subtext: "Nhớ bằng thẻ",
+      bgColor: "bg-[#BFD6B8]",
+      borderColor: "border-[#A7C2A0]",
+      textColor: "text-[#233520]",
+      icon: (
+        <svg className="w-6 h-6 text-[#4F6A4A]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+        </svg>
+      ),
     },
     {
       key: "typing" as const,
-      title: "Luyện Gõ Từ Vựng",
-      subtext: "Romaji / Kana phản xạ",
-      badge: "Phản xạ nhanh",
-      orbGrad: "from-[#231917] to-[#45332F]",
-      icon: Keyboard,
-    },
-    {
-      key: "match" as const,
-      title: "Game Ghép Thẻ 3D",
-      subtext: "Ghép 6 cặp từ trong 60s",
-      badge: "Thử thách +50 XP",
-      orbGrad: "from-amber-500 to-amber-600",
-      icon: Gamepad2,
+      title: "Luyện gõ",
+      subtext: "Romaji hoặc Kana",
+      bgColor: "bg-[#BFD9E8]",
+      borderColor: "border-[#A4C7DB]",
+      textColor: "text-[#1C3240]",
+      icon: (
+        <svg className="w-6 h-6 text-[#38596E]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      ),
     },
   ];
 
   return (
     <section aria-label="Lựa chọn chế độ học" className="space-y-4">
-      <div className="flex items-center gap-2">
-        <Sparkles className="w-4 h-4 text-[#C65D4B]" />
-        <h3 className="text-lg font-extrabold text-[#231917]">
-          Bạn muốn học từ vựng theo phương pháp nào?
-        </h3>
-      </div>
+      <h3 className="text-lg font-serif font-black text-[#302A26]">
+        Hôm nay học kiểu gì?
+      </h3>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {modes.map((m) => {
-          const IconComp = m.icon;
-          return (
-            <Card3DTilt key={m.key} className="h-full">
-              <button
-                type="button"
-                disabled={disabled}
-                onClick={() => onSelectMode(m.key)}
-                className={`group relative w-full h-full bg-gradient-to-br from-[#FFFDF9] via-[#FAF3EB] to-[#F5EFE6] border-2 border-[#DED3C8] hover:border-[#C65D4B]/60 p-5 rounded-3xl shadow-md hover:shadow-xl transition-all text-left flex flex-col justify-between min-h-[130px] overflow-hidden ${
-                  disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
-                }`}
-              >
-                <div className="flex justify-between items-start z-10">
-                  <motion.div
-                    whileHover={{ scale: 1.1, rotate: 6 }}
-                    className={`w-11 h-11 rounded-2xl bg-gradient-to-tr ${m.orbGrad} text-white shadow-md flex items-center justify-center border border-white/30`}
-                  >
-                    <IconComp className="w-5.5 h-5.5" />
-                  </motion.div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        {modes.map((m) => (
+          <button
+            key={m.key}
+            type="button"
+            disabled={disabled}
+            onClick={() => onSelectMode(m.key)}
+            className={`group p-5 rounded-3xl border ${m.bgColor} ${m.borderColor} shadow-xs hover:shadow-md hover:-translate-y-0.5 transition-all text-left flex flex-col justify-between min-h-[110px] ${
+              disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+            }`}
+          >
+            <div className="flex justify-between items-start">
+              <div className="p-2 bg-white/60 rounded-2xl border border-white/80 shadow-2xs group-hover:scale-105 transition-transform">
+                {m.icon}
+              </div>
+              <span className="text-xs font-black text-[#8B6F5A] opacity-0 group-hover:opacity-100 transition-opacity">
+                Mở ➔
+              </span>
+            </div>
 
-                  <span className="text-[10px] font-black text-[#8B6F5A] bg-[#F5EFE6] px-3 py-1 rounded-full border border-[#DED3C8] shadow-2xs">
-                    {m.badge}
-                  </span>
-                </div>
-
-                <div className="pt-3 z-10 space-y-1">
-                  <h4 className="text-base font-extrabold text-[#231917] group-hover:text-[#C65D4B] transition-colors leading-tight">
-                    {m.title}
-                  </h4>
-                  <p className="text-xs font-semibold text-[#76685F] flex items-center justify-between">
-                    <span>{m.subtext}</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-[#C65D4B]" />
-                  </p>
-                </div>
-              </button>
-            </Card3DTilt>
-          );
-        })}
+            <div className="pt-2">
+              <h4 className={`text-base font-extrabold ${m.textColor}`}>
+                {m.title}
+              </h4>
+              <p className="text-xs font-semibold text-[#756A62]">
+                {m.subtext}
+              </p>
+            </div>
+          </button>
+        ))}
       </div>
     </section>
   );
