@@ -31,7 +31,7 @@ public class ImportJob {
     @Column(name = "target_level_id", nullable = false)
     private Long targetLevelId;
 
-    @Column(name = "target_lesson_id", nullable = false)
+    @Column(name = "target_lesson_id", nullable = true)
     private Long targetLessonId;
 
     @Enumerated(EnumType.STRING)
