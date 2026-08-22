@@ -133,7 +133,11 @@ export default function VocabularyAllLessonsModal({
               return (
                 <div
                   key={lsn.lessonId}
-                  onClick={() => onSelectLesson(lsn)}
+                  onClick={() => {
+                    onSelectLesson(lsn);
+                    onOpenLesson(lsn, targetMode);
+                    onClose();
+                  }}
                   className={`p-4 rounded-2xl border-2 transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 cursor-pointer ${
                     isCompleted
                       ? "bg-emerald-50/50 border-emerald-500/50 hover:border-emerald-600 shadow-xs"
