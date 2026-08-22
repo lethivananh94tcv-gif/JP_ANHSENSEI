@@ -21,10 +21,14 @@ public class LearnerLevelController {
 
     @GetMapping
     public ResponseEntity<List<LevelDto>> getPublishedLevels() {
-        List<LevelDto> list = levelRepository.findByStatusOrderBySortOrderAsc("PUBLISHED").stream()
-                .map(LevelDto::new)
-                .collect(Collectors.toList());
-        return ResponseEntity.ok(list);
+        List<com.anhsensei.curriculum.domain.Level> rawList = levelRepository.findByStatusOrderBySortOrderAsc("PUBLISHED");
+        java.util.Map<String, LevelDto> uniqueMap = new java.util.LinkedHashMap<>();
+        for (com.anhsensei.curriculum.domain.Level l : rawList) {
+            if (l.getDeletedAt() == null && !uniqueMap.containsKey(l.getCode())) {
+                uniqueMap.put(l.getCode(), new LevelDto(l));
+            }
+        }
+        return ResponseEntity.ok(new java.util.ArrayList<>(uniqueMap.values()));
     }
 
     @GetMapping("/{id}")

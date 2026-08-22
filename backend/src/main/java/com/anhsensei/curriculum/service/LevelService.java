@@ -82,9 +82,14 @@ public class LevelService {
 
     @Transactional(readOnly = true)
     public List<LevelDto> getAllLevelsForAdmin() {
-        return levelRepository.findAllByOrderBySortOrderAsc().stream()
-                .map(LevelDto::new)
-                .collect(Collectors.toList());
+        List<Level> rawList = levelRepository.findAllByOrderBySortOrderAsc();
+        java.util.Map<String, LevelDto> uniqueMap = new java.util.LinkedHashMap<>();
+        for (Level l : rawList) {
+            if (l.getDeletedAt() == null && !uniqueMap.containsKey(l.getCode())) {
+                uniqueMap.put(l.getCode(), new LevelDto(l));
+            }
+        }
+        return new java.util.ArrayList<>(uniqueMap.values());
     }
 
     @Transactional

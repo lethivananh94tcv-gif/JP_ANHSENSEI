@@ -66,8 +66,11 @@ export default function AdminImportPage() {
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
-          setLevels(data);
-          setSelectedLevelId(String(data[0].levelId || "1"));
+          const uniqueLevels = data.filter(
+            (lvl, idx, self) => idx === self.findIndex((t) => t.code === lvl.code)
+          );
+          setLevels(uniqueLevels);
+          setSelectedLevelId(String(uniqueLevels[0].levelId || "1"));
         }
       })
       .catch(() => setLevels([]));
