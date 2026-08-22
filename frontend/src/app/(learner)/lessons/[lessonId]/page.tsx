@@ -188,9 +188,10 @@ export default function LearnerLessonStudyPage() {
           sortOrder={sortOrder}
           lessonTitle={lessonTitle}
           levelCode={levelCode}
-          totalItemsCount={totalItemsCount}
-          totalLearnedCount={totalLearnedCount}
-          progressPercentage={overallProgressPercentage}
+          learnedCount={totalLearnedCount}
+          totalCount={totalItemsCount}
+          progressPercent={overallProgressPercentage}
+          isCompleted={isLessonMastered}
         />
 
         {/* Lesson Completed Banner */}
