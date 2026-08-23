@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { UserProfile } from "@/types/learner";
 import { Sparkles, BookOpen, Languages, PenTool, Flame, Bot, Home, User, LogOut, Shield, Menu, X, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
+import AnhSenseiLogo from "@/components/ui/AnhSenseiLogo";
 
 interface LearnerHeaderProps {
   user?: UserProfile | null;
@@ -72,19 +73,9 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
   return (
     <header className="sticky top-0 z-50 w-full bg-[#FFFDF9]/90 backdrop-blur-md border-b border-[#DED3C8] shadow-xs select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
-        {/* Left: Brand Logo with Dynamic Stamp Animation & Shimmer */}
+        {/* Left: Brand Logo with Dynamic Cat Mascot Icon */}
         <Link href="/" className="flex items-center gap-3 group relative cursor-pointer">
-          <motion.div
-            whileHover={{ scale: 1.12, rotate: [0, -8, 8, 0] }}
-            transition={{ type: "spring", stiffness: 450, damping: 15 }}
-            className="relative w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#8B6F5A] via-[#C65D4B] to-[#FF8C78] text-white font-serif font-black text-xl flex items-center justify-center shadow-lg shadow-[#C65D4B]/30 border border-white/40 overflow-hidden"
-          >
-            <span className="relative z-10 group-hover:scale-110 transition-transform">学</span>
-            
-            {/* Sparkling Shimmer Beam Effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/40 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 pointer-events-none" />
-            <Sparkles className="w-3.5 h-3.5 text-amber-300 absolute top-0.5 right-0.5 opacity-0 group-hover:opacity-100 transition-opacity animate-spin-slow pointer-events-none" />
-          </motion.div>
+          <AnhSenseiLogo size="md" />
 
           <div className="flex flex-col">
             <span className="font-serif font-black text-lg sm:text-xl tracking-wider text-[#231917] group-hover:text-[#C65D4B] transition-colors">

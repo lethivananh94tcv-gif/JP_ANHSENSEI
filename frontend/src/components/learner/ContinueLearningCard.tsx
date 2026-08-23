@@ -139,15 +139,21 @@ export default function ContinueLearningCard({
         )}
 
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <Link
-            href={`/lessons/${currentLesson.lessonId}`}
-            className="relative group overflow-hidden inline-flex items-center gap-3 px-7 py-4 bg-gradient-to-r from-[#C65D4B] via-[#B04F3F] to-[#8B6F5A] hover:from-[#B04F3F] hover:to-[#765844] text-white font-black text-xs sm:text-sm rounded-2xl shadow-lg transition-all hover:scale-105"
-          >
-            <Play className="w-4 h-4 fill-white" />
-            <span>{isStarted ? "Tiếp tục bài học" : "Chinh phục bài học ngay"}</span>
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            <div className="absolute inset-0 w-1/2 h-full bg-white/20 skew-x-12 -translate-x-full group-hover:translate-x-[300%] transition-transform duration-1000" />
-          </Link>
+          {(() => {
+            const isN4 = currentLesson.levelCode === "N4" || currentLesson.lessonId >= 100;
+            const targetId = isN4 ? (currentLesson.lessonId > 25 && currentLesson.lessonId <= 50 ? currentLesson.lessonId : 25 + (currentLesson.sortOrder || 1)) : (currentLesson.sortOrder || currentLesson.lessonId);
+            return (
+              <Link
+                href={`/lessons/${targetId}`}
+                className="relative group overflow-hidden inline-flex items-center gap-3 px-7 py-4 bg-gradient-to-r from-[#C65D4B] via-[#B04F3F] to-[#8B6F5A] hover:from-[#B04F3F] hover:to-[#765844] text-white font-black text-xs sm:text-sm rounded-2xl shadow-lg transition-all hover:scale-105"
+              >
+                <Play className="w-4 h-4 fill-white" />
+                <span>{isStarted ? "Tiếp tục bài học" : "Chinh phục bài học ngay"}</span>
+                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <div className="absolute inset-0 w-1/2 h-full bg-white/20 skew-x-12 -translate-x-full group-hover:translate-x-[300%] transition-transform duration-1000" />
+              </Link>
+            );
+          })()}
 
           <div className="flex items-center gap-1.5 text-xs font-extrabold text-[#8B6F5A]">
             <Star className="w-4 h-4 text-amber-500 fill-amber-500" />

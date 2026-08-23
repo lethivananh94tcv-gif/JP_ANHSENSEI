@@ -8,6 +8,7 @@ export interface FlashcardItemDto {
   exampleVi?: string;
   partOfSpeech?: string;
   audioUrl?: string;
+  notes?: string;
   contentType?: "VOCABULARY" | "KANJI" | "GRAMMAR";
 }
 

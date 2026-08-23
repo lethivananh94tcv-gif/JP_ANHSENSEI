@@ -111,7 +111,7 @@ export default function LearnerDashboardPage() {
     } finally {
       setLoading(false);
     }
-  }, [router, currentLesson]);
+  }, []);
 
   useEffect(() => {
     loadData();

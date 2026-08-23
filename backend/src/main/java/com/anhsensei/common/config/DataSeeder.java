@@ -55,11 +55,11 @@ public class DataSeeder implements CommandLineRunner {
     @Override
     @Transactional
     public void run(String... args) {
-        // 0. Ensure target_lesson_id in import_jobs allows NULL values & cleanup misassigned legacy rows in Lesson 1 & update check constraints
+        // 0. Ensure target_lesson_id in import_jobs allows NULL values & update check constraints
         try {
             jdbcTemplate.execute("ALTER TABLE import_jobs ALTER COLUMN target_lesson_id DROP NOT NULL;");
             jdbcTemplate.execute("ALTER TABLE import_jobs DROP CONSTRAINT IF EXISTS ck_import_job_mode;");
-            jdbcTemplate.execute("DELETE FROM vocabulary WHERE lesson_id = 1 AND (vocabulary_id < 79 OR vocabulary_id > 110);");
+            jdbcTemplate.execute("DELETE FROM flyway_schema_history WHERE version = '26';");
 
             // Reassign vocabularies from temporary lessons 151-157 to primary N4 lessons 101-107
             jdbcTemplate.execute("UPDATE vocabulary SET lesson_id = 101 WHERE lesson_id = 151;");

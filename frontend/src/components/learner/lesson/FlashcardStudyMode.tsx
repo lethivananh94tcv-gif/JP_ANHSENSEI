@@ -11,6 +11,7 @@ interface FlashcardStudyModeProps {
   levelCode?: string;
   lessonTitle?: string;
   onBack?: () => void;
+  onNextLesson?: () => void;
 }
 
 export default function FlashcardStudyMode({
@@ -19,6 +20,7 @@ export default function FlashcardStudyMode({
   levelCode = "N5",
   lessonTitle = "Bài học từ vựng",
   onBack,
+  onNextLesson,
 }: FlashcardStudyModeProps) {
   // Map VocabularyDto items to FlashcardItemDto
   const flashcardItems: FlashcardItemDto[] = useMemo(() => {
@@ -49,6 +51,7 @@ export default function FlashcardStudyMode({
       lessonTitle={lessonTitle}
       storageKey={`flashcard_progress_lesson_${lessonId}`}
       onBack={onBack}
+      onNextLesson={onNextLesson}
     />
   );
 }

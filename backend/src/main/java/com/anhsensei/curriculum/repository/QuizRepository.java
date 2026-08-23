@@ -14,4 +14,6 @@ public interface QuizRepository extends JpaRepository<Quiz, Long> {
     List<Quiz> findByLesson_LessonIdAndStatusAndDeletedAtIsNull(Long lessonId, String status);
 
     List<Quiz> findByLesson_LessonIdAndDeletedAtIsNull(Long lessonId);
+
+    java.util.Optional<Quiz> findByLesson_LessonId(Long lessonId);
 }

@@ -15,6 +15,7 @@ public class Quiz {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "lesson_id")
+    @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "level"})
     private Lesson lesson;
 
     @Column(name = "title", nullable = false, length = 200)
@@ -52,6 +53,12 @@ public class Quiz {
 
     @Column(name = "is_required", nullable = false)
     private Boolean isRequired = true;
+
+    @Column(name = "quiz_mode", length = 30)
+    private String quizMode = "MULTIPLE_CHOICE";
+
+    @Column(name = "difficulty_distribution", columnDefinition = "JSONB")
+    private String difficultyDistribution = "{\"easy\": 40, \"medium\": 40, \"hard\": 20}";
 
     @Column(name = "status", nullable = false, length = 20)
     private String status = "DRAFT";
@@ -117,6 +124,12 @@ public class Quiz {
 
     public Boolean getIsRequired() { return isRequired; }
     public void setIsRequired(Boolean isRequired) { this.isRequired = isRequired; }
+
+    public String getQuizMode() { return quizMode; }
+    public void setQuizMode(String quizMode) { this.quizMode = quizMode; }
+
+    public String getDifficultyDistribution() { return difficultyDistribution; }
+    public void setDifficultyDistribution(String difficultyDistribution) { this.difficultyDistribution = difficultyDistribution; }
 
     public String getStatus() { return status; }
     public void setStatus(String status) { this.status = status; }

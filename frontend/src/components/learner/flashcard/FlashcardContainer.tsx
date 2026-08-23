@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
+import { ArrowRight } from "lucide-react";
 import { FlashcardItemDto, FlashcardRating, FlashcardSessionStats } from "./types";
 import FlashcardHeader from "./FlashcardHeader";
 import FlashcardProgressBar from "./FlashcardProgressBar";
@@ -22,6 +23,7 @@ interface FlashcardContainerProps {
   error?: string;
   onRetry?: () => void;
   onBack?: () => void;
+  onNextLesson?: () => void;
   onReviewApiSync?: (item: FlashcardItemDto, rating: FlashcardRating) => void;
 }
 
@@ -35,6 +37,7 @@ export default function FlashcardContainer({
   error = "",
   onRetry,
   onBack,
+  onNextLesson,
   onReviewApiSync,
 }: FlashcardContainerProps) {
   const [deck, setDeck] = useState<FlashcardItemDto[]>([]);
@@ -368,6 +371,7 @@ export default function FlashcardContainer({
             onFinish={() => {
               if (onBack) onBack();
             }}
+            onNextLesson={onNextLesson}
           />
         ) : (
           <div className="w-full flex flex-col justify-between items-center flex-1 space-y-4 my-auto">
@@ -405,6 +409,19 @@ export default function FlashcardContainer({
             />
 
             <FlashcardShortcutLegend />
+
+            {onNextLesson && (
+              <div className="pt-2 flex justify-center w-full">
+                <button
+                  type="button"
+                  onClick={onNextLesson}
+                  className="inline-flex items-center justify-center gap-2.5 px-7 py-3 bg-gradient-to-r from-[#C65D4B] to-[#b54f3e] hover:from-[#b54f3e] hover:to-[#a34434] text-white font-extrabold text-sm rounded-2xl shadow-md hover:shadow-lg transition-all hover:scale-105 active:scale-98 cursor-pointer"
+                >
+                  <span>Bài tiếp theo</span>
+                  <ArrowRight className="w-4 h-4 text-white" />
+                </button>
+              </div>
+            )}
           </div>
         )}
       </main>

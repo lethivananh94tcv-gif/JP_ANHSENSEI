@@ -4,6 +4,7 @@ import com.anhsensei.curriculum.domain.Lesson;
 import com.anhsensei.curriculum.dto.*;
 import com.anhsensei.curriculum.repository.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/curriculum")
+@Transactional(readOnly = true)
 public class LearnerLessonController {
 
     private final LessonRepository lessonRepository;
@@ -36,10 +38,29 @@ public class LearnerLessonController {
 
     private Long resolveLessonId(Long inputId) {
         if (inputId == null) return null;
-        Optional<Lesson> lessonOpt = lessonRepository.findById(inputId);
-        if (lessonOpt.isPresent()) {
-            return inputId;
+
+        if (inputId > 0 && inputId <= 25) {
+            Optional<Lesson> lessonOpt = lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull(
+                    "N5", inputId.intValue(), "PUBLISHED"
+            );
+            if (lessonOpt.isPresent()) {
+                return lessonOpt.get().getLessonId();
+            }
+        } else if (inputId >= 26 && inputId <= 50) {
+            int n4SortOrder = inputId.intValue() - 25;
+            Optional<Lesson> lessonOpt = lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull(
+                    "N4", n4SortOrder, "PUBLISHED"
+            );
+            if (lessonOpt.isPresent()) {
+                return lessonOpt.get().getLessonId();
+            }
+        } else {
+            Optional<Lesson> lessonOpt = lessonRepository.findById(inputId);
+            if (lessonOpt.isPresent() && "PUBLISHED".equalsIgnoreCase(lessonOpt.get().getStatus()) && lessonOpt.get().getDeletedAt() == null) {
+                return inputId;
+            }
         }
+
         return inputId;
     }
 

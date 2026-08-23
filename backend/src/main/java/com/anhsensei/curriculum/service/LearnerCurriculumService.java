@@ -44,14 +44,35 @@ public class LearnerCurriculumService {
         if (lessonId == null) {
             throw new ResourceNotFoundException("Lesson", "id", 0);
         }
-        Optional<Lesson> lessonOpt = lessonRepository.findById(lessonId);
-        if (lessonOpt.isPresent()) {
-            return lessonOpt.get();
+
+        // 1. If lessonId is in range 1..25, resolve by N5 sort_order (e.g. /lessons/1 -> Bài 1 N5)
+        if (lessonId > 0 && lessonId <= 25) {
+            Optional<Lesson> lessonOpt = lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull(
+                    "N5", lessonId.intValue(), "PUBLISHED"
+            );
+            if (lessonOpt.isPresent()) {
+                return lessonOpt.get();
+            }
+        } 
+        // 2. If lessonId is in range 26..50, resolve by N4 sort_order (e.g. /lessons/26 -> Bài 26 N4, sort_order = 1)
+        else if (lessonId >= 26 && lessonId <= 50) {
+            int n4SortOrder = lessonId.intValue() - 25;
+            Optional<Lesson> lessonOpt = lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull(
+                    "N4", n4SortOrder, "PUBLISHED"
+            );
+            if (lessonOpt.isPresent()) {
+                return lessonOpt.get();
+            }
+        } 
+        // 3. Fallback to find directly by database Primary Key (lesson_id) only for ID > 50
+        else {
+            Optional<Lesson> lessonOpt = lessonRepository.findById(lessonId);
+            if (lessonOpt.isPresent() && "PUBLISHED".equalsIgnoreCase(lessonOpt.get().getStatus()) && lessonOpt.get().getDeletedAt() == null) {
+                return lessonOpt.get();
+            }
         }
-        return lessonRepository.findAll().stream()
-                .filter(l -> l.getSortOrder() != null && l.getSortOrder().equals(lessonId.intValue()))
-                .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Lesson", "id", lessonId));
+
+        throw new ResourceNotFoundException("Lesson", "id", lessonId);
     }
 
     @Transactional(readOnly = true)

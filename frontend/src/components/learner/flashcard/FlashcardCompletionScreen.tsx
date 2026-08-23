@@ -1,12 +1,14 @@
 "use client";
 
 import { FlashcardSessionStats } from "./types";
+import { ArrowRight } from "lucide-react";
 
 interface FlashcardCompletionScreenProps {
   stats: FlashcardSessionStats;
   onRetryUnmastered: () => void;
   onRestartAll: () => void;
   onFinish: () => void;
+  onNextLesson?: () => void;
 }
 
 export default function FlashcardCompletionScreen({
@@ -14,6 +16,7 @@ export default function FlashcardCompletionScreen({
   onRetryUnmastered,
   onRestartAll,
   onFinish,
+  onNextLesson,
 }: FlashcardCompletionScreenProps) {
   const retryCount = stats.unmasteredCount + stats.somewhatCount;
 
@@ -135,6 +138,17 @@ export default function FlashcardCompletionScreen({
 
       {/* 5. Action Buttons */}
       <div className="space-y-2.5 pt-2">
+        {onNextLesson && (
+          <button
+            type="button"
+            onClick={onNextLesson}
+            className="w-full py-3.5 px-6 bg-[#C65D4B] hover:bg-[#b54f3e] text-white font-extrabold text-xs sm:text-sm rounded-2xl shadow-md transition-all cursor-pointer flex items-center justify-center gap-2 active:scale-98"
+          >
+            <span>Bài tiếp theo</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        )}
+
         {retryCount > 0 && (
           <button
             type="button"

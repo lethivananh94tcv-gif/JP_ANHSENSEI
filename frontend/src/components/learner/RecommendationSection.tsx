@@ -62,13 +62,19 @@ export default function RecommendationSection({ recommendedLessons }: Recommenda
                   </div>
                 </div>
 
-                <Link
-                  href={`/lessons/${les.lessonId}`}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#C65D4B] hover:bg-[#B04F3F] text-white font-black text-xs rounded-xl transition-all shadow-md flex-shrink-0 hover:scale-105"
-                >
-                  <Play className="w-3.5 h-3.5 fill-current" />
-                  <span>Bắt đầu bài học</span>
-                </Link>
+                {(() => {
+                  const isN4 = les.levelCode === "N4" || les.lessonId >= 100;
+                  const targetId = isN4 ? (les.lessonId > 25 && les.lessonId <= 50 ? les.lessonId : 25 + (les.sortOrder || 1)) : (les.sortOrder || les.lessonId);
+                  return (
+                    <Link
+                      href={`/lessons/${targetId}`}
+                      className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#C65D4B] hover:bg-[#B04F3F] text-white font-black text-xs rounded-xl transition-all shadow-md flex-shrink-0 hover:scale-105"
+                    >
+                      <Play className="w-3.5 h-3.5 fill-current" />
+                      <span>Bắt đầu bài học</span>
+                    </Link>
+                  );
+                })()}
               </div>
             </Card3DTilt>
           ))}

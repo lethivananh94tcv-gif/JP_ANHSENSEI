@@ -108,17 +108,24 @@ export default function FlashcardCard3D({
           </div>
 
           {/* Main Front Content */}
-          <div className="my-auto space-y-4 w-full">
+          <div className="my-auto space-y-4 w-full flex flex-col items-center justify-center">
             {!isSwapped ? (
               /* Normal Mode: Japanese Front */
-              <>
-                <h2 className="text-4xl sm:text-5xl font-extrabold text-[#231917] tracking-wide leading-tight">
-                  {card.word}
+              <div className="space-y-3 text-center">
+                {/* Hiragana (Kana) TO */}
+                <h2 className="text-4xl sm:text-5xl font-extrabold text-[#231917] tracking-wider leading-tight">
+                  {card.kana || card.word}
                 </h2>
+                {/* Kanji Below (if exists and different from Kana) */}
+                {card.word && card.word !== card.kana && (
+                  <p className="text-2xl sm:text-3xl font-bold text-[#8B6F5A] tracking-widest font-jp">
+                    {card.word}
+                  </p>
+                )}
                 <button
                   type="button"
-                  onClick={(e) => handlePlayAudio(e, card.word)}
-                  className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                  onClick={(e) => handlePlayAudio(e, card.kana || card.word)}
+                  className={`inline-flex items-center gap-2 px-4 py-2 mt-2 rounded-xl text-xs font-black transition-all cursor-pointer ${
                     isPlayingAudio
                       ? "bg-[#C65D4B] text-white shadow-2xs"
                       : "bg-[#FAF3EB] hover:bg-[#F5EFE6] text-[#C65D4B] border border-[#DED3C8]"
@@ -127,10 +134,10 @@ export default function FlashcardCard3D({
                   <Volume2 className="w-4 h-4 text-[#C65D4B]" />
                   <span>Bấm để nghe phát âm</span>
                 </button>
-              </>
+              </div>
             ) : (
               /* Swapped Mode: Vietnamese Front */
-              <div className="space-y-2">
+              <div className="space-y-2 text-center">
                 <span className="text-xs font-bold text-[#8B6F5A] block uppercase tracking-wider">
                   Đoán từ tiếng Nhật tương ứng
                 </span>
@@ -189,61 +196,67 @@ export default function FlashcardCard3D({
           <div className="my-auto space-y-4 w-full py-4 flex flex-col items-center justify-center text-center">
             {!isSwapped ? (
               /* Normal Mode: Vietnamese Back */
-              <>
-                <div className="space-y-1 text-center">
-                  {card.kana && card.kana !== card.word && (
-                    <p className="text-xs font-bold text-[#8B6F5A] text-center">
-                      {card.kana}
-                    </p>
-                  )}
-                  <h3 className="text-4xl sm:text-5xl font-extrabold text-[#231917] tracking-wide text-center">
-                    {card.word}
-                  </h3>
-                </div>
-
-                <p className="text-2xl sm:text-3xl font-extrabold text-[#C65D4B] leading-snug text-center">
+              <div className="space-y-3 text-center flex flex-col items-center">
+                {/* Vietnamese Meaning BIG & PROMINENT */}
+                <h3 className="text-3xl sm:text-4xl font-black text-[#C65D4B] leading-snug text-center">
                   {card.meaningVi}
-                </p>
-              </>
+                </h3>
+
+                {/* Part of Speech / Description Badge */}
+                {card.partOfSpeech && card.partOfSpeech.trim().length > 0 && (
+                  <span className="inline-block text-xs font-extrabold text-[#8B6F5A] bg-[#FAF3EB] px-3.5 py-1.5 rounded-full border border-[#DED3C8] shadow-2xs">
+                    {card.partOfSpeech}
+                  </span>
+                )}
+              </div>
             ) : (
               /* Swapped Mode: Japanese Back */
-              <>
-                <div className="space-y-1.5 text-center">
-                  {card.kana && card.kana !== card.word && (
-                    <p className="text-sm font-bold text-[#8B6F5A] text-center">
-                      {card.kana}
-                    </p>
-                  )}
-                  <h3 className="text-4xl sm:text-5xl font-extrabold text-[#C65D4B] tracking-wide text-center">
+              <div className="space-y-3 text-center flex flex-col items-center">
+                {/* Hiragana (Kana) TO */}
+                <h3 className="text-4xl sm:text-5xl font-extrabold text-[#C65D4B] tracking-wide text-center">
+                  {card.kana || card.word}
+                </h3>
+                {/* Kanji Below (if exists) */}
+                {card.word && card.word !== card.kana && (
+                  <p className="text-2xl sm:text-3xl font-bold text-[#231917] tracking-widest font-jp">
                     {card.word}
-                  </h3>
-                </div>
-
-                <p className="text-xl sm:text-2xl font-bold text-[#231917] leading-snug text-center">
-                  {card.meaningVi}
-                </p>
-              </>
+                  </p>
+                )}
+                {/* Part of Speech Badge */}
+                {card.partOfSpeech && card.partOfSpeech.trim().length > 0 && (
+                  <span className="inline-block text-xs font-extrabold text-[#8B6F5A] bg-[#FAF3EB] px-3.5 py-1.5 rounded-full border border-[#DED3C8]">
+                    {card.partOfSpeech}
+                  </span>
+                )}
+              </div>
             )}
 
-            {/* Example Sentence Section */}
-            {card.exampleJp && card.exampleJp.trim().length > 0 && (
-              <div className="pt-4 border-t border-[#DED3C8]/60 space-y-1.5 w-full text-center flex flex-col items-center">
-                <div className="flex items-center justify-center gap-2 text-center">
-                  <p className="text-sm sm:text-base font-bold text-[#231917] leading-relaxed text-center font-jp">
-                    {card.exampleJp}
-                  </p>
-                  <button
-                    type="button"
-                    onClick={(e) => handlePlayAudio(e, card.exampleJp)}
-                    className="p-1 text-[#C65D4B] transition-colors cursor-pointer shrink-0"
-                    title="Nghe câu ví dụ"
-                  >
-                    <Volume2 className="w-3.5 h-3.5" />
-                  </button>
-                </div>
+            {/* Example Sentence & Notes Section */}
+            {((card.exampleJp && card.exampleJp.trim().length > 0) || (card.notes && card.notes.trim().length > 0)) && (
+              <div className="pt-4 border-t border-[#DED3C8]/60 space-y-2 w-full text-center flex flex-col items-center">
+                {card.exampleJp && (
+                  <div className="flex items-center justify-center gap-2 text-center">
+                    <p className="text-sm sm:text-base font-bold text-[#231917] leading-relaxed text-center font-jp">
+                      {card.exampleJp}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={(e) => handlePlayAudio(e, card.exampleJp)}
+                      className="p-1 text-[#C65D4B] transition-colors cursor-pointer shrink-0"
+                      title="Nghe câu ví dụ"
+                    >
+                      <Volume2 className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                )}
                 {card.exampleVi && (
                   <p className="text-xs sm:text-sm font-medium text-[#6E5E52] text-center">
                     {card.exampleVi}
+                  </p>
+                )}
+                {card.notes && card.notes.trim().length > 0 && (
+                  <p className="text-xs font-medium text-[#8B6F5A] bg-[#FAF3EB]/80 px-3 py-1 rounded-lg border border-[#DED3C8]/50 italic">
+                    💡 {card.notes}
                   </p>
                 )}
               </div>

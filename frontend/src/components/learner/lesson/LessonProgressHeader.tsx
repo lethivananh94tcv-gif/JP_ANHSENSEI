@@ -25,6 +25,12 @@ export default function LessonProgressHeader({
   progressPercent,
   isCompleted,
 }: LessonProgressHeaderProps) {
+  const inputNum = Number(lessonId) || 1;
+  const displayLessonNum =
+    levelCode === "N4"
+      ? (sortOrder ? 25 + sortOrder : inputNum > 25 ? inputNum : 25 + inputNum)
+      : (sortOrder && inputNum > 50 ? sortOrder : inputNum);
+
   return (
     <div className="space-y-4">
       {/* Breadcrumb & Top Right Back Button Bar */}
@@ -38,7 +44,7 @@ export default function LessonProgressHeader({
             Trình độ {levelCode || "JLPT"}
           </Link>
           <span>/</span>
-          <span className="text-[#C65D4B] font-black">Bài học #{sortOrder || lessonId}</span>
+          <span className="text-[#C65D4B] font-black">Bài học #{displayLessonNum}</span>
         </nav>
 
         <button

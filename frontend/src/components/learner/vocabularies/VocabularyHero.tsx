@@ -64,16 +64,24 @@ export default function VocabularyHero({
   return (
     <motion.section
       aria-label="Khung chào mừng học từ vựng"
-      whileHover={{ scale: 1.006 }}
-      transition={{ type: "spring", stiffness: 400, damping: 30 }}
-      className="relative w-full bg-gradient-to-r from-[#1D1614] via-[#2A1D1A] to-[#1E1513] text-white border border-[#8B6F5A]/50 rounded-3xl p-5 sm:p-6 lg:p-7 shadow-xl overflow-hidden group select-none"
+      whileHover={{ scale: 1.002 }}
+      transition={{ duration: 0.2 }}
+      className="relative w-full bg-gradient-to-r from-[#FFFDF9] via-[#FAF3EB] to-[#F5EFE6] text-[#2C201D] border border-[#DED0C5] rounded-3xl p-5 sm:p-6 lg:p-7 shadow-md overflow-hidden group select-none"
     >
-      {/* Specular Ambient Glow */}
-      <div className="absolute -top-20 -right-20 w-80 h-80 bg-gradient-to-br from-[#C65D4B]/30 via-amber-500/10 to-transparent rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-16 -left-16 w-60 h-60 bg-[#FF8C78]/20 rounded-full blur-2xl pointer-events-none" />
+      {/* Subtle Japanese Wood Pattern Texture Accent */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.05] select-none"
+        style={{
+          backgroundImage: `url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%238B6F5A' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 40L40 0H20L0 20M40 40V20L20 40'/%3E%3C/g%3E%3C/svg%3E")`,
+        }}
+      />
+
+      {/* Subtle Soft Background Accent */}
+      <div className="absolute -top-20 -right-20 w-72 h-72 bg-[#D66552]/10 rounded-full blur-2xl pointer-events-none" />
+      <div className="absolute -bottom-16 -left-16 w-60 h-60 bg-[#8B6F5A]/10 rounded-full blur-2xl pointer-events-none" />
 
       {/* Subtle Japanese Watermark */}
-      <div className="absolute right-16 bottom-1 text-7xl font-jp font-black text-white/[0.04] pointer-events-none hidden lg:block tracking-widest">
+      <div className="absolute right-16 bottom-1 text-7xl font-jp font-black text-[#8B6F5A]/[0.06] pointer-events-none hidden lg:block tracking-widest">
         語
       </div>
 
@@ -81,27 +89,25 @@ export default function VocabularyHero({
         {/* Left Side: Zen Title & Compact Content (8 cols) */}
         <div className="lg:col-span-8 space-y-3.5 text-center sm:text-left">
           <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
-            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/15 text-amber-200 text-[11px] font-black shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-amber-300" />
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F2E5D9] border border-[#E3D4C7] text-[#8B6F5A] text-[11px] font-bold shadow-2xs">
+              <Sparkles className="w-3.5 h-3.5 text-amber-600" />
               <span>TRUNG TÂM HỌC TỪ VỰNG ANH SENSEI</span>
             </span>
 
             {dueCount > 0 && (
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#C65D4B]/40 border border-[#C65D4B]/60 text-amber-200 text-[11px] font-black shadow-xs">
-                <Flame className="w-3.5 h-3.5 text-[#FF8C78]" />
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#F2E5D9] border border-[#E3D4C7] text-[#C65D4B] text-[11px] font-bold shadow-2xs">
+                <Flame className="w-3.5 h-3.5 text-[#C65D4B]" />
                 <span>Hôm nay cần ôn: {dueCount} từ</span>
               </span>
             )}
           </div>
 
           <div className="space-y-1">
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-tight flex flex-wrap items-center justify-center sm:justify-start gap-2">
-              <span className="bg-gradient-to-r from-white via-[#FAF3EB] to-amber-100 bg-clip-text text-transparent">
-                Học từ vựng tiếng Nhật mỗi ngày
-              </span>
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-[#2C201D] tracking-tight leading-tight flex flex-wrap items-center justify-center sm:justify-start gap-2">
+              <span>Học từ vựng tiếng Nhật mỗi ngày</span>
               <span className="inline-block animate-bounce text-xl">🪴</span>
             </h1>
-            <p className="text-xs sm:text-sm text-[#DED3C8] font-medium leading-relaxed max-w-lg">
+            <p className="text-xs sm:text-sm text-[#6B554E] font-medium leading-relaxed max-w-lg">
               Hệ thống thẻ ghi nhớ Spaced Repetition (SRS) giúp bạn ghi nhớ sâu từ vựng N5 – N1 và tự tin chinh phục kỳ thi JLPT.
             </p>
           </div>
@@ -111,21 +117,21 @@ export default function VocabularyHero({
             {!showQuiz ? (
               <button
                 onClick={() => setShowQuiz(true)}
-                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/30 text-amber-200 text-xs font-bold transition-all shadow-2xs cursor-pointer"
+                className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/30 text-amber-700 text-xs font-bold transition-colors cursor-pointer"
               >
-                <HelpCircle className="w-3.5 h-3.5 text-amber-300" />
+                <HelpCircle className="w-3.5 h-3.5 text-amber-600" />
                 <span>🎯 Thử sức Quiz từ vựng may mắn hôm nay (+30 XP)</span>
               </button>
             ) : (
               <AnimatePresence>
                 <motion.div
-                  initial={{ opacity: 0, y: 8 }}
+                  initial={{ opacity: 0, y: 6 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="bg-white/10 border border-white/20 backdrop-blur-md rounded-2xl p-3.5 space-y-2.5 max-w-md shadow-lg"
+                  className="bg-[#FFFDF9] border border-[#E8DCCF] rounded-2xl p-3.5 space-y-2.5 max-w-md shadow-2xs"
                 >
-                  <div className="flex items-center justify-between text-xs font-black text-amber-300">
+                  <div className="flex items-center justify-between text-xs font-bold text-amber-700">
                     <span>{dailyQuiz.question}</span>
-                    <button onClick={() => setShowQuiz(false)} className="text-white/60 hover:text-white font-black cursor-pointer text-xs">✕</button>
+                    <button onClick={() => setShowQuiz(false)} className="text-[#8B6F5A] hover:text-[#2C201D] font-bold cursor-pointer text-xs">✕</button>
                   </div>
 
                   {!quizAnswered ? (
@@ -134,15 +140,15 @@ export default function VocabularyHero({
                         <button
                           key={opt.text}
                           onClick={() => setQuizAnswered(true)}
-                          className="py-1.5 px-2.5 bg-white/15 hover:bg-[#C65D4B] text-white text-[11px] font-bold rounded-xl transition-all border border-white/20 cursor-pointer"
+                          className="py-1.5 px-2.5 bg-[#F2E5D9] hover:bg-[#D66552] text-[#2C201D] hover:text-white text-[11px] font-bold rounded-xl transition-colors border border-[#E3D4C7] cursor-pointer"
                         >
                           {opt.text}
                         </button>
                       ))}
                     </div>
                   ) : (
-                    <div className="flex items-center gap-2 text-xs font-black text-emerald-300 bg-emerald-500/20 p-2 rounded-xl border border-emerald-500/40">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
+                    <div className="flex items-center gap-2 text-xs font-bold text-emerald-700 bg-emerald-500/15 p-2 rounded-xl border border-emerald-500/30">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                       <span>Chính xác! Bạn nhận +30 XP thưởng bài học hôm nay! 🚀</span>
                     </div>
                   )}
@@ -157,30 +163,30 @@ export default function VocabularyHero({
               type="button"
               onClick={onContinueLatest}
               disabled={disabled}
-              className={`relative group/btn overflow-hidden px-6 py-3 font-black text-xs sm:text-sm rounded-2xl shadow-lg border border-white/20 transition-all flex items-center justify-center gap-2 ${disabled
-                ? "bg-white/10 text-white/40 cursor-not-allowed border-transparent"
-                : "bg-gradient-to-r from-[#C65D4B] via-[#B04F3F] to-[#8B6F5A] hover:from-[#B04F3F] hover:to-[#765844] text-white hover:scale-105 active:scale-98 cursor-pointer"
+              className={`px-6 py-3 font-bold text-xs sm:text-sm rounded-2xl border transition-colors flex items-center justify-center gap-2 ${disabled
+                ? "bg-[#EFE5DC] text-[#8B6F5A]/40 cursor-not-allowed border-transparent"
+                : "bg-[#D66552] hover:bg-[#C25644] text-white border-[#E37966] shadow-xs cursor-pointer"
                 }`}
             >
               <Play className="w-4 h-4 fill-white" />
               <span>Tiếp tục bài học dở dang</span>
-              <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-1 transition-transform" />
+              <ArrowRight className="w-4 h-4" />
             </button>
           </div>
         </div>
 
-        {/* Right Side: Cute Cat Mascot with RANDOM EQUIPPED FACIAL EXPRESSIONS! (4 cols) */}
+        {/* Right Side: Mascot Frame (4 cols) */}
         <div className="lg:col-span-4 flex flex-col items-center justify-center relative shrink-0 z-10">
           {/* Dynamic Interactive Floating Speech Bubble */}
           <AnimatePresence mode="wait">
             <motion.div
               key={catQuoteIndex}
-              initial={{ scale: 0.7, opacity: 0, y: 8 }}
+              initial={{ scale: 0.8, opacity: 0, y: 6 }}
               animate={{ scale: 1, opacity: 1, y: 0 }}
-              exit={{ scale: 0.7, opacity: 0, y: -8 }}
-              transition={{ type: "spring", stiffness: 450, damping: 22 }}
+              exit={{ scale: 0.8, opacity: 0, y: -6 }}
+              transition={{ duration: 0.2 }}
               onClick={handleCatClick}
-              className="absolute -top-6 bg-gradient-to-r from-[#FFFDF9] via-[#FAF3EB] to-[#F5EFE6] border-2 border-[#C65D4B]/40 text-[#231917] px-3.5 py-1.5 rounded-xl shadow-xl text-[11px] font-black whitespace-nowrap z-30 flex items-center gap-1 cursor-pointer hover:scale-105"
+              className="absolute -top-6 bg-white border border-[#DED0C5] text-[#2C201D] px-3.5 py-1.5 rounded-xl shadow-2xs text-[11px] font-bold whitespace-nowrap z-30 flex items-center gap-1 cursor-pointer hover:scale-105"
               title="Nhấp vào chú Mèo để xuất hiện ngẫu nhiên lời nhắn & biểu cảm mới!"
             >
               <span className="text-[#C65D4B]">
@@ -188,21 +194,19 @@ export default function VocabularyHero({
                   ? `Hôm nay cần ôn ${dueCount} từ nhé! ⚡`
                   : currentQuote.text}
               </span>
-              <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-[#FAF3EB] border-r-2 border-b-2 border-[#C65D4B]/40 rotate-45" />
+              <div className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-r border-b border-[#DED0C5] rotate-45" />
             </motion.div>
           </AnimatePresence>
 
           {/* Interactive Clickable Mascot Frame */}
           <motion.div
             onClick={handleCatClick}
-            whileHover={{ scale: 1.08, rotate: 4 }}
-            whileTap={{ scale: 0.90, rotate: -8 }}
-            transition={{ type: "spring", stiffness: 400, damping: 18 }}
-            className="w-32 h-32 sm:w-36 sm:h-36 bg-gradient-to-br from-[#FFFDF9] to-[#FAF3EB] border-2 border-[#DED3C8] hover:border-[#C65D4B] rounded-2xl p-3 shadow-xl flex items-center justify-center relative mt-3 cursor-pointer group/mascot"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+            className="w-32 h-32 sm:w-36 sm:h-36 bg-[#FFFDF9] border border-[#DED0C5] hover:border-[#D66552] rounded-2xl p-3 shadow-2xs flex items-center justify-center relative mt-3 cursor-pointer group/mascot"
             title="Nhấp vào chú Mèo để xem biểu cảm & lời nhắn ngẫu nhiên!"
           >
-            <div className="absolute inset-0 bg-gradient-to-tr from-[#C65D4B]/20 via-amber-400/20 to-transparent rounded-2xl blur-md group-hover/mascot:scale-110 transition-transform" />
-
             {/* DYNAMIC SVG CAT MASCOT WITH 8 FACIAL EXPRESSIONS MATCHING QUOTES */}
             <svg
               className="w-full h-full text-[#8B6F5A] relative z-10 filter drop-shadow-xs"
@@ -214,8 +218,8 @@ export default function VocabularyHero({
               {/* Cat Head */}
               <circle cx="60" cy="65" r="38" fill="#F5EFE6" stroke="#8B6F5A" strokeWidth="3" />
               {/* Cat Ears */}
-              <polygon points="30,40 42,20 52,38" fill="#C65D4B" stroke="#8B6F5A" strokeWidth="2" />
-              <polygon points="90,40 78,20 68,38" fill="#C65D4B" stroke="#8B6F5A" strokeWidth="2" />
+              <polygon points="30,40 42,20 52,38" fill="#D66552" stroke="#8B6F5A" strokeWidth="2" />
+              <polygon points="90,40 78,20 68,38" fill="#D66552" stroke="#8B6F5A" strokeWidth="2" />
 
               {/* DYNAMIC EYES MATCHING RANDOM EXPRESSIONS */}
               {expression === "EXCITED" ? (
@@ -225,13 +229,13 @@ export default function VocabularyHero({
                 </>
               ) : expression === "FIGHTING" ? (
                 <>
-                  <path d="M42 54 L54 62 M42 62 L54 54" stroke="#C65D4B" strokeWidth="3.5" strokeLinecap="round" />
-                  <path d="M66 54 L78 62 M66 62 L78 54" stroke="#C65D4B" strokeWidth="3.5" strokeLinecap="round" />
+                  <path d="M42 54 L54 62 M42 62 L54 54" stroke="#D66552" strokeWidth="3.5" strokeLinecap="round" />
+                  <path d="M66 54 L78 62 M66 62 L78 54" stroke="#D66552" strokeWidth="3.5" strokeLinecap="round" />
                 </>
               ) : expression === "LOVE" ? (
                 <>
-                  <text x="40" y="64" fill="#C65D4B" fontSize="14" fontWeight="bold">♥</text>
-                  <text x="64" y="64" fill="#C65D4B" fontSize="14" fontWeight="bold">♥</text>
+                  <text x="40" y="64" fill="#D66552" fontSize="14" fontWeight="bold">♥</text>
+                  <text x="64" y="64" fill="#D66552" fontSize="14" fontWeight="bold">♥</text>
                 </>
               ) : expression === "WINK" ? (
                 <>
@@ -255,7 +259,7 @@ export default function VocabularyHero({
                 <>
                   <path d="M42 58 Q48 64 54 58" stroke="#302A26" strokeWidth="3" strokeLinecap="round" fill="none" />
                   <path d="M66 58 Q72 64 78 58" stroke="#302A26" strokeWidth="3" strokeLinecap="round" fill="none" />
-                  <text x="86" y="48" fill="#C65D4B" fontSize="10" fontWeight="bold">zZ</text>
+                  <text x="86" y="48" fill="#D66552" fontSize="10" fontWeight="bold">zZ</text>
                 </>
               ) : (
                 <>
@@ -269,13 +273,13 @@ export default function VocabularyHero({
               <ellipse cx="80" cy="68" rx="5" ry="3" fill="#E8A598" opacity={expression === "LOVE" || expression === "EXCITED" || expression === "COOL" ? "1" : "0.7"} />
 
               {/* Nose & Mouth */}
-              <polygon points="60,66 57,63 63,63" fill="#C65D4B" />
+              <polygon points="60,66 57,63 63,63" fill="#D66552" />
 
               {/* DYNAMIC MOUTH DEPENDING ON EXPR */}
               {expression === "EXCITED" || expression === "FIGHTING" ? (
-                <path d="M52 70 Q60 82 68 70 Z" fill="#C65D4B" stroke="#8B6F5A" strokeWidth="1.5" />
+                <path d="M52 70 Q60 82 68 70 Z" fill="#D66552" stroke="#8B6F5A" strokeWidth="1.5" />
               ) : expression === "SURPRISED" ? (
-                <circle cx="60" cy="74" r="4" fill="#C65D4B" />
+                <circle cx="60" cy="74" r="4" fill="#D66552" />
               ) : expression === "SLEEPY" ? (
                 <path d="M56 73 Q60 76 64 73" stroke="#8B6F5A" strokeWidth="2" strokeLinecap="round" fill="none" />
               ) : (
@@ -289,8 +293,8 @@ export default function VocabularyHero({
               <line x1="97" y1="68" x2="83" y2="68" stroke="#8B6F5A" strokeWidth="1.5" />
 
               {/* Flashcard held by Cat */}
-              <rect x="70" y="75" width="32" height="24" rx="4" fill="#FFFCF7" stroke="#C65D4B" strokeWidth="2" transform="rotate(-10 70 75)" />
-              <text x="76" y="91" fill="#C65D4B" fontSize="12" fontWeight="bold" fontFamily="sans-serif" transform="rotate(-10 70 75)">あ</text>
+              <rect x="70" y="75" width="32" height="24" rx="4" fill="#FFFCF7" stroke="#D66552" strokeWidth="2" transform="rotate(-10 70 75)" />
+              <text x="76" y="91" fill="#D66552" fontSize="12" fontWeight="bold" fontFamily="sans-serif" transform="rotate(-10 70 75)">あ</text>
             </svg>
           </motion.div>
         </div>

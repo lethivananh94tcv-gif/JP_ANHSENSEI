@@ -99,16 +99,19 @@ export default function LearnerLessonsPage() {
           </div>
         ) : (
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 sm:gap-5">
-            {lessons.map((lsn) => (
-              <Link
-                key={lsn.lessonId}
-                href={`/lessons/${lsn.sortOrder}`}
-                className="bg-white hover:bg-[#FAF3EB] border-2 border-[#DED3C8] hover:border-[#C65D4B] rounded-2xl p-5 text-center cursor-pointer shadow-2xs hover:shadow-md transition-all flex flex-col justify-between items-center space-y-3 group min-h-[160px]"
-              >
-                <div className="flex items-center gap-1.5">
-                  <span className="inline-block text-xs font-black text-[#C65D4B] bg-[#FAF3EB] group-hover:bg-white px-3 py-1 rounded-full border border-[#DED3C8]">
-                    Bài #{lsn.sortOrder}
-                  </span>
+            {lessons.map((lsn) => {
+              const isN4 = String(levelId) === "2" || String(levelId).toUpperCase() === "N4";
+              const lessonNum = isN4 ? 25 + lsn.sortOrder : lsn.sortOrder;
+              return (
+                <Link
+                  key={lsn.lessonId}
+                  href={`/lessons/${lessonNum}`}
+                  className="bg-white hover:bg-[#FAF3EB] border-2 border-[#DED3C8] hover:border-[#C65D4B] rounded-2xl p-5 text-center cursor-pointer shadow-2xs hover:shadow-md transition-all flex flex-col justify-between items-center space-y-3 group min-h-[160px]"
+                >
+                  <div className="flex items-center gap-1.5">
+                    <span className="inline-block text-xs font-black text-[#C65D4B] bg-[#FAF3EB] group-hover:bg-white px-3 py-1 rounded-full border border-[#DED3C8]">
+                      Bài #{lessonNum}
+                    </span>
                   {lsn.isSample && (
                     <span className="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-bold">
                       ⭐ Học thử
@@ -125,7 +128,8 @@ export default function LearnerLessonsPage() {
                   <span>➔</span>
                 </div>
               </Link>
-            ))}
+            );
+          })}
           </div>
         )}
       </div>

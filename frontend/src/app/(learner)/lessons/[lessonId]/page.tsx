@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useMemo } from "react";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { UserProfile } from "@/types/learner";
 import { apiClient } from "@/lib/api/client";
 import { CheckCircle2, RotateCcw, Sparkles, CheckCheck, Gamepad2 } from "lucide-react";
@@ -20,6 +20,7 @@ import HomeErrorState from "@/components/learner/HomeErrorState";
 export default function LearnerLessonStudyPage() {
   const params = useParams();
   const searchParams = useSearchParams();
+  const router = useRouter();
   const lessonId = params.lessonId as string;
 
   const modeParam = searchParams.get("mode");
@@ -226,21 +227,29 @@ export default function LearnerLessonStudyPage() {
   if (loading) return <LessonDetailSkeleton />;
   if (error) return <HomeErrorState message={error} onRetry={fetchStudyContent} />;
 
+  const inputNum = Number(lessonId) || 1;
+  const canonicalLessonNumber =
+    levelCode === "N4"
+      ? (sortOrder ? 25 + sortOrder : inputNum > 25 ? inputNum : 25 + inputNum)
+      : (sortOrder && inputNum > 50 ? sortOrder : inputNum);
+  const nextLessonIdCalc = canonicalLessonNumber + 1;
+
   if (vocabStudyMode === "flashcard") {
     return (
       <FlashcardStudyMode
         vocabularies={vocabularies}
-        lessonId={lessonId}
+        lessonId={canonicalLessonNumber}
         levelCode={levelCode}
         lessonTitle={lessonTitle}
         onBack={() => {
           setVocabStudyMode("list");
         }}
+        onNextLesson={() => {
+          router.push(`/lessons/${nextLessonIdCalc}`);
+        }}
       />
     );
   }
-
-  const nextLessonIdCalc = sortOrder ? Number(sortOrder) + 1 : Number(lessonId) + 1;
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] flex flex-col font-sans text-[#2C2421]">

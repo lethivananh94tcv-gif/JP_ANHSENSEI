@@ -58,7 +58,8 @@ public class LearnerQuizService {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
         Quiz quiz = quizRepository.findById(quizId)
-                .orElseThrow(() -> new ResourceNotFoundException("Quiz", "id", quizId));
+                .orElseGet(() -> quizRepository.findByLesson_LessonId(quizId)
+                .orElseThrow(() -> new ResourceNotFoundException("Quiz", "id", quizId)));
 
         if (!"PUBLISHED".equals(quiz.getStatus()) || quiz.getDeletedAt() != null) {
             throw new IllegalArgumentException("Bài quiz chưa được phát hành hoặc đã bị xóa.");

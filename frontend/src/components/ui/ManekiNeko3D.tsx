@@ -6,101 +6,78 @@ import { motion } from "framer-motion";
 interface ManekiNeko3DProps {
   onClick?: () => void;
   className?: string;
+  bubbleText?: string;
 }
 
-export default function ManekiNeko3D({ onClick, className = "" }: ManekiNeko3DProps) {
+export default function ManekiNeko3D({
+  onClick,
+  className = "",
+  bubbleText = "Mèo có quà cho bạn 🐱",
+}: ManekiNeko3DProps) {
   return (
     <div
       onClick={onClick}
-      title="Bấm vào Chú Mèo Thần Tài để Rút Quẻ May Mắn Mỗi Ngày! 🐾"
+      title="Bấm vào Mèo Thần Tài để Rút Quẻ May Mắn Mỗi Ngày! 🐾"
       className={`relative cursor-pointer group flex flex-col items-center justify-center select-none ${className}`}
     >
-      {/* Floating Ambient Glow */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-amber-400/25 to-amber-200/5 rounded-full blur-xl group-hover:scale-125 transition-transform duration-500" />
-
-      {/* 3D Lucky Cat Maneki-Neko Graphic */}
+      {/* Speech Bubble Above Cat */}
       <motion.div
-        animate={{ y: [0, -5, 0] }}
+        initial={{ y: 0 }}
+        animate={{ y: [0, -3, 0] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-        className="relative w-16 h-20 sm:w-20 sm:h-24 z-10 filter drop-shadow-xl group-hover:scale-110 transition-transform"
+        className="mb-2 bg-white/95 backdrop-blur-xs border border-[#E3D4C7] px-3.5 py-1.5 rounded-full shadow-2xs text-xs font-bold text-[#56423E] flex items-center gap-1.5 relative z-20 whitespace-nowrap"
       >
-        <svg viewBox="0 0 200 240" className="w-full h-full">
-          <defs>
-            {/* 3D Metallic Gold Gradient */}
-            <linearGradient id="catGoldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#FFF2A1" />
-              <stop offset="50%" stopColor="#F5B800" />
-              <stop offset="100%" stopColor="#C48800" />
-            </linearGradient>
+        <span>{bubbleText}</span>
+        {/* Tail pointing down */}
+        <div className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-2 h-2 bg-white border-r border-b border-[#E3D4C7] rotate-45" />
+      </motion.div>
 
-            {/* 3D Cat Body White/Cream Gradient */}
-            <linearGradient id="catBodyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stopColor="#FFFFFF" />
-              <stop offset="70%" stopColor="#FFFDF5" />
-              <stop offset="100%" stopColor="#F5EFE0" />
-            </linearGradient>
-
-            {/* Red Collar Gradient */}
-            <linearGradient id="collarGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#E53935" />
-              <stop offset="100%" stopColor="#C62828" />
-            </linearGradient>
-          </defs>
-
+      {/* Cute Round Cat Card Container matching Japanese aesthetic */}
+      <motion.div
+        whileHover={{ scale: 1.06, rotate: 2 }}
+        whileTap={{ scale: 0.96 }}
+        transition={{ type: "spring", stiffness: 400, damping: 20 }}
+        className="w-24 h-24 sm:w-28 sm:h-28 bg-[#FFFDF9] border-2 border-[#E8DCCF] group-hover:border-[#D66552] rounded-3xl p-2.5 shadow-md flex items-center justify-center relative bg-gradient-to-b from-[#FFFDF9] to-[#FAF3EB] transition-colors"
+      >
+        <svg
+          className="w-full h-full text-[#6E524A] relative z-10 filter drop-shadow-xs"
+          viewBox="0 0 120 120"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           {/* Cat Ears */}
-          <path d="M 50 70 L 20 20 L 80 40 Z" fill="url(#catBodyGrad)" stroke="#E0C090" strokeWidth="3" />
-          <path d="M 35 55 L 25 30 L 65 42 Z" fill="#FF8A80" />
-          <path d="M 150 70 L 180 20 L 120 40 Z" fill="url(#catBodyGrad)" stroke="#E0C090" strokeWidth="3" />
-          <path d="M 165 55 L 175 30 L 135 42 Z" fill="#FF8A80" />
+          <polygon points="32,42 45,18 55,40" fill="#D66552" stroke="#6E524A" strokeWidth="3" strokeLinejoin="round" />
+          <polygon points="88,42 75,18 65,40" fill="#D66552" stroke="#6E524A" strokeWidth="3" strokeLinejoin="round" />
 
           {/* Cat Head */}
-          <ellipse cx="100" cy="85" rx="75" ry="60" fill="url(#catBodyGrad)" stroke="#E0C090" strokeWidth="4" />
+          <circle cx="60" cy="65" r="38" fill="#FFFDF9" stroke="#6E524A" strokeWidth="3.5" />
 
-          {/* Eyes (Happy Closed Archs) */}
-          <path d="M 55 75 Q 70 60 85 75" fill="none" stroke="#3E2723" strokeWidth="6" strokeLinecap="round" />
-          <path d="M 115 75 Q 130 60 145 75" fill="none" stroke="#3E2723" strokeWidth="6" strokeLinecap="round" />
+          {/* Eyes (Black Cute Ovals) */}
+          <ellipse cx="46" cy="60" rx="3.5" ry="5.5" fill="#2C201D" />
+          <ellipse cx="74" cy="60" rx="3.5" ry="5.5" fill="#2C201D" />
 
-          {/* Cheeks (Pink Blush) */}
-          <circle cx="50" cy="95" r="12" fill="#FFCDD2" opacity="0.8" />
-          <circle cx="150" cy="95" r="12" fill="#FFCDD2" opacity="0.8" />
+          {/* Cheeks (Soft Pink Blush) */}
+          <ellipse cx="38" cy="68" rx="6" ry="3.5" fill="#F4B4A8" opacity="0.85" />
+          <ellipse cx="82" cy="68" rx="6" ry="3.5" fill="#F4B4A8" opacity="0.85" />
 
-          {/* Cat Nose & Mouth */}
-          <polygon points="95,90 105,90 100,96" fill="#FF8A80" />
-          <path d="M 100 96 Q 90 110 80 102 M 100 96 Q 110 110 120 102" fill="none" stroke="#3E2723" strokeWidth="4" strokeLinecap="round" />
+          {/* Nose (Small Pink Triangle) */}
+          <polygon points="60,65 57,62 63,62" fill="#D66552" />
 
-          {/* Whiskers */}
-          <line x1="25" y1="80" x2="5" y2="75" stroke="#3E2723" strokeWidth="3" strokeLinecap="round" />
-          <line x1="25" y1="92" x2="5" y2="92" stroke="#3E2723" strokeWidth="3" strokeLinecap="round" />
-          <line x1="175" y1="80" x2="195" y2="75" stroke="#3E2723" strokeWidth="3" strokeLinecap="round" />
-          <line x1="175" y1="92" x2="195" y2="92" stroke="#3E2723" strokeWidth="3" strokeLinecap="round" />
+          {/* Mouth (Happy Smile) */}
+          <path d="M54 70 Q60 76 66 70" stroke="#6E524A" strokeWidth="2.5" strokeLinecap="round" fill="none" />
 
-          {/* Cat Body */}
-          <path d="M 40 125 C 30 210, 170 210, 160 125 Z" fill="url(#catBodyGrad)" stroke="#E0C090" strokeWidth="4" />
+          {/* Whiskers (3 on each side) */}
+          <line x1="22" y1="60" x2="36" y2="62" stroke="#6E524A" strokeWidth="2" strokeLinecap="round" />
+          <line x1="20" y1="67" x2="35" y2="67" stroke="#6E524A" strokeWidth="2" strokeLinecap="round" />
+          <line x1="22" y1="74" x2="36" y2="72" stroke="#6E524A" strokeWidth="2" strokeLinecap="round" />
 
-          {/* Red Collar & Golden Bell */}
-          <path d="M 45 130 Q 100 150 155 130" fill="none" stroke="url(#collarGrad)" strokeWidth="14" strokeLinecap="round" />
-          <circle cx="100" cy="145" r="14" fill="url(#catGoldGrad)" stroke="#B78100" strokeWidth="2" />
-          <circle cx="100" cy="148" r="3" fill="#3E2723" />
+          <line x1="98" y1="60" x2="84" y2="62" stroke="#6E524A" strokeWidth="2" strokeLinecap="round" />
+          <line x1="100" y1="67" x2="85" y2="67" stroke="#6E524A" strokeWidth="2" strokeLinecap="round" />
+          <line x1="98" y1="74" x2="84" y2="72" stroke="#6E524A" strokeWidth="2" strokeLinecap="round" />
 
-          {/* Japanese Gold Koban Coin in Left Paw (千万両) */}
-          <g transform="translate(115, 140) rotate(-10)">
-            <rect x="0" y="0" width="48" height="65" rx="20" fill="url(#catGoldGrad)" stroke="#B78100" strokeWidth="3" />
-            <text x="24" y="28" textAnchor="middle" fill="#5D4037" fontSize="14" fontWeight="bold" fontFamily="serif">千</text>
-            <text x="24" y="48" textAnchor="middle" fill="#5D4037" fontSize="14" fontWeight="bold" fontFamily="serif">万</text>
-          </g>
-
-          {/* Waving Right Paw */}
-          <g className="origin-bottom-left">
-            <motion.g
-              animate={{ rotate: [0, -22, 0, -22, 0] }}
-              transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              style={{ transformOrigin: "45px 140px" }}
-            >
-              <path d="M 30 145 C 10 110, 25 60, 50 60 C 65 60, 60 100, 55 140 Z" fill="url(#catBodyGrad)" stroke="#E0C090" strokeWidth="4" />
-              <circle cx="45" cy="65" r="14" fill="url(#catBodyGrad)" stroke="#E0C090" strokeWidth="3" />
-              <circle cx="45" cy="65" r="6" fill="#FF8A80" />
-            </motion.g>
-          </g>
+          {/* Small White Card Held at Bottom Right with Red Border & Hiragana あ */}
+          <rect x="70" y="72" width="34" height="26" rx="6" fill="#FFFDF9" stroke="#D66552" strokeWidth="2.5" transform="rotate(-6 70 72)" />
+          <text x="77" y="90" fill="#D66552" fontSize="15" fontWeight="bold" fontFamily="sans-serif" transform="rotate(-6 70 72)">あ</text>
         </svg>
       </motion.div>
     </div>

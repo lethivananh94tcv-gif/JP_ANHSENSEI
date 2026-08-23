@@ -269,8 +269,13 @@ export default function LearnerVocabulariesHubPage() {
     setIsAllLessonsOpen(true);
   };
 
+  const getCanonicalLessonId = (lesson: LessonItem) => {
+    const isN4 = selectedLevelCode === "N4" || (lesson.lessonId >= 100 && lesson.lessonId <= 150);
+    return isN4 ? 25 + lesson.sortOrder : lesson.sortOrder;
+  };
+
   const handleOpenLesson = (lesson: LessonItem, mode?: "list" | "cards" | "typing" | "match" | null) => {
-    const targetId = lesson.lessonId;
+    const targetId = getCanonicalLessonId(lesson);
     if (mode) {
       router.push(`/lessons/${targetId}?mode=${mode}`);
     } else {
@@ -282,18 +287,23 @@ export default function LearnerVocabulariesHubPage() {
   const handleContinueLatest = () => {
     if (continueData && continueData.lessonId) {
       const mode = continueData.lastMode || "cards";
-      router.push(`/lessons/${continueData.lessonId}?mode=${mode}`);
+      const isN4 = selectedLevelCode === "N4" || continueData.lessonId >= 100;
+      const targetId = isN4 ? (continueData.lessonId > 25 && continueData.lessonId <= 50 ? continueData.lessonId : 25 + (continueData.sortOrder || 1)) : (continueData.sortOrder || continueData.lessonId);
+      router.push(`/lessons/${targetId}?mode=${mode}`);
     } else if (selectedLesson) {
-      router.push(`/lessons/${selectedLesson.lessonId}?mode=cards`);
+      const targetId = getCanonicalLessonId(selectedLesson);
+      router.push(`/lessons/${targetId}?mode=cards`);
     } else if (lessons.length > 0) {
-      router.push(`/lessons/${lessons[0].lessonId}?mode=cards`);
+      const targetId = getCanonicalLessonId(lessons[0]);
+      router.push(`/lessons/${targetId}?mode=cards`);
     }
   };
 
   const handleContinueLesson = (lessonToOpen?: LessonItem) => {
     const target = lessonToOpen || selectedLesson;
     if (!target) return;
-    router.push(`/lessons/${target.lessonId}`);
+    const targetId = getCanonicalLessonId(target);
+    router.push(`/lessons/${targetId}`);
   };
 
   const handleReviewDueFlashcards = () => {

@@ -22,5 +22,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
     @Query("SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END FROM Lesson l WHERE l.level.levelId = :levelId AND l.sortOrder = :sortOrder AND l.status <> :excludedStatus AND l.lessonId <> :lessonId AND l.deletedAt IS NULL")
     boolean existsByLevelIdAndSortOrderAndStatusNotExcludingId(@Param("levelId") Long levelId, @Param("sortOrder") Integer sortOrder, @Param("excludedStatus") String excludedStatus, @Param("lessonId") Long lessonId);
 
+    Optional<Lesson> findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull(String levelCode, Integer sortOrder, String status);
+
     List<Lesson> findByIsSampleTrueAndStatusOrderBySortOrderAsc(String status);
 }
