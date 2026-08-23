@@ -413,29 +413,6 @@ public class AdminQuestionBankService {
         }
     }
 
-    public void ensureQuestionBankExistsForLesson(Long lessonId) {
-        Lesson lesson = resolveLesson(lessonId);
-        List<QuestionBank> existing = questionBankRepository.findByLesson_LessonIdAndDeletedAtIsNullOrderByQuestionIdDesc(lesson.getLessonId());
-
-        boolean hasStaleDistractors = existing.isEmpty() || existing.stream().anyMatch(q -> {
-            String txt = q.getJapaneseText() != null ? q.getJapaneseText().toLowerCase() : "";
-            boolean isNonDemonstrative = !txt.contains("これ") && !txt.contains("それ") && !txt.contains("あれ") && !txt.contains("どれ");
-            if (isNonDemonstrative && q.getOptions() != null) {
-                return q.getOptions().stream().anyMatch(opt -> {
-                    String optTxt = opt.getOptionText() != null ? opt.getOptionText().toLowerCase() : "";
-                    return optTxt.contains("cái này") || optTxt.contains("cái đó") || optTxt.contains("cái kia") || optTxt.contains("cái nào");
-                });
-            }
-            return false;
-        });
-
-        if (hasStaleDistractors || existing.size() < 30) {
-            generate30JLPTQuestionsForLesson(lessonId, 1L, true);
-        } else {
-            ensureQuizPublishedForLesson(lesson, 1L);
-        }
-    }
-
     private Quiz ensureQuizPublishedForLesson(Lesson lesson, Long adminUserId) {
         Quiz quiz = quizRepository.findByLesson_LessonId(lesson.getLessonId())
                 .orElseGet(() -> {
