@@ -421,13 +421,7 @@ export default function LearnerVocabulariesHubPage() {
             />
           )}
 
-          {/* 4. Three Study Modes Selector */}
-          <VocabularyModeSelector
-            onSelectMode={handleSelectMode}
-            disabled={lessons.length === 0}
-          />
-
-          {/* 5. Recent Lesson List */}
+          {/* 4. Recent Lesson List (Kho Bài Học) */}
           {lessons.length > 0 && (
             <RecentLessonList
               levelCode={selectedLevelCode}
@@ -442,6 +436,12 @@ export default function LearnerVocabulariesHubPage() {
               }}
             />
           )}
+
+          {/* 5. Study Modes Selector (Phương pháp học) */}
+          <VocabularyModeSelector
+            onSelectMode={handleSelectMode}
+            disabled={lessons.length === 0}
+          />
         </div>
       </main>
 

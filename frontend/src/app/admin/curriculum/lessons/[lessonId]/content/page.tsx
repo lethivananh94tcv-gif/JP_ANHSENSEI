@@ -181,9 +181,18 @@ export default function AdminLessonContentPage() {
         fetch(`http://localhost:8080/api/v1/curriculum/lessons/${lessonId}/grammar`, { headers }),
       ]);
 
-      if (vRes.ok) setVocabularies(await vRes.json());
-      if (kRes.ok) setKanjis(await kRes.json());
-      if (gRes.ok) setGrammars(await gRes.json());
+      if (vRes.ok) {
+        const text = await vRes.text();
+        if (text && text.trim()) setVocabularies(JSON.parse(text));
+      }
+      if (kRes.ok) {
+        const text = await kRes.text();
+        if (text && text.trim()) setKanjis(JSON.parse(text));
+      }
+      if (gRes.ok) {
+        const text = await gRes.text();
+        if (text && text.trim()) setGrammars(JSON.parse(text));
+      }
     } catch (err: any) {
       console.error("Lỗi tải thông tin bài học:", err);
     }
@@ -708,108 +717,27 @@ export default function AdminLessonContentPage() {
               </div>
             </div>
 
-            {/* Quiz Sampling Rule Settings */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-[#FAF3EB] border border-[#DED3C8] p-5 rounded-2xl items-center">
-              <div>
-                <label className="block text-xs font-bold text-[#56423E] mb-1">Số câu bốc ngẫu nhiên / lượt thi</label>
-                <input
-                  type="number"
-                  value={questionsPerAttempt}
-                  onChange={(e) => setQuestionsPerAttempt(parseInt(e.target.value) || 15)}
-                  min={1}
-                  max={50}
-                  className="w-full bg-white border border-[#DED3C8] px-3 py-2 rounded-xl text-xs font-bold text-[#231917]"
-                />
+            {/* Single Source of Truth Redirection Banner to Central Admin Quiz Editor */}
+            <div className="bg-gradient-to-r from-[#2C2421] via-[#3E322D] to-[#2C2421] border-2 border-[#4E3F39] p-8 rounded-3xl text-white shadow-xl text-center space-y-4">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/10 text-[#EADECF] font-black text-xs border border-white/15">
+                <span>⛩️ TRUNG TÂM QUẢN LÝ KHO ĐỀ QUIZ TẬP TRUNG</span>
               </div>
 
-              <div className="flex items-center gap-2 pt-4 sm:pt-0">
-                <input
-                  type="checkbox"
-                  checked={shuffleQuestions}
-                  onChange={(e) => setShuffleQuestions(e.target.checked)}
-                  id="shuffleQ"
-                  className="w-4 h-4 accent-[#C65D4B]"
-                />
-                <label htmlFor="shuffleQ" className="text-xs font-bold text-[#56423E] cursor-pointer">
-                  🔀 Xáo trộn thứ tự câu
-                </label>
-              </div>
+              <h3 className="text-2xl font-serif font-black text-white">
+                Quản Lý & Biên Tập Kho Đề 4 Chuyên Mục Cho Bài #{lessonId}
+              </h3>
 
-              <div className="flex items-center gap-2 pt-4 sm:pt-0">
-                <input
-                  type="checkbox"
-                  checked={shuffleOptions}
-                  onChange={(e) => setShuffleOptions(e.target.checked)}
-                  id="shuffleOpt"
-                  className="w-4 h-4 accent-[#C65D4B]"
-                />
-                <label htmlFor="shuffleOpt" className="text-xs font-bold text-[#56423E] cursor-pointer">
-                  🔀 Xáo trộn vị trí A-B-C-D
-                </label>
-              </div>
+              <p className="text-xs text-[#D9CEB2] max-w-xl mx-auto leading-relaxed">
+                Toàn bộ thao tác quản lý Quiz, sinh đề tự động 4 chuyên mục (Từ vựng 📖, Kanji ✍️, Ngữ pháp 🧩, Tổng hợp 🎯), biên tập câu hỏi thủ công và xuất bản bài Quiz cho Học viên hiện được quản lý tập trung tại Trình biên tập Kho Đề chính thức.
+              </p>
 
-              <button
-                onClick={() => { setSuccessMsg("Đã lưu cấu hình Kho Đề!"); setTimeout(() => setSuccessMsg(""), 3000); }}
-                className="w-full py-2 bg-[#56423E] hover:bg-[#3d2f2c] text-white font-extrabold text-xs rounded-xl transition-all shadow-2xs"
-              >
-                Lưu Cấu Hình
-              </button>
-            </div>
-
-            {/* Question Bank Table */}
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <h4 className="text-sm font-extrabold text-[#231917]">
-                  Danh sách <span className="text-[#C65D4B]">{questionBank.length}</span> câu hỏi trong Kho Đề:
-                </h4>
-                <span className="text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full border border-emerald-300">
-                  ✓ Học viên sẽ làm {Math.min(questionsPerAttempt, questionBank.length)} câu / lượt thi
-                </span>
-              </div>
-
-              <div className="border border-[#DED3C8] rounded-2xl divide-y divide-[#DED3C8] bg-white overflow-hidden shadow-2xs">
-                {questionBank.map((q, idx) => (
-                  <div key={q.id} className="p-4 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 hover:bg-[#FFFDF9] transition-colors">
-                    <div className="space-y-1.5 flex-1">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-black bg-[#FAF3EB] text-[#C65D4B] px-2.5 py-0.5 rounded-md border border-[#DED3C8]">
-                          Câu #{idx + 1}
-                        </span>
-                        <p className="text-xs font-bold text-[#231917]">{q.questionText}</p>
-                      </div>
-
-                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-[11px] pt-1">
-                        <span className={`p-1.5 rounded-lg border ${q.correctOption === "A" ? "bg-emerald-100 border-emerald-400 text-emerald-900 font-extrabold" : "bg-gray-50 border-gray-200 text-gray-700"}`}>
-                          A. {q.optionA}
-                        </span>
-                        <span className={`p-1.5 rounded-lg border ${q.correctOption === "B" ? "bg-emerald-100 border-emerald-400 text-emerald-900 font-extrabold" : "bg-gray-50 border-gray-200 text-gray-700"}`}>
-                          B. {q.optionB}
-                        </span>
-                        <span className={`p-1.5 rounded-lg border ${q.correctOption === "C" ? "bg-emerald-100 border-emerald-400 text-emerald-900 font-extrabold" : "bg-gray-50 border-gray-200 text-gray-700"}`}>
-                          C. {q.optionC}
-                        </span>
-                        <span className={`p-1.5 rounded-lg border ${q.correctOption === "D" ? "bg-emerald-100 border-emerald-400 text-emerald-900 font-extrabold" : "bg-gray-50 border-gray-200 text-gray-700"}`}>
-                          D. {q.optionD}
-                        </span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 self-end sm:self-center">
-                      <button
-                        onClick={() => handleOpenEditQuestion(q)}
-                        className="px-3 py-1.5 bg-[#FAF3EB] hover:bg-[#DED3C8] text-[#56423E] font-bold text-xs rounded-lg transition-all"
-                      >
-                        ✏️ Sửa
-                      </button>
-                      <button
-                        onClick={() => handleDeleteQuestion(q.id)}
-                        className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-lg transition-all"
-                      >
-                        🗑️ Xóa
-                      </button>
-                    </div>
-                  </div>
-                ))}
+              <div className="pt-2">
+                <Link
+                  href={`/admin/quizzes/${lessonId}`}
+                  className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#C65D4B] hover:bg-[#B54F3E] text-white font-black text-xs rounded-2xl shadow-lg transition-all hover:scale-105 cursor-pointer"
+                >
+                  <span>🎯 Mở Trình Biên Tập Kho Đề Bài #{lessonId} ➔</span>
+                </Link>
               </div>
             </div>
           </div>
