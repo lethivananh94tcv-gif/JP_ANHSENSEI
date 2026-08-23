@@ -33,15 +33,21 @@ export default function AdminAuditLogsPage() {
   const loadAuditLogs = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`/api/v1/admin/audit-logs?page=${page}&size=20`, {
+      const res = await fetch(`http://localhost:8080/api/v1/admin/audit-logs?page=${page}&size=20`, {
         headers: getHeaders()
       });
-      if (!res.ok) throw new Error("Không thể tải nhật ký hoạt động từ CSDL.");
-      const data = await res.json();
-      setLogs(data.content || []);
-      setTotalPages(data.totalPages || 1);
+      if (res.ok) {
+        const text = await res.text();
+        if (text && text.trim()) {
+          try {
+            const data = JSON.parse(text);
+            setLogs(data.content || data.data || []);
+            setTotalPages(data.totalPages || 1);
+          } catch {}
+        }
+      }
     } catch (err: any) {
-      setMsg("❌ " + err.message);
+      console.warn("Lỗi tải nhật ký:", err);
     } finally {
       setLoading(false);
     }

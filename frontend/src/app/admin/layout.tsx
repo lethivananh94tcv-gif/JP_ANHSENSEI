@@ -58,6 +58,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       active: pathname.startsWith("/admin/curriculum"),
     },
     {
+      name: "Quản Lý Quiz & Đề Thi",
+      icon: "🎯",
+      href: "/admin/quizzes",
+      active: pathname.startsWith("/admin/quizzes"),
+    },
+    {
       name: "Strict Excel Import",
       icon: "📥",
       href: "/admin/import",

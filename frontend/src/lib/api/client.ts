@@ -71,7 +71,34 @@ export async function apiClient<T>(
       };
     }
 
-    return await response.json();
+    if (response.status === 204) {
+      return {
+        success: true,
+        data: null as unknown as T,
+        message: "No content",
+        timestamp: new Date().toISOString(),
+      };
+    }
+
+    const text = await response.text();
+    if (!text || !text.trim()) {
+      return {
+        success: true,
+        data: null as unknown as T,
+        message: "Empty response",
+        timestamp: new Date().toISOString(),
+      };
+    }
+
+    try {
+      return JSON.parse(text);
+    } catch {
+      return {
+        success: response.ok,
+        data: text as unknown as T,
+        timestamp: new Date().toISOString(),
+      };
+    }
   } catch (err: unknown) {
     if (err instanceof ApiError) {
       throw err;
