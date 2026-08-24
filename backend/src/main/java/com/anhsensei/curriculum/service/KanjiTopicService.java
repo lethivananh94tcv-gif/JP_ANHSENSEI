@@ -11,6 +11,7 @@ import com.anhsensei.curriculum.repository.KanjiExerciseRepository;
 import com.anhsensei.curriculum.repository.KanjiRepository;
 import com.anhsensei.curriculum.repository.KanjiTopicItemRepository;
 import com.anhsensei.curriculum.repository.KanjiTopicRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,6 +43,7 @@ public class KanjiTopicService {
         this.kanjiRepository = kanjiRepository;
     }
 
+    @Cacheable(value = "kanji_topics", key = "#jlptLevel")
     public List<KanjiTopicDto> getTopicsByLevel(String jlptLevel) {
         return kanjiTopicRepository.findByJlptLevelOrderByTopicOrderAsc(jlptLevel)
                 .stream()
@@ -50,6 +52,7 @@ public class KanjiTopicService {
     }
 
     @Transactional
+    @Cacheable(value = "kanji_topic_details", key = "#topicId")
     public KanjiTopicDetailDto getTopicDetail(Long topicId) {
         KanjiTopic topic = kanjiTopicRepository.findById(topicId)
                 .orElseThrow(() -> new ResourceNotFoundException("KanjiTopic", "id", topicId));

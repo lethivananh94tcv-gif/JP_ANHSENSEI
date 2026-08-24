@@ -30,7 +30,7 @@ export default function LearnerLessonsPage() {
         setLoading(true);
         const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token");
         const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
-        const res = await fetch(`http://localhost:8080/api/v1/curriculum/levels/${levelId}/lessons`, {
+        const res = await fetch(`/api/v1/curriculum/levels/${levelId}/lessons`, {
           headers,
         });
         if (!res.ok) throw new Error("Không thể tải danh sách bài học.");

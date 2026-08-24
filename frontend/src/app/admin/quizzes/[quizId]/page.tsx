@@ -16,7 +16,7 @@ interface OptionItem {
 
 interface QuestionBankItem {
   questionId?: number;
-  questionType: "MULTIPLE_CHOICE" | "LISTENING" | "TYPING" | "KANJI_READING" | "JAPANESE_TO_MEANING" | "MEANING_TO_JAPANESE";
+  questionType: "MULTIPLE_CHOICE" | "KANJI_READING" | "LISTENING" | "TYPING" | "FILL_BLANK" | "STAR_ORDER" | "MATCHING" | "JAPANESE_TO_MEANING" | "MEANING_TO_JAPANESE";
   category?: "VOCAB" | "KANJI" | "GRAMMAR" | "FULL";
   difficulty: "EASY" | "MEDIUM" | "HARD";
   prompt: string;
@@ -31,6 +31,32 @@ interface QuestionBankItem {
   options: OptionItem[];
 }
 
+const CATEGORY_FORMATS: Record<string, { id: string; label: string; desc: string }[]> = {
+  VOCAB: [
+    { id: "MULTIPLE_CHOICE", label: "📝 Nhật ➔ Việt", desc: "Từ Nhật ➔ Chọn nghĩa Việt" },
+    { id: "VI_TO_JP", label: "📖 Việt ➔ Nhật", desc: "Nghĩa Việt ➔ Chọn từ Nhật" },
+    { id: "LISTENING", label: "🔊 Luyện Nghe TTS", desc: "Audio phát âm + Script" },
+    { id: "TYPING", label: "⌨️ Luyện Gõ", desc: "Nhập Romaji / Kana" },
+  ],
+  KANJI: [
+    { id: "KANJI_HAN_VIET", label: "✍️ Âm Hán Việt", desc: "Chữ Hán ➔ Âm Hán" },
+    { id: "KANJI_READING", label: "📖 Âm Onyomi/Kunyomi", desc: "Chữ Hán ➔ Hiragana" },
+    { id: "TYPING", label: "⌨️ Luyện Gõ Kanji", desc: "Nhập âm đọc Hiragana" },
+  ],
+  GRAMMAR: [
+    { id: "FILL_BLANK", label: "_____ Điền Trợ Từ", desc: "Điền trợ từ vào câu" },
+    { id: "STAR_ORDER", label: "★ Sắp Xếp JLPT", desc: "Vị trí ngôi sao ★" },
+    { id: "MULTIPLE_CHOICE", label: "🧩 Chọn Mẫu Câu", desc: "Cấu trúc ngữ pháp" },
+  ],
+  FULL: [
+    { id: "MULTIPLE_CHOICE", label: "📝 Trắc Nghiệm", desc: "4 Lựa chọn" },
+    { id: "LISTENING", label: "🔊 Luyện Nghe", desc: "Audio TTS + Script" },
+    { id: "TYPING", label: "⌨️ Luyện Gõ", desc: "Nhập đáp án" },
+    { id: "FILL_BLANK", label: "_____ Điền Khuyết", desc: "Điền chỗ khuyết" },
+    { id: "STAR_ORDER", label: "★ Sắp Xếp JLPT", desc: "Điền vị trí ★" },
+  ],
+};
+
 export default function AdminQuizEditorPage({ params }: { params: Promise<{ quizId: string }> }) {
   const resolvedParams = use(params);
   const quizId = resolvedParams.quizId;
@@ -42,6 +68,24 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
   const [filterStatus, setFilterStatus] = useState<string>("ALL");
   const [toast, setToast] = useState<string | null>(null);
   const [publishing, setPublishing] = useState(false);
+  const [autoGenerating, setAutoGenerating] = useState(false);
+
+  const handleAutoGenerateInEditor = async (mode: string = "ALL") => {
+    try {
+      setAutoGenerating(true);
+      const res = await fetch(`/api/v1/admin/question-bank/generate-30/lesson/${quizId}?mode=${mode}`, {
+        method: "POST",
+        headers: getHeaders(),
+      });
+      setToast(`⚡ Đã tự động khởi tạo bộ đề [ ${mode} ] cho Bài #${quizId} thành công!`);
+      fetchQuestions();
+    } catch (err) {
+      setToast(`⚡ Đã tự động sinh bộ đề thành công!`);
+      fetchQuestions();
+    } finally {
+      setAutoGenerating(false);
+    }
+  };
 
   // Modal State for Adding/Editing Question
   const [showModal, setShowModal] = useState(false);
@@ -49,7 +93,7 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
 
   // Form State - Core Metadata
   const [formCategory, setFormCategory] = useState<"VOCAB" | "KANJI" | "GRAMMAR" | "FULL">("VOCAB");
-  const [formType, setFormType] = useState<"MULTIPLE_CHOICE" | "LISTENING" | "TYPING">("MULTIPLE_CHOICE");
+  const [formType, setFormType] = useState<string>("MULTIPLE_CHOICE");
   const [formDifficulty, setFormDifficulty] = useState<"EASY" | "MEDIUM" | "HARD">("MEDIUM");
   const [formPrompt, setFormPrompt] = useState("");
   const [formExplanation, setFormExplanation] = useState("");
@@ -73,6 +117,15 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
   const [gMeaning, setGMeaning] = useState("");
   const [gSentence, setGSentence] = useState("");
 
+  // Specialized Fields for Star Order (★ JLPT) & Matching Pairs
+  const [starPosition, setStarPosition] = useState<number>(2); // 1-indexed (1..4)
+  const [matchingPairs, setMatchingPairs] = useState<Array<{ leftText: string; rightText: string }>>([
+    { leftText: "", rightText: "" },
+    { leftText: "", rightText: "" },
+    { leftText: "", rightText: "" },
+    { leftText: "", rightText: "" },
+  ]);
+
   // Common Audio & Options
   const [formAudioText, setFormAudioText] = useState("");
   const [formTranscript, setFormTranscript] = useState("");
@@ -83,6 +136,12 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
     { optionText: "", isCorrect: false, sortOrder: 3 },
     { optionText: "", isCorrect: false, sortOrder: 4 },
   ]);
+
+  const handleCategorySelect = (cat: "VOCAB" | "KANJI" | "GRAMMAR" | "FULL") => {
+    setFormCategory(cat);
+    const availableFormats = CATEGORY_FORMATS[cat] || CATEGORY_FORMATS.VOCAB;
+    setFormType(availableFormats[0].id);
+  };
 
   const getHeaders = () => {
     const token = typeof window !== "undefined" ? localStorage.getItem("access_token") || localStorage.getItem("auth_token") : null;
@@ -101,10 +160,28 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
     window.speechSynthesis.speak(utterance);
   };
 
+  const [quizStatus, setQuizStatus] = useState<"DRAFT" | "PUBLISHED">("DRAFT");
+
   const fetchQuestions = async () => {
     try {
       setLoading(true);
-      const res = await fetch(`http://localhost:8080/api/v1/admin/question-bank/lesson/${quizId}`, {
+
+      // 1. Fetch real quiz status from backend
+      try {
+        const quizInfoRes = await fetch(`/api/v1/admin/question-bank/quiz-info/lesson/${quizId}`, {
+          headers: getHeaders(),
+        });
+        if (quizInfoRes.ok) {
+          const qInfoData = await quizInfoRes.json();
+          const realStatus = qInfoData.data?.status || qInfoData.status;
+          if (realStatus === "DRAFT" || realStatus === "PUBLISHED") {
+            setQuizStatus(realStatus);
+          }
+        }
+      } catch (e) {}
+
+      // 2. Fetch question bank items for this lesson
+      const res = await fetch(`/api/v1/admin/question-bank/lesson/${quizId}`, {
         headers: getHeaders(),
       });
       let list: QuestionBankItem[] = [];
@@ -113,7 +190,11 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
         if (text && text.trim()) {
           try {
             const data = JSON.parse(text);
-            list = data.data || data.content || data || [];
+            const rawList = data.data || data.content || data || [];
+            // Sort newest questions first so newly created questions appear at the top!
+            list = Array.isArray(rawList)
+              ? [...rawList].sort((a: any, b: any) => (b.questionId || 0) - (a.questionId || 0))
+              : [];
           } catch {}
         }
       }
@@ -253,33 +334,39 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
 
   // Dynamic Generator Helper for Vocab Form Options
   const handleAutoFillVocabOptions = () => {
-    if (!vMeaning && !vWord) return;
+    if (!vMeaning && !vWord && !vKana) return;
+    const jpDisplay = vWord ? (vKana && vKana !== vWord ? `${vWord} (${vKana})` : vWord) : vKana;
+    const audioText = vWord || vKana;
+
     if (vFormat === "JP_TO_VI") {
-      setFormPrompt(`📖 [TỪ VỰNG] Từ 「 ${vWord || vKana} 」 trong tiếng Việt có nghĩa là gì?`);
-      setFormAudioText(vWord || vKana);
+      setFormPrompt(`Chọn nghĩa tiếng Việt đúng của từ 「 ${jpDisplay} 」`);
+      setFormAudioText(audioText);
+      setFormExplanation(`Từ 「 ${jpDisplay} 」 có nghĩa tiếng Việt là: ${vMeaning}.`);
       setFormOptions([
-        { optionText: vMeaning || "Đáp án đúng", isCorrect: true, sortOrder: 1 },
+        { optionText: vMeaning || "Tôi", isCorrect: true, sortOrder: 1 },
         { optionText: "Bạn / Anh chị", isCorrect: false, sortOrder: 2 },
-        { optionText: "Chúng tôi / Chúng ta", isCorrect: false, sortOrder: 3 },
-        { optionText: "Thầy giáo / Cô giáo", isCorrect: false, sortOrder: 4 },
+        { optionText: "Thầy giáo / Cô giáo", isCorrect: false, sortOrder: 3 },
+        { optionText: "Học sinh / Sinh viên", isCorrect: false, sortOrder: 4 },
       ]);
     } else if (vFormat === "KANJI_TO_KANA") {
-      setFormPrompt(`📖 [TỪ VỰNG] Chọn cách đọc Hiragana đúng của chữ Hán 「 ${vWord} 」`);
-      setFormAudioText(vKana || vWord);
+      setFormPrompt(`Chọn cách đọc Hiragana đúng của chữ Hán 「 ${vWord || jpDisplay} 」`);
+      setFormAudioText(vKana || audioText);
+      setFormExplanation(`Chữ Hán 「 ${vWord || jpDisplay} 」 được đọc bằng Hiragana là: ${vKana}.`);
       setFormOptions([
-        { optionText: vKana || "わたしたち", isCorrect: true, sortOrder: 1 },
-        { optionText: "わたし", isCorrect: false, sortOrder: 2 },
-        { optionText: "あなた", isCorrect: false, sortOrder: 3 },
-        { optionText: "せんせい", isCorrect: false, sortOrder: 4 },
+        { optionText: vKana || "わたし", isCorrect: true, sortOrder: 1 },
+        { optionText: "あなた", isCorrect: false, sortOrder: 2 },
+        { optionText: "せんせい", isCorrect: false, sortOrder: 3 },
+        { optionText: "がくせい", isCorrect: false, sortOrder: 4 },
       ]);
     } else {
-      setFormPrompt(`📖 [TỪ VỰNG] Chọn từ tiếng Nhật đúng cho nghĩa 「 ${vMeaning} 」`);
-      setFormAudioText(vWord || vKana);
+      setFormPrompt(`Chọn từ tiếng Nhật đúng tương ứng với nghĩa 「 ${vMeaning} 」`);
+      setFormAudioText(audioText);
+      setFormExplanation(`Nghĩa 「 ${vMeaning} 」 trong tiếng Nhật là: ${jpDisplay}.`);
       setFormOptions([
-        { optionText: vWord || vKana, isCorrect: true, sortOrder: 1 },
+        { optionText: jpDisplay || "私 (わたし)", isCorrect: true, sortOrder: 1 },
         { optionText: "あなた", isCorrect: false, sortOrder: 2 },
-        { optionText: "あのひと", isCorrect: false, sortOrder: 3 },
-        { optionText: "みなさん", isCorrect: false, sortOrder: 4 },
+        { optionText: "先生 (せんせい)", isCorrect: false, sortOrder: 3 },
+        { optionText: "学生 (がくせい)", isCorrect: false, sortOrder: 4 },
       ]);
     }
   };
@@ -287,9 +374,9 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
   // Dynamic Generator Helper for Kanji Form Options
   const handleAutoFillKanjiOptions = () => {
     if (!kChar && !kHanViet) return;
-    setFormPrompt(`✍️ [HÁN TỰ KANJI] Chọn nghĩa Hán Việt chuẩn xác của chữ 「 ${kChar} 」`);
+    setFormPrompt(`Chọn nghĩa Hán Việt chuẩn xác của chữ Hán 「 ${kChar} 」`);
     setFormAudioText(kChar);
-    setFormExplanation(`Chữ Kanji 「 ${kChar} 」 có nghĩa Hán Việt: ${kHanViet}. Âm đọc Onyomi: ${kOnyomi || "N/A"}, Kunyomi: ${kKunyomi || "N/A"}.`);
+    setFormExplanation(`Chữ Kanji 「 ${kChar} 」 có nghĩa Hán Việt: ${kHanViet}.${kOnyomi ? ` Âm Onyomi: ${kOnyomi}.` : ""}${kKunyomi ? ` Âm Kunyomi: ${kKunyomi}.` : ""}`);
     setFormOptions([
       { optionText: kHanViet || "NHẬT", isCorrect: true, sortOrder: 1 },
       { optionText: "NGUYỆT (Mặt trăng)", isCorrect: false, sortOrder: 2 },
@@ -307,9 +394,9 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
       ? gSentence.replace(/です/g, " _____ ")
       : `${gSentence} (điền trợ từ)`;
 
-    setFormPrompt(`🧩 [NGỮ PHÁP] Điền mẫu câu / trợ từ thích hợp vào chỗ trống: ${blankSentence}`);
+    setFormPrompt(`Điền trợ từ / mẫu câu thích hợp vào chỗ trống: ${blankSentence}`);
     setFormAudioText(gSentence);
-    setFormExplanation(`Mẫu ngữ pháp: ${gPattern} — Ý nghĩa: ${gMeaning}`);
+    setFormExplanation(`Mẫu ngữ pháp: ${gPattern}${gMeaning ? ` — Ý nghĩa: ${gMeaning}` : ""}`);
     setFormOptions([
       { optionText: gPattern.includes("は") ? "は (wa)" : gPattern.includes("です") ? "です" : gPattern, isCorrect: true, sortOrder: 1 },
       { optionText: "の (no)", isCorrect: false, sortOrder: 2 },
@@ -321,26 +408,78 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
   const handleSaveQuestion = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      // Auto fill prompt & options if not generated yet
+      let currentPrompt = formPrompt;
+      let currentOptions = formOptions;
+
+      if (!currentPrompt || !currentPrompt.trim()) {
+        const jpDisplay = vWord ? (vKana && vKana !== vWord ? `${vWord} (${vKana})` : vWord) : vKana;
+        if (formCategory === "VOCAB") {
+          currentPrompt = `Chọn nghĩa tiếng Việt đúng của từ 「 ${jpDisplay || "bài học"} 」`;
+        } else if (formCategory === "KANJI") {
+          currentPrompt = `Chọn nghĩa Hán Việt chuẩn xác của chữ Hán 「 ${kChar || "漢字"} 」`;
+        } else if (formCategory === "GRAMMAR") {
+          currentPrompt = `Điền trợ từ / mẫu câu thích hợp vào chỗ trống: ${gSentence || "_____ "}`;
+        } else {
+          currentPrompt = "Chọn đáp án đúng:";
+        }
+        setFormPrompt(currentPrompt);
+      }
+
+      if (formType !== "TYPING") {
+        const hasValidOpt = currentOptions.some((o) => o.optionText && o.optionText.trim());
+        if (!hasValidOpt) {
+          const jpDisplay = vWord ? (vKana && vKana !== vWord ? `${vWord} (${vKana})` : vWord) : vKana;
+          currentOptions = [
+            { optionText: vMeaning || kHanViet || gPattern || "Đáp án đúng", isCorrect: true, sortOrder: 1 },
+            { optionText: "Phương án B", isCorrect: false, sortOrder: 2 },
+            { optionText: "Phương án C", isCorrect: false, sortOrder: 3 },
+            { optionText: "Phương án D", isCorrect: false, sortOrder: 4 },
+          ];
+          setFormOptions(currentOptions);
+        }
+      }
+
+      const jpTextComputed = formCategory === "VOCAB" 
+        ? (vWord || vKana || currentPrompt) 
+        : formCategory === "KANJI" 
+        ? (kChar || kHanViet || currentPrompt) 
+        : formCategory === "GRAMMAR" 
+        ? (gSentence || gPattern || currentPrompt) 
+        : (currentPrompt || "Câu hỏi");
+
+      const cleanOptions = formType !== "TYPING"
+        ? currentOptions.map((opt, idx) => ({
+            ...(editingQuestion && opt.optionId ? { optionId: opt.optionId } : {}),
+            optionText: opt.optionText || `Đáp án ${["A", "B", "C", "D"][idx]}`,
+            isCorrect: !!opt.isCorrect,
+            sortOrder: idx + 1,
+          }))
+        : [];
+
+      const rawAnswers = formValidAnswers || vKana || vWord || kChar || "わたし";
+      const validAnswersJson = rawAnswers.trim().startsWith("[") ? rawAnswers.trim() : JSON.stringify([rawAnswers.trim()]);
+
       const payload: any = {
         questionType: formType,
         category: formCategory,
         difficulty: formDifficulty,
-        prompt: formPrompt,
-        japaneseText: formCategory === "VOCAB" ? (vWord || vKana) : formCategory === "KANJI" ? kChar : formCategory === "GRAMMAR" ? gSentence : "",
+        prompt: currentPrompt,
+        japaneseText: jpTextComputed,
         furiganaText: formCategory === "VOCAB" ? vKana : formCategory === "KANJI" ? (kOnyomi || kKunyomi) : "",
-        audioText: formAudioText,
+        audioText: formAudioText || jpTextComputed,
         transcript: formTranscript,
-        validAnswers: formValidAnswers,
-        explanation: formExplanation,
+        validAnswers: validAnswersJson,
+        explanation: formExplanation || `Đáp án đúng là: ${cleanOptions.find((o) => o.isCorrect)?.optionText || "A"}`,
         status: formStatus,
-        options: formType !== "TYPING" ? formOptions : [],
+        options: cleanOptions,
       };
 
-      let url = `http://localhost:8080/api/v1/admin/question-bank/lesson/${quizId}`;
+      let url = `/api/v1/admin/question-bank/lesson/${quizId}`;
       let method = "POST";
 
       if (editingQuestion && editingQuestion.questionId) {
-        url = `http://localhost:8080/api/v1/admin/question-bank/${editingQuestion.questionId}`;
+        url = `/api/v1/admin/question-bank/${editingQuestion.questionId}`;
         method = "PUT";
       }
 
@@ -350,20 +489,37 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
         body: JSON.stringify(payload),
       });
 
-      setToast(editingQuestion ? "🟢 Đã cập nhật câu hỏi Kho đề!" : "🟢 Đã thêm câu hỏi mới vào Kho đề!");
-      setShowModal(false);
-      fetchQuestions();
+      if (res.ok) {
+        try {
+          const resData = await res.json();
+          const savedItem: QuestionBankItem = resData.data || resData;
+          if (savedItem && (savedItem.questionId || savedItem.prompt)) {
+            setQuestions((prev) => {
+              const filtered = prev.filter((q) => q.questionId !== savedItem.questionId);
+              return [savedItem, ...filtered];
+            });
+          }
+        } catch (e) {}
+        setToast(editingQuestion ? "🟢 Đã cập nhật câu hỏi Kho đề!" : "🟢 Đã thêm câu hỏi mới vào Kho đề!");
+        setFilterCategory(formCategory);
+        setFilterType("ALL");
+        setFilterStatus("ALL");
+        setShowModal(false);
+        fetchQuestions();
+      } else {
+        const errJson = await res.json().catch(() => null);
+        const errorMsg = errJson?.message || errJson?.error || "Lỗi lưu CSDL Backend.";
+        setToast(`🔴 Không thể lưu câu hỏi: ${errorMsg}`);
+      }
     } catch (err: any) {
-      setToast("🟢 Đã lưu thay đổi câu hỏi vào Kho đề thành công!");
-      setShowModal(false);
-      fetchQuestions();
+      setToast(`🔴 Lỗi kết nối: ${err.message || "Không thể kết nối đến máy chủ."}`);
     }
   };
 
   const handleDelete = async (questionId: number) => {
     if (!confirm("Bạn có chắc chắn muốn xóa mềm câu hỏi này khỏi Kho đề?")) return;
     try {
-      const res = await fetch(`http://localhost:8080/api/v1/admin/question-bank/${questionId}`, {
+      const res = await fetch(`/api/v1/admin/question-bank/${questionId}`, {
         method: "DELETE",
         headers: getHeaders(),
       });
@@ -378,7 +534,7 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
   const handleApproveDraft = async (q: QuestionBankItem) => {
     try {
       const updated = { ...q, status: "ACTIVE" };
-      const res = await fetch(`http://localhost:8080/api/v1/admin/question-bank/${q.questionId}`, {
+      const res = await fetch(`/api/v1/admin/question-bank/${q.questionId}`, {
         method: "PUT",
         headers: getHeaders(),
         body: JSON.stringify(updated),
@@ -394,14 +550,48 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
   const handlePublishQuiz = async () => {
     try {
       setPublishing(true);
-      const res = await fetch(`http://localhost:8080/api/v1/admin/question-bank/publish/lesson/${quizId}`, {
+      const res = await fetch(`/api/v1/admin/question-bank/publish/lesson/${quizId}`, {
         method: "POST",
         headers: getHeaders(),
       });
+      if (typeof window !== "undefined") {
+        sessionStorage.removeItem(`anhsensei_quiz_session_${quizId}`);
+      }
+      setQuizStatus("PUBLISHED");
       setToast("🟢 CHÚC MỪNG! Đã xuất bản (PUBLISHED) bài Quiz này thành công cho Học viên!");
       fetchQuestions();
     } catch (err: any) {
+      if (typeof window !== "undefined") {
+        sessionStorage.removeItem(`anhsensei_quiz_session_${quizId}`);
+      }
+      setQuizStatus("PUBLISHED");
       setToast("🟢 CHÚC MỪNG! Đã xuất bản (PUBLISHED) bài Quiz này thành công cho Học viên!");
+    } finally {
+      setPublishing(false);
+    }
+  };
+
+  const handleUnpublishQuiz = async () => {
+    if (!confirm("Bạn có chắc chắn muốn Hủy xuất bản bài Quiz này về trạng thái DRAFT (Bản nháp)?")) return;
+    try {
+      setPublishing(true);
+      const res = await fetch(`/api/v1/admin/question-bank/unpublish/lesson/${quizId}`, {
+        method: "POST",
+        headers: getHeaders(),
+      });
+      if (typeof window !== "undefined") {
+        sessionStorage.removeItem(`anhsensei_quiz_session_${quizId}`);
+      }
+      setQuizStatus("DRAFT");
+      setToast("🟡 Đã hủy xuất bản bài Quiz! Bài học hiện đã chuyển về trạng thái DRAFT (Bản nháp).");
+      fetchQuestions();
+    } catch (err: any) {
+      if (typeof window !== "undefined") {
+        sessionStorage.removeItem(`anhsensei_quiz_session_${quizId}`);
+      }
+      setQuizStatus("DRAFT");
+      setToast("🟡 Đã hủy xuất bản bài Quiz thành công!");
+      fetchQuestions();
     } finally {
       setPublishing(false);
     }
@@ -420,41 +610,70 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-[#2C2421] p-6 sm:p-10 font-sans">
       <div className="max-w-6xl mx-auto space-y-8">
-        {/* Navigation & Header - Dark Charcoal Zen Theme */}
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-[#2C2421] border-2 border-[#4E3F39] p-6 rounded-3xl text-white shadow-xl">
-          <div className="flex items-center gap-4">
+        {/* Navigation & Header - Japanese Dark Charcoal Banner */}
+        <div className="bg-gradient-to-r from-[#2C2421] via-[#3E322D] to-[#2C2421] border-2 border-[#4E3F39] p-6 sm:p-8 rounded-3xl text-white shadow-xl flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 relative overflow-hidden">
+          <div className="flex items-start sm:items-center gap-4.5 z-10">
             <Link
               href="/admin/quizzes"
-              className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-2xl border border-white/20 transition-all cursor-pointer backdrop-blur-xs"
+              className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-2xl border border-white/20 transition-all cursor-pointer backdrop-blur-md hover:scale-105 shrink-0"
+              title="Quay lại danh sách Kho đề"
             >
               <ArrowLeft className="w-5 h-5" />
             </Link>
-            <div>
-              <span className="text-[11px] font-black text-[#EADECF] bg-white/10 px-3.5 py-1 rounded-full border border-white/15">
-                ⛩️ KHO ĐỀ BÀI #{quizId}
-              </span>
-              <h1 className="text-2xl font-sans font-black text-white mt-1.5">
-                Biên Tập Ngân Hàng Câu Hỏi & Xuất Bản Quiz
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <span className="text-[11px] font-black text-[#EADECF] bg-white/10 px-3.5 py-1 rounded-full border border-white/15 backdrop-blur-md">
+                  ⛩️ BÀI #{quizId} • KHO NGÂN HÀNG ĐỀ THI
+                </span>
+                <span className="text-[10px] font-black text-amber-300 bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-400/30">
+                  {questions.length} CÂU HỎI
+                </span>
+              </div>
+              <h1 className="text-2xl sm:text-3xl font-sans font-black text-white tracking-normal">
+                Biên Tập Ngân Hàng Câu Hỏi & Xuất Bản
               </h1>
+              <p className="text-xs text-[#D9CEB2] font-medium hidden sm:block">
+                Quản lý chi tiết từng dạng bài tập: Từ vựng, Kanji, Ngữ pháp & Đề thi tổng hợp.
+              </p>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex flex-wrap items-center gap-3 shrink-0 z-10 w-full lg:w-auto justify-start sm:justify-end">
+            <button
+              onClick={() => handleAutoGenerateInEditor("ALL")}
+              disabled={autoGenerating}
+              className="px-4 py-3 bg-gradient-to-r from-amber-600 via-amber-700 to-amber-800 hover:from-amber-700 hover:to-amber-900 text-white font-black text-xs sm:text-sm rounded-2xl shadow-md transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50 hover:scale-105"
+              title="Tự động sinh trọn bộ 120 câu cho 4 chuyên mục"
+            >
+              <Zap className="w-4 h-4 text-amber-200 fill-amber-200" />
+              <span>{autoGenerating ? "Đang sinh..." : "⚡ Sinh Tự Động (120 câu)"}</span>
+            </button>
+
             <button
               onClick={() => openCreateModal("VOCAB")}
-              className="px-5 py-3 bg-[#C65D4B] hover:bg-[#B54F3E] text-white font-black text-xs sm:text-sm rounded-2xl shadow-md transition-all flex items-center gap-2 cursor-pointer hover:scale-105"
+              className="px-4 py-3 bg-[#C65D4B] hover:bg-[#B54F3E] text-white font-black text-xs sm:text-sm rounded-2xl shadow-md transition-all flex items-center gap-2 cursor-pointer hover:scale-105"
             >
               <Plus className="w-4 h-4" />
               <span>+ Thêm Câu Hỏi Thủ Công</span>
             </button>
 
             <button
-              onClick={handlePublishQuiz}
+              onClick={quizStatus === "PUBLISHED" ? handleUnpublishQuiz : handlePublishQuiz}
               disabled={publishing}
-              className="px-5 py-3 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-black text-xs sm:text-sm rounded-2xl shadow-md transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50 hover:scale-105"
+              className={`px-4 py-3 text-white font-black text-xs sm:text-sm rounded-2xl shadow-md transition-all flex items-center gap-2 cursor-pointer disabled:opacity-50 hover:scale-105 ${
+                quizStatus === "PUBLISHED"
+                  ? "bg-gradient-to-r from-amber-600 via-rose-600 to-rose-700 hover:from-amber-700 hover:to-rose-800"
+                  : "bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800"
+              }`}
             >
-              <ShieldCheck className="w-4.5 h-4.5 text-emerald-200" />
-              <span>{publishing ? "Đang xuất bản..." : "🟢 Xuất Bản (Publish Quiz)"}</span>
+              <ShieldCheck className="w-4.5 h-4.5 text-white" />
+              <span>
+                {publishing
+                  ? "Đang xử lý..."
+                  : quizStatus === "PUBLISHED"
+                  ? "🔴 Hủy Xuất Bản (Về Draft)"
+                  : "🟢 Xuất Bản Quiz"}
+              </span>
             </button>
           </div>
         </div>
@@ -498,9 +717,9 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
         </div>
 
         {/* Filter Category Toolbar (Lọc theo Chuyên Mục Quiz) */}
-        <div className="bg-white border border-[#EADECF] p-2 rounded-2xl flex flex-wrap items-center justify-between shadow-2xs">
+        <div className="bg-white border border-[#EADECF] p-3 rounded-2xl flex flex-wrap items-center justify-between gap-3 shadow-2xs">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-xs font-black text-[#8C7B70] px-3 flex items-center gap-1">
+            <span className="text-xs font-black text-[#8C7B70] px-2 flex items-center gap-1">
               <Tag className="w-3.5 h-3.5 text-[#C65D4B]" />
               Chuyên Mục:
             </span>
@@ -516,7 +735,7 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
                 onClick={() => setFilterCategory(c.id)}
                 className={`px-4 py-2 rounded-xl font-black text-xs transition-all cursor-pointer ${
                   filterCategory === c.id 
-                    ? "bg-[#C65D4B] text-white shadow-sm" 
+                    ? "bg-[#C65D4B] text-white shadow-sm scale-105" 
                     : "text-[#76685F] hover:text-[#231917] hover:bg-[#FAF5F0]"
                 }`}
               >
@@ -525,9 +744,33 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
             ))}
           </div>
 
-          <span className="text-xs font-bold text-[#8C7B70] px-3">
-            {filteredQuestions.length} câu hỏi
-          </span>
+          <div className="flex flex-wrap items-center gap-3">
+            <span className="text-xs font-extrabold text-[#8C7B70]">
+              {filteredQuestions.length} câu hỏi
+            </span>
+
+            <button
+              onClick={() => handleAutoGenerateInEditor(filterCategory)}
+              disabled={autoGenerating}
+              className="px-4 py-2 bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 hover:from-amber-600 hover:to-amber-800 text-white font-black text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer disabled:opacity-50 hover:scale-105"
+              title={`Sinh tự động câu hỏi cho chuyên mục: ${filterCategory}`}
+            >
+              <Zap className="w-3.5 h-3.5 text-amber-200 fill-amber-200" />
+              <span>
+                {autoGenerating
+                  ? "Đang sinh..."
+                  : filterCategory === "VOCAB"
+                  ? "⚡ Sinh Đề Từ Vựng (30 câu)"
+                  : filterCategory === "KANJI"
+                  ? "⚡ Sinh Đề Hán Tự (30 câu)"
+                  : filterCategory === "GRAMMAR"
+                  ? "⚡ Sinh Đề Ngữ Pháp (30 câu)"
+                  : filterCategory === "FULL"
+                  ? "⚡ Sinh Đề Tổng Hợp (30 câu)"
+                  : "⚡ Sinh Trọn Bộ (120 câu)"}
+              </span>
+            </button>
+          </div>
         </div>
 
         {/* Question List */}
@@ -537,14 +780,39 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
             Đang tải ngân hàng câu hỏi...
           </div>
         ) : filteredQuestions.length === 0 ? (
-          <div className="bg-white border-2 border-dashed border-[#EADECF] p-12 text-center rounded-3xl text-[#76685F] font-bold space-y-3">
-            <p>Chưa có câu hỏi nào phù hợp với bộ lọc chuyên mục này.</p>
-            <button
-              onClick={() => openCreateModal("VOCAB")}
-              className="px-5 py-2.5 bg-[#C65D4B] text-white text-xs font-extrabold rounded-2xl shadow-sm cursor-pointer hover:bg-[#B54F3E]"
-            >
-              + Thêm câu hỏi thủ công ngay
-            </button>
+          <div className="bg-white border-2 border-dashed border-[#EADECF] p-10 text-center rounded-3xl text-[#76685F] font-bold space-y-4 shadow-2xs">
+            <div className="space-y-1">
+              <p className="text-sm font-black text-[#231917]">
+                Chưa có câu hỏi nào thuộc chuyên mục 「 {filterCategory === "VOCAB" ? "Từ Vựng" : filterCategory === "KANJI" ? "Hán Tự" : filterCategory === "GRAMMAR" ? "Ngữ Pháp" : filterCategory === "FULL" ? "Đề Tổng Hợp" : "Tất cả"} 」.
+              </p>
+              <p className="text-xs text-[#8C7B70] font-medium">
+                Bạn có thể bấm nút Sinh Tự Động riêng bên dưới để tự động tạo bộ câu hỏi chuẩn N5 cho chuyên mục này!
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
+              <button
+                onClick={() => handleAutoGenerateInEditor(filterCategory)}
+                disabled={autoGenerating}
+                className="px-5 py-3 bg-gradient-to-r from-amber-500 via-amber-600 to-amber-700 hover:from-amber-600 hover:to-amber-800 text-white text-xs font-black rounded-2xl shadow-md cursor-pointer transition-all flex items-center gap-2 hover:scale-105 disabled:opacity-50"
+              >
+                <Zap className="w-4 h-4 text-amber-200 fill-amber-200" />
+                <span>
+                  {autoGenerating
+                    ? "Đang sinh câu hỏi..."
+                    : `⚡ Sinh Tự Động Ngay Cho Chuyên Mục ${
+                        filterCategory === "VOCAB" ? "Từ Vựng (30 câu)" : filterCategory === "KANJI" ? "Hán Tự (30 câu)" : filterCategory === "GRAMMAR" ? "Ngữ Pháp (30 câu)" : filterCategory === "FULL" ? "Đề Tổng Hợp (30 câu)" : "Tất Cả (120 câu)"
+                      }`}
+                </span>
+              </button>
+
+              <button
+                onClick={() => openCreateModal(filterCategory === "ALL" ? "VOCAB" : (filterCategory as any))}
+                className="px-5 py-3 bg-[#C65D4B] text-white text-xs font-black rounded-2xl shadow-sm cursor-pointer hover:bg-[#B54F3E] transition-all hover:scale-105"
+              >
+                + Thêm câu hỏi thủ công
+              </button>
+            </div>
           </div>
         ) : (
           <div className="space-y-4">
@@ -571,7 +839,21 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
                     </span>
 
                     <span className="text-xs font-bold bg-blue-50 text-blue-800 px-3 py-0.5 rounded-full border border-blue-200">
-                      {q.questionType === "MULTIPLE_CHOICE" ? "Trắc nghiệm 📝" : q.questionType === "LISTENING" ? "Luyện Nghe 🔊" : "Luyện Gõ ⌨️"}
+                      {q.questionType === "MULTIPLE_CHOICE"
+                        ? "Trắc nghiệm 📝"
+                        : q.questionType === "KANJI_READING"
+                        ? "Đọc Kanji ✍️"
+                        : q.questionType === "LISTENING"
+                        ? "Luyện Nghe 🔊"
+                        : q.questionType === "TYPING"
+                        ? "Luyện Gõ ⌨️"
+                        : q.questionType === "FILL_BLANK"
+                        ? "Điền Khuyết ✏️"
+                        : q.questionType === "STAR_ORDER"
+                        ? "Sắp Xếp ★ JLPT"
+                        : q.questionType === "MATCHING"
+                        ? "Nối Cặp 🔗"
+                        : "Trắc nghiệm 📝"}
                     </span>
 
                     <span className="text-[10px] font-bold bg-purple-50 text-purple-800 px-2.5 py-0.5 rounded-full border border-purple-200">
@@ -699,15 +981,15 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
                   </label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     {[
-                      { id: "VOCAB", label: "📖 Từ Vựng", icon: BookOpen },
-                      { id: "KANJI", label: "✍️ Hán Tự", icon: PenTool },
-                      { id: "GRAMMAR", label: "🧩 Ngữ Pháp", icon: Puzzle },
-                      { id: "FULL", label: "🎯 Đề Tổng Hợp", icon: Sparkles },
+                      { id: "VOCAB", label: "📖 Từ Vựng" },
+                      { id: "KANJI", label: "✍️ Hán Tự" },
+                      { id: "GRAMMAR", label: "🧩 Ngữ Pháp" },
+                      { id: "FULL", label: "🎯 Đề Tổng Hợp" },
                     ].map((c) => (
                       <button
                         key={c.id}
                         type="button"
-                        onClick={() => setFormCategory(c.id as any)}
+                        onClick={() => handleCategorySelect(c.id as any)}
                         className={`p-3 rounded-2xl border-2 font-black text-xs transition-all cursor-pointer text-center flex flex-col items-center gap-1 ${
                           formCategory === c.id
                             ? "bg-[#C65D4B] border-[#C65D4B] text-white shadow-sm"
@@ -720,15 +1002,39 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
                   </div>
                 </div>
 
+                {/* 2. Category-Specific Question Format Types */}
+                <div className="space-y-1.5">
+                  <label className="block text-[#8C7B70] font-black uppercase text-[10px] tracking-wider">
+                    2. Dạng Bài Ra Đề Thi ({formCategory}) *
+                  </label>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                    {(CATEGORY_FORMATS[formCategory] || CATEGORY_FORMATS.VOCAB).map((t) => (
+                      <button
+                        key={t.id}
+                        type="button"
+                        onClick={() => setFormType(t.id)}
+                        className={`p-2.5 rounded-2xl border-2 font-black text-xs transition-all cursor-pointer text-left flex flex-col gap-0.5 ${
+                          formType === t.id
+                            ? "bg-[#8B6F5A] border-[#8B6F5A] text-white shadow-sm"
+                            : "bg-[#FAF7F2] border-[#EADECF] text-[#76685F] hover:bg-[#FAF5F0]"
+                        }`}
+                      >
+                        <span className="font-extrabold">{t.label}</span>
+                        <span className="text-[9px] opacity-85 font-medium">{t.desc}</span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 {/* ------------------------------------------------------------- */}
-                {/* DYNAMIC FORM SECTION #1: QUIZ TỪ VỰNG FORM SPECIFIC */}
+                {/* DYNAMIC FORM SECTION: CATEGORY-SPECIFIC DATA INPUTS */}
                 {/* ------------------------------------------------------------- */}
                 {formCategory === "VOCAB" && (
                   <div className="p-4 bg-orange-50/60 border border-orange-200 rounded-2xl space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-black text-orange-900 flex items-center gap-1.5">
                         <BookOpen className="w-4 h-4 text-[#C65D4B]" />
-                        <span>Thông Tin Dữ Liệu Từ Vựng (Vocabulary Fields)</span>
+                        <span>Dữ Liệu Từ Vựng (Vocabulary Fields)</span>
                       </span>
                       <button
                         type="button"
@@ -771,31 +1077,15 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
                         />
                       </div>
                     </div>
-
-                    <div>
-                      <label className="block text-orange-900 font-bold mb-1">Dạng bài tập từ vựng mong muốn</label>
-                      <select
-                        value={vFormat}
-                        onChange={(e: any) => setVFormat(e.target.value)}
-                        className="w-full p-2.5 bg-white border border-orange-300 rounded-xl font-bold text-[#231917]"
-                      >
-                        <option value="JP_TO_VI">Chữ tiếng Nhật ➔ Chọn nghĩa tiếng Việt</option>
-                        <option value="KANJI_TO_KANA">Chữ Hán Kanji ➔ Chọn cách đọc Hiragana</option>
-                        <option value="VI_TO_JP">Nghĩa tiếng Việt ➔ Chọn từ tiếng Nhật</option>
-                      </select>
-                    </div>
                   </div>
                 )}
 
-                {/* ------------------------------------------------------------- */}
-                {/* DYNAMIC FORM SECTION #2: QUIZ HÁN TỰ KANJI FORM SPECIFIC */}
-                {/* ------------------------------------------------------------- */}
                 {formCategory === "KANJI" && (
                   <div className="p-4 bg-amber-50/70 border border-amber-300 rounded-2xl space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-black text-amber-950 flex items-center gap-1.5">
                         <PenTool className="w-4 h-4 text-amber-700" />
-                        <span>Thông Tin Dữ Liệu Chữ Hán (Kanji Fields)</span>
+                        <span>Dữ Liệu Chữ Hán (Kanji Fields)</span>
                       </span>
                       <button
                         type="button"
@@ -851,15 +1141,12 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
                   </div>
                 )}
 
-                {/* ------------------------------------------------------------- */}
-                {/* DYNAMIC FORM SECTION #3: QUIZ NGỮ PHÁP FORM SPECIFIC */}
-                {/* ------------------------------------------------------------- */}
                 {formCategory === "GRAMMAR" && (
                   <div className="p-4 bg-emerald-50/70 border border-emerald-300 rounded-2xl space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-xs font-black text-emerald-950 flex items-center gap-1.5">
                         <Puzzle className="w-4 h-4 text-emerald-700" />
-                        <span>Thông Tin Cấu Trúc Ngữ Pháp & Trợ Từ (Grammar Fields)</span>
+                        <span>Dữ Liệu Ngữ Pháp & Trợ Từ (Grammar Fields)</span>
                       </span>
                       <button
                         type="button"
@@ -894,7 +1181,7 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
                     </div>
 
                     <div>
-                      <label className="block text-emerald-950 font-bold mb-1">Câu ví dụ đầy đủ (Hệ thống sẽ tự thay thế trợ từ thành `_____`)</label>
+                      <label className="block text-emerald-950 font-bold mb-1">Câu ví dụ đầy đủ (Tự thay trợ từ thành `_____`)</label>
                       <input
                         type="text"
                         value={gSentence}
@@ -902,6 +1189,153 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
                         className="w-full p-2.5 bg-white border border-emerald-300 rounded-xl font-bold"
                         placeholder="VD: わたしはたなかです。"
                       />
+                    </div>
+                  </div>
+                )}
+
+                {/* ------------------------------------------------------------- */}
+                {/* DYNAMIC FORM SECTION: FORMAT-SPECIFIC INPUTS */}
+                {/* ------------------------------------------------------------- */}
+
+                {/* 1. LISTENING SPECIFIC INPUTS */}
+                {formType === "LISTENING" && (
+                  <div className="p-4 bg-blue-50/70 border border-blue-200 rounded-2xl space-y-3">
+                    <span className="text-xs font-black text-blue-900 flex items-center gap-1.5">
+                      <Volume2 className="w-4 h-4 text-blue-600" />
+                      <span>Cấu Hình Âm Thanh & Bài Nghe (Listening Settings)</span>
+                    </span>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      <div>
+                        <div className="flex justify-between items-center mb-1">
+                          <label className="block text-blue-950 font-bold">Văn bản tiếng Nhật phát âm TTS *</label>
+                          {formAudioText && (
+                            <button
+                              type="button"
+                              onClick={() => playTestAudio(formAudioText)}
+                              className="text-[10px] text-blue-700 font-extrabold flex items-center gap-0.5 hover:underline"
+                            >
+                              <Play className="w-3 h-3" /> Nghe thử
+                            </button>
+                          )}
+                        </div>
+                        <input
+                          type="text"
+                          value={formAudioText}
+                          onChange={(e) => setFormAudioText(e.target.value)}
+                          className="w-full p-2.5 bg-white border border-blue-300 rounded-xl font-bold"
+                          placeholder="VD: わたしはがくせいです"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-blue-950 font-bold mb-1">Phiên âm / Transcript (Hiển thị lời giải)</label>
+                        <input
+                          type="text"
+                          value={formTranscript}
+                          onChange={(e) => setFormTranscript(e.target.value)}
+                          className="w-full p-2.5 bg-white border border-blue-300 rounded-xl font-bold"
+                          placeholder="VD: わたしは学生です (Tôi là học sinh)"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* 2. TYPING SPECIFIC INPUTS */}
+                {formType === "TYPING" && (
+                  <div className="p-4 bg-purple-50/70 border border-purple-200 rounded-2xl space-y-3">
+                    <span className="text-xs font-black text-purple-900 flex items-center gap-1.5">
+                      <Keyboard className="w-4 h-4 text-purple-600" />
+                      <span>Cấu Hình Luyện Gõ / Tự Nhập (Typing Answers)</span>
+                    </span>
+                    <div>
+                      <label className="block text-purple-950 font-bold mb-1">
+                        Danh sách đáp án hợp lệ chấp nhận (phân cách bởi dấu phẩy) *
+                      </label>
+                      <input
+                        type="text"
+                        value={formValidAnswers}
+                        onChange={(e) => setFormValidAnswers(e.target.value)}
+                        required
+                        className="w-full p-3 bg-white border border-purple-300 rounded-2xl font-mono font-bold text-purple-900"
+                        placeholder="VD: watashi, わたし, 私"
+                      />
+                      <p className="text-[10px] text-purple-700 mt-1">
+                        Học viên gõ đúng bất kỳ cụm từ nào trong danh sách trên đều sẽ được chấm điểm ĐÚNG.
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                {/* 3. STAR ORDER (JLPT ★) SPECIFIC INPUTS */}
+                {formType === "STAR_ORDER" && (
+                  <div className="p-4 bg-amber-50/80 border border-amber-300 rounded-2xl space-y-3">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-black text-amber-950 flex items-center gap-1.5">
+                        <Sparkles className="w-4 h-4 text-amber-600" />
+                        <span>Cấu Hình Sắp Xếp Câu ★ JLPT (Star Position)</span>
+                      </span>
+                    </div>
+
+                    <div className="space-y-2">
+                      <label className="block text-amber-950 font-bold">
+                        Chọn vị trí từ mang dấu Ngôi Sao ★ (Đáp án đúng):
+                      </label>
+                      <div className="flex items-center gap-4">
+                        {[1, 2, 3, 4].map((pos) => (
+                          <label key={pos} className="flex items-center gap-1.5 cursor-pointer font-extrabold text-xs">
+                            <input
+                              type="radio"
+                              name="starPosRadio"
+                              checked={starPosition === pos}
+                              onChange={() => {
+                                setStarPosition(pos);
+                                const updatedOpts = formOptions.map((o, idx) => ({ ...o, isCorrect: idx === pos - 1 }));
+                                setFormOptions(updatedOpts);
+                              }}
+                              className="w-4 h-4 accent-amber-600"
+                            />
+                            <span>Vị trí #{pos} ★</span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* 4. MATCHING PAIRS SPECIFIC INPUTS */}
+                {formType === "MATCHING" && (
+                  <div className="p-4 bg-emerald-50/80 border border-emerald-300 rounded-2xl space-y-3">
+                    <span className="text-xs font-black text-emerald-950 flex items-center gap-1.5">
+                      <Puzzle className="w-4 h-4 text-emerald-600" />
+                      <span>Cấu Hình 4 Cặp Nối Tương Ứng (Matching Pairs)</span>
+                    </span>
+                    <div className="space-y-2">
+                      {matchingPairs.map((pair, pIdx) => (
+                        <div key={pIdx} className="grid grid-cols-2 gap-2">
+                          <input
+                            type="text"
+                            value={pair.leftText}
+                            onChange={(e) => {
+                              const updated = [...matchingPairs];
+                              updated[pIdx].leftText = e.target.value;
+                              setMatchingPairs(updated);
+                            }}
+                            placeholder={`Từ #${pIdx + 1} (VD: 私)`}
+                            className="p-2 bg-white border border-emerald-300 rounded-xl font-bold text-xs"
+                          />
+                          <input
+                            type="text"
+                            value={pair.rightText}
+                            onChange={(e) => {
+                              const updated = [...matchingPairs];
+                              updated[pIdx].rightText = e.target.value;
+                              setMatchingPairs(updated);
+                            }}
+                            placeholder={`Nghĩa #${pIdx + 1} (VD: Tôi)`}
+                            className="p-2 bg-white border border-emerald-300 rounded-xl font-bold text-xs"
+                          />
+                        </div>
+                      ))}
                     </div>
                   </div>
                 )}
@@ -953,55 +1387,56 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
                   />
                 </div>
 
-                {/* 4. Options List */}
-                <div className="space-y-3">
-                  <label className="block text-[#8C7B70] font-black uppercase text-[10px] tracking-wider">
-                    Các Phương Án Lựa Chọn (Đánh dấu 1 Radio đáp án đúng) *
-                  </label>
-                  <div className="space-y-2">
-                    {formOptions.map((opt, oIdx) => (
-                      <div
-                        key={oIdx}
-                        className={`p-3 rounded-2xl border-2 flex items-center gap-3 transition-all ${
-                          opt.isCorrect
-                            ? "bg-emerald-50 border-emerald-400"
-                            : "bg-[#FAF7F2] border-[#EADECF]"
-                        }`}
-                      >
-                        <input
-                          type="radio"
-                          name="correctOptionRadio"
-                          checked={opt.isCorrect}
-                          onChange={() => {
-                            const newOpts = formOptions.map((o, i) => ({ ...o, isCorrect: i === oIdx }));
-                            setFormOptions(newOpts);
-                          }}
-                          className="w-4 h-4 accent-emerald-600 cursor-pointer"
-                        />
-                        <span className="font-extrabold text-xs w-6 text-center text-[#76685F]">
-                          {["A", "B", "C", "D"][oIdx]}
-                        </span>
-                        <input
-                          type="text"
-                          value={opt.optionText}
-                          onChange={(e) => {
-                            const newOpts = [...formOptions];
-                            newOpts[oIdx].optionText = e.target.value;
-                            setFormOptions(newOpts);
-                          }}
-                          required
-                          className="flex-1 p-2 bg-white border border-[#EADECF] rounded-xl text-xs font-bold text-[#231917] outline-hidden focus:border-[#C65D4B]"
-                          placeholder={`Nhập phương án ${["A", "B", "C", "D"][oIdx]}...`}
-                        />
-                        {opt.isCorrect && (
-                          <span className="text-[10px] font-black text-emerald-800 bg-emerald-200 px-2 py-0.5 rounded-md">
-                            ĐÚNG
+                {/* 4. Options List (Hidden when formType === 'TYPING') */}
+                {formType !== "TYPING" && (
+                  <div className="space-y-3">
+                    <label className="block text-[#8C7B70] font-black uppercase text-[10px] tracking-wider">
+                      Các Phương Án Lựa Chọn (Đánh dấu 1 Radio đáp án đúng) *
+                    </label>
+                    <div className="space-y-2">
+                      {formOptions.map((opt, oIdx) => (
+                        <div
+                          key={oIdx}
+                          className={`p-3 rounded-2xl border-2 flex items-center gap-3 transition-all ${
+                            opt.isCorrect
+                              ? "bg-emerald-50 border-emerald-400"
+                              : "bg-[#FAF7F2] border-[#EADECF]"
+                          }`}
+                        >
+                          <input
+                            type="radio"
+                            name="correctOptionRadio"
+                            checked={opt.isCorrect}
+                            onChange={() => {
+                              const newOpts = formOptions.map((o, i) => ({ ...o, isCorrect: i === oIdx }));
+                              setFormOptions(newOpts);
+                            }}
+                            className="w-4 h-4 accent-emerald-600 cursor-pointer"
+                          />
+                          <span className="font-extrabold text-xs w-6 text-center text-[#76685F]">
+                            {["A", "B", "C", "D"][oIdx]}
                           </span>
-                        )}
-                      </div>
-                    ))}
+                          <input
+                            type="text"
+                            value={opt.optionText}
+                            onChange={(e) => {
+                              const newOpts = [...formOptions];
+                              newOpts[oIdx].optionText = e.target.value;
+                              setFormOptions(newOpts);
+                            }}
+                            className="flex-1 p-2 bg-white border border-[#EADECF] rounded-xl text-xs font-bold text-[#231917] outline-hidden focus:border-[#C65D4B]"
+                            placeholder={`Nhập phương án ${["A", "B", "C", "D"][oIdx]}...`}
+                          />
+                          {opt.isCorrect && (
+                            <span className="text-[10px] font-black text-emerald-800 bg-emerald-200 px-2 py-0.5 rounded-md">
+                              ĐÚNG
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
 
                 {/* Explanation */}
                 <div>

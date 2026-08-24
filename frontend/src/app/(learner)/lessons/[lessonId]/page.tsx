@@ -85,7 +85,7 @@ export default function LearnerLessonStudyPage() {
       } catch (e) {
         // Backend endpoint 404 fallback: try direct endpoint
         try {
-          const vRes = await fetch(`http://localhost:8080/api/v1/curriculum/lessons/${lessonId}/vocabularies`);
+          const vRes = await fetch(`/api/v1/curriculum/lessons/${lessonId}/vocabularies`);
           if (vRes.ok) {
             const vocabs = await vRes.json();
             contentData = {
@@ -137,6 +137,20 @@ export default function LearnerLessonStudyPage() {
     if (lessonId) fetchStudyContent();
   }, [lessonId, fetchStudyContent]);
 
+  // Synchronize 100% completed status from outside dashboard or previous completion
+  useEffect(() => {
+    if (vocabularies.length === 0 || typeof window === "undefined") return;
+    const isCompletedOutside = localStorage.getItem(`completed_lesson_${lessonId}`) === "100";
+    if (isCompletedOutside) {
+      const allKeys = new Set(vocabularies.map((v) => `v_${v.vocabularyId}`));
+      setLearnedItemKeys((prev) => {
+        const merged = new Set([...Array.from(prev), ...Array.from(allKeys)]);
+        localStorage.setItem(`learned_items_lesson_${lessonId}`, JSON.stringify(Array.from(merged)));
+        return merged;
+      });
+    }
+  }, [vocabularies, lessonId]);
+
   // Toggle individual vocabulary item learned status
   const handleToggleLearned = async (itemKey: string) => {
     const isNew = !learnedItemKeys.has(itemKey);
@@ -151,6 +165,9 @@ export default function LearnerLessonStudyPage() {
 
       if (typeof window !== "undefined") {
         localStorage.setItem(`learned_items_lesson_${lessonId}`, JSON.stringify(Array.from(updated)));
+        if (vocabularies.length > 0 && updated.size >= vocabularies.length) {
+          localStorage.setItem(`completed_lesson_${lessonId}`, "100");
+        }
       }
       return updated;
     });
@@ -177,7 +194,17 @@ export default function LearnerLessonStudyPage() {
     setLearnedItemKeys(allKeys);
     if (typeof window !== "undefined") {
       localStorage.setItem(`learned_items_lesson_${lessonId}`, JSON.stringify(Array.from(allKeys)));
+      localStorage.setItem(`completed_lesson_${lessonId}`, "100");
     }
+
+    apiClient("/learner/progress", {
+      method: "POST",
+      body: JSON.stringify({
+        lessonId: Number(lessonId),
+        status: "COMPLETED",
+        progressPercentage: 100,
+      }),
+    }).catch(() => {});
   };
 
   // BULK ACTION 2: Reset learned status for relearning

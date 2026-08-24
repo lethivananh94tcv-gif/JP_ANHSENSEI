@@ -13,7 +13,7 @@ import java.util.Date;
 @Component
 public class JwtTokenProvider {
 
-    @Value("${app.jwt.secret}")
+    @Value("${app.jwt.secret:default_jwt_secret_must_be_overridden_in_env_file_32_chars}")
     private String jwtSecret;
 
     @Value("${app.jwt.access-token-expiration-ms:900000}")

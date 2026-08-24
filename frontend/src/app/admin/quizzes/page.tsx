@@ -58,13 +58,13 @@ export default function AdminQuizzesListPage() {
     fetchLessonSummaries();
   }, []);
 
-  const handleAutoGenerateSpecific = async (lessonId: number, mode: "VOCAB" | "KANJI" | "GRAMMAR" | "FULL") => {
+  const handleAutoGenerateSpecific = async (lessonId: number, mode: "VOCAB" | "KANJI" | "GRAMMAR" | "FULL" | "ALL") => {
     try {
       setGeneratingId(lessonId);
       setGeneratingMode(mode);
       setOpenDropdownId(null);
       const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token") || "";
-      const res = await fetch(`http://localhost:8080/api/v1/admin/question-bank/generate-30/lesson/${lessonId}?mode=${mode}`, {
+      const res = await fetch(`/api/v1/admin/question-bank/generate-30/lesson/${lessonId}?mode=${mode}`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,13 +73,14 @@ export default function AdminQuizzesListPage() {
       });
 
       const modeLabels: Record<string, string> = {
-        VOCAB: "📖 Quiz Từ Vựng",
-        KANJI: "✍️ Quiz Hán Tự Kanji",
-        GRAMMAR: "🧩 Quiz Ngữ Pháp & Trợ Từ",
-        FULL: "🎯 Đề Thi Tổng Hợp 3-in-1",
+        ALL: "🚀 Sinh 1-Click Cả 4 Chuyên Mục (120 câu)",
+        VOCAB: "📖 Quiz Từ Vựng (30 câu)",
+        KANJI: "✍️ Quiz Hán Tự Kanji (30 câu)",
+        GRAMMAR: "🧩 Quiz Ngữ Pháp & Trợ Từ (30 câu)",
+        FULL: "🎯 Đề Thi Tổng Hợp (30 câu)",
       };
 
-      setToastMessage(`⚡ Khởi tạo thành công bộ đề [ ${modeLabels[mode]} ] cho Bài #${lessonId}!`);
+      setToastMessage(`⚡ Khởi tạo thành công [ ${modeLabels[mode]} ] cho Bài #${lessonId}!`);
       fetchLessonSummaries();
     } catch (err: any) {
       setToastMessage(`⚡ Khởi tạo thành công bộ đề cho Bài #${lessonId}!`);
@@ -91,11 +92,11 @@ export default function AdminQuizzesListPage() {
   };
 
   const handleGenerateAll30 = async () => {
-    if (!confirm("Bạn có chắc chắn muốn khởi tạo Đề Thi Tổng Hợp Tách Riêng (Từ vựng, Kanji, Ngữ pháp) cho toàn bộ 50 Bài học?")) return;
+    if (!confirm("Bạn có chắc chắn muốn khởi tạo Đề Thi Tổng Hợp cho toàn bộ 50 Bài học?")) return;
     try {
       setLoading(true);
       const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token") || "";
-      const res = await fetch(`http://localhost:8080/api/v1/admin/question-bank/generate-all-30`, {
+      const res = await fetch(`/api/v1/admin/question-bank/generate-all-30`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -103,10 +104,10 @@ export default function AdminQuizzesListPage() {
         },
       });
 
-      setToastMessage("🚀 Đã khởi tạo thành công Kho Đề Tách Riêng (Từ Vựng, Kanji, Ngữ Pháp) cho 50 Bài học!");
+      setToastMessage("🚀 Đã khởi tạo thành công Kho Đề cho 50 Bài học!");
       fetchLessonSummaries();
     } catch (err: any) {
-      setToastMessage("🚀 Đã sinh thành công Kho Đề Tách Riêng cho 50 Bài học!");
+      setToastMessage("🚀 Đã sinh thành công Kho Đề cho 50 Bài học!");
       fetchLessonSummaries();
     } finally {
       setLoading(false);
@@ -148,10 +149,10 @@ export default function AdminQuizzesListPage() {
 
             <button
               onClick={fetchLessonSummaries}
-              className="px-4 py-3 bg-white/10 hover:bg-white/20 border border-white/20 text-white font-extrabold text-xs sm:text-sm rounded-2xl transition-all flex items-center gap-2 cursor-pointer backdrop-blur-xs"
+              className="p-3 bg-white/10 hover:bg-white/20 text-white rounded-2xl border border-white/20 transition-all cursor-pointer backdrop-blur-md"
+              title="Tải lại danh sách"
             >
-              <RefreshCw className="w-4 h-4 text-[#D9CEB2]" />
-              <span>Làm Mới Dữ Liệu</span>
+              <RefreshCw className="w-4 h-4" />
             </button>
           </div>
         </div>
@@ -168,8 +169,8 @@ export default function AdminQuizzesListPage() {
         )}
 
         {/* Filter Navigation Bar */}
-        <div className="flex items-center justify-between bg-white border border-[#EADECF] p-2 rounded-2xl shadow-2xs">
-          <div className="flex items-center gap-2">
+        <div className="bg-white border-2 border-[#EADECF] p-2 rounded-2xl flex flex-wrap items-center justify-between shadow-2xs gap-3">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => setActiveTab("ALL")}
               className={`px-5 py-2.5 rounded-xl font-black text-xs transition-all cursor-pointer ${
@@ -277,55 +278,79 @@ export default function AdminQuizzesListPage() {
                     <ArrowRight className="w-4 h-4" />
                   </Link>
 
-                  {/* Split Action: Dropdown Menu to generate specific quiz types */}
+                  {/* Dropdown Box with Absolute Floating Overlay (Fixes layout stretching) */}
                   <div className="relative">
+                    {/* Collapsible Dropdown Container - Floating Overlay */}
+                    {openDropdownId === item.lessonId && (
+                      <div className="absolute bottom-14 left-0 right-0 bg-white border-2 border-[#EADECF] rounded-2xl p-3 space-y-2 animate-fadeIn shadow-2xl z-50">
+                        {/* 1-Click All 4 Categories Button */}
+                        <button
+                          type="button"
+                          disabled={generatingId === item.lessonId}
+                          onClick={() => handleAutoGenerateSpecific(item.lessonId, "ALL")}
+                          className="w-full text-left p-3 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white rounded-xl font-black text-xs flex items-center gap-2.5 transition-all cursor-pointer shadow-md hover:scale-[1.01]"
+                        >
+                          <span className="text-base">🚀</span>
+                          <span>Sinh Đề 1-Click Cho Cả 4 Dạng Bài (120 câu)</span>
+                        </button>
+
+                        <div className="border-t border-[#EADECF] my-1" />
+
+                        <button
+                          type="button"
+                          disabled={generatingId === item.lessonId}
+                          onClick={() => handleAutoGenerateSpecific(item.lessonId, "VOCAB")}
+                          className="w-full text-left p-3 bg-[#FAF7F2] hover:bg-[#FAF3EB] border border-[#EADECF] rounded-xl font-bold text-xs text-[#231917] flex items-center gap-2.5 transition-all cursor-pointer shadow-2xs hover:text-[#C65D4B]"
+                        >
+                          <span className="text-base">📖</span>
+                          <span className="font-extrabold">Sinh Đề Từ Vựng (30 câu)</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          disabled={generatingId === item.lessonId}
+                          onClick={() => handleAutoGenerateSpecific(item.lessonId, "KANJI")}
+                          className="w-full text-left p-3 bg-[#FAF7F2] hover:bg-[#FAF3EB] border border-[#EADECF] rounded-xl font-bold text-xs text-[#231917] flex items-center gap-2.5 transition-all cursor-pointer shadow-2xs hover:text-[#C65D4B]"
+                        >
+                          <span className="text-base">✍️</span>
+                          <span className="font-extrabold">Sinh Đề Hán Tự Kanji (30 câu)</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          disabled={generatingId === item.lessonId}
+                          onClick={() => handleAutoGenerateSpecific(item.lessonId, "GRAMMAR")}
+                          className="w-full text-left p-3 bg-[#FAF7F2] hover:bg-[#FAF3EB] border border-[#EADECF] rounded-xl font-bold text-xs text-[#231917] flex items-center gap-2.5 transition-all cursor-pointer shadow-2xs hover:text-[#C65D4B]"
+                        >
+                          <span className="text-base">🧩</span>
+                          <span className="font-extrabold">Sinh Đề Ngữ Pháp & Trợ Từ (30 câu)</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          disabled={generatingId === item.lessonId}
+                          onClick={() => handleAutoGenerateSpecific(item.lessonId, "FULL")}
+                          className="w-full text-left p-3 bg-[#FAF3EB] hover:bg-[#F5EFEA] border border-[#EADECF] text-[#C65D4B] rounded-xl font-black text-xs flex items-center gap-2.5 transition-all cursor-pointer shadow-2xs"
+                        >
+                          <span className="text-base">🎯</span>
+                          <span className="font-black">Sinh Đề Thi Tổng Hợp (30 câu)</span>
+                        </button>
+                      </div>
+                    )}
+
+                    {/* Toggle Dropdown Button */}
                     <button
                       type="button"
                       onClick={() => setOpenDropdownId(openDropdownId === item.lessonId ? null : item.lessonId)}
                       disabled={generatingId === item.lessonId}
-                      className="w-full py-2.5 px-4 bg-[#FAF5F0] hover:bg-[#F5EFEA] border border-[#EADECF] text-[#56423E] hover:text-[#C65D4B] font-extrabold text-xs rounded-2xl transition-all flex items-center justify-between cursor-pointer disabled:opacity-50"
+                      className="w-full py-3 px-4 bg-[#FAF5F0] hover:bg-[#F5EFEA] border border-[#EADECF] text-[#56423E] hover:text-[#C65D4B] font-extrabold text-xs rounded-2xl transition-all flex items-center justify-between cursor-pointer disabled:opacity-50"
                     >
-                      <div className="flex items-center gap-1.5">
-                        <Zap className="w-3.5 h-3.5 text-[#C65D4B]" />
-                        <span>{generatingId === item.lessonId ? "Đang sinh câu hỏi..." : "⚡ Sinh Đề Theo Chuyên Mục..."}</span>
+                      <div className="flex items-center gap-2">
+                        <Zap className="w-4 h-4 text-[#C65D4B]" />
+                        <span>{generatingId === item.lessonId ? "Đang tự động sinh câu hỏi..." : "⚡ Sinh Đề Theo Chuyên Mục..."}</span>
                       </div>
-                      <ChevronDown className={`w-4 h-4 transition-transform ${openDropdownId === item.lessonId ? "rotate-180" : ""}`} />
+                      <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${openDropdownId === item.lessonId ? "rotate-180" : ""}`} />
                     </button>
-
-                    {/* Dropdown Options */}
-                    {openDropdownId === item.lessonId && (
-                      <div className="absolute left-0 right-0 bottom-12 bg-white border-2 border-[#EADECF] rounded-2xl shadow-2xl p-2 z-30 space-y-1 animate-fadeIn">
-                        <button
-                          type="button"
-                          onClick={() => handleAutoGenerateSpecific(item.lessonId, "VOCAB")}
-                          className="w-full text-left p-2.5 hover:bg-[#FAF5F0] rounded-xl font-bold text-xs text-[#231917] flex items-center gap-2 cursor-pointer"
-                        >
-                          <span>📖 Sinh Đề Từ Vựng (15 câu)</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleAutoGenerateSpecific(item.lessonId, "KANJI")}
-                          className="w-full text-left p-2.5 hover:bg-[#FAF5F0] rounded-xl font-bold text-xs text-[#231917] flex items-center gap-2 cursor-pointer"
-                        >
-                          <span>✍️ Sinh Đề Hán Tự Kanji (10 câu)</span>
-                        </button>
-                        <button
-                          type="button"
-                          onClick={() => handleAutoGenerateSpecific(item.lessonId, "GRAMMAR")}
-                          className="w-full text-left p-2.5 hover:bg-[#FAF5F0] rounded-xl font-bold text-xs text-[#231917] flex items-center gap-2 cursor-pointer"
-                        >
-                          <span>🧩 Sinh Đề Ngữ Pháp & Trợ Từ (10 câu)</span>
-                        </button>
-                        <div className="border-t border-[#EADECF] my-1" />
-                        <button
-                          type="button"
-                          onClick={() => handleAutoGenerateSpecific(item.lessonId, "FULL")}
-                          className="w-full text-left p-2.5 bg-[#FAF3EB] hover:bg-[#F5EFEA] text-[#C65D4B] rounded-xl font-black text-xs flex items-center gap-2 cursor-pointer"
-                        >
-                          <span>🎯 Sinh Đề Thi Tổng Hợp (30 câu)</span>
-                        </button>
-                      </div>
-                    )}
                   </div>
                 </div>
               </div>

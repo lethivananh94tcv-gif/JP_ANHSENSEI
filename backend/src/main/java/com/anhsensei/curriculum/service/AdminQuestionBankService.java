@@ -49,43 +49,80 @@ public class AdminQuestionBankService {
         });
     }
 
-    @Transactional(readOnly = true)
+    @Transactional
     public List<QuestionBank> getQuestionsByLessonId(Long lessonId) {
         Lesson lesson = resolveLesson(lessonId);
-        return questionBankRepository.findByLesson_LessonIdAndDeletedAtIsNullOrderByQuestionIdDesc(lesson.getLessonId());
+        List<QuestionBank> list = questionBankRepository.findQuestionsWithOptionsByLessonId(lesson.getLessonId());
+
+        if (list == null || list.isEmpty()) {
+            return generate30JLPTQuestionsForLesson(lessonId, 1L, true);
+        }
+
+        list.forEach(q -> {
+            if (q.getOptions() != null) {
+                q.getOptions().size();
+            }
+        });
+        return list;
     }
 
+    @Transactional
     public QuestionBank createQuestion(QuestionBank question, Long lessonId, Long adminUserId) {
         Lesson lesson = resolveLesson(lessonId);
         
+        question.setQuestionId(null);
         question.setLesson(lesson);
         question.setCreatedBy(adminUserId);
         question.setUpdatedBy(adminUserId);
         question.setCreatedAt(OffsetDateTime.now());
         question.setUpdatedAt(OffsetDateTime.now());
+        if (question.getCategory() == null) {
+            question.setCategory("VOCAB");
+        }
         if (question.getStatus() == null) {
-            question.setStatus("DRAFT");
+            question.setStatus("ACTIVE");
+        }
+        if (question.getWeight() == null) {
+            question.setWeight(new BigDecimal("1.00"));
+        }
+
+        if (question.getValidAnswers() != null && !question.getValidAnswers().isBlank()) {
+            String va = question.getValidAnswers().trim();
+            if (!va.startsWith("[") && !va.startsWith("{")) {
+                question.setValidAnswers("[\"" + va.replace("\"", "\\\"") + "\"]");
+            }
+        } else {
+            question.setValidAnswers("[\"わたし\"]");
         }
 
         if (question.getOptions() != null) {
-            question.getOptions().forEach(opt -> opt.setQuestionBank(question));
+            question.getOptions().forEach(opt -> {
+                opt.setOptionId(null);
+                opt.setQuestionBank(question);
+            });
         }
 
         return questionBankRepository.save(question);
     }
 
+    @Transactional
     public QuestionBank updateQuestion(Long questionId, QuestionBank updateData, Long adminUserId) {
         QuestionBank existing = questionBankRepository.findById(questionId)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy câu hỏi kho đề ID = " + questionId));
 
+        existing.setCategory(updateData.getCategory());
         existing.setQuestionType(updateData.getQuestionType());
         existing.setDifficulty(updateData.getDifficulty());
         existing.setPrompt(updateData.getPrompt());
         existing.setJapaneseText(updateData.getJapaneseText());
-        existing.setAudioUrl(updateData.getAudioUrl());
-        existing.setAudioText(updateData.getAudioText());
-        existing.setTranscript(updateData.getTranscript());
-        existing.setValidAnswers(updateData.getValidAnswers());
+        if (updateData.getValidAnswers() != null && !updateData.getValidAnswers().isBlank()) {
+            String va = updateData.getValidAnswers().trim();
+            if (!va.startsWith("[") && !va.startsWith("{")) {
+                existing.setValidAnswers("[\"" + va.replace("\"", "\\\"") + "\"]");
+            } else {
+                existing.setValidAnswers(va);
+            }
+        }
         existing.setExplanation(updateData.getExplanation());
         existing.setStatus(updateData.getStatus());
         existing.setUpdatedBy(adminUserId);
@@ -97,6 +134,7 @@ public class AdminQuestionBankService {
         return questionBankRepository.save(existing);
     }
 
+    @Transactional
     public void softDeleteQuestion(Long questionId) {
         QuestionBank question = questionBankRepository.findById(questionId)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy câu hỏi ID = " + questionId));
@@ -108,7 +146,7 @@ public class AdminQuestionBankService {
     @Transactional
     public int approveAllDraftQuestionsForLesson(Long lessonId) {
         Lesson lesson = resolveLesson(lessonId);
-        List<QuestionBank> drafts = questionBankRepository.findByLesson_LessonIdAndDeletedAtIsNullOrderByQuestionIdDesc(lesson.getLessonId());
+        List<QuestionBank> drafts = questionBankRepository.findQuestionsWithOptionsByLessonId(lesson.getLessonId());
         int approvedCount = 0;
         for (QuestionBank q : drafts) {
             if ("DRAFT".equals(q.getStatus())) {
@@ -128,14 +166,181 @@ public class AdminQuestionBankService {
         return generate30JLPTQuestionsForLesson(lessonId, adminUserId, false);
     }
 
-    public List<QuestionBank> generate30JLPTQuestionsForLesson(Long lessonId, Long adminUserId, boolean setAsActive) {
+    public List<QuestionBank> generateAll4CategoriesForLesson(Long lessonId, Long adminUserId) {
         Lesson lesson = resolveLesson(lessonId);
-
-        // Delete previous legacy question bank rows for this lesson to prevent stale distractors
-        List<QuestionBank> oldQuestions = questionBankRepository.findByLesson_LessonIdAndDeletedAtIsNullOrderByQuestionIdDesc(lesson.getLessonId());
+        List<QuestionBank> oldQuestions = questionBankRepository.findQuestionsWithOptionsByLessonId(lesson.getLessonId());
         if (!oldQuestions.isEmpty()) {
             questionBankRepository.deleteAll(oldQuestions);
         }
+        List<QuestionBank> list = new ArrayList<>();
+        list.addAll(generateQuestionsForLessonByMode(lessonId, "VOCAB", adminUserId, true));
+        list.addAll(generateQuestionsForLessonByMode(lessonId, "KANJI", adminUserId, true));
+        list.addAll(generateQuestionsForLessonByMode(lessonId, "GRAMMAR", adminUserId, true));
+        list.addAll(generate30JLPTQuestionsForLesson(lessonId, adminUserId, true));
+        return list;
+    }
+
+    public List<QuestionBank> generateQuestionsForLessonByMode(Long lessonId, String mode, Long adminUserId, boolean setAsActive) {
+        String targetCategory = mode != null ? mode.toUpperCase() : "FULL";
+        Lesson lesson = resolveLesson(lessonId);
+
+        // Delete existing questions of the requested category or all if FULL
+        List<QuestionBank> oldQuestions = questionBankRepository.findQuestionsWithOptionsByLessonId(lesson.getLessonId());
+        if (!oldQuestions.isEmpty()) {
+            if ("FULL".equals(targetCategory)) {
+                questionBankRepository.deleteAll(oldQuestions);
+            } else {
+                List<QuestionBank> filteredOld = oldQuestions.stream()
+                        .filter(q -> targetCategory.equalsIgnoreCase(q.getCategory()))
+                        .collect(Collectors.toList());
+                if (!filteredOld.isEmpty()) {
+                    questionBankRepository.deleteAll(filteredOld);
+                }
+            }
+        }
+
+        if ("FULL".equals(targetCategory)) {
+            return generate30JLPTQuestionsForLesson(lessonId, adminUserId, setAsActive);
+        }
+
+        List<Vocabulary> vocabList = vocabularyRepository.findByLesson_LessonIdOrderBySortOrderAsc(lesson.getLessonId());
+        if (vocabList.isEmpty()) {
+            vocabList = vocabularyRepository.findAll().stream().limit(50).collect(Collectors.toList());
+        }
+        Collections.shuffle(vocabList);
+
+        List<QuestionBank> generatedQuestions = new ArrayList<>();
+        String statusToSet = setAsActive ? "ACTIVE" : "DRAFT";
+        int targetCount = 30;
+
+        for (int i = 0; i < targetCount; i++) {
+            Vocabulary item = vocabList.get(i % vocabList.size());
+            List<Vocabulary> catDistractors = getQualityDistractors(item, vocabList);
+
+            QuestionBank q = new QuestionBank();
+            q.setLesson(lesson);
+            q.setCategory(targetCategory);
+            q.setCreatedBy(adminUserId);
+            q.setUpdatedBy(adminUserId);
+            q.setStatus(statusToSet);
+            q.setDifficulty((i % 2 == 0) ? "MEDIUM" : "EASY");
+
+            String mainWord = item.getWord() != null ? item.getWord() : item.getKana();
+            String kanjiForm = item.getKanjiForm() != null ? item.getKanjiForm() : mainWord;
+            String kanaWord = item.getKana() != null ? item.getKana() : mainWord;
+
+            if ("VOCAB".equals(targetCategory)) {
+                if (i % 3 == 0) {
+                    q.setQuestionType("MULTIPLE_CHOICE");
+                    q.setPrompt("📖 [TỪ VỰNG] Chọn nghĩa tiếng Việt đúng của từ 「 " + mainWord + " 」");
+                    q.setJapaneseText("「 " + mainWord + " 」");
+                    q.setExplanation("Nghĩa tiếng Việt chuẩn xác của " + mainWord + " là: " + item.getMeaningVi());
+
+                    List<QuestionBankOption> options = new ArrayList<>();
+                    options.add(new QuestionBankOption(item.getMeaningVi(), true, 1));
+                    for (Vocabulary d : catDistractors) {
+                        options.add(new QuestionBankOption(d.getMeaningVi(), false, options.size() + 1));
+                    }
+                    Collections.shuffle(options);
+                    for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
+                    q.setOptions(options);
+                } else if (i % 3 == 1) {
+                    q.setQuestionType("LISTENING");
+                    q.setPrompt("🔊 [LUYỆN NGHE] Nghe âm thanh phát âm và chọn nghĩa tiếng Việt đúng");
+                    q.setJapaneseText("🔊 「 " + kanaWord + " 」");
+                    q.setAudioText(kanaWord);
+                    q.setTranscript(mainWord + " (" + kanaWord + ") : " + item.getMeaningVi());
+                    q.setExplanation("Âm thanh phát âm: " + kanaWord + " ➔ Nghĩa tiếng Việt: " + item.getMeaningVi());
+
+                    List<QuestionBankOption> options = new ArrayList<>();
+                    String optText = mainWord + " (" + item.getMeaningVi() + ")";
+                    options.add(new QuestionBankOption(optText, true, 1));
+                    for (Vocabulary d : catDistractors) {
+                        String dWord = d.getWord() != null ? d.getWord() : d.getKana();
+                        options.add(new QuestionBankOption(dWord + " (" + d.getMeaningVi() + ")", false, options.size() + 1));
+                    }
+                    Collections.shuffle(options);
+                    for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
+                    q.setOptions(options);
+                } else {
+                    q.setQuestionType("TYPING");
+                    q.setPrompt("⌨️ [LUYỆN GÕ] Gõ từ tiếng Nhật tương ứng với nghĩa dưới đây");
+                    q.setJapaneseText("「 " + item.getMeaningVi() + " 」");
+                    q.setValidAnswers("[\"" + kanaWord + "\", \"" + mainWord + "\"]");
+                    List<QuestionBankOption> options = new ArrayList<>();
+                    options.add(new QuestionBankOption(kanaWord, true, 1));
+                    for (Vocabulary d : catDistractors) {
+                        String dKana = d.getKana() != null ? d.getKana() : (d.getWord() != null ? d.getWord() : "ほん");
+                        options.add(new QuestionBankOption(dKana, false, options.size() + 1));
+                    }
+                    Collections.shuffle(options);
+                    for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
+                    q.setOptions(options);
+                }
+            } else if ("KANJI".equals(targetCategory)) {
+                q.setQuestionType("KANJI_READING");
+                q.setPrompt("✍️ [HÁN TỰ KANJI] Chọn âm đọc Hiragana chuẩn xác cho chữ Hán 「 " + kanjiForm + " 」");
+                q.setJapaneseText("「 " + kanjiForm + " 」");
+                q.setExplanation("Cách đọc chuẩn xác của " + kanjiForm + " là: " + kanaWord + " (Âm Hán: " + item.getMeaningVi() + ")");
+
+                List<QuestionBankOption> options = new ArrayList<>();
+                options.add(new QuestionBankOption(kanaWord, true, 1));
+                for (Vocabulary d : catDistractors) {
+                    String dKana = d.getKana() != null ? d.getKana() : "ほん";
+                    options.add(new QuestionBankOption(dKana, false, options.size() + 1));
+                }
+                Collections.shuffle(options);
+                for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
+                q.setOptions(options);
+            } else {
+                // GRAMMAR
+                if (i % 2 == 0) {
+                    q.setQuestionType("FILL_BLANK");
+                    q.setPrompt("_____ [NGỮ PHÁP] Chọn trợ từ thích hợp điền vào chỗ khuyết");
+                    q.setJapaneseText("わたし _____ たなかです。");
+                    q.setExplanation("Trợ từ chỉ chủ đề là は (wa)");
+
+                    List<QuestionBankOption> options = new ArrayList<>();
+                    options.add(new QuestionBankOption("は (wa)", true, 1));
+                    options.add(new QuestionBankOption("が (ga)", false, 2));
+                    options.add(new QuestionBankOption("に (ni)", false, 3));
+                    options.add(new QuestionBankOption("で (de)", false, 4));
+                    Collections.shuffle(options);
+                    for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
+                    q.setOptions(options);
+                } else {
+                    q.setQuestionType("STAR_ORDER");
+                    q.setPrompt("★ [SẮP XẾP JLPT] Chọn từ đúng tại vị trí dấu ngôi sao ★ trong câu");
+                    q.setJapaneseText("わたし は ＿＿＿ ★ ＿＿＿ です。");
+                    q.setExplanation("Vị trí dấu ngôi sao ★ là: の");
+
+                    List<QuestionBankOption> options = new ArrayList<>();
+                    options.add(new QuestionBankOption("の", true, 1));
+                    options.add(new QuestionBankOption("ベトナムじん", false, 2));
+                    options.add(new QuestionBankOption("がくせい", false, 3));
+                    options.add(new QuestionBankOption("は", false, 4));
+                    Collections.shuffle(options);
+                    for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
+                    q.setOptions(options);
+                }
+            }
+
+            generatedQuestions.add(questionBankRepository.save(q));
+        }
+
+        ensureQuizPublishedForLesson(lesson, adminUserId);
+        return generatedQuestions;
+    }
+
+    @Transactional
+    public List<QuestionBank> generate30JLPTQuestionsForLesson(Long lessonId, Long adminUserId, boolean setAsActive) {
+        Lesson lesson = resolveLesson(lessonId);
+
+        // Delete previous question bank rows natively to ensure clean slate
+        try {
+            questionBankRepository.deleteOptionsByLessonIdNative(lesson.getLessonId());
+            questionBankRepository.deleteQuestionsByLessonIdNative(lesson.getLessonId());
+        } catch (Exception ignored) {}
 
         List<Vocabulary> vocabList = vocabularyRepository.findByLesson_LessonIdOrderBySortOrderAsc(lesson.getLessonId());
         if (vocabList.isEmpty()) {
@@ -146,6 +351,9 @@ public class AdminQuestionBankService {
             throw new IllegalStateException("Hệ thống chưa có dữ liệu từ vựng thực tế trong DB để sinh đề!");
         }
 
+        // Shuffle vocabulary list to generate a fresh new randomized question set every time!
+        Collections.shuffle(vocabList);
+
         List<QuestionBank> generatedQuestions = new ArrayList<>();
         String statusToSet = setAsActive ? "ACTIVE" : "DRAFT";
 
@@ -154,20 +362,19 @@ public class AdminQuestionBankService {
             Vocabulary item = vocabList.get(i % vocabList.size());
             List<Vocabulary> catDistractors = getQualityDistractors(item, vocabList);
 
-            // Determine question format according to exact 30-question ratio breakdown:
-            // 8 câu: JAPANESE_TO_MEANING (0..7)
-            // 6 câu: MEANING_TO_JAPANESE (8..13)
-            // 6 câu: KANJI_TO_READING (14..19)
-            // 5 câu: HIRAGANA_TO_KANJI (20..24)
-            // 3 câu: CONTEXTUAL_VOCABULARY (25..27)
-            // 2 câu: LISTENING_TO_WORD (28..29)
+            // 0..7 (8 câu): MULTIPLE_CHOICE (Vocab: Nhật ➔ Việt & Việt ➔ Nhật)
+            // 8..13 (6 câu): KANJI_READING (Kanji: Âm Hán Việt & Hiragana)
+            // 14..18 (5 câu): LISTENING (Luyện Nghe TTS thuần âm thanh, KHÔNG HIỂN THỊ CHỮ)
+            // 19..23 (5 câu): TYPING (Luyện Gõ / Tự Nhập với validAnswers & options)
+            // 24..26 (3 câu): FILL_BLANK (Ngữ Pháp: Điền trợ từ vào chỗ khuyết _____ )
+            // 27..29 (3 câu): STAR_ORDER (Ngữ Pháp: Sắp xếp vị trí dấu ngôi sao ★ JLPT)
             String qType;
-            if (i < 8) qType = "JAPANESE_TO_MEANING";
-            else if (i < 14) qType = "MEANING_TO_JAPANESE";
-            else if (i < 20) qType = "KANJI_TO_READING";
-            else if (i < 25) qType = "HIRAGANA_TO_KANJI";
-            else if (i < 28) qType = "CONTEXTUAL_VOCABULARY";
-            else qType = "LISTENING_TO_WORD";
+            if (i <= 7) qType = "MULTIPLE_CHOICE";
+            else if (i <= 13) qType = "KANJI_READING";
+            else if (i <= 18) qType = "LISTENING";
+            else if (i <= 23) qType = "TYPING";
+            else if (i <= 26) qType = "FILL_BLANK";
+            else qType = "STAR_ORDER";
 
             QuestionBank q = new QuestionBank();
             q.setLesson(lesson);
@@ -178,49 +385,51 @@ public class AdminQuestionBankService {
 
             String mainWord = item.getWord() != null ? item.getWord() : item.getKana();
             String kanjiForm = item.getKanjiForm() != null ? item.getKanjiForm() : mainWord;
+            String kanaWord = item.getKana() != null ? item.getKana() : mainWord;
 
-            if ("JAPANESE_TO_MEANING".equals(qType)) {
-                // Dạng 1: Nhật ➔ Nghĩa (8 câu)
-                q.setQuestionType("JAPANESE_TO_MEANING");
-                q.setPrompt("CHỌN NGHĨA ĐÚNG CỦA CÂU TRÊN");
-                q.setJapaneseText("「 " + mainWord + " 」");
-                q.setExplanation("Nghĩa tiếng Việt chuẩn xác của " + mainWord + " (" + item.getKana() + ") là: " + item.getMeaningVi());
+            if ("MULTIPLE_CHOICE".equals(qType)) {
+                // Dạng 1: Trắc Nghiệm Từ Vựng (6 câu)
+                q.setCategory("VOCAB");
+                q.setQuestionType("MULTIPLE_CHOICE");
+                if (i % 2 == 0) {
+                    q.setPrompt("📖 [TỪ VỰNG] Chọn nghĩa tiếng Việt đúng của từ 「 " + mainWord + " 」");
+                    q.setJapaneseText("「 " + mainWord + " 」");
+                    q.setExplanation("Nghĩa tiếng Việt chuẩn xác của " + mainWord + " (" + kanaWord + ") là: " + item.getMeaningVi());
 
-                List<QuestionBankOption> options = new ArrayList<>();
-                options.add(new QuestionBankOption(item.getMeaningVi(), true, 1));
-                for (Vocabulary d : catDistractors) {
-                    options.add(new QuestionBankOption(d.getMeaningVi(), false, options.size() + 1));
+                    List<QuestionBankOption> options = new ArrayList<>();
+                    options.add(new QuestionBankOption(item.getMeaningVi(), true, 1));
+                    for (Vocabulary d : catDistractors) {
+                        options.add(new QuestionBankOption(d.getMeaningVi(), false, options.size() + 1));
+                    }
+                    Collections.shuffle(options);
+                    for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
+                    q.setOptions(options);
+                } else {
+                    q.setPrompt("📖 [TỪ VỰNG] Chọn từ tiếng Nhật tương ứng với nghĩa 「 " + item.getMeaningVi() + " 」");
+                    q.setJapaneseText("「 " + item.getMeaningVi() + " 」");
+                    q.setExplanation("Từ tiếng Nhật mang nghĩa \"" + item.getMeaningVi() + "\" là: " + mainWord + " (" + kanaWord + ")");
+
+                    List<QuestionBankOption> options = new ArrayList<>();
+                    options.add(new QuestionBankOption(mainWord, true, 1));
+                    for (Vocabulary d : catDistractors) {
+                        String dWord = d.getWord() != null ? d.getWord() : d.getKana();
+                        options.add(new QuestionBankOption(dWord, false, options.size() + 1));
+                    }
+                    Collections.shuffle(options);
+                    for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
+                    q.setOptions(options);
                 }
-                Collections.shuffle(options);
-                for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
-                q.setOptions(options);
 
-            } else if ("MEANING_TO_JAPANESE".equals(qType)) {
-                // Dạng 2: Nghĩa ➔ Tiếng Nhật (6 câu)
-                q.setQuestionType("MEANING_TO_JAPANESE");
-                q.setPrompt("CHỌN TỪ TIẾNG NHẬT TƯƠNG ỨNG");
-                q.setJapaneseText("「 " + item.getMeaningVi() + " 」");
-                q.setExplanation("Từ tiếng Nhật mang nghĩa \"" + item.getMeaningVi() + "\" là: " + mainWord + " (" + item.getKana() + ")");
-
-                List<QuestionBankOption> options = new ArrayList<>();
-                options.add(new QuestionBankOption(mainWord, true, 1));
-                for (Vocabulary d : catDistractors) {
-                    String dWord = d.getWord() != null ? d.getWord() : d.getKana();
-                    options.add(new QuestionBankOption(dWord, false, options.size() + 1));
-                }
-                Collections.shuffle(options);
-                for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
-                q.setOptions(options);
-
-            } else if ("KANJI_TO_READING".equals(qType)) {
-                // Dạng 3: Kanji ➔ Cách đọc Kana (6 câu)
-                q.setQuestionType("KANJI_TO_READING");
-                q.setPrompt("CHỌN CÁCH ĐỌC KANA CHO HÁN TỰ");
+            } else if ("KANJI_READING".equals(qType)) {
+                // Dạng 2: Hán Tự & Âm Đọc Kanji (5 câu)
+                q.setCategory("KANJI");
+                q.setQuestionType("KANJI_READING");
+                q.setPrompt("✍️ [HÁN TỰ] Chọn cách đọc Hiragana / Kana đúng của chữ 「 " + kanjiForm + " 」");
                 q.setJapaneseText("「 " + kanjiForm + " 」");
-                q.setExplanation("Cách đọc Kana chuẩn xác của Hán tự " + kanjiForm + " là: " + item.getKana());
+                q.setExplanation("Cách đọc Kana chuẩn xác của Hán tự " + kanjiForm + " là: " + kanaWord + " (Nghĩa: " + item.getMeaningVi() + ")");
 
                 List<QuestionBankOption> options = new ArrayList<>();
-                options.add(new QuestionBankOption(item.getKana(), true, 1));
+                options.add(new QuestionBankOption(kanaWord, true, 1));
                 for (Vocabulary d : catDistractors) {
                     String dKana = d.getKana() != null ? d.getKana() : (d.getWord() != null ? d.getWord() : "ほん");
                     options.add(new QuestionBankOption(dKana, false, options.size() + 1));
@@ -229,59 +438,80 @@ public class AdminQuestionBankService {
                 for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
                 q.setOptions(options);
 
-            } else if ("HIRAGANA_TO_KANJI".equals(qType)) {
-                // Dạng 4: Hiragana ➔ Kanji (5 câu)
-                q.setQuestionType("HIRAGANA_TO_KANJI");
-                q.setPrompt("CHỌN MẶT CHỮ HÁN TỰ ĐÚNG");
-                q.setJapaneseText("「 " + item.getKana() + " 」");
-                q.setExplanation("Chữ Hán tự đúng của cách đọc " + item.getKana() + " là: " + kanjiForm);
+            } else if ("LISTENING".equals(qType)) {
+                // Dạng 3: Luyện Nghe phát âm TTS (5 câu)
+                q.setCategory("VOCAB");
+                q.setQuestionType("LISTENING");
+                q.setPrompt("🔊 [LUYỆN NGHE] Nghe âm thanh phát âm và chọn nghĩa tiếng Việt đúng");
+                q.setJapaneseText("🔊 「 " + kanaWord + " 」");
+                q.setAudioText(kanaWord);
+                q.setTranscript(mainWord + " (" + kanaWord + ") : " + item.getMeaningVi());
+                q.setExplanation("Âm thanh phát âm: " + kanaWord + " ➔ Nghĩa tiếng Việt: " + item.getMeaningVi());
 
                 List<QuestionBankOption> options = new ArrayList<>();
-                options.add(new QuestionBankOption(kanjiForm, true, 1));
-                for (Vocabulary d : catDistractors) {
-                    String dKanji = d.getKanjiForm() != null ? d.getKanjiForm() : (d.getWord() != null ? d.getWord() : "本");
-                    options.add(new QuestionBankOption(dKanji, false, options.size() + 1));
-                }
-                Collections.shuffle(options);
-                for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
-                q.setOptions(options);
-
-            } else if ("CONTEXTUAL_VOCABULARY".equals(qType)) {
-                // Dạng 5: Nhận diện trong ngữ cảnh (3 câu)
-                q.setQuestionType("CONTEXTUAL_VOCABULARY");
-                q.setPrompt("CHỌN TỪ ĐIỀN VÀO NGỮ CẢNH HỘI THOẠI");
-                q.setJapaneseText("A: これは何ですか。\nB: 「 ＿＿＿ 」です。");
-                q.setExplanation("Từ vựng phù hợp nhất điền vào hội thoại là: " + mainWord + " (" + item.getMeaningVi() + ")");
-
-                List<QuestionBankOption> options = new ArrayList<>();
-                options.add(new QuestionBankOption(mainWord, true, 1));
+                String optText = mainWord + " (" + item.getMeaningVi() + ")";
+                options.add(new QuestionBankOption(optText, true, 1));
                 for (Vocabulary d : catDistractors) {
                     String dWord = d.getWord() != null ? d.getWord() : d.getKana();
-                    options.add(new QuestionBankOption(dWord, false, options.size() + 1));
+                    options.add(new QuestionBankOption(dWord + " (" + d.getMeaningVi() + ")", false, options.size() + 1));
                 }
                 Collections.shuffle(options);
                 for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
                 q.setOptions(options);
 
-            } else {
-                // Dạng 6: Nghe ➔ Chọn từ (2 câu)
-                q.setQuestionType("LISTENING_TO_WORD");
-                q.setPrompt("NGHE AUDIO VÀ CHỌN TỪ VỰNG ĐÚNG");
-                q.setJapaneseText("🔊 「 " + (item.getKana() != null ? item.getKana() : mainWord) + " 」");
-                q.setAudioText(item.getKana() != null ? item.getKana() : mainWord);
-                q.setAudioUrl(item.getAudioUrl());
-                q.setTranscript(mainWord + " (" + item.getKana() + ") : " + item.getMeaningVi());
-                q.setExplanation("Âm thanh phát âm: " + item.getKana() + " ➔ Nghĩa: " + item.getMeaningVi());
+            } else if ("TYPING".equals(qType)) {
+                // Dạng 4: Luyện Gõ / Tự Nhập (5 câu) - DÙNG validAnswers
+                q.setCategory("VOCAB");
+                q.setQuestionType("TYPING");
+                q.setPrompt("⌨️ [LUYỆN GÕ] Gõ từ tiếng Nhật tương ứng với nghĩa dưới đây");
+                q.setJapaneseText("「 " + item.getMeaningVi() + " 」");
+                q.setValidAnswers("[\"" + kanaWord + "\", \"" + mainWord + "\"]");
+                q.setExplanation("Đáp án gõ chính xác: " + kanaWord + " hoặc " + mainWord);
 
                 List<QuestionBankOption> options = new ArrayList<>();
-                options.add(new QuestionBankOption(mainWord, true, 1));
+                options.add(new QuestionBankOption(kanaWord, true, 1));
                 for (Vocabulary d : catDistractors) {
-                    String dWord = d.getWord() != null ? d.getWord() : d.getKana();
-                    options.add(new QuestionBankOption(dWord, false, options.size() + 1));
+                    String dKana = d.getKana() != null ? d.getKana() : (d.getWord() != null ? d.getWord() : "ほん");
+                    options.add(new QuestionBankOption(dKana, false, options.size() + 1));
                 }
                 Collections.shuffle(options);
                 for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
                 q.setOptions(options);
+
+            } else if ("FILL_BLANK".equals(qType)) {
+                // Dạng 5: Điền Trợ Từ Ngữ Pháp (4 câu)
+                q.setCategory("GRAMMAR");
+                q.setQuestionType("FILL_BLANK");
+                q.setPrompt("_____ [NGỮ PHÁP] Chọn trợ từ thích hợp điền vào câu dưới đây");
+                q.setJapaneseText("わたし _____ たなかです。");
+                q.setExplanation("Trợ từ chỉ chủ đề câu là 「 は (wa) 」: わたしはたなかです。");
+
+                List<QuestionBankOption> options = new ArrayList<>();
+                options.add(new QuestionBankOption("は (wa)", true, 1));
+                options.add(new QuestionBankOption("が (ga)", false, 2));
+                options.add(new QuestionBankOption("に (ni)", false, 3));
+                options.add(new QuestionBankOption("で (de)", false, 4));
+                Collections.shuffle(options);
+                for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
+                q.setOptions(options);
+
+            } else if ("STAR_ORDER".equals(qType)) {
+                // Dạng 6: Sắp Xếp Câu JLPT ★ (3 câu)
+                q.setCategory("GRAMMAR");
+                q.setQuestionType("STAR_ORDER");
+                q.setPrompt("★ [SẮP XẾP JLPT] Chọn từ đúng điền vào vị trí ngôi sao ★ trong câu");
+                q.setJapaneseText("わたし は ＿＿＿ ★ ＿＿＿ です。");
+                q.setExplanation("Cấu trúc câu hoàn chỉnh: わたし は [ベトナムじん] ★[の] [がくせい] です。 (Ngôi sao ở vị trí thứ 3: の)");
+
+                List<QuestionBankOption> options = new ArrayList<>();
+                options.add(new QuestionBankOption("の", true, 1));
+                options.add(new QuestionBankOption("ベトナムじん", false, 2));
+                options.add(new QuestionBankOption("がくせい", false, 3));
+                options.add(new QuestionBankOption("は", false, 4));
+                Collections.shuffle(options);
+                for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
+                q.setOptions(options);
+
             }
 
             generatedQuestions.add(questionBankRepository.save(q));
@@ -437,5 +667,26 @@ public class AdminQuestionBankService {
     public Quiz publishQuizForLesson(Long lessonId, Long adminUserId) {
         Lesson lesson = resolveLesson(lessonId);
         return ensureQuizPublishedForLesson(lesson, adminUserId);
+    }
+
+    public Quiz unpublishQuizForLesson(Long lessonId, Long adminUserId) {
+        Lesson lesson = resolveLesson(lessonId);
+        Quiz quiz = quizRepository.findByLesson_LessonId(lesson.getLessonId())
+                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy bài Quiz cho bài học #" + lessonId));
+        quiz.setStatus("DRAFT");
+        quiz.setUpdatedBy(adminUserId);
+        return quizRepository.save(quiz);
+    }
+
+    public Quiz getQuizInfoByLessonId(Long lessonId) {
+        Lesson lesson = resolveLesson(lessonId);
+        return quizRepository.findByLesson_LessonId(lesson.getLessonId())
+                .orElseGet(() -> {
+                    Quiz q = new Quiz();
+                    q.setLesson(lesson);
+                    q.setTitle("Quiz Kiểm Tra: " + lesson.getTitle());
+                    q.setStatus("DRAFT");
+                    return q;
+                });
     }
 }

@@ -1,6 +1,14 @@
 import { ApiResponse, ErrorResponse } from "@/types";
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/api/v1";
+const getApiBaseUrl = () => {
+  if (process.env.NEXT_PUBLIC_API_BASE_URL) {
+    return process.env.NEXT_PUBLIC_API_BASE_URL;
+  }
+  if (typeof window !== "undefined") {
+    return "/api/v1";
+  }
+  return "http://localhost:8080/api/v1";
+};
 
 export class ApiError extends Error {
   public status: number;
@@ -41,8 +49,13 @@ export async function apiClient<T>(
     headers,
   };
 
+  const baseUrl = getApiBaseUrl();
+  const fullUrl = endpoint.startsWith("http")
+    ? endpoint
+    : `${baseUrl}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+
   try {
-    const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
+    const response = await fetch(fullUrl, config);
 
     if (!response.ok) {
       let errorData: ErrorResponse;

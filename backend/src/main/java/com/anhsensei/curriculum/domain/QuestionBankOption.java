@@ -21,6 +21,7 @@ public class QuestionBankOption {
     private String optionText;
 
     @Column(name = "is_correct", nullable = false)
+    @com.fasterxml.jackson.annotation.JsonProperty("isCorrect")
     private Boolean isCorrect = false;
 
     @Column(name = "sort_order", nullable = false)
@@ -30,8 +31,8 @@ public class QuestionBankOption {
 
     public QuestionBankOption(String optionText, Boolean isCorrect, Integer sortOrder) {
         this.optionText = optionText;
-        this.isCorrect = isCorrect;
-        this.sortOrder = sortOrder;
+        this.isCorrect = isCorrect != null ? isCorrect : false;
+        this.sortOrder = sortOrder != null ? sortOrder : 1;
     }
 
     public Long getOptionId() { return optionId; }
@@ -43,9 +44,15 @@ public class QuestionBankOption {
     public String getOptionText() { return optionText; }
     public void setOptionText(String optionText) { this.optionText = optionText; }
 
-    public Boolean getIsCorrect() { return isCorrect; }
-    public void setIsCorrect(Boolean isCorrect) { this.isCorrect = isCorrect; }
+    @com.fasterxml.jackson.annotation.JsonProperty("isCorrect")
+    public Boolean getIsCorrect() { return isCorrect != null ? isCorrect : false; }
+
+    @com.fasterxml.jackson.annotation.JsonProperty("isCorrect")
+    public void setIsCorrect(Boolean isCorrect) { this.isCorrect = isCorrect != null ? isCorrect : false; }
+
+    @com.fasterxml.jackson.annotation.JsonProperty("correct")
+    public void setCorrect(Boolean correct) { this.isCorrect = correct != null ? correct : false; }
 
     public Integer getSortOrder() { return sortOrder; }
-    public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder; }
+    public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder != null ? sortOrder : 1; }
 }

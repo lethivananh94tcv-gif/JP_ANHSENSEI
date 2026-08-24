@@ -20,6 +20,9 @@ public class QuestionBank {
     @com.fasterxml.jackson.annotation.JsonIgnoreProperties({"hibernateLazyInitializer", "handler", "level"})
     private Lesson lesson;
 
+    @Column(name = "category", length = 30)
+    private String category = "VOCAB"; // VOCAB, KANJI, GRAMMAR, FULL
+
     @Column(name = "question_type", nullable = false, length = 30)
     private String questionType; // MULTIPLE_CHOICE, LISTENING, TYPING
 
@@ -79,6 +82,9 @@ public class QuestionBank {
 
     public Lesson getLesson() { return lesson; }
     public void setLesson(Lesson lesson) { this.lesson = lesson; }
+
+    public String getCategory() { return category != null ? category : "VOCAB"; }
+    public void setCategory(String category) { this.category = category; }
 
     public String getQuestionType() { return questionType; }
     public void setQuestionType(String questionType) { this.questionType = questionType; }

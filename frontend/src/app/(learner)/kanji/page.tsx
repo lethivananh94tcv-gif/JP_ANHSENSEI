@@ -38,11 +38,18 @@ function parseTopicCardInfo(title: string, description: string) {
 export default function LearnerKanjiPage() {
   const [activeTab, setActiveTab] = useState<"RADICALS" | "N5" | "N4" | "N3" | "N2" | "N1">("N5");
   const [topics, setTopics] = useState<KanjiTopicDto[]>([]);
+  const [topicsCache, setTopicsCache] = useState<Record<string, KanjiTopicDto[]>>({});
   const [loadingTopics, setLoadingTopics] = useState(false);
   const [selectedTopicId, setSelectedTopicId] = useState<number | null>(null);
 
   useEffect(() => {
     if (activeTab !== "RADICALS") {
+      if (topicsCache[activeTab]) {
+        setTopics(topicsCache[activeTab]);
+        setSelectedTopicId(null);
+        return;
+      }
+
       const fetchTopics = async () => {
         try {
           setLoadingTopics(true);
@@ -50,6 +57,7 @@ export default function LearnerKanjiPage() {
           if (res.ok) {
             const data = await res.json();
             setTopics(data);
+            setTopicsCache((prev) => ({ ...prev, [activeTab]: data }));
           }
         } catch (err) {
           console.error("Lỗi khi tải danh sách bài Kanji:", err);
@@ -60,7 +68,7 @@ export default function LearnerKanjiPage() {
       fetchTopics();
       setSelectedTopicId(null);
     }
-  }, [activeTab]);
+  }, [activeTab, topicsCache]);
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] p-4 sm:p-8 text-[#2C2421]">

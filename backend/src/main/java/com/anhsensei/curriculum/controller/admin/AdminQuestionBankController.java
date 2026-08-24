@@ -67,10 +67,16 @@ public class AdminQuestionBankController {
     @PostMapping("/generate-30/lesson/{lessonId}")
     public ResponseEntity<ApiResponse<List<QuestionBank>>> autoGenerate30Questions(
             @PathVariable Long lessonId,
+            @RequestParam(required = false, defaultValue = "FULL") String mode,
             Authentication authentication) {
         Long adminUserId = getUserIdFromAuth(authentication);
-        List<QuestionBank> generated = adminQuestionBankService.generate30JLPTQuestionsForLesson(lessonId, adminUserId, true);
-        return ResponseEntity.ok(ApiResponse.success("Đã khởi tạo chuẩn 30 câu hỏi JLPT Từ vựng cho bài học thành công!", generated));
+        List<QuestionBank> generated;
+        if ("ALL".equalsIgnoreCase(mode) || "ALL_CATEGORIES".equalsIgnoreCase(mode)) {
+            generated = adminQuestionBankService.generateAll4CategoriesForLesson(lessonId, adminUserId);
+        } else {
+            generated = adminQuestionBankService.generateQuestionsForLessonByMode(lessonId, mode, adminUserId, true);
+        }
+        return ResponseEntity.ok(ApiResponse.success("Đã khởi tạo thành công " + generated.size() + " câu hỏi cho Bài #" + lessonId + "!", generated));
     }
 
     @PostMapping("/generate-all-30")
@@ -99,6 +105,21 @@ public class AdminQuestionBankController {
         Long adminUserId = getUserIdFromAuth(authentication);
         Quiz publishedQuiz = adminQuestionBankService.publishQuizForLesson(lessonId, adminUserId);
         return ResponseEntity.ok(ApiResponse.success("Đã Xuất bản (PUBLISHED) Quiz bài học thành công!", publishedQuiz));
+    }
+
+    @PostMapping("/unpublish/lesson/{lessonId}")
+    public ResponseEntity<ApiResponse<Quiz>> unpublishQuiz(
+            @PathVariable Long lessonId,
+            Authentication authentication) {
+        Long adminUserId = getUserIdFromAuth(authentication);
+        Quiz unpublishedQuiz = adminQuestionBankService.unpublishQuizForLesson(lessonId, adminUserId);
+        return ResponseEntity.ok(ApiResponse.success("Đã Hủy xuất bản (chuyển về DRAFT) Quiz bài học thành công!", unpublishedQuiz));
+    }
+
+    @GetMapping("/quiz-info/lesson/{lessonId}")
+    public ResponseEntity<ApiResponse<Quiz>> getQuizInfoByLesson(@PathVariable Long lessonId) {
+        Quiz quiz = adminQuestionBankService.getQuizInfoByLessonId(lessonId);
+        return ResponseEntity.ok(ApiResponse.success(quiz));
     }
 
     private Long getUserIdFromAuth(Authentication authentication) {
