@@ -28,23 +28,34 @@ import {
   Sparkle,
   Grid
 } from "lucide-react";
+import LearnerFooter from "@/components/learner/LearnerFooter";
 
-// Hiragana Data Preview
-const HIRAGANA_PREVIEW = [
+// Full 46 Hiragana Gojuon Dataset
+const FULL_HIRAGANA = [
   { kana: "あ", romaji: "a" }, { kana: "い", romaji: "i" }, { kana: "う", romaji: "u" }, { kana: "え", romaji: "e" }, { kana: "お", romaji: "o" },
   { kana: "か", romaji: "ka" }, { kana: "き", romaji: "ki" }, { kana: "く", romaji: "ku" }, { kana: "け", romaji: "ke" }, { kana: "こ", romaji: "ko" },
   { kana: "さ", romaji: "sa" }, { kana: "し", romaji: "shi" }, { kana: "す", romaji: "su" }, { kana: "せ", romaji: "se" }, { kana: "そ", romaji: "so" },
   { kana: "た", romaji: "ta" }, { kana: "ち", romaji: "chi" }, { kana: "つ", romaji: "tsu" }, { kana: "て", romaji: "te" }, { kana: "と", romaji: "to" },
-  { kana: "な", romaji: "na" }, { kana: "に", romaji: "ni" }, { kana: "ぬ", romaji: "nu" }, { kana: "ね", romaji: "ne" }, { kana: "の", romaji: "no" }
+  { kana: "な", romaji: "na" }, { kana: "に", romaji: "ni" }, { kana: "ぬ", romaji: "nu" }, { kana: "ね", romaji: "ne" }, { kana: "の", romaji: "no" },
+  { kana: "は", romaji: "ha" }, { kana: "ひ", romaji: "hi" }, { kana: "ふ", romaji: "fu" }, { kana: "へ", romaji: "he" }, { kana: "ほ", romaji: "ho" },
+  { kana: "ま", romaji: "ma" }, { kana: "み", romaji: "mi" }, { kana: "む", romaji: "mu" }, { kana: "め", romaji: "me" }, { kana: "も", romaji: "mo" },
+  { kana: "や", romaji: "ya" }, { kana: "ゆ", romaji: "yu" }, { kana: "よ", romaji: "yo" },
+  { kana: "ら", romaji: "ra" }, { kana: "り", romaji: "ri" }, { kana: "る", romaji: "ru" }, { kana: "れ", romaji: "re" }, { kana: "ろ", romaji: "ro" },
+  { kana: "わ", romaji: "wa" }, { kana: "を", romaji: "wo" }, { kana: "ん", romaji: "n" },
 ];
 
-// Katakana Data Preview
-const KATAKANA_PREVIEW = [
+// Full 46 Katakana Gojuon Dataset
+const FULL_KATAKANA = [
   { kana: "ア", romaji: "a" }, { kana: "イ", romaji: "i" }, { kana: "ウ", romaji: "u" }, { kana: "エ", romaji: "e" }, { kana: "オ", romaji: "o" },
   { kana: "カ", romaji: "ka" }, { kana: "キ", romaji: "ki" }, { kana: "ク", romaji: "ku" }, { kana: "ケ", romaji: "ke" }, { kana: "コ", romaji: "ko" },
   { kana: "サ", romaji: "sa" }, { kana: "シ", romaji: "shi" }, { kana: "ス", romaji: "su" }, { kana: "セ", romaji: "se" }, { kana: "ソ", romaji: "so" },
   { kana: "タ", romaji: "ta" }, { kana: "チ", romaji: "chi" }, { kana: "ツ", romaji: "tsu" }, { kana: "テ", romaji: "te" }, { kana: "ト", romaji: "to" },
-  { kana: "ナ", romaji: "na" }, { kana: "ニ", romaji: "ni" }, { kana: "ヌ", romaji: "nu" }, { kana: "ネ", romaji: "ne" }, { kana: "ノ", romaji: "no" }
+  { kana: "ナ", romaji: "na" }, { kana: "ニ", romaji: "ni" }, { kana: "ヌ", romaji: "nu" }, { kana: "ネ", romaji: "ne" }, { kana: "ノ", romaji: "no" },
+  { kana: "ハ", romaji: "ha" }, { kana: "ヒ", romaji: "hi" }, { kana: "フ", romaji: "fu" }, { kana: "ヘ", romaji: "he" }, { kana: "ホ", romaji: "ho" },
+  { kana: "マ", romaji: "ma" }, { kana: "ミ", romaji: "mi" }, { kana: "ム", romaji: "mu" }, { kana: "メ", romaji: "me" }, { kana: "モ", romaji: "mo" },
+  { kana: "ヤ", romaji: "ya" }, { kana: "ユ", romaji: "yu" }, { kana: "ヨ", romaji: "yo" },
+  { kana: "ラ", romaji: "ra" }, { kana: "リ", romaji: "ri" }, { kana: "ル", romaji: "ru" }, { kana: "レ", romaji: "re" }, { kana: "ロ", romaji: "ro" },
+  { kana: "ワ", romaji: "wa" }, { kana: "ヲ", romaji: "wo" }, { kana: "ン", romaji: "n" },
 ];
 
 export default function Home() {
@@ -62,10 +73,6 @@ export default function Home() {
       if (storedUser && token) {
         try {
           const parsed = JSON.parse(storedUser);
-          if (parsed.role === "ADMIN") {
-            router.replace("/admin");
-            return;
-          }
           setCurrentUser(parsed);
         } catch (e) {
           console.error("Failed to parse user data from localStorage", e);
@@ -240,7 +247,7 @@ export default function Home() {
 
                 {/* Preview Grid 10 characters */}
                 <div className="grid grid-cols-5 gap-2 my-5">
-                  {HIRAGANA_PREVIEW.slice(0, 10).map((item, idx) => (
+                  {FULL_HIRAGANA.slice(0, 10).map((item, idx) => (
                     <div
                       key={idx}
                       className="bg-[#F5EFE6]/60 rounded-xl p-2 text-center border border-[#8B6F5A]/10 group-hover:border-[#8B6F5A]/30 transition-all hover:bg-white hover:scale-105"
@@ -283,7 +290,7 @@ export default function Home() {
 
                 {/* Preview Grid 10 characters */}
                 <div className="grid grid-cols-5 gap-2 my-5">
-                  {KATAKANA_PREVIEW.slice(0, 10).map((item, idx) => (
+                  {FULL_KATAKANA.slice(0, 10).map((item, idx) => (
                     <div
                       key={idx}
                       className="bg-[#C65D4B]/5 rounded-xl p-2 text-center border border-[#C65D4B]/10 group-hover:border-[#C65D4B]/30 transition-all hover:bg-white hover:scale-105"
@@ -691,34 +698,7 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#2C221E] text-white/70 py-12 border-t border-white/10 text-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <div className="flex items-center gap-2 mb-3">
-              <div className="w-8 h-8 rounded-xl bg-[#C65D4B] text-white flex items-center justify-center font-bold">学</div>
-              <span className="text-xl font-black text-white">ANH SENSEI</span>
-            </div>
-            <p className="text-xs text-white/60 leading-relaxed">
-              Nền tảng tự học tiếng Nhật thông minh từ JLPT N5 đến N3 tích hợp Flashcard Spaced Repetition, Quiz tự động và Trợ giảng AI.
-            </p>
-          </div>
-          <div>
-            <h4 className="font-bold text-white mb-3">Liên Kết Nhanh</h4>
-            <ul className="space-y-2 text-xs">
-              <li><a href="#kana-quick" className="hover:text-white transition">Bảng Chữ Cái Kana</a></li>
-              <li><a href="#special-features" className="hover:text-white transition">Tính Năng Đặc Biệt</a></li>
-              <li><a href="#levels" className="hover:text-white transition">Các cấp độ N5 - N3</a></li>
-              <li><a href="#ai-tutor" className="hover:text-white transition">Trợ giảng AI RAG</a></li>
-              <li><Link href="/login" className="hover:text-white transition">Đăng nhập hệ thống</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-bold text-white mb-3">Thông Tin Bản Quyền</h4>
-            <p className="text-xs text-white/60 mb-2">© 2026 ANH SENSEI. All rights reserved.</p>
-            <p className="text-xs text-white/50">Phát triển với Next.js, Spring Boot &amp; Supabase PostgreSQL.</p>
-          </div>
-        </div>
-      </footer>
+      <LearnerFooter />
 
       {/* 🏮 KANA CHART INTERACTIVE MODAL */}
       <AnimatePresence>
@@ -749,9 +729,9 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Grid 25 characters */}
-              <div className="grid grid-cols-5 gap-3 my-4">
-                {(selectedKanaType === "HIRAGANA" ? HIRAGANA_PREVIEW : KATAKANA_PREVIEW).map((item, idx) => (
+              {/* Grid 46 characters */}
+              <div className="grid grid-cols-5 sm:grid-cols-10 gap-2 my-4">
+                {(selectedKanaType === "HIRAGANA" ? FULL_HIRAGANA : FULL_KATAKANA).map((item, idx) => (
                   <div
                     key={idx}
                     className="p-3.5 bg-white rounded-2xl border border-[#8B6F5A]/20 text-center shadow-xs hover:scale-105 hover:border-[#C65D4B] transition-transform cursor-pointer"

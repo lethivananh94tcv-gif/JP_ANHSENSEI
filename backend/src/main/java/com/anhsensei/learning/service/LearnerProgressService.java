@@ -236,7 +236,15 @@ public class LearnerProgressService {
         long dueCount = flashcardProgressRepository.countDueFlashcardsByUserId(userId, OffsetDateTime.now());
         summary.setDueFlashcardsCount(dueCount);
 
-        // Weekly activity stats for last 7 days
+        // Real counts of items learned from activity logs
+        long vocabCount = learningActivityRepository.findCompletedReferenceIds(userId, "VOCABULARY").size();
+        long grammarCount = learningActivityRepository.findCompletedReferenceIds(userId, "GRAMMAR").size();
+        long kanjiCount = learningActivityRepository.findCompletedReferenceIds(userId, "KANJI").size();
+        summary.setLearnedVocabCount(vocabCount);
+        summary.setLearnedGrammarCount(grammarCount);
+        summary.setLearnedKanjiCount(kanjiCount);
+
+        // Weekly activity stats for last 7 days & streak calculation
         LocalDate today = LocalDate.now();
         LocalDate startDate = today.minusDays(6);
         List<Object[]> rows = learningActivityRepository.findWeeklyActivityCounts(userId, startDate);
@@ -249,11 +257,34 @@ public class LearnerProgressService {
         }
 
         List<LearnerProgressSummaryDto.DailyActivityDto> weekly = new ArrayList<>();
+        int streak = 0;
         for (int i = 0; i < 7; i++) {
             LocalDate d = startDate.plusDays(i);
-            weekly.add(new LearnerProgressSummaryDto.DailyActivityDto(d, countMap.getOrDefault(d, 0L)));
+            long cnt = countMap.getOrDefault(d, 0L);
+            weekly.add(new LearnerProgressSummaryDto.DailyActivityDto(d, cnt));
+            if (cnt > 0) {
+                streak++;
+            }
         }
         summary.setWeeklyActivities(weekly);
+        summary.setStreakDays(streak > 0 ? streak : (totalActivities > 0 ? 1 : 0));
+
+        // Real Recent Lessons from LearningProgress
+        List<LearningProgress> lpList = learningProgressRepository.findMostRecentlyAccessedByUserId(userId);
+        List<LearnerProgressSummaryDto.RecentLessonDto> recentLessons = new ArrayList<>();
+        for (LearningProgress lp : lpList) {
+            if (recentLessons.size() >= 3) break;
+            if (lp.getLesson() != null) {
+                recentLessons.add(new LearnerProgressSummaryDto.RecentLessonDto(
+                        lp.getLesson().getLessonId(),
+                        lp.getLesson().getTitle(),
+                        lp.getLesson().getLevel() != null ? lp.getLesson().getLevel().getCode() : "N5",
+                        lp.getCompletionPercent(),
+                        lp.getStatus()
+                ));
+            }
+        }
+        summary.setRecentLessons(recentLessons);
 
         // Overall target level completion percent
         summary.setCompletionPercent(BigDecimal.valueOf(completedLessonsCount > 0 ? 100.0 : 0.0));

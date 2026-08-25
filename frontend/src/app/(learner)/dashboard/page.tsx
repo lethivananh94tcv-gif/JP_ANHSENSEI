@@ -154,47 +154,27 @@ export default function LearnerDashboardPage() {
   }) || null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-[#FDFBF7] via-[#F5EFE6] to-[#EFE6DB] font-sans text-[#231917] selection:bg-[#C65D4B]/20 selection:text-[#C65D4B]">
+    <div className="min-h-screen bg-[#FFF9F6] font-sans text-[#2C201D] selection:bg-[#C65D4B]/20 selection:text-[#C65D4B]">
       {/* 1. Header */}
       <LearnerHeader user={user} />
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-10 space-y-12">
-        {/* 2 & 3. Welcome Section & Quick Stats */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        {/* 2. Welcome Section & Learning Progress Card */}
         <WelcomeSection
           user={user}
-          streakDays={summary?.totalValidActivities ? Math.min(summary.totalValidActivities, 7) : 1}
-          todayMinutes={summary?.totalValidActivities ? summary.totalValidActivities * 5 : 15}
+          streakDays={summary?.totalValidActivities ? Math.min(summary.totalValidActivities, 7) : 2}
+          todayMinutes={summary?.totalValidActivities ? summary.totalValidActivities * 5 : 10}
           dailyGoalMinutes={20}
         />
 
-        {/* 4 & 5. Primary Actions Area (65% Continue Learning / 35% Daily Review) */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          <div className="lg:col-span-8 flex flex-col">
-            <ContinueLearningCard
-              currentLesson={currentLesson}
-              progressPercent={summary?.completionPercent || 0}
-              completedParts={summary?.completedLessonsCount || 0}
-              totalParts={recommendedLessons.length || 1}
-            />
-          </div>
-          <div className="lg:col-span-4 flex flex-col">
-            <DailyReviewCard reviewData={reviewData} />
-          </div>
-        </section>
-
-        {/* 6. Learning Path Section */}
+        {/* 3. JLPT Level Roadmap Track */}
         <LearningPathSection levels={levels} />
 
-        {/* 7. Quick Learning Categories Grid */}
-        <LearningTypeGrid />
-
-
-
-        {/* 10. Motivation Banner & AI Quick Launcher */}
-        <MotivationBanner />
+        {/* 4, 5, 6, 7. Kana Tables, Today Tasks, 5 Skill Showcase Cards, Analytics, Recent Lessons, Streak & Bottom Banner */}
+        <LearningTypeGrid summary={summary} />
       </main>
 
-      {/* 11. Learner Footer */}
+      {/* 8. Learner Footer */}
       <LearnerFooter />
     </div>
   );

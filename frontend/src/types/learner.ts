@@ -53,3 +53,33 @@ export interface WeeklyActivityDay {
   minutes: number;
   isHighest?: boolean;
 }
+
+export interface RecentLessonSummary {
+  lessonId: number;
+  title: string;
+  levelCode: string;
+  completionPercent: number;
+  status: string;
+}
+
+export interface LearnerProgressSummary {
+  targetLevel: string;
+  completionPercent: number;
+  completedLessonsCount: number;
+  dueFlashcardsCount: number;
+  totalValidActivities: number;
+  learnedVocabCount?: number;
+  learnedGrammarCount?: number;
+  learnedKanjiCount?: number;
+  completedQuizCount?: number;
+  accuracyPercent?: number;
+  streakDays?: number;
+  continueLesson?: {
+    lessonId: number;
+    title: string;
+    levelCode: string;
+    progressPercent?: number;
+  } | null;
+  weeklyActivities?: Array<{ date: string; count: number }>;
+  recentLessons?: RecentLessonSummary[];
+}

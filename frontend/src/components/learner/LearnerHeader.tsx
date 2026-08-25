@@ -73,7 +73,7 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
     <header className="sticky top-0 z-50 w-full bg-[#FFFDF9]/90 backdrop-blur-md border-b border-[#DED3C8] shadow-xs select-none">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         {/* Left: Brand Logo with Dynamic Cat Mascot Icon */}
-        <Link href="/" className="flex items-center gap-3 group relative cursor-pointer">
+        <Link href="/dashboard" className="flex items-center gap-3 group relative cursor-pointer">
           <AnhSenseiLogo size="md" />
 
           <div className="flex flex-col">
