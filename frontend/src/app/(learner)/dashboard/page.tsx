@@ -188,19 +188,7 @@ export default function LearnerDashboardPage() {
         {/* 7. Quick Learning Categories Grid */}
         <LearningTypeGrid />
 
-        {/* 8 & 9. Recommendations & Weekly Achievement */}
-        <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-stretch">
-          <div className="lg:col-span-8 flex flex-col">
-            <RecommendationSection recommendedLessons={recommendedLessons} />
-          </div>
-          <div className="lg:col-span-4 flex flex-col">
-            <WeeklyAchievementCard
-              totalMinutes={summary?.totalValidActivities ? summary.totalValidActivities * 5 : 105}
-              percentageChange={12}
-              dailyActivities={dailyActivities}
-            />
-          </div>
-        </section>
+
 
         {/* 10. Motivation Banner & AI Quick Launcher */}
         <MotivationBanner />
