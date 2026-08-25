@@ -12,6 +12,7 @@ import com.anhsensei.curriculum.repository.VocabularyRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -546,8 +547,8 @@ public class AdminQuestionBankService {
                 q.setCategory("GRAMMAR");
                 q.setQuestionType("FILL_BLANK");
                 q.setPrompt("_____ [NGỮ PHÁP] Chọn trợ từ thích hợp điền vào câu dưới đây");
-                q.setJapaneseText("わたし _____ たなかです。");
-                q.setExplanation("Trợ từ chỉ chủ đề câu là 「 は (wa) 」: わたしはたなかです。");
+                q.setJapaneseText("わたし _____ " + mainWord + " です。");
+                q.setExplanation("Trợ từ chỉ chủ đề câu là 「 は (wa) 」: わたしは " + mainWord + " です。");
 
                 List<QuestionBankOption> options = new ArrayList<>();
                 options.add(new QuestionBankOption("は (wa)", true, 1));
@@ -562,13 +563,13 @@ public class AdminQuestionBankService {
                 // Dạng 6: Sắp Xếp Câu JLPT ★ (3 câu)
                 q.setCategory("GRAMMAR");
                 q.setQuestionType("STAR_ORDER");
-                q.setPrompt("★ [SẮP XẾP JLPT] Chọn từ đúng điền vào vị trí ngôi sao ★ trong câu");
+                q.setPrompt("★ [SẮP XẾP JLPT] Chọn từ đúng điền vào vị trí ngôi sao ★ trong câu mang nghĩa (" + item.getMeaningVi() + ")");
                 q.setJapaneseText("わたし は ＿＿＿ ★ ＿＿＿ です。");
-                q.setExplanation("Cấu trúc câu hoàn chỉnh: わたし は [ベトナムじん] ★[の] [がくせい] です。 (Ngôi sao ở vị trí thứ 3: の)");
+                q.setExplanation("Cấu trúc câu hoàn chỉnh: わたし は [" + mainWord + "] ★[の] [がくせい] です。 (Ngôi sao ở vị trí thứ 3: の)");
 
                 List<QuestionBankOption> options = new ArrayList<>();
                 options.add(new QuestionBankOption("の", true, 1));
-                options.add(new QuestionBankOption("ベトナムじん", false, 2));
+                options.add(new QuestionBankOption(mainWord, false, 2));
                 options.add(new QuestionBankOption("がくせい", false, 3));
                 options.add(new QuestionBankOption("は", false, 4));
                 Collections.shuffle(options);

@@ -23,27 +23,6 @@ public class QuizDataSeeder {
 
     @EventListener(ApplicationReadyEvent.class)
     public void seed50LessonQuizQuestionBanks() {
-        try {
-            long totalActiveQuestions = questionBankRepository.count();
-            log.info("Checking Question Bank status... Current active question count = {}", totalActiveQuestions);
-
-            if (totalActiveQuestions < 1500) {
-                log.info("Seeding 30 JLPT-aligned vocabulary questions for all 50 Minna no Nihongo lessons...");
-                int successCount = 0;
-                for (long lessonNum = 1; lessonNum <= 50; lessonNum++) {
-                    try {
-                        adminQuestionBankService.generate30JLPTQuestionsForLesson(lessonNum, 1L, true);
-                        successCount++;
-                    } catch (Exception e) {
-                        log.warn("Could not auto-seed quiz for lesson #{}: {}", lessonNum, e.getMessage());
-                    }
-                }
-                log.info("Successfully seeded and published 30-question quiz banks for {}/50 lessons!", successCount);
-            } else {
-                log.info("Question Bank is already fully seeded with {} questions.", totalActiveQuestions);
-            }
-        } catch (Exception e) {
-            log.error("Error during Quiz Question Bank seeding: {}", e.getMessage(), e);
-        }
+        log.info("QuizDataSeeder auto-seeding disabled. Question Bank is managed via Admin Portal.");
     }
 }

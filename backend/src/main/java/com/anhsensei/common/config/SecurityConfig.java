@@ -75,6 +75,8 @@ public class SecurityConfig {
                                 "/api/v1/admin/import-jobs/**",
                                 "/admin/question-bank/**",
                                 "/api/v1/admin/question-bank/**",
+                                "/admin/quiz-attempts/**",
+                                "/api/v1/admin/quiz-attempts/**",
                                 "/learning/quizzes/**",
                                 "/api/v1/learning/quizzes/**",
                                 "/learning/kanji/**",

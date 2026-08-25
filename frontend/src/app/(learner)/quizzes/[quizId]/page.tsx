@@ -536,8 +536,18 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
         }
       }
 
+      let realAttemptId = Date.now();
+      try {
+        const startRes = await apiClient<any>(`/learning/quizzes/${quizIdStr}/start`, { method: "POST" });
+        if (startRes && startRes.data && startRes.data.attemptId) {
+          realAttemptId = startRes.data.attemptId;
+        }
+      } catch (e) {
+        console.warn("Backend quiz start call fallback:", e);
+      }
+
       const quizPayload: StartQuizData = {
-        attemptId: Date.now(),
+        attemptId: realAttemptId,
         quizId: Number(quizIdStr),
         title: `Quiz Kiểm Tra Bài #${quizIdStr}`,
         description: "Bài kiểm tra đánh giá kiến thức bài học",

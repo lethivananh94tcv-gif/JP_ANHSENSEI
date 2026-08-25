@@ -199,64 +199,6 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
         }
       }
 
-      if (list.length === 0) {
-        list = [
-          {
-            questionId: 101,
-            questionType: "MULTIPLE_CHOICE",
-            category: "VOCAB",
-            difficulty: "EASY",
-            prompt: "📖 [TỪ VỰNG] Từ 「私 (わたし)」 trong tiếng Việt có nghĩa là gì?",
-            japaneseText: "私 (わたし)",
-            audioText: "わたし",
-            transcript: "わたし : Tôi",
-            explanation: "私 (わたし) có nghĩa là Tôi.",
-            status: "ACTIVE",
-            options: [
-              { optionId: 1, optionText: "Chúng tôi", isCorrect: false, sortOrder: 1 },
-              { optionId: 2, optionText: "Bạn", isCorrect: false, sortOrder: 2 },
-              { optionId: 3, optionText: "Tôi", isCorrect: true, sortOrder: 3 },
-              { optionId: 4, optionText: "Thầy giáo", isCorrect: false, sortOrder: 4 },
-            ],
-          },
-          {
-            questionId: 102,
-            questionType: "MULTIPLE_CHOICE",
-            category: "GRAMMAR",
-            difficulty: "MEDIUM",
-            prompt: "🧩 [NGỮ PHÁP] Điền trợ từ thích hợp vào chỗ trống: わたし _____ たなかです。",
-            japaneseText: "わたし _____ たなかです。",
-            audioText: "わたしはたなかです",
-            explanation: "Trợ từ は (wa) biểu thị chủ đề của câu.",
-            status: "ACTIVE",
-            options: [
-              { optionId: 5, optionText: "は (wa)", isCorrect: true, sortOrder: 1 },
-              { optionId: 6, optionText: "の (no)", isCorrect: false, sortOrder: 2 },
-              { optionId: 7, optionText: "に (ni)", isCorrect: false, sortOrder: 3 },
-              { optionId: 8, optionText: "で (de)", isCorrect: false, sortOrder: 4 },
-            ],
-          },
-          {
-            questionId: 103,
-            questionType: "KANJI_READING",
-            category: "KANJI",
-            difficulty: "MEDIUM",
-            prompt: "✍️ [HÁN TỰ KANJI] Chọn nghĩa Hán Việt của chữ 「 先生 」",
-            japaneseText: "先生",
-            audioText: "せんせい",
-            transcript: "先生 (せんせい)",
-            explanation: "Chữ 先生 có nghĩa Hán Việt là Tiên Sinh (Thầy giáo).",
-            status: "ACTIVE",
-            options: [
-              { optionId: 9, optionText: "Học Sinh", isCorrect: false, sortOrder: 1 },
-              { optionId: 10, optionText: "Tiên Sinh (Thầy giáo)", isCorrect: true, sortOrder: 2 },
-              { optionId: 11, optionText: "Y Sĩ", isCorrect: false, sortOrder: 3 },
-              { optionId: 12, optionText: "Hội Viên", isCorrect: false, sortOrder: 4 },
-            ],
-          },
-        ];
-      }
-
       setQuestions(list);
     } catch (e) {
       console.warn("Lỗi tải danh sách Kho đề:", e);
