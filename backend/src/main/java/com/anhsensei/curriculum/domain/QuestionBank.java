@@ -72,7 +72,7 @@ public class QuestionBank {
     @Column(name = "deleted_at")
     private OffsetDateTime deletedAt;
 
-    @OneToMany(mappedBy = "questionBank", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "questionBank", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<QuestionBankOption> options = new ArrayList<>();
 
     public QuestionBank() {}

@@ -82,6 +82,16 @@ export default function VocabMatchGame3D({ vocabularies, onFinish }: VocabMatchG
     return () => clearInterval(timer);
   }, [gameStatus, timeLeft]);
 
+  // Handle Game Win state cleanly outside render loop
+  useEffect(() => {
+    if (gameStatus === "PLAYING" && totalPairsCount > 0 && matchedPairsCount >= totalPairsCount) {
+      setGameStatus("WON");
+      if (onFinish) {
+        onFinish(50);
+      }
+    }
+  }, [matchedPairsCount, totalPairsCount, gameStatus, onFinish]);
+
   // Check matching pair logic when 2 cards selected
   const handleCardClick = (card: MatchCard) => {
     if (gameStatus !== "PLAYING" || card.isMatched || card.isSelected || selectedCards.length >= 2) return;
@@ -104,14 +114,7 @@ export default function VocabMatchGame3D({ vocabularies, onFinish }: VocabMatchG
             )
           );
           setSelectedCards([]);
-          setMatchedPairsCount((prev) => {
-            const nextCount = prev + 1;
-            if (nextCount >= totalPairsCount) {
-              setGameStatus("WON");
-              if (onFinish) onFinish(50);
-            }
-            return nextCount;
-          });
+          setMatchedPairsCount((prev) => prev + 1);
         }, 300);
       } else {
         // MISMATCH -> Reset after 700ms

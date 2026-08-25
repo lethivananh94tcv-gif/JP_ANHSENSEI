@@ -49,7 +49,7 @@ public class ExcelCommitService {
         this.auditLogService = auditLogService;
     }
 
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ImportJobDto commitImportJob(Long adminId, Long importJobId, String ipAddress) {
         ImportJob job = importJobRepository.findById(importJobId)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy ImportJob có ID: " + importJobId));

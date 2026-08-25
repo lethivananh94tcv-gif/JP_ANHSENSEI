@@ -451,7 +451,7 @@ export default function LearnerLearnPage() {
               <BookOpen className="w-5.5 h-5.5 text-[#C65D4B]" />
               <div>
                 <h2 className="text-base sm:text-lg font-extrabold text-[#231917]">
-                  Lộ Trình Bài Học Theo Cấp Độ
+                  Danh Sách Bài Học Theo Cấp Độ
                 </h2>
                 <p className="text-[11px] font-semibold text-[#76685F]">
                   Chọn cấp độ JLPT để khám phá các bài học tương ứng

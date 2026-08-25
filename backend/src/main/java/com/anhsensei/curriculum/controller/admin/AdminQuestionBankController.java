@@ -14,13 +14,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping({"/admin/question-bank", "/api/v1/admin/question-bank"})
-@PreAuthorize("permitAll()")
 public class AdminQuestionBankController {
 
     private final AdminQuestionBankService adminQuestionBankService;
 
     public AdminQuestionBankController(AdminQuestionBankService adminQuestionBankService) {
         this.adminQuestionBankService = adminQuestionBankService;
+    }
+
+    @GetMapping("/summary-all")
+    public ResponseEntity<ApiResponse<List<java.util.Map<String, Object>>>> getAllLessonsSummary() {
+        List<java.util.Map<String, Object>> summary = adminQuestionBankService.getAllLessonsSummary();
+        return ResponseEntity.ok(ApiResponse.success(summary));
     }
 
     @GetMapping("/lesson/{lessonId}")
@@ -30,6 +35,7 @@ public class AdminQuestionBankController {
     }
 
     @PostMapping("/lesson/{lessonId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<QuestionBank>> createQuestion(
             @PathVariable Long lessonId,
             @RequestBody QuestionBank question,
@@ -40,6 +46,7 @@ public class AdminQuestionBankController {
     }
 
     @PutMapping("/{questionId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<QuestionBank>> updateQuestion(
             @PathVariable Long questionId,
             @RequestBody QuestionBank question,
@@ -50,12 +57,14 @@ public class AdminQuestionBankController {
     }
 
     @DeleteMapping("/{questionId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Void>> deleteQuestion(@PathVariable Long questionId) {
         adminQuestionBankService.softDeleteQuestion(questionId);
         return ResponseEntity.ok(ApiResponse.success("Đã xóa mềm câu hỏi khỏi Kho đề.", null));
     }
 
     @PostMapping("/generate/lesson/{lessonId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<List<QuestionBank>>> autoGenerateQuestions(
             @PathVariable Long lessonId,
             Authentication authentication) {
@@ -65,6 +74,7 @@ public class AdminQuestionBankController {
     }
 
     @PostMapping("/generate-30/lesson/{lessonId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<List<QuestionBank>>> autoGenerate30Questions(
             @PathVariable Long lessonId,
             @RequestParam(required = false, defaultValue = "FULL") String mode,
@@ -80,6 +90,7 @@ public class AdminQuestionBankController {
     }
 
     @PostMapping("/generate-all-30")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<String>> autoGenerateAll30Questions(Authentication authentication) {
         Long adminUserId = getUserIdFromAuth(authentication);
         int successCount = 0;
@@ -93,12 +104,14 @@ public class AdminQuestionBankController {
     }
 
     @PostMapping("/approve-all/lesson/{lessonId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Integer>> approveAllDrafts(@PathVariable Long lessonId) {
         int approvedCount = adminQuestionBankService.approveAllDraftQuestionsForLesson(lessonId);
         return ResponseEntity.ok(ApiResponse.success("Đã duyệt thành công " + approvedCount + " câu hỏi DRAFT sang ACTIVE.", approvedCount));
     }
 
     @PostMapping("/publish/lesson/{lessonId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Quiz>> publishQuiz(
             @PathVariable Long lessonId,
             Authentication authentication) {

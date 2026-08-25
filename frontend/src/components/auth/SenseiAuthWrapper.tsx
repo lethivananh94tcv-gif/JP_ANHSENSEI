@@ -626,7 +626,7 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
 
       if (mode === "REGISTER") {
         if (focusedField === "TARGET_LEVEL") {
-          return `Chọn mục tiêu JLPT (${regTargetLevel}) để Sensei cá nhân hóa lộ trình học phù hợp nhất cho bạn nhé! 🎯⛩️`;
+          return `Chọn mục tiêu JLPT (${regTargetLevel}) để Sensei cá nhân hóa nội dung học phù hợp nhất cho bạn nhé! 🎯⛩️`;
         }
         if (focusedField === "CONFIRM_PASSWORD") {
           if (showRegConfirmPassword) {
@@ -748,7 +748,7 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
     if (mode === "FORGOT_PASSWORD") {
       return "Đừng lo lắng! Nhập Email của bạn vào đây, Sensei sẽ gửi ngay mã khôi phục Mật khẩu về hòm thư cho bạn nhé! 🔑✉️🌸";
     }
-    return "Tạo tài khoản nhận ngay lộ trình tự học JLPT N5 - N3 miễn phí nhé! 🎁🌸";
+    return "Tạo tài khoản học ngay JLPT N5 - N3 miễn phí nhé! 🎁🌸";
   };
 
   const isCurrentPassVisible =
@@ -1319,7 +1319,7 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
                   <div>
                     <label className="block text-xs font-semibold text-[#2D241E] flex items-center justify-between">
                       <span>Mục tiêu trình độ JLPT</span>
-                      <span className="text-[10px] text-amber-800 font-bold">Lộ trình cá nhân</span>
+                      <span className="text-[10px] text-amber-800 font-bold">Cá nhân hóa</span>
                     </label>
                     <div className="mt-1 flex gap-2">
                       {(["N5", "N4", "N3"] as const).map((lvl) => (

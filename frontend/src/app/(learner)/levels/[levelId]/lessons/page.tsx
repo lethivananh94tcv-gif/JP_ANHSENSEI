@@ -71,7 +71,7 @@ export default function LearnerLessonsPage() {
         <div className="bg-gradient-to-r from-[#C65D4B] to-[#D98373] rounded-3xl p-8 text-white shadow-xl flex justify-between items-center relative overflow-hidden">
           <div className="space-y-2 z-10">
             <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold tracking-wide">
-              📚 LỘ TRÌNH HỌC TẬP CHUẨN JLPT
+              📚 CHƯƠNG TRÌNH HỌC CHUẨN JLPT
             </span>
             <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight">Danh Sách Bài Học</h1>
             <p className="text-white/90 text-sm max-w-xl">

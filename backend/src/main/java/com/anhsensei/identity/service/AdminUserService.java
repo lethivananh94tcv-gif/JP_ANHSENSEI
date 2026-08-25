@@ -83,6 +83,10 @@ public class AdminUserService {
 
     @Transactional
     public void disableUser(Long adminUserId, Long targetUserId, String reason, String ipAddress) {
+        if (adminUserId != null && adminUserId.equals(targetUserId)) {
+            throw new IllegalArgumentException("Admin không thể tự vô hiệu hóa tài khoản của chính mình");
+        }
+
         User target = userRepository.findById(targetUserId)
                 .orElseThrow(() -> new IllegalArgumentException("Người dùng không tồn tại"));
 

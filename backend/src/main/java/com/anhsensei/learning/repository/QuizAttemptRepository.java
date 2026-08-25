@@ -15,4 +15,6 @@ public interface QuizAttemptRepository extends JpaRepository<QuizAttempt, Long> 
     List<QuizAttempt> findByUser_UserIdAndQuiz_QuizIdOrderByAttemptNumberDesc(Long userId, Long quizId);
 
     Optional<QuizAttempt> findByAttemptIdAndUser_UserId(Long attemptId, Long userId);
+
+    List<QuizAttempt> findAllByOrderByStartedAtDesc();
 }

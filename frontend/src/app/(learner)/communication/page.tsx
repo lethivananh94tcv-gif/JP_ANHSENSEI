@@ -48,18 +48,14 @@ const SAMPLE_SCENARIOS: KaiwaScenario[] = [
   },
 ];
 
+import { playJapaneseTTS } from "@/lib/utils/japaneseAudioTTS";
+
 export default function LearnerCommunicationPage() {
   const [selectedScenario, setSelectedScenario] = useState<KaiwaScenario>(SAMPLE_SCENARIOS[0]);
   const [activeRole, setActiveRole] = useState<string>("Tất cả");
 
   const handleSpeech = (text: string) => {
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "ja-JP";
-      utterance.rate = 0.9;
-      window.speechSynthesis.speak(utterance);
-    }
+    playJapaneseTTS(text);
   };
 
   return (

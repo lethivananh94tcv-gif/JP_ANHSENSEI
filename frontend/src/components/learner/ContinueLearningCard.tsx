@@ -27,7 +27,7 @@ export default function ContinueLearningCard({
             <span>NHIỆM VỤ BÀI HỌC CHÍNH</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-[#231917]">
-            Khám phá lộ trình bài học JLPT
+            Khám phá danh sách bài học JLPT
           </h2>
           <p className="text-xs sm:text-sm text-[#76685F] leading-relaxed max-w-lg font-medium">
             Bắt đầu bài học đầu tiên trong chương trình giáo trình Minna no Nihongo N5 – N3 với đầy đủ Từ vựng, Hán tự và Ngữ pháp.

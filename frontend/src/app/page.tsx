@@ -194,7 +194,7 @@ export default function Home() {
       <section id="levels" className="py-16 bg-[#F5EFE6]/60 border-y border-[#8B6F5A]/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-12">
-            <h2 className="text-3xl font-black text-[#8B6F5A] sm:text-4xl">Lộ Trình Học Chuẩn JLPT N5 – N3</h2>
+            <h2 className="text-3xl font-black text-[#8B6F5A] sm:text-4xl">Các Cấp Độ Học Chuẩn JLPT N5 – N3</h2>
             <p className="mt-3 text-[#6E5E52] text-base">
               Nội dung giáo trình được thiết kế bài bản chia theo từng cấp độ kỹ năng: Từ vựng, Kanji, Ngữ pháp, Đọc hiểu &amp; Nghe hiểu.
             </p>

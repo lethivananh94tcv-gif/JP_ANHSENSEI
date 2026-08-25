@@ -14,7 +14,7 @@ export default function VocabularySidebar({ streakData }: VocabularySidebarProps
   const trophyBadges = [
     { id: 1, name: "Sát Thủ Từ Vựng", icon: "💮", earned: true, desc: "Thuộc 100+ Từ vựng" },
     { id: 2, name: "Ngọn Lửa Kiên Trì", icon: "🔥", earned: true, desc: "Duy trì Streak 7 ngày" },
-    { id: 3, name: "Bậc Thầy JLPT N5", icon: "⭐", earned: true, desc: "Hoàn thành Lộ trình N5" },
+    { id: 3, name: "Bậc Thầy JLPT N5", icon: "⭐", earned: true, desc: "Hoàn thành Cấp độ N5" },
     { id: 4, name: "Thần Tài Omikuji", icon: "🧧", earned: true, desc: "Rút quẻ may mắn 5 ngày" },
   ];
 

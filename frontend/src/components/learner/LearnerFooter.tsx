@@ -47,7 +47,7 @@ export default function LearnerFooter() {
           {/* Navigation Links */}
           <div className="flex flex-wrap items-center justify-center gap-6 text-xs font-bold text-[#E5D7CD]">
             <Link href="/levels" className="hover:text-[#F3DFD3] transition-colors">
-              Lộ trình JLPT
+              Cấp độ JLPT
             </Link>
             <Link href="/vocabularies" className="hover:text-[#F3DFD3] transition-colors">
               Từ vựng

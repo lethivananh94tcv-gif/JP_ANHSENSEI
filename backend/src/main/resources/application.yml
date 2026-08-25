@@ -5,8 +5,8 @@ spring:
     active: ${SPRING_PROFILES_ACTIVE:dev}
 
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://db.vdzlkldjhxdzoztgcagy.supabase.co:5432/postgres?sslmode=require}
-    username: ${DATABASE_USERNAME:postgres}
+    url: ${DATABASE_URL:jdbc:postgresql://aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres?sslmode=require}
+    username: ${DATABASE_USERNAME:postgres.vdzlkldjhxdzoztgcagy}
     password: ${DATABASE_PASSWORD:duonggiakien}
     driver-class-name: org.postgresql.Driver
     hikari:

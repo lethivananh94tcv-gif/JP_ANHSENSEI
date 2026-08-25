@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping({"/admin/import-jobs", "/api/v1/admin/import-jobs"})
+@PreAuthorize("hasRole('ADMIN')")
 @CrossOrigin(origins = "*")
 public class AdminImportJobController {
 
@@ -42,6 +43,13 @@ public class AdminImportJobController {
         this.importErrorRepository = importErrorRepository;
     }
 
+    private Long requireAdminId(UserPrincipal userPrincipal) {
+        if (userPrincipal == null || userPrincipal.getUserId() == null) {
+            throw new org.springframework.security.access.AccessDeniedException("Yêu cầu xác thực tài khoản Admin.");
+        }
+        return userPrincipal.getUserId();
+    }
+
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ImportJobDto> createImportJob(
             @RequestParam("file") MultipartFile file,
@@ -52,7 +60,7 @@ public class AdminImportJobController {
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             HttpServletRequest httpRequest
     ) {
-        Long adminId = userPrincipal != null ? userPrincipal.getUserId() : 1L;
+        Long adminId = requireAdminId(userPrincipal);
 
         ImportType fileType;
         try {
@@ -97,7 +105,7 @@ public class AdminImportJobController {
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             HttpServletRequest httpRequest
     ) {
-        Long adminId = userPrincipal != null ? userPrincipal.getUserId() : 1L;
+        Long adminId = requireAdminId(userPrincipal);
         ImportJobDto validated = excelValidationService.validateImportJob(adminId, id, httpRequest.getRemoteAddr());
         return ResponseEntity.ok(validated);
     }
@@ -119,7 +127,7 @@ public class AdminImportJobController {
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             HttpServletRequest httpRequest
     ) {
-        Long adminId = userPrincipal != null ? userPrincipal.getUserId() : 1L;
+        Long adminId = requireAdminId(userPrincipal);
         ImportJobDto committed = excelCommitService.commitImportJob(adminId, id, httpRequest.getRemoteAddr());
         return ResponseEntity.ok(committed);
     }
@@ -130,7 +138,7 @@ public class AdminImportJobController {
             @AuthenticationPrincipal UserPrincipal userPrincipal,
             HttpServletRequest httpRequest
     ) {
-        Long adminId = userPrincipal != null ? userPrincipal.getUserId() : 1L;
+        Long adminId = requireAdminId(userPrincipal);
         ImportJobDto cancelled = excelCommitService.cancelImportJob(adminId, id, httpRequest.getRemoteAddr());
         return ResponseEntity.ok(cancelled);
     }

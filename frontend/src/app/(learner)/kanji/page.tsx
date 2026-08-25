@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { ArrowLeft, BookOpen, Layers, Sparkles, CheckCircle2 } from "lucide-react";
 import KanjiRadicalsView from "@/components/learner/kanji/KanjiRadicalsView";
 import KanjiLessonDetailView from "@/components/learner/kanji/KanjiLessonDetailView";
@@ -36,6 +37,7 @@ function parseTopicCardInfo(title: string, description: string) {
 }
 
 export default function LearnerKanjiPage() {
+  const router = useRouter();
   const [activeTab, setActiveTab] = useState<"RADICALS" | "N5" | "N4" | "N3" | "N2" | "N1">("N5");
   const [topics, setTopics] = useState<KanjiTopicDto[]>([]);
   const [topicsCache, setTopicsCache] = useState<Record<string, KanjiTopicDto[]>>({});
@@ -72,20 +74,70 @@ export default function LearnerKanjiPage() {
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] p-4 sm:p-8 text-[#2C2421]">
-      <div className="max-w-6xl mx-auto space-y-8">
-        {/* Header Hero */}
-        <div className="bg-gradient-to-r from-[#C65D4B] to-[#D98373] rounded-3xl p-6 sm:p-8 text-white shadow-xl flex justify-between items-center relative overflow-hidden">
-          <div className="space-y-2 z-10">
-            <span className="bg-white/20 backdrop-blur-md px-3 py-1 rounded-full text-xs font-semibold tracking-wide">
-              ✍️ KHO HỌC LIỆU HÁN TỰ KANJI
-            </span>
-            <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight">Hán Tự &amp; Quy Tắc Nét Vẽ</h1>
-            <p className="text-white/90 text-xs sm:text-sm max-w-xl">
-              Học Kanji bài bản theo 214 Bộ thủ, Thẻ 3D Flashcard, Luyện gõ Romaji và bài tập đọc/viết theo chuẩn giáo trình.
-            </p>
-          </div>
-          <div className="hidden md:block text-8xl font-black opacity-20 select-none">
+      <div className="max-w-6xl mx-auto space-y-6">
+        {/* Top Left Navigation Back Button */}
+        <div className="flex items-center justify-between">
+          <button
+            onClick={() => {
+              if (selectedTopicId !== null) {
+                setSelectedTopicId(null);
+              } else {
+                router.back();
+              }
+            }}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-[#FAF3EB] text-[#8B6F5A] hover:text-[#C65D4B] border border-[#DED3C8] hover:border-[#C65D4B] rounded-xl text-xs font-extrabold shadow-2xs transition-all cursor-pointer group"
+          >
+            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1 text-[#C65D4B]" />
+            <span>Quay lại</span>
+          </button>
+        </div>
+
+        {/* Header Hero - Japanese Torii & Washi Paper Aesthetic */}
+        <div className="relative bg-[#FAF4ED] border-2 border-[#E5D7C5] rounded-3xl p-6 sm:p-8 shadow-sm overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+          {/* Subtle decorative background Kanji watermark */}
+          <div className="absolute right-4 top-1/2 -translate-y-1/2 text-9xl font-serif font-black text-[#8B6F5A]/10 select-none pointer-events-none tracking-widest">
             漢字
+          </div>
+
+          <div className="space-y-3 z-10 max-w-2xl">
+            <div className="flex items-center gap-2">
+              <span className="inline-flex items-center gap-1.5 bg-[#8B261D]/10 border border-[#8B261D]/30 text-[#8B261D] px-3.5 py-1 rounded-full text-xs font-black tracking-wide">
+                <span>⛩️</span> KHO HỌC LIỆU HÁN TỰ KANJI
+              </span>
+              <span className="bg-[#FAF3EB] border border-[#DED3C8] text-[#8B6F5A] px-3 py-1 rounded-full text-[11px] font-bold">
+                Anh Sensei
+              </span>
+            </div>
+
+            <h1 className="text-2xl sm:text-4xl font-extrabold text-[#3D261D] tracking-tight flex items-center gap-2">
+              Hán Tự &amp; Quy Tắc Nét Vẽ
+            </h1>
+
+            <p className="text-[#6E594F] text-xs sm:text-sm leading-relaxed">
+              Học Kanji bài bản theo <strong className="text-[#8B261D]">214 Bộ thủ</strong>, Thẻ 3D Flashcard, Luyện gõ Romaji và bài tập đọc/viết chuẩn giáo trình.
+            </p>
+
+            {/* Traditional Feature Pills */}
+            <div className="flex flex-wrap items-center gap-2 pt-1">
+              <span className="bg-white/80 border border-[#E5D7C5] text-[#6E594F] px-3 py-1 rounded-lg text-[11px] font-extrabold shadow-2xs">
+                ⛩️ 214 Bộ Thủ Trọng Tâm
+              </span>
+              <span className="bg-white/80 border border-[#E5D7C5] text-[#6E594F] px-3 py-1 rounded-lg text-[11px] font-extrabold shadow-2xs">
+                📚 Chuẩn N5 – N3 Minna
+              </span>
+              <span className="bg-white/80 border border-[#E5D7C5] text-[#6E594F] px-3 py-1 rounded-lg text-[11px] font-extrabold shadow-2xs">
+                ⌨️ Luyện Gõ Romaji Tự Động
+              </span>
+            </div>
+          </div>
+
+          {/* Right Decorative Calligraphy Seal Card */}
+          <div className="hidden md:flex flex-col items-center justify-center bg-white/90 border border-[#E5D7C5] p-4 rounded-2xl shadow-xs z-10 space-y-1 min-w-[140px] text-center">
+            <div className="w-12 h-12 rounded-xl bg-[#8B261D] text-white flex items-center justify-center font-serif text-2xl font-black shadow-inner">
+              書
+            </div>
+            <span className="text-[11px] font-black text-[#3D261D] pt-1">KANJI SHODO</span>
+            <span className="text-[9px] font-bold text-[#8B6F5A] uppercase tracking-wider">漢字の道</span>
           </div>
         </div>
 

@@ -399,7 +399,9 @@ export default function LearnerLessonStudyPage() {
             <VocabMatchGame3D
               vocabularies={vocabularies}
               onFinish={() => {
-                handleMarkAllLearned(); // Mark 100% completed on winning game!
+                setTimeout(() => {
+                  handleMarkAllLearned(); // Mark 100% completed on winning game!
+                }, 0);
               }}
             />
           )}
