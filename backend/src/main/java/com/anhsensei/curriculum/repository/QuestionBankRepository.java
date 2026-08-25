@@ -31,6 +31,10 @@ public interface QuestionBankRepository extends JpaRepository<QuestionBank, Long
     @Query(value = "DELETE FROM question_bank WHERE lesson_id = :lessonId", nativeQuery = true)
     void deleteQuestionsByLessonIdNative(@Param("lessonId") Long lessonId);
 
+    @org.springframework.data.jpa.repository.Modifying
+    @Query(value = "TRUNCATE TABLE question_bank_options, question_bank CASCADE", nativeQuery = true)
+    void truncateAllQuestionBankNative();
+
     @Query("SELECT q.lesson.lessonId, q.status, COUNT(q) FROM QuestionBank q WHERE q.deletedAt IS NULL GROUP BY q.lesson.lessonId, q.status")
     List<Object[]> countQuestionsGroupedByLessonAndStatus();
 }

@@ -28,6 +28,12 @@ public class AdminQuestionBankController {
         return ResponseEntity.ok(ApiResponse.success(summary));
     }
 
+    @DeleteMapping("/clear-all")
+    public ResponseEntity<ApiResponse<Void>> clearAllQuestionBank() {
+        adminQuestionBankService.clearAllQuestionBank();
+        return ResponseEntity.ok(ApiResponse.success("Đã dọn sạch toàn bộ kho câu hỏi trong Database!", null));
+    }
+
     @GetMapping("/lesson/{lessonId}")
     public ResponseEntity<ApiResponse<List<QuestionBank>>> getQuestionsByLesson(@PathVariable Long lessonId) {
         List<QuestionBank> list = adminQuestionBankService.getQuestionsByLessonId(lessonId);

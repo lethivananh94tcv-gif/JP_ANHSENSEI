@@ -753,4 +753,9 @@ public class AdminQuestionBankService {
                     return q;
                 });
     }
+
+    @Transactional
+    public void clearAllQuestionBank() {
+        questionBankRepository.truncateAllQuestionBankNative();
+    }
 }
