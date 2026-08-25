@@ -44,9 +44,10 @@ jobs:
           cd frontend
           npm ci || npm install
 
-      - name: Typecheck and Lint
+      - name: Typecheck and Build Frontend
         run: |
           cd frontend
+          npx next build
           npx tsc --noEmit
 
   docker-ci:
