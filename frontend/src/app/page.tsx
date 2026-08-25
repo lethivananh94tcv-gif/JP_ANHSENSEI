@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import LearnerDashboardPage from "./(learner)/dashboard/page";
 import {
   Sparkles,
@@ -18,14 +18,42 @@ import {
   ChevronRight,
   Flame,
   Zap,
-  ShieldCheck
+  ShieldCheck,
+  Gamepad2,
+  PenTool,
+  HelpCircle,
+  X,
+  Volume2,
+  RotateCcw,
+  Sparkle,
+  Grid
 } from "lucide-react";
+
+// Hiragana Data Preview
+const HIRAGANA_PREVIEW = [
+  { kana: "あ", romaji: "a" }, { kana: "い", romaji: "i" }, { kana: "う", romaji: "u" }, { kana: "え", romaji: "e" }, { kana: "お", romaji: "o" },
+  { kana: "か", romaji: "ka" }, { kana: "き", romaji: "ki" }, { kana: "く", romaji: "ku" }, { kana: "け", romaji: "ke" }, { kana: "こ", romaji: "ko" },
+  { kana: "さ", romaji: "sa" }, { kana: "し", romaji: "shi" }, { kana: "す", romaji: "su" }, { kana: "せ", romaji: "se" }, { kana: "そ", romaji: "so" },
+  { kana: "た", romaji: "ta" }, { kana: "ち", romaji: "chi" }, { kana: "つ", romaji: "tsu" }, { kana: "て", romaji: "te" }, { kana: "と", romaji: "to" },
+  { kana: "な", romaji: "na" }, { kana: "に", romaji: "ni" }, { kana: "ぬ", romaji: "nu" }, { kana: "ね", romaji: "ne" }, { kana: "の", romaji: "no" }
+];
+
+// Katakana Data Preview
+const KATAKANA_PREVIEW = [
+  { kana: "ア", romaji: "a" }, { kana: "イ", romaji: "i" }, { kana: "ウ", romaji: "u" }, { kana: "エ", romaji: "e" }, { kana: "オ", romaji: "o" },
+  { kana: "カ", romaji: "ka" }, { kana: "キ", romaji: "ki" }, { kana: "ク", romaji: "ku" }, { kana: "ケ", romaji: "ke" }, { kana: "コ", romaji: "ko" },
+  { kana: "サ", romaji: "sa" }, { kana: "シ", romaji: "shi" }, { kana: "ス", romaji: "su" }, { kana: "セ", romaji: "se" }, { kana: "ソ", romaji: "so" },
+  { kana: "タ", romaji: "ta" }, { kana: "チ", romaji: "chi" }, { kana: "ツ", romaji: "tsu" }, { kana: "テ", romaji: "te" }, { kana: "ト", romaji: "to" },
+  { kana: "ナ", romaji: "na" }, { kana: "ニ", romaji: "ni" }, { kana: "ヌ", romaji: "nu" }, { kana: "ネ", romaji: "ne" }, { kana: "ノ", romaji: "no" }
+];
 
 export default function Home() {
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState<{ name?: string; fullName?: string; email?: string; role?: string } | null>(null);
-  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const [isCheckingAuth, setIsCheckingAuth] = useState(true);
+
+  // Kana Modal State
+  const [selectedKanaType, setSelectedKanaType] = useState<"HIRAGANA" | "KATAKANA" | null>(null);
+  const [activeFlippedCard, setActiveFlippedCard] = useState<boolean>(false);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -43,27 +71,27 @@ export default function Home() {
           console.error("Failed to parse user data from localStorage", e);
         }
       }
-      setIsCheckingAuth(false);
     }
   }, [router]);
-
-  if (isCheckingAuth) {
-    return null;
-  }
 
   if (currentUser) {
     return <LearnerDashboardPage />;
   }
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-[#2C221E] font-sans selection:bg-[#C65D4B]/20 selection:text-[#C65D4B]">
+    <div className="min-h-screen bg-[#FDFBF7] text-[#2C221E] font-sans selection:bg-[#C65D4B]/20 selection:text-[#C65D4B] relative overflow-x-hidden">
+      
+      {/* Background Decorative Japanese Patterns */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-radial from-[#C65D4B]/5 via-transparent to-transparent pointer-events-none rounded-full blur-3xl" />
+      <div className="absolute top-96 left-0 w-[600px] h-[600px] bg-radial from-[#8B6F5A]/5 via-transparent to-transparent pointer-events-none rounded-full blur-3xl" />
 
       {/* Header / Navigation Bar */}
-      <header className="sticky top-0 z-50 backdrop-blur-md bg-[#FDFBF7]/85 border-b border-[#8B6F5A]/15 shadow-sm transition-all">
+      <header className="sticky top-0 z-50 backdrop-blur-md bg-[#FDFBF7]/90 border-b border-[#8B6F5A]/15 shadow-xs transition-all">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#8B6F5A] to-[#C65D4B] flex items-center justify-center text-white shadow-md shadow-[#C65D4B]/20 group-hover:scale-105 transition-transform duration-300">
-              <span className="font-extrabold text-xl tracking-wider">学</span>
+            <div className="w-11 h-11 rounded-2xl bg-gradient-to-tr from-[#8B6F5A] via-[#C65D4B] to-[#D4AF37] flex items-center justify-center text-white shadow-md shadow-[#C65D4B]/20 group-hover:scale-105 transition-transform duration-300 relative overflow-hidden">
+              <span className="font-extrabold text-xl tracking-wider z-10">学</span>
+              <div className="absolute inset-0 bg-white/20 opacity-0 group-hover:opacity-100 transition-opacity" />
             </div>
             <div>
               <span className="text-2xl font-black tracking-tight text-[#8B6F5A] block leading-none">
@@ -75,18 +103,18 @@ export default function Home() {
             </div>
           </Link>
 
-          <nav className="hidden md:flex items-center gap-8 text-sm font-semibold text-[#6E5E52]">
+          <nav className="hidden md:flex items-center gap-7 text-sm font-semibold text-[#6E5E52]">
+            <a href="#kana-quick" className="hover:text-[#C65D4B] transition-colors flex items-center gap-1.5">
+              <Grid className="w-4 h-4 text-[#8B6F5A]" /> Bảng Chữ Cái
+            </a>
+            <a href="#special-features" className="hover:text-[#C65D4B] transition-colors flex items-center gap-1.5">
+              <Sparkles className="w-4 h-4 text-[#C65D4B]" /> Tính Năng Đặc Biệt
+            </a>
             <a href="#levels" className="hover:text-[#C65D4B] transition-colors flex items-center gap-1.5">
               <Layers className="w-4 h-4 text-[#8B6F5A]" /> Cấp độ JLPT
             </a>
-            <a href="#features" className="hover:text-[#C65D4B] transition-colors flex items-center gap-1.5">
-              <BrainCircuit className="w-4 h-4 text-[#8B6F5A]" /> Flashcard SRS
-            </a>
             <a href="#ai-tutor" className="hover:text-[#C65D4B] transition-colors flex items-center gap-1.5">
-              <Bot className="w-4 h-4 text-[#C65D4B]" /> Trợ giảng AI
-            </a>
-            <a href="#about" className="hover:text-[#C65D4B] transition-colors flex items-center gap-1.5">
-              <ShieldCheck className="w-4 h-4 text-[#8B6F5A]" /> Về ANH SENSEI
+              <Bot className="w-4 h-4 text-[#C65D4B]" /> Trợ Giảng AI
             </a>
           </nav>
 
@@ -99,7 +127,7 @@ export default function Home() {
             </Link>
             <Link
               href="/register"
-              className="rounded-xl bg-gradient-to-r from-[#8B6F5A] to-[#C65D4B] px-5 py-2.5 font-semibold text-white hover:opacity-95 transition text-sm shadow-md shadow-[#C65D4B]/20 flex items-center gap-1.5"
+              className="rounded-xl bg-gradient-to-r from-[#8B6F5A] via-[#C65D4B] to-[#8B6F5A] px-5 py-2.5 font-semibold text-white hover:opacity-95 transition text-sm shadow-md shadow-[#C65D4B]/20 flex items-center gap-1.5"
             >
               Đăng ký miễn phí <ArrowRight className="w-4 h-4" />
             </Link>
@@ -107,47 +135,27 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="relative overflow-hidden pt-12 pb-20 lg:pt-20 lg:pb-28">
+      {/* Hero Section (Retained as requested) */}
+      <section className="relative overflow-hidden pt-12 pb-16 lg:pt-16 lg:pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto space-y-6">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#F5EFE6] border border-[#8B6F5A]/20 text-[#8B6F5A] text-xs sm:text-sm font-bold shadow-sm"
-            >
-              <Sparkles className="w-4 h-4 text-[#C65D4B]" />
+            <div className="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-[#F5EFE6] border border-[#8B6F5A]/25 text-[#8B6F5A] text-xs sm:text-sm font-bold shadow-xs">
+              <Sparkles className="w-4 h-4 text-[#C65D4B] animate-pulse" />
               <span>Nền Tảng Tự Học Tiếng Nhật Thông Minh (JLPT N5 – N3)</span>
-            </motion.div>
+            </div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-4xl sm:text-6xl font-black tracking-tight text-[#2C221E] leading-[1.15]"
-            >
+            <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-[#2C221E] leading-[1.15]">
               Chinh Phục Tiếng Nhật Với <br className="hidden sm:inline" />
               <span className="bg-gradient-to-r from-[#8B6F5A] via-[#C65D4B] to-[#8B6F5A] bg-clip-text text-transparent">
                 Thuật Toán SRS &amp; AI Tutor 24/7
               </span>
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="text-lg sm:text-xl text-[#6E5E52] leading-relaxed max-w-2xl mx-auto"
-            >
+            <p className="text-lg sm:text-xl text-[#6E5E52] leading-relaxed max-w-2xl mx-auto">
               Ghi nhớ từ vựng &amp; Hán tự lâu gấp 3 lần bằng <strong>Spaced Repetition (SRS)</strong>, làm bài Quiz chấm điểm tự động và được <strong>Trợ giảng AI RAG</strong> giải đáp tức thì.
-            </motion.p>
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4"
-            >
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
               <Link
                 href="/register"
                 className="w-full sm:w-auto rounded-2xl bg-[#C65D4B] px-8 py-4 text-base font-bold text-white shadow-xl shadow-[#C65D4B]/30 hover:bg-[#b04f3f] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2"
@@ -155,37 +163,344 @@ export default function Home() {
                 <Zap className="w-5 h-5 fill-current" /> Bắt đầu học miễn phí
               </Link>
               <a
-                href="#levels"
+                href="#special-features"
                 className="w-full sm:w-auto rounded-2xl bg-white border border-[#8B6F5A]/25 px-8 py-4 text-base font-bold text-[#8B6F5A] shadow-md hover:bg-[#F5EFE6]/60 transition flex items-center justify-center gap-2"
               >
-                <BookOpen className="w-5 h-5 text-[#8B6F5A]" /> Khám phá các Cấp độ
+                <Sparkles className="w-5 h-5 text-[#C65D4B]" /> Khám phá Tính năng
               </a>
-            </motion.div>
+            </div>
 
             {/* Quick Metrics */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-12 max-w-3xl mx-auto"
-            >
-              <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-[#8B6F5A]/15 shadow-sm text-center">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 max-w-3xl mx-auto">
+              <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-[#8B6F5A]/15 shadow-xs text-center">
                 <div className="text-2xl font-black text-[#8B6F5A]">N5 – N3</div>
                 <div className="text-xs font-semibold text-[#6E5E52]">Cấp độ giáo trình</div>
               </div>
-              <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-[#8B6F5A]/15 shadow-sm text-center">
+              <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-[#8B6F5A]/15 shadow-xs text-center">
                 <div className="text-2xl font-black text-[#C65D4B]">SRS Algorithm</div>
                 <div className="text-xs font-semibold text-[#6E5E52]">Thuật toán ôn tập</div>
               </div>
-              <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-[#8B6F5A]/15 shadow-sm text-center">
+              <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-[#8B6F5A]/15 shadow-xs text-center">
                 <div className="text-2xl font-black text-[#8B6F5A]">Quiz Auto</div>
                 <div className="text-xs font-semibold text-[#6E5E52]">Tự động chấm điểm</div>
               </div>
-              <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-[#8B6F5A]/15 shadow-sm text-center">
+              <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-[#8B6F5A]/15 shadow-xs text-center">
                 <div className="text-2xl font-black text-[#C65D4B]">24/7 AI Tutor</div>
                 <div className="text-xs font-semibold text-[#6E5E52]">Giải đáp ngữ pháp</div>
               </div>
-            </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ⛩️ SECTION 1: BẢNG CHỮ CÁI HIRAGANA & KATAKANA NÚT BẤM NHANH */}
+      <section id="kana-quick" className="py-16 bg-[#F5EFE6]/70 border-y border-[#8B6F5A]/15 relative">
+        {/* Japanese Decorative Seals */}
+        <div className="absolute top-6 left-8 w-14 h-14 border-2 border-[#C65D4B]/20 rounded-xl flex items-center justify-center text-[#C65D4B]/30 font-black text-xl select-none rotate-12 pointer-events-none">
+          仮名
+        </div>
+        <div className="absolute bottom-6 right-8 w-16 h-16 border-2 border-[#8B6F5A]/20 rounded-full flex items-center justify-center text-[#8B6F5A]/30 font-black text-2xl select-none -rotate-12 pointer-events-none">
+          あ
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center max-w-2xl mx-auto mb-10">
+            <span className="text-xs uppercase font-extrabold tracking-widest text-[#C65D4B] bg-[#C65D4B]/10 px-3.5 py-1 rounded-full border border-[#C65D4B]/20">
+              KANA ALPHABET QUICK ACCESS
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black text-[#2C221E] mt-3">
+              Bảng Chữ Cái Tiếng Nhật Kana
+            </h2>
+            <p className="mt-2 text-[#6E5E52] text-sm sm:text-base">
+              Nền tảng căn bản cho mọi người mới bắt đầu. Bấm chọn nhanh để tra cứu phiên âm Romaji &amp; cách đọc chuẩn xác.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+            {/* Card Hiragana */}
+            <div
+              className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-[#8B6F5A]/20 shadow-lg hover:border-[#8B6F5A] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#8B6F5A]/10 to-transparent rounded-bl-full pointer-events-none" />
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-[#8B6F5A] text-white font-black text-2xl flex items-center justify-center shadow-md shadow-[#8B6F5A]/20">
+                      あ
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-black text-[#2C221E]">Bảng Hiragana</h3>
+                      <span className="text-xs font-semibold text-[#8B6F5A]">Chữ Mềm (平仮名) • 46 Chữ Căn Bản</span>
+                    </div>
+                  </div>
+                  <span className="px-3 py-1 bg-[#F5EFE6] text-[#8B6F5A] rounded-xl text-xs font-extrabold border border-[#8B6F5A]/20">
+                    Sơ Cấp
+                  </span>
+                </div>
+
+                {/* Preview Grid 10 characters */}
+                <div className="grid grid-cols-5 gap-2 my-5">
+                  {HIRAGANA_PREVIEW.slice(0, 10).map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="bg-[#F5EFE6]/60 rounded-xl p-2 text-center border border-[#8B6F5A]/10 group-hover:border-[#8B6F5A]/30 transition-all hover:bg-white hover:scale-105"
+                    >
+                      <span className="font-bold text-lg text-[#2C221E] block">{item.kana}</span>
+                      <span className="text-[10px] font-semibold text-[#8B6F5A] uppercase">{item.romaji}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                onClick={() => setSelectedKanaType("HIRAGANA")}
+                className="w-full mt-4 py-3.5 rounded-2xl bg-[#8B6F5A] text-white font-bold text-sm text-center shadow-md hover:bg-[#725a48] transition flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Grid className="w-4 h-4" /> Mở Bảng Trọn Bộ Hiragana <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+
+            {/* Card Katakana */}
+            <div
+              className="bg-white rounded-3xl p-6 sm:p-8 border-2 border-[#C65D4B]/20 shadow-lg hover:border-[#C65D4B] hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between relative overflow-hidden group"
+            >
+              <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-[#C65D4B]/10 to-transparent rounded-bl-full pointer-events-none" />
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-2xl bg-[#C65D4B] text-white font-black text-2xl flex items-center justify-center shadow-md shadow-[#C65D4B]/20">
+                      ア
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-black text-[#2C221E]">Bảng Katakana</h3>
+                      <span className="text-xs font-semibold text-[#C65D4B]">Chữ Cứng (片仮名) • Phiên Âm Ngoại Nhập</span>
+                    </div>
+                  </div>
+                  <span className="px-3 py-1 bg-[#C65D4B]/10 text-[#C65D4B] rounded-xl text-xs font-extrabold border border-[#C65D4B]/20">
+                    Từ Ngoại Nhập
+                  </span>
+                </div>
+
+                {/* Preview Grid 10 characters */}
+                <div className="grid grid-cols-5 gap-2 my-5">
+                  {KATAKANA_PREVIEW.slice(0, 10).map((item, idx) => (
+                    <div
+                      key={idx}
+                      className="bg-[#C65D4B]/5 rounded-xl p-2 text-center border border-[#C65D4B]/10 group-hover:border-[#C65D4B]/30 transition-all hover:bg-white hover:scale-105"
+                    >
+                      <span className="font-bold text-lg text-[#2C221E] block">{item.kana}</span>
+                      <span className="text-[10px] font-semibold text-[#C65D4B] uppercase">{item.romaji}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <button
+                onClick={() => setSelectedKanaType("KATAKANA")}
+                className="w-full mt-4 py-3.5 rounded-2xl bg-[#C65D4B] text-white font-bold text-sm text-center shadow-md hover:bg-[#b04f3f] transition flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <Grid className="w-4 h-4" /> Mở Bảng Trọn Bộ Katakana <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 🌟 SECTION 2: GIỚI THIỆU 4 TÍNH NĂNG ĐẶC BIỆT CỦA HỆ THỐNG */}
+      <section id="special-features" className="py-20 relative">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center max-w-3xl mx-auto mb-16">
+            <span className="text-xs uppercase font-black tracking-widest text-[#C65D4B] bg-[#C65D4B]/10 px-4 py-1.5 rounded-full border border-[#C65D4B]/20">
+              CORE SYSTEM HIGHLIGHTS
+            </span>
+            <h2 className="text-3xl sm:text-5xl font-black text-[#2C221E] mt-3 tracking-tight">
+              Các Tính Năng Đặc Biệt Tại <span className="text-[#C65D4B]">ANH SENSEI</span>
+            </h2>
+            <p className="mt-3 text-[#6E5E52] text-base leading-relaxed">
+              Thiết kế tập trung vào trải nghiệm thực học, tương tác sinh động 3D giúp bạn ghi nhớ siêu tốc và không gây nhàm chán.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            
+            {/* FEATURE 1: LẬT THẺ TỪ VỰNG 3D (FLASHCARD SRS) */}
+            <div
+              className="bg-white rounded-3xl p-8 border-2 border-[#8B6F5A]/20 shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group"
+            >
+              <div className="flex items-start justify-between mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#8B6F5A] to-[#6E5E52] text-white flex items-center justify-center shadow-lg shadow-[#8B6F5A]/30">
+                  <BrainCircuit className="w-7 h-7" />
+                </div>
+                <span className="px-3.5 py-1 rounded-full bg-[#8B6F5A]/10 text-[#8B6F5A] text-xs font-black uppercase tracking-wider">
+                  Thuật toán SRS
+                </span>
+              </div>
+
+              <div className="space-y-3">
+                <h3 className="text-2xl font-black text-[#2C221E] flex items-center gap-2">
+                  🎴 Lật Thẻ Từ Vựng 3D
+                </h3>
+                <p className="text-sm text-[#6E5E52] leading-relaxed">
+                  Trải nghiệm thẻ Flashcard 3D lật xoay mượt mà, phân loại mức độ ghi nhớ (Again, Hard, Good, Easy) tự động hẹn giờ nhắc lại theo chu kỳ trí nhớ con người.
+                </p>
+              </div>
+
+              {/* Live Mini Mockup Preview */}
+              <div className="my-6 p-4 rounded-2xl bg-[#F5EFE6]/80 border border-[#8B6F5A]/20 relative cursor-pointer" onClick={() => setActiveFlippedCard(!activeFlippedCard)}>
+                <div className="text-center space-y-1">
+                  <span className="text-xs font-bold text-[#8B6F5A] uppercase tracking-wider block">Bấm để lật thử mặt thẻ</span>
+                  <div className="py-4 bg-white rounded-xl shadow-xs border border-[#8B6F5A]/15 transition-transform duration-500">
+                    {!activeFlippedCard ? (
+                      <div>
+                        <span className="text-3xl font-black text-[#2C221E] block">桜</span>
+                        <span className="text-xs text-[#8B6F5A] font-semibold">さくら (sakura)</span>
+                      </div>
+                    ) : (
+                      <div>
+                        <span className="text-xl font-black text-[#C65D4B] block">Hoa Anh Đào</span>
+                        <span className="text-xs text-[#6E5E52]">Nghĩa tiếng Việt chuẩn N5</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              <Link
+                href="/register"
+                className="w-full py-3.5 rounded-2xl bg-[#8B6F5A] text-white font-bold text-sm text-center shadow-md hover:bg-[#725a48] transition flex items-center justify-center gap-2"
+              >
+                Trải nghiệm Flashcard 3D <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* FEATURE 2: LUYỆN VIẾT KANJI TỪNG NÉT */}
+            <div
+              className="bg-white rounded-3xl p-8 border-2 border-[#C65D4B]/20 shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group"
+            >
+              <div className="flex items-start justify-between mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#C65D4B] to-[#b04f3f] text-white flex items-center justify-center shadow-lg shadow-[#C65D4B]/30">
+                  <PenTool className="w-7 h-7" />
+                </div>
+                <span className="px-3.5 py-1 rounded-full bg-[#C65D4B]/10 text-[#C65D4B] text-xs font-black uppercase tracking-wider">
+                  KanjiVG Simulation
+                </span>
+              </div>
+
+              <div className="space-y-3">
+                <h3 className="text-2xl font-black text-[#2C221E] flex items-center gap-2">
+                  ✍️ Luyện Viết Kanji Từng Nét
+                </h3>
+                <p className="text-sm text-[#6E5E52] leading-relaxed">
+                  Mô phỏng quy trình viết Hán tự Kanji từng nét bút chuẩn Nhật, tự động phát chuyển động vòng lặp 5 giây và cho phép bạn tự tô bút vẽ luyện tập trên màn hình.
+                </p>
+              </div>
+
+              {/* Live Mini Mockup Preview */}
+              <div className="my-6 p-4 rounded-2xl bg-[#F5EFE6]/80 border border-[#C65D4B]/20 flex items-center justify-between">
+                <div className="flex items-center gap-4">
+                  <div className="w-16 h-16 rounded-xl bg-white border-2 border-[#C65D4B] flex items-center justify-center font-black text-4xl text-[#2C221E] shadow-sm">
+                    愛
+                  </div>
+                  <div>
+                    <span className="text-sm font-bold text-[#2C221E] block">Chữ ÁI (Nghĩa: Tình yêu)</span>
+                    <span className="text-xs text-[#C65D4B] font-semibold">Tự động phát thứ tự 13 nét bút</span>
+                  </div>
+                </div>
+                <span className="px-3 py-1 rounded-lg bg-[#C65D4B] text-white text-xs font-bold animate-pulse">
+                  13 Nét
+                </span>
+              </div>
+
+              <Link
+                href="/register"
+                className="w-full py-3.5 rounded-2xl bg-[#C65D4B] text-white font-bold text-sm text-center shadow-md hover:bg-[#b04f3f] transition flex items-center justify-center gap-2"
+              >
+                Học Viết Kanji Ngay <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* FEATURE 3: LÀM BÀI QUIZ JLPT TỰ ĐỘNG CHẤM */}
+            <div
+              className="bg-white rounded-3xl p-8 border-2 border-[#8B6F5A]/20 shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group"
+            >
+              <div className="flex items-start justify-between mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#8B6F5A] to-[#D4AF37] text-white flex items-center justify-center shadow-lg shadow-[#8B6F5A]/30">
+                  <Award className="w-7 h-7" />
+                </div>
+                <span className="px-3.5 py-1 rounded-full bg-[#8B6F5A]/10 text-[#8B6F5A] text-xs font-black uppercase tracking-wider">
+                  JLPT Engine 30 Câu
+                </span>
+              </div>
+
+              <div className="space-y-3">
+                <h3 className="text-2xl font-black text-[#2C221E] flex items-center gap-2">
+                  📝 Quiz Kiểm Tra Chấm Điểm Tự Động
+                </h3>
+                <p className="text-sm text-[#6E5E52] leading-relaxed">
+                  Bộ đề thi trắc nghiệm, luyện nghe TTS, điền trợ từ và xếp câu ngôi sao JLPT ★. Hệ thống tự động lưu lịch sử làm bài và cung cấp đáp án chi tiết.
+                </p>
+              </div>
+
+              {/* Live Mini Mockup Preview */}
+              <div className="my-6 p-4 rounded-2xl bg-[#F5EFE6]/80 border border-[#8B6F5A]/20 space-y-2">
+                <div className="flex items-center justify-between text-xs font-bold text-[#8B6F5A]">
+                  <span>Đề Thi Từ Vựng Bài #1</span>
+                  <span className="text-[#C65D4B]">⏱️ 09:45 / 10:00</span>
+                </div>
+                <div className="p-3 bg-white rounded-xl border border-[#8B6F5A]/15 text-xs font-bold text-[#2C221E]">
+                  Q1. Từ 「私 (わたし)」 trong tiếng Việt có nghĩa là gì?
+                </div>
+              </div>
+
+              <Link
+                href="/register"
+                className="w-full py-3.5 rounded-2xl bg-[#8B6F5A] text-white font-bold text-sm text-center shadow-md hover:bg-[#725a48] transition flex items-center justify-center gap-2"
+              >
+                Thử Sức Bài Quiz <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
+            {/* FEATURE 4: GAME GHÉP TỪ VỰNG 3D */}
+            <div
+              className="bg-white rounded-3xl p-8 border-2 border-[#C65D4B]/20 shadow-xl hover:-translate-y-1.5 transition-all duration-300 relative overflow-hidden flex flex-col justify-between group"
+            >
+              <div className="flex items-start justify-between mb-6">
+                <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-[#C65D4B] to-[#D4AF37] text-white flex items-center justify-center shadow-lg shadow-[#C65D4B]/30">
+                  <Gamepad2 className="w-7 h-7" />
+                </div>
+                <span className="px-3.5 py-1 rounded-full bg-[#C65D4B]/10 text-[#C65D4B] text-xs font-black uppercase tracking-wider">
+                  3D Match Game
+                </span>
+              </div>
+
+              <div className="space-y-3">
+                <h3 className="text-2xl font-black text-[#2C221E] flex items-center gap-2">
+                  🎮 Game Ghép Cặp Từ Vựng 3D
+                </h3>
+                <p className="text-sm text-[#6E5E52] leading-relaxed">
+                  Vừa học vừa giải trí với trò chơi ghép cặp từ vựng Nhật - Việt không gian 3D, hiệu ứng chuỗi Combo rực rỡ và bảng xếp hạng thành tích cao.
+                </p>
+              </div>
+
+              {/* Live Mini Mockup Preview */}
+              <div className="my-6 p-4 rounded-2xl bg-[#F5EFE6]/80 border border-[#C65D4B]/20 flex items-center justify-around">
+                <div className="px-3 py-2 bg-white rounded-xl border-2 border-[#C65D4B] text-xs font-bold text-[#C65D4B] shadow-xs">
+                  本 (ほん)
+                </div>
+                <span className="text-sm font-black text-[#8B6F5A]">⚡ MATCH</span>
+                <div className="px-3 py-2 bg-white rounded-xl border-2 border-emerald-500 text-xs font-bold text-emerald-600 shadow-xs">
+                  Quyển Sách
+                </div>
+              </div>
+
+              <Link
+                href="/register"
+                className="w-full py-3.5 rounded-2xl bg-[#C65D4B] text-white font-bold text-sm text-center shadow-md hover:bg-[#b04f3f] transition flex items-center justify-center gap-2"
+              >
+                Chơi Game Học Từ <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+
           </div>
         </div>
       </section>
@@ -230,7 +545,7 @@ export default function Home() {
 
             {/* Level N4 */}
             <div className="bg-white rounded-3xl p-7 border-2 border-[#C65D4B] shadow-xl relative flex flex-col justify-between transform md:-translate-y-2">
-              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#C65D4B] text-white text-[11px] font-black uppercase tracking-widest px-4 py-0.5 rounded-full shadow-sm">
+              <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-[#C65D4B] text-white text-[11px] font-black uppercase tracking-widest px-4 py-0.5 rounded-full shadow-xs">
                 Phổ biến nhất
               </div>
               <div>
@@ -288,60 +603,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Core Features Grid */}
-      <section id="features" className="py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <h2 className="text-3xl font-black text-[#8B6F5A] sm:text-4xl">Tính Năng Đột Phá Hỗ Trợ Tự Học</h2>
-            <p className="mt-3 text-[#6E5E52] text-base">
-              Mọi công cụ bạn cần để học nhanh hơn, nhớ lâu hơn và không bao giờ chán nản.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white p-6 rounded-2xl border border-[#8B6F5A]/15 shadow-sm hover:shadow-md transition">
-              <div className="w-12 h-12 rounded-xl bg-[#F5EFE6] text-[#8B6F5A] flex items-center justify-center mb-4">
-                <BrainCircuit className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-[#2C221E] mb-2">Flashcard SRS</h3>
-              <p className="text-sm text-[#6E5E52] leading-relaxed">
-                Hệ thống tự động tính toán khoảng thời gian nhắc nhở ôn tập (Again, Hard, Good, Easy) dựa trên thuật toán Spaced Repetition.
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-2xl border border-[#8B6F5A]/15 shadow-sm hover:shadow-md transition">
-              <div className="w-12 h-12 rounded-xl bg-[#F5EFE6] text-[#C65D4B] flex items-center justify-center mb-4">
-                <Award className="w-6 h-6" />
-              </div>
-              <h3 className="text-lg font-bold text-[#2C221E] mb-2">Quiz Tự Động Chấm</h3>
-              <p className="text-sm text-[#6E5E52] leading-relaxed">
-                Bài kiểm tra kiến thức tức thì, lưu snapshot bài làm và giải thích đáp án chi tiết giúp bạn sửa sai ngay lập tức.
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-2xl border border-[#8B6F5A]/15 shadow-sm hover:shadow-md transition">
-              <div className="w-12 h-12 rounded-xl bg-[#F5EFE6] text-[#8B6F5A] flex items-center justify-center mb-4">
-                <Bot className="w-6 h-6 text-[#C65D4B]" />
-              </div>
-              <h3 className="text-lg font-bold text-[#2C221E] mb-2">Trợ Giảng AI (RAG)</h3>
-              <p className="text-sm text-[#6E5E52] leading-relaxed">
-                Hỏi đáp trực tiếp với AI Tutor được huấn luyện từ giáo trình chuẩn. Tra từ, phân tích ngữ pháp 24/7.
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-2xl border border-[#8B6F5A]/15 shadow-sm hover:shadow-md transition">
-              <div className="w-12 h-12 rounded-xl bg-[#F5EFE6] text-[#8B6F5A] flex items-center justify-center mb-4">
-                <Flame className="w-6 h-6 text-[#C65D4B]" />
-              </div>
-              <h3 className="text-lg font-bold text-[#2C221E] mb-2">Theo Dõi Streak</h3>
-              <p className="text-sm text-[#6E5E52] leading-relaxed">
-                Duy trì chuỗi ngày học tập liên tục, theo dõi tiến độ từng kỹ năng và nhận báo cáo hoàn thành cá nhân.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* AI Tutor Highlight Section */}
       <section id="ai-tutor" className="py-16 bg-gradient-to-b from-[#F5EFE6]/70 to-[#FDFBF7] border-t border-[#8B6F5A]/15">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -388,7 +649,7 @@ export default function Home() {
 
               {/* Chat Bubble Learner */}
               <div className="flex justify-end">
-                <div className="bg-[#8B6F5A] text-white p-3.5 rounded-2xl rounded-tr-none text-sm max-w-xs shadow-sm">
+                <div className="bg-[#8B6F5A] text-white p-3.5 rounded-2xl rounded-tr-none text-sm max-w-xs shadow-xs">
                   Cho mình hỏi ngữ pháp <strong>～ために</strong> khác gì với <strong>～ように</strong> ạ?
                 </div>
               </div>
@@ -398,7 +659,7 @@ export default function Home() {
                 <div className="w-8 h-8 rounded-full bg-[#C65D4B] text-white flex items-center justify-center text-xs font-bold shrink-0">
                   AI
                 </div>
-                <div className="bg-[#F5EFE6] text-[#2C221E] p-4 rounded-2xl rounded-tl-none text-sm space-y-2 border border-[#8B6F5A]/15 shadow-sm max-w-md">
+                <div className="bg-[#F5EFE6] text-[#2C221E] p-4 rounded-2xl rounded-tl-none text-sm space-y-2 border border-[#8B6F5A]/15 shadow-xs max-w-md">
                   <p className="font-semibold text-[#C65D4B]">Chào bạn! Cả 2 đều chỉ mục đích, nhưng:</p>
                   <ul className="list-disc pl-4 space-y-1 text-xs text-[#6E5E52]">
                     <li><strong>～ために:</strong> Dùng khi vế trước thể hiện ý chí (động từ ý chí). Ví dụ: 日本へ行くために (Để đi Nhật).</li>
@@ -444,8 +705,9 @@ export default function Home() {
           <div>
             <h4 className="font-bold text-white mb-3">Liên Kết Nhanh</h4>
             <ul className="space-y-2 text-xs">
+              <li><a href="#kana-quick" className="hover:text-white transition">Bảng Chữ Cái Kana</a></li>
+              <li><a href="#special-features" className="hover:text-white transition">Tính Năng Đặc Biệt</a></li>
               <li><a href="#levels" className="hover:text-white transition">Các cấp độ N5 - N3</a></li>
-              <li><a href="#features" className="hover:text-white transition">Thuật toán SRS Flashcard</a></li>
               <li><a href="#ai-tutor" className="hover:text-white transition">Trợ giảng AI RAG</a></li>
               <li><Link href="/login" className="hover:text-white transition">Đăng nhập hệ thống</Link></li>
             </ul>
@@ -457,6 +719,67 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* 🏮 KANA CHART INTERACTIVE MODAL */}
+      <AnimatePresence>
+        {selectedKanaType && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="bg-[#FDFBF7] rounded-3xl max-w-3xl w-full max-h-[85vh] overflow-y-auto p-6 sm:p-8 border-2 border-[#8B6F5A]/20 shadow-2xl relative"
+            >
+              <button
+                onClick={() => setSelectedKanaType(null)}
+                className="absolute top-5 right-5 w-10 h-10 rounded-full bg-[#F5EFE6] text-[#8B6F5A] hover:bg-[#C65D4B] hover:text-white transition flex items-center justify-center cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+
+              <div className="flex items-center gap-3 mb-6">
+                <div className={`w-12 h-12 rounded-2xl text-white font-black text-2xl flex items-center justify-center ${selectedKanaType === "HIRAGANA" ? "bg-[#8B6F5A]" : "bg-[#C65D4B]"}`}>
+                  {selectedKanaType === "HIRAGANA" ? "あ" : "ア"}
+                </div>
+                <div>
+                  <h3 className="text-2xl font-black text-[#2C221E]">
+                    {selectedKanaType === "HIRAGANA" ? "Bảng Chữ Cái Hiragana (平仮名)" : "Bảng Chữ Cái Katakana (片仮名)"}
+                  </h3>
+                  <p className="text-xs font-bold text-[#8B6F5A]">25 Chữ Cái Căn Bản Hàng Đầu (5 Hàng: A, Ka, Sa, Ta, Na)</p>
+                </div>
+              </div>
+
+              {/* Grid 25 characters */}
+              <div className="grid grid-cols-5 gap-3 my-4">
+                {(selectedKanaType === "HIRAGANA" ? HIRAGANA_PREVIEW : KATAKANA_PREVIEW).map((item, idx) => (
+                  <div
+                    key={idx}
+                    className="p-3.5 bg-white rounded-2xl border border-[#8B6F5A]/20 text-center shadow-xs hover:scale-105 hover:border-[#C65D4B] transition-transform cursor-pointer"
+                  >
+                    <span className="text-2xl font-black text-[#2C221E] block">{item.kana}</span>
+                    <span className="text-xs font-bold text-[#8B6F5A] uppercase">{item.romaji}</span>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 pt-4 border-t border-[#8B6F5A]/15 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <span className="text-xs text-[#6E5E52] font-semibold">
+                  💡 Đăng ký tài khoản để học phát âm audio và luyện gõ Romaji trực tiếp!
+                </span>
+                <Link
+                  href="/register"
+                  onClick={() => setSelectedKanaType(null)}
+                  className="w-full sm:w-auto px-6 py-3 rounded-xl bg-[#C65D4B] text-white font-bold text-sm shadow-md hover:bg-[#b04f3f] transition text-center"
+                >
+                  Bắt đầu học ngay
+                </Link>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
     </div>
   );
 }
+
