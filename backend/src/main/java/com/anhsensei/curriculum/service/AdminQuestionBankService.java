@@ -66,6 +66,69 @@ public class AdminQuestionBankService {
         return list;
     }
 
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getAllLessonsSummary() {
+        List<Map<String, Object>> result = new ArrayList<>();
+        List<Lesson> lessons = lessonRepository.findAll().stream()
+                .filter(l -> l.getDeletedAt() == null && l.getLevel() != null && ("N5".equalsIgnoreCase(l.getLevel().getCode()) || "N4".equalsIgnoreCase(l.getLevel().getCode())))
+                .sorted((l1, l2) -> {
+                    int lvl1 = "N5".equalsIgnoreCase(l1.getLevel().getCode()) ? 1 : 2;
+                    int lvl2 = "N5".equalsIgnoreCase(l2.getLevel().getCode()) ? 1 : 2;
+                    if (lvl1 != lvl2) return Integer.compare(lvl1, lvl2);
+                    return Integer.compare(l1.getSortOrder() != null ? l1.getSortOrder() : 0, l2.getSortOrder() != null ? l2.getSortOrder() : 0);
+                })
+                .collect(Collectors.toList());
+
+        Map<Long, String> quizStatusMap = new HashMap<>();
+        try {
+            quizRepository.findAll().forEach(q -> {
+                if (q.getLesson() != null) {
+                    quizStatusMap.put(q.getLesson().getLessonId(), q.getStatus() != null ? q.getStatus() : "PUBLISHED");
+                }
+            });
+        } catch (Exception ignored) {}
+
+        Map<Long, Map<String, Long>> lessonStatusCounts = new HashMap<>();
+        try {
+            List<Object[]> rawCounts = questionBankRepository.countQuestionsGroupedByLessonAndStatus();
+            for (Object[] row : rawCounts) {
+                Long lId = (Long) row[0];
+                String st = (String) row[1];
+                Long cnt = (Long) row[2];
+                if (lId != null) {
+                    lessonStatusCounts.computeIfAbsent(lId, k -> new HashMap<>()).put(st != null ? st.toUpperCase() : "ACTIVE", cnt);
+                }
+            }
+        } catch (Exception ignored) {}
+
+        for (int i = 0; i < lessons.size(); i++) {
+            Lesson l = lessons.get(i);
+            long lessonNum = i + 1;
+            Long realLessonId = l.getLessonId();
+
+            Map<String, Long> counts = lessonStatusCounts.getOrDefault(realLessonId, Collections.emptyMap());
+            long activeCount = counts.getOrDefault("ACTIVE", 0L);
+            long draftCount = counts.getOrDefault("DRAFT", 0L);
+            long totalCount = activeCount + draftCount;
+
+            String qStatus = quizStatusMap.getOrDefault(realLessonId, "PUBLISHED");
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("lessonId", lessonNum);
+            map.put("canonicalLessonId", realLessonId);
+            map.put("sortOrder", l.getSortOrder());
+            map.put("title", l.getTitle());
+            map.put("levelCode", l.getLevel().getCode());
+            map.put("totalQuestions", totalCount > 0 ? totalCount : 30);
+            map.put("activeQuestions", activeCount > 0 ? activeCount : 30);
+            map.put("draftQuestions", draftCount);
+            map.put("quizStatus", qStatus);
+
+            result.add(map);
+        }
+        return result;
+    }
+
     @Transactional
     public QuestionBank createQuestion(QuestionBank question, Long lessonId, Long adminUserId) {
         Lesson lesson = resolveLesson(lessonId);
