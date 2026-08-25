@@ -58,6 +58,7 @@ public class Quiz {
     private String quizMode = "MULTIPLE_CHOICE";
 
     @Column(name = "difficulty_distribution", columnDefinition = "JSONB")
+    @org.hibernate.annotations.JdbcTypeCode(org.hibernate.type.SqlTypes.JSON)
     private String difficultyDistribution = "{\"easy\": 40, \"medium\": 40, \"hard\": 20}";
 
     @Column(name = "status", nullable = false, length = 20)

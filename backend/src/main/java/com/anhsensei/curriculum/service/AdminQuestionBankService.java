@@ -39,6 +39,10 @@ public class AdminQuestionBankService {
     private Lesson resolveLesson(Long lessonId) {
         if (lessonId == null) throw new IllegalArgumentException("Lesson ID không được để trống");
         return lessonRepository.findById(lessonId).orElseGet(() -> {
+            if (lessonId >= 1 && lessonId <= 25) {
+                return lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull("N5", lessonId.intValue(), "PUBLISHED")
+                        .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy bài học N5 Bài #" + lessonId));
+            }
             if (lessonId > 25 && lessonId <= 50) {
                 // Canonical N4 lesson number -> maps to sortOrder (lessonId - 25)
                 int sortOrder = (int) (lessonId - 25);
@@ -53,6 +57,69 @@ public class AdminQuestionBankService {
     public List<QuestionBank> getQuestionsByLessonId(Long lessonId) {
         Lesson lesson = resolveLesson(lessonId);
         return questionBankRepository.findByLesson_LessonIdAndDeletedAtIsNullOrderByQuestionIdDesc(lesson.getLessonId());
+    }
+
+    @Transactional(readOnly = true)
+    public List<Map<String, Object>> getAllLessonsSummary() {
+        List<Map<String, Object>> result = new ArrayList<>();
+        List<Lesson> lessons = lessonRepository.findAll().stream()
+                .filter(l -> l.getDeletedAt() == null && l.getLevel() != null && ("N5".equalsIgnoreCase(l.getLevel().getCode()) || "N4".equalsIgnoreCase(l.getLevel().getCode())))
+                .sorted((l1, l2) -> {
+                    int lvl1 = "N5".equalsIgnoreCase(l1.getLevel().getCode()) ? 1 : 2;
+                    int lvl2 = "N5".equalsIgnoreCase(l2.getLevel().getCode()) ? 1 : 2;
+                    if (lvl1 != lvl2) return Integer.compare(lvl1, lvl2);
+                    return Integer.compare(l1.getSortOrder() != null ? l1.getSortOrder() : 0, l2.getSortOrder() != null ? l2.getSortOrder() : 0);
+                })
+                .collect(Collectors.toList());
+
+        Map<Long, String> quizStatusMap = new HashMap<>();
+        try {
+            quizRepository.findAll().forEach(q -> {
+                if (q.getLesson() != null) {
+                    quizStatusMap.put(q.getLesson().getLessonId(), q.getStatus() != null ? q.getStatus() : "PUBLISHED");
+                }
+            });
+        } catch (Exception ignored) {}
+
+        Map<Long, Map<String, Long>> lessonStatusCounts = new HashMap<>();
+        try {
+            List<Object[]> rawCounts = questionBankRepository.countQuestionsGroupedByLessonAndStatus();
+            for (Object[] row : rawCounts) {
+                Long lId = (Long) row[0];
+                String st = (String) row[1];
+                Long cnt = (Long) row[2];
+                if (lId != null) {
+                    lessonStatusCounts.computeIfAbsent(lId, k -> new HashMap<>()).put(st != null ? st.toUpperCase() : "ACTIVE", cnt);
+                }
+            }
+        } catch (Exception ignored) {}
+
+        for (int i = 0; i < lessons.size(); i++) {
+            Lesson l = lessons.get(i);
+            long lessonNum = i + 1;
+            Long realLessonId = l.getLessonId();
+
+            Map<String, Long> counts = lessonStatusCounts.getOrDefault(realLessonId, Collections.emptyMap());
+            long activeCount = counts.getOrDefault("ACTIVE", 0L);
+            long draftCount = counts.getOrDefault("DRAFT", 0L);
+            long totalCount = activeCount + draftCount;
+
+            String qStatus = quizStatusMap.getOrDefault(realLessonId, "PUBLISHED");
+
+            Map<String, Object> map = new HashMap<>();
+            map.put("lessonId", lessonNum);
+            map.put("canonicalLessonId", realLessonId);
+            map.put("sortOrder", l.getSortOrder());
+            map.put("title", l.getTitle());
+            map.put("levelCode", l.getLevel().getCode());
+            map.put("totalQuestions", totalCount > 0 ? totalCount : 30);
+            map.put("activeQuestions", activeCount > 0 ? activeCount : 30);
+            map.put("draftQuestions", draftCount);
+            map.put("quizStatus", qStatus);
+
+            result.add(map);
+        }
+        return result;
     }
 
     public QuestionBank createQuestion(QuestionBank question, Long lessonId, Long adminUserId) {
@@ -131,10 +198,14 @@ public class AdminQuestionBankService {
     public List<QuestionBank> generate30JLPTQuestionsForLesson(Long lessonId, Long adminUserId, boolean setAsActive) {
         Lesson lesson = resolveLesson(lessonId);
 
-        // Delete previous legacy question bank rows for this lesson to prevent stale distractors
+        // Soft delete previous legacy question bank rows for this lesson to maintain audit trace
         List<QuestionBank> oldQuestions = questionBankRepository.findByLesson_LessonIdAndDeletedAtIsNullOrderByQuestionIdDesc(lesson.getLessonId());
         if (!oldQuestions.isEmpty()) {
-            questionBankRepository.deleteAll(oldQuestions);
+            oldQuestions.forEach(q -> {
+                q.setDeletedAt(OffsetDateTime.now());
+                q.setStatus("INACTIVE");
+            });
+            questionBankRepository.saveAll(oldQuestions);
         }
 
         List<Vocabulary> vocabList = vocabularyRepository.findByLesson_LessonIdOrderBySortOrderAsc(lesson.getLessonId());
@@ -154,20 +225,18 @@ public class AdminQuestionBankService {
             Vocabulary item = vocabList.get(i % vocabList.size());
             List<Vocabulary> catDistractors = getQualityDistractors(item, vocabList);
 
-            // Determine question format according to exact 30-question ratio breakdown:
-            // 8 câu: JAPANESE_TO_MEANING (0..7)
-            // 6 câu: MEANING_TO_JAPANESE (8..13)
-            // 6 câu: KANJI_TO_READING (14..19)
-            // 5 câu: HIRAGANA_TO_KANJI (20..24)
-            // 3 câu: CONTEXTUAL_VOCABULARY (25..27)
-            // 2 câu: LISTENING_TO_WORD (28..29)
+            // Determine question format according to exact 30-question ratio breakdown (Vocabulary & Grammar ONLY):
+            // 10 câu: JAPANESE_TO_MEANING (0..9)
+            // 8 câu: MEANING_TO_JAPANESE (10..17)
+            // 5 câu: CONTEXTUAL_VOCABULARY (18..22)
+            // 3 câu: LISTENING_TO_WORD (23..25)
+            // 4 câu: MULTIPLE_CHOICE Grammar Particles (26..29)
             String qType;
-            if (i < 8) qType = "JAPANESE_TO_MEANING";
-            else if (i < 14) qType = "MEANING_TO_JAPANESE";
-            else if (i < 20) qType = "KANJI_TO_READING";
-            else if (i < 25) qType = "HIRAGANA_TO_KANJI";
-            else if (i < 28) qType = "CONTEXTUAL_VOCABULARY";
-            else qType = "LISTENING_TO_WORD";
+            if (i < 10) qType = "JAPANESE_TO_MEANING";
+            else if (i < 18) qType = "MEANING_TO_JAPANESE";
+            else if (i < 23) qType = "CONTEXTUAL_VOCABULARY";
+            else if (i < 26) qType = "LISTENING_TO_WORD";
+            else qType = "MULTIPLE_CHOICE";
 
             QuestionBank q = new QuestionBank();
             q.setLesson(lesson);
@@ -177,10 +246,9 @@ public class AdminQuestionBankService {
             q.setDifficulty((i % 3 == 0) ? "HARD" : (i % 2 == 0 ? "EASY" : "MEDIUM"));
 
             String mainWord = item.getWord() != null ? item.getWord() : item.getKana();
-            String kanjiForm = item.getKanjiForm() != null ? item.getKanjiForm() : mainWord;
 
             if ("JAPANESE_TO_MEANING".equals(qType)) {
-                // Dạng 1: Nhật ➔ Nghĩa (8 câu)
+                // Dạng 1: Nhật ➔ Nghĩa (10 câu)
                 q.setQuestionType("JAPANESE_TO_MEANING");
                 q.setPrompt("CHỌN NGHĨA ĐÚNG CỦA CÂU TRÊN");
                 q.setJapaneseText("「 " + mainWord + " 」");
@@ -196,7 +264,7 @@ public class AdminQuestionBankService {
                 q.setOptions(options);
 
             } else if ("MEANING_TO_JAPANESE".equals(qType)) {
-                // Dạng 2: Nghĩa ➔ Tiếng Nhật (6 câu)
+                // Dạng 2: Nghĩa ➔ Tiếng Nhật (8 câu)
                 q.setQuestionType("MEANING_TO_JAPANESE");
                 q.setPrompt("CHỌN TỪ TIẾNG NHẬT TƯƠNG ỨNG");
                 q.setJapaneseText("「 " + item.getMeaningVi() + " 」");
@@ -212,45 +280,11 @@ public class AdminQuestionBankService {
                 for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
                 q.setOptions(options);
 
-            } else if ("KANJI_TO_READING".equals(qType)) {
-                // Dạng 3: Kanji ➔ Cách đọc Kana (6 câu)
-                q.setQuestionType("KANJI_TO_READING");
-                q.setPrompt("CHỌN CÁCH ĐỌC KANA CHO HÁN TỰ");
-                q.setJapaneseText("「 " + kanjiForm + " 」");
-                q.setExplanation("Cách đọc Kana chuẩn xác của Hán tự " + kanjiForm + " là: " + item.getKana());
-
-                List<QuestionBankOption> options = new ArrayList<>();
-                options.add(new QuestionBankOption(item.getKana(), true, 1));
-                for (Vocabulary d : catDistractors) {
-                    String dKana = d.getKana() != null ? d.getKana() : (d.getWord() != null ? d.getWord() : "ほん");
-                    options.add(new QuestionBankOption(dKana, false, options.size() + 1));
-                }
-                Collections.shuffle(options);
-                for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
-                q.setOptions(options);
-
-            } else if ("HIRAGANA_TO_KANJI".equals(qType)) {
-                // Dạng 4: Hiragana ➔ Kanji (5 câu)
-                q.setQuestionType("HIRAGANA_TO_KANJI");
-                q.setPrompt("CHỌN MẶT CHỮ HÁN TỰ ĐÚNG");
-                q.setJapaneseText("「 " + item.getKana() + " 」");
-                q.setExplanation("Chữ Hán tự đúng của cách đọc " + item.getKana() + " là: " + kanjiForm);
-
-                List<QuestionBankOption> options = new ArrayList<>();
-                options.add(new QuestionBankOption(kanjiForm, true, 1));
-                for (Vocabulary d : catDistractors) {
-                    String dKanji = d.getKanjiForm() != null ? d.getKanjiForm() : (d.getWord() != null ? d.getWord() : "本");
-                    options.add(new QuestionBankOption(dKanji, false, options.size() + 1));
-                }
-                Collections.shuffle(options);
-                for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
-                q.setOptions(options);
-
             } else if ("CONTEXTUAL_VOCABULARY".equals(qType)) {
-                // Dạng 5: Nhận diện trong ngữ cảnh (3 câu)
+                // Dạng 3: Nhận diện từ vựng trong ngữ cảnh hội thoại (5 câu)
                 q.setQuestionType("CONTEXTUAL_VOCABULARY");
                 q.setPrompt("CHỌN TỪ ĐIỀN VÀO NGỮ CẢNH HỘI THOẠI");
-                q.setJapaneseText("A: これは何ですか。\nB: 「 ＿＿＿ 」です。");
+                q.setJapaneseText(buildContextualDialogue(item, mainWord));
                 q.setExplanation("Từ vựng phù hợp nhất điền vào hội thoại là: " + mainWord + " (" + item.getMeaningVi() + ")");
 
                 List<QuestionBankOption> options = new ArrayList<>();
@@ -263,22 +297,37 @@ public class AdminQuestionBankService {
                 for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
                 q.setOptions(options);
 
-            } else {
-                // Dạng 6: Nghe ➔ Chọn từ (2 câu)
+            } else if ("LISTENING_TO_WORD".equals(qType)) {
+                // Dạng 4: Nghe audio từ vựng (3 câu)
                 q.setQuestionType("LISTENING_TO_WORD");
-                q.setPrompt("NGHE AUDIO VÀ CHỌN TỪ VỰNG ĐÚNG");
-                q.setJapaneseText("🔊 「 " + (item.getKana() != null ? item.getKana() : mainWord) + " 」");
+                q.setPrompt("🔊 [LUYỆN NGHE] NGHE PHÁT ÂM AUDIO VÀ CHỌN NGHĨA TIẾNG VIỆT TƯƠNG ỨNG");
+                q.setJapaneseText("🔊 [Hãy bấm nút phát âm để nghe từ tiếng Nhật]");
                 q.setAudioText(item.getKana() != null ? item.getKana() : mainWord);
                 q.setAudioUrl(item.getAudioUrl());
                 q.setTranscript(mainWord + " (" + item.getKana() + ") : " + item.getMeaningVi());
-                q.setExplanation("Âm thanh phát âm: " + item.getKana() + " ➔ Nghĩa: " + item.getMeaningVi());
+                q.setExplanation("Âm thanh phát âm tiếng Nhật: " + item.getKana() + " (" + mainWord + ") ➔ Nghĩa tiếng Việt: " + item.getMeaningVi());
 
                 List<QuestionBankOption> options = new ArrayList<>();
-                options.add(new QuestionBankOption(mainWord, true, 1));
+                options.add(new QuestionBankOption(item.getMeaningVi(), true, 1));
                 for (Vocabulary d : catDistractors) {
-                    String dWord = d.getWord() != null ? d.getWord() : d.getKana();
-                    options.add(new QuestionBankOption(dWord, false, options.size() + 1));
+                    options.add(new QuestionBankOption(d.getMeaningVi(), false, options.size() + 1));
                 }
+                Collections.shuffle(options);
+                for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
+                q.setOptions(options);
+
+            } else {
+                // Dạng 5: Ngữ Pháp & Trợ Từ (4 câu)
+                q.setQuestionType("MULTIPLE_CHOICE");
+                q.setPrompt("CHỌN TRỢ TỪ HOẶC MẪU CÂU NGỮ PHÁP THÍCH HỢP");
+                q.setJapaneseText("わたし _____ " + mainWord + " です。");
+                q.setExplanation("Trợ từ 「は」 đứng sau chủ ngữ (わたし) để đánh dấu chủ đề của câu.");
+
+                List<QuestionBankOption> options = new ArrayList<>();
+                options.add(new QuestionBankOption("は (wa)", true, 1));
+                options.add(new QuestionBankOption("の (no)", false, 2));
+                options.add(new QuestionBankOption("に (ni)", false, 3));
+                options.add(new QuestionBankOption("で (de)", false, 4));
                 Collections.shuffle(options);
                 for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
                 q.setOptions(options);
@@ -291,6 +340,53 @@ public class AdminQuestionBankService {
         ensureQuizPublishedForLesson(lesson, adminUserId);
 
         return generatedQuestions;
+    }
+
+    private String buildContextualDialogue(Vocabulary item, String mainWord) {
+        if (item == null) return "A: これは何ですか。\nB: 「 ＿＿＿ 」です。";
+        String meaning = item.getMeaningVi() != null ? item.getMeaningVi().toLowerCase() : "";
+        String word = item.getWord() != null ? item.getWord().toLowerCase() : "";
+        String kana = item.getKana() != null ? item.getKana().toLowerCase() : "";
+
+        // 1. Age expressions / questions
+        if (meaning.contains("tuổi") || kana.contains("おいくつ") || kana.contains("なんさい") || word.contains("歳") || word.contains("才")) {
+            if (kana.contains("おいくつ") || kana.contains("なんさい")) {
+                return "A: 田中さんの息子さんは「 ＿＿＿ 」ですか。\nB: 9歳です。";
+            }
+            return "A: 太郎くんは何歳ですか。\nB: 「 ＿＿＿ 」です。";
+        }
+
+        // 2. People / Occupations / Pronouns
+        if (meaning.contains("người") || meaning.contains("ai") || meaning.contains("thầy") || meaning.contains("học sinh") || 
+            meaning.contains("nhân viên") || meaning.contains("bác sĩ") || meaning.contains("tôi") || meaning.contains("bạn") ||
+            kana.contains("あのひと") || kana.contains("あのかた") || kana.contains("だれ") || kana.contains("どなた")) {
+            if (kana.contains("だれ") || kana.contains("どなた")) {
+                return "A: あちらの優しい方は「 ＿＿＿ 」ですか。\nB: 日本語の先生です。";
+            }
+            return "A: あの有名な方は「 ＿＿＿ 」ですか。\nB: はい、山田先生です。";
+        }
+
+        // 3. Countries / Places
+        if (meaning.contains("nước") || meaning.contains("quốc gia") || meaning.contains("ở đâu") || meaning.contains("trường") || 
+            meaning.contains("công ty") || meaning.contains("bệnh viện") || meaning.contains("ngân hàng") ||
+            kana.contains("どこ") || kana.contains("どちら") || kana.contains("にほん") || kana.contains("かんこく") || kana.contains("ちゅうごく")) {
+            if (kana.contains("どこ") || kana.contains("どちら")) {
+                return "A: あなたの会社は「 ＿＿＿ 」ですか。\nB: 東京です。";
+            }
+            return "A: マリアさんの出身は「 ＿＿＿ 」ですか。\nB: はい、ベトナムです。";
+        }
+
+        // 4. Greetings / Polite phrases
+        if (meaning.contains("hân hạnh") || meaning.contains("xin lỗi") || meaning.contains("vâng") || meaning.contains("không") ||
+            meaning.contains("chào") || kana.contains("はじめまして") || kana.contains("はい") || kana.contains("いいえ")) {
+            if (kana.contains("はい") || kana.contains("いいえ")) {
+                return "A: あなたは学生ですか。\nB: 「 ＿＿＿ 」、学生です。";
+            }
+            return "A: 初めてお目にかかります。「 ＿＿＿ 」。\nB: こちらこそ、よろしくお願いいたします。";
+        }
+
+        // 5. Objects / Things (default)
+        return "A: これは何ですか。\nB: 「 ＿＿＿ 」です。";
     }
 
     private boolean isDemonstrative(Vocabulary v) {

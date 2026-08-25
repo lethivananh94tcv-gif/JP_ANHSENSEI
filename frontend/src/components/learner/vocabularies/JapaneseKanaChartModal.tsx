@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { X, Volume2, Search, Sparkles, BookOpen, Layers } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import { playJapaneseTTS } from "@/lib/utils/japaneseAudioTTS";
 
 interface KanaItem {
   hiragana: string;
@@ -116,17 +117,13 @@ export default function JapaneseKanaChartModal({ isOpen, onClose }: JapaneseKana
 
   const playAudio = (text: string, romaji: string) => {
     setPlayingRomaji(romaji);
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "ja-JP";
-      utterance.rate = 0.85;
-      utterance.onend = () => setPlayingRomaji(null);
-      utterance.onerror = () => setPlayingRomaji(null);
-      window.speechSynthesis.speak(utterance);
-    } else {
-      setTimeout(() => setPlayingRomaji(null), 600);
-    }
+    playJapaneseTTS({
+      text,
+      rate: 0.88,
+      onStart: () => setPlayingRomaji(romaji),
+      onEnd: () => setPlayingRomaji(null),
+      onError: () => setPlayingRomaji(null),
+    });
   };
 
   const filteredKana = KANA_DATA.filter((k) => {

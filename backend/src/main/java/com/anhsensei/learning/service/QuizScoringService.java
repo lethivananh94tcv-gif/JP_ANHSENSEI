@@ -1,8 +1,10 @@
 package com.anhsensei.learning.service;
 
+import com.anhsensei.curriculum.domain.Lesson;
 import com.anhsensei.curriculum.domain.QuestionBank;
 import com.anhsensei.curriculum.domain.QuestionBankOption;
 import com.anhsensei.curriculum.domain.Quiz;
+import com.anhsensei.curriculum.repository.LessonRepository;
 import com.anhsensei.curriculum.repository.QuestionBankRepository;
 import com.anhsensei.curriculum.repository.QuizRepository;
 import com.anhsensei.curriculum.service.AdminQuestionBankService;
@@ -35,6 +37,7 @@ public class QuizScoringService {
     private final UserRepository userRepository;
     private final LearningProgressRepository learningProgressRepository;
     private final AdminQuestionBankService adminQuestionBankService;
+    private final LessonRepository lessonRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     public QuizScoringService(
@@ -44,7 +47,8 @@ public class QuizScoringService {
             QuizAttemptAnswerRepository quizAttemptAnswerRepository,
             UserRepository userRepository,
             LearningProgressRepository learningProgressRepository,
-            AdminQuestionBankService adminQuestionBankService) {
+            AdminQuestionBankService adminQuestionBankService,
+            LessonRepository lessonRepository) {
         this.quizRepository = quizRepository;
         this.questionBankRepository = questionBankRepository;
         this.quizAttemptRepository = quizAttemptRepository;
@@ -52,20 +56,28 @@ public class QuizScoringService {
         this.userRepository = userRepository;
         this.learningProgressRepository = learningProgressRepository;
         this.adminQuestionBankService = adminQuestionBankService;
+        this.lessonRepository = lessonRepository;
     }
 
     /**
      * Start a Quiz Attempt:
-     * Auto-ensures Question Bank has 30 JLPT questions and samples exactly 15 random questions per attempt.
+     * Auto-ensures Question Bank has 30 JLPT questions and samples exactly 30 random questions per attempt.
      * Returns full StartQuizData structure with questions and options.
      */
     public Map<String, Object> startQuizAttempt(Long userId, Long quizId) {
-        Quiz quiz = quizRepository.findById(quizId)
-                .orElseGet(() -> quizRepository.findByLesson_LessonId(quizId).orElse(null));
-
         Long lessonId = quizId;
-        if (quiz != null && quiz.getLesson() != null) {
-            lessonId = quiz.getLesson().getLessonId();
+        Lesson lessonResolved = lessonRepository.findById(quizId).orElseGet(() -> {
+            if (quizId >= 1 && quizId <= 25) {
+                return lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull("N5", quizId.intValue(), "PUBLISHED").orElse(null);
+            }
+            if (quizId > 25 && quizId <= 50) {
+                return lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull("N4", (int)(quizId - 25), "PUBLISHED").orElse(null);
+            }
+            return null;
+        });
+
+        if (lessonResolved != null) {
+            lessonId = lessonResolved.getLessonId();
         }
 
         // Auto-ensure 30 ACTIVE questions exist in QuestionBank for this lesson
@@ -75,8 +87,9 @@ public class QuizScoringService {
             // Ignore if lesson has no vocabs yet
         }
 
-        quiz = quizRepository.findById(quizId)
-                .orElseGet(() -> quizRepository.findByLesson_LessonId(quizId)
+        final Long targetLessonId = lessonId;
+        Quiz quiz = quizRepository.findById(quizId)
+                .orElseGet(() -> quizRepository.findByLesson_LessonId(targetLessonId)
                 .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy bài Quiz cho bài học ID = " + quizId)));
 
         adminQuestionBankService.ensureQuestionBankExistsForLesson(quiz.getLesson() != null ? quiz.getLesson().getLessonId() : quizId);
@@ -139,6 +152,12 @@ public class QuizScoringService {
             qDto.put("audioText", q.getAudioText());
             qDto.put("transcript", q.getTranscript());
             qDto.put("explanation", q.getExplanation());
+
+            String correctOptText = q.getOptions() != null ? q.getOptions().stream()
+                    .filter(QuestionBankOption::getIsCorrect)
+                    .map(QuestionBankOption::getOptionText)
+                    .findFirst().orElse("") : "";
+            qDto.put("correctAnswerText", correctOptText);
 
             List<Map<String, Object>> optDtos = new ArrayList<>();
             if (q.getOptions() != null && !q.getOptions().isEmpty()) {

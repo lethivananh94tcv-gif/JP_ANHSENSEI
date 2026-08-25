@@ -96,6 +96,7 @@ export async function apiClient<T>(
       return {
         success: response.ok,
         data: text as unknown as T,
+        message: "Text response",
         timestamp: new Date().toISOString(),
       };
     }

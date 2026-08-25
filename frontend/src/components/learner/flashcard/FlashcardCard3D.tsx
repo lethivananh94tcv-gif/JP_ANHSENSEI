@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { FlashcardItemDto } from "./types";
 import { Volume2, Bookmark, Star, RefreshCw } from "lucide-react";
+import { playJapaneseTTS } from "@/lib/utils/japaneseAudioTTS";
 
 interface FlashcardCard3DProps {
   card: FlashcardItemDto;
@@ -37,29 +38,20 @@ export default function FlashcardCard3D({
   const handlePlayAudio = (e?: React.MouseEvent, textOverride?: string) => {
     if (e) e.stopPropagation();
     const textToSpeak = textOverride || card.kana || card.word;
-    if (!textToSpeak) return;
+    if (!textToSpeak && !card.audioUrl) return;
 
-    try {
-      setIsPlayingAudio(true);
-      if (typeof window !== "undefined" && "speechSynthesis" in window) {
-        window.speechSynthesis.cancel();
-        const utterance = new SpeechSynthesisUtterance(textToSpeak);
-        utterance.lang = "ja-JP";
-        utterance.rate = 0.85;
-        utterance.onend = () => setIsPlayingAudio(false);
-        utterance.onerror = () => {
-          setIsPlayingAudio(false);
-          if (onAudioError) onAudioError();
-        };
-        window.speechSynthesis.speak(utterance);
-      } else {
+    setIsPlayingAudio(true);
+    playJapaneseTTS({
+      text: textToSpeak,
+      audioUrl: card.audioUrl,
+      rate: 0.92,
+      onStart: () => setIsPlayingAudio(true),
+      onEnd: () => setIsPlayingAudio(false),
+      onError: () => {
         setIsPlayingAudio(false);
         if (onAudioError) onAudioError();
-      }
-    } catch (err) {
-      setIsPlayingAudio(false);
-      if (onAudioError) onAudioError();
-    }
+      },
+    });
   };
 
   const toggleBookmark = (e: React.MouseEvent) => {

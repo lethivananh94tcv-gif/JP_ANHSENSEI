@@ -57,7 +57,6 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
 
   const navItems = [
     { name: "Trang chủ", href: "/", active: pathname === "/" || pathname === "/dashboard", icon: Home },
-    { name: "Lộ trình", href: "/learn", active: pathname.startsWith("/learn"), icon: BookOpen },
     { name: "Từ vựng", href: "/vocabularies", active: pathname.startsWith("/vocabularies"), icon: Languages },
     { name: "Ngữ pháp", href: "/grammar", active: pathname.startsWith("/grammar"), icon: BookOpen },
     { name: "Kanji", href: "/kanji", active: pathname.startsWith("/kanji"), icon: PenTool },

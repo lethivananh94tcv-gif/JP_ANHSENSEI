@@ -43,7 +43,7 @@ export default function LessonCompletedBanner({
           href="/levels"
           className="px-5 py-3 bg-white hover:bg-[#FAF3EB] text-[#8B6F5A] border border-[#DED0C5] font-bold text-xs rounded-xl shadow-2xs transition-colors text-center flex-1 sm:flex-none"
         >
-          Quay lại Lộ trình
+          Quay lại Danh sách bài
         </Link>
         {nextLessonId && (
           <Link

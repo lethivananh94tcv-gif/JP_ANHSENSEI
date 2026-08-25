@@ -6,6 +6,7 @@ import {
   ArrowLeft, PlusCircle, Sparkles, CheckCircle2, AlertCircle, Trash2, Edit3, Eye, 
   Volume2, Keyboard, Check, ShieldCheck, Zap, RefreshCw, Filter, Play, Plus, X, Tag, BookOpen, PenTool, Puzzle 
 } from "lucide-react";
+import { playJapaneseTTS } from "@/lib/utils/japaneseAudioTTS";
 
 interface OptionItem {
   optionId?: number;
@@ -14,9 +15,21 @@ interface OptionItem {
   sortOrder: number;
 }
 
+type QuestionBankType =
+  | "MULTIPLE_CHOICE"
+  | "LISTENING"
+  | "TYPING"
+  | "KANJI_READING"
+  | "KANJI_TO_READING"
+  | "HIRAGANA_TO_KANJI"
+  | "JAPANESE_TO_MEANING"
+  | "MEANING_TO_JAPANESE"
+  | "CONTEXTUAL_VOCABULARY"
+  | "LISTENING_TO_WORD";
+
 interface QuestionBankItem {
   questionId?: number;
-  questionType: "MULTIPLE_CHOICE" | "LISTENING" | "TYPING" | "KANJI_READING" | "JAPANESE_TO_MEANING" | "MEANING_TO_JAPANESE";
+  questionType: QuestionBankType;
   category?: "VOCAB" | "KANJI" | "GRAMMAR" | "FULL";
   difficulty: "EASY" | "MEDIUM" | "HARD";
   prompt: string;
@@ -37,7 +50,7 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
 
   const [questions, setQuestions] = useState<QuestionBankItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filterCategory, setFilterCategory] = useState<string>("ALL");
+  const [filterCategory, setFilterCategory] = useState<string>("VOCAB");
   const [filterType, setFilterType] = useState<string>("ALL");
   const [filterStatus, setFilterStatus] = useState<string>("ALL");
   const [toast, setToast] = useState<string | null>(null);
@@ -49,7 +62,7 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
 
   // Form State - Core Metadata
   const [formCategory, setFormCategory] = useState<"VOCAB" | "KANJI" | "GRAMMAR" | "FULL">("VOCAB");
-  const [formType, setFormType] = useState<"MULTIPLE_CHOICE" | "LISTENING" | "TYPING">("MULTIPLE_CHOICE");
+  const [formType, setFormType] = useState<QuestionBankType>("MULTIPLE_CHOICE");
   const [formDifficulty, setFormDifficulty] = useState<"EASY" | "MEDIUM" | "HARD">("MEDIUM");
   const [formPrompt, setFormPrompt] = useState("");
   const [formExplanation, setFormExplanation] = useState("");
@@ -92,13 +105,9 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
     };
   };
 
-  const playTestAudio = (text: string) => {
-    if (!text || typeof window === "undefined" || !("speechSynthesis" in window)) return;
-    window.speechSynthesis.cancel();
-    const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "ja-JP";
-    utterance.rate = 0.85;
-    window.speechSynthesis.speak(utterance);
+  const playTestAudio = (text?: string, audioUrl?: string) => {
+    if (!text && !audioUrl) return;
+    playJapaneseTTS(text || "", audioUrl);
   };
 
   const fetchQuestions = async () => {
@@ -505,11 +514,9 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
               Chuyên Mục:
             </span>
             {[
-              { id: "ALL", label: "Tất cả chuyên mục" },
               { id: "VOCAB", label: "📖 Quiz Từ Vựng" },
-              { id: "KANJI", label: "✍️ Quiz Hán Tự" },
-              { id: "GRAMMAR", label: "🧩 Quiz Ngữ Pháp" },
-              { id: "FULL", label: "🎯 Đề Tổng Hợp" },
+              { id: "GRAMMAR", label: "🧩 Quiz Ngữ Pháp & Trợ Từ" },
+              { id: "FULL", label: "🎯 Đề Thi Tổng Hợp (Từ Vựng + Ngữ Pháp)" },
             ].map((c) => (
               <button
                 key={c.id}
@@ -571,7 +578,13 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
                     </span>
 
                     <span className="text-xs font-bold bg-blue-50 text-blue-800 px-3 py-0.5 rounded-full border border-blue-200">
-                      {q.questionType === "MULTIPLE_CHOICE" ? "Trắc nghiệm 📝" : q.questionType === "LISTENING" ? "Luyện Nghe 🔊" : "Luyện Gõ ⌨️"}
+                      {q.questionType === "TYPING" 
+                        ? "Luyện Gõ ⌨️" 
+                        : q.questionType === "LISTENING" || q.questionType === "LISTENING_TO_WORD" 
+                        ? "Luyện Nghe 🔊" 
+                        : q.questionType === "CONTEXTUAL_VOCABULARY"
+                        ? "Điền Ngữ Cảnh 🧩"
+                        : "Trắc Nghiệm 📝"}
                     </span>
 
                     <span className="text-[10px] font-bold bg-purple-50 text-purple-800 px-2.5 py-0.5 rounded-full border border-purple-200">
@@ -591,10 +604,10 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
 
                   {/* Actions */}
                   <div className="flex items-center gap-2 shrink-0">
-                    {q.audioText && (
+                    {(q.audioText || q.audioUrl) && (
                       <button
                         type="button"
-                        onClick={() => playTestAudio(q.audioText!)}
+                        onClick={() => playTestAudio(q.audioText, q.audioUrl)}
                         className="px-3 py-1.5 bg-[#FAF5F0] hover:bg-[#EFE8E1] text-[#76685F] border border-[#EADECF] font-bold text-xs rounded-xl flex items-center gap-1 cursor-pointer"
                         title="Nghe thử âm thanh"
                       >
@@ -633,6 +646,13 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
 
                 {/* Prompt */}
                 <h3 className="text-base font-sans font-black text-[#231917]">{q.prompt}</h3>
+
+                {/* Japanese Sentence / Context Text */}
+                {q.japaneseText && (
+                  <div className="bg-[#F5EFE6]/70 border border-[#8B6F5A]/20 p-3 rounded-2xl text-sm font-bold text-[#2C221E] whitespace-pre-line">
+                    {q.japaneseText}
+                  </div>
+                )}
 
                 {/* Question Details */}
                 {q.questionType === "TYPING" ? (

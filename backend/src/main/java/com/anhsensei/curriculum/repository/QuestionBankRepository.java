@@ -19,4 +19,7 @@ public interface QuestionBankRepository extends JpaRepository<QuestionBank, Long
 
     @Query("SELECT COUNT(q) FROM QuestionBank q WHERE q.lesson.lessonId = :lessonId AND q.status = 'ACTIVE' AND q.deletedAt IS NULL")
     long countActiveByLessonId(@Param("lessonId") Long lessonId);
+
+    @Query("SELECT q.lesson.lessonId, q.status, COUNT(q) FROM QuestionBank q WHERE q.deletedAt IS NULL GROUP BY q.lesson.lessonId, q.status")
+    List<Object[]> countQuestionsGroupedByLessonAndStatus();
 }

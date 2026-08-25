@@ -3,6 +3,7 @@
 import { Volume2, CheckCircle2, Bookmark, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { getSinoVietnameseReading } from "@/lib/utils/kanjiSinoVietnamese";
+import { playJapaneseTTS } from "@/lib/utils/japaneseAudioTTS";
 
 export interface VocabularyDto {
   vocabularyId: number;
@@ -31,16 +32,13 @@ export default function VocabularyLearningItem({
   onToggleLearned,
 }: VocabularyLearningItemProps) {
 
-  // Native Web Audio API Speech Synthesis for authentic Japanese Pronunciation 🔊
-  const playAudio = (e: React.MouseEvent) => {
+  // Enhanced Audio TTS Playback for authentic Japanese Pronunciation 🔊
+  const playAudio = (e: React.MouseEvent, textToSpeak?: string) => {
     e.stopPropagation();
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(item.word || item.kana);
-      utterance.lang = "ja-JP";
-      utterance.rate = 0.85;
-      window.speechSynthesis.speak(utterance);
-    }
+    playJapaneseTTS({
+      text: textToSpeak || item.word || item.kana,
+      audioUrl: textToSpeak ? undefined : item.audioUrl,
+    });
   };
 
   const sinoReading = getSinoVietnameseReading(item.word || item.kanjiForm);
@@ -66,7 +64,7 @@ export default function VocabularyLearningItem({
               {/* Text-to-Speech Audio Button 🔊 */}
               <button
                 type="button"
-                onClick={playAudio}
+                onClick={(e) => playAudio(e)}
                 title="Nghe phát âm chuẩn giọng Nhật Bản"
                 className="p-1.5 rounded-xl bg-[#C65D4B]/10 hover:bg-[#C65D4B] text-[#C65D4B] hover:text-white border border-[#C65D4B]/30 transition-all shadow-2xs cursor-pointer hover:scale-110 active:scale-95 shrink-0"
               >
@@ -97,8 +95,15 @@ export default function VocabularyLearningItem({
         </p>
 
         {item.exampleJp && (
-          <div className="bg-white/80 border border-[#DED3C8]/80 p-2.5 rounded-xl space-y-0.5 text-xs font-semibold text-[#56423E] group-hover:border-[#C65D4B]/30 transition-colors">
-            <p className="font-jp font-bold text-[#C65D4B]">{item.exampleJp}</p>
+          <div 
+            onClick={(e) => playAudio(e, item.exampleJp)}
+            title="Nhấp để nghe đọc câu ví dụ"
+            className="bg-white/80 border border-[#DED3C8]/80 hover:border-[#C65D4B]/40 p-2.5 rounded-xl space-y-0.5 text-xs font-semibold text-[#56423E] transition-all cursor-pointer group/ex"
+          >
+            <div className="flex items-center justify-between gap-1">
+              <p className="font-jp font-bold text-[#C65D4B] group-hover/ex:text-[#B04F3F] transition-colors">{item.exampleJp}</p>
+              <Volume2 className="w-3.5 h-3.5 text-[#C65D4B]/70 group-hover/ex:text-[#C65D4B] shrink-0" />
+            </div>
             {item.exampleVi && <p className="text-[11px] text-[#76685F]">{item.exampleVi}</p>}
           </div>
         )}

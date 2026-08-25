@@ -121,31 +121,68 @@ public class KanjiTopicService {
     }
 
     public KanjiTypingVerifyResponse verifyTyping(Long topicId, Long kanjiId, String inputRomaji) {
-        KanjiTopicItemId id = new KanjiTopicItemId(topicId, kanjiId);
-        KanjiTopicItem item = kanjiTopicItemRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("KanjiTopicItem", "id", topicId + "-" + kanjiId));
-
         if (inputRomaji == null || inputRomaji.trim().isEmpty()) {
             return new KanjiTypingVerifyResponse(false, "", null, "Vui lòng nhập từ Romaji");
         }
 
         String cleanedInput = inputRomaji.trim().toLowerCase();
-        String accepted = item.getAcceptedRomaji();
 
-        if (accepted == null || accepted.trim().isEmpty()) {
+        KanjiTopicItemId id = new KanjiTopicItemId(topicId, kanjiId);
+        Optional<KanjiTopicItem> itemOpt = kanjiTopicItemRepository.findById(id);
+        Optional<Kanji> kanjiOpt = kanjiRepository.findById(kanjiId);
+
+        if (itemOpt.isEmpty() && kanjiOpt.isEmpty()) {
+            throw new ResourceNotFoundException("KanjiTopicItem", "id", topicId + "-" + kanjiId);
+        }
+
+        List<String> acceptedList = new ArrayList<>();
+
+        if (itemOpt.isPresent()) {
+            KanjiTopicItem item = itemOpt.get();
+            if (item.getAcceptedRomaji() != null && !item.getAcceptedRomaji().trim().isEmpty()) {
+                Arrays.stream(item.getAcceptedRomaji().split("[,;]+"))
+                        .map(String::trim)
+                        .map(String::toLowerCase)
+                        .filter(s -> !s.isEmpty())
+                        .forEach(acceptedList::add);
+            }
+            extractReadings(item.getKunExamples(), acceptedList);
+            extractReadings(item.getOnExamples(), acceptedList);
+        }
+
+        if (kanjiOpt.isPresent()) {
+            Kanji kanji = kanjiOpt.get();
+            if (kanji.getMeaningVi() != null) {
+                acceptedList.add(kanji.getMeaningVi().trim().toLowerCase());
+            }
+            if (kanji.getKunyomi() != null) {
+                acceptedList.add(kanji.getKunyomi().trim().toLowerCase());
+            }
+            if (kanji.getOnyomi() != null) {
+                acceptedList.add(kanji.getOnyomi().trim().toLowerCase());
+            }
+        }
+
+        if (acceptedList.isEmpty()) {
             return new KanjiTypingVerifyResponse(true, cleanedInput, cleanedInput, "Chính xác!");
         }
 
-        List<String> acceptedList = Arrays.stream(accepted.split(","))
-                .map(String::trim)
-                .map(String::toLowerCase)
-                .collect(Collectors.toList());
-
-        boolean isMatch = acceptedList.contains(cleanedInput);
+        boolean isMatch = acceptedList.stream().anyMatch(acc -> acc.equalsIgnoreCase(cleanedInput));
         if (isMatch) {
             return new KanjiTypingVerifyResponse(true, cleanedInput, cleanedInput, "Chính xác!");
         } else {
             return new KanjiTypingVerifyResponse(false, cleanedInput, null, "Chưa chính xác, thử lại nhé!");
+        }
+    }
+
+    private void extractReadings(String text, List<String> targetList) {
+        if (text == null || text.trim().isEmpty()) return;
+        Matcher matcher = Pattern.compile("\\(([^)]+)\\)").matcher(text);
+        while (matcher.find()) {
+            String reading = matcher.group(1).trim().toLowerCase();
+            if (!reading.isEmpty()) {
+                targetList.add(reading);
+            }
         }
     }
 }
