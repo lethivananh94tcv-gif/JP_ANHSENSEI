@@ -55,8 +55,7 @@ export default function InteractiveStrokeCanvas({ items }: InteractiveStrokeCanv
           const pathElements = Array.from(doc.querySelectorAll("path"));
           const paths = pathElements
             .map((p) => p.getAttribute("d"))
-            .filter((d): d is String => Boolean(d))
-            .map((d) => String(d));
+            .filter((d): d is string => Boolean(d));
 
           // Extract stroke numbers
           const textElements = Array.from(doc.querySelectorAll("g[id*='StrokeNumbers'] text"));

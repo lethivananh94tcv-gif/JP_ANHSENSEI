@@ -16,6 +16,8 @@ import OmikujiFortuneModal from "@/components/ui/OmikujiFortuneModal";
 interface QuestionOption {
   optionId?: number;
   optionText: string;
+  isCorrect?: boolean;
+  correct?: boolean;
 }
 
 interface QuestionItem {
@@ -32,6 +34,7 @@ interface QuestionItem {
   transcript?: string;
   explanation?: string;
   correctAnswerText?: string;
+  validAnswers?: string;
   options: QuestionOption[];
 }
 
