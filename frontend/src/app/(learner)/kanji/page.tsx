@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, BookOpen, Layers, Sparkles, CheckCircle2, RefreshCw } from "lucide-react";
+import LearnerHeader from "@/components/learner/LearnerHeader";
 import KanjiRadicalsView from "@/components/learner/kanji/KanjiRadicalsView";
 import KanjiLessonDetailView from "@/components/learner/kanji/KanjiLessonDetailView";
 import KanjiHeaderBanner from "@/components/learner/kanji/KanjiHeaderBanner";
@@ -10,6 +11,8 @@ import KanjiLevelNavigation, { KanjiTabType } from "@/components/learner/kanji/K
 import KanjiSearchBar from "@/components/learner/kanji/KanjiSearchBar";
 import KanjiTopicCard, { parseTopicCardInfo } from "@/components/learner/kanji/KanjiTopicCard";
 import { getSinoVietnamese } from "@/lib/utils/kanjiSinoVietnamese";
+
+import LearnerFooter from "@/components/learner/LearnerFooter";
 
 interface KanjiTopicDto {
   topicId: number;
@@ -65,31 +68,34 @@ export default function LearnerKanjiPage() {
       if (tp.title.toLowerCase().includes(q)) return true;
       if (cleanTitle.toLowerCase().includes(q)) return true;
       if (characters.some((ch) => ch.includes(q))) return true;
-      // Check Sino-Vietnamese reading match
       if (characters.some((ch) => (getSinoVietnamese(ch) || "").toLowerCase().includes(q))) return true;
       return false;
     });
   }, [topics, searchQuery]);
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2] text-[#2C2421] p-4 sm:p-8 font-sans">
-      <div className="max-w-6xl mx-auto space-y-6">
-        {/* Navigation Bar */}
-        <div className="flex items-center justify-between">
-          <button
-            onClick={() => {
-              if (selectedTopicId !== null) {
-                setSelectedTopicId(null);
-              } else {
-                router.back();
-              }
-            }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-[#FAF3EB] text-[#8B6F5A] hover:text-[#C65D4B] border-2 border-[#E5D7C5] hover:border-[#C65D4B] rounded-xl text-xs font-black shadow-2xs transition-all cursor-pointer group"
-          >
-            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1 text-[#C65D4B]" />
-            <span>Quay lại</span>
-          </button>
-        </div>
+    <div className="min-h-screen bg-[#FAF7F2] text-[#2C2421] font-sans flex flex-col">
+      {/* 🌟 1. LEARNER TOP NAVIGATION HEADER */}
+      <LearnerHeader />
+
+      <main className="flex-1 p-4 sm:p-8">
+        <div className="max-w-6xl mx-auto space-y-6">
+          {/* Navigation Back Link */}
+          <div className="flex items-center justify-between">
+            <button
+              onClick={() => {
+                if (selectedTopicId !== null) {
+                  setSelectedTopicId(null);
+                } else {
+                  router.back();
+                }
+              }}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white hover:bg-[#FAF3EB] text-[#8B6F5A] hover:text-[#C65D4B] border-2 border-[#E5D7C5] hover:border-[#C65D4B] rounded-xl text-xs font-black shadow-2xs transition-all cursor-pointer group"
+            >
+              <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1 text-[#C65D4B]" />
+              <span>{selectedTopicId !== null ? "Quay lại danh sách bài Hán tự" : "Quay lại Dashboard"}</span>
+            </button>
+          </div>
 
         {/* 1. SHARED HEADER BANNER */}
         <KanjiHeaderBanner
@@ -170,7 +176,11 @@ export default function LearnerKanjiPage() {
             )}
           </div>
         )}
-      </div>
+        </div>
+      </main>
+
+      {/* 🌟 2. LEARNER FOOTER */}
+      <LearnerFooter />
     </div>
   );
 }
