@@ -63,6 +63,27 @@ export default function AdminQuizzesListPage() {
     fetchLessonSummaries();
   }, []);
 
+  const validateCountInput = (val: string): string | null => {
+    if (!val || val.trim() === "") return "Vui lòng nhập số câu muốn sinh";
+    const num = parseInt(val, 10);
+    if (isNaN(num)) return "Giá trị phải là số nguyên";
+    if (num < 5) return "Tối thiểu là 5 câu cho mỗi thể loại";
+    if (num > 50) return "Tối đa là 50 câu cho mỗi thể loại";
+    return null;
+  };
+
+  const stepVocab = (delta: number) => {
+    const current = parseInt(vocabInputStr) || 30;
+    const nextVal = Math.max(5, Math.min(50, current + delta));
+    setVocabInputStr(String(nextVal));
+  };
+
+  const stepGrammar = (delta: number) => {
+    const current = parseInt(grammarInputStr) || 30;
+    const nextVal = Math.max(5, Math.min(50, current + delta));
+    setGrammarInputStr(String(nextVal));
+  };
+
   const stepBulkVocab = (delta: number) => {
     const current = parseInt(bulkVocabStr) || 30;
     const nextVal = Math.max(5, Math.min(50, current + delta));
