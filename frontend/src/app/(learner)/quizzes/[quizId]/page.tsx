@@ -128,6 +128,13 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
     if (savedSession) {
       try {
         const parsed = JSON.parse(savedSession);
+        const questions = parsed.quizData?.questions || [];
+        const isDummySession = questions.length > 5 && questions.filter((q: any) => q.japaneseText === "私 (わたし)" && q.correctAnswerText === "Tôi").length > 3;
+        if (isDummySession) {
+          sessionStorage.removeItem(sessionKey);
+          return;
+        }
+
         if (parsed.userAnswers) setUserAnswers(parsed.userAnswers);
         if (typeof parsed.currentIndex === "number") setCurrentIndex(parsed.currentIndex);
         if (typeof parsed.timeLeft === "number" && parsed.timeLeft > 0) setTimeLeft(parsed.timeLeft);
@@ -243,16 +250,153 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
     } catch (e) {}
   };
 
-  // Audio Play helper
-  const playAudio = (text: string) => {
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = "ja-JP";
-      utterance.rate = 0.85;
-      utterance.volume = 1.0;
-      window.speechSynthesis.speak(utterance);
+  // Helper to extract full clean Japanese sentence for Audio TTS
+  const getFullSentenceAudioText = (q: any): string => {
+    if (!q) return "わたしはかんこくのがくせいです。";
+    if (q.audioText && !q.audioText.includes("★") && !q.audioText.includes("＿") && !q.audioText.includes("___") && !/[a-zA-Zà-ỹÀ-Ỹ]/.test(q.audioText)) {
+      return q.audioText;
     }
+    if (q.explanation) {
+      const match = q.explanation.match(/Cấu trúc(?: câu)?(?: hoàn chỉnh)?:?\s*([^(\n]+)/i) || q.explanation.match(/câu:?\s*([^(\n]+)/i);
+      if (match && match[1]) {
+        const extracted = match[1]
+          .replace(/\d+\./g, "")
+          .replace(/\[/g, "")
+          .replace(/\]/g, "")
+          .replace(/★/g, "")
+          .replace(/＿+/g, "")
+          .replace(/_+/g, "")
+          .replace(/\s+/g, "")
+          .trim();
+        if (extracted.length > 2) return extracted;
+      }
+    }
+    if (q.japaneseText) {
+      const cleanJp = q.japaneseText
+        .replace(/★/g, "")
+        .replace(/＿+/g, "")
+        .replace(/_+/g, "")
+        .replace(/\[/g, "")
+        .replace(/\]/g, "")
+        .replace(/\s+/g, "")
+        .trim();
+      if (cleanJp.length > 2) return cleanJp;
+    }
+    return "わたしはかんこくのがくせいです。";
+  };
+
+  // Helper to dynamically calculate Star Position (1, 2, 3, or 4) for STAR_ORDER questions
+  const getStarPosition = (q: any): number => {
+    if (!q) return 2;
+    const correctText = (q.correctAnswerText || q.options?.find((o: any) => o.isCorrect)?.optionText || "").trim();
+
+    // 1. Parse from explanation bracket parts: e.g. "わたし は [かんこく] ★[の] [がくせい] です"
+    if (q.explanation) {
+      const parts = q.explanation.split(/(?:\[|\★\[)/).filter((p: string) => p.includes("]"));
+      for (let i = 0; i < parts.length; i++) {
+        if (q.explanation.includes("★[" + parts[i]) || q.explanation.includes("★ [" + parts[i])) {
+          return i + 1; // 1-based slot index
+        }
+      }
+    }
+
+    // 2. Check japaneseText for where ★ is located relative to blanks
+    if (q.japaneseText) {
+      const parts = q.japaneseText.trim().split(/\s+/);
+      let blankCount = 0;
+      for (const p of parts) {
+        if (p.includes("＿") || p.includes("★") || p.includes("___")) {
+          blankCount++;
+          if (p.includes("★")) return blankCount;
+        }
+      }
+    }
+
+    // 3. Fallback check based on correct answer text:
+    if (correctText === "の") return 2;
+    if (correctText === "わたし") return 2;
+    if (correctText === "がくせい" || correctText === "かいしゃいん") return 3;
+    if (correctText === "です") return 4;
+
+    return 2;
+  };
+
+  // Helper to extract sentence prefix and suffix around blanks
+  const getSentencePrefixAndSuffix = (q: any) => {
+    const text = q?.japaneseText || "わたし は ＿＿＿ ＿★＿ ＿＿＿ ＿＿＿ です。";
+    const parts = text.split(/(?:＿|★|_)+/);
+    const prefix = parts[0]?.trim() || "わたし は";
+    const suffix = parts[parts.length - 1]?.trim() || "です。";
+    return { prefix, suffix };
+  };
+
+  // Audio Play helper
+  const playAudio = (text: string, currentQ?: QuestionItem) => {
+    if (typeof window === "undefined" || !("speechSynthesis" in window)) return;
+    window.speechSynthesis.cancel();
+
+    const targetQ = currentQ || currentQuestion;
+    let targetText = text;
+
+    // If targetText contains Vietnamese characters, title prefixes or symbols: speak full clean Japanese sentence!
+    if (targetQ && (targetText.includes("★") || targetText.includes("＿") || targetText.includes("___") || /[a-zA-Zà-ỹÀ-Ỹ]/.test(targetText))) {
+      targetText = getFullSentenceAudioText(targetQ);
+    }
+
+    // Clean text for speech synthesis so it never pronounces underscores, stars, or brackets
+    const cleanSpeechText = targetText
+      .replace(/＿+/g, "")
+      .replace(/_+/g, "")
+      .replace(/★/g, "")
+      .replace(/\[/g, "")
+      .replace(/\]/g, "")
+      .replace(/「/g, "")
+      .replace(/」/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    const utterance = new SpeechSynthesisUtterance(cleanSpeechText || targetText);
+    utterance.lang = "ja-JP";
+    utterance.rate = 0.85;
+    utterance.volume = 1.0;
+    window.speechSynthesis.speak(utterance);
+  };
+
+  // Helper to deduplicate option texts so option choices A, B, C, D are always 100% unique
+  const deduplicateOptions = (options: QuestionOption[], questionType?: string): QuestionOption[] => {
+    if (!options || options.length <= 1) return options;
+
+    const seen = new Set<string>();
+    const distractorsPool = questionType === "STAR_ORDER"
+      ? ["かいしゃいん", "ぎんこういん", "いしゃ", "だいがく", "ともだち", "です", "は", "の", "に", "で"]
+      : ["かいしゃいん", "ぎんこういん", "いしゃ", "だいがく", "ほん", "じしょ", "ざっし", "くるま"];
+
+    let poolIdx = 0;
+
+    return options.map((opt) => {
+      const text = (opt.optionText || "").trim();
+      const key = text.toLowerCase();
+
+      if (!seen.has(key)) {
+        seen.add(key);
+        return opt;
+      }
+
+      let replacement = text;
+      while (poolIdx < distractorsPool.length) {
+        const candidate = distractorsPool[poolIdx++];
+        if (!seen.has(candidate.toLowerCase())) {
+          replacement = candidate;
+          seen.add(candidate.toLowerCase());
+          break;
+        }
+      }
+
+      return {
+        ...opt,
+        optionText: replacement,
+      };
+    });
   };
 
   // Start Quiz Attempt (Hybrid Strategy: Admin Question Bank Priority -> Smart Vocabulary Generator Fallback)
@@ -263,7 +407,7 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
       // 1. Always fetch live publication status from backend first
       let isPublished = false;
       try {
-        const infoRes = await fetch(`/api/v1/admin/question-bank/quiz-info/lesson/${quizIdStr}`).catch(() => null);
+        const infoRes = await fetch(`http://localhost:8080/api/v1/admin/question-bank/quiz-info/lesson/${quizIdStr}`).catch(() => null);
         isPublished = infoRes && infoRes.ok ? (await infoRes.json())?.data?.status === "PUBLISHED" : false;
         setIsQuizPublished(isPublished);
       } catch (e) {}
@@ -304,7 +448,7 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
       let adminQuestions: QuestionItem[] = [];
       // ONLY load Admin Question Bank if Admin explicitly clicked "PUBLISHED"!
       if (isPublished) {
-          const adminRes = await fetch(`/api/v1/admin/question-bank/lesson/${quizIdStr}`);
+          const adminRes = await fetch(`http://localhost:8080/api/v1/admin/question-bank/lesson/${quizIdStr}`);
           if (adminRes.ok) {
             const listData = await adminRes.json();
             const rawList = Array.isArray(listData) ? listData : listData.data || listData.content || [];
@@ -342,6 +486,9 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
                     optionText: opt.optionText || "Đáp án",
                     isCorrect: opt.isCorrect !== undefined ? !!opt.isCorrect : !!opt.correct,
                   }));
+                }
+                if (opts.length > 1) {
+                  opts = deduplicateOptions(opts, q.questionType);
                 }
 
                 if (opts.length === 0) {
@@ -388,9 +535,9 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
 
       if (extraQuestionsNeeded > 0) {
         const [vocabRes, kanjiRes, grammarRes] = await Promise.all([
-          fetch(`/api/v1/curriculum/lessons/${quizIdStr}/vocabularies`).catch(() => null),
-          fetch(`/api/v1/curriculum/lessons/${quizIdStr}/kanji`).catch(() => null),
-          fetch(`/api/v1/curriculum/lessons/${quizIdStr}/grammar`).catch(() => null),
+          fetch(`http://localhost:8080/api/v1/curriculum/lessons/${quizIdStr}/vocabularies`).catch(() => null),
+          fetch(`http://localhost:8080/api/v1/curriculum/lessons/${quizIdStr}/kanji`).catch(() => null),
+          fetch(`http://localhost:8080/api/v1/curriculum/lessons/${quizIdStr}/grammar`).catch(() => null),
         ]);
 
         const vocabs = vocabRes && vocabRes.ok ? await vocabRes.json() : [];
@@ -401,8 +548,38 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
         const includeKanji = reqCategory === "ALL" || reqCategory === "FULL" || reqCategory === "KANJI";
         const includeGrammar = reqCategory === "ALL" || reqCategory === "FULL" || reqCategory === "GRAMMAR";
 
-        // Shuffle vocabs randomly so every generated test has completely different vocabulary items
-        const shuffledVocabs = vocabs && vocabs.length > 0 ? [...vocabs].sort(() => Math.random() - 0.5) : [];
+        // Rich fallback N5 vocabulary pool if lesson vocabs are empty
+        const fallbackN5Vocabs = [
+          { vocabularyId: 101, word: "私", kana: "わたし", meaningVi: "Tôi" },
+          { vocabularyId: 102, word: "あなた", kana: "あなた", meaningVi: "Bạn" },
+          { vocabularyId: 103, word: "先生", kana: "せんせい", meaningVi: "Thầy / cô giáo" },
+          { vocabularyId: 104, word: "学生", kana: "がくせい", meaningVi: "Học sinh / sinh viên" },
+          { vocabularyId: 105, word: "会社員", kana: "かいしゃいん", meaningVi: "Nhân viên công ty" },
+          { vocabularyId: 106, word: "銀行員", kana: "ぎんこういん", meaningVi: "Nhân viên ngân hàng" },
+          { vocabularyId: 107, word: "医者", kana: "いしゃ", meaningVi: "Bác sĩ" },
+          { vocabularyId: 108, word: "大学", kana: "だいがく", meaningVi: "Trường đại học" },
+          { vocabularyId: 109, word: "本", kana: "ほん", meaningVi: "Sách" },
+          { vocabularyId: 110, word: "辞書", kana: "じしょ", meaningVi: "Từ điển" },
+          { vocabularyId: 111, word: "雑誌", kana: "ざっし", meaningVi: "Tạp chí" },
+          { vocabularyId: 112, word: "新聞", kana: "しんぶん", meaningVi: "Báo chí" },
+          { vocabularyId: 113, word: "手帳", kana: "てちょう", meaningVi: "Sổ tay" },
+          { vocabularyId: 114, word: "名刺", kana: "めいし", meaningVi: "Danh thiếp" },
+          { vocabularyId: 115, word: "鍵", kana: "かぎ", meaningVi: "Chìa khóa" },
+          { vocabularyId: 116, word: "時計", kana: "とけい", meaningVi: "Đồng hồ" },
+          { vocabularyId: 117, word: "傘", kana: "かさ", meaningVi: "Cái ô / dù" },
+          { vocabularyId: 118, word: "鞄", kana: "かばん", meaningVi: "Cặp sách / túi" },
+          { vocabularyId: 119, word: "車", kana: "くるま", meaningVi: "Xe ô tô" },
+          { vocabularyId: 120, word: "机", kana: "つくえ", meaningVi: "Cái bàn" },
+          { vocabularyId: 121, word: "椅子", kana: "いす", meaningVi: "Cái ghế" },
+          { vocabularyId: 122, word: "友達", kana: "ともだち", meaningVi: "Bạn bè" },
+          { vocabularyId: 123, word: "家族", kana: "かぞく", meaningVi: "Gia đình" },
+          { vocabularyId: 124, word: "国", kana: "くに", meaningVi: "Đất nước" },
+          { vocabularyId: 125, word: "食べ物", kana: "たべもの", meaningVi: "Thức ăn" },
+          { vocabularyId: 126, word: "飲み物", kana: "のみもの", meaningVi: "Thức uống" },
+        ];
+
+        const rawVocabs = vocabs && vocabs.length > 0 ? vocabs : fallbackN5Vocabs;
+        const shuffledVocabs = [...rawVocabs].sort(() => Math.random() - 0.5);
 
         // Ensure combinedQuestions reaches EXACTLY 30 questions with 4 randomized question formats
         let loopCount = 0;
@@ -416,124 +593,101 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
           loopCount++;
           const targetIdx = combinedQuestions.length;
 
-          if (shuffledVocabs.length > 0) {
-            const v = shuffledVocabs[targetIdx % shuffledVocabs.length];
-            const vIsDemo = isDemo(v);
-            const validCandidates = shuffledVocabs.filter((other: any) => {
-              if (other.vocabularyId === v.vocabularyId) return false;
-              return isDemo(other) === vIsDemo;
-            });
+          const v = shuffledVocabs[targetIdx % shuffledVocabs.length];
+          const vIsDemo = isDemo(v);
+          const validCandidates = shuffledVocabs.filter((other: any) => {
+            if (other.vocabularyId === v.vocabularyId) return false;
+            return isDemo(other) === vIsDemo;
+          });
 
-            const shuffled = [...validCandidates].sort(() => Math.random() - 0.5);
-            const wrongDistractors = shuffled.slice(0, 3);
-            const mainWord = v.word || v.kana;
-            const kanaWord = v.kana || v.word;
+          const shuffled = (validCandidates.length >= 3 ? validCandidates : shuffledVocabs.filter((o) => o.vocabularyId !== v.vocabularyId)).sort(() => Math.random() - 0.5);
+          const wrongDistractors = shuffled.slice(0, 3);
+          const mainWord = v.word || v.kana;
+          const kanaWord = v.kana || v.word;
 
-            // Randomize question format choice for maximum variety
-            const formatChoice = (targetIdx + Math.floor(Math.random() * 4)) % 4; // 0: MULTIPLE_CHOICE, 1: VI_TO_JP, 2: LISTENING, 3: TYPING
+          // Randomize question format choice for maximum variety
+          const formatChoice = (targetIdx + Math.floor(Math.random() * 4)) % 4; // 0: MULTIPLE_CHOICE, 1: VI_TO_JP, 2: LISTENING, 3: TYPING
 
-            if (formatChoice === 0) {
-              // 1. MULTIPLE_CHOICE: Japanese word -> Select Vietnamese meaning
-              combinedQuestions.push({
-                questionId: 10000 + targetIdx,
-                attemptAnswerId: targetIdx + 1,
-                questionType: "MULTIPLE_CHOICE",
-                category: "VOCAB",
-                prompt: "📖 [TỪ VỰNG] CHỌN NGHĨA TIẾNG VIỆT ĐÚNG CỦA TỪ TRÊN",
-                japaneseText: mainWord,
-                furiganaText: kanaWord !== mainWord ? kanaWord : "",
-                aiHintText: `💡 Từ vựng Bài #${quizIdStr}: ${mainWord}`,
-                audioText: mainWord,
-                transcript: `${mainWord} (${kanaWord}) : ${v.meaningVi}`,
-                explanation: `Nghĩa tiếng Việt của ${mainWord} là: ${v.meaningVi}`,
-                correctAnswerText: v.meaningVi,
-                options: [
-                  { optionId: 1, optionText: v.meaningVi, isCorrect: true },
-                  ...wrongDistractors.map((d: any, dIdx: number) => ({ optionId: dIdx + 2, optionText: d.meaningVi || "Nghĩa khác", isCorrect: false })),
-                ].sort(() => Math.random() - 0.5),
-              });
-            } else if (formatChoice === 1) {
-              // 2. VI_TO_JP: Vietnamese meaning -> Select Japanese word
-              combinedQuestions.push({
-                questionId: 10000 + targetIdx,
-                attemptAnswerId: targetIdx + 1,
-                questionType: "VI_TO_JP",
-                category: "VOCAB",
-                prompt: "📖 [TỪ VỰNG] CHỌN TỪ TIẾNG NHẬT ĐÚNG CHO NGHĨA NÀY",
-                japaneseText: `「 ${v.meaningVi} 」`,
-                furiganaText: "",
-                aiHintText: `💡 Hãy tìm từ tiếng Nhật mang nghĩa: ${v.meaningVi}`,
-                audioText: mainWord,
-                transcript: `${v.meaningVi} ➔ ${mainWord} (${kanaWord})`,
-                explanation: `Từ tiếng Nhật cho nghĩa 「 ${v.meaningVi} 」 là: ${mainWord} (${kanaWord})`,
-                correctAnswerText: mainWord,
-                options: [
-                  { optionId: 1, optionText: mainWord, isCorrect: true },
-                  ...wrongDistractors.map((d: any, dIdx: number) => ({ optionId: dIdx + 2, optionText: d.word || d.kana || "Từ khác", isCorrect: false })),
-                ].sort(() => Math.random() - 0.5),
-              });
-            } else if (formatChoice === 2) {
-              // 3. LISTENING: Audio player only -> Select Japanese & Vietnamese meaning
-              combinedQuestions.push({
-                questionId: 10000 + targetIdx,
-                attemptAnswerId: targetIdx + 1,
-                questionType: "LISTENING",
-                category: "VOCAB",
-                prompt: "🎧 [NGHE TIẾNG NHẬT] NGHE ÂM THANH VÀ CHỌN ĐÁP ÁN ĐÚNG",
-                japaneseText: mainWord,
-                furiganaText: kanaWord,
-                aiHintText: "💡 Bấm nút nghe phát âm và chọn đáp án chính xác.",
-                audioText: mainWord,
-                transcript: `Nghe: ${mainWord} (${kanaWord}) - Nghĩa: ${v.meaningVi}`,
-                explanation: `Từ vừa phát âm là: ${mainWord} (${v.meaningVi})`,
-                correctAnswerText: `${mainWord} (${v.meaningVi})`,
-                options: [
-                  { optionId: 1, optionText: `${mainWord} (${v.meaningVi})`, isCorrect: true },
-                  ...wrongDistractors.map((d: any, dIdx: number) => ({ optionId: dIdx + 2, optionText: `${d.word || d.kana} (${d.meaningVi || "Nghĩa khác"})`, isCorrect: false })),
-                ].sort(() => Math.random() - 0.5),
-              });
-            } else {
-              // 4. TYPING: Vietnamese meaning -> Type Japanese word
-              combinedQuestions.push({
-                questionId: 10000 + targetIdx,
-                attemptAnswerId: targetIdx + 1,
-                questionType: "TYPING",
-                category: "VOCAB",
-                prompt: "⌨️ [LUYỆN GÕ] Gõ từ tiếng Nhật tương ứng với nghĩa dưới đây",
-                japaneseText: `「 ${v.meaningVi} 」`,
-                furiganaText: "",
-                aiHintText: `💡 Gõ chữ Hiragana hoặc phiên âm Romaji (Ví dụ: ${kanaWord})`,
-                audioText: kanaWord,
-                transcript: `${v.meaningVi} ➔ ${kanaWord} / ${mainWord}`,
-                explanation: `Đáp án đúng là: ${kanaWord} / ${mainWord}`,
-                correctAnswerText: kanaWord,
-                validAnswers: JSON.stringify([kanaWord, mainWord]),
-                options: [
-                  { optionId: 1, optionText: kanaWord, isCorrect: true },
-                  ...wrongDistractors.map((d: any, dIdx: number) => ({ optionId: dIdx + 2, optionText: d.kana || d.word || "Từ khác", isCorrect: false })),
-                ],
-              });
-            }
-          } else {
+          if (formatChoice === 0) {
+            // 1. MULTIPLE_CHOICE: Japanese word -> Select Vietnamese meaning
             combinedQuestions.push({
               questionId: 10000 + targetIdx,
               attemptAnswerId: targetIdx + 1,
               questionType: "MULTIPLE_CHOICE",
               category: "VOCAB",
-              prompt: `📖 [TỪ VỰNG] CHỌN NGHĨA ĐÚNG CỦA CÂU #${targetIdx + 1}`,
-              japaneseText: "私 (わたし)",
-              furiganaText: "わたし",
-              aiHintText: "💡 Từ vựng xưng hô cơ bản.",
-              audioText: "わたし",
-              transcript: "私 (わたし) : Tôi",
-              explanation: "Nghĩa đúng của 私 là Tôi.",
-              correctAnswerText: "Tôi",
+              prompt: "📖 [TỪ VỰNG] CHỌN NGHĨA TIẾNG VIỆT ĐÚNG CỦA TỪ TRÊN",
+              japaneseText: mainWord,
+              furiganaText: kanaWord !== mainWord ? kanaWord : "",
+              aiHintText: `💡 Từ vựng Bài #${quizIdStr}: ${mainWord}`,
+              audioText: mainWord,
+              transcript: `${mainWord} (${kanaWord}) : ${v.meaningVi}`,
+              explanation: `Nghĩa tiếng Việt của ${mainWord} là: ${v.meaningVi}`,
+              correctAnswerText: v.meaningVi,
               options: [
-                { optionId: 1, optionText: "Tôi", isCorrect: true },
-                { optionId: 2, optionText: "Bạn", isCorrect: false },
-                { optionId: 3, optionText: "Thầy giáo", isCorrect: false },
-                { optionId: 4, optionText: "Học sinh", isCorrect: false },
+                { optionId: 1, optionText: v.meaningVi, isCorrect: true },
+                ...wrongDistractors.map((d: any, dIdx: number) => ({ optionId: dIdx + 2, optionText: d.meaningVi || "Nghĩa khác", isCorrect: false })),
               ].sort(() => Math.random() - 0.5),
+            });
+          } else if (formatChoice === 1) {
+            // 2. VI_TO_JP: Vietnamese meaning -> Select Japanese word
+            combinedQuestions.push({
+              questionId: 10000 + targetIdx,
+              attemptAnswerId: targetIdx + 1,
+              questionType: "VI_TO_JP",
+              category: "VOCAB",
+              prompt: "📖 [TỪ VỰNG] CHỌN TỪ TIẾNG NHẬT ĐÚNG CHO NGHĨA NÀY",
+              japaneseText: `「 ${v.meaningVi} 」`,
+              furiganaText: "",
+              aiHintText: `💡 Hãy tìm từ tiếng Nhật mang nghĩa: ${v.meaningVi}`,
+              audioText: mainWord,
+              transcript: `${v.meaningVi} ➔ ${mainWord} (${kanaWord})`,
+              explanation: `Từ tiếng Nhật cho nghĩa 「 ${v.meaningVi} 」 là: ${mainWord} (${kanaWord})`,
+              correctAnswerText: mainWord,
+              options: [
+                { optionId: 1, optionText: mainWord, isCorrect: true },
+                ...wrongDistractors.map((d: any, dIdx: number) => ({ optionId: dIdx + 2, optionText: d.word || d.kana || "Từ khác", isCorrect: false })),
+              ].sort(() => Math.random() - 0.5),
+            });
+          } else if (formatChoice === 2) {
+            // 3. LISTENING: Audio player only -> Select Japanese & Vietnamese meaning
+            combinedQuestions.push({
+              questionId: 10000 + targetIdx,
+              attemptAnswerId: targetIdx + 1,
+              questionType: "LISTENING",
+              category: "VOCAB",
+              prompt: "🎧 [NGHE TIẾNG NHẬT] NGHE ÂM THANH VÀ CHỌN ĐÁP ÁN ĐÚNG",
+              japaneseText: mainWord,
+              furiganaText: kanaWord,
+              aiHintText: "💡 Bấm nút nghe phát âm và chọn đáp án chính xác.",
+              audioText: mainWord,
+              transcript: `Nghe: ${mainWord} (${kanaWord}) - Nghĩa: ${v.meaningVi}`,
+              explanation: `Từ vừa phát âm là: ${mainWord} (${v.meaningVi})`,
+              correctAnswerText: v.meaningVi,
+              options: [
+                { optionId: 1, optionText: v.meaningVi, isCorrect: true },
+                ...wrongDistractors.map((d: any, dIdx: number) => ({ optionId: dIdx + 2, optionText: d.meaningVi || "Nghĩa khác", isCorrect: false })),
+              ].sort(() => Math.random() - 0.5),
+            });
+          } else {
+            // 4. TYPING: Vietnamese meaning -> Type Japanese word
+            combinedQuestions.push({
+              questionId: 10000 + targetIdx,
+              attemptAnswerId: targetIdx + 1,
+              questionType: "TYPING",
+              category: "VOCAB",
+              prompt: "⌨️ [LUYỆN GÕ] Gõ từ tiếng Nhật tương ứng với nghĩa dưới đây",
+              japaneseText: `「 ${v.meaningVi} 」`,
+              furiganaText: "",
+              aiHintText: `💡 Gõ chữ Hiragana hoặc phiên âm Romaji (Ví dụ: ${kanaWord})`,
+              audioText: kanaWord,
+              transcript: `${v.meaningVi} ➔ ${kanaWord} / ${mainWord}`,
+              explanation: `Đáp án đúng là: ${kanaWord} / ${mainWord}`,
+              correctAnswerText: kanaWord,
+              validAnswers: JSON.stringify([kanaWord, mainWord]),
+              options: [
+                { optionId: 1, optionText: kanaWord, isCorrect: true },
+                ...wrongDistractors.map((d: any, dIdx: number) => ({ optionId: dIdx + 2, optionText: d.kana || d.word || "Từ khác", isCorrect: false })),
+              ],
             });
           }
         }
@@ -717,8 +871,8 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
       playErrorSound();
     }
 
-    if (currentQ.audioText && isCorrect) {
-      playAudio(currentQ.audioText);
+    if (isCorrect) {
+      playAudio(getFullSentenceAudioText(currentQ), currentQ);
     }
   };
 
@@ -928,67 +1082,42 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
                 </span>
               </div>
 
-              <div className="flex items-center gap-2">
+              {!result && (
                 <button
                   type="button"
-                  onClick={() => setIsPaletteExpanded((prev) => !prev)}
-                  className="text-[11px] text-[#C65D4B] hover:text-[#B54F3E] font-extrabold flex items-center gap-1 cursor-pointer transition-colors bg-[#F5EFEA] hover:bg-[#EFE8E1] px-2.5 py-1 rounded-xl"
+                  onClick={() => setShowSubmitModal(true)}
+                  className="px-3 py-1 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-extrabold text-[11px] rounded-xl shadow-xs transition-all flex items-center gap-1 cursor-pointer hover:scale-105"
                 >
-                  <span>{isPaletteExpanded ? "Thu gọn ▲" : "Xem tất cả ▼"}</span>
+                  <ShieldCheck className="w-3.5 h-3.5" />
+                  <span>Nộp bài ngay</span>
                 </button>
-
-                {result ? (
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    {!isQuizPublished && (
-                      <button
-                        type="button"
-                        onClick={handleGenerateNewRandomQuiz}
-                        className="px-3 py-1.5 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-black text-[11px] rounded-xl shadow-xs transition-all flex items-center gap-1 cursor-pointer hover:scale-105"
-                      >
-                        <Sparkles className="w-3.5 h-3.5" />
-                        <span>Đề 30 câu mới</span>
-                      </button>
-                    )}
-                    <button
-                      type="button"
-                      onClick={handleRetakeSameQuiz}
-                      className="px-3 py-1.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-black text-[11px] rounded-xl shadow-xs transition-all flex items-center gap-1 cursor-pointer hover:scale-105"
-                    >
-                      <RotateCcw className="w-3.5 h-3.5" />
-                      <span>{isQuizPublished ? "Làm lại bài thi chính thức" : "Ôn lại đề cũ"}</span>
-                    </button>
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    onClick={() => setShowSubmitModal(true)}
-                    className="px-3 py-1 bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 text-white font-extrabold text-[11px] rounded-xl shadow-xs transition-all flex items-center gap-1 cursor-pointer hover:scale-105"
-                  >
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    <span>Nộp bài ngay</span>
-                  </button>
-                )}
-              </div>
+              )}
             </div>
 
             {/* Legend Indicators */}
-            <div className="flex items-center justify-center gap-4 text-[10px] font-bold text-[#76685F] pt-0.5 pb-1.5 border-b border-[#F5EFEA]">
+            <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 text-[10px] font-bold text-[#76685F] pt-0.5 pb-1.5 border-b border-[#F5EFEA]">
               {result ? (
                 <>
-                  <span className="flex items-center gap-1.5 text-emerald-700">
+                  <span className="flex items-center gap-1.5 text-emerald-700 font-bold">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block shadow-2xs"/> Trả lời đúng
                   </span>
-                  <span className="flex items-center gap-1.5 text-rose-700">
+                  <span className="flex items-center gap-1.5 text-rose-700 font-bold">
                     <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block shadow-2xs"/> Trả lời sai / Bỏ trống
                   </span>
                 </>
               ) : (
                 <>
-                  <span className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block shadow-2xs"/> Đã làm
+                  <span className="flex items-center gap-1.5 text-emerald-700 font-bold">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block shadow-2xs"/> Đúng (Đã KT)
                   </span>
-                  <span className="flex items-center gap-1.5">
+                  <span className="flex items-center gap-1.5 text-rose-700 font-bold">
+                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500 inline-block shadow-2xs"/> Sai (Đã KT)
+                  </span>
+                  <span className="flex items-center gap-1.5 text-amber-800">
                     <span className="w-2.5 h-2.5 rounded-full bg-amber-400 inline-block shadow-2xs"/> Chưa chắc
+                  </span>
+                  <span className="flex items-center gap-1.5 text-slate-700">
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-600 inline-block shadow-2xs"/> Đã chọn (Chưa KT)
                   </span>
                   <span className="flex items-center gap-1.5">
                     <span className="w-2.5 h-2.5 rounded-full bg-[#EFE8E1] border border-[#DED3C8] inline-block"/> Chưa làm
@@ -1008,6 +1137,9 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
                 const isAnswered = !!userAnswers[qId] && userAnswers[qId].trim().length > 0;
                 const isFlagged = !!flaggedQuestions[qId];
                 const isCurrent = currentIndex === qIdx;
+                const isChecked = !!checkedQuestions[qId];
+                const isCorrectWhenChecked = isChecked && checkIsAnswerCorrect(q, userAnswers[qId]);
+                const isWrongWhenChecked = isChecked && !isCorrectWhenChecked;
 
                 let badgeStyles = "bg-[#FAF5F0] border-[#EFE8E1] text-[#76685F] hover:bg-[#F5EFEA]"; // Default (Chưa làm - Muted Neutral)
 
@@ -1023,12 +1155,22 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
                       ? "bg-emerald-500 border-emerald-600 text-white font-extrabold shadow-2xs"
                       : "bg-rose-500 border-rose-600 text-white font-extrabold shadow-2xs";
                   }
+                } else if (isChecked) {
+                  if (isWrongWhenChecked) {
+                    badgeStyles = isCurrent
+                      ? "bg-rose-600 border-rose-700 text-white font-black shadow-md ring-2 ring-rose-400/60 scale-105"
+                      : "bg-rose-500 border-rose-600 text-white font-extrabold shadow-2xs";
+                  } else {
+                    badgeStyles = isCurrent
+                      ? "bg-emerald-600 border-emerald-700 text-white font-black shadow-md ring-2 ring-emerald-400/60 scale-105"
+                      : "bg-emerald-500 border-emerald-600 text-white font-extrabold shadow-2xs";
+                  }
                 } else if (isCurrent) {
                   badgeStyles = "bg-[#C65D4B] border-[#C65D4B] text-white font-black shadow-md scale-105 ring-2 ring-[#C65D4B]/40"; // Active
                 } else if (isFlagged) {
                   badgeStyles = "bg-amber-400 border-amber-500 text-amber-950 font-black shadow-2xs"; // Chưa chắc (Amber)
                 } else if (isAnswered) {
-                  badgeStyles = "bg-emerald-500 border-emerald-600 text-white font-bold shadow-2xs"; // Đã làm (Emerald)
+                  badgeStyles = "bg-slate-700 border-slate-800 text-white font-bold shadow-2xs"; // Đã chọn (Chưa kiểm tra)
                 }
 
                 return (
@@ -1041,10 +1183,14 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
                         ? result.answers.find((a) => a.attemptAnswerId === qId)?.isCorrect
                           ? "Đúng"
                           : "Sai"
+                        : isChecked
+                        ? isCorrectWhenChecked
+                          ? "Đúng (Đã kiểm tra)"
+                          : "Sai (Đã kiểm tra)"
                         : isFlagged
                         ? "Chưa chắc"
                         : isAnswered
-                        ? "Đã làm"
+                        ? "Đã làm (Chưa kiểm tra)"
                         : "Chưa làm"
                     }`}
                     className={`w-7.5 h-7.5 rounded-xl text-xs border font-bold transition-all flex items-center justify-center relative cursor-pointer ${badgeStyles}`}
@@ -1137,7 +1283,11 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
         {/* Question Instruction Header & Interactive Controls */}
         <div className="flex flex-wrap items-center justify-between max-w-xl mx-auto px-1 gap-2">
           <h2 className="text-xs font-black text-[#8C7B70] tracking-widest uppercase">
-            {currentQuestion?.prompt || "CHỌN NGHĨA ĐÚNG CỦA CÂU TRÊN"}
+            {currentQuestion?.prompt
+              ? currentQuestion.prompt
+                  .replace(/\(Ấn Độ\)/gi, '(MANG NGHĨA "TÔI LÀ HỌC SINH / SINH VIÊN ẤN ĐỘ")')
+                  .replace(/\(ẤN ĐỘ\)/gi, '(MANG NGHĨA "TÔI LÀ HỌC SINH / SINH VIÊN ẤN ĐỘ")')
+              : "CHỌN NGHĨA ĐÚNG CỦA CÂU TRÊN"}
           </h2>
 
           {/* Bookmark Button */}
@@ -1158,41 +1308,134 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
         </div>
 
         {/* Central Prominent Card: Listening (Audio Only) vs Normal (Text Only) */}
-        <div className="bg-white border-2 border-[#EADECF] p-8 sm:p-12 text-center rounded-3xl shadow-xs max-w-xl mx-auto space-y-4">
-          {currentQuestion?.questionType === "LISTENING" ? (
-            <div className="space-y-4 py-2">
-              <div className="w-20 h-20 bg-amber-500/10 border-2 border-amber-500/30 rounded-3xl mx-auto flex items-center justify-center animate-pulse">
-                <Volume2 className="w-10 h-10 text-amber-600" />
-              </div>
-              <p className="text-sm font-black text-[#56423E]">
-                🔊 Nút nghe âm thanh bài thi đang phát
-              </p>
-              <button
-                type="button"
-                onClick={() => playAudio(currentQuestion.audioText || currentQuestion.japaneseText || "")}
-                className="inline-flex items-center gap-2 px-6 py-3 bg-[#C65D4B] hover:bg-[#B54F3E] text-white font-black text-sm rounded-2xl shadow-md cursor-pointer transition-all hover:scale-105"
-              >
-                <Volume2 className="w-5 h-5 text-white" />
-                <span>🔊 Bấm để nghe âm thanh câu hỏi</span>
-              </button>
-            </div>
-          ) : (
-            <div className="text-3xl sm:text-4xl font-extrabold text-[#231917] tracking-normal leading-relaxed font-sans">
-              {showFurigana && currentQuestion?.furiganaText && currentQuestion.furiganaText !== currentQuestion.japaneseText ? (
-                <ruby className="ruby-position-above">
-                  {currentQuestion.japaneseText || currentQuestion.prompt}
-                  <rt className="text-sm font-sans font-bold text-[#C65D4B] block tracking-normal mb-1">
-                    {currentQuestion.furiganaText}
-                  </rt>
-                </ruby>
+        {(() => {
+          const isCheckedCurrent = currentQuestion && (checkedQuestions[currentQuestion.attemptAnswerId] || !!result);
+          const isCurrentCorrect = currentQuestion ? checkIsAnswerCorrect(currentQuestion, userAnswers[currentQuestion.attemptAnswerId]) : false;
+
+          let cardBorderBg = "bg-white border-[#EADECF]";
+          if (isCheckedCurrent) {
+            cardBorderBg = isCurrentCorrect
+              ? "bg-emerald-50/40 border-emerald-500 text-emerald-950 shadow-emerald-100/50 ring-2 ring-emerald-400/30"
+              : "bg-rose-50/40 border-rose-500 text-rose-950 shadow-rose-100/50 ring-2 ring-rose-400/30";
+          }
+
+          return (
+            <div className={`border-2 p-8 sm:p-12 text-center rounded-3xl shadow-xs max-w-xl mx-auto space-y-4 transition-all relative ${cardBorderBg}`}>
+              {isCheckedCurrent && (
+                <div className="absolute top-3.5 right-4">
+                  {isCurrentCorrect ? (
+                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-emerald-100 border border-emerald-400 text-emerald-900 text-xs font-black rounded-full shadow-2xs">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                      <span>Chính xác</span>
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1 px-3 py-1 bg-rose-100 border border-rose-400 text-rose-900 text-xs font-black rounded-full shadow-2xs animate-pulse">
+                      <XCircle className="w-3.5 h-3.5 text-rose-600" />
+                      <span>Chưa chính xác</span>
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {currentQuestion?.questionType === "STAR_ORDER" ? (
+                <div className="space-y-4 py-1">
+                  <div className="inline-flex items-center gap-1.5 px-4 py-1 bg-amber-100 border border-amber-300 text-amber-950 rounded-full text-xs font-black shadow-2xs">
+                    <span>★ DẠNG BÀI SẮP XẾP VỊ TRÍ NGÔI SAO (JLPT)</span>
+                  </div>
+
+                  <p className="text-xs font-bold text-[#76685F] max-w-md mx-auto">
+                    Ghép các đáp án A, B, C, D vào 3 vị trí trống bên dưới. Chọn từ nằm đúng vị trí có <strong className="text-amber-600 font-black">dấu ★ ngôi sao</strong>:
+                  </p>
+
+                  {(() => {
+                    const starPos = getStarPosition(currentQuestion);
+                    const { prefix, suffix } = getSentencePrefixAndSuffix(currentQuestion);
+                    return (
+                      <div className="flex flex-wrap items-center justify-center gap-2 pt-2 text-2xl sm:text-3xl font-extrabold text-[#231917]">
+                        <span>{prefix}</span>
+                        <div className="flex flex-wrap items-center gap-1.5 bg-[#FAF3EB] p-2.5 rounded-2xl border border-[#DED3C8] shadow-inner">
+                          {[1, 2, 3].map((pos) =>
+                            pos === starPos ? (
+                              <span
+                                key={pos}
+                                className="px-3.5 py-1.5 bg-amber-500 text-white font-black rounded-xl text-xs sm:text-sm shadow-sm flex items-center gap-1 animate-pulse ring-2 ring-amber-400/50"
+                              >
+                                ★ Vị trí {pos}
+                              </span>
+                            ) : (
+                              <span
+                                key={pos}
+                                className="px-3 py-1.5 bg-white border border-[#DED3C8] text-[#76685F] font-bold rounded-xl text-xs sm:text-sm"
+                              >
+                                {pos === 1 ? "①" : pos === 2 ? "②" : "③"} Vị trí {pos}
+                              </span>
+                            )
+                          )}
+                        </div>
+                        <span>{suffix}</span>
+                      </div>
+                    );
+                  })()}
+
+                  {isCheckedCurrent && (
+                    <button
+                      type="button"
+                      onClick={() => playAudio(getFullSentenceAudioText(currentQuestion), currentQuestion)}
+                      className="inline-flex items-center gap-1.5 px-4 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-900 border border-amber-400/40 text-xs font-black rounded-xl transition-all cursor-pointer hover:scale-105 mt-2"
+                    >
+                      <Volume2 className="w-4 h-4 text-amber-600" />
+                      <span>🔊 Nghe phát âm câu hoàn chỉnh</span>
+                    </button>
+                  )}
+                </div>
+              ) : currentQuestion?.questionType === "LISTENING" ? (
+                <div className="space-y-4 py-2">
+                  <div className={`w-20 h-20 rounded-3xl mx-auto flex items-center justify-center border-2 ${
+                    isCheckedCurrent
+                      ? isCurrentCorrect
+                        ? "bg-emerald-500/10 border-emerald-500/40"
+                        : "bg-rose-500/10 border-rose-500/40"
+                      : "bg-amber-500/10 border-amber-500/30 animate-pulse"
+                  }`}>
+                    <Volume2 className={`w-10 h-10 ${
+                      isCheckedCurrent
+                        ? isCurrentCorrect
+                          ? "text-emerald-600"
+                          : "text-rose-600"
+                        : "text-amber-600"
+                    }`} />
+                  </div>
+                  <p className="text-sm font-black text-[#56423E]">
+                    🔊 Nút nghe âm thanh bài thi đang phát
+                  </p>
+                  <button
+                    type="button"
+                    onClick={() => playAudio(currentQuestion.audioText || currentQuestion.japaneseText || "")}
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-[#C65D4B] hover:bg-[#B54F3E] text-white font-black text-sm rounded-2xl shadow-md cursor-pointer transition-all hover:scale-105"
+                  >
+                    <Volume2 className="w-5 h-5 text-white" />
+                    <span>🔊 Bấm để nghe âm thanh câu hỏi</span>
+                  </button>
+                </div>
               ) : (
-                <span className="tracking-normal">
-                  {currentQuestion?.japaneseText || currentQuestion?.prompt || `Câu hỏi #${currentIndex + 1}`}
-                </span>
+                <div className="text-3xl sm:text-4xl font-extrabold text-[#231917] tracking-normal leading-relaxed font-sans pt-2">
+                  {showFurigana && currentQuestion?.furiganaText && currentQuestion.furiganaText !== currentQuestion.japaneseText ? (
+                    <ruby className="ruby-position-above">
+                      {currentQuestion.japaneseText || currentQuestion.prompt}
+                      <rt className="text-sm font-sans font-bold text-[#C65D4B] block tracking-normal mb-1">
+                        {currentQuestion.furiganaText}
+                      </rt>
+                    </ruby>
+                  ) : (
+                    <span className="tracking-normal">
+                      {currentQuestion?.japaneseText || currentQuestion?.prompt || `Câu hỏi #${currentIndex + 1}`}
+                    </span>
+                  )}
+                </div>
               )}
             </div>
-          )}
-        </div>
+          );
+        })()}
 
         {/* 2x2 Option Grid with A/B/C/D Badges */}
         {currentQuestion && (
@@ -1388,7 +1631,7 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
               </div>
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {currentQuestion.options?.map((opt, oIdx) => {
+                {deduplicateOptions(currentQuestion.options || [], currentQuestion.questionType).map((opt, oIdx) => {
                   const badge = ["A", "B", "C", "D"][oIdx] || `${oIdx + 1}`;
                   const isSelected = userAnswers[currentQuestion.attemptAnswerId] === opt.optionText;
                   const isChecked = !!result || checkedQuestions[currentQuestion.attemptAnswerId];
@@ -1439,7 +1682,13 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
                         >
                           {badge}
                         </span>
-                        <span>{opt.optionText}</span>
+                        <span>
+                          {currentQuestion.questionType === "LISTENING" && opt.optionText.includes("(")
+                            ? opt.optionText.replace(/^.+\((.+)\)$/, "$1").trim()
+                            : currentQuestion.questionType === "FILL_BLANK" && opt.optionText.includes("(")
+                            ? opt.optionText.replace(/\s*\(.+\)$/, "").trim()
+                            : opt.optionText}
+                        </span>
                       </div>
 
                       {isChecked && isCorrectOpt && <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />}
