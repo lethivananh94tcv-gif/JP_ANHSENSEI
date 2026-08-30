@@ -5,6 +5,7 @@ import Script from "next/script";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, ArrowLeft, KeyRound, Mail, User, ShieldCheck, Sparkles, EyeOff, Eye, Loader2, CheckCircle2, AlertCircle, LockKeyhole, Check, CircleDot, Info, RefreshCw } from "lucide-react";
+import { getApiBaseUrl } from "@/lib/api/client";
 
 declare global {
   interface Window {
@@ -226,7 +227,7 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
       setLoading(true);
       setError("");
       setMessage("");
-      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/api/v1";
+      const apiBaseUrl = getApiBaseUrl();
 
       const res = await fetch(`${apiBaseUrl}/auth/google`, {
         method: "POST",
@@ -273,7 +274,7 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
 
     try {
       setLoading(true);
-      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/api/v1";
+      const apiBaseUrl = getApiBaseUrl();
 
       const res = await fetch(`${apiBaseUrl}/auth/login`, {
         method: "POST",
@@ -329,7 +330,7 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
 
     try {
       setLoading(true);
-      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/api/v1";
+      const apiBaseUrl = getApiBaseUrl();
 
       const res = await fetch(`${apiBaseUrl}/auth/register`, {
         method: "POST",
@@ -384,7 +385,7 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
 
     try {
       setLoading(true);
-      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/api/v1";
+      const apiBaseUrl = getApiBaseUrl();
 
       const res = await fetch(`${apiBaseUrl}/auth/login-otp/request`, {
         method: "POST",
@@ -425,7 +426,7 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
 
     try {
       setLoading(true);
-      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/api/v1";
+      const apiBaseUrl = getApiBaseUrl();
 
       const res = await fetch(`${apiBaseUrl}/auth/login-otp/verify`, {
         method: "POST",
@@ -471,7 +472,7 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
 
     try {
       setLoading(true);
-      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/api/v1";
+      const apiBaseUrl = getApiBaseUrl();
 
       const res = await fetch(`${apiBaseUrl}/auth/forgot-password`, {
         method: "POST",
@@ -517,7 +518,7 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
 
     try {
       setLoading(true);
-      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/api/v1";
+      const apiBaseUrl = getApiBaseUrl();
 
       const res = await fetch(`${apiBaseUrl}/auth/reset-password`, {
         method: "POST",

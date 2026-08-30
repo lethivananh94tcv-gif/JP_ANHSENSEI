@@ -4,6 +4,8 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import { getApiBaseUrl } from "@/lib/api/client";
+
 export default function ResetPasswordPage() {
   const router = useRouter();
   const [token, setToken] = useState("");
@@ -46,7 +48,7 @@ export default function ResetPasswordPage() {
 
     try {
       setLoading(true);
-      const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:8080/api/v1";
+      const apiBaseUrl = getApiBaseUrl();
 
       const res = await fetch(`${apiBaseUrl}/auth/reset-password`, {
         method: "POST",

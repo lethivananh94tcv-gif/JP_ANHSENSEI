@@ -1,16 +1,16 @@
 import { ApiResponse, ErrorResponse } from "@/types";
 
-const getApiBaseUrl = () => {
+export const getApiBaseUrl = () => {
   if (process.env.NEXT_PUBLIC_API_BASE_URL) {
     return process.env.NEXT_PUBLIC_API_BASE_URL;
   }
   if (typeof window !== "undefined") {
-    if (window.location.hostname.includes("vercel.app")) {
-      return "https://anhsensei-backend.onrender.com/api/v1";
+    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+      return "http://localhost:8080/api/v1";
     }
-    return "/api/v1";
+    return "https://anhsensei-backend.onrender.com/api/v1";
   }
-  return "http://localhost:8080/api/v1";
+  return "https://anhsensei-backend.onrender.com/api/v1";
 };
 
 export class ApiError extends Error {
