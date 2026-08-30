@@ -5,7 +5,7 @@ spring:
     active: ${SPRING_PROFILES_ACTIVE:dev}
 
   datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres?sslmode=require}
+    url: ${DATABASE_URL:jdbc:postgresql://aws-0-ap-northeast-1.pooler.supabase.com:5432/postgres?sslmode=require&characterEncoding=UTF-8}
     username: ${DATABASE_USERNAME:postgres.vdzlkldjhxdzoztgcagy}
     password: ${DATABASE_PASSWORD:duonggiakien}
     driver-class-name: org.postgresql.Driver
@@ -28,6 +28,7 @@ spring:
 
   flyway:
     enabled: true
+    encoding: UTF-8
     baseline-on-migrate: true
     repair-on-migrate: true
     out-of-order: true
