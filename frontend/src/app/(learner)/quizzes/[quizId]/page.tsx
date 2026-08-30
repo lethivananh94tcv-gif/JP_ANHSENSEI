@@ -276,8 +276,11 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
             const parsed = JSON.parse(savedSession);
             const sessionIsPublished = typeof parsed.isQuizPublished === "boolean" ? parsed.isQuizPublished : isPublished;
 
-            // ONLY restore session if publication status in session matches current publication status!
-            if (sessionIsPublished === isPublished && parsed.quizData && parsed.quizData.questions && parsed.quizData.questions.length > 0) {
+            const questionsList = parsed.quizData?.questions || [];
+            const uniqueQuestions = new Set(questionsList.map((q: any) => q.japaneseText || q.prompt));
+
+            // ONLY restore session if publication status matches AND questions are valid & distinct!
+            if (sessionIsPublished === isPublished && questionsList.length > 0 && uniqueQuestions.size >= 8) {
               setQuizData(parsed.quizData);
               if (parsed.userAnswers) setUserAnswers(parsed.userAnswers);
               if (typeof parsed.currentIndex === "number") setCurrentIndex(parsed.currentIndex);
