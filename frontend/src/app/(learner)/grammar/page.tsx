@@ -13,6 +13,8 @@ import { LessonData } from "@/components/learner/grammar/LessonCard";
 import PopularGrammarCard from "@/components/learner/grammar/PopularGrammarCard";
 import { MOCK_LEVELS, MOCK_LESSONS_DATA } from "@/components/learner/grammar/mockGrammarData";
 
+import { apiClient } from "@/lib/api/client";
+
 export default function LearnerGrammarPage() {
   const router = useRouter();
 
@@ -31,26 +33,20 @@ export default function LearnerGrammarPage() {
     async function fetchRealLessons() {
       setIsLoadingApi(true);
       try {
-        const token = typeof window !== "undefined" ? localStorage.getItem("auth_token") : null;
-        const res = await fetch(`/api/v1/learner/levels/N5/lessons`, {
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
-        });
-        if (res.ok) {
-          const json = await res.json();
-          if (json.data && Array.isArray(json.data) && json.data.length > 0 && isMounted) {
-            const mapped = json.data.map((l: any, idx: number) => ({
-              id: l.lessonId || l.id || idx + 1,
-              level: activeLevelId,
-              lessonNumber: l.sortOrder || l.lessonNumber || idx + 1,
-              title: l.title || l.lessonTitle || `Bài ${idx + 1}`,
-              description: l.description || "Nội dung bài học ngữ pháp",
-              topicCount: l.grammarCount || 6,
-              exerciseCount: l.exerciseCount || 12,
-              status: l.status || "NOT_STARTED",
-              progressPercent: l.progressPercent || 0,
-            }));
-            setApiLessons(mapped);
-          }
+        const res = await apiClient<any[]>(`/curriculum/levels/${activeLevelId}/lessons`);
+        if (res && res.data && Array.isArray(res.data) && res.data.length > 0 && isMounted) {
+          const mapped = res.data.map((l: any, idx: number) => ({
+            id: l.lessonId || l.id || idx + 1,
+            level: activeLevelId,
+            lessonNumber: l.sortOrder || l.lessonNumber || idx + 1,
+            title: l.title || l.lessonTitle || `Bài ${idx + 1}`,
+            description: l.description || "Nội dung bài học ngữ pháp",
+            topicCount: l.grammarCount || 6,
+            exerciseCount: l.exerciseCount || 12,
+            status: l.status || "NOT_STARTED",
+            progressPercent: l.progressPercent || 0,
+          }));
+          setApiLessons(mapped);
         }
       } catch (err) {
         // Fallback gracefully to seed curriculum data

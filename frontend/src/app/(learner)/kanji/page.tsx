@@ -87,10 +87,34 @@ function parseTopicCardInfo(title: string, description: string, topicOrder: numb
   return { cleanTitle, characters };
 }
 
+import { apiClient } from "@/lib/api/client";
+
+const DEFAULT_KANJI_TOPICS: Record<string, KanjiTopicDto[]> = {
+  N5: [
+    { topicId: 1, title: "Chữ Hán N5 #1: Số đếm cơ bản (一, 二, 三, 四, 五, 六, 七)", jlptLevel: "N5", topicOrder: 1, description: "Các chữ số từ 1 đến 7 trong tiếng Nhật." },
+    { topicId: 2, title: "Chữ Hán N5 #2: Số đếm & Tiền tệ (八, 九, 十, 百, 千, 万, 円)", jlptLevel: "N5", topicOrder: 2, description: "Số 8-10, hàng trăm, nghìn, vạn và đơn vị Yên." },
+    { topicId: 3, title: "Chữ Hán N5 #3: Thời gian & Thứ ngày (日, 月, 火, 水, 木, 金, 土)", jlptLevel: "N5", topicOrder: 3, description: "Nhật, Nguyệt, Hỏa, Thủy, Mộc, Kim, Thổ trong tuần." },
+    { topicId: 4, title: "Chữ Hán N5 #4: Con người & Bộ phận (人, 子, 女, 男, 目, 口, 耳)", jlptLevel: "N5", topicOrder: 4, description: "Người, phụ nữ, nam giới, mắt, miệng, tai." },
+    { topicId: 5, title: "Chữ Hán N5 #5: Cơ thể & Vị trí (手, 足, 上, 下, 中, 大, 小)", jlptLevel: "N5", topicOrder: 5, description: "Tay, chân, trên, dưới, trong, lớn, nhỏ." },
+    { topicId: 6, title: "Chữ Hán N5 #6: Tự nhiên & Đời sống (山, 川, 田, 天, 生, 花, 雨)", jlptLevel: "N5", topicOrder: 6, description: "Núi, sông, ruộng, trời, sinh, hoa, mưa." },
+    { topicId: 7, title: "Chữ Hán N5 #7: Xã hội & Giao thông (国, 会, 社, 校, 店, 駅, 車)", jlptLevel: "N5", topicOrder: 7, description: "Đất nước, công ty, trường học, nhà ga, xe cộ." },
+    { topicId: 8, title: "Chữ Hán N5 #8: Hành động hàng ngày (買, 売, 行, 来, 食, 飲, 見)", jlptLevel: "N5", topicOrder: 8, description: "Mua, bán, đi, đến, ăn, uống, nhìn." },
+    { topicId: 9, title: "Chữ Hán N5 #9: Giao tiếp & Học tập (聞, 書, 読, 話, 学, 休, 言)", jlptLevel: "N5", topicOrder: 9, description: "Nghe, viết, đọc, nói, học, nghỉ, nói." },
+    { topicId: 10, title: "Chữ Hán N5 #10: Phương hướng & Thời gian (東, 西, 南, 北, 午, 前, 後)", jlptLevel: "N5", topicOrder: 10, description: "Đông, Tây, Nam, Bắc, trưa, trước, sau." },
+  ],
+  N4: [
+    { topicId: 11, title: "Chữ Hán N4 #1: Cơ bản & Đời sống (一, 日, 人, 山, 国, 行, 書)", jlptLevel: "N4", topicOrder: 1, description: "Chữ Hán thông dụng trong đời sống và công việc." },
+    { topicId: 12, title: "Chữ Hán N4 #2: Lịch & Chu kỳ thời gian (時, 分, 半, 毎, 今, 年, 週)", jlptLevel: "N4", topicOrder: 2, description: "Giờ, phút, rưỡi, mỗi, nay, năm, tuần." },
+    { topicId: 13, title: "Chữ Hán N4 #3: Màu sắc & Tính chất (赤, 青, 白, 黒, 高, 安, 新)", jlptLevel: "N4", topicOrder: 3, description: "Đỏ, xanh, trắng, đen, cao/đắt, rẻ/an tâm, mới." },
+    { topicId: 14, title: "Chữ Hán N4 #4: Gia đình & Bạn bè (父, 母, 兄, 弟, 姉, 妹, 友)", jlptLevel: "N4", topicOrder: 4, description: "Bố, mẹ, anh trai, em trai, chị gái, em gái, bạn bè." },
+    { topicId: 15, title: "Chữ Hán N4 #5: Chuyển động & Hành vi (出, 入, 立, 座, 走, 歩, 止)", jlptLevel: "N4", topicOrder: 5, description: "Ra, vào, đứng, ngồi, chạy, đi bộ, dừng lại." },
+  ]
+};
+
 export default function LearnerKanjiPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<"RADICALS" | "N5" | "N4" | "N3" | "N2" | "N1">("N5");
-  const [topics, setTopics] = useState<KanjiTopicDto[]>([]);
+  const [topics, setTopics] = useState<KanjiTopicDto[]>(DEFAULT_KANJI_TOPICS.N5);
   const [topicsCache, setTopicsCache] = useState<Record<string, KanjiTopicDto[]>>({});
   const [loadingTopics, setLoadingTopics] = useState(false);
   const [selectedTopicId, setSelectedTopicId] = useState<number | null>(null);
@@ -106,14 +130,17 @@ export default function LearnerKanjiPage() {
       const fetchTopics = async () => {
         try {
           setLoadingTopics(true);
-          const res = await fetch(`/api/v1/curriculum/kanji-topics?level=${activeTab}`);
-          if (res.ok) {
-            const data = await res.json();
-            setTopics(data);
-            setTopicsCache((prev) => ({ ...prev, [activeTab]: data }));
+          const res = await apiClient<KanjiTopicDto[]>(`/curriculum/kanji-topics?level=${activeTab}`);
+          if (res && Array.isArray(res.data) && res.data.length > 0) {
+            setTopics(res.data);
+            setTopicsCache((prev) => ({ ...prev, [activeTab]: res.data! }));
+          } else {
+            const fallback = DEFAULT_KANJI_TOPICS[activeTab] || DEFAULT_KANJI_TOPICS.N5;
+            setTopics(fallback);
           }
         } catch (err) {
-          console.error("Lỗi khi tải danh sách bài Kanji:", err);
+          const fallback = DEFAULT_KANJI_TOPICS[activeTab] || DEFAULT_KANJI_TOPICS.N5;
+          setTopics(fallback);
         } finally {
           setLoadingTopics(false);
         }
