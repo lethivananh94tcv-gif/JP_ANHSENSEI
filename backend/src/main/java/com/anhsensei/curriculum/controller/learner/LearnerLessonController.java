@@ -14,7 +14,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/curriculum")
+@RequestMapping({"/curriculum", "/learner"})
 @Transactional(readOnly = true)
 public class LearnerLessonController {
 

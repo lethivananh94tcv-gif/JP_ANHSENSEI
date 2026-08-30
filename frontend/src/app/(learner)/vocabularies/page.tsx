@@ -28,6 +28,12 @@ import JapaneseKanaChartModal from "@/components/learner/vocabularies/JapaneseKa
 import VocabularyHubSkeleton from "@/components/learner/vocabularies/VocabularyHubSkeleton";
 import { VocabularyHubErrorState, VocabularyHubEmptyState } from "@/components/learner/vocabularies/VocabularyHubErrorState";
 
+const DEFAULT_LEVELS: LevelItem[] = [
+  { levelId: 1, code: "N5", name: "JLPT N5", description: "Sơ cấp Minna No Nihongo", status: "PUBLISHED", sortOrder: 1 },
+  { levelId: 2, code: "N4", name: "JLPT N4", description: "Trung cấp Minna No Nihongo", status: "PUBLISHED", sortOrder: 2 },
+  { levelId: 3, code: "N3", name: "JLPT N3", description: "Nâng cao Minna No Nihongo", status: "PUBLISHED", sortOrder: 3 },
+];
+
 export default function LearnerVocabulariesHubPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -35,8 +41,8 @@ export default function LearnerVocabulariesHubPage() {
 
   // Core Data States
   const [profile, setProfile] = useState<LearnerProfile | null>(null);
-  const [levels, setLevels] = useState<LevelItem[]>([]);
-  const [selectedLevelCode, setSelectedLevelCode] = useState<string>("");
+  const [levels, setLevels] = useState<LevelItem[]>(DEFAULT_LEVELS);
+  const [selectedLevelCode, setSelectedLevelCode] = useState<string>("N5");
   const [selectedLevelObj, setSelectedLevelObj] = useState<LevelItem | null>(null);
 
   const [lessons, setLessons] = useState<LessonItem[]>([]);
@@ -148,11 +154,14 @@ export default function LearnerVocabulariesHubPage() {
         setProfile(userProfile);
       }
 
-      let publishedLevels: LevelItem[] = [];
-      if (levelsRes.status === "fulfilled" && levelsRes.value.data) {
-        publishedLevels = levelsRes.value.data.filter((l) => l.status === "PUBLISHED");
-        setLevels(publishedLevels);
+      let publishedLevels: LevelItem[] = DEFAULT_LEVELS;
+      if (levelsRes.status === "fulfilled" && levelsRes.value.data && levelsRes.value.data.length > 0) {
+        const filtered = levelsRes.value.data.filter((l) => l.status === "PUBLISHED");
+        if (filtered.length > 0) {
+          publishedLevels = filtered;
+        }
       }
+      setLevels(publishedLevels);
 
       let continueLearning: ContinueLearningData | null = null;
       if (continueRes.status === "fulfilled" && continueRes.value.data) {
