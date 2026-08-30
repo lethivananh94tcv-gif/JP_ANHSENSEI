@@ -392,13 +392,74 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
           apiClient<any[]>(`/curriculum/lessons/${quizIdStr}/grammar`),
         ]);
 
-        const vocabs = vocabRes && Array.isArray(vocabRes.data) ? vocabRes.data : [];
+        let vocabs = vocabRes && Array.isArray(vocabRes.data) ? vocabRes.data : [];
+        if (vocabs.length === 0) {
+          const lRes = await apiClient<any[]>(`/learner/lessons/${quizIdStr}/vocabularies`);
+          if (lRes && Array.isArray(lRes.data)) vocabs = lRes.data;
+        }
+
         const kanjis = kanjiRes && Array.isArray(kanjiRes.data) ? kanjiRes.data : [];
         const grammars = grammarRes && Array.isArray(grammarRes.data) ? grammarRes.data : [];
 
-        const includeVocab = reqCategory === "ALL" || reqCategory === "FULL" || reqCategory === "VOCAB";
-        const includeKanji = reqCategory === "ALL" || reqCategory === "FULL" || reqCategory === "KANJI";
-        const includeGrammar = reqCategory === "ALL" || reqCategory === "FULL" || reqCategory === "GRAMMAR";
+        const lNum = Number(quizIdStr) || 1;
+
+        // Rich fallback dataset per lesson so no question is ever repeated if offline
+        const LESSON_VOCAB_MAP: Record<number, Array<{ word: string; kana: string; meaningVi: string }>> = {
+          1: [
+            { word: "わたし", kana: "わたし", meaningVi: "Tôi (bản thân)" },
+            { word: "あなた", kana: "あなた", meaningVi: "Bạn, anh, chị" },
+            { word: "せんせい", kana: "せんせい", meaningVi: "Thầy giáo, cô giáo" },
+            { word: "がくせい", kana: "がくせい", meaningVi: "Học sinh, sinh viên" },
+            { word: "かいしゃいん", kana: "かいしゃいん", meaningVi: "Nhân viên công ty" },
+            { word: "ぎんこういん", kana: "ぎんこういん", meaningVi: "Nhân viên ngân hàng" },
+            { word: "いしゃ", kana: "いしゃ", meaningVi: "Bác sĩ" },
+            { word: "けんきゅうしゃ", kana: "けんきゅうしゃ", meaningVi: "Nhà nghiên cứu" },
+            { word: "エンジニア", kana: "エンジニア", meaningVi: "Kỹ sư" },
+            { word: "だいがく", kana: "だいがく", meaningVi: "Trường đại học" },
+            { word: "びょういん", kana: "びょういん", meaningVi: "Bệnh viện" },
+            { word: "でんき", kana: "でんき", meaningVi: "Điện, đèn điện" },
+            { word: "だれ", kana: "だれ", meaningVi: "Ai (nghi vấn từ)" },
+            { word: "なんさい", kana: "なんさい", meaningVi: "Mấy tuổi" },
+            { word: "はい", kana: "はい", meaningVi: "Vâng, đúng vậy" },
+            { word: "いいえ", kana: "いいえ", meaningVi: "Không, không phải" },
+            { word: "にほん", kana: "にほん", meaningVi: "Nhật Bản" },
+            { word: "ベトナム", kana: "ベトナム", meaningVi: "Việt Nam" },
+          ],
+          14: [
+            { word: "つけます", kana: "つけます", meaningVi: "Bật (điện, máy điều hòa)" },
+            { word: "けします", kana: "けします", meaningVi: "Tắt (điện, máy điều hòa)" },
+            { word: "あけます", kana: "あけます", meaningVi: "Mở (cửa, cửa sổ)" },
+            { word: "しめます", kana: "しめます", meaningVi: "Đóng (cửa, cửa sổ)" },
+            { word: "いそぎます", kana: "いそぎます", meaningVi: "Vội, gấp" },
+            { word: "まちます", kana: "まちます", meaningVi: "Đợi, chờ" },
+            { word: "もちます", kana: "もちます", meaningVi: "Mang, cầm" },
+            { word: "とります", kana: "とります", meaningVi: "Lấy, chuyển" },
+            { word: "てつだいます", kana: "てつだいます", meaningVi: "Giúp đỡ" },
+            { word: "よびます", kana: "よびます", meaningVi: "Gọi (tên, taxi)" },
+            { word: "はなします", kana: "はなします", meaningVi: "Nói chuyện" },
+            { word: "つかいます", kana: "つかいます", meaningVi: "Sử dụng, dùng" },
+            { word: "とめます", kana: "とめます", meaningVi: "Dừng, đỗ (xe)" },
+            { word: "みせます", kana: "みせます", meaningVi: "Cho xem, trình ra" },
+            { word: "おしえます", kana: "おしえます", meaningVi: "Dạy, chỉ dẫn" },
+            { word: "すわります", kana: "すわります", meaningVi: "Ngồi" },
+            { word: "たちます", kana: "たちます", meaningVi: "Đứng" },
+            { word: "はいります", kana: "はいります", meaningVi: "Vào (quán, phòng)" },
+            { word: "でます", kana: "でます", meaningVi: "Ra khỏi" },
+            { word: "ふります", kana: "ふります", meaningVi: "Rơi (mưa, tuyết)" },
+          ],
+        };
+
+        if (vocabs.length === 0) {
+          const fallbackList = LESSON_VOCAB_MAP[lNum] || LESSON_VOCAB_MAP[1];
+          vocabs = fallbackList.map((item, idx) => ({
+            vocabularyId: lNum * 1000 + idx + 1,
+            word: item.word,
+            kana: item.kana,
+            meaningVi: item.meaningVi,
+            partOfSpeech: "Từ vựng",
+            sortOrder: idx + 1,
+          }));
+        }
 
         // Shuffle vocabs randomly so every generated test has completely different vocabulary items
         const shuffledVocabs = vocabs && vocabs.length > 0 ? [...vocabs].sort(() => Math.random() - 0.5) : [];
@@ -513,27 +574,6 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
                 ],
               });
             }
-          } else {
-            combinedQuestions.push({
-              questionId: 10000 + targetIdx,
-              attemptAnswerId: targetIdx + 1,
-              questionType: "MULTIPLE_CHOICE",
-              category: "VOCAB",
-              prompt: `📖 [TỪ VỰNG] CHỌN NGHĨA ĐÚNG CỦA CÂU #${targetIdx + 1}`,
-              japaneseText: "私 (わたし)",
-              furiganaText: "わたし",
-              aiHintText: "💡 Từ vựng xưng hô cơ bản.",
-              audioText: "わたし",
-              transcript: "私 (わたし) : Tôi",
-              explanation: "Nghĩa đúng của 私 là Tôi.",
-              correctAnswerText: "Tôi",
-              options: [
-                { optionId: 1, optionText: "Tôi", isCorrect: true },
-                { optionId: 2, optionText: "Bạn", isCorrect: false },
-                { optionId: 3, optionText: "Thầy giáo", isCorrect: false },
-                { optionId: 4, optionText: "Học sinh", isCorrect: false },
-              ].sort(() => Math.random() - 0.5),
-            });
           }
         }
       }
