@@ -122,6 +122,11 @@ const SINO_VIETNAMESE_MAP: Record<string, string> = {
 /**
  * Extracts Sino-Vietnamese (Âm Hán Việt) reading for any Japanese Kanji string
  */
+export function getSinoVietnamese(kanjiChar?: string): string {
+  if (!kanjiChar) return "";
+  return SINO_VIETNAMESE_MAP[kanjiChar] || "";
+}
+
 export function getSinoVietnameseReading(kanjiStr?: string): string {
   if (!kanjiStr) return "";
 
@@ -135,8 +140,4 @@ export function getSinoVietnameseReading(kanjiStr?: string): string {
   }
 
   return sinoList.join(" ");
-}
-
-export function getSinoVietnamese(kanjiStr?: string): string {
-  return getSinoVietnameseReading(kanjiStr);
 }

@@ -75,8 +75,6 @@ public class SecurityConfig {
                                 "/api/v1/admin/import-jobs/**",
                                 "/admin/question-bank/**",
                                 "/api/v1/admin/question-bank/**",
-                                "/admin/**",
-                                "/api/v1/admin/**",
                                 "/admin/quiz-attempts/**",
                                 "/api/v1/admin/quiz-attempts/**",
                                 "/learning/quizzes/**",
@@ -90,6 +88,7 @@ public class SecurityConfig {
                         ).permitAll()
                         .requestMatchers("/learner/profile", "/api/v1/learner/profile").hasAnyRole("LEARNER", "ADMIN")
                         .requestMatchers("/learner/**", "/api/v1/learner/**").hasAnyRole("LEARNER", "ADMIN")
+                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );
 

@@ -41,6 +41,7 @@ public class AdminQuestionBankController {
     }
 
     @PostMapping("/lesson/{lessonId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<QuestionBank>> createQuestion(
             @PathVariable Long lessonId,
             @RequestBody QuestionBank question,
@@ -51,6 +52,7 @@ public class AdminQuestionBankController {
     }
 
     @PutMapping("/{questionId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<QuestionBank>> updateQuestion(
             @PathVariable Long questionId,
             @RequestBody QuestionBank question,
@@ -61,12 +63,14 @@ public class AdminQuestionBankController {
     }
 
     @DeleteMapping("/{questionId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Void>> deleteQuestion(@PathVariable Long questionId) {
         adminQuestionBankService.softDeleteQuestion(questionId);
         return ResponseEntity.ok(ApiResponse.success("Đã xóa mềm câu hỏi khỏi Kho đề.", null));
     }
 
     @PostMapping("/generate/lesson/{lessonId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<List<QuestionBank>>> autoGenerateQuestions(
             @PathVariable Long lessonId,
             Authentication authentication) {
@@ -76,23 +80,19 @@ public class AdminQuestionBankController {
     }
 
     @PostMapping("/generate-30/lesson/{lessonId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<List<QuestionBank>>> autoGenerate30Questions(
             @PathVariable Long lessonId,
-            @RequestParam(required = false, defaultValue = "ALL") String mode,
-            @RequestParam(required = false, defaultValue = "30") Integer count,
-            @RequestParam(required = false) Integer vocabCount,
-            @RequestParam(required = false) Integer grammarCount,
-            @RequestParam(required = false, defaultValue = "false") boolean append,
+            @RequestParam(required = false, defaultValue = "FULL") String mode,
             Authentication authentication) {
-        try {
-            Long adminUserId = getUserIdFromAuth(authentication);
-            List<QuestionBank> generated = adminQuestionBankService.generateQuestionsForLessonCustom(lessonId, mode, count, vocabCount, grammarCount, adminUserId, true, append);
-            int total = generated.size();
-            String actionWord = append ? "sinh thêm thành công " : "sinh thành công ";
-            return ResponseEntity.ok(ApiResponse.success("Đã " + actionWord + total + " câu hỏi cho Bài #" + lessonId + "!", generated));
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(ApiResponse.error("Lỗi sinh đề bài học #" + lessonId + ": " + e.getMessage()));
+        Long adminUserId = getUserIdFromAuth(authentication);
+        List<QuestionBank> generated;
+        if ("ALL".equalsIgnoreCase(mode) || "ALL_CATEGORIES".equalsIgnoreCase(mode)) {
+            generated = adminQuestionBankService.generateAll4CategoriesForLesson(lessonId, adminUserId);
+        } else {
+            generated = adminQuestionBankService.generateQuestionsForLessonByMode(lessonId, mode, adminUserId, true);
         }
+        return ResponseEntity.ok(ApiResponse.success("Đã khởi tạo thành công " + generated.size() + " câu hỏi cho Bài #" + lessonId + "!", generated));
     }
 
     @PostMapping("/generate-all-30")
@@ -121,6 +121,7 @@ public class AdminQuestionBankController {
     }
 
     @PostMapping("/approve-all/lesson/{lessonId}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<ApiResponse<Integer>> approveAllDrafts(@PathVariable Long lessonId) {
         int approvedCount = adminQuestionBankService.approveAllDraftQuestionsForLesson(lessonId);
         return ResponseEntity.ok(ApiResponse.success("Đã duyệt thành công " + approvedCount + " câu hỏi DRAFT sang ACTIVE.", approvedCount));

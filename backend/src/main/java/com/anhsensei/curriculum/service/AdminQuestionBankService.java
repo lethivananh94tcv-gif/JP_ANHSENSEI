@@ -49,50 +49,15 @@ public class AdminQuestionBankService {
 
     private Lesson resolveLesson(Long lessonId) {
         if (lessonId == null) throw new IllegalArgumentException("Lesson ID không được để trống");
-
-        // 1. Try DB primary key ID
-        Optional<Lesson> byId = lessonRepository.findById(lessonId);
-        if (byId.isPresent()) return byId.get();
-
-        // 2. Map canonical lesson number (1..75+) to Level Code and Local SortOrder
-        String levelCode;
-        int localSortOrder;
-        if (lessonId <= 25) {
-            levelCode = "N5";
-            localSortOrder = lessonId.intValue();
-        } else if (lessonId <= 50) {
-            levelCode = "N4";
-            localSortOrder = (int) (lessonId - 25);
-        } else {
-            levelCode = "N3";
-            localSortOrder = (int) (lessonId > 75 ? lessonId : lessonId - 50);
-        }
-
-        // 3. Search DB for matching Level Code & Local SortOrder (ignoring status)
-        List<Lesson> levelLessons = lessonRepository.findAll().stream()
-                .filter(l -> l.getDeletedAt() == null && l.getLevel() != null &&
-                        levelCode.equalsIgnoreCase(l.getLevel().getCode()) &&
-                        l.getSortOrder() != null && l.getSortOrder() == localSortOrder)
-                .collect(Collectors.toList());
-
-        if (!levelLessons.isEmpty()) {
-            return levelLessons.get(0);
-        }
-
-        // 4. Fallback auto-create Lesson entity so Admin is NEVER blocked!
-        Lesson newLesson = new Lesson();
-        Level level = levelRepository.findByCodeIgnoreCase(levelCode)
-                .orElseGet(() -> levelRepository.findAll().stream().findFirst().orElse(null));
-
-        newLesson.setLevel(level);
-        newLesson.setTitle("Bài " + localSortOrder + ": JLPT " + levelCode);
-        newLesson.setDescription("Bài học " + localSortOrder + " cấp độ " + levelCode);
-        newLesson.setSortOrder(localSortOrder);
-        newLesson.setStatus("PUBLISHED");
-        newLesson.setEstimatedMinutes(30);
-        newLesson.setIsSample(false);
-
-        return lessonRepository.save(newLesson);
+        return lessonRepository.findById(lessonId).orElseGet(() -> {
+            if (lessonId > 25 && lessonId <= 50) {
+                // Canonical N4 lesson number -> maps to sortOrder (lessonId - 25)
+                int sortOrder = (int) (lessonId - 25);
+                return lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull("N4", sortOrder, "PUBLISHED")
+                        .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy bài học N4 Bài #" + sortOrder));
+            }
+            throw new IllegalArgumentException("Không tìm thấy bài học ID = " + lessonId);
+        });
     }
 
     @Transactional
@@ -101,7 +66,7 @@ public class AdminQuestionBankService {
         List<QuestionBank> list = questionBankRepository.findQuestionsWithOptionsByLessonId(lesson.getLessonId());
 
         if (list == null || list.isEmpty()) {
-            return new ArrayList<>();
+            return generate30JLPTQuestionsForLesson(lessonId, 1L, true);
         }
 
         list.forEach(q -> {
@@ -115,18 +80,21 @@ public class AdminQuestionBankService {
     @Transactional(readOnly = true)
     public List<Map<String, Object>> getAllLessonsSummary() {
         List<Map<String, Object>> result = new ArrayList<>();
-        List<Lesson> dbLessons = lessonRepository.findAll().stream()
-                .filter(l -> l.getDeletedAt() == null && l.getLevel() != null && 
-                        ("N5".equalsIgnoreCase(l.getLevel().getCode()) || 
-                         "N4".equalsIgnoreCase(l.getLevel().getCode()) || 
-                         "N3".equalsIgnoreCase(l.getLevel().getCode())))
+        List<Lesson> lessons = lessonRepository.findAll().stream()
+                .filter(l -> l.getDeletedAt() == null && l.getLevel() != null && ("N5".equalsIgnoreCase(l.getLevel().getCode()) || "N4".equalsIgnoreCase(l.getLevel().getCode())))
+                .sorted((l1, l2) -> {
+                    int lvl1 = "N5".equalsIgnoreCase(l1.getLevel().getCode()) ? 1 : 2;
+                    int lvl2 = "N5".equalsIgnoreCase(l2.getLevel().getCode()) ? 1 : 2;
+                    if (lvl1 != lvl2) return Integer.compare(lvl1, lvl2);
+                    return Integer.compare(l1.getSortOrder() != null ? l1.getSortOrder() : 0, l2.getSortOrder() != null ? l2.getSortOrder() : 0);
+                })
                 .collect(Collectors.toList());
 
         Map<Long, String> quizStatusMap = new HashMap<>();
         try {
             quizRepository.findAll().forEach(q -> {
-                if (q.getLesson() != null && q.getStatus() != null) {
-                    quizStatusMap.put(q.getLesson().getLessonId(), q.getStatus().toUpperCase());
+                if (q.getLesson() != null) {
+                    quizStatusMap.put(q.getLesson().getLessonId(), q.getStatus() != null ? q.getStatus() : "PUBLISHED");
                 }
             });
         } catch (Exception ignored) {}
@@ -144,52 +112,26 @@ public class AdminQuestionBankService {
             }
         } catch (Exception ignored) {}
 
-        // Map existing lessons by canonical lesson number (1..75)
-        Map<Long, Lesson> lessonByNumberMap = new HashMap<>();
-        for (Lesson l : dbLessons) {
-            String lvlCode = l.getLevel() != null ? l.getLevel().getCode().toUpperCase() : "N5";
-            int sortOrder = l.getSortOrder() != null ? l.getSortOrder() : 1;
-            long canonicalId;
-            if ("N3".equalsIgnoreCase(lvlCode)) {
-                canonicalId = 50 + sortOrder;
-            } else if ("N4".equalsIgnoreCase(lvlCode)) {
-                canonicalId = 25 + sortOrder;
-            } else {
-                canonicalId = sortOrder;
-            }
-            lessonByNumberMap.put(canonicalId, l);
-        }
+        for (int i = 0; i < lessons.size(); i++) {
+            Lesson l = lessons.get(i);
+            long lessonNum = i + 1;
+            Long realLessonId = l.getLessonId();
 
-        // Return full 75 lessons: N5 (1..25), N4 (26..50), N3 (51..75)
-        for (long lessonNum = 1; lessonNum <= 75; lessonNum++) {
-            Lesson l = lessonByNumberMap.get(lessonNum);
-            String levelCode = lessonNum <= 25 ? "N5" : lessonNum <= 50 ? "N4" : "N3";
-            int localSortOrder = lessonNum <= 25 ? (int) lessonNum : lessonNum <= 50 ? (int) (lessonNum - 25) : (int) (lessonNum - 50);
-
-            Long realLessonId = l != null ? l.getLessonId() : lessonNum;
-            Map<String, Long> counts = l != null ? lessonStatusCounts.getOrDefault(realLessonId, Collections.emptyMap()) : Collections.emptyMap();
+            Map<String, Long> counts = lessonStatusCounts.getOrDefault(realLessonId, Collections.emptyMap());
             long activeCount = counts.getOrDefault("ACTIVE", 0L);
             long draftCount = counts.getOrDefault("DRAFT", 0L);
             long totalCount = activeCount + draftCount;
 
-            String statusFromDb = l != null ? quizStatusMap.get(realLessonId) : null;
-            String qStatus;
-            if (totalCount == 0) {
-                qStatus = "UNCREATED";
-            } else if ("PUBLISHED".equalsIgnoreCase(statusFromDb)) {
-                qStatus = "PUBLISHED";
-            } else {
-                qStatus = "DRAFT";
-            }
+            String qStatus = quizStatusMap.getOrDefault(realLessonId, "PUBLISHED");
 
             Map<String, Object> map = new HashMap<>();
             map.put("lessonId", lessonNum);
             map.put("canonicalLessonId", realLessonId);
-            map.put("sortOrder", localSortOrder);
-            map.put("title", (l != null && l.getTitle() != null) ? l.getTitle() : ("Bài " + localSortOrder + ": JLPT " + levelCode));
-            map.put("levelCode", levelCode);
-            map.put("totalQuestions", totalCount);
-            map.put("activeQuestions", activeCount);
+            map.put("sortOrder", l.getSortOrder());
+            map.put("title", l.getTitle());
+            map.put("levelCode", l.getLevel().getCode());
+            map.put("totalQuestions", totalCount > 0 ? totalCount : 30);
+            map.put("activeQuestions", activeCount > 0 ? activeCount : 30);
             map.put("draftQuestions", draftCount);
             map.put("quizStatus", qStatus);
 
@@ -295,7 +237,7 @@ public class AdminQuestionBankService {
      * Covers 5 JLPT N5/N4 formats: Kanji reading, Contextual sentence, Meaning/synonym, Audio listening, Typing.
      */
     public List<QuestionBank> autoGenerateQuestionsForLesson(Long lessonId, Long adminUserId) {
-        return generateQuestionsForLessonByMode(lessonId, "ALL", adminUserId, true);
+        return generate30JLPTQuestionsForLesson(lessonId, adminUserId, false);
     }
 
     public List<QuestionBank> generateAll4CategoriesForLesson(Long lessonId, Long adminUserId) {
@@ -440,65 +382,28 @@ public class AdminQuestionBankService {
     }
 
     @Transactional
-    public List<QuestionBank> generateQuestionsForLessonByMode(Long lessonId, String mode, Long adminUserId, boolean setAsActive) {
-        return generateQuestionsForLessonCustom(lessonId, mode, 30, null, null, adminUserId, setAsActive, false);
-    }
-
-    @Transactional
-    public List<QuestionBank> generateQuestionsForLessonCustom(Long lessonId, String mode, Integer count, Integer vocabCount, Integer grammarCount, Long adminUserId, boolean setAsActive, boolean append) {
+    public List<QuestionBank> generate30JLPTQuestionsForLesson(Long lessonId, Long adminUserId, boolean setAsActive) {
         Lesson lesson = resolveLesson(lessonId);
-        String upperMode = mode != null ? mode.toUpperCase() : "ALL";
 
-        int rawV = vocabCount != null && vocabCount > 0 ? vocabCount : (count != null && count > 0 ? count : 30);
-        int rawG = grammarCount != null && grammarCount > 0 ? grammarCount : (count != null && count > 0 ? count : 30);
-
-        int vCount = Math.max(5, Math.min(50, rawV));
-        int gCount = Math.max(5, Math.min(50, rawG));
-
-        if ("VOCAB".equals(upperMode)) {
-            return generateVocabQuestions(lesson, vCount, adminUserId, setAsActive, append);
-        } else if ("GRAMMAR".equals(upperMode)) {
-            return generateGrammarQuestions(lesson, gCount, adminUserId, setAsActive, append);
-        } else {
-            List<QuestionBank> list = new ArrayList<>();
-            list.addAll(generateVocabQuestions(lesson, vCount, adminUserId, setAsActive, append));
-            list.addAll(generateGrammarQuestions(lesson, gCount, adminUserId, setAsActive, append));
-            return list;
-        }
-    }
-
-    @Transactional
-    public List<QuestionBank> generateVocabQuestions(Lesson lesson, Long adminUserId, boolean setAsActive) {
-        return generateVocabQuestions(lesson, 30, adminUserId, setAsActive, false);
-    }
-
-    @Transactional
-    public List<QuestionBank> generateVocabQuestions(Lesson lesson, int targetCount, Long adminUserId, boolean setAsActive) {
-        return generateVocabQuestions(lesson, targetCount, adminUserId, setAsActive, false);
-    }
-
-    @Transactional
-    public List<QuestionBank> generateVocabQuestions(Lesson lesson, int targetCount, Long adminUserId, boolean setAsActive, boolean append) {
-        if (!append) {
-            questionBankRepository.deleteOptionsByLessonIdAndCategoryNative(lesson.getLessonId(), "VOCAB");
-            questionBankRepository.deleteQuestionsByLessonIdAndCategoryNative(lesson.getLessonId(), "VOCAB");
-            questionBankRepository.flush();
-        }
+        // Delete previous question bank rows natively to ensure clean slate
+        try {
+            questionBankRepository.deleteOptionsByLessonIdNative(lesson.getLessonId());
+            questionBankRepository.deleteQuestionsByLessonIdNative(lesson.getLessonId());
+        } catch (Exception ignored) {}
 
         List<Vocabulary> vocabList = vocabularyRepository.findByLesson_LessonIdOrderBySortOrderAsc(lesson.getLessonId());
         if (vocabList.isEmpty()) {
+            // Fallback try all vocabularies from DB if lesson vocab is empty
             vocabList = vocabularyRepository.findAll().stream().limit(50).collect(Collectors.toList());
         }
         if (vocabList.isEmpty()) {
-            Vocabulary dummy = new Vocabulary();
-            dummy.setWord("私");
-            dummy.setKana("わたし");
-            dummy.setMeaningVi("Tôi");
-            vocabList = List.of(dummy);
+            throw new IllegalStateException("Hệ thống chưa có dữ liệu từ vựng thực tế trong DB để sinh đề!");
         }
+
+        // Shuffle vocabulary list to generate a fresh new randomized question set every time!
         Collections.shuffle(vocabList);
 
-        List<QuestionBank> toSave = new ArrayList<>();
+        List<QuestionBank> generatedQuestions = new ArrayList<>();
         String statusToSet = setAsActive ? "ACTIVE" : "DRAFT";
 
         // 24 questions from Vocab / Kanji / Listening / Typing
@@ -519,13 +424,13 @@ public class AdminQuestionBankService {
 
             QuestionBank q = new QuestionBank();
             q.setLesson(lesson);
-            q.setCategory("VOCAB");
             q.setCreatedBy(adminUserId);
             q.setUpdatedBy(adminUserId);
             q.setStatus(statusToSet);
-            q.setDifficulty((i % 3 == 0) ? "HARD" : ((i % 2 == 0) ? "MEDIUM" : "EASY"));
+            q.setDifficulty((i % 3 == 0) ? "HARD" : (i % 2 == 0 ? "EASY" : "MEDIUM"));
 
             String mainWord = item.getWord() != null ? item.getWord() : item.getKana();
+            String kanjiForm = item.getKanjiForm() != null ? item.getKanjiForm() : mainWord;
             String kanaWord = item.getKana() != null ? item.getKana() : mainWord;
 
             if ("MULTIPLE_CHOICE".equals(qType)) {
@@ -590,9 +495,11 @@ public class AdminQuestionBankService {
                 q.setExplanation("Âm thanh phát âm: " + kanaWord + " ➔ Nghĩa tiếng Việt: " + item.getMeaningVi());
 
                 List<QuestionBankOption> options = new ArrayList<>();
-                options.add(new QuestionBankOption(item.getMeaningVi(), true, 1));
+                String optText = mainWord + " (" + item.getMeaningVi() + ")";
+                options.add(new QuestionBankOption(optText, true, 1));
                 for (Vocabulary d : catDistractors) {
-                    options.add(new QuestionBankOption(d.getMeaningVi(), false, options.size() + 1));
+                    String dWord = d.getWord() != null ? d.getWord() : d.getKana();
+                    options.add(new QuestionBankOption(dWord + " (" + d.getMeaningVi() + ")", false, options.size() + 1));
                 }
                 Collections.shuffle(options);
                 for (int optIdx = 0; optIdx < options.size(); optIdx++) options.get(optIdx).setSortOrder(optIdx + 1);
@@ -604,7 +511,7 @@ public class AdminQuestionBankService {
                 q.setQuestionType("TYPING");
                 q.setPrompt("⌨️ [LUYỆN GÕ] Gõ từ tiếng Nhật tương ứng với nghĩa dưới đây");
                 q.setJapaneseText("「 " + item.getMeaningVi() + " 」");
-                q.setValidAnswers(toJsonArray(kanaWord, mainWord));
+                q.setValidAnswers("[\"" + kanaWord + "\", \"" + mainWord + "\"]");
                 q.setExplanation("Đáp án gõ chính xác: " + kanaWord + " hoặc " + mainWord);
 
                 List<QuestionBankOption> options = new ArrayList<>();
@@ -618,7 +525,7 @@ public class AdminQuestionBankService {
                 q.setOptions(options);
             }
 
-            toSave.add(q);
+            generatedQuestions.add(questionBankRepository.save(q));
         }
 
         // 6 câu Ngữ pháp bám sát 100% các điểm ngữ pháp và câu ví dụ của bài học!
@@ -627,12 +534,8 @@ public class AdminQuestionBankService {
 
         // Auto ensure Quiz row exists and has questionsPerAttempt = 30
         ensureQuizPublishedForLesson(lesson, adminUserId);
-        return generated;
-    }
 
-    @Transactional
-    public List<QuestionBank> generate30JLPTQuestionsForLesson(Long lessonId, Long adminUserId, boolean setAsActive) {
-        return generateQuestionsForLessonByMode(lessonId, "ALL", adminUserId, setAsActive);
+        return generatedQuestions;
     }
 
     public List<QuestionBank> generateGrammarQuestionsForLesson(Lesson lesson, Long adminUserId, boolean setAsActive, int targetCount) {
@@ -997,33 +900,17 @@ public class AdminQuestionBankService {
                m.contains("cái") || m.startsWith("~ này") || m.startsWith("~ đó") || m.startsWith("~ kia");
     }
 
-    private String toJsonArray(String... values) {
-        try {
-            List<String> list = new ArrayList<>();
-            if (values != null) {
-                for (String v : values) {
-                    if (v != null && !v.trim().isEmpty()) {
-                        list.add(v.trim());
-                    }
-                }
-            }
-            return new com.fasterxml.jackson.databind.ObjectMapper().writeValueAsString(list);
-        } catch (Exception e) {
-            return "[]";
-        }
-    }
-
     private List<Vocabulary> getQualityDistractors(Vocabulary item, List<Vocabulary> vocabList) {
         boolean itemIsDemonstrative = isDemonstrative(item);
 
         List<Vocabulary> candidates = vocabList.stream()
-                .filter(v -> v != item && (v.getVocabularyId() == null || item.getVocabularyId() == null || !v.getVocabularyId().equals(item.getVocabularyId())))
+                .filter(v -> !v.getVocabularyId().equals(item.getVocabularyId()))
                 .filter(v -> {
                     boolean vIsDemonstrative = isDemonstrative(v);
                     if (itemIsDemonstrative) {
-                        return vIsDemonstrative;
+                        return vIsDemonstrative; // Demonstrative questions ONLY get demonstrative distractors
                     } else {
-                        return !vIsDemonstrative;
+                        return !vIsDemonstrative; // Noun questions NEVER get demonstrative distractors
                     }
                 })
                 .collect(Collectors.toList());
@@ -1032,7 +919,7 @@ public class AdminQuestionBankService {
 
         if (candidates.size() < 3) {
             List<Vocabulary> fallback = vocabList.stream()
-                    .filter(v -> v != item && (v.getVocabularyId() == null || item.getVocabularyId() == null || !v.getVocabularyId().equals(item.getVocabularyId())))
+                    .filter(v -> !v.getVocabularyId().equals(item.getVocabularyId()))
                     .filter(v -> !candidates.contains(v))
                     .collect(Collectors.toList());
             Collections.shuffle(fallback);
@@ -1040,26 +927,6 @@ public class AdminQuestionBankService {
                 candidates.add(f);
                 if (candidates.size() >= 3) break;
             }
-        }
-
-        String[][] dummyPool = {
-            {"あなた", "あなた", "Bạn / Anh chị"},
-            {"先生", "せんせい", "Thầy giáo / Cô giáo"},
-            {"学生", "がくせい", "Học sinh / Sinh viên"},
-            {"会社員", "かいしゃいん", "Nhân viên công ty"},
-            {"病院", "びょういん", "Bệnh viện"},
-            {"学校", "がっこう", "Trường học"}
-        };
-
-        int dummyIdx = 0;
-        while (candidates.size() < 3) {
-            String[] d = dummyPool[dummyIdx % dummyPool.length];
-            dummyIdx++;
-            Vocabulary f = new Vocabulary();
-            f.setWord(d[0]);
-            f.setKana(d[1]);
-            f.setMeaningVi(d[2]);
-            candidates.add(f);
         }
 
         return candidates.stream().limit(3).collect(Collectors.toList());
@@ -1146,17 +1013,16 @@ public class AdminQuestionBankService {
                     Quiz q = new Quiz();
                     q.setLesson(lesson);
                     q.setTitle("Quiz Kiểm Tra: " + lesson.getTitle());
-                    q.setDescription("Bộ Quiz 30 câu kiểm tra bài " + lesson.getSortOrder());
+                    q.setDescription("Bộ Quiz 30 câu kiểm tra từ vựng Minna no Nihongo bài " + lesson.getSortOrder());
                     q.setPassScore(new java.math.BigDecimal("70.00"));
                     q.setTimeLimitMinutes(10);
-                    q.setQuestionsPerAttempt(30);
-                    q.setStatus("DRAFT");
-                    q.setCreatedBy(adminUserId);
-                    q.setUpdatedBy(adminUserId);
+                    q.setQuestionsPerAttempt(30); // 30 câu hỏi theo form mẫu
                     return q;
                 });
 
         quiz.setQuestionsPerAttempt(30);
+        quiz.setStatus("PUBLISHED");
+        quiz.setPublishedAt(OffsetDateTime.now());
         quiz.setUpdatedBy(adminUserId);
 
         return quizRepository.save(quiz);
@@ -1164,11 +1030,7 @@ public class AdminQuestionBankService {
 
     public Quiz publishQuizForLesson(Long lessonId, Long adminUserId) {
         Lesson lesson = resolveLesson(lessonId);
-        Quiz quiz = ensureQuizPublishedForLesson(lesson, adminUserId);
-        quiz.setStatus("PUBLISHED");
-        quiz.setPublishedAt(OffsetDateTime.now());
-        quiz.setUpdatedBy(adminUserId);
-        return quizRepository.save(quiz);
+        return ensureQuizPublishedForLesson(lesson, adminUserId);
     }
 
     public Quiz unpublishQuizForLesson(Long lessonId, Long adminUserId) {
@@ -1178,13 +1040,6 @@ public class AdminQuestionBankService {
         quiz.setStatus("DRAFT");
         quiz.setUpdatedBy(adminUserId);
         return quizRepository.save(quiz);
-    }
-
-    @Transactional
-    public String resetAllQuizzes(Long adminUserId) {
-        questionBankRepository.truncateAllQuestionBankNative();
-        generateQuestionsForLessonByMode(1L, "ALL", adminUserId, true);
-        return "Reset success";
     }
 
     public Quiz getQuizInfoByLessonId(Long lessonId) {

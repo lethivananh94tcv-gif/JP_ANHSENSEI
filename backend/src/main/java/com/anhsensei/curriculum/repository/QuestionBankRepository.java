@@ -32,14 +32,6 @@ public interface QuestionBankRepository extends JpaRepository<QuestionBank, Long
     void deleteQuestionsByLessonIdNative(@Param("lessonId") Long lessonId);
 
     @org.springframework.data.jpa.repository.Modifying
-    @Query(value = "DELETE FROM question_bank_options WHERE question_id IN (SELECT question_id FROM question_bank WHERE lesson_id = :lessonId AND category = :category)", nativeQuery = true)
-    void deleteOptionsByLessonIdAndCategoryNative(@Param("lessonId") Long lessonId, @Param("category") String category);
-
-    @org.springframework.data.jpa.repository.Modifying
-    @Query(value = "DELETE FROM question_bank WHERE lesson_id = :lessonId AND category = :category", nativeQuery = true)
-    void deleteQuestionsByLessonIdAndCategoryNative(@Param("lessonId") Long lessonId, @Param("category") String category);
-
-    @org.springframework.data.jpa.repository.Modifying
     @Query(value = "TRUNCATE TABLE question_bank_options, question_bank CASCADE", nativeQuery = true)
     void truncateAllQuestionBankNative();
 

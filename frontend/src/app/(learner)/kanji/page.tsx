@@ -1,17 +1,10 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, BookOpen, Layers, Sparkles, Map, ArrowRight } from "lucide-react";
 import KanjiRadicalsView from "@/components/learner/kanji/KanjiRadicalsView";
 import KanjiLessonDetailView from "@/components/learner/kanji/KanjiLessonDetailView";
-import KanjiHeaderBanner from "@/components/learner/kanji/KanjiHeaderBanner";
-import KanjiLevelNavigation, { KanjiTabType } from "@/components/learner/kanji/KanjiLevelNavigation";
-import KanjiSearchBar from "@/components/learner/kanji/KanjiSearchBar";
-import KanjiTopicCard, { parseTopicCardInfo } from "@/components/learner/kanji/KanjiTopicCard";
-import { getSinoVietnamese } from "@/lib/utils/kanjiSinoVietnamese";
-
-import LearnerFooter from "@/components/learner/LearnerFooter";
 
 interface KanjiTopicDto {
   topicId: number;
@@ -96,12 +89,11 @@ function parseTopicCardInfo(title: string, description: string, topicOrder: numb
 
 export default function LearnerKanjiPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<KanjiTabType>("N5");
+  const [activeTab, setActiveTab] = useState<"RADICALS" | "N5" | "N4" | "N3" | "N2" | "N1">("N5");
   const [topics, setTopics] = useState<KanjiTopicDto[]>([]);
   const [topicsCache, setTopicsCache] = useState<Record<string, KanjiTopicDto[]>>({});
   const [loadingTopics, setLoadingTopics] = useState(false);
   const [selectedTopicId, setSelectedTopicId] = useState<number | null>(null);
-  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (activeTab !== "RADICALS") {
@@ -130,20 +122,6 @@ export default function LearnerKanjiPage() {
       setSelectedTopicId(null);
     }
   }, [activeTab, topicsCache]);
-
-  // Real-time search filtering across topic titles and characters
-  const filteredTopics = useMemo(() => {
-    if (!searchQuery || searchQuery.trim() === "") return topics;
-    const q = searchQuery.trim().toLowerCase();
-    return topics.filter((tp) => {
-      const { cleanTitle, characters } = parseTopicCardInfo(tp.title, tp.description);
-      if (tp.title.toLowerCase().includes(q)) return true;
-      if (cleanTitle.toLowerCase().includes(q)) return true;
-      if (characters.some((ch) => ch.includes(q))) return true;
-      if (characters.some((ch) => (getSinoVietnamese(ch) || "").toLowerCase().includes(q))) return true;
-      return false;
-    });
-  }, [topics, searchQuery]);
 
   return (
     <div className="min-h-screen bg-[#FFFDF9] p-4 sm:p-8 text-[#1F1714] select-none">
@@ -407,11 +385,7 @@ export default function LearnerKanjiPage() {
             )}
           </div>
         )}
-        </div>
-      </main>
-
-      {/* 🌟 2. LEARNER FOOTER */}
-      <LearnerFooter />
+      </div>
     </div>
   );
 }

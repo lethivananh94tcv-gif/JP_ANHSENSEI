@@ -12,8 +12,6 @@ public interface LevelRepository extends JpaRepository<Level, Long> {
 
     Optional<Level> findByCode(String code);
 
-    Optional<Level> findByCodeIgnoreCase(String code);
-
     boolean existsByCode(String code);
 
     @Query("SELECT CASE WHEN COUNT(l) > 0 THEN true ELSE false END FROM Level l WHERE l.sortOrder = :sortOrder AND l.status <> :excludedStatus AND l.deletedAt IS NULL")
