@@ -136,3 +136,7 @@ export function getSinoVietnameseReading(kanjiStr?: string): string {
 
   return sinoList.join(" ");
 }
+
+export function getSinoVietnamese(kanjiStr?: string): string {
+  return getSinoVietnameseReading(kanjiStr);
+}

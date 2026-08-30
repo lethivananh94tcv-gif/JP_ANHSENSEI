@@ -80,7 +80,7 @@ public class DataSeeder implements CommandLineRunner {
         roleRepository.findByRoleName("LEARNER")
                 .orElseGet(() -> roleRepository.save(new Role(null, "LEARNER", "Người học", null)));
 
-        // 3. Ensure Default Admin Account exists
+        // 3. Ensure Default Admin Accounts exist
         String adminEmail = "admin@anhsensei.com";
         if (!userRepository.existsByEmail(adminEmail)) {
             User admin = new User();
@@ -94,6 +94,26 @@ public class DataSeeder implements CommandLineRunner {
             userRepository.save(admin);
             log.info(">>> [DATA SEEDER] Đã khởi tạo tài khoản ADMIN mặc định: {} | Mật khẩu: AdminPassword123!", adminEmail);
         }
+
+        // 3b. Ensure Admin Account emkien@admin.com exists with password Kien2005
+        String emKienEmail = "emkien@admin.com";
+        User emKien = userRepository.findByEmail(emKienEmail).orElse(null);
+        if (emKien == null) {
+            emKien = new User();
+            emKien.setEmail(emKienEmail);
+            emKien.setFullName("Admin Em Kiên");
+            emKien.setRole(adminRole);
+            emKien.setTargetLevel("N1");
+            emKien.setStatus("ACTIVE");
+            emKien.setEmailVerifiedAt(OffsetDateTime.now());
+        }
+        emKien.setPasswordHash(passwordEncoder.encode("Kien2005"));
+        emKien.setStatus("ACTIVE");
+        emKien.setFailedLoginCount(0);
+        emKien.setLockUntil(null);
+        emKien.setRole(adminRole);
+        userRepository.save(emKien);
+        log.info(">>> [DATA SEEDER] Đã khởi tạo/cập nhật tài khoản ADMIN: {} | Mật khẩu: Kien2005", emKienEmail);
 
         // 4. N4 Minna 26..32 vocabularies (347 items) have been successfully imported and mapped to Lessons 151..157.
     }
