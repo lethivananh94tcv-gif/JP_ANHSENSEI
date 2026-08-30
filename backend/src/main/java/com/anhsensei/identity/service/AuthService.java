@@ -142,9 +142,6 @@ public class AuthService {
         // Generate and send numeric OTP (Expires in 5 mins) for immediate verification
         String otpCode = generateNumericOtp();
         loginOtpMap.put(normalizedEmail, new OtpEntry(otpCode, OffsetDateTime.now().plusMinutes(5)));
-        try {
-            emailService.sendOtpLoginEmail(normalizedEmail, otpCode);
-        } catch (Exception ignored) {}
 
         // Generate raw Token (Expires in 24h)
         String rawToken = generateRandomToken();

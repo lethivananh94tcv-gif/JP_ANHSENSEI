@@ -7,6 +7,8 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import java.util.concurrent.CompletableFuture;
+
 @Service
 public class EmailService {
 
@@ -47,27 +49,29 @@ public class EmailService {
     }
 
     private void sendEmailInternal(String toEmail, String subject, String content, String token, String type) {
-        if (mailUsername != null && !mailUsername.isBlank()) {
-            try {
-                SimpleMailMessage message = new SimpleMailMessage();
-                message.setFrom(mailUsername);
-                message.setTo(toEmail);
-                message.setSubject(subject);
-                message.setText(content);
-                mailSender.send(message);
-                log.info("Email [{}] đã được gửi thành công đến {}", type, toEmail);
-                return;
-            } catch (Exception e) {
-                log.error("Lỗi khi gửi email SMTP đến {}: {}", toEmail, e.getMessage());
-            }
-        }
+        // Run email dispatch asynchronously in background thread so HTTP response is INSTANT
+        CompletableFuture.runAsync(() -> {
+            log.info("==========================================================");
+            log.info(" [EMAIL SERVICE - {}]", type);
+            log.info(" TO EMAIL : {}", toEmail);
+            log.info(" SUBJECT  : {}", subject);
+            log.info(" OTP CODE : {}", token);
+            log.info("==========================================================");
 
-        // Mock / Development Fallback Logger
-        log.info("==========================================================");
-        log.info(" [MOCK EMAIL SERVICE - {}]", type);
-        log.info(" ĐẾN EMAIL: {}", toEmail);
-        log.info(" TIÊU ĐỀ  : {}", subject);
-        log.info(" MÃ/TOKEN : {}", token);
-        log.info("==========================================================");
+            if (mailUsername != null && !mailUsername.isBlank()) {
+                try {
+                    SimpleMailMessage message = new SimpleMailMessage();
+                    message.setFrom(mailUsername);
+                    message.setTo(toEmail);
+                    message.setSubject(subject);
+                    message.setText(content);
+                    mailSender.send(message);
+                    log.info("Email [{}] đã được gửi thành công qua SMTP đến {}", type, toEmail);
+                } catch (Exception e) {
+                    log.error("Lỗi khi gửi email SMTP đến {}: {}", toEmail, e.getMessage());
+                    log.warn("LƯU Ý: Mã OTP [{}] đã tạo cho email {} sẵn sàng để sử dụng.", token, toEmail);
+                }
+            }
+        });
     }
 }

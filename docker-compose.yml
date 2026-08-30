@@ -30,6 +30,10 @@ services:
       - SUPABASE_URL=${SUPABASE_URL:-https://vdzlkldjhxdzoztgcagy.supabase.co}
       - SUPABASE_SERVICE_KEY=${SUPABASE_SERVICE_KEY:-dummy_key}
       - AI_API_KEY=${AI_API_KEY:-dummy_ai_key}
+      - SPRING_MAIL_HOST=${SPRING_MAIL_HOST:-smtp.gmail.com}
+      - SPRING_MAIL_PORT=${SPRING_MAIL_PORT:-587}
+      - SPRING_MAIL_USERNAME=${SPRING_MAIL_USERNAME:-lethivananh.94tcv@gmail.com}
+      - SPRING_MAIL_PASSWORD=${SPRING_MAIL_PASSWORD:-tjfzhilujxcxstqt}
     healthcheck:
       test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health/liveness || exit 1"]
       interval: 10s
