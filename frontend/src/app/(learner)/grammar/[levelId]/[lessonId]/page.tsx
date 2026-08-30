@@ -28,6 +28,7 @@ import {
   Zap,
 } from "lucide-react";
 import { MOCK_LESSONS_DATA } from "@/components/learner/grammar/mockGrammarData";
+import { apiClient } from "@/lib/api/client";
 
 interface GrammarExample {
   japaneseText: string;
@@ -271,32 +272,34 @@ export default function LearnerGrammarDetailPage() {
       };
 
       try {
-        const token = typeof window !== "undefined" ? localStorage.getItem("auth_token") : null;
-        const res = await fetch(`/api/v1/curriculum/lessons/${lessonNum}/grammar`, {
-          headers: token ? { Authorization: `Bearer ${token}` } : {},
-        });
-        if (res.ok) {
-          const json = await res.json();
-          const list = Array.isArray(json) ? json : json.data || [];
-          const mapList = lessonDataMap[lessonNum];
-          
-          // ALWAYS prioritize rich 5-item lessonDataMap list if API returned fewer items
-          if (mapList && mapList.length > list.length && isMounted) {
-            setGrammars(mapList);
-            setupEmaGame(mapList);
-            setActivePointId(mapList[0].grammarId);
-            setLoading(false);
-            return;
-          } else if (list.length > 0 && isMounted) {
-            setGrammars(list);
-            setupEmaGame(list);
-            setActivePointId(list[0].grammarId);
-            setLoading(false);
-            return;
-          }
+        const res = await apiClient<any[]>(`/curriculum/lessons/${lessonNum}/grammar`);
+        const rawList = res && res.success && Array.isArray(res.data) ? res.data : [];
+
+        if (rawList.length > 0 && isMounted) {
+          const mappedList: GrammarPoint[] = rawList.map((g: any) => ({
+            grammarId: Number(g.grammarId || g.id),
+            pattern: g.pattern || "Cấu trúc ngữ pháp",
+            meaning: g.meaning || "Ý nghĩa ngữ pháp",
+            explanation: g.explanation || "Giải thích chi tiết",
+            structure: g.structure || "",
+            usageNotes: g.usageNotes || g.notes || "",
+            examples: Array.isArray(g.examples)
+              ? g.examples.map((ex: any) => ({
+                  japaneseText: ex.japaneseText || ex.japanese || "",
+                  furiganaText: ex.reading || ex.furigana || ex.furiganaText || ex.japaneseText || "",
+                  meaningVi: ex.meaningVi || ex.translationVi || ex.meaning || "",
+                }))
+              : [],
+          }));
+
+          setGrammars(mappedList);
+          setupEmaGame(mappedList);
+          setActivePointId(mappedList[0].grammarId);
+          setLoading(false);
+          return;
         }
       } catch (err) {
-        // Fallback
+        console.warn("[GrammarDetailPage] Backend API fetch failed, falling back to local dataset:", err);
       }
 
       if (isMounted) {

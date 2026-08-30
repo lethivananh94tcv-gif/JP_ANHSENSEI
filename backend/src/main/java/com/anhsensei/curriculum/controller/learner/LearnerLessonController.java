@@ -41,6 +41,13 @@ public class LearnerLessonController {
     private Long resolveLessonId(Long inputId) {
         if (inputId == null) return null;
 
+        // 1. First check if inputId matches a direct published Lesson ID in database
+        Optional<Lesson> directLessonOpt = lessonRepository.findById(inputId);
+        if (directLessonOpt.isPresent() && "PUBLISHED".equalsIgnoreCase(directLessonOpt.get().getStatus()) && directLessonOpt.get().getDeletedAt() == null) {
+            return inputId;
+        }
+
+        // 2. Map sort orders for N5 (1..25)
         if (inputId > 0 && inputId <= 25) {
             Optional<Lesson> lessonOpt = lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull(
                     "N5", inputId.intValue(), "PUBLISHED"
@@ -48,18 +55,15 @@ public class LearnerLessonController {
             if (lessonOpt.isPresent()) {
                 return lessonOpt.get().getLessonId();
             }
-        } else if (inputId >= 26 && inputId <= 50) {
+        } 
+        // 3. Map sort orders for N4 (26..50 -> sort order 1..25)
+        else if (inputId >= 26 && inputId <= 50) {
             int n4SortOrder = inputId.intValue() - 25;
             Optional<Lesson> lessonOpt = lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull(
                     "N4", n4SortOrder, "PUBLISHED"
             );
             if (lessonOpt.isPresent()) {
                 return lessonOpt.get().getLessonId();
-            }
-        } else {
-            Optional<Lesson> lessonOpt = lessonRepository.findById(inputId);
-            if (lessonOpt.isPresent() && "PUBLISHED".equalsIgnoreCase(lessonOpt.get().getStatus()) && lessonOpt.get().getDeletedAt() == null) {
-                return inputId;
             }
         }
 

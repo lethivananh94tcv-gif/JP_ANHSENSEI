@@ -38,7 +38,13 @@ export default function LearnerGrammarPage() {
           const mapped = res.data.map((l: any, idx: number) => ({
             id: l.lessonId || l.id || idx + 1,
             level: activeLevelId,
-            lessonNumber: l.sortOrder || l.lessonNumber || idx + 1,
+            lessonNumber: l.lessonNumber && l.lessonNumber > 0 
+              ? l.lessonNumber 
+              : activeLevelId === "N4" && l.sortOrder <= 25 
+                ? l.sortOrder + 25 
+                : activeLevelId === "N3" && l.sortOrder <= 25 
+                  ? l.sortOrder + 50 
+                  : (l.sortOrder || idx + 1),
             title: l.title || l.lessonTitle || `Bài ${idx + 1}`,
             description: l.description || "Nội dung bài học ngữ pháp",
             topicCount: l.grammarCount || 6,

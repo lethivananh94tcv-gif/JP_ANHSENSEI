@@ -44,31 +44,43 @@ export default function GrammarQuizPractice({ lessonNum, grammarPoints }: Gramma
     async function loadQuestions() {
       setLoading(true);
       try {
-        // 1. Try loading from real backend Question Bank
-        const json = await apiClient<any>(`/admin/question-bank/lesson/${lessonNum}`).catch(() => null);
-        if (json && json.data) {
-          const list = json.data.content || (Array.isArray(json.data) ? json.data : []);
-          if (list.length > 0 && isMounted) {
-            const formatted = list.map((q: any, idx: number) => ({
+        // 1. Try loading from dedicated learner practice-session endpoint
+        const res = await apiClient<any>(`/learner/grammar/lessons/${lessonNum}/practice-session?limit=10`).catch(() => null);
+        if (res && res.success && Array.isArray(res.data) && res.data.length > 0) {
+          const formatted = res.data.map((q: any, idx: number) => {
+            const rawOpts = Array.isArray(q.options) ? q.options : [];
+            const correctStr = String(q.correctAnswer || "").trim();
+            const optionObjs = rawOpts.map((o: any, oIdx: number) => {
+              const optText = typeof o === "object" ? (o.optionText || o.text || "") : String(o);
+              const isCorr = typeof o === "object" && o.isCorrect !== undefined
+                ? Boolean(o.isCorrect)
+                : optText.trim() === correctStr;
+              return {
+                optionId: oIdx + 1,
+                optionText: optText,
+                isCorrect: isCorr,
+              };
+            });
+
+            return {
               questionId: q.questionId || idx + 1,
-              prompt: q.prompt,
-              questionType: q.questionType || "MULTIPLE_CHOICE",
-              category: q.category || "GRAMMAR",
-              japaneseText: q.japaneseText || "",
-              explanation: q.explanation || "",
-              options: (q.options || []).map((o: any) => ({
-                optionId: o.optionId,
-                optionText: o.optionText,
-                isCorrect: o.isCorrect === true || o.correct === true,
-              })),
-            }));
+              prompt: q.title || q.promptVi || `Chọn đáp án ngữ pháp đúng cho Bài ${lessonNum}`,
+              questionType: q.type || "MULTIPLE_CHOICE",
+              category: "GRAMMAR",
+              japaneseText: q.promptJp || q.japaneseText || "",
+              explanation: q.explanation || "Đáp án chuẩn ngữ pháp tiếng Nhật.",
+              options: optionObjs,
+            };
+          });
+
+          if (formatted.length > 0 && isMounted) {
             setQuestions(formatted);
             setLoading(false);
             return;
           }
         }
       } catch (err) {
-        console.warn("Could not load backend questions, using lesson grammar points:", err);
+        console.warn("Could not load backend learner practice session, using lesson grammar points:", err);
       }
 
       // 2. Client-side fallback derived directly from lesson grammar points
