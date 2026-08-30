@@ -71,7 +71,13 @@ export default function LearnerVocabulariesHubPage() {
     try {
       setLessonsLoading(true);
 
-      const res = await apiClient<LessonItem[]>(`/learner/levels/${targetLevel.levelId}/lessons`);
+      let res = await apiClient<LessonItem[]>(`/learner/levels/${targetLevel.code || targetLevel.levelId}/lessons`);
+      if (!res.data || res.data.length === 0) {
+        res = await apiClient<LessonItem[]>(`/curriculum/levels/${targetLevel.code || targetLevel.levelId}/lessons`);
+      }
+      if (!res.data || res.data.length === 0) {
+        res = await apiClient<LessonItem[]>(`/learner/levels/${targetLevel.levelId}/lessons`);
+      }
       const publishedLessons = (res.data || []).filter((l) => l.status === "PUBLISHED");
       setLessons(publishedLessons);
 
