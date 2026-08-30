@@ -9,6 +9,8 @@ import KanjiQuizTestView from "./KanjiQuizTestView";
 import InteractiveStrokeCanvas from "./InteractiveStrokeCanvas";
 import KanjiMatchGame3D from "./KanjiMatchGame3D";
 
+import { apiClient } from "@/lib/api/client";
+
 export interface KanjiTopicItemDto {
   kanjiId: number;
   character: string;
@@ -63,10 +65,9 @@ export default function KanjiLessonDetailView({ topicId, onBack }: KanjiLessonDe
     const fetchDetail = async () => {
       try {
         setLoading(true);
-        const res = await fetch(`/api/v1/curriculum/kanji-topics/${topicId}`);
-        if (res.ok) {
-          const result = await res.json();
-          setData(result);
+        const res = await apiClient<KanjiTopicDetailDto>(`/curriculum/kanji-topics/${topicId}`);
+        if (res && res.data) {
+          setData(res.data);
         }
       } catch (err) {
         console.error("Lỗi tải chi tiết bài Kanji:", err);

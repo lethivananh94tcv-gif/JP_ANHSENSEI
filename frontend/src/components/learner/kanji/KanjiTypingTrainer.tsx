@@ -1,8 +1,7 @@
-"use client";
-
 import { useState, useEffect, useRef } from "react";
 import { CheckCircle2, XCircle, RefreshCw, Trophy, Sparkles, Keyboard } from "lucide-react";
 import { KanjiTopicItemDto } from "./KanjiLessonDetailView";
+import { apiClient } from "@/lib/api/client";
 
 interface KanjiTypingTrainerProps {
   topicId: number;
@@ -31,7 +30,7 @@ export default function KanjiTypingTrainer({ topicId, topicTitle, items, onFinis
     if (!inputVal.trim() || !currentItem) return;
 
     try {
-      const res = await fetch(`/api/v1/learning/kanji/topics/${topicId}/verify`, {
+      const res = await apiClient<any>(`/learning/kanji/topics/${topicId}/verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -40,11 +39,10 @@ export default function KanjiTypingTrainer({ topicId, topicTitle, items, onFinis
         }),
       });
 
-      if (res.ok) {
-        const data = await res.json();
-        if (data.correct) {
-          setStatus("SUCCESS");
-          setMessage("🎉 Đúng rồi! " + (data.matchedReading ? `(Romaji: ${data.matchedReading})` : ""));
+      const payload = res?.data || res;
+      if (payload && payload.correct) {
+        setStatus("SUCCESS");
+        setMessage("🎉 Đúng rồi! " + (payload.matchedReading ? `(Romaji: ${payload.matchedReading})` : ""));
           setScore((prev) => prev + 1);
 
           setTimeout(() => {
@@ -61,7 +59,6 @@ export default function KanjiTypingTrainer({ topicId, topicTitle, items, onFinis
           setStatus("ERROR");
           setMessage("❌ Chưa chính xác, hãy thử lại nhé!");
         }
-      }
     } catch (err) {
       console.error("Lỗi xác minh gõ Romaji:", err);
     }

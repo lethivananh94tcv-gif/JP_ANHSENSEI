@@ -7,6 +7,8 @@ import {
   HelpCircle, Volume2, ArrowUpRight, Zap, Check, Star, RefreshCw
 } from "lucide-react";
 
+import { apiClient } from "@/lib/api/client";
+
 interface QuestionOption {
   optionId?: number;
   optionText: string;
@@ -43,14 +45,9 @@ export default function GrammarQuizPractice({ lessonNum, grammarPoints }: Gramma
       setLoading(true);
       try {
         // 1. Try loading from real backend Question Bank
-        const token = typeof window !== "undefined" ? (localStorage.getItem("token") || localStorage.getItem("auth_token")) : null;
-        const headers: Record<string, string> = { "Content-Type": "application/json" };
-        if (token) headers["Authorization"] = `Bearer ${token}`;
-
-        const res = await fetch(`/api/v1/admin/question-bank/lesson/${lessonNum}`, { headers });
-        if (res.ok) {
-          const json = await res.json();
-          const list = json.data || json.content || (Array.isArray(json) ? json : []);
+        const json = await apiClient<any>(`/admin/question-bank/lesson/${lessonNum}`).catch(() => null);
+        if (json && json.data) {
+          const list = json.data.content || (Array.isArray(json.data) ? json.data : []);
           if (list.length > 0 && isMounted) {
             const formatted = list.map((q: any, idx: number) => ({
               questionId: q.questionId || idx + 1,
