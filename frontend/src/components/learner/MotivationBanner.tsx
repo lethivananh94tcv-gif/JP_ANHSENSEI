@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { Quote, Bot, ArrowRight, Sparkles, MessageSquare, Zap } from "lucide-react";
+import { Quote, ArrowRight, Sparkles, BookOpen, Layers, Gamepad2 } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function MotivationBanner() {
@@ -11,21 +11,30 @@ export default function MotivationBanner() {
     meaning: "Kiên trì chính là sức mạnh • Học mỗi ngày một chút sẽ đưa bạn tới thành công.",
   };
 
-  const quickPrompts = [
+  const studyHighlights = [
     {
-      label: "Phân biệt ngữ pháp",
-      text: "Phân biệt giúp mình mẫu câu 〜てはいけません và 〜なくてもいいです",
-      badge: "Ngữ pháp N5",
+      label: "Ghi nhớ ngắt quãng (SRS)",
+      title: "Ôn tập Flashcards 3D",
+      desc: "Lặp lại thông minh theo chu kỳ để nhớ từ vựng và Kanji lâu hơn gấp 3 lần.",
+      href: "/flashcards",
+      icon: Layers,
+      badge: "Khoa học ghi nhớ",
     },
     {
-      label: "Ví dụ từ vựng",
-      text: "Cho ví dụ từ vựng 勉強する (benkyou suru) trong giao tiếp hàng ngày",
-      badge: "Từ vựng",
+      label: "Hệ thống bài học",
+      title: "Ngữ Pháp Chuẩn JLPT",
+      desc: "Cấu trúc rõ ràng kèm giải thích chi tiết, ví dụ thực tế và bài tập tương tác.",
+      href: "/grammar",
+      icon: BookOpen,
+      badge: "Lộ trình N5-N3",
     },
     {
-      label: "Tạo bài tập nhanh",
-      text: "Tạo bài tập trắc nghiệm N5 5 câu về trợ từ は và が kèm giải thích",
-      badge: "Luyện thi",
+      label: "Đấu trường phản xạ",
+      title: "Game Ghép Thẻ 3D",
+      desc: "Rèn luyện tốc độ nhận diện từ vựng và hán tự qua các màn đấu 60s kịch tính.",
+      href: "/vocabularies",
+      icon: Gamepad2,
+      badge: "Vừa học vừa chơi",
     },
   ];
 
@@ -45,11 +54,11 @@ export default function MotivationBanner() {
 
       {/* Japanese Calligraphy Watermark Accent */}
       <div className="absolute right-8 bottom-0 text-9xl font-jp font-black text-[#8B6F5A]/[0.06] select-none pointer-events-none tracking-widest hidden sm:block">
-        助手
+        継続
       </div>
 
       <div className="relative z-10 space-y-6">
-        {/* Top Header: Japanese Proverb & Minimalist AI Launcher */}
+        {/* Top Header: Japanese Proverb */}
         <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 pb-6 border-b border-[#E8DCCF]">
           <div className="flex items-start gap-4 max-w-2xl">
             {/* Minimalist Matte Proverb Emblem */}
@@ -81,53 +90,59 @@ export default function MotivationBanner() {
             </div>
           </div>
 
-          {/* Minimalist Matte AI Button */}
           <Link
-            href="/ai-tutor"
-            className="inline-flex items-center gap-3 px-6 py-3.5 bg-[#D66552] hover:bg-[#C25644] text-white font-bold text-xs sm:text-sm rounded-2xl border border-[#E37966] shadow-xs transition-colors duration-200 flex-shrink-0"
+            href="/learn"
+            className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-[#D66552] hover:bg-[#C25644] text-white font-bold text-xs sm:text-sm rounded-2xl border border-[#E37966] shadow-xs transition-colors duration-200 flex-shrink-0"
           >
-            <Bot className="w-4 h-4 text-white" />
-            <span>Trò chuyện với Trợ Giảng AI</span>
+            <span>Khám phá bài học mới</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
 
-        {/* Bottom Section: Minimalist Matte AI Prompt Cards */}
+        {/* Bottom Section: 3 High-Impact Study Methods */}
         <div className="space-y-3">
           <div className="flex items-center gap-2 text-xs font-bold text-[#6B554E]">
             <Sparkles className="w-4 h-4 text-[#C65D4B]" />
-            <span>Gợi ý câu hỏi cho AI Tutor (Bấm để hỏi ngay):</span>
+            <span>Phương pháp học tập trọng tâm trên hệ thống:</span>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5">
-            {quickPrompts.map((prompt) => (
-              <motion.div
-                key={prompt.label}
-                whileHover={{ y: -2 }}
-                transition={{ duration: 0.2 }}
-              >
-                <Link
-                  href={`/ai-tutor?prompt=${encodeURIComponent(prompt.text)}`}
-                  className="bg-[#FFFDF9] hover:bg-white border border-[#E8DCCF] rounded-2xl p-4 flex flex-col justify-between space-y-3 shadow-2xs transition-all duration-200 group/prompt h-full block"
+            {studyHighlights.map((item) => {
+              const IconComp = item.icon;
+              return (
+                <motion.div
+                  key={item.title}
+                  whileHover={{ y: -2 }}
+                  transition={{ duration: 0.2 }}
                 >
-                  <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-bold text-[#C65D4B] bg-[#F2E5D9] px-2.5 py-0.5 rounded-lg border border-[#E3D4C7]">
-                      {prompt.badge}
-                    </span>
-                    <MessageSquare className="w-3.5 h-3.5 text-[#C65D4B]" />
-                  </div>
+                  <Link
+                    href={item.href}
+                    className="bg-[#FFFDF9] hover:bg-white border border-[#E8DCCF] rounded-2xl p-4 flex flex-col justify-between space-y-3 shadow-2xs transition-all duration-200 group/prompt h-full block"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold text-[#C65D4B] bg-[#F2E5D9] px-2.5 py-0.5 rounded-lg border border-[#E3D4C7]">
+                        {item.badge}
+                      </span>
+                      <IconComp className="w-4 h-4 text-[#C65D4B]" />
+                    </div>
 
-                  <p className="text-xs text-[#2C201D] font-bold line-clamp-2 leading-snug group-hover/prompt:text-[#C65D4B] transition-colors">
-                    &ldquo;{prompt.text}&rdquo;
-                  </p>
+                    <div>
+                      <h4 className="text-sm font-black text-[#2C201D] group-hover/prompt:text-[#C65D4B] transition-colors">
+                        {item.title}
+                      </h4>
+                      <p className="text-xs text-[#76685F] font-medium leading-relaxed mt-1">
+                        {item.desc}
+                      </p>
+                    </div>
 
-                  <div className="text-[10px] font-semibold text-[#8B6F5A] flex items-center justify-between pt-2 border-t border-[#F0E4D7]">
-                    <span>Bấm để hỏi ngay</span>
-                    <ArrowRight className="w-3 h-3 text-[#C65D4B] group-hover/prompt:translate-x-0.5 transition-transform" />
-                  </div>
-                </Link>
-              </motion.div>
-            ))}
+                    <div className="text-[10px] font-semibold text-[#8B6F5A] flex items-center justify-between pt-2 border-t border-[#F0E4D7]">
+                      <span>Vào luyện tập ngay</span>
+                      <ArrowRight className="w-3 h-3 text-[#C65D4B] group-hover/prompt:translate-x-0.5 transition-transform" />
+                    </div>
+                  </Link>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
       </div>

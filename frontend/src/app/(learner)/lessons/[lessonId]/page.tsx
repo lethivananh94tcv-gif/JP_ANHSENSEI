@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { UserProfile } from "@/types/learner";
 import { apiClient } from "@/lib/api/client";
-import { CheckCircle2, RotateCcw, Sparkles, CheckCheck, Gamepad2 } from "lucide-react";
+import { CheckCircle2, RotateCcw, Sparkles, CheckCheck, Gamepad2, ArrowLeft, ArrowRight } from "lucide-react";
 
 import LearnerHeader from "@/components/learner/LearnerHeader";
 import LearnerFooter from "@/components/learner/LearnerFooter";
@@ -120,7 +120,8 @@ export default function LearnerLessonStudyPage() {
         setSortOrder(lNum);
         setVocabularies([
           { vocabularyId: lNum * 100 + 1, word: "わたし", kana: "わたし", romaji: "watashi", meaningVi: "Tôi (bản thân)", exampleJp: "わたしは学生です。", exampleVi: "Tôi là học sinh." },
-          { vocabularyId: lNum * 100 + 2, word: "あなた", kana: "あなた", romaji: "anata", meaningVi: "Bạn, anh, chị", exampleJp: "anataは日本人ですか。", exampleVi: "Bạn là người Nhật phải không?" },
+          // Fallback vocabulary item 2 with proper Japanese script
+          { vocabularyId: lNum * 100 + 2, word: "あなた", kana: "あなた", romaji: "anata", meaningVi: "Bạn, anh, chị", exampleJp: "あなたは日本人ですか。", exampleVi: "Bạn là người Nhật phải không?" },
           { vocabularyId: lNum * 100 + 3, word: "先生", kana: "せんせい", kanjiForm: "先生", romaji: "sensei", meaningVi: "Thầy / Cô giáo (giáo viên)", exampleJp: "ANH SENSEIは日本語の先生です。", exampleVi: "ANH SENSEI là giáo viên tiếng Nhật." },
           { vocabularyId: lNum * 100 + 4, word: "学生", kana: "がくせい", kanjiForm: "学生", romaji: "gakusei", meaningVi: "Học sinh, sinh viên", exampleJp: "わたしは学生です。", exampleVi: "Tôi là học sinh." },
           { vocabularyId: lNum * 100 + 5, word: "会社員", kana: "かいしゃいん", kanjiForm: "会社員", romaji: "kaishain", meaningVi: "Nhân viên công ty", exampleJp: "父は会社員です。", exampleVi: "Bố tôi là nhân viên công ty." },
@@ -382,31 +383,100 @@ export default function LearnerLessonStudyPage() {
               Chưa có từ vựng nào trong bài học này.
             </div>
           ) : vocabStudyMode === "list" ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {vocabularies.map((v) => (
-                <VocabularyLearningItem
-                  key={v.vocabularyId}
-                  item={v}
-                  isLearned={learnedItemKeys.has(`v_${v.vocabularyId}`)}
-                  onToggleLearned={() => handleToggleLearned(`v_${v.vocabularyId}`)}
-                />
-              ))}
+            <div className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                {vocabularies.map((v) => (
+                  <VocabularyLearningItem
+                    key={v.vocabularyId}
+                    item={v}
+                    isLearned={learnedItemKeys.has(`v_${v.vocabularyId}`)}
+                    onToggleLearned={() => handleToggleLearned(`v_${v.vocabularyId}`)}
+                  />
+                ))}
+              </div>
+
+              {/* COMPACT GAME PORTAL CTA AT BOTTOM OF VOCAB LIST */}
+              <div className="relative bg-gradient-to-r from-[#FFFDF9] via-[#FAF3EB] to-[#F5ECE0] border-2 border-amber-500/40 rounded-2xl p-4 sm:p-5 shadow-md flex flex-col sm:flex-row items-center justify-between gap-4 overflow-hidden">
+                <div className="flex items-center gap-3.5 select-none">
+                  <div className="w-14 h-14 bg-amber-500/10 border-2 border-amber-500/30 rounded-2xl flex items-center justify-center text-2xl shrink-0 shadow-2xs">
+                    🎮
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-black text-amber-700 uppercase tracking-widest block">
+                      ĐẤU TRƯỜNG PHẢN XẠ 3D
+                    </span>
+                    <h4 className="text-sm sm:text-base font-black text-[#1F1714]">
+                      Sẵn Sàng Thử Thách Ghép Thẻ Từ Vựng?
+                    </h4>
+                    <p className="text-xs text-[#6E5D55] font-medium">
+                      Lật mở các cặp từ vựng Nhật - Việt tương ứng trong 60 giây để rèn luyện trí nhớ siêu tốc.
+                    </p>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setVocabStudyMode("match")}
+                  className="px-6 py-3 bg-gradient-to-r from-amber-500 via-amber-600 to-amber-500 hover:from-amber-600 text-white font-black text-xs sm:text-sm rounded-xl shadow-lg shadow-amber-500/30 hover:scale-103 active:scale-98 transition-all flex items-center gap-2 shrink-0 cursor-pointer border border-white/20"
+                >
+                  <Gamepad2 className="w-4 h-4 animate-pulse" />
+                  <span>VÀO PHÒNG GAME 3D</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              </div>
             </div>
-          ) : vocabStudyMode === "typing" ? (
-            <TypingStudyMode vocabularies={vocabularies} />
           ) : (
-            /* RENDER 3D VOCAB MATCH GAME MODE */
-            <VocabMatchGame3D
-              vocabularies={vocabularies}
-              onFinish={() => {
-                setTimeout(() => {
-                  handleMarkAllLearned(); // Mark 100% completed on winning game!
-                }, 0);
-              }}
-            />
+            <TypingStudyMode vocabularies={vocabularies} />
           )}
         </div>
       </main>
+
+      {/* DEDICATED FULL-SCREEN IMMERSIVE 3D MATCH GAME ARENA (DARK TRANSITION) */}
+      {vocabStudyMode === "match" && (
+        <div className="fixed inset-0 z-50 bg-[#16100E]/95 backdrop-blur-xl flex flex-col animate-fadeIn overflow-hidden">
+          {/* Game Top Navigation */}
+          <div className="border-b border-white/10 bg-[#251B17]/90 px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4 shrink-0">
+            <button
+              type="button"
+              onClick={() => setVocabStudyMode("list")}
+              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm rounded-xl border border-white/15 transition-all flex items-center gap-2 cursor-pointer"
+            >
+              <ArrowLeft className="w-4 h-4 text-[#D9CEB2]" />
+              <span>Quay Lại Danh Sách Từ Vựng</span>
+            </button>
+
+            <div className="text-center">
+              <span className="text-[10px] font-black text-amber-400 uppercase tracking-widest block">
+                ĐẤU TRƯỜNG GHÉP THẺ 3D
+              </span>
+              <h2 className="text-sm sm:text-base font-black text-white truncate">
+                Bài #{canonicalLessonNumber}: {lessonTitle}
+              </h2>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <span className="px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-xl text-xs font-black">
+                🎮 Mini Game Phản Xạ
+              </span>
+            </div>
+          </div>
+
+          {/* Game Workspace Area */}
+          <div className="flex-1 overflow-y-auto p-4 sm:p-8 flex justify-center items-center">
+            <div className="w-full max-w-4xl animate-slideIn">
+              <VocabMatchGame3D
+                vocabularies={vocabularies}
+                onFinish={() => {
+                  setTimeout(() => {
+                    handleMarkAllLearned(); // Mark 100% completed on winning game!
+                  }, 0);
+                }}
+                onExit={() => setVocabStudyMode("list")}
+              />
+            </div>
+          </div>
+        </div>
+      )}
 
       <LearnerFooter />
     </div>

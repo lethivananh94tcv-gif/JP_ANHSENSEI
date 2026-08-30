@@ -97,16 +97,27 @@ public class AdminQuestionBankController {
 
     @PostMapping("/generate-all-30")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<ApiResponse<String>> autoGenerateAll30Questions(Authentication authentication) {
+    public ResponseEntity<ApiResponse<String>> autoGenerateAll30Questions(
+            @RequestParam(required = false, defaultValue = "ALL") String mode,
+            Authentication authentication) {
         Long adminUserId = getUserIdFromAuth(authentication);
         int successCount = 0;
+        int totalQuestionsGenerated = 0;
         for (long lId = 1; lId <= 50; lId++) {
             try {
-                adminQuestionBankService.generate30JLPTQuestionsForLesson(lId, adminUserId, true);
+                List<QuestionBank> generated;
+                if ("ALL".equalsIgnoreCase(mode) || "ALL_CATEGORIES".equalsIgnoreCase(mode)) {
+                    generated = adminQuestionBankService.generateAll4CategoriesForLesson(lId, adminUserId);
+                } else {
+                    generated = adminQuestionBankService.generateQuestionsForLessonByMode(lId, mode, adminUserId, true);
+                }
+                totalQuestionsGenerated += generated.size();
                 successCount++;
             } catch (Exception ignored) {}
         }
-        return ResponseEntity.ok(ApiResponse.success("Đã khởi tạo thành công Kho đề 30 câu từ vựng chuẩn JLPT cho " + successCount + " bài học!", "Generated " + successCount + " lessons"));
+        return ResponseEntity.ok(ApiResponse.success(
+                "Đã khởi tạo thành công toàn bộ kho đề (" + totalQuestionsGenerated + " câu hỏi Từ vựng, Ngữ pháp, Kanji) cho " + successCount + " bài học!",
+                "Generated " + totalQuestionsGenerated + " questions across " + successCount + " lessons"));
     }
 
     @PostMapping("/approve-all/lesson/{lessonId}")

@@ -17,7 +17,7 @@ const PRACTICE_LINKS = [
   { name: "Quiz JLPT", href: "/quizzes/1" },
   { name: "Game học tập", href: "/learn" },
   { name: "Luyện viết Kanji", href: "/kanji" },
-  { name: "AI Tutor", href: "/ai-tutor" },
+  { name: "Đấu trường Game 3D", href: "/vocabularies" },
 ];
 
 export default function LearnerFooter() {

@@ -113,17 +113,8 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
           })}
         </nav>
 
-        {/* Right: Actions & User Avatar Menu */}
+        {/* Right: User Avatar Menu */}
         <div className="flex items-center gap-3">
-          {/* AI Tutor Floating Button */}
-          <Link
-            href="/ai-tutor"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#F5EFE6] hover:bg-[#8B6F5A] text-[#8B6F5A] hover:text-white border border-[#DED3C8] text-xs font-bold transition-all shadow-xs"
-          >
-            <Bot className="w-4 h-4 text-[#C65D4B]" />
-            <span>AI Tutor</span>
-          </Link>
-
           {/* Synchronized User Profile Menu */}
           <div className="relative">
             <button

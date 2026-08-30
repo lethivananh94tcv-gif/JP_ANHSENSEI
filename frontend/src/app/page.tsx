@@ -120,8 +120,8 @@ export default function Home() {
             <a href="#levels" className="hover:text-[#C65D4B] transition-colors flex items-center gap-1.5">
               <Layers className="w-4 h-4 text-[#8B6F5A]" /> Cấp độ JLPT
             </a>
-            <a href="#ai-tutor" className="hover:text-[#C65D4B] transition-colors flex items-center gap-1.5">
-              <Bot className="w-4 h-4 text-[#C65D4B]" /> Trợ Giảng AI
+            <a href="#special-features" className="hover:text-[#C65D4B] transition-colors flex items-center gap-1.5">
+              <Gamepad2 className="w-4 h-4 text-[#C65D4B]" /> Đấu Trường Game 3D
             </a>
           </nav>
 
@@ -142,24 +142,24 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Hero Section (Retained as requested) */}
+      {/* Hero Section */}
       <section className="relative overflow-hidden pt-12 pb-16 lg:pt-16 lg:pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center max-w-4xl mx-auto space-y-6">
             <div className="inline-flex items-center gap-2 px-4.5 py-2 rounded-full bg-[#F5EFE6] border border-[#8B6F5A]/25 text-[#8B6F5A] text-xs sm:text-sm font-bold shadow-xs">
               <Sparkles className="w-4 h-4 text-[#C65D4B] animate-pulse" />
-              <span>Nền Tảng Tự Học Tiếng Nhật Thông Minh (JLPT N5 – N3)</span>
+              <span>Nền Tảng Tự Học Tiếng Nhật Toàn Diện (JLPT N5 – N3)</span>
             </div>
 
             <h1 className="text-4xl sm:text-6xl font-black tracking-tight text-[#2C221E] leading-[1.15]">
               Chinh Phục Tiếng Nhật Với <br className="hidden sm:inline" />
               <span className="bg-gradient-to-r from-[#8B6F5A] via-[#C65D4B] to-[#8B6F5A] bg-clip-text text-transparent">
-                Thuật Toán SRS &amp; AI Tutor 24/7
+                Thuật Toán SRS &amp; Đấu Trường Game 3D
               </span>
             </h1>
 
             <p className="text-lg sm:text-xl text-[#6E5E52] leading-relaxed max-w-2xl mx-auto">
-              Ghi nhớ từ vựng &amp; Hán tự lâu gấp 3 lần bằng <strong>Spaced Repetition (SRS)</strong>, làm bài Quiz chấm điểm tự động và được <strong>Trợ giảng AI RAG</strong> giải đáp tức thì.
+              Ghi nhớ từ vựng &amp; Hán tự lâu gấp 3 lần bằng <strong>Spaced Repetition (SRS)</strong>, làm bài Quiz chấm điểm tự động và rèn luyện phản xạ với <strong>Game Ghép Thẻ 3D</strong>.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2">
@@ -184,16 +184,16 @@ export default function Home() {
                 <div className="text-xs font-semibold text-[#6E5E52]">Cấp độ giáo trình</div>
               </div>
               <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-[#8B6F5A]/15 shadow-xs text-center">
-                <div className="text-2xl font-black text-[#C65D4B]">SRS Algorithm</div>
-                <div className="text-xs font-semibold text-[#6E5E52]">Thuật toán ôn tập</div>
+                <div className="text-2xl font-black text-[#C65D4B]">SRS Flashcards</div>
+                <div className="text-xs font-semibold text-[#6E5E52]">Ghi nhớ ngắt quãng</div>
               </div>
               <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-[#8B6F5A]/15 shadow-xs text-center">
-                <div className="text-2xl font-black text-[#8B6F5A]">Quiz Auto</div>
+                <div className="text-2xl font-black text-[#8B6F5A]">Quiz JLPT</div>
                 <div className="text-xs font-semibold text-[#6E5E52]">Tự động chấm điểm</div>
               </div>
               <div className="bg-white/80 backdrop-blur-sm p-4 rounded-2xl border border-[#8B6F5A]/15 shadow-xs text-center">
-                <div className="text-2xl font-black text-[#C65D4B]">24/7 AI Tutor</div>
-                <div className="text-xs font-semibold text-[#6E5E52]">Giải đáp ngữ pháp</div>
+                <div className="text-2xl font-black text-[#C65D4B]">Game Ghép Thẻ 3D</div>
+                <div className="text-xs font-semibold text-[#6E5E52]">Rèn luyện phản xạ</div>
               </div>
             </div>
           </div>
@@ -610,68 +610,80 @@ export default function Home() {
         </div>
       </section>
 
-      {/* AI Tutor Highlight Section */}
-      <section id="ai-tutor" className="py-16 bg-gradient-to-b from-[#F5EFE6]/70 to-[#FDFBF7] border-t border-[#8B6F5A]/15">
+      {/* 3D Game & JLPT Practice Highlight Section */}
+      <section id="special-features" className="py-16 bg-gradient-to-b from-[#F5EFE6]/70 to-[#FDFBF7] border-t border-[#8B6F5A]/15">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#C65D4B]/10 text-[#C65D4B] text-xs font-extrabold mb-4">
-                <Bot className="w-4 h-4" /> AI Tutor 24/7
+                <Gamepad2 className="w-4 h-4" /> Đấu Trường Game &amp; Quiz 30 Câu
               </div>
               <h2 className="text-3xl font-black text-[#2C221E] sm:text-4xl mb-4">
-                Không Còn Thắc Mắc Ngữ Pháp Nào Chưa Được Giải Đáp
+                Vừa Học Vừa Chơi • Chấm Điểm Chuẩn Format JLPT
               </h2>
               <p className="text-[#6E5E52] text-base leading-relaxed mb-6">
-                Khi học tiếng Nhật, bạn thường gặp các mẫu ngữ pháp dễ nhầm lẫn. Với Trợ giảng AI tích hợp RAG (Retrieval-Augmented Generation), bạn có thể hỏi bất kỳ thắc mắc nào và nhận câu trả lời kèm ví dụ chuẩn xác trong giáo trình.
+                Phương pháp học tiếng Nhật sinh động kết hợp giữa Game Ghép Thẻ 3D phản xạ 60 giây và hệ thống Quiz 30 câu tự động bao gồm cả dạng bài Sắp xếp sao (★), Điền từ và Âm đọc Kanji.
               </p>
               <div className="space-y-3">
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-full bg-[#8B6F5A] text-white flex items-center justify-center text-xs font-bold mt-0.5">✓</div>
-                  <p className="text-sm text-[#2C221E] font-medium">Giải thích phân biệt ngữ pháp tương tự (vd: ～てから vs ～あとで)</p>
+                  <p className="text-sm text-[#2C221E] font-medium">Đấu trường Ghép thẻ 3D rèn luyện phản xạ liên tưởng từ vựng &amp; ý nghĩa cực nhanh</p>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-full bg-[#8B6F5A] text-white flex items-center justify-center text-xs font-bold mt-0.5">✓</div>
-                  <p className="text-sm text-[#2C221E] font-medium">Cung cấp ví dụ thực tế kèm phiên âm Furigana &amp; dịch nghĩa Việt</p>
+                  <p className="text-sm text-[#2C221E] font-medium">Hệ thống câu hỏi sắp xếp sao (★) độc quyền bám sát cấu trúc đề thi JLPT thực tế</p>
                 </div>
                 <div className="flex items-start gap-3">
                   <div className="w-6 h-6 rounded-full bg-[#8B6F5A] text-white flex items-center justify-center text-xs font-bold mt-0.5">✓</div>
-                  <p className="text-sm text-[#2C221E] font-medium">Phản hồi an toàn, bảo mật và bám sát nội dung JLPT</p>
+                  <p className="text-sm text-[#2C221E] font-medium">Chấm điểm tự động, giải thích ngữ pháp chi tiết và tích lũy điểm thưởng XP</p>
                 </div>
               </div>
             </div>
 
-            {/* AI Mockup UI */}
-            <div className="bg-white rounded-3xl p-6 border border-[#8B6F5A]/20 shadow-2xl space-y-4">
-              <div className="flex items-center gap-3 pb-4 border-b border-[#8B6F5A]/10">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-[#8B6F5A] to-[#C65D4B] text-white flex items-center justify-center">
-                  <Bot className="w-5 h-5" />
+            {/* Game Preview Mockup UI */}
+            <div className="bg-[#1A120E] rounded-3xl p-6 border-2 border-amber-500/40 shadow-2xl space-y-4 text-white">
+              <div className="flex items-center justify-between pb-3 border-b border-white/10">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center text-xl">
+                    🎮
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white text-sm">Đấu Trường Ghép Thẻ 3D</h4>
+                    <span className="text-xs text-amber-400 font-semibold flex items-center gap-1">
+                      <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span> 60s Phản Xạ Nhanh
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-bold text-[#2C221E] text-sm">ANH SENSEI AI Tutor</h4>
-                  <span className="text-xs text-emerald-600 font-semibold flex items-center gap-1">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span> Sẵn sàng giải đáp 24/7
-                  </span>
-                </div>
+                <span className="px-3 py-1 bg-[#2A1D17] border border-amber-500/40 rounded-xl text-xs font-black text-amber-300">
+                  💎 4/6 Cặp
+                </span>
               </div>
 
-              {/* Chat Bubble Learner */}
-              <div className="flex justify-end">
-                <div className="bg-[#8B6F5A] text-white p-3.5 rounded-2xl rounded-tr-none text-sm max-w-xs shadow-xs">
-                  Cho mình hỏi ngữ pháp <strong>～ために</strong> khác gì với <strong>～ように</strong> ạ?
+              {/* Sample 3D Match Grid Cards Preview */}
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5 pt-1">
+                <div className="p-3 rounded-xl bg-gradient-to-b from-[#2B1F19] to-[#1C1410] border border-amber-500/30 text-center">
+                  <span className="font-jp font-black text-sm text-amber-200 block">わたし</span>
+                  <span className="text-[9px] text-white/40 font-bold uppercase">🇯🇵 Tiếng Nhật</span>
                 </div>
-              </div>
-
-              {/* Chat Bubble AI */}
-              <div className="flex justify-start items-start gap-2.5">
-                <div className="w-8 h-8 rounded-full bg-[#C65D4B] text-white flex items-center justify-center text-xs font-bold shrink-0">
-                  AI
+                <div className="p-3 rounded-xl bg-gradient-to-b from-[#69331C] to-[#3B1C10] border border-amber-400 text-center ring-2 ring-amber-400/50 scale-102 shadow-md">
+                  <span className="font-black text-xs text-white block">Tôi (bản thân)</span>
+                  <span className="text-[9px] text-amber-300 font-bold uppercase">🇻🇳 Ý Nghĩa</span>
                 </div>
-                <div className="bg-[#F5EFE6] text-[#2C221E] p-4 rounded-2xl rounded-tl-none text-sm space-y-2 border border-[#8B6F5A]/15 shadow-xs max-w-md">
-                  <p className="font-semibold text-[#C65D4B]">Chào bạn! Cả 2 đều chỉ mục đích, nhưng:</p>
-                  <ul className="list-disc pl-4 space-y-1 text-xs text-[#6E5E52]">
-                    <li><strong>～ために:</strong> Dùng khi vế trước thể hiện ý chí (động từ ý chí). Ví dụ: 日本へ行くために (Để đi Nhật).</li>
-                    <li><strong>～ように:</strong> Dùng khi vế trước là trạng thái hoặc khả năng. Ví dụ: 忘れないように (Để không bị quên).</li>
-                  </ul>
+                <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-center opacity-30">
+                  <span className="font-jp font-black text-sm text-emerald-400 block">がくせい</span>
+                  <span className="text-[9px] text-emerald-300 font-bold uppercase">✓ Đã Ghép</span>
+                </div>
+                <div className="p-3 rounded-xl bg-gradient-to-b from-[#2B1F19] to-[#1C1410] border border-[#4A372E] text-center">
+                  <span className="font-jp font-black text-sm text-amber-200 block">せんせい</span>
+                  <span className="text-[9px] text-white/40 font-bold uppercase">🇯🇵 Tiếng Nhật</span>
+                </div>
+                <div className="p-3 rounded-xl bg-gradient-to-b from-[#2B1F19] to-[#1C1410] border border-[#4A372E] text-center">
+                  <span className="font-black text-xs text-[#F6EDE2] block">Giáo viên</span>
+                  <span className="text-[9px] text-white/40 font-bold uppercase">🇻🇳 Ý Nghĩa</span>
+                </div>
+                <div className="p-3 rounded-xl bg-emerald-950/40 border border-emerald-500/40 text-center opacity-30">
+                  <span className="font-black text-xs text-emerald-400 block">Sinh viên</span>
+                  <span className="text-[9px] text-emerald-300 font-bold uppercase">✓ Đã Ghép</span>
                 </div>
               </div>
             </div>

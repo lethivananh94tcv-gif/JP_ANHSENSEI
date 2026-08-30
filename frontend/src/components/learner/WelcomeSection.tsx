@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import { UserProfile } from "@/types/learner";
-import { Clock, Flame, Target, Bot, ArrowRight, Play, TrendingUp } from "lucide-react";
+import { Clock, Flame, Target, Sparkles, ArrowRight, Play, TrendingUp } from "lucide-react";
 import { motion } from "framer-motion";
 import OmikujiFortuneModal from "@/components/ui/OmikujiFortuneModal";
 import ManekiNeko3D from "@/components/ui/ManekiNeko3D";
@@ -82,11 +82,11 @@ export default function WelcomeSection({
               </Link>
 
               <Link
-                href="/ai-tutor"
+                href="/flashcards"
                 className="inline-flex items-center gap-1.5 px-4.5 py-2.5 rounded-xl bg-white hover:bg-[#FFF8F5] border border-[#EAD0C7] text-[#2C201D] text-xs font-extrabold shadow-2xs transition-all hover:scale-105"
               >
-                <Bot className="w-3.5 h-3.5 text-[#C65D4B]" />
-                <span>Hỏi Trợ giảng AI</span>
+                <Sparkles className="w-3.5 h-3.5 text-[#C65D4B]" />
+                <span>Luyện Flashcards</span>
               </Link>
 
               {/* Cat Mascot Avatar */}

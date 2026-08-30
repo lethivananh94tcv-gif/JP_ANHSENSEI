@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { 
   Bell, Settings, Plus, ExternalLink, User as UserIcon, LogOut, 
-  LayoutDashboard, BookOpen, Layers, Users, BarChart3, FileSpreadsheet, ShieldCheck, ChevronRight
+  LayoutDashboard, BookOpen, Layers, Users, BarChart3, FileSpreadsheet, ShieldCheck, ChevronRight, PenTool, Puzzle, Target
 } from "lucide-react";
 
 interface UserProfile {
@@ -48,7 +48,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     router.replace("/login");
   };
 
-  // Main Navigation Items (Matching exact mockup sidebar names)
+  // Main Navigation Items - Separated Management Modules
   const navItems = [
     {
       name: "Dashboard",
@@ -57,25 +57,38 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       active: pathname === "/admin",
     },
     {
-      name: "Khóa học",
+      name: "Quản Lý Từ Vựng",
       icon: BookOpen,
-      href: "/admin/curriculum",
-      active: pathname.startsWith("/admin/curriculum"),
+      href: "/admin/vocabularies",
+      active: pathname.startsWith("/admin/vocabularies"),
     },
     {
-      name: "Bài tập",
-      icon: Layers,
-      href: "/admin/quizzes",
-      active: pathname.startsWith("/admin/quizzes"),
+      name: "Quản Lý Hán Tự",
+      icon: PenTool,
+      href: "/admin/kanji",
+      active: pathname.startsWith("/admin/kanji"),
     },
     {
-      name: "Học viên",
+      name: "Quản Lý Ngữ Pháp",
+      icon: Puzzle,
+      href: "/admin/grammar",
+      active: pathname.startsWith("/admin/grammar"),
+    },
+    {
+      name: "Đề Thi JLPT",
+      icon: Target,
+      href: "/admin/jlpt-tests",
+      badge: "Sắp có",
+      active: pathname.startsWith("/admin/jlpt-tests"),
+    },
+    {
+      name: "Học Viên",
       icon: Users,
       href: "/admin/users",
       active: pathname.startsWith("/admin/users"),
     },
     {
-      name: "Báo cáo",
+      name: "Báo Cáo & Kết Quả",
       icon: BarChart3,
       href: "/admin/quiz-attempts",
       active: pathname.startsWith("/admin/quiz-attempts"),
@@ -87,17 +100,19 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       active: pathname.startsWith("/admin/import"),
     },
     {
-      name: "Cài đặt",
+      name: "Nhật Ký Audit",
       icon: ShieldCheck,
       href: "/admin/audit-logs",
       active: pathname.startsWith("/admin/audit-logs"),
     },
   ];
 
-  // Top Horizontal Sub-Navigation Tabs (Matching exact mockup top bar)
+  // Top Horizontal Sub-Navigation Tabs
   const topTabs = [
     { name: "TỔNG QUAN", href: "/admin", active: pathname === "/admin" },
-    { name: "NỘI DUNG", href: "/admin/curriculum", active: pathname.startsWith("/admin/curriculum") },
+    { name: "TỪ VỰNG", href: "/admin/vocabularies", active: pathname.startsWith("/admin/vocabularies") },
+    { name: "HÁN TỰ", href: "/admin/kanji", active: pathname.startsWith("/admin/kanji") },
+    { name: "NGỮ PHÁP", href: "/admin/grammar", active: pathname.startsWith("/admin/grammar") },
     { name: "HỌC VIÊN", href: "/admin/users", active: pathname.startsWith("/admin/users") },
     { name: "HỆ THỐNG", href: "/admin/audit-logs", active: pathname.startsWith("/admin/audit-logs") },
   ];
@@ -112,7 +127,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         />
       )}
 
-      {/* 1. Left Dark Charcoal Sidebar Navigation (Matching Mockup Image) */}
+      {/* 1. Left Dark Charcoal Sidebar Navigation */}
       <aside
         className={`fixed top-0 bottom-0 left-0 z-50 w-64 bg-[#29221F] text-white flex flex-col justify-between transition-transform duration-300 ease-in-out lg:translate-x-0 border-r border-[#3A312D] ${
           isMobileOpen ? "translate-x-0" : "-translate-x-full"
@@ -151,16 +166,21 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 <Link
                   key={item.name}
                   href={item.href}
-                  className={`flex items-center justify-between px-4 py-3 rounded-xl text-xs font-semibold transition-all ${
+                  className={`flex items-center justify-between px-4 py-2.5 rounded-xl text-xs font-semibold transition-all ${
                     item.active
                       ? "bg-[#3A302C] text-white font-bold border-l-4 border-[#C4624D] pl-3"
                       : "text-[#D0C5BD] hover:bg-[#382E2A] hover:text-white"
                   }`}
                 >
-                  <div className="flex items-center gap-3.5">
+                  <div className="flex items-center gap-3">
                     <IconComp className={`w-4 h-4 ${item.active ? "text-white" : "text-[#A69990]"}`} />
-                    <span className="text-sm font-semibold">{item.name}</span>
+                    <span className="text-xs font-bold">{item.name}</span>
                   </div>
+                  {item.badge && (
+                    <span className="text-[9px] font-black bg-[#C65D4B]/20 text-[#FF8A75] border border-[#C65D4B]/40 px-2 py-0.5 rounded-full">
+                      {item.badge}
+                    </span>
+                  )}
                 </Link>
               );
             })}

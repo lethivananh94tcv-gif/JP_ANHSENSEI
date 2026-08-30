@@ -16,7 +16,13 @@ public class CorsConfig {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowCredentials(true);
-        config.setAllowedOriginPatterns(List.of("http://localhost:3000", "http://127.0.0.1:3000", "https://*.anhsensei.com"));
+        config.setAllowedOriginPatterns(List.of(
+                "http://localhost:3000",
+                "http://127.0.0.1:3000",
+                "https://*.vercel.app",
+                "https://*.anhsensei.com",
+                "https://*.onrender.com"
+        ));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setExposedHeaders(List.of("Authorization", "X-Correlation-ID"));

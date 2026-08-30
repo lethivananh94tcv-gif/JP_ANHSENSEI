@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin")
+@RequestMapping({"/admin", "/api/v1/admin"})
 @PreAuthorize("hasRole('ADMIN')")
 public class AdminVocabularyController {
 

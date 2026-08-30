@@ -551,47 +551,94 @@ export default function AdminLessonContentPage() {
         {error && <div className="p-4 bg-red-50 border-l-4 border-red-500 text-red-700 rounded-2xl text-xs font-bold">⚠️ {error}</div>}
         {successMsg && <div className="p-4 bg-emerald-50 border-l-4 border-emerald-500 text-emerald-800 rounded-2xl text-xs font-bold animate-fade-in">✓ {successMsg}</div>}
 
-        {/* Tabs Bar */}
-        <div className="flex items-center justify-between bg-[#FAF3EB] border border-[#DED3C8] p-1.5 rounded-2xl">
-          <div className="flex items-center gap-1">
-            <button
-              onClick={() => setActiveTab("vocab")}
-              className={`px-4 py-2 text-xs font-extrabold rounded-xl transition-all ${
-                activeTab === "vocab" ? "bg-[#C65D4B] text-white shadow-xs" : "text-[#76685F] hover:text-[#231917]"
-              }`}
+        {/* 🌟 CHỌN MỤC QUẢN LÝ TÁCH RIÊNG TỪNG CHUYÊN MỤC - ZERO GỘP TẠI BÀI HỌC */}
+        <div className="bg-white border-2 border-[#EADECF] p-6 rounded-3xl space-y-4 shadow-2xs">
+          <div className="space-y-1 border-b border-[#EADECF] pb-3">
+            <h3 className="text-base font-sans font-black text-[#231917]">
+              CHỌN MỤC QUẢN LÝ CHUYÊN BIỆT BÀI #{lessonId}
+            </h3>
+            <p className="text-xs text-[#76685F]">
+              Mỗi mục quản lý độc lập 100% dữ liệu kiến thức và các dạng bài tập tương ứng của chuyên mục đó.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <Link
+              href={`/admin/vocabularies/${lessonId}`}
+              className="p-5 rounded-2xl border-2 border-orange-200 bg-orange-50/50 hover:bg-orange-100/60 transition-all space-y-2 group cursor-pointer shadow-2xs hover:scale-[1.02]"
             >
-              📖 Từ vựng ({vocabularies.length})
-            </button>
-            <button
-              onClick={() => setActiveTab("kanji")}
-              className={`px-4 py-2 text-xs font-extrabold rounded-xl transition-all ${
-                activeTab === "kanji" ? "bg-[#C65D4B] text-white shadow-xs" : "text-[#76685F] hover:text-[#231917]"
-              }`}
+              <div className="flex justify-between items-center">
+                <div className="w-10 h-10 rounded-xl bg-[#C65D4B] text-white flex items-center justify-center font-bold text-lg shadow-xs">
+                  📖
+                </div>
+                <span className="text-[10px] font-black bg-[#C65D4B] text-white px-2.5 py-0.5 rounded-full">
+                  {vocabularies.length} Từ Vựng
+                </span>
+              </div>
+              <h4 className="font-black text-[#231917] text-base group-hover:text-[#C65D4B] transition-colors">
+                Quản Lý Từ Vựng Bài #{lessonId}
+              </h4>
+              <p className="text-xs text-[#76685F]">
+                Biên tập Từ vựng, Flashcard 3D, Luyện gõ Romaji, Game 3D ghép thẻ & Quiz Từ Vựng.
+              </p>
+            </Link>
+
+            <Link
+              href={`/admin/kanji/${lessonId}`}
+              className="p-5 rounded-2xl border-2 border-amber-200 bg-amber-50/50 hover:bg-amber-100/60 transition-all space-y-2 group cursor-pointer shadow-2xs hover:scale-[1.02]"
             >
-              ✍️ Hán tự Kanji ({kanjis.length})
-            </button>
-            <button
-              onClick={() => setActiveTab("grammar")}
-              className={`px-4 py-2 text-xs font-extrabold rounded-xl transition-all ${
-                activeTab === "grammar" ? "bg-[#C65D4B] text-white shadow-xs" : "text-[#76685F] hover:text-[#231917]"
-              }`}
+              <div className="flex justify-between items-center">
+                <div className="w-10 h-10 rounded-xl bg-amber-600 text-white flex items-center justify-center font-bold text-lg shadow-xs">
+                  ✍️
+                </div>
+                <span className="text-[10px] font-black bg-amber-600 text-white px-2.5 py-0.5 rounded-full">
+                  {kanjis.length} Kanji
+                </span>
+              </div>
+              <h4 className="font-black text-[#231917] text-base group-hover:text-amber-700 transition-colors">
+                Quản Lý Hán Tự Bài #{lessonId}
+              </h4>
+              <p className="text-xs text-[#76685F]">
+                Biên tập Chữ Hán, Canvas nét vẽ 3D, Gõ Hiragana, Luyện đọc câu, Game 3D Kanji & Quiz Kanji.
+              </p>
+            </Link>
+
+            <Link
+              href={`/admin/grammar/${lessonId}`}
+              className="p-5 rounded-2xl border-2 border-emerald-200 bg-emerald-50/50 hover:bg-emerald-100/60 transition-all space-y-2 group cursor-pointer shadow-2xs hover:scale-[1.02]"
             >
-              🧩 Ngữ pháp ({grammars.length})
-            </button>
-            <button
-              onClick={() => setActiveTab("quiz")}
-              className={`px-4 py-2 text-xs font-extrabold rounded-xl transition-all ${
-                activeTab === "quiz" ? "bg-[#C65D4B] text-white shadow-xs" : "text-[#76685F] hover:text-[#231917]"
-              }`}
-            >
-              🎯 Kho Đề Thi Quiz ({questionBank.length})
-            </button>
+              <div className="flex justify-between items-center">
+                <div className="w-10 h-10 rounded-xl bg-emerald-600 text-white flex items-center justify-center font-bold text-lg shadow-xs">
+                  🧩
+                </div>
+                <span className="text-[10px] font-black bg-emerald-600 text-white px-2.5 py-0.5 rounded-full">
+                  {grammars.length} Ngữ Pháp
+                </span>
+              </div>
+              <h4 className="font-black text-[#231917] text-base group-hover:text-emerald-700 transition-colors">
+                Quản Lý Ngữ Pháp Bài #{lessonId}
+              </h4>
+              <p className="text-xs text-[#76685F]">
+                Biên tập Mẫu câu, Cloze transform, Phản xạ hội thoại, Ema sentence game & Quiz Ngữ Pháp.
+              </p>
+            </Link>
           </div>
         </div>
 
-        {/* TAB 1: VOCABULARY MANAGEMENT (MANUAL CRUD PRESERVED) */}
+        {/* TAB 1: VOCABULARY MANAGEMENT */}
         {activeTab === "vocab" && (
           <div className="bg-[#FFFDF9] border border-[#DED3C8] rounded-3xl p-6 sm:p-8 space-y-6 shadow-xs">
+            {/* HDSD Banner Vocab */}
+            <div className="bg-orange-50/80 border-2 border-orange-200 rounded-2xl p-4 sm:p-5 space-y-2 text-xs">
+              <div className="flex items-center gap-2">
+                <span className="text-base">📖</span>
+                <h4 className="font-black text-orange-950 text-sm">HƯỚNG DẪN QUẢN LÝ TỪ VỰNG BÀI HỌC (VOCABULARY MANAGEMENT GUIDE)</h4>
+              </div>
+              <p className="text-[#76685F] font-semibold leading-relaxed">
+                Tất cả các từ vựng bạn thêm ở mục này sẽ tự động phân nạp sang 4 dạng bài tập bên phía Học viên: <strong className="text-[#C65D4B]">1. Lật thẻ 3D Flashcard & SRS</strong>, <strong className="text-[#C65D4B]">2. Luyện gõ Romaji/Kana</strong>, <strong className="text-[#C65D4B]">3. Game ghép thẻ 3D</strong> và <strong className="text-[#C65D4B]">4. Quiz trắc nghiệm từ vựng</strong>.
+              </p>
+            </div>
+
             <div className="flex justify-between items-center border-b border-[#DED3C8] pb-4">
               <div>
                 <h3 className="text-lg font-extrabold text-[#231917]">📖 Danh Sách Từ Vựng Bài #{lessonId}</h3>
@@ -599,7 +646,7 @@ export default function AdminLessonContentPage() {
               </div>
               <button
                 onClick={() => setShowVocabModal(true)}
-                className="px-4 py-2 bg-[#C65D4B] hover:bg-[#a84c3c] text-white text-xs font-extrabold rounded-xl transition-all shadow-xs"
+                className="px-4 py-2 bg-[#C65D4B] hover:bg-[#a84c3c] text-white text-xs font-extrabold rounded-xl transition-all shadow-xs cursor-pointer"
               >
                 + Thêm Từ Vựng Thủ Công
               </button>
@@ -622,7 +669,7 @@ export default function AdminLessonContentPage() {
 
                   <button
                     onClick={() => handleDeleteVocab(v.vocabularyId)}
-                    className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-lg transition-all"
+                    className="px-3 py-1.5 bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs rounded-lg transition-all cursor-pointer"
                   >
                     🗑️ Xóa
                   </button>
@@ -632,9 +679,20 @@ export default function AdminLessonContentPage() {
           </div>
         )}
 
-        {/* TAB 2: KANJI MANAGEMENT (MANUAL CRUD PRESERVED) */}
+        {/* TAB 2: KANJI MANAGEMENT */}
         {activeTab === "kanji" && (
           <div className="bg-[#FFFDF9] border border-[#DED3C8] rounded-3xl p-6 sm:p-8 space-y-6 shadow-xs">
+            {/* HDSD Banner Kanji */}
+            <div className="bg-amber-50/80 border-2 border-amber-200 rounded-2xl p-4 sm:p-5 space-y-2 text-xs">
+              <div className="flex items-center gap-2">
+                <span className="text-base">✍️</span>
+                <h4 className="font-black text-amber-950 text-sm">HƯỚNG DẪN QUẢN LÝ HÁN TỰ KANJI (KANJI MANAGEMENT GUIDE)</h4>
+              </div>
+              <p className="text-[#76685F] font-semibold leading-relaxed">
+                Tất cả Hán tự nhập ở đây sẽ tự động liên kết sang 5 dạng luyện tập của Learner: <strong className="text-amber-800">1. Canvas luyện vẽ nét 3D</strong>, <strong className="text-amber-800">2. Luyện gõ âm Hiragana</strong>, <strong className="text-amber-800">3. Luyện đọc câu Hán tự</strong>, <strong className="text-amber-800">4. Arcade Game 3D ghép thẻ Kanji</strong> và <strong className="text-amber-800">5. Quiz trắc nghiệm Kanji</strong>.
+              </p>
+            </div>
+
             <div className="flex justify-between items-center border-b border-[#DED3C8] pb-4">
               <div>
                 <h3 className="text-lg font-extrabold text-[#231917]">✍️ Danh Sách Hán Tự Kanji Bài #{lessonId}</h3>
@@ -642,7 +700,7 @@ export default function AdminLessonContentPage() {
               </div>
               <button
                 onClick={() => setShowKanjiModal(true)}
-                className="px-4 py-2 bg-[#C65D4B] hover:bg-[#a84c3c] text-white text-xs font-extrabold rounded-xl transition-all shadow-xs"
+                className="px-4 py-2 bg-[#C65D4B] hover:bg-[#a84c3c] text-white text-xs font-extrabold rounded-xl transition-all shadow-xs cursor-pointer"
               >
                 + Thêm Kanji Thủ Công
               </button>
@@ -668,6 +726,17 @@ export default function AdminLessonContentPage() {
         {/* TAB 3: GRAMMAR MANAGEMENT (MANUAL CRUD PRESERVED) */}
         {activeTab === "grammar" && (
           <div className="bg-[#FFFDF9] border border-[#DED3C8] rounded-3xl p-6 sm:p-8 space-y-6 shadow-xs">
+            {/* HDSD Banner Grammar */}
+            <div className="bg-emerald-50/80 border-2 border-emerald-200 rounded-2xl p-4 sm:p-5 space-y-2 text-xs">
+              <div className="flex items-center gap-2">
+                <span className="text-base">🧩</span>
+                <h4 className="font-black text-emerald-950 text-sm">HƯỚNG DẪN QUẢN LÝ NGỮ PHÁP BÀI HỌC (GRAMMAR MANAGEMENT GUIDE)</h4>
+              </div>
+              <p className="text-[#76685F] font-semibold leading-relaxed">
+                Mẫu ngữ pháp & câu ví dụ sẽ tự động liên kết sang 4 dạng bài tập của Learner: <strong className="text-emerald-800">1. Cloze Transform điền từ chia thể</strong>, <strong className="text-emerald-800">2. Conversational Reflex phản xạ hội thoại</strong>, <strong className="text-emerald-800">3. Ema Game ghép khối từ xếp câu</strong> và <strong className="text-emerald-800">4. Quiz trắc nghiệm trợ từ/mẫu câu</strong>.
+              </p>
+            </div>
+
             <div className="flex justify-between items-center border-b border-[#DED3C8] pb-4">
               <div>
                 <h3 className="text-lg font-extrabold text-[#231917]">🧩 Danh Sách Mẫu Ngữ Pháp Bài #{lessonId}</h3>

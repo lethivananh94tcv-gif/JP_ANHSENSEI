@@ -11,6 +11,7 @@ public class KanjiExerciseDto {
     private String readingHiragana;
     private String optionsJson;
     private Integer correctOption;
+    private String meaningVi;
     private Integer displayOrder;
 
     public KanjiExerciseDto() {}
@@ -26,6 +27,7 @@ public class KanjiExerciseDto {
         this.readingHiragana = exercise.getReadingHiragana();
         this.optionsJson = exercise.getOptionsJson();
         this.correctOption = exercise.getCorrectOption();
+        this.meaningVi = exercise.getMeaningVi();
         this.displayOrder = exercise.getDisplayOrder();
     }
 
@@ -52,6 +54,9 @@ public class KanjiExerciseDto {
 
     public Integer getCorrectOption() { return correctOption; }
     public void setCorrectOption(Integer correctOption) { this.correctOption = correctOption; }
+
+    public String getMeaningVi() { return meaningVi; }
+    public void setMeaningVi(String meaningVi) { this.meaningVi = meaningVi; }
 
     public Integer getDisplayOrder() { return displayOrder; }
     public void setDisplayOrder(Integer displayOrder) { this.displayOrder = displayOrder; }

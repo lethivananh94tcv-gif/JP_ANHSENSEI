@@ -17,6 +17,17 @@ public class GrammarExampleDto {
 
     public GrammarExampleDto() {}
 
+    public GrammarExampleDto(Long exampleId, String contentType, Long grammarId, String japaneseText, String notes, String reading, String meaningVi, Integer sortOrder) {
+        this.exampleId = exampleId;
+        this.contentType = contentType;
+        this.grammarId = grammarId;
+        this.japaneseText = japaneseText;
+        this.notes = notes;
+        this.reading = reading;
+        this.meaningVi = meaningVi;
+        this.sortOrder = sortOrder;
+    }
+
     public GrammarExampleDto(GrammarExample example) {
         this.exampleId = example.getExampleId();
         this.contentType = example.getContentType();

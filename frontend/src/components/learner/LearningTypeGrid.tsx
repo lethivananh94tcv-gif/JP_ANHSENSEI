@@ -26,6 +26,7 @@ import {
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ManekiNeko3D from "@/components/ui/ManekiNeko3D";
+import { playKanaAlphabetTTS } from "@/lib/utils/japaneseAudioTTS";
 
 // Full 46 Hiragana Gojuon Dataset
 const FULL_HIRAGANA = [
@@ -86,15 +87,9 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
     setTypingHint(null);
   }, [selectedKanaType]);
 
-  // TTS Speech Synthesis helper
+  // TTS Speech Synthesis helper (Slower 0.72x, bright Tokyo female voice)
   const speakKana = (kana: string) => {
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(kana);
-      utterance.lang = "ja-JP";
-      utterance.rate = 0.9;
-      window.speechSynthesis.speak(utterance);
-    }
+    playKanaAlphabetTTS(kana);
   };
 
   const currentItem = typingDataset[typingIndex] || typingDataset[0];
@@ -468,24 +463,24 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
           </div>
         </Link>
 
-        {/* Skill 5: AI Tutor */}
+        {/* Skill 5: Flashcards SRS */}
         <Link
-          href="/ai-tutor"
+          href="/flashcards"
           className="bg-white rounded-3xl p-5 border-2 border-[#F5E6FF] shadow-sm hover:shadow-xl hover:border-purple-600 hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between space-y-4 relative overflow-hidden"
         >
           <div className="flex items-center justify-between">
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#5B21B6] via-[#7C3AED] to-[#C084FC] text-white flex items-center justify-center shadow-lg shadow-purple-600/30 border-2 border-white/50 relative overflow-hidden group-hover:scale-110 transition-transform duration-300">
               <div className="absolute top-0 left-0 w-full h-1/2 bg-white/20 rounded-t-2xl pointer-events-none" />
-              <Bot className="w-7 h-7 stroke-[2.2] drop-shadow-md text-purple-100" />
+              <Layers className="w-7 h-7 stroke-[2.2] drop-shadow-md text-purple-100" />
             </div>
             <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-purple-600/10 text-purple-700 border border-purple-600/20">
-              AI 24/7
+              SRS 3D
             </span>
           </div>
 
           <div>
-            <h3 className="text-base font-black text-[#2C201D] group-hover:text-purple-600 transition-colors">AI Tutor</h3>
-            <p className="text-xs text-[#76685F] font-extrabold">Hỏi đáp cùng AI</p>
+            <h3 className="text-base font-black text-[#2C201D] group-hover:text-purple-600 transition-colors">Flashcards</h3>
+            <p className="text-xs text-[#76685F] font-extrabold">Ôn tập ngắt quãng</p>
           </div>
 
           <div className="flex justify-end pt-1">

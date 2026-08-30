@@ -2,14 +2,20 @@
 
 @layer base {
   :root {
-    --bg-primary: #FDFBF7;
-    --color-primary: #8B6F5A;
-    --color-accent: #C65D4B;
+    --bg-primary: #F7F1E8;
+    --card-bg: #FFFDF9;
+    --color-primary: #D85C4C;
+    --color-primary-hover: #C94F40;
+    --color-dark: #2B211D;
+    --color-secondary: #766A61;
+    --color-border: #E7D9CC;
+    --color-soft-orange: #F3D6C5;
+    --color-cream: #F8EEE5;
   }
 
   body {
-    background-color: #FDFBF7;
-    color: #2C221E;
+    background-color: #F7F1E8;
+    color: #2B211D;
     font-family: var(--font-be-vietnam), 'Be Vietnam Pro', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -24,6 +30,23 @@
     font-family: var(--font-noto-serif-jp), 'Noto Serif JP', serif;
   }
 }
+
+/* Subtle Diagonal Stripe Pattern for Hero Card */
+.bg-diagonal-stripes {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(216, 92, 76, 0.03),
+    rgba(216, 92, 76, 0.03) 12px,
+    transparent 12px,
+    transparent 24px
+  );
+}
+
+/* Soft Shadow Utility matching Design System */
+.shadow-soft {
+  box-shadow: 0 4px 16px rgba(70, 40, 20, 0.06);
+}
+
 
 /* Smooth Scrolling & Transition Utility Classes */
 html {
