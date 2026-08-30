@@ -263,8 +263,8 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
       // 1. Always fetch live publication status from backend first
       let isPublished = false;
       try {
-        const infoRes = await fetch(`/api/v1/admin/question-bank/quiz-info/lesson/${quizIdStr}`).catch(() => null);
-        isPublished = infoRes && infoRes.ok ? (await infoRes.json())?.data?.status === "PUBLISHED" : false;
+        const infoRes = await apiClient<any>(`/admin/question-bank/quiz-info/lesson/${quizIdStr}`).catch(() => null);
+        isPublished = infoRes && infoRes.data ? infoRes.data.status === "PUBLISHED" : false;
         setIsQuizPublished(isPublished);
       } catch (e) {}
 
@@ -276,7 +276,7 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
             const parsed = JSON.parse(savedSession);
             const sessionIsPublished = typeof parsed.isQuizPublished === "boolean" ? parsed.isQuizPublished : isPublished;
 
-            // ONLY restore session if publication status in session matches current backend status!
+            // ONLY restore session if publication status in session matches current publication status!
             if (sessionIsPublished === isPublished && parsed.quizData && parsed.quizData.questions && parsed.quizData.questions.length > 0) {
               setQuizData(parsed.quizData);
               if (parsed.userAnswers) setUserAnswers(parsed.userAnswers);
@@ -304,10 +304,9 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
       let adminQuestions: QuestionItem[] = [];
       // ONLY load Admin Question Bank if Admin explicitly clicked "PUBLISHED"!
       if (isPublished) {
-          const adminRes = await fetch(`/api/v1/admin/question-bank/lesson/${quizIdStr}`);
-          if (adminRes.ok) {
-            const listData = await adminRes.json();
-            const rawList = Array.isArray(listData) ? listData : listData.data || listData.content || [];
+          const adminRes = await apiClient<any>(`/admin/question-bank/lesson/${quizIdStr}`).catch(() => null);
+          if (adminRes && adminRes.data) {
+            const rawList = Array.isArray(adminRes.data) ? adminRes.data : adminRes.data.content || [];
             
             // Filter out broken / empty questions that don't have real Japanese text or options
             const validRawList = rawList.filter((q: any) => {
@@ -388,14 +387,14 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
 
       if (extraQuestionsNeeded > 0) {
         const [vocabRes, kanjiRes, grammarRes] = await Promise.all([
-          fetch(`/api/v1/curriculum/lessons/${quizIdStr}/vocabularies`).catch(() => null),
-          fetch(`/api/v1/curriculum/lessons/${quizIdStr}/kanji`).catch(() => null),
-          fetch(`/api/v1/curriculum/lessons/${quizIdStr}/grammar`).catch(() => null),
+          apiClient<any[]>(`/curriculum/lessons/${quizIdStr}/vocabularies`),
+          apiClient<any[]>(`/curriculum/lessons/${quizIdStr}/kanji`),
+          apiClient<any[]>(`/curriculum/lessons/${quizIdStr}/grammar`),
         ]);
 
-        const vocabs = vocabRes && vocabRes.ok ? await vocabRes.json() : [];
-        const kanjis = kanjiRes && kanjiRes.ok ? await kanjiRes.json() : [];
-        const grammars = grammarRes && grammarRes.ok ? await grammarRes.json() : [];
+        const vocabs = vocabRes && Array.isArray(vocabRes.data) ? vocabRes.data : [];
+        const kanjis = kanjiRes && Array.isArray(kanjiRes.data) ? kanjiRes.data : [];
+        const grammars = grammarRes && Array.isArray(grammarRes.data) ? grammarRes.data : [];
 
         const includeVocab = reqCategory === "ALL" || reqCategory === "FULL" || reqCategory === "VOCAB";
         const includeKanji = reqCategory === "ALL" || reqCategory === "FULL" || reqCategory === "KANJI";
