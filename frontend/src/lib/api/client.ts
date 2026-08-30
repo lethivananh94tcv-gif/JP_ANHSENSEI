@@ -5,6 +5,9 @@ const getApiBaseUrl = () => {
     return process.env.NEXT_PUBLIC_API_BASE_URL;
   }
   if (typeof window !== "undefined") {
+    if (window.location.hostname.includes("vercel.app")) {
+      return "https://anhsensei-backend.onrender.com/api/v1";
+    }
     return "/api/v1";
   }
   return "http://localhost:8080/api/v1";
@@ -104,7 +107,24 @@ export async function apiClient<T>(
     }
 
     try {
-      return JSON.parse(text);
+      const parsed = JSON.parse(text);
+      if (Array.isArray(parsed)) {
+        return {
+          success: true,
+          data: parsed as unknown as T,
+          message: "Success",
+          timestamp: new Date().toISOString(),
+        };
+      }
+      if (parsed && typeof parsed === "object" && !("data" in parsed) && !("success" in parsed)) {
+        return {
+          success: true,
+          data: parsed as unknown as T,
+          message: "Success",
+          timestamp: new Date().toISOString(),
+        };
+      }
+      return parsed;
     } catch {
       return {
         success: response.ok,
