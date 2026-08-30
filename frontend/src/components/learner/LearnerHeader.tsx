@@ -235,11 +235,11 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
                   key={item.name}
                   href={item.href}
                   onClick={() => setIsMobileOpen(false)}
-                  className={`px-4 py-3 rounded-xl text-xs font-bold flex items-center justify-between ${
-                    item.active ? "bg-[#C65D4B] text-white" : "text-[#56423E] hover:bg-[#F5EFE6]"
+                  className={`px-4 py-3 rounded-xl text-xs font-bold flex items-center justify-between transition-colors ${
+                    item.active ? "bg-[#C65D4B] text-white shadow-xs" : "text-[#56423E] hover:bg-[#F5EFE6]"
                   }`}
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2.5">
                     <IconComp className="w-4 h-4" />
                     <span>{item.name}</span>
                   </div>
@@ -254,6 +254,34 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
           </nav>
         </div>
       )}
+
+      {/* FIXED MOBILE BOTTOM NAVIGATION BAR (md:hidden) */}
+      <nav aria-label="Mobile Bottom Navigation" className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#FFFDF9]/95 backdrop-blur-md border-t border-[#DED3C8] shadow-2xl px-2 py-1.5 flex items-center justify-around">
+        {navItems.map((item) => {
+          const IconComp = item.icon;
+          return (
+            <Link
+              key={`mobile-bottom-${item.name}`}
+              href={item.href}
+              className={`flex flex-col items-center justify-center py-1 px-2.5 rounded-xl transition-all ${
+                item.active 
+                  ? "text-[#C65D4B] font-black scale-105" 
+                  : "text-[#76685F] hover:text-[#231917] font-semibold"
+              }`}
+            >
+              <div className="relative">
+                <IconComp className={`w-5 h-5 ${item.active ? "text-[#C65D4B]" : "text-[#8B6F5A]"}`} />
+                {item.badge && (
+                  <span className="absolute -top-1 -right-2 text-[8px] font-black px-1 rounded-full bg-[#C65D4B] text-white">
+                    •
+                  </span>
+                )}
+              </div>
+              <span className="text-[10px] tracking-tight mt-0.5">{item.name}</span>
+            </Link>
+          );
+        })}
+      </nav>
     </header>
   );
 }

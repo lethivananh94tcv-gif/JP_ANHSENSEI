@@ -104,7 +104,7 @@ export default function LearnerGrammarPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2] text-[#2B211D] font-sans flex flex-col pb-12">
+    <div className="min-h-screen bg-[#FAF7F2] text-[#2B211D] font-sans flex flex-col pb-24 md:pb-12">
       {/* 1. HEADER NAVBAR (Exact original Navbar preserved 100%) */}
       <LearnerHeader />
 

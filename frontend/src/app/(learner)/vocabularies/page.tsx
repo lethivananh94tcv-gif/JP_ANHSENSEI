@@ -429,7 +429,7 @@ export default function LearnerVocabulariesHubPage() {
     <div className="min-h-screen bg-[#F5EFE6] text-[#302A26] font-sans flex flex-col">
       <LearnerHeader user={profile} />
 
-      <main className="flex-1 w-full max-w-[1180px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8">
+      <main className="flex-1 w-full max-w-[1180px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8 pb-24 md:pb-12">
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-bold text-[#756A62]">
           <Link href="/dashboard" className="hover:text-[#C65D4B] transition-colors">
