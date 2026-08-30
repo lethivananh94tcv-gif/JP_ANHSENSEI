@@ -84,7 +84,12 @@ public class SecurityConfig {
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",
-                                "/actuator/health"
+                                "/actuator/**",
+                                "/api/v1/actuator/**",
+                                "/health",
+                                "/healthz",
+                                "/api/v1/health",
+                                "/api/v1/healthz"
                         ).permitAll()
                         .requestMatchers("/learner/profile", "/api/v1/learner/profile").hasAnyRole("LEARNER", "ADMIN")
                         .requestMatchers("/learner/**", "/api/v1/learner/**").hasAnyRole("LEARNER", "ADMIN")
