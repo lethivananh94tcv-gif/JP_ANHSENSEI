@@ -67,8 +67,22 @@ public class LearnerLessonController {
     }
 
     @GetMapping("/levels/{levelId}/lessons")
-    public ResponseEntity<List<LessonDto>> getPublishedLessonsByLevel(@PathVariable("levelId") Long levelId) {
-        List<LessonDto> list = lessonRepository.findByLevel_LevelIdAndStatusOrderBySortOrderAsc(levelId, "PUBLISHED").stream()
+    public ResponseEntity<List<LessonDto>> getPublishedLessonsByLevel(@PathVariable("levelId") String levelIdentifier) {
+        List<Lesson> lessons = new ArrayList<>();
+        try {
+            Long numericId = Long.parseLong(levelIdentifier);
+            lessons = lessonRepository.findByLevel_LevelIdAndStatusOrderBySortOrderAsc(numericId, "PUBLISHED");
+            if (lessons.isEmpty()) {
+                String fallbackCode = numericId == 1L ? "N5" : numericId == 2L ? "N4" : numericId == 3L ? "N3" : null;
+                if (fallbackCode != null) {
+                    lessons = lessonRepository.findByLevel_CodeIgnoreCaseAndStatusOrderBySortOrderAsc(fallbackCode, "PUBLISHED");
+                }
+            }
+        } catch (NumberFormatException e) {
+            lessons = lessonRepository.findByLevel_CodeIgnoreCaseAndStatusOrderBySortOrderAsc(levelIdentifier, "PUBLISHED");
+        }
+
+        List<LessonDto> list = lessons.stream()
                 .map(LessonDto::new)
                 .collect(Collectors.toList());
         return ResponseEntity.ok(list);
