@@ -98,7 +98,7 @@ public class LearnerLessonController {
         return ResponseEntity.ok(dto);
     }
 
-    @GetMapping("/lessons/{id}/vocabularies")
+    @GetMapping({"/lessons/{id}/vocabularies", "/lessons/{id}/content"})
     public ResponseEntity<List<VocabularyDto>> getPublishedVocabularies(@PathVariable("id") Long lessonId) {
         Long actualId = resolveLessonId(lessonId);
         List<VocabularyDto> list = vocabularyRepository.findByLesson_LessonIdAndStatusOrderBySortOrderAsc(actualId, "PUBLISHED").stream()

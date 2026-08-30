@@ -76,34 +76,43 @@ export default function LearnerLessonStudyPage() {
       setLoading(true);
       setError("");
 
-      let contentData: any = null;
+      let loadedVocabs: any[] = [];
+      let loadedLesson: any = null;
+
+      // 1. Fetch Vocabularies
       try {
-        const res = await apiClient<any>(`/learner/lessons/${lessonId}/content`);
-        if (res && res.data) {
-          contentData = res.data;
+        let vRes = await apiClient<any[]>(`/learner/lessons/${lessonId}/vocabularies`);
+        if (!vRes.data || vRes.data.length === 0) {
+          vRes = await apiClient<any[]>(`/curriculum/lessons/${lessonId}/vocabularies`);
         }
-      } catch (e) {
-        // Backend endpoint 404 fallback: try direct endpoint
-        try {
-          const vRes = await fetch(`/api/v1/curriculum/lessons/${lessonId}/vocabularies`);
-          if (vRes.ok) {
-            const vocabs = await vRes.json();
-            contentData = {
-              title: `Bài học #${lessonId}`,
-              levelCode: "N5",
-              vocabularies: vocabs,
-            };
-          }
-        } catch {
-          // Ignore
+        if (vRes && Array.isArray(vRes.data)) {
+          loadedVocabs = vRes.data;
         }
+      } catch (err) {
+        console.warn("Could not fetch vocabularies from /learner/lessons, trying /curriculum:", err);
       }
 
-      if (contentData && Array.isArray(contentData.vocabularies) && contentData.vocabularies.length > 0) {
-        setLessonTitle(contentData.title || `Bài học #${lessonId}`);
-        setLevelCode(contentData.levelCode || "N5");
-        if (contentData.sortOrder) setSortOrder(contentData.sortOrder);
-        setVocabularies(contentData.vocabularies);
+      // 2. Fetch Lesson Details
+      try {
+        let lRes = await apiClient<any>(`/learner/lessons/${lessonId}`);
+        if (!lRes.data) {
+          lRes = await apiClient<any>(`/curriculum/lessons/${lessonId}`);
+        }
+        if (lRes && lRes.data) {
+          loadedLesson = lRes.data;
+        }
+      } catch (err) {
+        console.warn("Could not fetch lesson details:", err);
+      }
+
+      if (loadedLesson) {
+        setLessonTitle(loadedLesson.title || `Bài học #${lessonId}`);
+        setLevelCode(loadedLesson.levelCode || "N5");
+        if (loadedLesson.sortOrder) setSortOrder(loadedLesson.sortOrder);
+      }
+
+      if (Array.isArray(loadedVocabs) && loadedVocabs.length > 0) {
+        setVocabularies(loadedVocabs);
       } else {
         // Guarantee 100% playable static vocabulary set for ANY lesson ID so it never crashes!
         const lNum = Number(lessonId) || 1;
