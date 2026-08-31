@@ -68,7 +68,7 @@ public class EmailService {
                     mailSender.send(message);
                     log.info("Email [{}] đã được gửi thành công qua SMTP đến {}", type, toEmail);
                 } catch (Exception e) {
-                    log.error("Lỗi khi gửi email SMTP đến {}: {}", toEmail, e.getMessage());
+                    log.error("Lỗi khi gửi email SMTP đến {}: ", toEmail, e);
                     log.warn("LƯU Ý: Mã OTP [{}] đã tạo cho email {} sẵn sàng để sử dụng.", token, toEmail);
                 }
             }

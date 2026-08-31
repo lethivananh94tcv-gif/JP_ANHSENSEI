@@ -44,9 +44,11 @@ spring:
         smtp:
           auth: true
           starttls:
-            enable: ${SPRING_MAIL_STARTTLS_ENABLE:true}
+            enable: true
+            required: true
           ssl:
-            enable: ${SPRING_MAIL_SSL_ENABLE:false}
+            trust: smtp.gmail.com
+            protocols: TLSv1.2 TLSv1.3
           connectiontimeout: 10000
           timeout: 10000
           writetimeout: 10000

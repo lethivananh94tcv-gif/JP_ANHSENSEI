@@ -21,6 +21,25 @@ interface SenseiAuthWrapperProps {
   initialMode?: AuthMode;
 }
 
+const fetchWithTimeout = async (url: string, options: RequestInit = {}, timeoutMs = 25000) => {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    });
+    return res;
+  } catch (err: any) {
+    if (err.name === "AbortError") {
+      throw new Error("Máy chủ Backend phản hồi chậm (đang khởi động lại). Vui lòng bấm thử lại!");
+    }
+    throw err;
+  } finally {
+    clearTimeout(timeoutId);
+  }
+};
+
 export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthWrapperProps) {
   const [mode, setMode] = useState<AuthMode>(initialMode);
   const [motionPhase, setMotionPhase] = useState<MotionPhase>("IDLE");
@@ -41,6 +60,12 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(true);
+
+  // Silent Background Warmup Ping for Render Free Tier Backend
+  useEffect(() => {
+    const apiBaseUrl = getApiBaseUrl();
+    fetch(`${apiBaseUrl}/actuator/health`, { method: "GET" }).catch(() => {});
+  }, []);
 
   // Restore saved login email if rememberMe was active
   useEffect(() => {
@@ -276,7 +301,7 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
       setLoading(true);
       const apiBaseUrl = getApiBaseUrl();
 
-      const res = await fetch(`${apiBaseUrl}/auth/login`, {
+      const res = await fetchWithTimeout(`${apiBaseUrl}/auth/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: loginEmail.trim(), password: loginPassword }),
@@ -332,7 +357,7 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
       setLoading(true);
       const apiBaseUrl = getApiBaseUrl();
 
-      const res = await fetch(`${apiBaseUrl}/auth/register`, {
+      const res = await fetchWithTimeout(`${apiBaseUrl}/auth/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -360,7 +385,9 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
       setRegConfirmPassword("");
       setIsRegisterSuccess(true);
 
-      setMessage(`Đăng ký mục tiêu ${regTargetLevel} thành công! Bấm vào Sensei để chuyển sang bảng Kích Hoạt OTP nhé!`);
+      // Automatically transition to VERIFY_OTP screen and inform user
+      switchMode("VERIFY_OTP");
+      setMessage(`Mã OTP 6 chữ số đã được gửi tới email ${registeredEmail}. Vui lòng kiểm tra Hộp thư đến (hoặc Spam/Junk) của bạn!`);
     } catch (err: any) {
       setError(err.message || "Không thể đăng ký. Vui lòng thử lại sau.");
     } finally {
@@ -387,7 +414,7 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
       setLoading(true);
       const apiBaseUrl = getApiBaseUrl();
 
-      const res = await fetch(`${apiBaseUrl}/auth/login-otp/request`, {
+      const res = await fetchWithTimeout(`${apiBaseUrl}/auth/login-otp/request`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: otpEmail.trim() }),
@@ -428,7 +455,7 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
       setLoading(true);
       const apiBaseUrl = getApiBaseUrl();
 
-      const res = await fetch(`${apiBaseUrl}/auth/login-otp/verify`, {
+      const res = await fetchWithTimeout(`${apiBaseUrl}/auth/login-otp/verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: otpEmail.trim(), otpCode: otpCode.trim() }),
@@ -440,13 +467,11 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
         throw new Error(data.message || "Xác thực mã OTP thất bại.");
       }
 
-      setMessage("Xác thực OTP tài khoản thành công! Sensei đưa bạn về bảng Đăng Nhập ngay đây!");
+      setMessage("Xác thực OTP tài khoản thành công! Sensei đưa bạn vào bục giảng ngay đây!");
       setOtpCode("");
       setIsRegisterSuccess(false);
 
-      setTimeout(() => {
-        switchMode("LOGIN");
-      }, 2200);
+      saveAuthAndRedirect(data);
     } catch (err: any) {
       setError(err.message || "Mã OTP chưa chính xác hoặc đã hết hạn.");
     } finally {
@@ -474,7 +499,7 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
       setLoading(true);
       const apiBaseUrl = getApiBaseUrl();
 
-      const res = await fetch(`${apiBaseUrl}/auth/forgot-password`, {
+      const res = await fetchWithTimeout(`${apiBaseUrl}/auth/forgot-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: forgotEmail.trim() }),
