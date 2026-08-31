@@ -50,13 +50,22 @@ public class AdminQuestionBankService {
     private Lesson resolveLesson(Long lessonId) {
         if (lessonId == null) throw new IllegalArgumentException("Lesson ID không được để trống");
         return lessonRepository.findById(lessonId).orElseGet(() -> {
-            if (lessonId > 25 && lessonId <= 50) {
-                // Canonical N4 lesson number -> maps to sortOrder (lessonId - 25)
+            if (lessonId > 50) {
+                int sortOrder = (int) (lessonId - 50);
+                return lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndDeletedAtIsNull("N3", sortOrder)
+                        .orElseGet(() -> lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull("N3", sortOrder, "PUBLISHED")
+                                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy bài học N3 Bài #" + sortOrder)));
+            } else if (lessonId > 25) {
                 int sortOrder = (int) (lessonId - 25);
-                return lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull("N4", sortOrder, "PUBLISHED")
-                        .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy bài học N4 Bài #" + sortOrder));
+                return lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndDeletedAtIsNull("N4", sortOrder)
+                        .orElseGet(() -> lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull("N4", sortOrder, "PUBLISHED")
+                                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy bài học N4 Bài #" + sortOrder)));
+            } else {
+                int sortOrder = lessonId.intValue();
+                return lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndDeletedAtIsNull("N5", sortOrder)
+                        .orElseGet(() -> lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull("N5", sortOrder, "PUBLISHED")
+                                .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy bài học N5 Bài #" + sortOrder)));
             }
-            throw new IllegalArgumentException("Không tìm thấy bài học ID = " + lessonId);
         });
     }
 
@@ -246,12 +255,7 @@ public class AdminQuestionBankService {
         if (!oldQuestions.isEmpty()) {
             questionBankRepository.deleteAll(oldQuestions);
         }
-        List<QuestionBank> list = new ArrayList<>();
-        list.addAll(generateQuestionsForLessonByMode(lessonId, "VOCAB", adminUserId, true));
-        list.addAll(generateQuestionsForLessonByMode(lessonId, "KANJI", adminUserId, true));
-        list.addAll(generateQuestionsForLessonByMode(lessonId, "GRAMMAR", adminUserId, true));
-        list.addAll(generate30JLPTQuestionsForLesson(lessonId, adminUserId, true));
-        return list;
+        return generateQuestionsForLessonByMode(lessonId, "GRAMMAR", adminUserId, true);
     }
 
     public List<QuestionBank> generateQuestionsForLessonByMode(Long lessonId, String mode, Long adminUserId, boolean setAsActive) {

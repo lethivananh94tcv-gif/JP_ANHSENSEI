@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { LevelSummary } from "@/types/learner";
 import { ArrowRight, Lock, Check } from "lucide-react";
 
@@ -28,23 +27,20 @@ export default function LearningPathSection({ levels }: LearningPathSectionProps
           </h2>
         </div>
 
-        <Link
-          href="/learn"
-          className="text-xs font-bold text-[#76685F] hover:text-[#C65D4B] transition-colors inline-flex items-center gap-1.5 bg-[#FFF8F5] px-4 py-2 rounded-xl border border-[#F2DDD4]"
-        >
+        <div className="text-xs font-bold text-[#76685F] bg-[#FFF8F5] px-4 py-2 rounded-xl border border-[#F2DDD4] inline-flex items-center gap-1.5 select-none cursor-default">
           <span>Xem lộ trình chi tiết</span>
-          <ArrowRight className="w-3.5 h-3.5" />
-        </Link>
+          <ArrowRight className="w-3.5 h-3.5 opacity-60" />
+        </div>
       </div>
 
-      {/* Level Cards Track (5 Cards with connecting lines) */}
+      {/* Level Cards Track (Decorative static cards) */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 pt-2">
-        {defaultLevelsConfig.map((lvl, index) => {
+        {defaultLevelsConfig.map((lvl) => {
           if (lvl.isLocked) {
             return (
               <div
                 key={lvl.code}
-                className="bg-[#FAF3EB]/50 border-2 border-[#EAD0C7]/40 rounded-2xl p-4 flex flex-col justify-between space-y-3 relative opacity-60"
+                className="bg-[#FAF3EB]/50 border-2 border-[#EAD0C7]/40 rounded-2xl p-4 flex flex-col justify-between space-y-3 relative opacity-60 select-none cursor-default"
               >
                 <div className="flex items-center justify-between">
                   <span className="w-10 h-10 rounded-xl bg-gray-200 text-gray-500 font-black text-sm flex items-center justify-center">
@@ -61,13 +57,12 @@ export default function LearningPathSection({ levels }: LearningPathSectionProps
           }
 
           return (
-            <Link
+            <div
               key={lvl.code}
-              href="/learn"
-              className={`rounded-2xl p-4 flex flex-col justify-between space-y-3 relative border-2 transition-all hover:scale-105 shadow-sm ${
+              className={`rounded-2xl p-4 flex flex-col justify-between space-y-3 relative border-2 shadow-sm select-none cursor-default ${
                 lvl.isCurrent
                   ? "bg-[#FFF5F2] border-[#C65D4B] ring-2 ring-[#C65D4B]/20"
-                  : "bg-white border-[#EAD0C7] hover:border-[#C65D4B]"
+                  : "bg-white border-[#EAD0C7]"
               }`}
             >
               <div className="flex items-center justify-between">
@@ -86,11 +81,10 @@ export default function LearningPathSection({ levels }: LearningPathSectionProps
                 <h3 className="text-sm font-black text-[#2C201D]">{lvl.name}</h3>
                 <p className="text-xs text-[#76685F] font-semibold">{lvl.desc}</p>
               </div>
-            </Link>
+            </div>
           );
         })}
       </div>
     </section>
   );
 }
-

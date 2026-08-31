@@ -209,188 +209,24 @@ export default function GrammarQuizPractice({ lessonNum, grammarPoints }: Gramma
   const currentQ = questions[currentIndex];
 
   return (
-    <div className="bg-[#FFFDF9] border border-[#E5D7C7] rounded-3xl p-5 sm:p-7 shadow-xs space-y-5">
-      {/* Header Info & Progress */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E5D7C7] pb-4">
-        <div className="flex items-center gap-2">
-          <span className="w-8 h-8 rounded-xl bg-[#C65D4B]/10 text-[#C65D4B] flex items-center justify-center font-black text-xs">
-            <Zap className="w-4 h-4" />
-          </span>
-          <div>
-            <h4 className="text-sm font-black text-[#1F1714]">
-              Bài Tập Trắc Nghiệm Chuẩn JLPT (Bài #{lessonNum})
-            </h4>
-            <span className="text-[11px] font-bold text-[#8B6F5A]">
-              Câu {currentIndex + 1} / {questions.length} • {currentQ?.questionType || "MULTIPLE_CHOICE"}
-            </span>
-          </div>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <span className="text-xs font-black text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-            Điểm: {score}/{questions.length}
-          </span>
-          <Link
-            href={`/quizzes/${lessonNum}`}
-            className="inline-flex items-center gap-1 text-xs font-bold text-[#C65D4B] hover:underline"
-            title="Mở toàn màn hình phòng thi"
-          >
-            <span>Phòng thi lớn</span>
-            <ArrowUpRight className="w-3.5 h-3.5" />
-          </Link>
-        </div>
+    <div className="p-8 text-center bg-[#FFFDF9] border-2 border-[#E5D7C7] rounded-3xl space-y-5 shadow-lg">
+      <div className="w-14 h-14 bg-gradient-to-r from-[#D94129] to-[#FF5733] text-white rounded-2xl flex items-center justify-center mx-auto shadow-md">
+        <Zap className="w-7 h-7 fill-amber-300 text-amber-300" />
       </div>
-
-      {/* Progress Bar */}
-      <div className="w-full bg-[#FAF4EB] h-2 rounded-full overflow-hidden border border-[#E5D7C7]">
-        <div 
-          className="bg-[#C65D4B] h-full transition-all duration-300 rounded-full"
-          style={{ width: `${((currentIndex + 1) / questions.length) * 100}%` }}
-        />
+      <div className="space-y-2">
+        <h3 className="text-xl font-extrabold text-[#1F1714]">Bài Tập Quiz Ngữ Pháp 30 Câu (Bài #{lessonNum})</h3>
+        <p className="text-xs sm:text-sm text-[#6E5D55] max-w-md mx-auto leading-relaxed">
+          Bài thi trắc nghiệm chuẩn JLPT gồm 30 câu hỏi chuyên sâu Ngữ Pháp (sắp xếp câu Star Order, chia thể động từ, điền trợ từ và mẫu câu).
+        </p>
       </div>
-
-      {!isCompleted ? (
-        <div className="space-y-5">
-          {/* Prompt Box */}
-          <div className="p-4 sm:p-5 bg-[#FAF4EB] border-l-4 border-[#C65D4B] rounded-r-2xl space-y-3">
-            <span className="px-2.5 py-0.5 bg-[#C65D4B]/10 text-[#C65D4B] font-black text-[10px] rounded-md uppercase">
-              {currentQ.questionType === "STAR_ORDER" ? "★ DẠNG SẮP XẾP CÂU JLPT" : (currentQ.category || "NGỮ PHÁP")}
-            </span>
-            <h3 className="text-sm sm:text-base font-bold text-[#1F1714] leading-relaxed whitespace-pre-line">
-              {currentQ.prompt}
-            </h3>
-
-            {/* If japaneseText contains the target sentence and prompt didn't include it */}
-            {currentQ.japaneseText && !currentQ.prompt.includes("「") && (
-              <div className="p-3 bg-white border border-[#E5D7C7] rounded-xl font-black text-base text-[#1F1714]">
-                {currentQ.japaneseText}
-              </div>
-            )}
-
-            {/* Visual Slots for STAR_ORDER */}
-            {currentQ.questionType === "STAR_ORDER" && (
-              <div className="bg-white border-2 border-dashed border-[#C65D4B]/40 rounded-xl p-3 flex items-center justify-center gap-2 sm:gap-3 text-sm font-black text-[#1F1714] select-none shadow-2xs">
-                <span className="px-3 py-1.5 bg-[#FAF4EB] border border-[#E5D7C7] rounded-lg text-xs text-[#8C7B70]">① ＿＿＿</span>
-                <span className="px-3 py-1.5 bg-[#FAF4EB] border border-[#E5D7C7] rounded-lg text-xs text-[#8C7B70]">② ＿＿＿</span>
-                <span className="px-3.5 py-1.5 bg-amber-100 border-2 border-amber-400 text-amber-900 rounded-lg shadow-xs flex items-center gap-1 text-xs font-black">
-                  <Star className="w-3.5 h-3.5 fill-amber-500 text-amber-600" />
-                  <span>③ ★</span>
-                </span>
-                <span className="px-3 py-1.5 bg-[#FAF4EB] border border-[#E5D7C7] rounded-lg text-xs text-[#8C7B70]">④ ＿＿＿</span>
-              </div>
-            )}
-          </div>
-
-          {/* Options */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {currentQ.options.map((opt, idx) => {
-              let btnStyle = "bg-[#FFFDF9] border-[#E5D7C7] text-[#1F1714] hover:border-[#C65D4B]";
-              if (isAnswered) {
-                if (opt.isCorrect) {
-                  btnStyle = "bg-emerald-50 border-emerald-500 text-emerald-900 ring-2 ring-emerald-400";
-                } else if (selectedOptionIdx === idx) {
-                  btnStyle = "bg-rose-50 border-rose-500 text-rose-900 ring-2 ring-rose-300";
-                } else {
-                  btnStyle = "bg-[#FAF4EB]/60 border-[#E5D7C7] text-[#8C7B70] opacity-60";
-                }
-              }
-
-              return (
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => handleSelectOption(idx)}
-                  disabled={isAnswered}
-                  className={`p-3.5 rounded-2xl border-2 font-bold text-xs sm:text-sm text-left transition-all flex items-center justify-between gap-2 cursor-pointer shadow-2xs ${btnStyle}`}
-                >
-                  <span className="flex items-center gap-2.5">
-                    <span className="w-6 h-6 rounded-lg bg-[#FAF4EB] text-[#8B6F5A] font-mono font-black text-xs flex items-center justify-center border border-[#E5D7C7] shrink-0">
-                      {String.fromCharCode(65 + idx)}
-                    </span>
-                    <span>{opt.optionText}</span>
-                  </span>
-                  {isAnswered && opt.isCorrect && (
-                    <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-                  )}
-                  {isAnswered && selectedOptionIdx === idx && !opt.isCorrect && (
-                    <XCircle className="w-5 h-5 text-rose-600 shrink-0" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Explanation & Next Button */}
-          {isAnswered && (
-            <div className="space-y-4 pt-2 animate-fadeIn">
-              {currentQ.explanation && (
-                <div className="p-3.5 bg-amber-50/70 border border-amber-200 rounded-2xl text-xs text-[#52443C] space-y-1">
-                  <span className="font-bold text-amber-900 uppercase text-[10px] block">
-                    💡 Lời giải thích & Mẹo ngữ pháp:
-                  </span>
-                  <p className="leading-relaxed font-medium">{currentQ.explanation}</p>
-                </div>
-              )}
-
-              <div className="flex justify-end">
-                <button
-                  type="button"
-                  onClick={handleNextQuestion}
-                  className="px-6 py-2.5 bg-[#C65D4B] hover:bg-[#B44C3B] text-white font-black text-xs sm:text-sm rounded-xl shadow-md transition-all flex items-center gap-2 cursor-pointer hover:scale-102"
-                >
-                  <span>{currentIndex < questions.length - 1 ? "Câu Tiếp Theo" : "Xem Kết Quả"}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-          )}
-        </div>
-      ) : (
-        /* Results Card */
-        <div className="py-8 text-center space-y-5 animate-fadeIn">
-          <div className="w-16 h-16 bg-amber-100 border-2 border-amber-300 text-amber-600 rounded-3xl flex items-center justify-center mx-auto shadow-md">
-            <Trophy className="w-8 h-8" />
-          </div>
-          <div className="space-y-1">
-            <h3 className="text-xl font-black text-[#1F1714]">Hoàn Thành Bài Luyện Tập Quiz!</h3>
-            <p className="text-xs sm:text-sm text-[#6E5D55]">
-              Bạn đã hoàn thành toàn bộ {questions.length} câu hỏi của Bài #{lessonNum}.
-            </p>
-          </div>
-
-          <div className="inline-flex items-center gap-4 bg-[#FAF4EB] border border-[#E5D7C7] px-6 py-3 rounded-2xl">
-            <div>
-              <span className="text-[10px] font-bold text-[#8B6F5A] block uppercase">Kết Quả</span>
-              <span className="text-lg font-black text-[#C65D4B]">{score} / {questions.length} Đúng</span>
-            </div>
-            <div className="h-8 w-px bg-[#E5D7C7]" />
-            <div>
-              <span className="text-[10px] font-bold text-[#8B6F5A] block uppercase">Tỉ Lệ Đạt</span>
-              <span className="text-lg font-black text-emerald-700">
-                {Math.round((score / questions.length) * 100)}%
-              </span>
-            </div>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
-            <button
-              type="button"
-              onClick={handleRestart}
-              className="px-5 py-2.5 bg-[#FAF4EB] hover:bg-[#E5D7C7] text-[#1F1714] font-bold text-xs rounded-xl border border-[#E5D7C7] transition-all flex items-center gap-1.5 cursor-pointer"
-            >
-              <RotateCcw className="w-3.5 h-3.5 text-[#C65D4B]" />
-              <span>Luyện Tập Lại</span>
-            </button>
-            <Link
-              href={`/quizzes/${lessonNum}`}
-              className="px-5 py-2.5 bg-[#C65D4B] hover:bg-[#B44C3B] text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
-            >
-              <span>Làm Bài Thi Đầy Đủ 30 Câu (Bấm Giờ)</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-        </div>
-      )}
+      <Link
+        href={`/quizzes/${lessonNum}?category=GRAMMAR`}
+        className="inline-flex items-center gap-2.5 px-8 py-3.5 bg-gradient-to-r from-[#D94129] via-[#FF5733] to-[#E6B655] hover:brightness-110 text-white text-sm font-black rounded-2xl shadow-xl shadow-[#D94129]/30 transition-all hover:scale-105"
+      >
+        <Zap className="w-4 h-4 fill-amber-300 text-amber-300" />
+        <span>Vào Làm Bài Quiz Ngữ Pháp 30 Câu</span>
+        <ArrowRight className="w-4 h-4" />
+      </Link>
     </div>
   );
 }

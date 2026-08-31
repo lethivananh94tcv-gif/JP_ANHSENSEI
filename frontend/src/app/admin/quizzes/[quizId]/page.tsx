@@ -639,14 +639,14 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
             <div className="space-y-1">
               <div className="flex items-center gap-2">
                 <span className="text-[11px] font-black text-[#EADECF] bg-white/10 px-3.5 py-1 rounded-full border border-white/15 backdrop-blur-md">
-                  ⛩️ BÀI #{quizId} • KHO NGÂN HÀNG ĐỀ THI
+                  ⛩️ BÀI #{quizId} • KHO ĐỀ QUIZ NGỮ PHÁP 30 CÂU
                 </span>
                 <span className="text-[10px] font-black text-amber-300 bg-amber-500/20 px-2.5 py-0.5 rounded-full border border-amber-400/30">
                   {questions.length} CÂU HỎI
                 </span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-sans font-black text-white tracking-normal">
-                Biên Tập Ngân Hàng Câu Hỏi & Xuất Bản
+                Biên Tập Kho Đề Quiz Ngữ Pháp 30 Câu Bài #{quizId}
               </h1>
               <p className="text-xs text-[#D9CEB2] font-medium hidden sm:block">
                 Quản lý chi tiết từng dạng bài tập: Từ vựng, Kanji, Ngữ pháp & Đề thi tổng hợp.

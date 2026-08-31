@@ -24,6 +24,8 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
     Optional<Lesson> findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull(String levelCode, Integer sortOrder, String status);
 
+    Optional<Lesson> findFirstByLevel_CodeIgnoreCaseAndSortOrderAndDeletedAtIsNull(String levelCode, Integer sortOrder);
+
     List<Lesson> findByLevel_CodeIgnoreCaseAndStatusOrderBySortOrderAsc(String levelCode, String status);
 
     List<Lesson> findByIsSampleTrueAndStatusOrderBySortOrderAsc(String status);

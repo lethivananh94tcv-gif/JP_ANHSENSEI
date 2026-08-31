@@ -5,6 +5,7 @@ import React from "react";
 interface JapaneseFuriganaTextProps {
   text: string;
   className?: string;
+  kanjiClassName?: string;
   rubyClassName?: string;
 }
 
@@ -120,6 +121,10 @@ const JAPANESE_FURIGANA_DICTIONARY: [RegExp, string][] = [
   [/聞きます/g, "聞（き）ます"],
   [/書きます/g, "書（か）きます"],
   [/勉強/g, "勉強（べんきょう）"],
+  [/音楽/g, "音楽（おんがく）"],
+  [/聴き/g, "聴（き）き"],
+  [/聴く/g, "聴（き）く"],
+  [/聴/g, "聴（き）"],
 ];
 
 function autoInjectFurigana(raw: string): string {
@@ -142,7 +147,8 @@ function autoInjectFurigana(raw: string): string {
 export default function JapaneseFuriganaText({
   text,
   className = "",
-  rubyClassName = "text-[11px] font-bold text-[#B94A3E] select-none leading-none",
+  kanjiClassName = "font-jp font-bold text-inherit",
+  rubyClassName = "text-[11px] font-black text-[#FF7A63] select-none leading-none drop-shadow-xs",
 }: JapaneseFuriganaTextProps) {
   if (!text) return null;
 
@@ -164,7 +170,7 @@ export default function JapaneseFuriganaText({
     const furigana = match[2];
 
     parts.push(
-      <ruby key={match.index} className="font-jp font-bold text-[#1F1714]">
+      <ruby key={match.index} className={kanjiClassName}>
         {kanji}
         <rt className={rubyClassName}>{furigana}</rt>
       </ruby>

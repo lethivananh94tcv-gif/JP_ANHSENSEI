@@ -103,13 +103,6 @@ export default function LessonProgressHeader({
               }`}
             />
           </div>
-
-          <Link
-            href={`/quizzes/${lessonId}`}
-            className="w-full block text-center py-2.5 bg-gradient-to-r from-[#C65D4B] to-[#B04F3F] hover:from-[#B04F3F] hover:to-[#9B4133] text-white font-black text-xs rounded-xl shadow-md transition-all hover:scale-105"
-          >
-            📝 Làm bài Quiz kiểm tra
-          </Link>
         </div>
       </div>
     </div>

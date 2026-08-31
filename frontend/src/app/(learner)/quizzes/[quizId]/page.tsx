@@ -123,7 +123,8 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
   // Restore saved quiz session from sessionStorage on load
   useEffect(() => {
     if (!quizData || typeof window === "undefined") return;
-    const sessionKey = `anhsensei_quiz_session_${quizIdStr}`;
+    const reqCat = (searchParams.get("category") || "GRAMMAR").toUpperCase();
+    const sessionKey = `anhsensei_quiz_session_${quizIdStr}_${reqCat}`;
     const savedSession = sessionStorage.getItem(sessionKey);
     if (savedSession) {
       try {
@@ -137,12 +138,13 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
         console.error("Failed to parse quiz session", e);
       }
     }
-  }, [quizData, quizIdStr]);
+  }, [quizData, quizIdStr, searchParams]);
 
   // Auto-save ongoing quiz session to sessionStorage on every change
   useEffect(() => {
     if (!quizData || typeof window === "undefined") return;
-    const sessionKey = `anhsensei_quiz_session_${quizIdStr}`;
+    const reqCat = (searchParams.get("category") || "GRAMMAR").toUpperCase();
+    const sessionKey = `anhsensei_quiz_session_${quizIdStr}_${reqCat}`;
     const sessionPayload = {
       quizData,
       isQuizPublished,
@@ -154,7 +156,7 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
       result,
     };
     sessionStorage.setItem(sessionKey, JSON.stringify(sessionPayload));
-  }, [userAnswers, currentIndex, timeLeft, checkedQuestions, flaggedQuestions, quizData, isQuizPublished, result, quizIdStr]);
+  }, [userAnswers, currentIndex, timeLeft, checkedQuestions, flaggedQuestions, quizData, isQuizPublished, result, quizIdStr, searchParams]);
 
   // Countdown Timer
   useEffect(() => {
@@ -259,6 +261,7 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
   const startQuizForMode = async (mode: QuizModeType, isForceReset = false) => {
     try {
       const sessionKey = `anhsensei_quiz_session_${quizIdStr}`;
+      const reqCategory = (searchParams.get("category") || "FULL").toUpperCase();
 
       // 1. Always fetch live publication status from backend first
       let isPublished = false;
@@ -759,8 +762,8 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
       playErrorSound();
     }
 
-    if (currentQ.audioText && isCorrect) {
-      playAudio(currentQ.audioText);
+    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+      window.speechSynthesis.cancel();
     }
   };
 
@@ -946,7 +949,7 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
           </Link>
 
           <div className="text-xs font-black text-[#C65D4B] bg-[#FAF3EB] px-4 py-1.5 rounded-full border border-[#DED3C8] shadow-2xs">
-            N5 • Bài #{quizIdStr}
+            ⛩️ {Number(quizIdStr) > 50 ? "N3" : Number(quizIdStr) > 25 ? "N4" : "N5"} • Bài Tập Quiz Ngữ Pháp 30 Câu (Bài #{quizIdStr})
           </div>
 
           {/* Countdown Timer */}

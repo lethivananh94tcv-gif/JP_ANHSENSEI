@@ -128,13 +128,13 @@ export default function AdminQuizzesListPage() {
           <div className="space-y-2.5 z-10 max-w-2xl">
             <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-white/10 text-[#EADECF] font-black text-[11px] border border-white/15 backdrop-blur-md">
               <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-              <span>⛩️ ADMIN PORTAL • KHO QUIZ TÁCH RIÊNG THEO CHUYÊN MỤC</span>
+              <span>⛩️ ADMIN PORTAL • QUẢN LÝ KHO ĐỀ QUIZ NGỮ PHÁP 30 CÂU</span>
             </span>
             <h1 className="text-3xl sm:text-4xl font-sans font-black text-white tracking-normal">
-              Quản Lý Kho Đề Thi & Quiz JLPT N5/N4
+              Quản Lý Kho Đề Quiz Ngữ Pháp 30 Câu JLPT N5/N4
             </h1>
             <p className="text-xs sm:text-sm text-[#D9CEB2] font-medium leading-relaxed">
-              Tách riêng từng dạng bài tập: <strong>Quiz Từ Vựng 📖</strong>, <strong>Quiz Hán Tự Kanji ✍️</strong>, <strong>Quiz Ngữ Pháp 🧩</strong> và <strong>Đề Thi Tổng Hợp Toàn Bài 🎯</strong>. Giúp Admin dễ dàng quản lý và học viên ôn tập đúng trọng tâm!
+              Tập trung quản lý kho đề bài thi 30 câu chuyên sâu Ngữ Pháp: <strong>Sắp xếp câu Star Order JLPT 🌟</strong>, <strong>Biến đổi thể động từ ✍️</strong>, <strong>Điền trợ từ & mẫu ngữ pháp 🧩</strong>.
             </p>
           </div>
 
@@ -144,7 +144,7 @@ export default function AdminQuizzesListPage() {
               className="px-5 py-3 bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-700 hover:to-teal-800 text-white font-black text-xs sm:text-sm rounded-2xl shadow-lg shadow-emerald-900/30 transition-all flex items-center gap-2 cursor-pointer hover:scale-105"
             >
               <Zap className="w-4 h-4 text-emerald-200 fill-emerald-200" />
-              <span>🚀 Sinh Kho Đề 4 Chuyên Mục (50 Bài)</span>
+              <span>🚀 Sinh Kho Đề Quiz Ngữ Pháp 30 Câu (50 Bài)</span>
             </button>
 
             <button
