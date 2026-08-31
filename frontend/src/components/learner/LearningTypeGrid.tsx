@@ -22,7 +22,8 @@ import {
   RotateCcw,
   Check,
   Zap,
-  Grid
+  Grid,
+  Shuffle
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ManekiNeko3D from "@/components/ui/ManekiNeko3D";
@@ -74,18 +75,31 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
   const [typingHint, setTypingHint] = useState<string | null>(null);
   const typingInputRef = useRef<HTMLInputElement>(null);
 
-  // Sync typing dataset when selectedKanaType changes
-  useEffect(() => {
-    if (selectedKanaType === "HIRAGANA") {
-      setTypingDataset(FULL_HIRAGANA);
-    } else if (selectedKanaType === "KATAKANA") {
-      setTypingDataset(FULL_KATAKANA);
+  // Helper to shuffle dataset using Fisher-Yates algorithm
+  const shuffleDataset = (array: { kana: string; romaji: string }[]) => {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
     }
+    return arr;
+  };
+
+  const reshuffleDataset = (type = selectedKanaType) => {
+    const base = type === "KATAKANA" ? FULL_KATAKANA : FULL_HIRAGANA;
+    setTypingDataset(shuffleDataset(base));
     setTypingIndex(0);
     setUserTypedRomaji("");
     setTypingFeedback(null);
     setTypingHint(null);
-  }, [selectedKanaType]);
+  };
+
+  // Sync and shuffle typing dataset when selectedKanaType or modalTab changes
+  useEffect(() => {
+    if (selectedKanaType) {
+      reshuffleDataset(selectedKanaType);
+    }
+  }, [selectedKanaType, modalTab]);
 
   // TTS Speech Synthesis helper (Slower 0.72x, bright Tokyo female voice)
   const speakKana = (kana: string) => {
@@ -93,6 +107,22 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
   };
 
   const currentItem = typingDataset[typingIndex] || typingDataset[0];
+
+  const goToNextKana = () => {
+    setTypingFeedback(null);
+    setUserTypedRomaji("");
+    setTypingHint(null);
+    setTypingIndex((prev) => {
+      const next = prev + 1;
+      if (next >= typingDataset.length) {
+        // Automatically re-shuffle once complete cycle is finished
+        const base = selectedKanaType === "KATAKANA" ? FULL_KATAKANA : FULL_HIRAGANA;
+        setTypingDataset(shuffleDataset(base));
+        return 0;
+      }
+      return next;
+    });
+  };
 
   // Handle typing input change
   const handleTypingInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -111,10 +141,7 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
       setTypingStreak((prev) => prev + 1);
 
       setTimeout(() => {
-        setTypingFeedback(null);
-        setUserTypedRomaji("");
-        // Pick next random index
-        setTypingIndex((prev) => (prev + 1) % typingDataset.length);
+        goToNextKana();
       }, 400);
     }
   };
@@ -802,8 +829,9 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
                       <Flame className="w-4 h-4 fill-amber-500" />
                       <span>Streak: {typingStreak}</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-[#8B6F5A]">
-                      <span>Bộ chữ: {selectedKanaType === "HIRAGANA" ? "Hiragana" : "Katakana"}</span>
+                    <div className="flex items-center gap-1.5 text-indigo-600">
+                      <Shuffle className="w-4 h-4" />
+                      <span>Xáo trộn: {typingIndex + 1}/{typingDataset.length}</span>
                     </div>
                   </div>
 
@@ -864,15 +892,19 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
 
                     <div className="flex items-center justify-center gap-3 pt-2">
                       <button
-                        onClick={() => {
-                          setTypingIndex((prev) => (prev + 1) % typingDataset.length);
-                          setUserTypedRomaji("");
-                          setTypingHint(null);
-                        }}
+                        onClick={goToNextKana}
                         className="px-4 py-2 rounded-xl bg-white border border-[#EAD0C7] text-[#8B6F5A] hover:text-[#C65D4B] text-xs font-bold shadow-2xs transition cursor-pointer flex items-center gap-1"
                       >
                         <RotateCcw className="w-3.5 h-3.5" />
                         <span>Bỏ qua chữ này</span>
+                      </button>
+                      <button
+                        onClick={() => reshuffleDataset()}
+                        className="px-4 py-2 rounded-xl bg-[#FFEFEA] border border-[#FFD8CD] text-[#C65D4B] hover:bg-[#C65D4B] hover:text-white text-xs font-bold shadow-2xs transition cursor-pointer flex items-center gap-1"
+                        title="Trộn lại thứ tự các chữ cái ngẫu nhiên"
+                      >
+                        <Shuffle className="w-3.5 h-3.5" />
+                        <span>🎲 Trộn lại ngẫu nhiên</span>
                       </button>
                     </div>
                   </div>
