@@ -1,11 +1,14 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { 
   Trophy, BookOpen, Sparkles, ArrowRight, Award, Layers, ShieldCheck, CheckCircle2
 } from "lucide-react";
 import LearnerHeader from "@/components/learner/LearnerHeader";
 import LearnerFooter from "@/components/learner/LearnerFooter";
+import JlptNoticeModal from "@/components/shared/JlptNoticeModal";
 
 const LEVEL_CARDS = [
   {
@@ -56,9 +59,19 @@ const LEVEL_CARDS = [
 ];
 
 export default function JlptPracticeLevelSelectionPage() {
+  const router = useRouter();
+  const [showNotice, setShowNotice] = useState(true);
+
+  const handleClose = () => {
+    setShowNotice(false);
+    router.push("/dashboard");
+  };
+
   return (
     <div className="min-h-screen bg-[#FAF4EB] text-[#1F1714] font-sans flex flex-col justify-between selection:bg-[#C65D4B] selection:text-white">
+      <JlptNoticeModal isOpen={showNotice} onClose={handleClose} />
       <LearnerHeader />
+
 
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 py-6 sm:py-10 space-y-10">
         {/* Banner Hero */}

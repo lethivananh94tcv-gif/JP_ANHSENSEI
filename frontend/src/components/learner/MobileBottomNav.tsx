@@ -1,12 +1,15 @@
 "use client";
 
+import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Home, Languages, BookOpen, PenTool, Flame } from "lucide-react";
 import { motion } from "framer-motion";
+import JlptNoticeModal from "@/components/shared/JlptNoticeModal";
 
 export default function MobileBottomNav() {
   const pathname = usePathname();
+  const [showJlptNotice, setShowJlptNotice] = useState(false);
 
   // Hide bottom nav on admin pages or login/register pages
   if (pathname.startsWith("/admin") || pathname.startsWith("/login") || pathname.startsWith("/register")) {
@@ -48,18 +51,29 @@ export default function MobileBottomNav() {
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[#FFFDF9]/95 backdrop-blur-xl border-t border-[#E8DCD1] shadow-[0_-8px_25px_rgba(43,33,29,0.08)] pb-safe transition-all duration-300">
-      <nav className="flex items-center justify-around h-16 px-2 max-w-lg mx-auto">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const isActive = item.active;
+    <>
+      <JlptNoticeModal isOpen={showJlptNotice} onClose={() => setShowJlptNotice(false)} />
 
-          return (
-            <Link
-              key={item.name}
-              href={item.href}
-              className="relative flex flex-col items-center justify-center flex-1 h-full py-1 text-center group touch-none select-none"
-            >
+      <div className="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[#FFFDF9]/95 backdrop-blur-xl border-t border-[#E8DCD1] shadow-[0_-8px_25px_rgba(43,33,29,0.08)] pb-safe transition-all duration-300">
+        <nav className="flex items-center justify-around h-16 px-2 max-w-lg mx-auto">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = item.active;
+            const isJlpt = item.href === "/jlpt-practice";
+
+            return (
+              <Link
+                key={item.name}
+                href={item.href}
+                onClick={(e) => {
+                  if (isJlpt) {
+                    e.preventDefault();
+                    setShowJlptNotice(true);
+                  }
+                }}
+                className="relative flex flex-col items-center justify-center flex-1 h-full py-1 text-center group touch-none select-none"
+              >
+
               {/* Active Tab Background Pill */}
               {isActive && (
                 <motion.div
@@ -103,5 +117,7 @@ export default function MobileBottomNav() {
         })}
       </nav>
     </div>
+    </>
   );
 }
+

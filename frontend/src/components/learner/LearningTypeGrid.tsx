@@ -57,13 +57,17 @@ const FULL_KATAKANA = [
   { kana: "ワ", romaji: "wa" }, { kana: "ヲ", romaji: "wo" }, { kana: "ン", romaji: "n" },
 ];
 
+import JlptNoticeModal from "@/components/shared/JlptNoticeModal";
+
 interface LearningTypeGridProps {
   summary?: LearnerProgressSummary | null;
 }
 
 export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
+  const [showJlptNotice, setShowJlptNotice] = useState(false);
   const [selectedKanaType, setSelectedKanaType] = useState<"HIRAGANA" | "KATAKANA" | null>(null);
   const [modalTab, setModalTab] = useState<"TABLE" | "TYPING">("TABLE");
+
 
   // Typing Practice Game States
   const [typingDataset, setTypingDataset] = useState(FULL_HIRAGANA);
@@ -161,6 +165,8 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
 
   return (
     <div className="space-y-8">
+      <JlptNoticeModal isOpen={showJlptNotice} onClose={() => setShowJlptNotice(false)} />
+
       
       {/* ⛩️ BLOCK 3: KANA ALPHABET (LEFT 7 COLS) & TODAY'S TASKS (RIGHT 5 COLS) */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -491,9 +497,9 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
         </Link>
 
         {/* Skill 5: Luyện JLPT */}
-        <Link
-          href="/jlpt-practice"
-          className="bg-white rounded-3xl p-5 border-2 border-[#F5E6FF] shadow-sm hover:shadow-xl hover:border-purple-600 hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between space-y-4 relative overflow-hidden"
+        <div
+          onClick={() => setShowJlptNotice(true)}
+          className="bg-white rounded-3xl p-5 border-2 border-[#F5E6FF] shadow-sm hover:shadow-xl hover:border-purple-600 hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between space-y-4 relative overflow-hidden cursor-pointer select-none"
         >
           <div className="flex items-center justify-between">
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#5B21B6] via-[#7C3AED] to-[#C084FC] text-white flex items-center justify-center shadow-lg shadow-purple-600/30 border-2 border-white/50 relative overflow-hidden group-hover:scale-110 transition-transform duration-300">
@@ -515,7 +521,8 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
               <ChevronRight className="w-4 h-4 group-hover:translate-x-0.5 transition-transform" />
             </div>
           </div>
-        </Link>
+        </div>
+
       </section>
 
       {/* 📊 BLOCK 5: LEARNING STATS ANALYTICS & RECENT LESSONS & STREAK ACHIEVEMENTS */}

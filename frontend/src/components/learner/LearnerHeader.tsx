@@ -7,6 +7,7 @@ import { UserProfile } from "@/types/learner";
 import { Sparkles, BookOpen, Languages, PenTool, Flame, Bot, Home, User, LogOut, Shield, Menu, X, ChevronDown } from "lucide-react";
 import { motion } from "framer-motion";
 import AnhSenseiLogo from "@/components/ui/AnhSenseiLogo";
+import JlptNoticeModal from "@/components/shared/JlptNoticeModal";
 
 interface LearnerHeaderProps {
   user?: UserProfile | null;
@@ -17,6 +18,7 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
   const router = useRouter();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [showJlptNotice, setShowJlptNotice] = useState(false);
   const [localUser, setLocalUser] = useState<UserProfile | null>(null);
   const [customAvatar, setCustomAvatar] = useState<string | null>(null);
   const [customEmoji, setCustomEmoji] = useState<string | null>(null);
@@ -71,6 +73,7 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#FFFDF9]/90 backdrop-blur-md border-b border-[#DED3C8] shadow-xs select-none">
+      <JlptNoticeModal isOpen={showJlptNotice} onClose={() => setShowJlptNotice(false)} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         {/* Left: Brand Logo with Dynamic Cat Mascot Icon */}
         <Link href="/dashboard" className="flex items-center gap-3 group relative cursor-pointer">
@@ -90,10 +93,17 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
         <nav className="hidden md:flex items-center gap-7">
           {navItems.map((item) => {
             const IconComp = item.icon;
+            const isJlpt = item.href === "/jlpt-practice";
             return (
               <Link
                 key={item.name}
                 href={item.href}
+                onClick={(e) => {
+                  if (isJlpt) {
+                    e.preventDefault();
+                    setShowJlptNotice(true);
+                  }
+                }}
                 className={`relative py-2 text-xs sm:text-sm font-extrabold transition-colors flex items-center gap-1.5 ${
                   item.active ? "text-[#C65D4B]" : "text-[#56423E] hover:text-[#231917]"
                 }`}
