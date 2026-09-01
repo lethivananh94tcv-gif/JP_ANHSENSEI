@@ -444,31 +444,32 @@ export default function LearnerLessonStudyPage() {
       {vocabStudyMode === "match" && (
         <div className="fixed inset-0 z-50 bg-[#16100E]/95 backdrop-blur-xl flex flex-col animate-fadeIn overflow-hidden">
           {/* Game Top Navigation */}
-          <div className="border-b border-white/10 bg-[#251B17]/90 px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4 shrink-0">
+          <div className="border-b border-white/10 bg-[#251B17]/90 px-3 sm:px-8 py-2.5 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-4 shrink-0">
             <button
               type="button"
               onClick={() => setVocabStudyMode("list")}
-              className="px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm rounded-xl border border-white/15 transition-all flex items-center gap-2 cursor-pointer"
+              className="px-3 sm:px-4 py-2 bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm rounded-xl border border-white/15 transition-all flex items-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0 active:scale-95"
             >
               <ArrowLeft className="w-4 h-4 text-[#D9CEB2]" />
-              <span>Quay Lại Danh Sách Từ Vựng</span>
+              <span>Quay lại</span>
             </button>
 
-            <div className="text-center">
-              <span className="text-[10px] font-black text-amber-400 uppercase tracking-widest block">
+            <div className="text-center min-w-0 flex-1">
+              <span className="text-[9px] sm:text-[10px] font-black text-amber-400 uppercase tracking-wider truncate block">
                 ĐẤU TRƯỜNG GHÉP THẺ 3D
               </span>
-              <h2 className="text-sm sm:text-base font-black text-white truncate">
+              <h2 className="text-xs sm:text-base font-black text-white truncate">
                 Bài #{canonicalLessonNumber}: {lessonTitle}
               </h2>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="hidden sm:flex items-center gap-2 shrink-0">
               <span className="px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-xl text-xs font-black">
                 🎮 Mini Game Phản Xạ
               </span>
             </div>
           </div>
+
 
           {/* Game Workspace Area */}
           <div className="flex-1 overflow-y-auto p-4 sm:p-8 flex justify-center items-center">

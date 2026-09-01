@@ -1,8 +1,10 @@
 "use client";
 
+import { useState } from "react";
 import { LevelItem } from "./types";
 import { Bookmark, BookOpen, Star, Headphones, ArrowRight, Flower2, Leaf, Mountain } from "lucide-react";
 import { motion } from "framer-motion";
+import N3NoticeModal from "@/components/shared/N3NoticeModal";
 
 interface LevelSelectorProps {
   levels: LevelItem[];
@@ -17,6 +19,8 @@ export default function LevelSelector({
   targetLevel,
   onSelectLevel,
 }: LevelSelectorProps) {
+  const [showN3Notice, setShowN3Notice] = useState(false);
+
   if (levels.length === 0) {
     return (
       <div className="p-4 bg-[#FFFDF9] border border-[#E5D7C7] rounded-2xl text-center text-xs font-semibold text-[#76655A]">
@@ -53,7 +57,7 @@ export default function LevelSelector({
     },
     N4: {
       code: "N4",
-      subTitle: "Trung cấp",
+      subTitle: "Sơ cấp",
       ribbonBg: "bg-[#C59B6C]",
       themeColor: "text-[#C59B6C]",
       accentColor: "#C59B6C",
@@ -85,6 +89,12 @@ export default function LevelSelector({
 
   return (
     <section aria-label="Khung chọn trình độ học" className="w-full select-none relative">
+      <N3NoticeModal
+        isOpen={showN3Notice}
+        onClose={() => setShowN3Notice(false)}
+        contentType="từ vựng"
+      />
+
       {/* Floating Corner Ornaments matching screenshot sample */}
       <div className="absolute -top-3 -left-2 z-20 pointer-events-none">
         <span className="text-xl sm:text-2xl animate-bounce-slow drop-shadow-xs">🌸</span>
@@ -145,13 +155,20 @@ export default function LevelSelector({
                 key={lvl.levelId}
                 whileHover={{ y: -5 }}
                 whileTap={{ scale: 0.98 }}
-                onClick={() => onSelectLevel(lvl.code)}
+                onClick={() => {
+                  if (code === "N3") {
+                    setShowN3Notice(true);
+                    return;
+                  }
+                  onSelectLevel(lvl.code);
+                }}
                 className={`relative bg-[#FFFDF9] bg-[radial-gradient(#E5D7C7_1px,transparent_1px)] [background-size:14px_14px] rounded-3xl p-5 sm:p-6 transition-all cursor-pointer flex flex-col justify-between overflow-hidden border shadow-sm ${
                   isSelected
                     ? cfg.activeBorder
                     : "border-[#E5D7C7] hover:border-[#C65D4B]/50 hover:bg-[#FAF4EB]/60"
                 }`}
               >
+
                 {/* Corner Sakura / Leaf / Fuji Floating Watermark */}
                 <div className="absolute top-2 right-2 text-xs opacity-40 pointer-events-none">
                   {code === "N5" && "🌸"}

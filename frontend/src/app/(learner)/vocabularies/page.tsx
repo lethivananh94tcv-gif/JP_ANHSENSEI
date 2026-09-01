@@ -17,6 +17,7 @@ import {
   StreakData,
 } from "@/components/learner/vocabularies/types";
 
+import N3NoticeModal from "@/components/shared/N3NoticeModal";
 import VocabularyHero from "@/components/learner/vocabularies/VocabularyHero";
 import LevelSelector from "@/components/learner/vocabularies/LevelSelector";
 import SelectedLessonProgress from "@/components/learner/vocabularies/SelectedLessonProgress";
@@ -317,9 +318,15 @@ export default function LearnerVocabulariesHubPage() {
     }
   }, [searchParams, loadLessonsForLevel]);
 
+  const [showN3Notice, setShowN3Notice] = useState<boolean>(false);
+
   // Event Handlers:
   // Level selection handler
   const handleSelectLevel = async (newLevelCode: string) => {
+    if (newLevelCode.toUpperCase() === "N3") {
+      setShowN3Notice(true);
+      return;
+    }
     if (newLevelCode.toUpperCase() === selectedLevelCode.toUpperCase()) return;
 
     const targetLvl = levels.find((l) => l.code.toUpperCase() === newLevelCode.toUpperCase());
@@ -329,6 +336,7 @@ export default function LearnerVocabulariesHubPage() {
 
     await loadLessonsForLevel(targetLvl, continueData, progressMap);
   };
+
 
   // Prevent page data re-initialization on searchParams changes
   const isInitializedRef = useRef(false);
@@ -427,7 +435,13 @@ export default function LearnerVocabulariesHubPage() {
 
   return (
     <div className="min-h-screen bg-[#F5EFE6] text-[#302A26] font-sans flex flex-col">
+      <N3NoticeModal
+        isOpen={showN3Notice}
+        onClose={() => setShowN3Notice(false)}
+        contentType="từ vựng"
+      />
       <LearnerHeader user={profile} />
+
 
       <main className="flex-1 w-full max-w-[1180px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 sm:space-y-8 pb-24 md:pb-12">
         {/* Breadcrumb Navigation */}

@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap');
 @import "tailwindcss";
 
 @layer base {
@@ -25,9 +26,9 @@
     font-family: var(--font-be-vietnam), 'Be Vietnam Pro', system-ui, sans-serif;
   }
 
-  /* Specific class for Japanese Kanji/Kana characters */
+  /* Clean, modern, highly readable Japanese Sans-Serif (Gothic) font */
   .font-jp {
-    font-family: var(--font-noto-serif-jp), 'Noto Serif JP', serif;
+    font-family: 'Zen Kaku Gothic New', 'Noto Sans JP', var(--font-noto-sans-jp), 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Meiryo', 'Yu Gothic', sans-serif;
   }
 }
 
@@ -47,10 +48,29 @@
   box-shadow: 0 4px 16px rgba(70, 40, 20, 0.06);
 }
 
-
 /* Smooth Scrolling & Transition Utility Classes */
 html {
   scroll-behavior: smooth;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none;
+}
+
+button, a, input, select, textarea {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Safe area padding utilities for iOS Notch / Bottom Home Bar */
+.pb-safe {
+  padding-bottom: env(safe-area-inset-bottom, 16px);
+}
+.pt-safe {
+  padding-top: env(safe-area-inset-top, 16px);
 }
 
 ::selection {
@@ -92,3 +112,4 @@ html {
 .animate-fadeIn {
   animation: softFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+

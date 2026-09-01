@@ -490,9 +490,9 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
           </div>
         </Link>
 
-        {/* Skill 5: Flashcards SRS */}
+        {/* Skill 5: Luyện JLPT */}
         <Link
-          href="/flashcards"
+          href="/jlpt-practice"
           className="bg-white rounded-3xl p-5 border-2 border-[#F5E6FF] shadow-sm hover:shadow-xl hover:border-purple-600 hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between space-y-4 relative overflow-hidden"
         >
           <div className="flex items-center justify-between">
@@ -501,13 +501,13 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
               <Layers className="w-7 h-7 stroke-[2.2] drop-shadow-md text-purple-100" />
             </div>
             <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-purple-600/10 text-purple-700 border border-purple-600/20">
-              SRS 3D
+              JLPT N5-N3
             </span>
           </div>
 
           <div>
-            <h3 className="text-base font-black text-[#2C201D] group-hover:text-purple-600 transition-colors">Flashcards</h3>
-            <p className="text-xs text-[#76685F] font-extrabold">Ôn tập ngắt quãng</p>
+            <h3 className="text-base font-black text-[#2C201D] group-hover:text-purple-600 transition-colors">Luyện JLPT</h3>
+            <p className="text-xs text-[#76685F] font-extrabold">Đề thi thật N5 • N4 • N3</p>
           </div>
 
           <div className="flex justify-end pt-1">

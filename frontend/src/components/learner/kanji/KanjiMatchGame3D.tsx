@@ -203,16 +203,26 @@ export default function KanjiMatchGame3D({ items, onFinish }: KanjiMatchGame3DPr
     }
   }, [matchedPairsCount, totalPairsCount, gameStatus, onFinish, soundEnabled]);
 
-  // Card click interaction
+  // Instant card click interaction handler (0ms input lag, fast delays)
   const handleCardClick = (card: MatchCard) => {
     if (
       gameStatus !== "PLAYING" ||
       card.isMatched ||
-      card.isSelected ||
-      selectedCards.length >= 2 ||
       mismatchedIds.includes(card.id)
     )
       return;
+
+    // Allow user to deselect a single card if clicked again
+    if (card.isSelected && selectedCards.length === 1) {
+      setSelectedCards([]);
+      setCards((prev) =>
+        prev.map((c) => (c.id === card.id ? { ...c, isSelected: false } : c))
+      );
+      if (soundEnabled) playSoundEffect("flip");
+      return;
+    }
+
+    if (card.isSelected || selectedCards.length >= 2) return;
 
     if (soundEnabled) playSoundEffect("flip");
 
@@ -242,8 +252,9 @@ export default function KanjiMatchGame3D({ items, onFinish }: KanjiMatchGame3DPr
           amount: pointsEarned,
           comboText: currentCombo > 1 ? `COMBO x${currentCombo}! 🔥` : "CHÍNH XÁC! ✨",
         });
-        setTimeout(() => setFloatingScore(null), 1200);
+        setTimeout(() => setFloatingScore(null), 1000);
 
+        // Fast 150ms match resolution
         setTimeout(() => {
           setCards((prev) =>
             prev.map((c) =>
@@ -254,13 +265,14 @@ export default function KanjiMatchGame3D({ items, onFinish }: KanjiMatchGame3DPr
           );
           setSelectedCards([]);
           setMatchedPairsCount((prev) => prev + 1);
-        }, 320);
+        }, 150);
       } else {
         // MATCH MISMATCH
         if (soundEnabled) playSoundEffect("wrong");
         setCombo(1); // Reset Combo
         setMismatchedIds([first.id, second.id]);
 
+        // Fast 280ms mismatch reset (snappy response!)
         setTimeout(() => {
           setCards((prev) =>
             prev.map((c) =>
@@ -271,7 +283,7 @@ export default function KanjiMatchGame3D({ items, onFinish }: KanjiMatchGame3DPr
           );
           setSelectedCards([]);
           setMismatchedIds([]);
-        }, 650);
+        }, 280);
       }
     }
   };

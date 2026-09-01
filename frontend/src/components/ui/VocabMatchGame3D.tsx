@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { VocabularyDto } from "@/components/learner/lesson/VocabularyLearningItem";
 import { Sparkles, Trophy, RotateCcw, Flame, Timer, Play, Zap, ArrowRight, Volume2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -21,15 +21,82 @@ interface MatchCard {
   isSelected: boolean;
 }
 
+// Ultra-fast Web Audio API Sound Synthesizer (0ms latency, no external mp3 loads)
+const playArcadeSound = (type: "flip" | "match" | "wrong" | "win") => {
+  try {
+    const AudioCtx = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
+    if (!AudioCtx) return;
+    const ctx = new AudioCtx();
+
+    if (type === "flip") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sine";
+      osc.frequency.setValueAtTime(450, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(800, ctx.currentTime + 0.06);
+      gain.gain.setValueAtTime(0.15, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.06);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.06);
+    } else if (type === "match") {
+      const notes = [523.25, 659.25, 783.99, 1046.50]; // C5 - E5 - G5 - C6
+      notes.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.04);
+        gain.gain.setValueAtTime(0.2, ctx.currentTime + idx * 0.04);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + idx * 0.04 + 0.12);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime + idx * 0.04);
+        osc.stop(ctx.currentTime + idx * 0.04 + 0.12);
+      });
+    } else if (type === "wrong") {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.type = "sawtooth";
+      osc.frequency.setValueAtTime(220, ctx.currentTime);
+      osc.frequency.linearRampToValueAtTime(140, ctx.currentTime + 0.15);
+      gain.gain.setValueAtTime(0.2, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      osc.start();
+      osc.stop(ctx.currentTime + 0.15);
+    } else if (type === "win") {
+      const arpeggio = [440, 554.37, 659.25, 880, 1108.73, 1318.51];
+      arpeggio.forEach((freq, idx) => {
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = "triangle";
+        osc.frequency.setValueAtTime(freq, ctx.currentTime + idx * 0.06);
+        gain.gain.setValueAtTime(0.25, ctx.currentTime + idx * 0.06);
+        gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + idx * 0.06 + 0.2);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start(ctx.currentTime + idx * 0.06);
+        osc.stop(ctx.currentTime + idx * 0.06 + 0.2);
+      });
+    }
+  } catch {
+    // Ignore audio context autoplay restrictions gracefully
+  }
+};
+
 export default function VocabMatchGame3D({ vocabularies, onFinish, onExit }: VocabMatchGame3DProps) {
   const [cards, setCards] = useState<MatchCard[]>([]);
   const [selectedCards, setSelectedCards] = useState<MatchCard[]>([]);
+  const [mismatchedIds, setMismatchedIds] = useState<string[]>([]);
   const [timeLeft, setTimeLeft] = useState<number>(60);
   const [gameStatus, setGameStatus] = useState<"IDLE" | "PLAYING" | "WON" | "TIME_UP">("PLAYING");
   const [matchedPairsCount, setMatchedPairsCount] = useState<number>(0);
   const [totalPairsCount, setTotalPairsCount] = useState<number>(6);
   const [combo, setCombo] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
+  const [floatingScore, setFloatingScore] = useState<{ amount: number; comboText?: string } | null>(null);
 
   // Initialize 3D Match Game with 6 random vocabulary pairs
   const initializeGame = () => {
@@ -63,11 +130,13 @@ export default function VocabMatchGame3D({ vocabularies, onFinish, onExit }: Voc
     // Shuffle the combined 12 cards
     setCards(gameDeck.sort(() => Math.random() - 0.5));
     setSelectedCards([]);
+    setMismatchedIds([]);
     setMatchedPairsCount(0);
     setTimeLeft(60);
     setCombo(0);
     setScore(0);
     setGameStatus("PLAYING");
+    playArcadeSound("flip");
   };
 
   // Auto initialize on mount
@@ -83,6 +152,7 @@ export default function VocabMatchGame3D({ vocabularies, onFinish, onExit }: Voc
         setTimeLeft((prev) => {
           if (prev <= 1) {
             setGameStatus("TIME_UP");
+            playArcadeSound("wrong");
             return 0;
           }
           return prev - 1;
@@ -96,15 +166,34 @@ export default function VocabMatchGame3D({ vocabularies, onFinish, onExit }: Voc
   useEffect(() => {
     if (gameStatus === "PLAYING" && totalPairsCount > 0 && matchedPairsCount >= totalPairsCount) {
       setGameStatus("WON");
+      playArcadeSound("win");
       if (onFinish) {
         onFinish(score + 100);
       }
     }
   }, [matchedPairsCount, totalPairsCount, gameStatus, onFinish, score]);
 
-  // Check matching pair logic when 2 cards selected
+  // Instant card click interaction handler
   const handleCardClick = (card: MatchCard) => {
-    if (gameStatus !== "PLAYING" || card.isMatched || card.isSelected || selectedCards.length >= 2) return;
+    if (
+      gameStatus !== "PLAYING" ||
+      card.isMatched ||
+      mismatchedIds.includes(card.id)
+    ) return;
+
+    // Allow user to deselect a single card if clicked again
+    if (card.isSelected && selectedCards.length === 1) {
+      setSelectedCards([]);
+      setCards((prev) =>
+        prev.map((c) => (c.id === card.id ? { ...c, isSelected: false } : c))
+      );
+      playArcadeSound("flip");
+      return;
+    }
+
+    if (card.isSelected || selectedCards.length >= 2) return;
+
+    playArcadeSound("flip");
 
     const nextSelected = [...selectedCards, card];
     setSelectedCards(nextSelected);
@@ -117,10 +206,19 @@ export default function VocabMatchGame3D({ vocabularies, onFinish, onExit }: Voc
       const [first, second] = nextSelected;
       if (first.vocabId === second.vocabId && first.type !== second.type) {
         // MATCH SUCCESS!
+        playArcadeSound("match");
         const newCombo = combo + 1;
+        const pointsEarned = 50 * newCombo;
         setCombo(newCombo);
-        setScore((prev) => prev + 50 * newCombo);
+        setScore((prev) => prev + pointsEarned);
 
+        setFloatingScore({
+          amount: pointsEarned,
+          comboText: newCombo > 1 ? `COMBO x${newCombo}! 🔥` : "CHÍNH XÁC! ✨",
+        });
+        setTimeout(() => setFloatingScore(null), 1000);
+
+        // Fast 150ms match resolution
         setTimeout(() => {
           setCards((prev) =>
             prev.map((c) =>
@@ -129,10 +227,14 @@ export default function VocabMatchGame3D({ vocabularies, onFinish, onExit }: Voc
           );
           setSelectedCards([]);
           setMatchedPairsCount((prev) => prev + 1);
-        }, 250);
+        }, 150);
       } else {
-        // MISMATCH -> Break combo and reset
+        // MISMATCH
+        playArcadeSound("wrong");
         setCombo(0);
+        setMismatchedIds([first.id, second.id]);
+
+        // Fast 280ms mismatch reset (snappy response!)
         setTimeout(() => {
           setCards((prev) =>
             prev.map((c) =>
@@ -140,21 +242,37 @@ export default function VocabMatchGame3D({ vocabularies, onFinish, onExit }: Voc
             )
           );
           setSelectedCards([]);
-        }, 600);
+          setMismatchedIds([]);
+        }, 280);
       }
     }
   };
 
   return (
-    <div className="relative bg-[#1A120E] border-2 border-amber-500/40 rounded-3xl p-5 sm:p-7 shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden">
+    <div className="relative bg-[#1A120E] border-2 border-amber-500/40 rounded-3xl p-4 sm:p-7 shadow-[0_0_50px_rgba(0,0,0,0.8)] overflow-hidden font-sans select-none">
       
       {/* Background Japanese Game Atmosphere (Hexagon grid & glow) */}
       <div className="absolute inset-0 bg-[radial-gradient(#D97706_1px,transparent_1px)] [background-size:16px_16px] opacity-10 pointer-events-none" />
       <div className="absolute -top-24 -left-24 w-64 h-64 bg-amber-600/10 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute -bottom-24 -right-24 w-64 h-64 bg-rose-600/10 rounded-full blur-3xl pointer-events-none" />
 
+      {/* Floating Animated Combo/Score Chime */}
+      <AnimatePresence>
+        {floatingScore && (
+          <motion.div
+            initial={{ opacity: 0, y: 15, scale: 0.8 }}
+            animate={{ opacity: 1, y: -25, scale: 1.15 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-40 pointer-events-none bg-gradient-to-r from-amber-500 to-orange-500 text-white font-black px-6 py-2.5 rounded-full shadow-2xl border-2 border-white text-base sm:text-lg flex items-center gap-2"
+          >
+            <span>{floatingScore.comboText}</span>
+            <span className="text-amber-200">+{floatingScore.amount} PTS</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* TOP ARCADE HUD BAR */}
-      <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4 mb-6">
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 border-b border-white/10 pb-4 mb-5">
         
         {/* Left: Pairs Progress + Combo Counter */}
         <div className="flex items-center gap-3">
@@ -249,41 +367,44 @@ export default function VocabMatchGame3D({ vocabularies, onFinish, onExit }: Voc
               <button
                 type="button"
                 onClick={initializeGame}
-                className="px-6 py-3 bg-gradient-to-r from-amber-500 via-amber-600 to-amber-500 hover:from-amber-600 text-white font-black text-xs sm:text-sm rounded-2xl shadow-xl shadow-amber-500/30 transition-all hover:scale-105 active:scale-95 cursor-pointer border border-white/20 flex items-center gap-2"
+                className="px-5 py-2.5 bg-gradient-to-r from-amber-500 via-amber-600 to-amber-500 hover:from-amber-600 text-white font-black text-xs sm:text-sm rounded-xl shadow-xl shadow-amber-500/30 transition-all hover:scale-105 active:scale-95 cursor-pointer border border-white/20 flex items-center gap-2 whitespace-nowrap"
               >
                 <RotateCcw className="w-4 h-4" />
-                <span>CHƠI ẢI MỚI (LÀM LẠI)</span>
+                <span>Chơi lại</span>
               </button>
 
               {onExit && (
                 <button
                   type="button"
                   onClick={onExit}
-                  className="px-6 py-3 bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm rounded-2xl border border-white/20 transition-all hover:scale-105 cursor-pointer flex items-center gap-2"
+                  className="px-5 py-2.5 bg-white/10 hover:bg-white/20 text-white font-bold text-xs sm:text-sm rounded-xl border border-white/20 transition-all hover:scale-105 active:scale-95 cursor-pointer flex items-center gap-2 whitespace-nowrap"
                 >
-                  <span>Hoàn Thành & Quay Lại</span>
+                  <span>Quay lại</span>
                   <ArrowRight className="w-4 h-4" />
                 </button>
               )}
             </div>
+
           </motion.div>
         )}
       </AnimatePresence>
 
       {/* 3D MATCHING CARDS GRID (4 Cols x 3 Rows = 12 Game Cards) */}
       {gameStatus === "PLAYING" && (
-        <div className="relative z-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3.5 sm:gap-4">
+        <div className="relative z-10 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-4">
           {cards.map((card) => {
+            const isMismatched = mismatchedIds.includes(card.id);
             return (
-              <Card3DTilt key={card.id}>
+              <Card3DTilt key={card.id} onClick={() => handleCardClick(card)}>
                 <div
-                  onClick={() => handleCardClick(card)}
-                  className={`p-4 sm:p-5 rounded-2xl border-2 text-center transition-all duration-200 cursor-pointer flex flex-col items-center justify-center min-h-[105px] sm:min-h-[115px] select-none relative overflow-hidden ${
+                  className={`p-4 sm:p-5 rounded-2xl border-2 text-center transition-all duration-150 flex flex-col items-center justify-center min-h-[105px] sm:min-h-[115px] relative overflow-hidden ${
                     card.isMatched
-                      ? "bg-emerald-950/40 border-emerald-500/40 text-emerald-400 opacity-20 pointer-events-none scale-95"
+                      ? "bg-emerald-950/30 border-emerald-500/30 text-emerald-400/40 opacity-20 pointer-events-none scale-95"
+                      : isMismatched
+                      ? "bg-rose-950/80 border-rose-500 text-rose-300 animate-shake scale-100 shadow-[0_0_20px_rgba(244,63,94,0.6)]"
                       : card.isSelected
                       ? "bg-gradient-to-b from-[#69331C] to-[#3B1C10] border-amber-300 text-white shadow-[0_0_25px_rgba(245,158,11,0.6)] scale-105 ring-4 ring-amber-400/80"
-                      : "bg-gradient-to-b from-[#2B1F19] to-[#1C1410] border-[#4A372E] hover:border-amber-400 hover:shadow-[0_0_16px_rgba(245,158,11,0.35)] text-white hover:scale-102"
+                      : "bg-gradient-to-b from-[#2B1F19] to-[#1C1410] border-[#4A372E] hover:border-amber-400 hover:shadow-[0_0_16px_rgba(245,158,11,0.35)] text-white hover:scale-102 active:scale-95"
                   }`}
                 >
                   {/* Subtle Japanese Card Back / Accent Dot */}

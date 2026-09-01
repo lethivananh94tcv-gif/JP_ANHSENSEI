@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { Book, Award, ChevronRight } from "lucide-react";
+import N3NoticeModal from "@/components/shared/N3NoticeModal";
 
 interface GrammarLeftSidebarProps {
   selectedLevelCode: string;
@@ -27,10 +29,17 @@ export default function GrammarLeftSidebar({
   practiceCount = 63,
   totalPractice = 150,
 }: GrammarLeftSidebarProps) {
+  const [showN3Notice, setShowN3Notice] = useState(false);
   const percent = Math.round((learnedCount / (totalCount || 1)) * 100);
 
   return (
     <aside className="w-full lg:w-64 xl:w-72 shrink-0 space-y-5">
+      <N3NoticeModal
+        isOpen={showN3Notice}
+        onClose={() => setShowN3Notice(false)}
+        contentType="ngữ pháp"
+      />
+
       {/* Widget 1: Chọn cấp độ */}
       <div className="bg-[#FFFDF9] border border-[#DED3C8] rounded-3xl p-5 shadow-2xs space-y-4">
         <h3 className="text-xs font-black text-[#231917] uppercase tracking-wider px-1">
@@ -44,7 +53,13 @@ export default function GrammarLeftSidebar({
               <button
                 key={lvl.code}
                 type="button"
-                onClick={() => onSelectLevel(lvl.code)}
+                onClick={() => {
+                  if (["N3", "N2", "N1"].includes(lvl.code.toUpperCase())) {
+                    setShowN3Notice(true);
+                    return;
+                  }
+                  onSelectLevel(lvl.code);
+                }}
                 className={`w-full p-3.5 rounded-2xl transition-all cursor-pointer flex items-center gap-3 text-left border ${
                   isSelected
                     ? "bg-[#C65D4B] text-white border-[#C65D4B] shadow-md scale-102 font-bold"
@@ -71,6 +86,7 @@ export default function GrammarLeftSidebar({
           })}
         </div>
       </div>
+
 
       {/* Widget 2: Tiến độ của bạn */}
       <div className="bg-[#FFFDF9] border border-[#DED3C8] rounded-3xl p-5 shadow-2xs space-y-4">

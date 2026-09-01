@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Be_Vietnam_Pro, Noto_Serif_JP } from "next/font/google";
 import "./globals.css";
+import MobileBottomNav from "@/components/learner/MobileBottomNav";
 
 const beVietnamPro = Be_Vietnam_Pro({
   subsets: ["vietnamese", "latin"],
@@ -36,9 +37,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" className={`${beVietnamPro.variable} ${notoSerifJP.variable}`}>
-      <body className={`${beVietnamPro.className} min-h-screen antialiased bg-[#FDFBF7] text-[#2C221E]`}>
+      <body className={`${beVietnamPro.className} min-h-screen antialiased bg-[#FDFBF7] text-[#2C221E] pb-20 md:pb-0`}>
         {children}
+        <MobileBottomNav />
       </body>
     </html>
   );
 }
+

@@ -12,6 +12,7 @@ import LessonList from "@/components/learner/grammar/LessonList";
 import { LessonData } from "@/components/learner/grammar/LessonCard";
 import PopularGrammarCard from "@/components/learner/grammar/PopularGrammarCard";
 import { MOCK_LEVELS, MOCK_LESSONS_DATA } from "@/components/learner/grammar/mockGrammarData";
+import N3NoticeModal from "@/components/shared/N3NoticeModal";
 
 import { apiClient } from "@/lib/api/client";
 
@@ -22,6 +23,7 @@ export default function LearnerGrammarPage() {
   const [activeLevelId, setActiveLevelId] = useState<string>("N5");
   const [selectedLessonNum, setSelectedLessonNum] = useState<number | "ALL">("ALL");
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const [showN3Notice, setShowN3Notice] = useState<boolean>(false);
 
   // Real-time backend API data states
   const [apiLessons, setApiLessons] = useState<LessonData[] | null>(null);
@@ -93,6 +95,10 @@ export default function LearnerGrammarPage() {
 
   // Level Selection Handler
   const handleSelectLevel = (levelId: string) => {
+    if (["N3", "N2", "N1"].includes(levelId.toUpperCase())) {
+      setShowN3Notice(true);
+      return;
+    }
     setActiveLevelId(levelId);
     setSelectedLessonNum("ALL");
     setSearchQuery("");
@@ -105,6 +111,11 @@ export default function LearnerGrammarPage() {
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] text-[#2B211D] font-sans flex flex-col pb-24 md:pb-12">
+      <N3NoticeModal
+        isOpen={showN3Notice}
+        onClose={() => setShowN3Notice(false)}
+        contentType="ngữ pháp"
+      />
       {/* 1. HEADER NAVBAR (Exact original Navbar preserved 100%) */}
       <LearnerHeader />
 

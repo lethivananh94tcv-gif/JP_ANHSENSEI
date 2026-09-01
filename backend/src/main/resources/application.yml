@@ -36,7 +36,7 @@ spring:
 
   mail:
     host: ${SPRING_MAIL_HOST:smtp.gmail.com}
-    port: ${SPRING_MAIL_PORT:587}
+    port: ${SPRING_MAIL_PORT:465}
     username: ${SPRING_MAIL_USERNAME:lethivananh.94tcv@gmail.com}
     password: ${SPRING_MAIL_PASSWORD:tjfzhilujxcxstqt}
     properties:
@@ -44,14 +44,20 @@ spring:
         smtp:
           auth: true
           starttls:
-            enable: true
-            required: true
+            enable: ${SPRING_MAIL_STARTTLS_ENABLE:false}
+            required: ${SPRING_MAIL_STARTTLS_REQUIRED:false}
           ssl:
-            trust: smtp.gmail.com
+            enable: ${SPRING_MAIL_SSL_ENABLE:true}
+            trust: "*"
             protocols: TLSv1.2 TLSv1.3
+          socketFactory:
+            port: ${SPRING_MAIL_PORT:465}
+            class: ${SPRING_MAIL_SOCKET_FACTORY:javax.net.ssl.SSLSocketFactory}
+            fallback: false
           connectiontimeout: 10000
           timeout: 10000
           writetimeout: 10000
+
 
 server:
   port: ${PORT:${BACKEND_PORT:8080}}

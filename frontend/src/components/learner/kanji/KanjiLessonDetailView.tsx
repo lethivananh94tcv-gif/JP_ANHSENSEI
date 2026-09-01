@@ -8,6 +8,10 @@ import KanjiReadingSentencesView from "./KanjiReadingSentencesView";
 import KanjiQuizTestView from "./KanjiQuizTestView";
 import InteractiveStrokeCanvas from "./InteractiveStrokeCanvas";
 import KanjiMatchGame3D from "./KanjiMatchGame3D";
+import KanjiQuickModal, { QuickKanjiInfo } from "./KanjiQuickModal";
+import { getKanjiDetails } from "@/lib/utils/kanjiDetailData";
+import { playJapaneseTTS } from "@/lib/utils/japaneseAudioTTS";
+import { Volume2, Eye } from "lucide-react";
 
 import { apiClient } from "@/lib/api/client";
 
@@ -60,6 +64,7 @@ export default function KanjiLessonDetailView({ topicId, onBack }: KanjiLessonDe
   const [data, setData] = useState<KanjiTopicDetailDto | null>(null);
   const [loading, setLoading] = useState(true);
   const [activeTab, setActiveTab] = useState<"CARD" | "STROKE" | "TYPING" | "READING" | "TEST" | "GAME">("CARD");
+  const [selectedKanjiModal, setSelectedKanjiModal] = useState<QuickKanjiInfo | null>(null);
 
   useEffect(() => {
     const fetchDetail = async () => {
@@ -271,40 +276,83 @@ export default function KanjiLessonDetailView({ topicId, onBack }: KanjiLessonDe
       {activeTab === "CARD" && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {data.items.map((item) => (
-              <div
-                key={item.kanjiId}
-                className="bg-[#FFFDF9] border-2 border-[#DED3C8] hover:border-[#C65D4B] rounded-3xl p-6 shadow-sm hover:shadow-md transition-all space-y-4 flex flex-col justify-between"
-              >
-                <div className="flex justify-between items-start">
-                  <span className="bg-[#FAF3EB] text-[#C65D4B] border border-[#DED3C8] text-[10px] font-bold px-3 py-1 rounded-full uppercase">
-                    Kanji #{item.displayOrder}
-                  </span>
-                  <span className="text-xs font-bold text-[#8B6F5A]">✏️ {item.strokeCount} Nét</span>
-                </div>
+            {data.items.map((item) => {
+              const details = getKanjiDetails({
+                character: item.character,
+                displayOrder: item.displayOrder,
+                sinoVi: item.meaningVi,
+                meaningVi: item.meaningVi,
+                kunyomi: item.kunyomi,
+                onyomi: item.onyomi,
+                strokeCount: item.strokeCount,
+                radical: item.radical,
+                kunExamples: item.kunExamples,
+                onExamples: item.onExamples,
+              });
 
-                <div className="text-center py-2 space-y-1">
-                  <h3 className="text-6xl font-sans font-black text-[#C65D4B]">{item.character}</h3>
-                  <p className="text-sm font-black text-[#231917]">
-                    Âm Hán Việt: <span className="text-[#C65D4B]">{item.meaningVi}</span>
-                  </p>
-                </div>
+              const quickInfo: QuickKanjiInfo = {
+                character: item.character,
+                displayOrder: item.displayOrder,
+                sinoVi: details.sinoVi,
+                kunyomi: item.kunyomi,
+                onyomi: item.onyomi,
+                strokeCount: item.strokeCount,
+                radical: item.radical,
+                meaningVi: details.meaningVi,
+                kunExamples: item.kunExamples,
+                onExamples: item.onExamples,
+              };
 
-                <div className="space-y-2 text-xs bg-[#FAF3EB] border border-[#DED3C8] p-3 rounded-2xl">
-                  <div>
-                    <strong className="text-[#C65D4B]">Âm Kun (Kunyomi):</strong> {item.kunyomi || "—"}
-                    {item.kunExamples && <p className="text-[11px] text-[#76685F] mt-0.5">🔹 Ví dụ: {item.kunExamples}</p>}
+              return (
+                <div
+                  key={item.kanjiId}
+                  onClick={() => setSelectedKanjiModal(quickInfo)}
+                  className="bg-[#FFFDF9] border border-[#DED3C8] hover:border-[#C65D4B] rounded-3xl p-5 shadow-2xs hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group space-y-4"
+                >
+                  <div className="flex justify-between items-start">
+                    <span className="bg-[#FAF3EB] text-[#C65D4B] border border-[#DED3C8] text-[10px] font-bold px-3 py-1 rounded-full uppercase">
+                      KANJI #{item.displayOrder || item.kanjiId}
+                    </span>
+                    <span className="text-xs font-bold text-[#8B6F5A]">✏️ {item.strokeCount} Nét</span>
                   </div>
 
-                  <div className="pt-2 border-t border-[#DED3C8]/60">
-                    <strong className="text-[#C65D4B]">Âm On (Onyomi):</strong> {item.onyomi || "—"}
-                    {item.onExamples && <p className="text-[11px] text-[#76685F] mt-0.5">🔸 Ví dụ: {item.onExamples}</p>}
+                  <div className="text-center py-2 space-y-1">
+                    <h3 className="text-6xl font-jp font-black text-[#C65D4B] group-hover:scale-105 transition-transform">
+                      {item.character}
+                    </h3>
+                    <p className="text-sm font-black text-[#231917]">
+                      Âm Hán Việt: <span className="text-[#C65D4B]">{item.meaningVi}</span>
+                    </p>
+                  </div>
+
+                  <div className="space-y-2 text-xs bg-[#FAF3EB] border border-[#DED3C8] p-3 rounded-2xl">
+                    <div>
+                      <strong className="text-[#C65D4B]">Âm Kun (Kunyomi):</strong> {item.kunyomi || "—"}
+                      {item.kunExamples && (
+                        <p className="text-[11px] text-[#76685F] mt-0.5">🔹 Ví dụ: {item.kunExamples}</p>
+                      )}
+                    </div>
+
+                    <div className="pt-2 border-t border-[#DED3C8]/60">
+                      <strong className="text-[#C65D4B]">Âm On (Onyomi):</strong> {item.onyomi || "—"}
+                      {item.onExamples && (
+                        <p className="text-[11px] text-[#76685F] mt-0.5">🔸 Ví dụ: {item.onExamples}</p>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
+      )}
+
+      {/* QUICK KANJI MODAL OVERLAY */}
+      {selectedKanjiModal && (
+        <KanjiQuickModal
+          kanji={selectedKanjiModal}
+          onClose={() => setSelectedKanjiModal(null)}
+        />
       )}
 
       {/* TAB 2: ✏️ STROKE ORDER & LUYỆN VIẾT */}

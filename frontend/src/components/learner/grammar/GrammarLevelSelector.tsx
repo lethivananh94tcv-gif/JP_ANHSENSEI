@@ -1,6 +1,8 @@
 "use client";
 
+import { useState } from "react";
 import { Award } from "lucide-react";
+import N3NoticeModal from "@/components/shared/N3NoticeModal";
 
 interface GrammarLevelSelectorProps {
   selectedLevelCode: string;
@@ -10,7 +12,7 @@ interface GrammarLevelSelectorProps {
 const LEVEL_CONFIGS = [
   { code: "N5", name: "Sơ Cấp N5", count: "25 Bài" },
   { code: "N4", name: "Sơ Cấp N4", count: "25 Bài" },
-  { code: "N3", name: "Trung Cấp N3", count: "15 Bài" },
+  { code: "N3", name: "Trung Cấp N3", count: "Chờ nâng cấp" },
   { code: "N2", name: "Cao Cấp N2", count: "Chờ cập nhật" },
   { code: "N1", name: "Thượng Cấp N1", count: "Chờ cập nhật" },
 ];
@@ -19,8 +21,16 @@ export default function GrammarLevelSelector({
   selectedLevelCode,
   onSelectLevel,
 }: GrammarLevelSelectorProps) {
+  const [showN3Notice, setShowN3Notice] = useState(false);
+
   return (
     <section className="bg-[#FFFDF9] border border-[#DED3C8] rounded-3xl p-4 sm:p-5 shadow-2xs space-y-3">
+      <N3NoticeModal
+        isOpen={showN3Notice}
+        onClose={() => setShowN3Notice(false)}
+        contentType="ngữ pháp"
+      />
+
       <div className="flex items-center justify-between px-1">
         <h3 className="text-xs font-extrabold text-[#76685F] uppercase tracking-wider flex items-center gap-1.5">
           <Award className="w-3.5 h-3.5 text-[#C65D4B]" />
@@ -35,7 +45,13 @@ export default function GrammarLevelSelector({
             <button
               key={lvl.code}
               type="button"
-              onClick={() => onSelectLevel(lvl.code)}
+              onClick={() => {
+                if (["N3", "N2", "N1"].includes(lvl.code.toUpperCase())) {
+                  setShowN3Notice(true);
+                  return;
+                }
+                onSelectLevel(lvl.code);
+              }}
               className={`p-3 rounded-2xl text-center transition-all cursor-pointer border flex flex-col items-center justify-center space-y-1 ${
                 isSelected
                   ? "bg-[#C65D4B] text-white border-[#C65D4B] shadow-md scale-102 font-bold"
@@ -58,3 +74,4 @@ export default function GrammarLevelSelector({
     </section>
   );
 }
+

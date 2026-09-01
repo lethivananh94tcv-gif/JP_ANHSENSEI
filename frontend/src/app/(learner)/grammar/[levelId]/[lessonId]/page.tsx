@@ -972,15 +972,16 @@ export default function LearnerGrammarDetailPage() {
       {isPracticeOpen && (
         <div className="fixed inset-0 z-50 bg-[#0F0B0A]/95 backdrop-blur-2xl flex flex-col animate-fadeIn overflow-hidden">
           {/* Practice Arena Top Navigation */}
-          <div className="border-b border-[#D4AF37]/30 bg-gradient-to-r from-[#1E1513] via-[#2A1D1A] to-[#1E1513] px-4 sm:px-8 py-3.5 flex items-center justify-between gap-4 shrink-0 shadow-lg">
+          <div className="border-b border-[#D4AF37]/30 bg-gradient-to-r from-[#1E1513] via-[#2A1D1A] to-[#1E1513] px-3 sm:px-8 py-2.5 sm:py-3.5 flex items-center justify-between gap-2 sm:gap-4 shrink-0 shadow-lg">
             <button
               type="button"
               onClick={() => setIsPracticeOpen(false)}
-              className="px-4 py-2 bg-[#2E201B] hover:bg-[#3E2B24] text-[#E5D7C5] font-bold text-xs sm:text-sm rounded-xl border border-[#D4AF37]/30 transition-all flex items-center gap-2 cursor-pointer shadow-md hover:border-[#FF5733]"
+              className="px-3 sm:px-4 py-2 bg-[#2E201B] hover:bg-[#3E2B24] text-[#E5D7C5] font-bold text-xs sm:text-sm rounded-xl border border-[#D4AF37]/30 transition-all flex items-center gap-1.5 cursor-pointer shadow-md hover:border-[#FF5733] whitespace-nowrap shrink-0 active:scale-95"
             >
               <ArrowLeft className="w-4 h-4 text-[#FFB020]" />
-              <span>Quay Lại Bài Học</span>
+              <span>Quay lại</span>
             </button>
+
 
             <div className="text-center">
               <span className="text-[10px] font-black text-[#FFB020] uppercase tracking-widest block drop-shadow-sm flex items-center justify-center gap-1">

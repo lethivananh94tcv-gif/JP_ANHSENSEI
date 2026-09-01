@@ -66,12 +66,15 @@ public class EmailService {
                     message.setSubject(subject);
                     message.setText(content);
                     mailSender.send(message);
-                    log.info("Email [{}] đã được gửi thành công qua SMTP đến {}", type, toEmail);
+                    log.info("🟢 Email [{}] đã được gửi thành công qua SMTP đến {}", type, toEmail);
                 } catch (Exception e) {
-                    log.error("Lỗi khi gửi email SMTP đến {}: ", toEmail, e);
+                    log.error("🔴 Lỗi khi gửi email SMTP đến {}: {}", toEmail, e.getMessage(), e);
                     log.warn("LƯU Ý: Mã OTP [{}] đã tạo cho email {} sẵn sàng để sử dụng.", token, toEmail);
                 }
+            } else {
+                log.warn("⚠️ CHÚ Ý: Dịch vụ SMTP chưa được kích hoạt vì `spring.mail.username` bị rỗng trên Server! Mã OTP [{}] dành cho {} vẫn được tạo thành công.", token, toEmail);
             }
         });
     }
 }
+
