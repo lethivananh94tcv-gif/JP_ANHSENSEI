@@ -32,6 +32,9 @@ public class EmailService {
     @Value("${RESEND_FROM_EMAIL:ANH SENSEI <onboarding@resend.dev>}")
     private String resendFromEmail;
 
+    @Value("${BREVO_API_KEY:}")
+    private String brevoApiKey;
+
     public EmailService(@Autowired(required = false) JavaMailSender mailSender) {
         this.mailSender = mailSender;
         this.httpClient = HttpClient.newBuilder()
@@ -74,7 +77,41 @@ public class EmailService {
             log.info(" OTP CODE : {}", token);
             log.info("==========================================================");
 
-            // 1. Try Resend HTTPS REST API first (bypasses Render Free outbound SMTP blocking)
+            // 1. Try Brevo (Sendinblue) HTTPS REST API first if configured (allows sending to ANY recipient email)
+            if (brevoApiKey != null && !brevoApiKey.isBlank()) {
+                try {
+                    String senderEmail = mailUsername != null && !mailUsername.isBlank() ? mailUsername : "lethivananh.94tcv@gmail.com";
+                    String jsonBody = String.format(
+                            "{\"sender\":{\"name\":\"ANH SENSEI\",\"email\":\"%s\"},\"to\":[{\"email\":\"%s\"}],\"subject\":\"%s\",\"textContent\":\"%s\"}",
+                            escapeJson(senderEmail),
+                            escapeJson(toEmail),
+                            escapeJson(subject),
+                            escapeJson(content)
+                    );
+
+                    HttpRequest request = HttpRequest.newBuilder()
+                            .uri(URI.create("https://api.brevo.com/v3/smtp/email"))
+                            .header("api-key", brevoApiKey.trim())
+                            .header("accept", "application/json")
+                            .header("Content-Type", "application/json")
+                            .POST(HttpRequest.BodyPublishers.ofString(jsonBody))
+                            .timeout(Duration.ofSeconds(10))
+                            .build();
+
+                    HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+
+                    if (response.statusCode() >= 200 && response.statusCode() < 300) {
+                        log.info("🟢 Email [{}] đã được gửi THÀNH CÔNG qua Brevo HTTP API đến {}", type, toEmail);
+                        return;
+                    } else {
+                        log.error("🔴 Lỗi Brevo HTTP API (Status {}): {}", response.statusCode(), response.body());
+                    }
+                } catch (Exception e) {
+                    log.error("🔴 Lỗi khi gọi Brevo HTTP API đến {}: {}", toEmail, e.getMessage(), e);
+                }
+            }
+
+            // 2. Try Resend HTTPS REST API (Works for owner email lethivananh.94tcv@gmail.com in test mode)
             if (resendApiKey != null && !resendApiKey.isBlank()) {
                 try {
                     String jsonBody = String.format(
@@ -99,14 +136,14 @@ public class EmailService {
                         log.info("🟢 Email [{}] đã được gửi THÀNH CÔNG qua Resend HTTP API đến {}", type, toEmail);
                         return;
                     } else {
-                        log.error("🔴 Lỗi Resend HTTP API (Status {}): {}", response.statusCode(), response.body());
+                        log.warn("⚠️ Resend HTTP API Status {}: {}. Vui lòng thử đăng nhập bằng email chủ tài khoản Resend (lethivananh.94tcv@gmail.com) hoặc thêm Brevo API Key.", response.statusCode(), response.body());
                     }
                 } catch (Exception e) {
                     log.error("🔴 Lỗi khi gọi Resend HTTP API đến {}: {}", toEmail, e.getMessage(), e);
                 }
             }
 
-            // 2. Fallback to JavaMailSender SMTP
+            // 3. Fallback to JavaMailSender SMTP
             if (mailSender != null && mailUsername != null && !mailUsername.isBlank()) {
                 try {
                     SimpleMailMessage message = new SimpleMailMessage();
@@ -121,7 +158,7 @@ public class EmailService {
                     log.warn("LƯU Ý: Mã OTP [{}] đã tạo cho email {} sẵn sàng để sử dụng.", token, toEmail);
                 }
             } else {
-                log.warn("⚠️ CHÚ Ý: Dịch vụ SMTP/Resend chưa được kích hoạt trên Server! Mã OTP [{}] dành cho {} vẫn được tạo thành công.", token, toEmail);
+                log.warn("⚠️ CHÚ Ý: Dịch vụ SMTP/Brevo/Resend chưa được kích hoạt trên Server! Mã OTP [{}] dành cho {} vẫn được tạo thành công.", token, toEmail);
             }
         });
     }
@@ -135,4 +172,3 @@ public class EmailService {
                 .replace("\t", "\\t");
     }
 }
-
