@@ -88,6 +88,7 @@ function parseTopicCardInfo(title: string, description: string, topicOrder: numb
 }
 
 import { apiClient } from "@/lib/api/client";
+import { recordLessonAccess } from "@/lib/utils/learningTracker";
 
 const DEFAULT_KANJI_TOPICS: Record<string, KanjiTopicDto[]> = {
   N5: [
@@ -333,7 +334,10 @@ export default function LearnerKanjiPage() {
                   return (
                     <div
                       key={tp.topicId}
-                      onClick={() => setSelectedTopicId(tp.topicId)}
+                      onClick={() => {
+                        setSelectedTopicId(tp.topicId);
+                        recordLessonAccess(tp.topicId, `Chữ Hán ${tp.jlptLevel}: ${cleanTitle}`, tp.jlptLevel);
+                      }}
                       className="bg-[#FFFDF9] border-2 border-[#E5D7C7] hover:border-[#C65D4B] rounded-3xl p-5 sm:p-6 shadow-2xs hover:shadow-md transition-all cursor-pointer flex flex-col justify-between group space-y-4 relative overflow-hidden"
                     >
                       <div className="space-y-3.5">

@@ -29,6 +29,7 @@ import {
 } from "lucide-react";
 import { MOCK_LESSONS_DATA } from "@/components/learner/grammar/mockGrammarData";
 import { apiClient } from "@/lib/api/client";
+import { recordLessonAccess } from "@/lib/utils/learningTracker";
 
 interface GrammarExample {
   japaneseText: string;
@@ -107,6 +108,7 @@ export default function LearnerGrammarDetailPage() {
     let isMounted = true;
     async function loadData() {
       setLoading(true);
+      recordLessonAccess(lessonNum, lessonMeta.title, levelCode);
 
       const lessonDataMap: Record<number, GrammarPoint[]> = {
         1: [

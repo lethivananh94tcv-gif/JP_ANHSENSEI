@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback, useMemo } from "react";
 import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { UserProfile } from "@/types/learner";
 import { apiClient } from "@/lib/api/client";
+import { recordLessonAccess } from "@/lib/utils/learningTracker";
 import { CheckCircle2, RotateCcw, Sparkles, CheckCheck, Gamepad2, ArrowLeft, ArrowRight } from "lucide-react";
 
 import LearnerHeader from "@/components/learner/LearnerHeader";
@@ -135,31 +136,40 @@ export default function LearnerLessonStudyPage() {
           { vocabularyId: lNum * 100 + 4, word: "学生", kana: "がくせい", kanjiForm: "学生", romaji: "gakusei", meaningVi: "Học sinh, sinh viên", exampleJp: "わたしは学生です。", exampleVi: "Tôi là học sinh." },
           { vocabularyId: lNum * 100 + 5, word: "会社員", kana: "かいしゃいん", kanjiForm: "会社員", romaji: "kaishain", meaningVi: "Nhân viên công ty", exampleJp: "父は会社員です。", exampleVi: "Bố tôi là nhân viên công ty." },
         ]);
+        const numId = Number(lessonId) || 1;
+        recordLessonAccess(numId, loadedLesson?.title || lessonTitle, loadedLesson?.levelCode || levelCode);
       }
     } catch (err: unknown) {
       console.error("fetchStudyContent safe catch:", err);
     } finally {
       setLoading(false);
     }
-  }, [lessonId]);
+  }, [lessonId, lessonTitle, levelCode]);
 
   useEffect(() => {
-    if (lessonId) fetchStudyContent();
-  }, [lessonId, fetchStudyContent]);
+    if (lessonId) {
+      recordLessonAccess(Number(lessonId) || 1, lessonTitle, levelCode);
+      fetchStudyContent();
+    }
+  }, [lessonId, fetchStudyContent, lessonTitle, levelCode]);
 
-  // Synchronize 100% completed status from outside dashboard or previous completion
+  // Synchronize completed status and mark items on open
   useEffect(() => {
     if (vocabularies.length === 0 || typeof window === "undefined") return;
-    const isCompletedOutside = localStorage.getItem(`completed_lesson_${lessonId}`) === "100";
-    if (isCompletedOutside) {
-      const allKeys = new Set(vocabularies.map((v) => `v_${v.vocabularyId}`));
-      setLearnedItemKeys((prev) => {
-        const merged = new Set([...Array.from(prev), ...Array.from(allKeys)]);
-        localStorage.setItem(`learned_items_lesson_${lessonId}`, JSON.stringify(Array.from(merged)));
-        return merged;
-      });
+
+    const saved = localStorage.getItem(`learned_items_lesson_${lessonId}`);
+    if (saved) {
+      try {
+        const keys = new Set<string>(JSON.parse(saved));
+        setLearnedItemKeys(keys);
+        const pct = Math.round((keys.size / vocabularies.length) * 100);
+        recordLessonAccess(Number(lessonId) || 1, lessonTitle, levelCode, Math.max(20, pct));
+        return;
+      } catch (e) {}
     }
-  }, [vocabularies, lessonId]);
+
+    recordLessonAccess(Number(lessonId) || 1, lessonTitle, levelCode, 20);
+  }, [vocabularies, lessonId, lessonTitle, levelCode]);
 
   // Toggle individual vocabulary item learned status
   const handleToggleLearned = async (itemKey: string) => {
@@ -175,9 +185,10 @@ export default function LearnerLessonStudyPage() {
 
       if (typeof window !== "undefined") {
         localStorage.setItem(`learned_items_lesson_${lessonId}`, JSON.stringify(Array.from(updated)));
-        if (vocabularies.length > 0 && updated.size >= vocabularies.length) {
-          localStorage.setItem(`completed_lesson_${lessonId}`, "100");
-        }
+        const pct = vocabularies.length > 0 ? Math.round((updated.size / vocabularies.length) * 100) : 20;
+        const finalPct = updated.size >= vocabularies.length ? 100 : Math.max(20, pct);
+        localStorage.setItem(`completed_lesson_${lessonId}`, String(finalPct));
+        recordLessonAccess(Number(lessonId) || 1, lessonTitle, levelCode, finalPct);
       }
       return updated;
     });

@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { apiClient, ApiError } from "@/lib/api/client";
 import { UserProfile, LevelSummary, LessonSummary, DailyReviewViewModel } from "@/types/learner";
+import { getLocalRecentLessons } from "@/lib/utils/learningTracker";
 
 import LearnerHeader from "@/components/learner/LearnerHeader";
 import WelcomeSection from "@/components/learner/WelcomeSection";
@@ -70,21 +71,60 @@ export default function LearnerDashboardPage() {
         apiClient<LevelSummary[]>("/learner/levels").catch(() => ({ data: [] })),
       ]);
 
-      if (sumRes.data) {
-        setSummary(sumRes.data);
-        if (sumRes.data.continueLesson) {
-          setCurrentLesson({
-            lessonId: sumRes.data.continueLesson.lessonId,
-            levelId: 1,
-            levelCode: sumRes.data.continueLesson.levelCode || "N5",
-            title: sumRes.data.continueLesson.title,
-            description: sumRes.data.continueLesson.description,
-            sortOrder: 1,
-            isSample: false,
-            estimatedMinutes: sumRes.data.continueLesson.estimatedMinutes || 30,
-            status: "PUBLISHED",
-          });
-        }
+      const localRecent = getLocalRecentLessons();
+
+      const baseData: any = sumRes.data || {
+        targetLevel: "N5",
+        completionPercent: 0,
+        completedLessonsCount: 0,
+        dueFlashcardsCount: 0,
+        totalValidActivities: 0,
+        learnedVocabCount: 0,
+        learnedKanjiCount: 0,
+        learnedGrammarCount: 0,
+        weeklyActivities: [],
+        recentLessons: [],
+      };
+
+      const serverRecent = (baseData.recentLessons as any[]) || [];
+      const combinedRecent = [...serverRecent, ...localRecent];
+      const uniqueRecent = combinedRecent.filter((item, index, self) => index === self.findIndex((t) => Number(t.lessonId) === Number(item.lessonId))).slice(0, 3);
+
+      const mergedSummary: any = {
+        ...baseData,
+        recentLessons: uniqueRecent,
+        completedLessonsCount: Math.max(baseData.completedLessonsCount || 0, uniqueRecent.length),
+        learnedVocabCount: (baseData.learnedVocabCount && baseData.learnedVocabCount > 0) ? baseData.learnedVocabCount : uniqueRecent.length * 5,
+        completionPercent: baseData.completionPercent && baseData.completionPercent > 0 ? baseData.completionPercent : (uniqueRecent.length > 0 ? Math.min(100, uniqueRecent.length * 20) : 0),
+        streakDays: baseData.streakDays || (uniqueRecent.length > 0 ? 1 : 0),
+      };
+
+      setSummary(mergedSummary);
+
+      if (mergedSummary.continueLesson) {
+        setCurrentLesson({
+          lessonId: mergedSummary.continueLesson.lessonId,
+          levelId: 1,
+          levelCode: mergedSummary.continueLesson.levelCode || "N5",
+          title: mergedSummary.continueLesson.title,
+          description: mergedSummary.continueLesson.description,
+          sortOrder: 1,
+          isSample: false,
+          estimatedMinutes: mergedSummary.continueLesson.estimatedMinutes || 30,
+          status: "PUBLISHED",
+        });
+      } else if (uniqueRecent.length > 0) {
+        setCurrentLesson({
+          lessonId: uniqueRecent[0].lessonId,
+          levelId: 1,
+          levelCode: uniqueRecent[0].levelCode || "N5",
+          title: uniqueRecent[0].title,
+          description: "Bài học đang tham gia",
+          sortOrder: 1,
+          isSample: false,
+          estimatedMinutes: 30,
+          status: "PUBLISHED",
+        });
       }
 
       if (lvlRes.data) {

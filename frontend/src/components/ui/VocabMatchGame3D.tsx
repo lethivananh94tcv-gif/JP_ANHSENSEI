@@ -16,6 +16,7 @@ interface MatchCard {
   id: string;
   vocabId: number;
   text: string;
+  kana?: string;
   type: "JP" | "VI";
   isMatched: boolean;
   isSelected: boolean;
@@ -107,12 +108,62 @@ export default function VocabMatchGame3D({ vocabularies, onFinish, onExit }: Voc
     const chosenVocab = shuffledVocab.slice(0, Math.min(6, vocabularies.length));
     setTotalPairsCount(chosenVocab.length);
 
+    const getKanjiHiragana = (word: string, kana?: string) => {
+      const kanjiMap: Record<string, string> = {
+        勉強: "べんきょう",
+        白い: "しろい",
+        黒い: "くろい",
+        小さい: "ちいさい",
+        所: "ところ",
+        学生: "がくせい",
+        先生: "せんせい",
+        会社員: "かいしゃいん",
+        私: "わたし",
+        わたし: "わたし",
+        あなた: "あなた",
+        日本人: "にほんじん",
+        大学: "だいがく",
+        病院: "びょういん",
+        本: "ほん",
+        車: "くるま",
+        時計: "とけい",
+        傘: "かさ",
+        山: "やま",
+        川: "かわ",
+        魚: "さかな",
+        肉: "にく",
+        水: "みず",
+        お茶: "おちゃ",
+        ご飯: "ごはん",
+        高い: "たかい",
+        低い: "ひくい",
+        新しい: "あたらしい",
+        古い: "ふるい",
+        暑い: "あつい",
+        寒い: "さむい",
+        静か: "しずか",
+        賑やか: "にぎやか",
+        有名: "ゆうめい",
+        親切: "しんせつ",
+        元気: "げんき",
+        暇: "ひま",
+        便利: "べんり",
+      };
+      if (kanjiMap[word]) return kanjiMap[word];
+      if (kana && kana.trim() !== "") return kana;
+      return "";
+    };
+
     const gameDeck: MatchCard[] = [];
     chosenVocab.forEach((item) => {
+      const mainWord = item.word || item.kana;
+      const hiraReading = getKanjiHiragana(mainWord, item.kana);
+
       gameDeck.push({
         id: `jp_${item.vocabularyId}`,
         vocabId: item.vocabularyId,
-        text: item.word || item.kana,
+        text: mainWord,
+        kana: hiraReading !== mainWord ? hiraReading : (item.kana && item.kana !== mainWord ? item.kana : undefined),
         type: "JP",
         isMatched: false,
         isSelected: false,
@@ -413,13 +464,22 @@ export default function VocabMatchGame3D({ vocabularies, onFinish, onExit }: Voc
                   }`} />
 
                   {/* Card Content */}
-                  <span className={`leading-snug transition-transform ${
-                    card.type === "JP"
-                      ? "font-jp font-black text-base sm:text-lg text-amber-200 drop-shadow-[0_2px_8px_rgba(245,158,11,0.4)]"
-                      : "font-black text-xs sm:text-sm text-[#F6EDE2]"
-                  }`}>
-                    {card.text}
-                  </span>
+                  <div className="flex flex-col items-center justify-center space-y-1">
+                    <span className={`leading-snug transition-transform ${
+                      card.type === "JP"
+                        ? "font-jp font-black text-lg sm:text-xl text-amber-200 drop-shadow-[0_2px_8px_rgba(245,158,11,0.4)]"
+                        : "font-black text-xs sm:text-sm text-[#F6EDE2]"
+                    }`}>
+                      {card.text}
+                    </span>
+
+                    {/* Hiragana Reading Badge under Kanji */}
+                    {card.type === "JP" && card.kana && (
+                      <span className="text-[11px] sm:text-xs font-jp font-bold text-amber-300 bg-amber-950/80 px-2 py-0.5 rounded-md border border-amber-500/40 shadow-xs">
+                        {card.kana}
+                      </span>
+                    )}
+                  </div>
 
                   {/* Card Type Tag */}
                   <span className="text-[9px] font-bold uppercase tracking-wider text-white/40 mt-1.5">

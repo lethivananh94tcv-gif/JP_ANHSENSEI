@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback, useTransition, useRef } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { apiClient, ApiError } from "@/lib/api/client";
+import { recordLessonAccess } from "@/lib/utils/learningTracker";
 import LearnerHeader from "@/components/learner/LearnerHeader";
 import { Sparkles } from "lucide-react";
 
@@ -344,6 +345,8 @@ export default function LearnerVocabulariesHubPage() {
   // Lesson selection handler (pure local state update, zero page reloads)
   const handleSelectLesson = (lesson: LessonItem) => {
     setSelectedLesson(lesson);
+    const targetId = getCanonicalLessonId(lesson);
+    recordLessonAccess(targetId, lesson.title, selectedLevelCode);
     if (typeof window !== "undefined") {
       const url = new URL(window.location.href);
       url.searchParams.set("level", selectedLevelCode);
@@ -365,6 +368,7 @@ export default function LearnerVocabulariesHubPage() {
 
   const handleOpenLesson = (lesson: LessonItem, mode?: "list" | "cards" | "typing" | "match" | null) => {
     const targetId = getCanonicalLessonId(lesson);
+    recordLessonAccess(targetId, lesson.title, selectedLevelCode);
     if (mode) {
       router.push(`/lessons/${targetId}?mode=${mode}`);
     } else {
@@ -378,12 +382,15 @@ export default function LearnerVocabulariesHubPage() {
       const mode = continueData.lastMode || "cards";
       const isN4 = selectedLevelCode === "N4" || continueData.lessonId >= 100;
       const targetId = isN4 ? (continueData.lessonId > 25 && continueData.lessonId <= 50 ? continueData.lessonId : 25 + (continueData.sortOrder || 1)) : (continueData.sortOrder || continueData.lessonId);
+      recordLessonAccess(targetId, continueData.title || `Bài học #${targetId}`, selectedLevelCode);
       router.push(`/lessons/${targetId}?mode=${mode}`);
     } else if (selectedLesson) {
       const targetId = getCanonicalLessonId(selectedLesson);
+      recordLessonAccess(targetId, selectedLesson.title, selectedLevelCode);
       router.push(`/lessons/${targetId}?mode=cards`);
     } else if (lessons.length > 0) {
       const targetId = getCanonicalLessonId(lessons[0]);
+      recordLessonAccess(targetId, lessons[0].title, selectedLevelCode);
       router.push(`/lessons/${targetId}?mode=cards`);
     }
   };
@@ -392,6 +399,7 @@ export default function LearnerVocabulariesHubPage() {
     const target = lessonToOpen || selectedLesson;
     if (!target) return;
     const targetId = getCanonicalLessonId(target);
+    recordLessonAccess(targetId, target.title, selectedLevelCode);
     router.push(`/lessons/${targetId}`);
   };
 
