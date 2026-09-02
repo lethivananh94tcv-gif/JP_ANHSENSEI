@@ -50,7 +50,7 @@ public class AuthController {
     @PostMapping("/login-otp/request")
     public ResponseEntity<Map<String, String>> requestOtpLogin(@Valid @RequestBody OtpLoginRequest request) {
         authService.requestOtpLogin(request);
-        return ResponseEntity.ok(Map.of("message", "Mã OTP đăng nhập 6 chữ số đã được gửi về email của bạn."));
+        return ResponseEntity.ok(Map.of("message", "Mã OTP 6 chữ số đã được gửi về email của bạn."));
     }
 
     @PostMapping("/login-otp/verify")
