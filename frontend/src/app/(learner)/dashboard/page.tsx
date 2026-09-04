@@ -47,9 +47,11 @@ export default function LearnerDashboardPage() {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
 
-  const loadData = useCallback(async () => {
+  const loadData = useCallback(async (silent = false) => {
     try {
-      setLoading(true);
+      if (!silent) {
+        setLoading(true);
+      }
       setError("");
 
       // 1. Auth Guard Check
@@ -149,13 +151,19 @@ export default function LearnerDashboardPage() {
         setError("Đã xảy ra lỗi khi kết nối máy chủ.");
       }
     } finally {
-      setLoading(false);
+      if (!silent) {
+        setLoading(false);
+      }
     }
   }, []);
 
   useEffect(() => {
-    loadData();
-  }, []);
+    loadData(false);
+    const timer = setInterval(() => {
+      loadData(true);
+    }, 8000);
+    return () => clearInterval(timer);
+  }, [loadData]);
 
   if (loading) {
     return (

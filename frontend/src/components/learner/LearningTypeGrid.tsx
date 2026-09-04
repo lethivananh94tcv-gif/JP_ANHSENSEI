@@ -670,12 +670,31 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
               <div>
                 <span className="text-xs font-black text-[#2C201D] block">Ngày liên tục</span>
                 <div className="flex items-center gap-1.5 mt-1.5">
-                  {["T2", "T3", "T4", "T5", "T6", "T7", "CN"].map((day, i) => {
-                    const hasActivity = (summary?.weeklyActivities?.[i]?.count || 0) > 0;
+                  {["T2", "T3", "T4", "T5", "T6", "T7", "CN"].map((dayLabel) => {
+                    const dayCodeMap: Record<number, string> = {
+                      1: "T2", 2: "T3", 3: "T4", 4: "T5", 5: "T6", 6: "T7", 0: "CN"
+                    };
+                    const matchingActivity = summary?.weeklyActivities?.find((wa) => {
+                      if (!wa?.date) return false;
+                      const d = new Date(wa.date);
+                      return dayCodeMap[d.getDay()] === dayLabel && (wa.count || 0) > 0;
+                    });
+                    const todayDayLabel = dayCodeMap[new Date().getDay()];
+                    const isToday = todayDayLabel === dayLabel;
+                    const hasActivity = Boolean(matchingActivity) || (isToday && ((summary?.streakDays || 0) > 0 || (summary?.completedLessonsCount || 0) > 0 || (summary?.recentLessons?.length || 0) > 0));
+
                     return (
-                      <div key={day} className="text-center">
-                        <span className="text-[9px] font-bold text-[#76685F] block">{day}</span>
-                        <div className={`w-4 h-4 rounded-full flex items-center justify-center text-[8px] mt-0.5 ${hasActivity ? "bg-emerald-500 text-white" : "bg-gray-200 text-gray-400"}`}>
+                      <div key={dayLabel} className="text-center">
+                        <span className={`text-[9px] font-bold block ${isToday ? "text-[#C65D4B] font-black" : "text-[#76685F]"}`}>
+                          {dayLabel}
+                        </span>
+                        <div
+                          className={`w-4 h-4 rounded-full flex items-center justify-center text-[8px] mt-0.5 transition-all ${
+                            hasActivity
+                              ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-2xs font-bold scale-105"
+                              : "bg-gray-200 text-gray-400"
+                          }`}
+                        >
                           {hasActivity ? "✓" : ""}
                         </div>
                       </div>

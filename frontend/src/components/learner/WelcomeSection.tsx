@@ -5,8 +5,6 @@ import Link from "next/link";
 import { UserProfile } from "@/types/learner";
 import { Clock, Flame, Target, Sparkles, ArrowRight, Play, TrendingUp, Mail } from "lucide-react";
 import { motion } from "framer-motion";
-import OmikujiFortuneModal from "@/components/ui/OmikujiFortuneModal";
-import ManekiNeko3D from "@/components/ui/ManekiNeko3D";
 import PostmanCapybara3D from "@/components/ui/PostmanCapybara3D";
 import BeginnerLetterModal from "@/components/learner/BeginnerLetterModal";
 
@@ -23,7 +21,6 @@ export default function WelcomeSection({
   todayMinutes = 10,
   dailyGoalMinutes = 20,
 }: WelcomeSectionProps) {
-  const [isOmikujiOpen, setIsOmikujiOpen] = useState(false);
   const [isLetterOpen, setIsLetterOpen] = useState(false);
   const [hasOpenedLetter, setHasOpenedLetter] = useState(false);
 
@@ -60,7 +57,7 @@ export default function WelcomeSection({
 
   return (
     <>
-      <section className="relative overflow-visible rounded-3xl bg-gradient-to-r from-[#FFF5F2] via-[#FDF3EE] to-[#FFF8F5] text-[#2C201D] border border-[#F5DDD4] p-5 sm:p-6 shadow-sm transition-all pt-7 sm:pt-8">
+      <section className="relative overflow-visible rounded-3xl bg-gradient-to-r from-[#FFF5F2] via-[#FDF3EE] to-[#FFF8F5] text-[#2C201D] border border-[#F5DDD4] px-4 sm:px-6 pt-3 sm:pt-3.5 pb-4 sm:pb-5 shadow-sm transition-all">
         {/* Background Decorative Sakura & Mount Fuji Graphic */}
         <div className="absolute top-0 right-1/3 w-80 h-80 bg-gradient-to-br from-[#FFD8D0]/25 to-transparent rounded-full blur-2xl pointer-events-none overflow-hidden" />
         <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none select-none hidden lg:block overflow-hidden">
@@ -72,13 +69,13 @@ export default function WelcomeSection({
         </div>
 
         {/* Japanese Sakura Blossom Petals Graphic Accent */}
-        <div className="absolute top-2 left-6 text-base text-[#E65840]/40 animate-pulse pointer-events-none select-none">
+        <div className="absolute top-1.5 left-5 text-base text-[#E65840]/40 animate-pulse pointer-events-none select-none">
           🌸
         </div>
 
-        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-          {/* Left Side: Greeting & Buttons & Lucky Cat & Mailman Cat (7 cols) */}
-          <div className="lg:col-span-7 space-y-3.5">
+        <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
+          {/* Left Side: Greeting & Buttons (7 cols) */}
+          <div className="lg:col-span-7 space-y-1.5">
             <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#FFEAE5] border border-[#FFD0C5] text-[#C65D4B] text-[11px] font-black shadow-2xs">
               <span>🌸 おはようございます！ 🌸</span>
             </div>
@@ -119,13 +116,6 @@ export default function WelcomeSection({
                 <Sparkles className="w-3.5 h-3.5 text-[#C65D4B]" />
                 <span>Flashcards</span>
               </Link>
-
-              {/* Lucky Cat Avatar (Rút Quẻ) */}
-              <ManekiNeko3D
-                onClick={() => setIsOmikujiOpen(true)}
-                bubbleText="Rút quẻ 🐱"
-                className="flex-shrink-0 ml-1 cursor-pointer scale-90"
-              />
             </div>
           </div>
 
@@ -204,13 +194,7 @@ export default function WelcomeSection({
         </div>
       </section>
 
-      {/* 3D Omikuji Fortune Draw Modal */}
-      <OmikujiFortuneModal
-        isOpen={isOmikujiOpen}
-        onClose={() => setIsOmikujiOpen(false)}
-      />
-
-      {/* Beginner Letter & 6-step Roadmap Modal delivered by Postman Cat */}
+      {/* Beginner Letter & 6-step Roadmap Modal delivered by Postman Capybara */}
       <BeginnerLetterModal
         isOpen={isLetterOpen}
         onClose={handleCloseLetter}
