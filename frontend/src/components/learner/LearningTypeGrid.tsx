@@ -506,14 +506,14 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
               <div className="absolute top-0 left-0 w-full h-1/2 bg-white/20 rounded-t-2xl pointer-events-none" />
               <Layers className="w-7 h-7 stroke-[2.2] drop-shadow-md text-purple-100" />
             </div>
-            <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-purple-600/10 text-purple-700 border border-purple-600/20">
-              JLPT N5-N3
+            <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-[#C65D4B]/10 text-[#C65D4B] border border-[#C65D4B]/20">
+              SẮP RA MẮT
             </span>
           </div>
 
           <div>
             <h3 className="text-base font-black text-[#2C201D] group-hover:text-purple-600 transition-colors">Luyện JLPT</h3>
-            <p className="text-xs text-[#76685F] font-extrabold">Đề thi thật N5 • N4 • N3</p>
+            <p className="text-xs text-[#76685F] font-extrabold">Đề thi N5 • N4 • N3 (Đang hoàn thiện)</p>
           </div>
 
           <div className="flex justify-end pt-1">

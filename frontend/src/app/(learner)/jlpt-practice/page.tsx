@@ -121,10 +121,10 @@ export default function JlptPracticeLevelSelectionPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {LEVEL_CARDS.map((card) => (
-              <Link
+              <div
                 key={card.id}
-                href={`/jlpt-practice/${card.id}`}
-                className="bg-[#FFFDF9] border-2 border-[#E5D7C7] hover:border-[#C65D4B] rounded-3xl p-6 sm:p-7 shadow-xs hover:shadow-2xl transition-all duration-300 flex flex-col justify-between space-y-6 group relative overflow-hidden"
+                onClick={() => setShowNotice(true)}
+                className="bg-[#FFFDF9] border-2 border-[#E5D7C7] hover:border-[#C65D4B] rounded-3xl p-6 sm:p-7 shadow-xs hover:shadow-2xl transition-all duration-300 flex flex-col justify-between space-y-6 group relative overflow-hidden cursor-pointer"
               >
                 <div className="space-y-4 relative z-10">
                   {/* Badge & Number Icon */}
@@ -166,10 +166,10 @@ export default function JlptPracticeLevelSelectionPage() {
 
                 {/* Direct Action Button */}
                 <div className="w-full py-3.5 bg-gradient-to-r from-[#C65D4B] via-[#D94129] to-[#B04F3F] text-white font-black text-xs rounded-2xl shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer group-hover:scale-102">
-                  <span>Vào Trang Đề Thi {card.levelCode}</span>
+                  <span>Vào Trang Đề Thi {card.levelCode} (Đang Hoàn Thiện)</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         </div>

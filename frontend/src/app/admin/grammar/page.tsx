@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Sparkles, Puzzle, Layers, MessageSquare, Gamepad2, ArrowRight, Zap, RefreshCw, BookOpen, CheckCircle2 } from "lucide-react";
+import { getApiUrl } from "@/lib/api/client";
 
 interface GrammarLessonItem {
   lessonId: number;
@@ -20,7 +21,7 @@ const getHeaders = () => {
     "Content-Type": "application/json",
   };
   if (typeof window !== "undefined") {
-    const token = localStorage.getItem("token") || localStorage.getItem("auth_token");
+    const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token") || localStorage.getItem("token");
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
@@ -31,7 +32,7 @@ const getHeaders = () => {
 export default function AdminGrammarPage() {
   const [lessons, setLessons] = useState<GrammarLessonItem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<"ALL" | "N5" | "N4">("ALL");
+  const [activeTab, setActiveTab] = useState<"ALL" | "N5" | "N4" | "N3">("ALL");
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [generatingLessonId, setGeneratingLessonId] = useState<number | null>(null);
 
@@ -41,7 +42,7 @@ export default function AdminGrammarPage() {
 
       // Try fetching real summaries from Backend
       try {
-        const res = await fetch("/api/v1/admin/question-bank/summary-all", {
+        const res = await fetch(getApiUrl("/admin/question-bank/summary-all"), {
           headers: getHeaders(),
         });
         if (res.ok) {
@@ -98,7 +99,7 @@ export default function AdminGrammarPage() {
   const handleAutoGenerateGrammar = async (lessonId: number) => {
     try {
       setGeneratingLessonId(lessonId);
-      const res = await fetch(`/api/v1/admin/question-bank/generate-30/lesson/${lessonId}?mode=GRAMMAR`, {
+      const res = await fetch(getApiUrl(`/admin/question-bank/generate-30/lesson/${lessonId}?mode=GRAMMAR`), {
         method: "POST",
         headers: getHeaders(),
       });

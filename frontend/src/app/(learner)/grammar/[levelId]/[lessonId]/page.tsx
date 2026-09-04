@@ -53,6 +53,7 @@ interface GrammarPoint {
   correctExample?: string;
   wrongExample?: string;
   examples: GrammarExample[];
+  tableHeader?: { col1: string; col2: string; col3: string };
   conjugationTable?: ConjugationRow[];
 }
 
@@ -270,8 +271,83 @@ export default function LearnerGrammarDetailPage() {
               { japaneseText: "波（なみ）の 音（おと）が 聞（き）こえます。", furiganaText: "波（なみ）の 音（おと）が 聞（き）こえます。", meaningVi: "Có thể nghe thấy tiếng sóng biển." }
             ]
           }
+        ],
+        29: [
+          {
+            grammarId: 2901,
+            pattern: "自動詞（じどうし） ↔ 他動詞（たどうし） (Tự động từ ↔ Tha động từ)",
+            meaning: "Phân biệt Tự động từ (が) và Tha động từ (を)",
+            explanation: "Tự động từ (自動詞) diễn tả hành động/trạng thái tự phát sinh hoặc tự thay đổi của sự vật, đi với trợ từ が (Cửa tự mở, đèn tự sáng). Tha động từ (他動詞) diễn tả con người chủ động tác động làm biến đổi đối tượng, đi với trợ từ を (Bật đèn, mở cửa).",
+            structure: "Tự động từ: N + が + 自動詞 ↔ Tha động từ: N + を + 他動詞",
+            usageNotes: "🧠 CHỐT ĐỂ NHỚ THẦN TỐC:\n• が → Sự vật tự thay đổi / Trạng thái tự diễn ra (ドアが開きます / 電気がつきます).\n• を → Con người chủ động tác động vào sự vật (ドアを開けます / 電気をつけます).\n👉 Cứ nhớ 「が = Tự xảy ra」, 「を = Mình làm tác động」 trước là bạn sẽ phân biệt được 4 cặp này rất nhanh!",
+            tableHeader: {
+              col1: "Cặp động từ",
+              col2: "Tự động từ (が - Tự xảy ra)",
+              col3: "Tha động từ (を - Mình làm tác động)"
+            },
+            conjugationTable: [
+              { group: "① 開く ↔ 開ける", masuForm: "開（あ）きます (mở ra)", targetForm: "開（あ）けます (mở cái gì)" },
+              { group: "② 閉まる ↔ 閉める", masuForm: "閉（しま）ります (đóng lại)", targetForm: "閉（し）めます (đóng cái gì)" },
+              { group: "③ つく ↔ つける", masuForm: "つきます (sáng / được bật)", targetForm: "つけます (bật cái gì)" },
+              { group: "④ 消える ↔ 消す", masuForm: "消（き）えます (tắt / biến mất)", targetForm: "消（け）します (tắt / xóa cái gì)" }
+            ],
+            examples: [
+              { japaneseText: "ドアが 開（あ）きます。", furiganaText: "ドアが 開（あ）きます。", meaningVi: "Cửa mở. (👉 Cửa tự mở → あきます)" },
+              { japaneseText: "ドアを 開（あ）けます。", furiganaText: "ドアを 開（あ）けます。", meaningVi: "Mở cửa. (👉 Ai đó mở cửa → あけます)" },
+              { japaneseText: "ドアが 閉（しま）ります。", furiganaText: "ドアが 閉（しま）ります。", meaningVi: "Cửa đóng lại. (👉 Cửa tự đóng → しまります)" },
+              { japaneseText: "ドアを 閉（し）めます。", furiganaText: "ドアを 閉（し）めます。", meaningVi: "Đóng cửa. (👉 Ai đó đóng cửa → しめます)" },
+              { japaneseText: "電気（でんき）が つきます。", furiganaText: "電気（でんき）が つきます。", meaningVi: "Đèn sáng. (👉 Đèn tự sáng → つきます)" },
+              { japaneseText: "電気（でんき）を つけます。", furiganaText: "電気（でんき）を つけます。", meaningVi: "Bật đèn. (👉 Bật đèn → つけます)" },
+              { japaneseText: "電気（でんき）が 消（き）えます。", furiganaText: "電気（でんき）が 消（き）えます。", meaningVi: "Đèn tắt. (👉 Đèn tự tắt → きえます)" },
+              { japaneseText: "電気（でんき）を 消（け）します。", furiganaText: "電気（でんき）を 消（け）します。", meaningVi: "Tắt đèn. (👉 Tắt đèn → けします)" }
+            ]
+          },
+          {
+            grammarId: 2902,
+            pattern: "N が 自動詞-ています",
+            meaning: "Trạng thái đang diễn ra của tự động từ",
+            explanation: "Diễn tả trạng thái hiện tại của sự vật là kết quả của một hành động đã xảy ra trước đó và vẫn còn lưu lại kết quả (Khác với V-ています ở Bài 14 là đang thực hiện hành động).",
+            structure: "N + が + V(tự động từ)-ています",
+            examples: [
+              { japaneseText: "窓（まど）が 開（あ）いています。", furiganaText: "窓（まど）が 開（あ）いています。", meaningVi: "Cửa sổ đang mở (trạng thái mở đang duy trì)." },
+              { japaneseText: "電気（でんき）が ついています。", furiganaText: "電気（でんき）が ついています。", meaningVi: "Đèn đang bật." }
+            ]
+          },
+          {
+            grammarId: 2903,
+            pattern: "V-てしまいました / V-てしまいます",
+            meaning: "Trót lỡ làm gì (Nuối tiếc) / Đã hoàn thành xong hoàn toàn",
+            explanation: "Diễn tả 2 sắc thái cảm xúc: (1) Đã làm xong toàn bộ hành động một cách triệt để. (2) Thể hiện sự tiếc nuối, sơ suất trót lỡ làm điều không mong muốn.",
+            structure: "V-て + しまいました / しまいます",
+            examples: [
+              { japaneseText: "宿題（しゅくだい）を 全部（ぜんぶ） やってしまいました。", furiganaText: "宿題（しゅくだい）を 全部（ぜんぶ） やってしまいました。", meaningVi: "Tôi đã làm xong hết sạch bài tập rồi." },
+              { japaneseText: "パスポートを 落（お）としてしまいました。", furiganaText: "パスポートを 落（お）としてしまいました。", meaningVi: "Tôi trót lỡ làm rơi mất hộ chiếu rồi." }
+            ]
+          }
         ]
       };
+
+      // 0. Check Admin local storage first for real-time edits
+      let adminSaved: GrammarPoint[] | null = null;
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem(`ADMIN_GRAMMAR_STORE_${lessonNum}`);
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              adminSaved = parsed;
+            }
+          } catch (e) {}
+        }
+      }
+
+      if (adminSaved && adminSaved.length > 0 && isMounted) {
+        setGrammars(adminSaved);
+        setupEmaGame(adminSaved);
+        setActivePointId(adminSaved[0].grammarId);
+        setLoading(false);
+        return;
+      }
 
       try {
         const res = await apiClient<any[]>(`/curriculum/lessons/${lessonNum}/grammar`);
@@ -294,9 +370,12 @@ export default function LearnerGrammarDetailPage() {
               : [],
           }));
 
-          setGrammars(mappedList);
-          setupEmaGame(mappedList);
-          setActivePointId(mappedList[0].grammarId);
+          const localList = lessonDataMap[lessonNum];
+          const finalList = localList && localList.length > 0 ? localList : mappedList;
+
+          setGrammars(finalList);
+          setupEmaGame(finalList);
+          setActivePointId(finalList[0].grammarId);
           setLoading(false);
           return;
         }
@@ -326,6 +405,19 @@ export default function LearnerGrammarDetailPage() {
     }
 
     loadData();
+
+    const handleAdminSync = (e: Event) => {
+      const customEv = e as CustomEvent;
+      if (!customEv.detail || customEv.detail.lessonId === lessonNum) {
+        loadData();
+      }
+    };
+
+    window.addEventListener("adminDataUpdated", handleAdminSync);
+    return () => {
+      isMounted = false;
+      window.removeEventListener("adminDataUpdated", handleAdminSync);
+    };
   }, [lessonNum]);
 
   // Setup EMA Game
@@ -752,9 +844,9 @@ export default function LearnerGrammarDetailPage() {
                           <table className="w-full text-xs text-left border-collapse">
                             <thead>
                               <tr className="bg-[#F8EFE4] text-[#76655A] font-extrabold border-b border-[#E5D7C7]">
-                                <th className="py-2 px-3">Nhóm</th>
-                                <th className="py-2 px-3">Thể ます</th>
-                                <th className="py-2 px-3 text-[#C65D4B]">Thể biến đổi</th>
+                                <th className="py-2 px-3">{g.tableHeader?.col1 || "Nhóm"}</th>
+                                <th className="py-2 px-3">{g.tableHeader?.col2 || "Thể ます"}</th>
+                                <th className="py-2 px-3 text-[#C65D4B]">{g.tableHeader?.col3 || "Thể biến đổi"}</th>
                               </tr>
                             </thead>
                             <tbody className="divide-y divide-[#E5D7C7]/60 font-semibold text-[#1F1714]">

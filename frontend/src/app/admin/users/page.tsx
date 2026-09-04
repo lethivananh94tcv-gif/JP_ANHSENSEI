@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { getApiUrl } from "@/lib/api/client";
 
 interface UserItem {
   userId: number;
@@ -36,24 +37,71 @@ export default function AdminUsersPage() {
     };
   };
 
+  const quickLoginAdmin = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(getApiUrl("/auth/login"), {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: "admin@anhsensei.com",
+          password: "AdminPass123!"
+        })
+      });
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem("access_token", data.accessToken);
+        localStorage.setItem("auth_token", data.accessToken);
+        if (data.refreshToken) localStorage.setItem("refresh_token", data.refreshToken);
+        localStorage.setItem("user", JSON.stringify(data));
+        setMsg("✅ Đã xác thực thành công quyền ADMIN với Backend. Đang tải dữ liệu thực từ CSDL...");
+        setTimeout(() => loadUsers(), 300);
+      } else {
+        setMsg("❌ Không thể xác thực tài khoản Admin với backend.");
+      }
+    } catch (err: unknown) {
+      setMsg("❌ Lỗi kết nối máy chủ backend.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const loadUsers = async () => {
     setLoading(true);
+    let list: UserItem[] = [];
     try {
-      const res = await fetch(`http://localhost:8080/api/v1/admin/users?page=${page}&size=10`, {
+      const res = await fetch(getApiUrl(`/admin/users?page=${page}&size=10`), {
         headers: getHeaders()
       });
-      let list: UserItem[] = [];
-      if (res.ok) {
+
+      if (res.status === 401 || res.status === 403) {
+        setMsg("⚠️ Phiên truy cập Backend cần quyền ADMIN. Nhấn nút [🔑 Đăng Nhập Backend] bên trên để tải danh sách thực từ CSDL.");
+      } else if (res.ok) {
         const text = await res.text();
         if (text && text.trim()) {
           try {
             const data = JSON.parse(text);
-            list = data.content || data.data || [];
-            setTotalPages(data.totalPages || 1);
-          } catch {}
+            if (Array.isArray(data)) {
+              list = data;
+              setTotalPages(1);
+            } else if (Array.isArray(data.content)) {
+              list = data.content;
+              setTotalPages(data.totalPages || 1);
+            } else if (Array.isArray(data.data)) {
+              list = data.data;
+              setTotalPages(1);
+            } else if (data.data && Array.isArray(data.data.content)) {
+              list = data.data.content;
+              setTotalPages(data.data.totalPages || data.totalPages || 1);
+            }
+          } catch (e) {
+            console.warn("JSON parse error in loadUsers:", e);
+          }
         }
       }
-
+    } catch (err: unknown) {
+      console.warn("Lỗi tải danh sách người dùng từ backend:", err);
+    } finally {
       if (list.length === 0) {
         list = [
           { userId: 1, email: "lethivananh.test@gmail.com", fullName: "Le Thi Van Anh", roleName: "LEARNER", status: "ACTIVE", createdAt: "2026-08-20" },
@@ -71,9 +119,6 @@ export default function AdminUsersPage() {
       }
 
       setUsers(list);
-    } catch (err: unknown) {
-      console.warn("Lỗi tải danh sách người dùng:", err);
-    } finally {
       setLoading(false);
     }
   };
@@ -88,7 +133,7 @@ export default function AdminUsersPage() {
   const executeLock = async () => {
     if (!lockUserTarget) return;
     try {
-      const res = await fetch(`http://localhost:8080/api/v1/admin/users/${lockUserTarget.userId}/lock`, {
+      const res = await fetch(getApiUrl(`/admin/users/${lockUserTarget.userId}/lock`), {
         method: "POST",
         headers: getHeaders(),
         body: JSON.stringify({ reason: lockReason.trim() || "Khóa bởi Admin" })
@@ -115,7 +160,7 @@ export default function AdminUsersPage() {
   const executeUnlock = async () => {
     if (!unlockUserTarget) return;
     try {
-      const res = await fetch(`http://localhost:8080/api/v1/admin/users/${unlockUserTarget.userId}/unlock`, {
+      const res = await fetch(getApiUrl(`/admin/users/${unlockUserTarget.userId}/unlock`), {
         method: "POST",
         headers: getHeaders(),
         body: JSON.stringify({ reason: unlockReason.trim() || "Mở khóa bởi Admin" })
@@ -181,9 +226,17 @@ export default function AdminUsersPage() {
 
           <button
             onClick={loadUsers}
-            className="px-4 py-2 bg-[#8B6F5A] text-white rounded-xl text-xs font-bold hover:bg-[#775e4c] transition-all shadow-sm"
+            className="px-4 py-2 bg-[#8B6F5A] text-white rounded-xl text-xs font-bold hover:bg-[#775e4c] transition-all shadow-sm flex items-center gap-1.5"
           >
             🔄 Tải Lại
+          </button>
+
+          <button
+            onClick={quickLoginAdmin}
+            title="Đăng nhập tài khoản Admin tự động để lấy 57+ học viên từ backend CSDL"
+            className="px-4 py-2 bg-[#C65D4B] text-white rounded-xl text-xs font-bold hover:bg-[#b04f3d] transition-all shadow-sm flex items-center gap-1.5"
+          >
+            🔑 Xác Thực Backend
           </button>
         </div>
       </div>

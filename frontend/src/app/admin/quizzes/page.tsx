@@ -6,6 +6,7 @@ import {
   Sparkles, HelpCircle, Layers, CheckCircle2, AlertCircle, 
   RefreshCw, Zap, PlusCircle, ArrowRight, ShieldCheck, BookOpen, FileText, ChevronDown 
 } from "lucide-react";
+import { getApiUrl } from "@/lib/api/client";
 
 interface AdminLessonSummary {
   lessonId: number;
@@ -64,7 +65,7 @@ export default function AdminQuizzesListPage() {
       setGeneratingMode(mode);
       setOpenDropdownId(null);
       const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token") || "";
-      const res = await fetch(`/api/v1/admin/question-bank/generate-30/lesson/${lessonId}?mode=${mode}`, {
+      const res = await fetch(getApiUrl(`/admin/question-bank/generate-30/lesson/${lessonId}?mode=${mode}`), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -96,7 +97,7 @@ export default function AdminQuizzesListPage() {
     try {
       setLoading(true);
       const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token") || "";
-      const res = await fetch(`/api/v1/admin/question-bank/generate-all-30`, {
+      const res = await fetch(getApiUrl("/admin/question-bank/generate-all-30"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -10,6 +10,7 @@ public class UserSummaryDto {
     private String roleName;
     private String status;
     private OffsetDateTime createdAt;
+    private OffsetDateTime lastLoginAt;
 
     public UserSummaryDto() {}
 
@@ -20,6 +21,7 @@ public class UserSummaryDto {
         this.roleName = user.getRole() != null ? user.getRole().getRoleName() : "LEARNER";
         this.status = user.getStatus();
         this.createdAt = user.getCreatedAt();
+        this.lastLoginAt = user.getLastLoginAt();
     }
 
     public Long getUserId() { return userId; }
@@ -39,4 +41,7 @@ public class UserSummaryDto {
 
     public OffsetDateTime getCreatedAt() { return createdAt; }
     public void setCreatedAt(OffsetDateTime createdAt) { this.createdAt = createdAt; }
+
+    public OffsetDateTime getLastLoginAt() { return lastLoginAt; }
+    public void setLastLoginAt(OffsetDateTime lastLoginAt) { this.lastLoginAt = lastLoginAt; }
 }

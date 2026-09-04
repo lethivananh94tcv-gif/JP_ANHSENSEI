@@ -17,11 +17,10 @@ export default function Home() {
           const parsed = JSON.parse(storedUser);
           setCurrentUser(parsed);
         } catch (e) {
-          console.error("Failed to parse user data from localStorage", e);
-          router.replace("/login");
+          router.replace("/jlpt-practice");
         }
       } else {
-        router.replace("/login");
+        router.replace("/jlpt-practice");
       }
     }
   }, [router]);

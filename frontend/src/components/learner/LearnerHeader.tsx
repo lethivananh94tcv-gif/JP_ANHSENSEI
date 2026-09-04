@@ -112,7 +112,7 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
                 <span>{item.name}</span>
                 {item.badge && (
                   <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-[#C65D4B]/10 text-[#C65D4B] border border-[#C65D4B]/20">
-                    {item.badge}
+                    Sắp có
                   </span>
                 )}
                 {item.active && (

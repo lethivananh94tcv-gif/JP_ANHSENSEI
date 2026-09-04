@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { getApiUrl } from "@/lib/api/client";
 
 interface VocabularyDto {
   vocabularyId: number;
@@ -176,9 +177,9 @@ export default function AdminLessonContentPage() {
       const headers: HeadersInit = token ? { Authorization: `Bearer ${token}` } : {};
 
       const [vRes, kRes, gRes] = await Promise.all([
-        fetch(`http://localhost:8080/api/v1/curriculum/lessons/${lessonId}/vocabularies`, { headers }),
-        fetch(`http://localhost:8080/api/v1/curriculum/lessons/${lessonId}/kanji`, { headers }),
-        fetch(`http://localhost:8080/api/v1/curriculum/lessons/${lessonId}/grammar`, { headers }),
+        fetch(getApiUrl(`/curriculum/lessons/${lessonId}/vocabularies`), { headers }),
+        fetch(getApiUrl(`/curriculum/lessons/${lessonId}/kanji`), { headers }),
+        fetch(getApiUrl(`/curriculum/lessons/${lessonId}/grammar`), { headers }),
       ]);
 
       if (vRes.ok) {

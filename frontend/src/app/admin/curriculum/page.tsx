@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { getApiUrl } from "@/lib/api/client";
 
 interface LevelDto {
   levelId: number;
@@ -34,7 +35,7 @@ export default function AdminCurriculumPage() {
       setLoading(true);
       setError("");
       const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token");
-      const res = await fetch("/api/v1/curriculum/levels", {
+      const res = await fetch(getApiUrl("/curriculum/levels"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.status === 401 || res.status === 403) {
@@ -85,7 +86,7 @@ export default function AdminCurriculumPage() {
     try {
       if (editingLevel) {
         // Update Level
-        const res = await fetch(`http://localhost:8080/api/v1/admin/levels/${editingLevel.levelId}`, {
+        const res = await fetch(getApiUrl(`/admin/levels/${editingLevel.levelId}`), {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -104,7 +105,7 @@ export default function AdminCurriculumPage() {
         }
       } else {
         // Create Level
-        const res = await fetch("http://localhost:8080/api/v1/admin/levels", {
+        const res = await fetch(getApiUrl("/admin/levels"), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -137,7 +138,7 @@ export default function AdminCurriculumPage() {
     const endpoint = lvl.status === "PUBLISHED" ? "unpublish" : "publish";
     try {
       setError("");
-      const res = await fetch(`http://localhost:8080/api/v1/admin/levels/${lvl.levelId}/${endpoint}`, {
+      const res = await fetch(getApiUrl(`/admin/levels/${lvl.levelId}/${endpoint}`), {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -156,7 +157,7 @@ export default function AdminCurriculumPage() {
     const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token");
     try {
       setError("");
-      const res = await fetch(`http://localhost:8080/api/v1/admin/levels/${id}/archive`, {
+      const res = await fetch(getApiUrl(`/admin/levels/${id}/archive`), {
         method: "PATCH",
         headers: { Authorization: `Bearer ${token}` },
       });

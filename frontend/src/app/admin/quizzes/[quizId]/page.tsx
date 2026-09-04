@@ -6,6 +6,7 @@ import {
   ArrowLeft, PlusCircle, Sparkles, CheckCircle2, AlertCircle, Trash2, Edit3, Eye, 
   Volume2, Keyboard, Check, ShieldCheck, Zap, RefreshCw, Filter, Play, Plus, X, Tag, BookOpen, PenTool, Puzzle, Layers 
 } from "lucide-react";
+import { getApiUrl } from "@/lib/api/client";
 
 interface OptionItem {
   optionId?: number;
@@ -74,7 +75,7 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
     try {
       setAutoGenerating(true);
       const modeParam = mode === "ALL" ? "FULL" : mode;
-      const res = await fetch(`/api/v1/admin/question-bank/generate-30/lesson/${quizId}?mode=${modeParam}`, {
+      const res = await fetch(getApiUrl(`/admin/question-bank/generate-30/lesson/${quizId}?mode=${modeParam}`), {
         method: "POST",
         headers: getHeaders(),
       });
@@ -242,7 +243,7 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
 
       // 1. Fetch real quiz status from backend
       try {
-        const quizInfoRes = await fetch(`/api/v1/admin/question-bank/quiz-info/lesson/${quizId}`, {
+        const quizInfoRes = await fetch(getApiUrl(`/admin/question-bank/quiz-info/lesson/${quizId}`), {
           headers: getHeaders(),
         });
         if (quizInfoRes.ok) {
@@ -255,7 +256,7 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
       } catch (e) {}
 
       // 2. Fetch question bank items for this lesson
-      const res = await fetch(`/api/v1/admin/question-bank/lesson/${quizId}`, {
+      const res = await fetch(getApiUrl(`/admin/question-bank/lesson/${quizId}`), {
         headers: getHeaders(),
       });
       let list: QuestionBankItem[] = [];
@@ -491,11 +492,11 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
         options: cleanOptions,
       };
 
-      let url = `/api/v1/admin/question-bank/lesson/${quizId}`;
+      let url = getApiUrl(`/admin/question-bank/lesson/${quizId}`);
       let method = "POST";
 
       if (editingQuestion && editingQuestion.questionId) {
-        url = `/api/v1/admin/question-bank/${editingQuestion.questionId}`;
+        url = getApiUrl(`/admin/question-bank/${editingQuestion.questionId}`);
         method = "PUT";
       }
 
@@ -535,7 +536,7 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
   const handleDelete = async (questionId: number) => {
     if (!confirm("Bạn có chắc chắn muốn xóa mềm câu hỏi này khỏi Kho đề?")) return;
     try {
-      const res = await fetch(`/api/v1/admin/question-bank/${questionId}`, {
+      const res = await fetch(getApiUrl(`/admin/question-bank/${questionId}`), {
         method: "DELETE",
         headers: getHeaders(),
       });
@@ -550,7 +551,7 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
   const handleApproveDraft = async (q: QuestionBankItem) => {
     try {
       const updated = { ...q, status: "ACTIVE" };
-      const res = await fetch(`/api/v1/admin/question-bank/${q.questionId}`, {
+      const res = await fetch(getApiUrl(`/admin/question-bank/${q.questionId}`), {
         method: "PUT",
         headers: getHeaders(),
         body: JSON.stringify(updated),
@@ -566,7 +567,7 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
   const handlePublishQuiz = async () => {
     try {
       setPublishing(true);
-      const res = await fetch(`/api/v1/admin/question-bank/publish/lesson/${quizId}`, {
+      const res = await fetch(getApiUrl(`/admin/question-bank/publish/lesson/${quizId}`), {
         method: "POST",
         headers: getHeaders(),
       });
@@ -591,7 +592,7 @@ export default function AdminQuizEditorPage({ params }: { params: Promise<{ quiz
     if (!confirm("Bạn có chắc chắn muốn Hủy xuất bản bài Quiz này về trạng thái DRAFT (Bản nháp)?")) return;
     try {
       setPublishing(true);
-      const res = await fetch(`/api/v1/admin/question-bank/unpublish/lesson/${quizId}`, {
+      const res = await fetch(getApiUrl(`/admin/question-bank/unpublish/lesson/${quizId}`), {
         method: "POST",
         headers: getHeaders(),
       });

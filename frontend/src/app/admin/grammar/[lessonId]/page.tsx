@@ -6,6 +6,7 @@ import {
   ArrowLeft, Puzzle, Plus, Trash2, Edit3, CheckCircle2, Zap, RefreshCw, 
   MessageSquare, Gamepad2, Sparkles, Layers, Check, X, BookOpen, AlertCircle
 } from "lucide-react";
+import { getApiUrl } from "@/lib/api/client";
 
 interface GrammarExampleItem {
   exampleId?: number;
@@ -55,7 +56,7 @@ const getHeaders = () => {
     "Content-Type": "application/json",
   };
   if (typeof window !== "undefined") {
-    const token = localStorage.getItem("token") || localStorage.getItem("auth_token");
+    const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token") || localStorage.getItem("token");
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
@@ -102,14 +103,112 @@ export default function AdminGrammarLessonPage({ params }: { params: Promise<{ l
     setTimeout(() => setToastMsg(null), 4000);
   };
 
+  const getLessonGrammarFallback = (lId: number): GrammarPatternItem[] => {
+    if (lId === 29) {
+      return [
+        {
+          grammarId: 2901,
+          pattern: "自動詞（じどうし） ↔ 他動詞（たどうし） (Tự động từ ↔ Tha động từ)",
+          meaning: "Phân biệt Tự động từ (が) và Tha động từ (を)",
+          structure: "Tự động từ: N + が + 自動詞 ↔ Tha động từ: N + を + 他動詞",
+          explanation: "Tự động từ (自動詞) diễn tả hành động/trạng thái tự phát sinh hoặc tự thay đổi của sự vật, đi với trợ từ が (Cửa tự mở, đèn tự sáng). Tha động từ (他動詞) diễn tả con người chủ động tác động làm biến đổi đối tượng, đi với trợ từ を (Bật đèn, mở cửa).",
+          examples: [
+            { japaneseText: "ドアが 開（あ）きます。", readingKana: "ドアが あきます。", meaningVi: "Cửa mở. (👉 Cửa tự mở → あきます)" },
+            { japaneseText: "ドアを 開（あ）けます。", readingKana: "ドアを あけます。", meaningVi: "Mở cửa. (👉 Ai đó mở cửa → あけます)" },
+            { japaneseText: "ドアが 閉（しま）ります。", readingKana: "ドアが しまります。", meaningVi: "Cửa đóng lại. (👉 Cửa tự đóng → しまります)" },
+            { japaneseText: "ドアを 閉（し）めます。", readingKana: "ドアを しめます。", meaningVi: "Đóng cửa. (👉 Ai đó đóng cửa → しめます)" },
+            { japaneseText: "電気（でんき）が つきます。", readingKana: "でんきが つきます。", meaningVi: "Đèn sáng. (👉 Đèn tự sáng → つきます)" },
+            { japaneseText: "電気（でんき）を つけます。", readingKana: "でんきを つけます。", meaningVi: "Bật đèn. (👉 Bật đèn → つけます)" },
+            { japaneseText: "電気（でんき）が 消（き）えます。", readingKana: "でんきが きえます。", meaningVi: "Đèn tắt. (👉 Đèn tự tắt → きえます)" },
+            { japaneseText: "電気（でんき）を 消（け）します。", readingKana: "でんきを けします。", meaningVi: "Tắt đèn. (👉 Tắt đèn → けします)" }
+          ]
+        },
+        {
+          grammarId: 2902,
+          pattern: "N が 自動詞-ています",
+          meaning: "Trạng thái đang diễn ra của tự động từ",
+          structure: "N + が + V(tự động từ)-ています",
+          explanation: "Diễn tả trạng thái hiện tại của sự vật là kết quả của một hành động đã xảy ra trước đó và vẫn còn lưu lại kết quả (Khác với V-ています ở Bài 14 là đang thực hiện hành động).",
+          examples: [
+            { japaneseText: "窓（まど）が 開（あ）いています。", readingKana: "まどが あいています。", meaningVi: "Cửa sổ đang mở (trạng thái mở đang duy trì)." },
+            { japaneseText: "電気（でんき）が ついています。", readingKana: "でんきが ついています。", meaningVi: "Đèn đang bật." }
+          ]
+        },
+        {
+          grammarId: 2903,
+          pattern: "V-てしまいました / V-てしまいます",
+          meaning: "Trót lỡ làm gì (Nuối tiếc) / Đã hoàn thành xong hoàn toàn",
+          structure: "V-て + しまいました / しまいます",
+          explanation: "Diễn tả 2 sắc thái cảm xúc: (1) Đã làm xong toàn bộ hành động một cách triệt để. (2) Thể hiện sự tiếc nuối, sơ suất trót lỡ làm điều không mong muốn.",
+          examples: [
+            { japaneseText: "宿題（しゅくだい）を 全部（ぜんぶ） やってしまいました。", readingKana: "しゅくだいを ぜんぶ やってしまいました。", meaningVi: "Tôi đã làm xong hết sạch bài tập rồi." },
+            { japaneseText: "パスポートを 落（お）としてしまいました。", readingKana: "パスポートを おとしてしまいました。", meaningVi: "Tôi trót lỡ làm rơi mất hộ chiếu rồi." }
+          ]
+        }
+      ];
+    }
+
+    const isN4 = lId > 25;
+    const levelText = isN4 ? "N4" : "N5";
+    return [
+      {
+        grammarId: lId * 100 + 1,
+        pattern: `Mẫu Ngữ Pháp #1 Bài #${lId} (${levelText})`,
+        meaning: `Ý nghĩa điểm ngữ pháp thứ 1 bài ${lId}`,
+        structure: `Cấu trúc kết hợp bài ${lId}`,
+        explanation: `Diễn tả ngữ pháp trọng tâm Bài ${lId} trình độ ${levelText} trong giáo trình Minna no Nihongo.`,
+        examples: [
+          { japaneseText: `日本語（にほんご）を 勉強（べんきょう）します [Bài #${lId}]。`, readingKana: `にほんごを べんきょうします [Bài #${lId}]。`, meaningVi: `Tôi học tiếng Nhật bài #${lId}.` }
+        ]
+      },
+      {
+        grammarId: lId * 100 + 2,
+        pattern: `Mẫu Ngữ Pháp #2 Bài #${lId} (${levelText})`,
+        meaning: `Ý nghĩa điểm ngữ pháp thứ 2 bài ${lId}`,
+        structure: `Cấu trúc biến đổi bài ${lId}`,
+        explanation: `Cách dùng mở rộng điểm ngữ pháp Bài ${lId} trình độ ${levelText}.`,
+        examples: [
+          { japaneseText: `毎日（まいにち） 練習（れんしゅう）します [Bài #${lId}]。`, readingKana: `まいにち れんしゅうします [Bài #${lId}]。`, meaningVi: `Tôi luyện tập mỗi ngày bài #${lId}.` }
+        ]
+      }
+    ];
+  };
+
+  const saveGrammarsState = (updatedList: GrammarPatternItem[]) => {
+    setGrammars(updatedList);
+    if (typeof window !== "undefined") {
+      localStorage.setItem(`ADMIN_GRAMMAR_STORE_${lessonId}`, JSON.stringify(updatedList));
+      window.dispatchEvent(new CustomEvent("adminDataUpdated", { detail: { lessonId: Number(lessonId) } }));
+    }
+  };
+
   const fetchData = async () => {
     try {
       setLoading(true);
+      const lNum = Number(lessonId) || 1;
+
+      // 0. Check Local Storage first for persistent Admin edits
+      if (typeof window !== "undefined") {
+        const localSaved = localStorage.getItem(`ADMIN_GRAMMAR_STORE_${lessonId}`);
+        if (localSaved) {
+          try {
+            const parsed = JSON.parse(localSaved);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              setGrammars(parsed);
+              // Fetch questions or fallback
+              const fallbackQuestions = generateFallbackQuestions(parsed, lNum);
+              setQuestions(fallbackQuestions);
+              setLoading(false);
+              return;
+            }
+          } catch (e) {}
+        }
+      }
 
       // 1. Fetch Real Grammar Points from Backend
       let loadedGrammars: GrammarPatternItem[] = [];
       try {
-        const resG = await fetch(`/api/v1/admin/lessons/${lessonId}/grammar`, {
+        const resG = await fetch(getApiUrl(`/admin/lessons/${lessonId}/grammar`), {
           headers: getHeaders(),
         });
         if (resG.ok) {
@@ -118,12 +217,12 @@ export default function AdminGrammarLessonPage({ params }: { params: Promise<{ l
           if (list.length > 0) {
             loadedGrammars = list.map((item: any) => ({
               grammarId: item.grammarId || item.id,
-              lessonId: Number(lessonId),
+              lessonId: lNum,
               pattern: item.pattern || "",
               meaning: item.meaning || "",
               structure: item.structure || "",
               explanation: item.explanation || "",
-              jlptLevel: item.jlptLevel || "N5",
+              jlptLevel: item.jlptLevel || (lNum > 25 ? "N4" : "N5"),
               sortOrder: item.sortOrder || 1,
               examples: (item.examples || []).map((ex: any) => ({
                 exampleId: ex.exampleId || ex.id,
@@ -141,37 +240,15 @@ export default function AdminGrammarLessonPage({ params }: { params: Promise<{ l
         console.warn("Could not fetch grammars from API, trying fallback:", err);
       }
 
-      // Fallback sample if brand new / offline
+      // Fallback sample per specific lessonId (1 - 50)
       if (loadedGrammars.length === 0) {
-        loadedGrammars = [
-          {
-            grammarId: 1,
-            pattern: "〜は〜です",
-            meaning: "N1 là N2",
-            structure: "Danh từ 1 + は + Danh từ 2 + です",
-            explanation: "Dùng để giới thiệu danh tính, quốc tịch, nghề nghiệp của chủ thể.",
-            examples: [
-              { japaneseText: "わたしはタナカです。", readingKana: "わたし は タナカ です。", meaningVi: "Tôi là Tanaka." },
-              { japaneseText: "わたしはがくせいです。", readingKana: "わたし は がくせい です。", meaningVi: "Tôi là học sinh." },
-            ],
-          },
-          {
-            grammarId: 2,
-            pattern: "〜じゃありません / 〜ではありません",
-            meaning: "N1 không phải là N2",
-            structure: "Danh từ 1 + は + Danh từ 2 + じゃありません",
-            explanation: "Dạng phủ định của 〜です trong văn nói và văn viết.",
-            examples: [
-              { japaneseText: "わたしはせんせいじゃありません。", readingKana: "わたし は せんせい じゃ ありません。", meaningVi: "Tôi không phải là giáo viên." },
-            ],
-          },
-        ];
+        loadedGrammars = getLessonGrammarFallback(lNum);
       }
       setGrammars(loadedGrammars);
 
       // 2. Fetch Real Question Bank items from Backend
       try {
-        const resQ = await fetch(`/api/v1/admin/question-bank/lesson/${lessonId}`, {
+        const resQ = await fetch(getApiUrl(`/admin/question-bank/lesson/${lessonId}`), {
           headers: getHeaders(),
         });
         if (resQ.ok) {
@@ -264,7 +341,7 @@ export default function AdminGrammarLessonPage({ params }: { params: Promise<{ l
       setGenerating(true);
 
       // 1. Call Backend API to generate 30 grammar questions strictly grounded in the lesson's grammar points
-      const res = await fetch(`/api/v1/admin/question-bank/generate-30/lesson/${lessonId}?mode=GRAMMAR`, {
+      const res = await fetch(getApiUrl(`/admin/question-bank/generate-30/lesson/${lessonId}?mode=GRAMMAR`), {
         method: "POST",
         headers: getHeaders(),
       });
@@ -374,6 +451,18 @@ export default function AdminGrammarLessonPage({ params }: { params: Promise<{ l
     }
   };
 
+  const handleOpenEditGrammar = (g: GrammarPatternItem) => {
+    setEditingGrammarId(g.grammarId);
+    setGPattern(g.pattern || "");
+    setGMeaning(g.meaning || "");
+    setGStructure(g.structure || "");
+    setGExplanation(g.explanation || "");
+    setExJp(g.examples && g.examples.length > 0 ? g.examples[0].japaneseText : "");
+    setExKana(g.examples && g.examples.length > 0 ? (g.examples[0].readingKana || g.examples[0].reading || "") : "");
+    setExVi(g.examples && g.examples.length > 0 ? g.examples[0].meaningVi : "");
+    setShowGrammarModal(true);
+  };
+
   // Add or Edit Grammar Pattern
   const handleSaveGrammar = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -399,28 +488,40 @@ export default function AdminGrammarLessonPage({ params }: { params: Promise<{ l
     };
 
     try {
-      const res = await fetch(`/api/v1/admin/lessons/${lessonId}/grammar`, {
-        method: "POST",
-        headers: getHeaders(),
-        body: JSON.stringify(payload)
-      });
-      if (res.ok) {
-        showToast("✅ Đã lưu mẫu Ngữ Pháp vào cơ sở dữ liệu!");
-        fetchData();
+      if (editingGrammarId) {
+        await fetch(getApiUrl(`/admin/grammar/${editingGrammarId}`), {
+          method: "PUT",
+          headers: getHeaders(),
+          body: JSON.stringify(payload)
+        });
       } else {
-        const newItem: GrammarPatternItem = {
-          grammarId: Date.now(),
-          pattern: gPattern,
-          meaning: gMeaning,
-          structure: gStructure || gPattern,
-          explanation: gExplanation || gMeaning,
-          examples: exJp ? [{ japaneseText: exJp, readingKana: exKana || exJp, meaningVi: exVi || exJp }] : [],
-        };
-        setGrammars((prev) => [...prev, newItem]);
-        showToast("✅ Đã thêm mẫu Ngữ Pháp mới!");
+        await fetch(getApiUrl(`/admin/lessons/${lessonId}/grammar`), {
+          method: "POST",
+          headers: getHeaders(),
+          body: JSON.stringify(payload)
+        });
       }
     } catch (err) {
-      console.error(err);
+      console.warn("API save error:", err);
+    }
+
+    let updated: GrammarPatternItem[] = [];
+    if (editingGrammarId) {
+      updated = grammars.map((g) => {
+        if (g.grammarId === editingGrammarId) {
+          return {
+            ...g,
+            pattern: gPattern,
+            meaning: gMeaning,
+            structure: gStructure || gPattern,
+            explanation: gExplanation || gMeaning,
+            examples: exJp ? [{ japaneseText: exJp, readingKana: exKana || exJp, meaningVi: exVi || exJp }] : g.examples,
+          };
+        }
+        return g;
+      });
+      showToast("✏️ Đã cập nhật mẫu Ngữ Pháp!");
+    } else {
       const newItem: GrammarPatternItem = {
         grammarId: Date.now(),
         pattern: gPattern,
@@ -429,9 +530,11 @@ export default function AdminGrammarLessonPage({ params }: { params: Promise<{ l
         explanation: gExplanation || gMeaning,
         examples: exJp ? [{ japaneseText: exJp, readingKana: exKana || exJp, meaningVi: exVi || exJp }] : [],
       };
-      setGrammars((prev) => [...prev, newItem]);
+      updated = [...grammars, newItem];
       showToast("✅ Đã thêm mẫu Ngữ Pháp mới!");
     }
+
+    saveGrammarsState(updated);
 
     setShowGrammarModal(false);
     setEditingGrammarId(null);
@@ -447,14 +550,15 @@ export default function AdminGrammarLessonPage({ params }: { params: Promise<{ l
   const handleDeleteGrammar = async (id: number) => {
     if (confirm("Bạn có chắc chắn muốn xóa mẫu Ngữ pháp này?")) {
       try {
-        await fetch(`/api/v1/admin/grammar/${id}/archive`, {
+        await fetch(getApiUrl(`/admin/grammar/${id}/archive`), {
           method: "PATCH",
           headers: getHeaders(),
         });
       } catch (err) {
         console.warn(err);
       }
-      setGrammars((prev) => prev.filter((g) => g.grammarId !== id));
+      const updated = grammars.filter((g) => g.grammarId !== id);
+      saveGrammarsState(updated);
       showToast("🗑️ Đã xóa mẫu Ngữ pháp!");
     }
   };
@@ -484,7 +588,7 @@ export default function AdminGrammarLessonPage({ params }: { params: Promise<{ l
     };
 
     try {
-      const res = await fetch(`/api/v1/admin/question-bank/lesson/${lessonId}`, {
+      const res = await fetch(getApiUrl(`/admin/question-bank/lesson/${lessonId}`), {
         method: "POST",
         headers: getHeaders(),
         body: JSON.stringify(payload),
@@ -534,7 +638,7 @@ export default function AdminGrammarLessonPage({ params }: { params: Promise<{ l
     if (!id) return;
     if (confirm("Bạn có chắc muốn xóa câu hỏi này khỏi danh sách?")) {
       try {
-        await fetch(`/api/v1/admin/question-bank/${id}`, {
+        await fetch(getApiUrl(`/admin/question-bank/${id}`), {
           method: "DELETE",
           headers: getHeaders(),
         });
@@ -697,13 +801,22 @@ export default function AdminGrammarLessonPage({ params }: { params: Promise<{ l
                       Ý nghĩa: <span className="text-[#8B6F5A]">{g.meaning}</span>
                     </p>
                   </div>
-                  <button
-                    onClick={() => handleDeleteGrammar(g.grammarId)}
-                    className="p-1.5 text-[#8C7B70] hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all"
-                    title="Xóa mẫu ngữ pháp"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                  </button>
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() => handleOpenEditGrammar(g)}
+                      className="p-1.5 text-[#8C7B70] hover:text-amber-600 hover:bg-amber-50 rounded-xl transition-all cursor-pointer"
+                      title="Chỉnh sửa mẫu ngữ pháp"
+                    >
+                      <Edit3 className="w-4 h-4" />
+                    </button>
+                    <button
+                      onClick={() => handleDeleteGrammar(g.grammarId)}
+                      className="p-1.5 text-[#8C7B70] hover:text-rose-600 hover:bg-rose-50 rounded-xl transition-all cursor-pointer"
+                      title="Xóa mẫu ngữ pháp"
+                    >
+                      <Trash2 className="w-4 h-4" />
+                    </button>
+                  </div>
                 </div>
 
                 {g.structure && (

@@ -71,44 +71,72 @@ export default function AdminKanjiLessonPage({ params }: { params: Promise<{ les
   const [qValidAns, setQValidAns] = useState("");
   const [qExpl, setQExpl] = useState("");
 
+  const getLessonKanjiFallback = (lId: number): KanjiItem[] => {
+    if (lId === 29) {
+      return [
+        { kanjiId: 2901, character: "開", hanViet: "KHẢI", onyomi: "カイ", kunyomi: "あ.ける, あ.く", strokeCount: 12, meaningVi: "Mở / Khai mở" },
+        { kanjiId: 2902, character: "閉", hanViet: "BẾ", onyomi: "ヘイ", kunyomi: "し.める, し.まる", strokeCount: 11, meaningVi: "Đóng / Bế mạc" },
+        { kanjiId: 2903, character: "消", hanViet: "TIÊU", onyomi: "ショウ", kunyomi: "き.える, け.す", strokeCount: 10, meaningVi: "Tắt / Tiêu diệt" },
+        { kanjiId: 2904, character: "落", hanViet: "LẠC", onyomi: "ラク", kunyomi: "お.ちる, お.とす", strokeCount: 12, meaningVi: "Rơi / Lỡ rơi" },
+      ];
+    }
+
+    const isN4 = lId > 25;
+    const levelText = isN4 ? "N4" : "N5";
+    return [
+      { kanjiId: lId * 100 + 1, character: "日", hanViet: "NHẬT", onyomi: "ニチ, ジツ", kunyomi: "ひ, -び", strokeCount: 4, meaningVi: `Hán tự #1 Bài #${lId} (${levelText})` },
+      { kanjiId: lId * 100 + 2, character: "本", hanViet: "BẢN", onyomi: "ホン", kunyomi: "moto", strokeCount: 5, meaningVi: `Hán tự #2 Bài #${lId} (${levelText})` },
+      { kanjiId: lId * 100 + 3, character: "学", hanViet: "HỌC", onyomi: "ガク", kunyomi: "まな.ぶ", strokeCount: 8, meaningVi: `Hán tự #3 Bài #${lId} (${levelText})` },
+    ];
+  };
+
+  const saveKanjisState = (updatedList: KanjiItem[]) => {
+    setKanjis(updatedList);
+    if (typeof window !== "undefined") {
+      localStorage.setItem(`ADMIN_KANJI_STORE_${lessonId}`, JSON.stringify(updatedList));
+      window.dispatchEvent(new CustomEvent("adminDataUpdated", { detail: { lessonId: Number(lessonId) } }));
+    }
+  };
+
   const fetchData = async () => {
     try {
       setLoading(true);
-      // Sample Data for isolated Kanji Management
-      const initialKanjis: KanjiItem[] = [
-        { kanjiId: 1, character: "日", hanViet: "NHẬT", onyomi: "ニチ, ジツ", kunyomi: "ひ, -び", strokeCount: 4, meaningVi: "Mặt trời / Ngày" },
-        { kanjiId: 2, character: "本", hanViet: "BẢN", onyomi: "ホン", kunyomi: "moto", strokeCount: 5, meaningVi: "Sách / Gốc" },
-        { kanjiId: 3, character: "人", hanViet: "NHÂN", onyomi: "ジン, ニン", kunyomi: "ひと", strokeCount: 2, meaningVi: "Người" },
-        { kanjiId: 4, character: "月", hanViet: "NGUYỆT", onyomi: "ゲツ, ガツ", kunyomi: "つき", strokeCount: 4, meaningVi: "Mặt trăng / Tháng" },
-        { kanjiId: 5, character: "火", hanViet: "HỎA", onyomi: "カ", kunyomi: "ひ", strokeCount: 4, meaningVi: "Lửa" },
-      ];
+      const lNum = Number(lessonId) || 1;
 
+      // 0. Check local storage first
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem(`ADMIN_KANJI_STORE_${lessonId}`);
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              setKanjis(parsed);
+              setLoading(false);
+              return;
+            }
+          } catch (e) {}
+        }
+      }
+
+      // Fallback per specific lessonId
+      const initialKanjis = getLessonKanjiFallback(lNum);
       const initialSentences: ReadingSentenceItem[] = [
-        { sentenceId: 1, japaneseText: "日曜日に行きます。", readingKana: "にちようび に いき ま す。", meaningVi: "Tôi sẽ đi vào Chủ nhật." },
-        { sentenceId: 2, japaneseText: "日本人は親切です。", readingKana: "にほんじん は しんせつ です。", meaningVi: "Người Nhật rất thân thiện." },
+        { sentenceId: 1, japaneseText: `Bài #${lNum}: 窓（まど）が 開（あ）いています。`, readingKana: "まど が あいています。", meaningVi: `Cửa sổ đang mở (Bài #${lNum}).` },
       ];
 
       const initialQuestions: QuestionItem[] = [
         {
           questionId: 301,
-          prompt: "Âm Hán Việt của chữ 「日」 là gì?",
+          prompt: `Âm Hán Việt của Hán tự Bài #${lNum} 「 ${initialKanjis[0]?.character || "開"} 」 là gì?`,
           questionType: "MULTIPLE_CHOICE",
           category: "KANJI",
           options: [
-            { optionText: "NHẬT", isCorrect: true },
+            { optionText: initialKanjis[0]?.hanViet || "KHẢI", isCorrect: true },
             { optionText: "BẢN", isCorrect: false },
             { optionText: "NHÂN", isCorrect: false },
             { optionText: "NGUYỆT", isCorrect: false },
           ],
-          explanation: "Chữ 日 có âm Hán Việt là NHẬT.",
-        },
-        {
-          questionId: 302,
-          prompt: "Luyện đọc Hán tự: Nhập âm Hiragana của chữ 「日本」",
-          questionType: "TYPING",
-          category: "KANJI",
-          validAnswers: "nihon, にほん",
-          explanation: "Đáp án đúng là にほん (nihon).",
+          explanation: `Chữ ${initialKanjis[0]?.character} có âm Hán Việt là ${initialKanjis[0]?.hanViet}.`,
         },
       ];
 

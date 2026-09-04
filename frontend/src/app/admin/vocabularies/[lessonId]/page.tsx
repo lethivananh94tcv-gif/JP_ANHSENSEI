@@ -6,6 +6,7 @@ import {
   ArrowLeft, BookOpen, Plus, Trash2, Edit3, CheckCircle2, Zap, RefreshCw, 
   Volume2, Keyboard, Sparkles, Check, X, AlertCircle
 } from "lucide-react";
+import { getApiUrl } from "@/lib/api/client";
 
 interface VocabularyItem {
   vocabularyId: number;
@@ -45,7 +46,7 @@ const getHeaders = () => {
     "Content-Type": "application/json",
   };
   if (typeof window !== "undefined") {
-    const token = localStorage.getItem("token") || localStorage.getItem("auth_token");
+    const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token") || localStorage.getItem("token");
     if (token) {
       headers["Authorization"] = `Bearer ${token}`;
     }
@@ -88,14 +89,75 @@ export default function AdminVocabularyLessonPage({ params }: { params: Promise<
     setTimeout(() => setToastMsg(null), 4000);
   };
 
+  const getLessonVocabFallback = (lId: number): VocabularyItem[] => {
+    if (lId === 29) {
+      return [
+        { vocabularyId: 2901, word: "開きます", kana: "あきます", romaji: "akimasu", kanjiForm: "開きます", meaningVi: "Mở (Cửa tự mở - Tự động từ)", audioText: "あきます" },
+        { vocabularyId: 2902, word: "開けます", kana: "あけます", romaji: "akemasu", kanjiForm: "開けます", meaningVi: "Mở cái gì (Tha động từ)", audioText: "あけます" },
+        { vocabularyId: 2903, word: "閉まります", kana: "しまります", romaji: "shimarimasu", kanjiForm: "閉まります", meaningVi: "Đóng lại (Cửa tự đóng - Tự động từ)", audioText: "しまります" },
+        { vocabularyId: 2904, word: "閉めます", kana: "しめます", romaji: "shimemasu", kanjiForm: "閉めます", meaningVi: "Đóng cái gì (Tha động từ)", audioText: "しめます" },
+        { vocabularyId: 2905, word: "つきます", kana: "つきます", romaji: "tsukimasu", kanjiForm: "つきます", meaningVi: "Sáng / Bật (Đèn tự sáng - Tự động từ)", audioText: "つきます" },
+        { vocabularyId: 2906, word: "つけます", kana: "つけます", romaji: "tsukemasu", kanjiForm: "つけます", meaningVi: "Bật (Bật đèn - Tha động từ)", audioText: "つけます" },
+        { vocabularyId: 2907, word: "消えます", kana: "きえます", romaji: "kiemasu", kanjiForm: "消えます", meaningVi: "Tắt / Biến mất (Tự động từ)", audioText: "きえます" },
+        { vocabularyId: 2908, word: "消します", kana: "けします", romaji: "keshimasu", kanjiForm: "消します", meaningVi: "Tắt / Xóa (Tha động từ)", audioText: "けします" },
+      ];
+    }
+
+    const isN4 = lId > 25;
+    const levelText = isN4 ? "N4" : "N5";
+    return [
+      { vocabularyId: lId * 100 + 1, word: `単語1_${lId}`, kana: `たんご1_${lId}`, romaji: `tango1_${lId}`, meaningVi: `Từ vựng #1 Bài #${lId} (${levelText})`, audioText: `たんご1_${lId}` },
+      { vocabularyId: lId * 100 + 2, word: `単語2_${lId}`, kana: `たんご2_${lId}`, romaji: `tango2_${lId}`, meaningVi: `Từ vựng #2 Bài #${lId} (${levelText})`, audioText: `たんご2_${lId}` },
+      { vocabularyId: lId * 100 + 3, word: `単語3_${lId}`, kana: `たんご3_${lId}`, romaji: `tango3_${lId}`, meaningVi: `Từ vựng #3 Bài #${lId} (${levelText})`, audioText: `たんご3_${lId}` },
+    ];
+  };
+
+  const saveVocabsState = (updatedList: VocabularyItem[]) => {
+    setVocabularies(updatedList);
+    if (typeof window !== "undefined") {
+      localStorage.setItem(`ADMIN_VOCAB_STORE_${lessonId}`, JSON.stringify(updatedList));
+      window.dispatchEvent(new CustomEvent("adminDataUpdated", { detail: { lessonId: Number(lessonId) } }));
+    }
+  };
+
   const fetchData = async () => {
     try {
       setLoading(true);
+      const lNum = Number(lessonId) || 1;
+
+      // 0. Check local storage first
+      if (typeof window !== "undefined") {
+        const stored = localStorage.getItem(`ADMIN_VOCAB_STORE_${lessonId}`);
+        if (stored) {
+          try {
+            const parsed = JSON.parse(stored);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              setVocabularies(parsed);
+              const fallbackQuestions: QuestionItem[] = parsed.slice(0, 10).map((v: any, idx: number) => ({
+                questionId: Date.now() + idx,
+                prompt: `[Từ vựng Bài #${lessonId}] Từ 「 ${v.word} 」 (${v.kana}) có nghĩa tiếng Việt là gì?`,
+                questionType: "MULTIPLE_CHOICE",
+                category: "VOCAB",
+                explanation: `Từ 「 ${v.word} 」 (${v.kana}) có nghĩa chính xác là: ${v.meaningVi}.`,
+                options: [
+                  { optionText: v.meaningVi, isCorrect: true, sortOrder: 1 },
+                  { optionText: "Bạn bè", isCorrect: false, sortOrder: 2 },
+                  { optionText: "Trường học", isCorrect: false, sortOrder: 3 },
+                  { optionText: "Bệnh viện", isCorrect: false, sortOrder: 4 },
+                ].sort(() => Math.random() - 0.5),
+              }));
+              setQuestions(fallbackQuestions);
+              setLoading(false);
+              return;
+            }
+          } catch (e) {}
+        }
+      }
 
       // 1. Fetch Real Vocabularies from Backend
       let loadedVocabs: VocabularyItem[] = [];
       try {
-        const resV = await fetch(`/api/v1/admin/lessons/${lessonId}/vocabularies`, {
+        const resV = await fetch(getApiUrl(`/admin/lessons/${lessonId}/vocabularies`), {
           headers: getHeaders(),
         });
         if (resV.ok) {
@@ -120,19 +182,13 @@ export default function AdminVocabularyLessonPage({ params }: { params: Promise<
       }
 
       if (loadedVocabs.length === 0) {
-        loadedVocabs = [
-          { vocabularyId: 1, word: "わたし", kana: "わたし", romaji: "watashi", meaningVi: "Tôi", audioText: "わたし" },
-          { vocabularyId: 2, word: "あなた", kana: "あなた", romaji: "anata", meaningVi: "Bạn / Anh / Chị", audioText: "あなた" },
-          { vocabularyId: 3, word: "せんせい", kana: "せんせい", romaji: "sensei", meaningVi: "Thầy giáo / Cô giáo", audioText: "せんせい" },
-          { vocabularyId: 4, word: "がくせい", kana: "がくせい", romaji: "gakusei", meaningVi: "Học sinh / Sinh viên", audioText: "がくせい" },
-          { vocabularyId: 5, word: "かいしゃいん", kana: "かいしゃいん", romaji: "kaishain", meaningVi: "Nhân viên công ty", audioText: "かいしゃいん" },
-        ];
+        loadedVocabs = getLessonVocabFallback(lNum);
       }
       setVocabularies(loadedVocabs);
 
       // 2. Fetch Real Question Bank items from Backend
       try {
-        const resQ = await fetch(`/api/v1/admin/question-bank/lesson/${lessonId}`, {
+        const resQ = await fetch(getApiUrl(`/admin/question-bank/lesson/${lessonId}`), {
           headers: getHeaders(),
         });
         if (resQ.ok) {
@@ -181,7 +237,7 @@ export default function AdminVocabularyLessonPage({ params }: { params: Promise<
     try {
       setGenerating(true);
 
-      const res = await fetch(`/api/v1/admin/question-bank/generate-30/lesson/${lessonId}?mode=VOCAB`, {
+      const res = await fetch(getApiUrl(`/admin/question-bank/generate-30/lesson/${lessonId}?mode=VOCAB`), {
         method: "POST",
         headers: getHeaders(),
       });
@@ -282,7 +338,7 @@ export default function AdminVocabularyLessonPage({ params }: { params: Promise<
     };
 
     try {
-      const res = await fetch(`/api/v1/admin/lessons/${lessonId}/vocabularies`, {
+      const res = await fetch(getApiUrl(`/admin/lessons/${lessonId}/vocabularies`), {
         method: "POST",
         headers: getHeaders(),
         body: JSON.stringify(payload),
@@ -327,7 +383,7 @@ export default function AdminVocabularyLessonPage({ params }: { params: Promise<
   const handleDeleteVocab = async (id: number) => {
     if (confirm("Bạn có chắc chắn muốn xóa từ vựng này?")) {
       try {
-        await fetch(`/api/v1/admin/vocabularies/${id}/archive`, {
+        await fetch(getApiUrl(`/admin/vocabularies/${id}/archive`), {
           method: "PATCH",
           headers: getHeaders(),
         });
@@ -364,7 +420,7 @@ export default function AdminVocabularyLessonPage({ params }: { params: Promise<
     };
 
     try {
-      const res = await fetch(`/api/v1/admin/question-bank/lesson/${lessonId}`, {
+      const res = await fetch(getApiUrl(`/admin/question-bank/lesson/${lessonId}`), {
         method: "POST",
         headers: getHeaders(),
         body: JSON.stringify(payload),
@@ -413,7 +469,7 @@ export default function AdminVocabularyLessonPage({ params }: { params: Promise<
     if (!id) return;
     if (confirm("Bạn có chắc chắn muốn xóa bài tập này?")) {
       try {
-        await fetch(`/api/v1/admin/question-bank/${id}`, {
+        await fetch(getApiUrl(`/admin/question-bank/${id}`), {
           method: "DELETE",
           headers: getHeaders(),
         });

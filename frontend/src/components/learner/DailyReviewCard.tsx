@@ -66,16 +66,15 @@ export default function DailyReviewCard({ reviewData }: DailyReviewCardProps) {
       </div>
 
       <div className="z-10 pt-2 border-t border-[#DED3C8]/70">
-        <button
-          type="button"
-          onClick={() => setShowJlptNotice(true)}
+        <Link
+          href="/jlpt-practice"
           className="relative group overflow-hidden w-full inline-flex items-center justify-center gap-2.5 py-4 bg-gradient-to-r from-[#C65D4B] via-[#B04F3F] to-[#8B6F5A] hover:from-[#B04F3F] hover:to-[#765844] text-white font-black text-xs sm:text-sm rounded-2xl shadow-lg border border-white/20 transition-all hover:scale-105 cursor-pointer select-none"
         >
           <Flame className="w-4 h-4 fill-white" />
           <span>Vào Phòng Luyện Thi JLPT 3D</span>
           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           <div className="absolute inset-0 w-1/2 h-full bg-white/20 skew-x-12 -translate-x-full group-hover:translate-x-[300%] transition-transform duration-1000" />
-        </button>
+        </Link>
       </div>
     </div>
   );

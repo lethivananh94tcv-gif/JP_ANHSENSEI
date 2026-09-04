@@ -1,12 +1,14 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import { UserProfile } from "@/types/learner";
-import { Clock, Flame, Target, Sparkles, ArrowRight, Play, TrendingUp } from "lucide-react";
+import { Clock, Flame, Target, Sparkles, ArrowRight, Play, TrendingUp, Mail } from "lucide-react";
 import { motion } from "framer-motion";
 import OmikujiFortuneModal from "@/components/ui/OmikujiFortuneModal";
 import ManekiNeko3D from "@/components/ui/ManekiNeko3D";
+import PostmanCapybara3D from "@/components/ui/PostmanCapybara3D";
+import BeginnerLetterModal from "@/components/learner/BeginnerLetterModal";
 
 interface WelcomeSectionProps {
   user: UserProfile | null;
@@ -22,6 +24,25 @@ export default function WelcomeSection({
   dailyGoalMinutes = 20,
 }: WelcomeSectionProps) {
   const [isOmikujiOpen, setIsOmikujiOpen] = useState(false);
+  const [isLetterOpen, setIsLetterOpen] = useState(false);
+  const [hasOpenedLetter, setHasOpenedLetter] = useState(false);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const readStatus = localStorage.getItem("has_opened_beginner_letter");
+      if (readStatus === "true") {
+        setHasOpenedLetter(true);
+      }
+    }
+  }, []);
+
+  const handleCloseLetter = () => {
+    setIsLetterOpen(false);
+    setHasOpenedLetter(true);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("has_opened_beginner_letter", "true");
+    }
+  };
 
   const timeInfo = useMemo(() => {
     const hour = new Date().getHours();
@@ -39,10 +60,10 @@ export default function WelcomeSection({
 
   return (
     <>
-      <section className="relative overflow-hidden rounded-3xl bg-gradient-to-r from-[#FFF5F2] via-[#FDF3EE] to-[#FFF8F5] text-[#2C201D] border border-[#F5DDD4] p-5 sm:p-6 shadow-sm transition-all">
+      <section className="relative overflow-visible rounded-3xl bg-gradient-to-r from-[#FFF5F2] via-[#FDF3EE] to-[#FFF8F5] text-[#2C201D] border border-[#F5DDD4] p-5 sm:p-6 shadow-sm transition-all pt-7 sm:pt-8">
         {/* Background Decorative Sakura & Mount Fuji Graphic */}
-        <div className="absolute top-0 right-1/3 w-80 h-80 bg-gradient-to-br from-[#FFD8D0]/25 to-transparent rounded-full blur-2xl pointer-events-none" />
-        <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none select-none hidden lg:block">
+        <div className="absolute top-0 right-1/3 w-80 h-80 bg-gradient-to-br from-[#FFD8D0]/25 to-transparent rounded-full blur-2xl pointer-events-none overflow-hidden" />
+        <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none select-none hidden lg:block overflow-hidden">
           <svg width="340" height="180" viewBox="0 0 420 240" fill="none" xmlns="http://www.w3.org/2000/svg">
             <circle cx="210" cy="120" r="100" fill="#E65840" fillOpacity="0.25" />
             <path d="M120 240L210 60L300 240H120Z" fill="#8B6F5A" fillOpacity="0.15" />
@@ -56,7 +77,7 @@ export default function WelcomeSection({
         </div>
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-          {/* Left Side: Greeting & Buttons & Lucky Cat (7 cols) */}
+          {/* Left Side: Greeting & Buttons & Lucky Cat & Mailman Cat (7 cols) */}
           <div className="lg:col-span-7 space-y-3.5">
             <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#FFEAE5] border border-[#FFD0C5] text-[#C65D4B] text-[11px] font-black shadow-2xs">
               <span>🌸 おはようございます！ 🌸</span>
@@ -66,13 +87,13 @@ export default function WelcomeSection({
               <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-[#2C201D] leading-tight">
                 {timeInfo.text}, <span className="text-[#C65D4B]">{displayName}</span>
               </h1>
-              <p className="text-xs sm:text-sm text-[#76685F] font-extrabold">
-                Hôm nay học gì nhỉ? 今日も一緒に頑張りましょう！ 🌱
+              <p className="text-xs sm:text-sm text-[#76685F] font-extrabold flex items-center gap-1.5 flex-wrap">
+                <span>Hôm nay học gì nhỉ? 今日も一緒に頑張りましょう！ 🌱</span>
               </p>
             </div>
 
-            {/* Compact Buttons & Lucky Cat Mascot */}
-            <div className="flex flex-wrap items-center gap-3 pt-0.5">
+            {/* Clean, Modern Action Buttons */}
+            <div className="flex flex-wrap items-center gap-3 pt-1">
               <Link
                 href="/learn"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#C65D4B] hover:bg-[#B04F3F] text-white text-xs font-black shadow-md shadow-[#C65D4B]/20 transition-all hover:scale-105"
@@ -81,25 +102,44 @@ export default function WelcomeSection({
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
 
+              {/* Dedicated Beginner Mail Button */}
+              <button
+                onClick={() => setIsLetterOpen(true)}
+                className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-[#FFF0ED] hover:bg-[#FFE5DE] border border-[#FFC4B7] text-[#C65D4B] text-xs font-black shadow-xs transition-all hover:scale-105 cursor-pointer relative group"
+              >
+                {!hasOpenedLetter && <div className="w-2 h-2 rounded-full bg-[#C65D4B] animate-ping" />}
+                <Mail className="w-4 h-4 text-[#C65D4B]" />
+                <span>{hasOpenedLetter ? "Xem Lộ Trình Học 🌸" : "Thư Gửi Bạn Mới (Lộ Trình)"}</span>
+              </button>
+
               <Link
                 href="/flashcards"
-                className="inline-flex items-center gap-1.5 px-4.5 py-2.5 rounded-xl bg-white hover:bg-[#FFF8F5] border border-[#EAD0C7] text-[#2C201D] text-xs font-extrabold shadow-2xs transition-all hover:scale-105"
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-white hover:bg-[#FFF8F5] border border-[#EAD0C7] text-[#2C201D] text-xs font-extrabold shadow-2xs transition-all hover:scale-105"
               >
                 <Sparkles className="w-3.5 h-3.5 text-[#C65D4B]" />
-                <span>Luyện Flashcards</span>
+                <span>Flashcards</span>
               </Link>
 
-              {/* Cat Mascot Avatar */}
+              {/* Lucky Cat Avatar (Rút Quẻ) */}
               <ManekiNeko3D
                 onClick={() => setIsOmikujiOpen(true)}
-                bubbleText="Mèo có quà cho bạn 🐱"
+                bubbleText="Rút quẻ 🐱"
                 className="flex-shrink-0 ml-1 cursor-pointer scale-90"
               />
             </div>
           </div>
 
-          {/* Right Side: Learning Progress Card (5 cols) */}
-          <div className="lg:col-span-5 bg-white rounded-2xl p-4 border border-[#F2DDD4] space-y-3.5 shadow-sm relative">
+          {/* Right Side: Learning Progress Card with 3D Full-Body Postman Capybara Perched on Top (5 cols) */}
+          <div className="lg:col-span-5 bg-white rounded-2xl p-4 sm:p-5 border border-[#F2DDD4] space-y-3.5 shadow-sm relative overflow-visible mt-8 lg:mt-0">
+            {/* 🍊 FULL-BODY 3D POSTMAN CAPYBARA MASCOT BOUNCING ON TOP RIGHT CORNER OF PROGRESS CARD 📮 */}
+            <div className="absolute -top-12 sm:-top-14 right-2 sm:right-6 z-40 pointer-events-auto">
+              <PostmanCapybara3D
+                onClick={() => setIsLetterOpen(true)}
+                isJumping={!hasOpenedLetter}
+                bubbleText={hasOpenedLetter ? "Xem lại thư ✉️" : "Capybara có thư nè! 🍊✉️"}
+              />
+            </div>
+
             <div className="flex items-center justify-between border-b border-[#F5EFE6] pb-2">
               <div className="flex items-center gap-1.5">
                 <TrendingUp className="w-4 h-4 text-[#C65D4B]" />
@@ -168,6 +208,12 @@ export default function WelcomeSection({
       <OmikujiFortuneModal
         isOpen={isOmikujiOpen}
         onClose={() => setIsOmikujiOpen(false)}
+      />
+
+      {/* Beginner Letter & 6-step Roadmap Modal delivered by Postman Cat */}
+      <BeginnerLetterModal
+        isOpen={isLetterOpen}
+        onClose={handleCloseLetter}
       />
     </>
   );

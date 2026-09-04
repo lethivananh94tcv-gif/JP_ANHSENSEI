@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { getApiUrl } from "@/lib/api/client";
 
 interface LevelDto {
   levelId: number;
@@ -62,7 +63,7 @@ export default function AdminImportPage() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/v1/curriculum/levels", { headers: getHeaders() })
+    fetch(getApiUrl("/curriculum/levels"), { headers: getHeaders() })
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
@@ -81,7 +82,7 @@ export default function AdminImportPage() {
       setLessons([]);
       return;
     }
-    fetch(`http://localhost:8080/api/v1/curriculum/levels/${selectedLevelId}/lessons`, { headers: getHeaders() })
+    fetch(getApiUrl(`/curriculum/levels/${selectedLevelId}/lessons`), { headers: getHeaders() })
       .then((res) => res.json())
       .then((data) => setLessons(Array.isArray(data) ? data : []))
       .catch(() => setLessons([]));
@@ -195,9 +196,8 @@ export default function AdminImportPage() {
 
       // Try Backend Spring Boot ImportJob Endpoints
       const endpoints = [
-        "http://localhost:8080/admin/import-jobs",
-        "http://localhost:8080/api/v1/admin/import-jobs",
-        "/api/v1/admin/import-jobs"
+        getApiUrl("/admin/import-jobs"),
+        getApiUrl("/import-jobs")
       ];
 
       let createdJob = null;
@@ -227,7 +227,7 @@ export default function AdminImportPage() {
               
               // Fetch validation errors if any
               try {
-                const errRes = await fetch(`http://localhost:8080/api/v1/admin/import-jobs/${jobId}/errors`, { headers: getHeaders() });
+                const errRes = await fetch(getApiUrl(`/admin/import-jobs/${jobId}/errors`), { headers: getHeaders() });
                 if (errRes.ok) {
                   const errList = await errRes.json();
                   setErrors(errList);
@@ -253,7 +253,7 @@ export default function AdminImportPage() {
       if (lastErrText) {
         throw new Error(lastErrText);
       } else {
-        throw new Error("Không thể kết nối tới Backend Máy chủ (http://localhost:8080). Vui lòng đảm bảo máy chủ Backend đang hoạt động.");
+        throw new Error("Không thể kết nối tới Backend Máy chủ. Vui lòng đảm bảo máy chủ Backend đang hoạt động.");
       }
     } catch (err: unknown) {
       setMsg("❌ Lỗi xử lý tệp: " + (err instanceof Error ? err.message : "Vui lòng thử lại"));
@@ -272,9 +272,8 @@ export default function AdminImportPage() {
       }
 
       const commitEndpoints = [
-        `http://localhost:8080/admin/import-jobs/${job.importJobId}/commit`,
-        `http://localhost:8080/api/v1/admin/import-jobs/${job.importJobId}/commit`,
-        `/api/v1/admin/import-jobs/${job.importJobId}/commit`
+        getApiUrl(`/admin/import-jobs/${job.importJobId}/commit`),
+        getApiUrl(`/import-jobs/${job.importJobId}/commit`)
       ];
 
       let success = false;

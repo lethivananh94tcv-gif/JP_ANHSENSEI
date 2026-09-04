@@ -2,7 +2,7 @@ import { ApiResponse, ErrorResponse } from "@/types";
 
 export const getApiBaseUrl = () => {
   if (process.env.NEXT_PUBLIC_API_BASE_URL) {
-    return process.env.NEXT_PUBLIC_API_BASE_URL;
+    return process.env.NEXT_PUBLIC_API_BASE_URL.replace(/\/$/, "");
   }
   if (typeof window !== "undefined") {
     if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
@@ -11,6 +11,46 @@ export const getApiBaseUrl = () => {
     return "https://anhsensei-backend.onrender.com/api/v1";
   }
   return "https://anhsensei-backend.onrender.com/api/v1";
+};
+
+/**
+ * Universal helper that transforms any relative endpoint or hardcoded localhost URL
+ * into the correct full API URL based on environment/domain.
+ */
+export const getApiUrl = (endpoint: string): string => {
+  let path = endpoint;
+
+  const isLocalHostDomain =
+    typeof window !== "undefined" &&
+    (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+
+  // If client is NOT on localhost, automatically replace hardcoded localhost:8080 URLs
+  if (!isLocalHostDomain && path.includes("localhost:8080")) {
+    path = path.replace(/http:\/\/localhost:8080(\/api\/v1)?/, "");
+  }
+
+  // If endpoint is already a full external URL (and not localhost), return as is
+  if (path.startsWith("http://") || path.startsWith("https://")) {
+    return path;
+  }
+
+  const baseUrl = getApiBaseUrl();
+  const cleanPath = path.startsWith("/") ? path : `/${path}`;
+
+  if (cleanPath.startsWith("/api/v1") && baseUrl.endsWith("/api/v1")) {
+    return `${baseUrl.replace(/\/api\/v1$/, "")}${cleanPath}`;
+  }
+  return `${baseUrl}${cleanPath}`;
+};
+
+export const getAuthHeaders = (): Record<string, string> => {
+  const token = typeof window !== "undefined"
+    ? (localStorage.getItem("access_token") || localStorage.getItem("auth_token"))
+    : null;
+  return {
+    "Content-Type": "application/json",
+    ...(token ? { Authorization: `Bearer ${token}` } : {}),
+  };
 };
 
 export class ApiError extends Error {
@@ -37,7 +77,9 @@ export async function apiClient<T>(
   endpoint: string,
   options: ApiClientOptions = {}
 ): Promise<ApiResponse<T>> {
-  const token = typeof window !== "undefined" ? localStorage.getItem("access_token") : null;
+  const token = typeof window !== "undefined"
+    ? (localStorage.getItem("access_token") || localStorage.getItem("auth_token"))
+    : null;
 
   const headers: HeadersInit = {
     "Content-Type": "application/json",
@@ -52,10 +94,7 @@ export async function apiClient<T>(
     headers,
   };
 
-  const baseUrl = getApiBaseUrl();
-  const fullUrl = endpoint.startsWith("http")
-    ? endpoint
-    : `${baseUrl}${endpoint.startsWith("/") ? "" : "/"}${endpoint}`;
+  const fullUrl = getApiUrl(endpoint);
 
   try {
     const response = await fetch(fullUrl, config);

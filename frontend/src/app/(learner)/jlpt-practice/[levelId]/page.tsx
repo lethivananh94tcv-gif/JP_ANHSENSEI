@@ -1,8 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { 
   ArrowLeft, Clock, FileText, Play, Calendar, Sparkles, Trophy, Volume2, FileSpreadsheet
 } from "lucide-react";
@@ -140,52 +140,104 @@ const MOCK_LEVEL_EXAMS: Record<string, JlptExamItem[]> = {
 
   n5: [
     {
+      examId: "n5-2022-12",
+      yearGroup: "2022",
+      yearSession: "Kỳ Tháng 12/2022",
+      title: "Đề Thi Thật JLPT N5 - Kỳ Tháng 12/2022",
+      durationMinutes: 90,
+      totalQuestions: 85,
+      sections: [
+        { name: "Từ vựng & Kanji", count: 30 },
+        { name: "Ngữ pháp & Đọc hiểu", count: 31 },
+        { name: "Nghe hiểu (Choukai)", count: 24 },
+      ],
+      difficulty: "Trung bình",
+      pdfFileName: "N5-2022年12月.pdf",
+      audioFileName: "Nghe N5-2022年12月.mp3",
+    },
+    {
       examId: "n5-2023-07",
       yearGroup: "2023",
       yearSession: "Kỳ Tháng 07/2023",
       title: "Đề Thi Thật JLPT N5 - Kỳ Tháng 07/2023",
       durationMinutes: 90,
-      totalQuestions: 98,
+      totalQuestions: 85,
       sections: [
-        { name: "Từ vựng & Kanji", count: 35 },
-        { name: "Ngữ pháp & Đọc hiểu", count: 35 },
-        { name: "Nghe hiểu", count: 28 },
+        { name: "Từ vựng & Kanji", count: 30 },
+        { name: "Ngữ pháp & Đọc hiểu", count: 31 },
+        { name: "Nghe hiểu (Choukai)", count: 24 },
       ],
-      difficulty: "Trung bình",
+      difficulty: "Dễ",
+      pdfFileName: "N5-2023年7月.pdf",
+      audioFileName: "Nghe N5-2023年7月.mp3",
     },
   ],
 
   n3: [
+    {
+      examId: "n3-2022-12",
+      yearGroup: "2022",
+      yearSession: "Kỳ Tháng 12/2022",
+      title: "Đề Thi Thật JLPT N3 - Kỳ Tháng 12/2022",
+      durationMinutes: 140,
+      totalQuestions: 105,
+      sections: [
+        { name: "Từ vựng & Kanji", count: 35 },
+        { name: "Ngữ pháp & Đọc hiểu", count: 39 },
+        { name: "Nghe hiểu (Choukai)", count: 31 },
+      ],
+      difficulty: "Khó",
+      pdfFileName: "N3-2022年12月.pdf",
+      audioFileName: "Nghe N3-2022年12月.mp3",
+    },
     {
       examId: "n3-2023-07",
       yearGroup: "2023",
       yearSession: "Kỳ Tháng 07/2023",
       title: "Đề Thi Thật JLPT N3 - Kỳ Tháng 07/2023",
       durationMinutes: 140,
-      totalQuestions: 98,
+      totalQuestions: 105,
       sections: [
         { name: "Từ vựng & Kanji", count: 35 },
-        { name: "Ngữ pháp & Đọc hiểu", count: 35 },
-        { name: "Nghe hiểu", count: 28 },
+        { name: "Ngữ pháp & Đọc hiểu", count: 39 },
+        { name: "Nghe hiểu (Choukai)", count: 31 },
       ],
       difficulty: "Khó",
+      pdfFileName: "N3-2023年7月.pdf",
+      audioFileName: "Nghe N3-2023年7月.mp3",
     },
   ],
 };
 
-const YEAR_OPTIONS = [
-  { id: "ALL", label: "Tất Cả 7 Bộ Đề N4" },
-  { id: "2010-2011", label: "2010 - 2011" },
-  { id: "2012-12", label: "Tháng 12/2012" },
-  { id: "2013-07", label: "Tháng 07/2013" },
-  { id: "2014-07", label: "Tháng 07/2014" },
-  { id: "2017-07", label: "Tháng 07/2017 (99 câu)" },
-  { id: "2018", label: "Bộ Đề 2018" },
-  { id: "2021-12", label: "Tháng 12/2021" },
-];
+const YEAR_OPTIONS_MAP: Record<string, { id: string; label: string }[]> = {
+  n4: [
+    { id: "ALL", label: "Tất Cả Bộ Đề N4" },
+    { id: "2010-2011", label: "2010 - 2011" },
+    { id: "2012-12", label: "Tháng 12/2012" },
+    { id: "2013-07", label: "Tháng 07/2013" },
+    { id: "2014-07", label: "Tháng 07/2014" },
+    { id: "2017-07", label: "Tháng 07/2017 (99 câu)" },
+    { id: "2018", label: "Bộ Đề 2018" },
+    { id: "2021-12", label: "Tháng 12/2021" },
+  ],
+  n5: [
+    { id: "ALL", label: "Tất Cả Bộ Đề N5" },
+    { id: "2022", label: "Tháng 12/2022" },
+    { id: "2023", label: "Tháng 07/2023" },
+  ],
+  n3: [
+    { id: "ALL", label: "Tất Cả Bộ Đề N3" },
+    { id: "2022", label: "Tháng 12/2022" },
+    { id: "2023", label: "Tháng 07/2023" },
+  ],
+};
+
+import JlptNoticeModal from "@/components/shared/JlptNoticeModal";
 
 export default function JlptLevelExamsPage() {
   const urlParams = useParams();
+  const router = useRouter();
+  const [showNotice, setShowNotice] = useState(true);
   const rawLevel = ((urlParams?.levelId as string) || "n4").toLowerCase();
   
   let cleanLevel = "n4";
@@ -196,15 +248,53 @@ export default function JlptLevelExamsPage() {
   const levelCode = cleanLevel.toUpperCase();
   const levelId = cleanLevel;
   const [selectedYear, setSelectedYear] = useState<string>("ALL");
+  const [adminExams, setAdminExams] = useState<any[]>([]);
+
+  const handleCloseNotice = () => {
+    setShowNotice(false);
+    router.push("/dashboard");
+  };
+
+  useEffect(() => {
+    const loadAdminState = () => {
+      const saved = localStorage.getItem("ADMIN_JLPT_EXAMS");
+      if (saved) {
+        try {
+          setAdminExams(JSON.parse(saved));
+        } catch (e) {}
+      }
+    };
+    loadAdminState();
+    window.addEventListener("adminExamsUpdated", loadAdminState);
+    return () => window.removeEventListener("adminExamsUpdated", loadAdminState);
+  }, []);
 
   const exams = MOCK_LEVEL_EXAMS[cleanLevel] || MOCK_LEVEL_EXAMS.n4 || [];
+  const yearOptions = YEAR_OPTIONS_MAP[cleanLevel] || YEAR_OPTIONS_MAP.n4;
+
   const filteredExams = (exams || []).filter((e) => {
     if (selectedYear !== "ALL" && e.yearGroup !== selectedYear) return false;
+
+    // Strict status check: Hide from learner if not PUBLISHED!
+    if (adminExams && adminExams.length > 0) {
+      const adminMatch = adminExams.find(
+        (ad) => ad.examCode === e.examId || ad.id === e.examId
+      );
+      if (adminMatch) {
+        const activeVer = adminMatch.versions.find(
+          (v: any) => v.versionId === adminMatch.activeVersionId
+        ) || adminMatch.versions[adminMatch.versions.length - 1];
+        if (activeVer && activeVer.status !== "PUBLISHED") {
+          return false; // HIDE UNPUBLISHED EXAM!
+        }
+      }
+    }
     return true;
   });
 
   return (
     <div className="min-h-screen bg-[#FAF4EB] text-[#1F1714] font-sans flex flex-col justify-between selection:bg-[#C65D4B] selection:text-white">
+      <JlptNoticeModal isOpen={showNotice} onClose={handleCloseNotice} />
       <LearnerHeader />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 py-6 sm:py-10 space-y-8">
@@ -240,11 +330,11 @@ export default function JlptLevelExamsPage() {
         <div className="space-y-3">
           <div className="flex items-center gap-2 text-xs font-extrabold text-[#1F1714]">
             <Calendar className="w-4 h-4 text-[#C65D4B]" />
-            <span>Chọn Mốc Thời Gian Các Bộ Đề N4:</span>
+            <span>Chọn Mốc Thời Gian Các Bộ Đề {levelCode}:</span>
           </div>
 
           <div className="flex items-center gap-2.5 overflow-x-auto pb-2 scrollbar-none">
-            {YEAR_OPTIONS.map((opt) => (
+            {yearOptions.map((opt) => (
               <button
                 key={opt.id}
                 type="button"

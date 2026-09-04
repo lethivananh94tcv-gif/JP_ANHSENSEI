@@ -26,7 +26,9 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       if (storedUser) {
         try {
           const parsed = JSON.parse(storedUser);
-          if (parsed.role !== "ADMIN") {
+          const role = (parsed.role || parsed.user?.role || "").toUpperCase();
+          if (role !== "ADMIN" && role !== "ROLE_ADMIN") {
+            console.warn("User role is not ADMIN or ROLE_ADMIN:", role);
             router.replace("/dashboard");
             return;
           }
