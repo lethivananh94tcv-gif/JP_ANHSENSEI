@@ -5,7 +5,7 @@ import { useParams, useSearchParams, useRouter } from "next/navigation";
 import { UserProfile } from "@/types/learner";
 import { apiClient } from "@/lib/api/client";
 import { recordLessonAccess } from "@/lib/utils/learningTracker";
-import { CheckCircle2, RotateCcw, Sparkles, CheckCheck, Gamepad2, ArrowLeft, ArrowRight } from "lucide-react";
+import { CheckCircle2, RotateCcw, Sparkles, CheckCheck, Gamepad2, ArrowLeft, ArrowRight, ListFilter, Layers, Keyboard, BookOpen, Flame, Trophy } from "lucide-react";
 
 import LearnerHeader from "@/components/learner/LearnerHeader";
 import LearnerFooter from "@/components/learner/LearnerFooter";
@@ -324,77 +324,133 @@ export default function LearnerLessonStudyPage() {
           />
         )}
 
-        {/* 100% VOCABULARY STUDY SECTION */}
+        {/* 100% VOCABULARY STUDY SECTION - KANJI STYLE PROMINENT CONTAINER */}
         <div className="space-y-6">
-          {/* Study Mode Selector & Automated Bulk Progress Bar */}
-          <div className="flex flex-wrap items-center justify-between bg-[#FAF3EB] border border-[#DED3C8] p-3 rounded-2xl gap-3 shadow-xs">
-            <div className="flex flex-wrap items-center gap-2">
-              <button
-                onClick={() => setVocabStudyMode("list")}
-                className={`px-4 py-2.5 text-xs font-black rounded-xl transition-all cursor-pointer ${
-                  vocabStudyMode === "list"
-                    ? "bg-[#C65D4B] text-white shadow-md"
-                    : "text-[#6E5E52] hover:text-[#2C2421] bg-white border border-[#DED3C8]"
-                }`}
-              >
-                📋 Danh sách ({vocabularies.length})
-              </button>
-              <button
-                onClick={() => setVocabStudyMode("flashcard")}
-                className={`px-4 py-2.5 text-xs font-black rounded-xl transition-all cursor-pointer ${
-                  (vocabStudyMode as string) === "flashcard"
-                    ? "bg-[#C65D4B] text-white shadow-md"
-                    : "text-[#6E5E52] hover:text-[#2C2421] bg-white border border-[#DED3C8]"
-                }`}
-              >
-                🎴 Thẻ ghi nhớ 3D
-              </button>
-              <button
-                onClick={() => setVocabStudyMode("typing")}
-                className={`px-4 py-2.5 text-xs font-black rounded-xl transition-all cursor-pointer ${
-                  vocabStudyMode === "typing"
-                    ? "bg-[#C65D4B] text-white shadow-md"
-                    : "text-[#6E5E52] hover:text-[#2C2421] bg-white border border-[#DED3C8]"
-                }`}
-              >
-                ⌨️ Luyện gõ Tiếng Nhật
-              </button>
+          <div className="relative overflow-hidden bg-gradient-to-br from-[#FFFDF9] via-[#FAF4ED] to-[#F5EFE6] border-2 border-[#E5D7C7] rounded-3xl p-5 sm:p-6 shadow-[0_8px_30px_rgba(74,52,38,0.08)] space-y-4">
+            {/* Subtle decorative background pattern */}
+            <div className="absolute right-0 top-0 bottom-0 w-48 bg-[radial-gradient(#C65D4B_1.2px,transparent_1.2px)] [background-size:14px_14px] opacity-10 pointer-events-none rounded-r-3xl" />
 
-              {/* BRAND NEW 3D VOCAB MATCH GAME TAB */}
-              <button
-                onClick={() => setVocabStudyMode("match")}
-                className={`px-4 py-2.5 text-xs font-black rounded-xl transition-all cursor-pointer flex items-center gap-1.5 ${
-                  vocabStudyMode === "match"
-                    ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white shadow-md ring-2 ring-amber-400/50"
-                    : "text-amber-700 bg-amber-100 hover:bg-amber-200 border border-amber-300"
-                }`}
-              >
-                <Gamepad2 className="w-4 h-4" />
-                <span>🎮 Game Ghép Thẻ 3D</span>
-              </button>
+            {/* Section Header */}
+            <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#E5D7C7]/70 pb-3.5 relative z-10">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-2xl bg-gradient-to-tr from-[#C65D4B] to-[#E06A57] text-white shadow-md flex items-center justify-center border border-white/40 shrink-0">
+                  <Sparkles className="w-5 h-5 animate-pulse" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2">
+                    <h3 className="text-base sm:text-lg font-black text-[#231917] tracking-tight">
+                      CHẾ ĐỘ LUYỆN TẬP & THỰC HÀNH TỪ VỰNG
+                    </h3>
+                    <span className="hidden sm:inline-flex items-center gap-1 text-[11px] font-black text-[#C65D4B] bg-[#C65D4B]/10 px-2.5 py-0.5 rounded-full border border-[#C65D4B]/20">
+                      <Flame className="w-3.5 h-3.5 text-[#C65D4B]" /> 4 Phương pháp học
+                    </span>
+                  </div>
+                  <p className="text-xs text-[#76685F] font-semibold mt-0.5">
+                    Chọn một phương pháp bên dưới để bắt đầu tra cứu, lật thẻ 3D, gõ Romaji hoặc thử thách Game 3D!
+                  </p>
+                </div>
+              </div>
+
+              {/* Bulk Action & Reset */}
+              <div className="flex items-center gap-3">
+                {isLessonMastered ? (
+                  <button
+                    type="button"
+                    onClick={handleResetAll}
+                    className="px-3.5 py-2 text-xs font-black text-[#8B6F5A] bg-white hover:bg-rose-50 border border-[#DED3C8] hover:border-rose-300 rounded-xl transition-all flex items-center gap-1.5 shadow-2xs cursor-pointer"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5 text-rose-500" />
+                    <span>Học lại từ đầu</span>
+                  </button>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleMarkAllLearned}
+                    className="px-4 py-2 text-xs font-black text-white bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 rounded-xl transition-all flex items-center gap-1.5 shadow-md hover:scale-105 cursor-pointer border border-white/20"
+                  >
+                    <CheckCheck className="w-4 h-4 text-white" />
+                    <span>✓ Đánh dấu thuộc ({vocabularies.length} từ)</span>
+                  </button>
+                )}
+              </div>
             </div>
 
-            {/* Smart Bulk Action Buttons */}
-            <div className="flex items-center gap-2">
-              {isLessonMastered ? (
-                <button
-                  type="button"
-                  onClick={handleResetAll}
-                  className="px-3.5 py-2 text-xs font-black text-[#8B6F5A] bg-white hover:bg-rose-50 border border-[#DED3C8] hover:border-rose-300 rounded-xl transition-all flex items-center gap-1.5 shadow-2xs cursor-pointer"
-                >
-                  <RotateCcw className="w-3.5 h-3.5 text-rose-500" />
-                  <span>Học lại từ đầu</span>
-                </button>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleMarkAllLearned}
-                  className="px-4 py-2 text-xs font-black text-white bg-gradient-to-r from-emerald-600 to-teal-700 hover:from-emerald-700 hover:to-teal-800 rounded-xl transition-all flex items-center gap-1.5 shadow-md hover:scale-105 cursor-pointer"
-                >
-                  <CheckCheck className="w-4 h-4 text-white" />
-                  <span>✓ Đánh dấu đã thuộc tất cả ({vocabularies.length} từ)</span>
-                </button>
-              )}
+            {/* Sub-tabs Grid Navigation */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 relative z-10">
+              {[
+                {
+                  id: "list",
+                  label: `Danh sách (${vocabularies.length})`,
+                  badge: "Tra cứu",
+                  icon: ListFilter,
+                  emoji: "📋",
+                },
+                {
+                  id: "flashcard",
+                  label: "Thẻ ghi nhớ 3D",
+                  badge: "Ghi nhớ 3D",
+                  icon: Layers,
+                  emoji: "🎴",
+                },
+                {
+                  id: "typing",
+                  label: "Luyện gõ Tiếng Nhật",
+                  badge: "Phản xạ",
+                  icon: Keyboard,
+                  emoji: "⌨️",
+                },
+                {
+                  id: "match",
+                  label: "Game Ghép Thẻ 3D",
+                  badge: "HOT +50XP",
+                  icon: Gamepad2,
+                  emoji: "🎮",
+                  isHot: true,
+                },
+              ].map((tab) => {
+                const isActive = vocabStudyMode === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => setVocabStudyMode(tab.id as any)}
+                    className={`group relative flex flex-col items-center justify-center p-3.5 rounded-2xl transition-all duration-200 cursor-pointer text-center border min-h-[84px] ${
+                      isActive
+                        ? "bg-gradient-to-b from-[#C65D4B] to-[#B04C3B] text-white border-[#C65D4B] shadow-lg shadow-[#C65D4B]/25 scale-[1.02] ring-2 ring-[#C65D4B]/30"
+                        : "bg-[#FFFDF9] hover:bg-white text-[#231917] border-[#E5D7C7] hover:border-[#C65D4B]/60 hover:shadow-md"
+                    }`}
+                  >
+                    {/* Hot Badge */}
+                    {tab.isHot && !isActive && (
+                      <span className="absolute -top-2 -right-1 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-[9px] font-black px-2 py-0.5 rounded-full shadow-xs animate-bounce border border-white/40">
+                        HOT
+                      </span>
+                    )}
+
+                    <div className="flex items-center gap-1.5 w-full justify-center">
+                      <span className="text-base">{tab.emoji}</span>
+                      <span
+                        className={`text-[10px] font-extrabold px-1.5 py-0.5 rounded-md ${
+                          isActive
+                            ? "bg-white/20 text-white"
+                            : "bg-[#FAF3EB] text-[#C65D4B] group-hover:bg-[#C65D4B]/10"
+                        }`}
+                      >
+                        {tab.badge}
+                      </span>
+                    </div>
+
+                    <div className="mt-1.5">
+                      <span
+                        className={`text-xs sm:text-sm font-black leading-tight block ${
+                          isActive ? "text-white" : "text-[#231917] group-hover:text-[#C65D4B]"
+                        }`}
+                      >
+                        {tab.label}
+                      </span>
+                    </div>
+                  </button>
+                );
+              })}
             </div>
           </div>
 

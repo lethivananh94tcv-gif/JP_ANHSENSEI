@@ -89,7 +89,7 @@ public class LearnerProgressService {
             if (!lExists) {
                 learningActivityRepository.save(new LearningActivity(
                         user,
-                        "LESSON_ACCESSED",
+                        "CONTENT_COMPLETED",
                         "LESSON",
                         contentId,
                         request.getDurationSeconds() != null ? request.getDurationSeconds() : 60,

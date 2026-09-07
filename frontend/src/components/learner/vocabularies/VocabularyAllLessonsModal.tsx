@@ -164,23 +164,21 @@ export default function VocabularyAllLessonsModal({
                     )}
 
                     <div className="min-w-0 flex-1 space-y-0.5">
-                      <div className="flex items-center gap-2">
-                        <span className="text-[10px] font-black text-[#C65D4B] bg-[#C65D4B]/10 px-2 py-0.5 rounded-md">
-                          Bài #{lsn.sortOrder}
-                        </span>
+                      {(isCompleted || isInProgress) && (
+                        <div className="flex items-center gap-2">
+                          {isCompleted && (
+                            <span className="text-[10px] font-black text-emerald-700 bg-emerald-100 border border-emerald-300 px-2 py-0.5 rounded-md flex items-center gap-1">
+                              ✅ Đã xong 100%
+                            </span>
+                          )}
 
-                        {isCompleted && (
-                          <span className="text-[10px] font-black text-emerald-700 bg-emerald-100 border border-emerald-300 px-2 py-0.5 rounded-md flex items-center gap-1">
-                            ✅ Đã xong 100%
-                          </span>
-                        )}
-
-                        {isInProgress && (
-                          <span className="text-[10px] font-black text-amber-700 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded-md">
-                            🔥 Đã học {completionPercent}%
-                          </span>
-                        )}
-                      </div>
+                          {isInProgress && (
+                            <span className="text-[10px] font-black text-amber-700 bg-amber-100 border border-amber-300 px-2 py-0.5 rounded-md">
+                              🔥 Đã học {completionPercent}%
+                            </span>
+                          )}
+                        </div>
+                      )}
 
                       <h4 className="text-xs sm:text-sm font-extrabold text-[#231917] truncate">
                         {lsn.title}

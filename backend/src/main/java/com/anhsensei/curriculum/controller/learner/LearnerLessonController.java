@@ -66,6 +66,16 @@ public class LearnerLessonController {
                 return lessonOpt.get().getLessonId();
             }
         }
+        // 4. Map sort orders for N3 (51..65 -> sort order 1..15)
+        else if (inputId >= 51 && inputId <= 65) {
+            int n3SortOrder = inputId.intValue() - 50;
+            Optional<Lesson> lessonOpt = lessonRepository.findFirstByLevel_CodeIgnoreCaseAndSortOrderAndStatusAndDeletedAtIsNull(
+                    "N3", n3SortOrder, "PUBLISHED"
+            );
+            if (lessonOpt.isPresent()) {
+                return lessonOpt.get().getLessonId();
+            }
+        }
 
         return inputId;
     }

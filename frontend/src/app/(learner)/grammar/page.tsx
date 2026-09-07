@@ -37,14 +37,15 @@ export default function LearnerGrammarPage() {
       try {
         const res = await apiClient<any[]>(`/curriculum/levels/${activeLevelId}/lessons`);
         if (res && res.data && Array.isArray(res.data) && res.data.length > 0 && isMounted) {
-          const mapped = res.data.map((l: any, idx: number) => ({
+          const validLessons = res.data.filter((l: any) => activeLevelId !== "N3" || !l.sortOrder || l.sortOrder <= 15);
+          const mapped = validLessons.map((l: any, idx: number) => ({
             id: l.lessonId || l.id || idx + 1,
             level: activeLevelId,
             lessonNumber: l.lessonNumber && l.lessonNumber > 0 
               ? l.lessonNumber 
               : activeLevelId === "N4" && l.sortOrder <= 25 
                 ? l.sortOrder + 25 
-                : activeLevelId === "N3" && l.sortOrder <= 25 
+                : activeLevelId === "N3" && l.sortOrder <= 15 
                   ? l.sortOrder + 50 
                   : (l.sortOrder || idx + 1),
             title: l.title || l.lessonTitle || `Bài ${idx + 1}`,
@@ -95,7 +96,7 @@ export default function LearnerGrammarPage() {
 
   // Level Selection Handler
   const handleSelectLevel = (levelId: string) => {
-    if (["N3", "N2", "N1"].includes(levelId.toUpperCase())) {
+    if (["N2", "N1"].includes(levelId.toUpperCase())) {
       setShowN3Notice(true);
       return;
     }

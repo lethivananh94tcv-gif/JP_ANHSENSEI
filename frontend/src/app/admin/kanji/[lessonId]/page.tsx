@@ -6,6 +6,20 @@ import {
   ArrowLeft, PenTool, Plus, Trash2, Edit3, CheckCircle2, Zap, RefreshCw, 
   Keyboard, Gamepad2, Sparkles, Layers, Check, X, BookOpen
 } from "lucide-react";
+import { getApiUrl } from "@/lib/api/client";
+
+const getHeaders = () => {
+  const headers: Record<string, string> = {
+    "Content-Type": "application/json",
+  };
+  if (typeof window !== "undefined") {
+    const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token") || localStorage.getItem("token");
+    if (token) {
+      headers["Authorization"] = `Bearer ${token}`;
+    }
+  }
+  return headers;
+};
 
 interface KanjiItem {
   kanjiId: number;
@@ -92,10 +106,6 @@ export default function AdminKanjiLessonPage({ params }: { params: Promise<{ les
 
   const saveKanjisState = (updatedList: KanjiItem[]) => {
     setKanjis(updatedList);
-    if (typeof window !== "undefined") {
-      localStorage.setItem(`ADMIN_KANJI_STORE_${lessonId}`, JSON.stringify(updatedList));
-      window.dispatchEvent(new CustomEvent("adminDataUpdated", { detail: { lessonId: Number(lessonId) } }));
-    }
   };
 
   const fetchData = async () => {
@@ -103,23 +113,34 @@ export default function AdminKanjiLessonPage({ params }: { params: Promise<{ les
       setLoading(true);
       const lNum = Number(lessonId) || 1;
 
-      // 0. Check local storage first
-      if (typeof window !== "undefined") {
-        const stored = localStorage.getItem(`ADMIN_KANJI_STORE_${lessonId}`);
-        if (stored) {
-          try {
-            const parsed = JSON.parse(stored);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-              setKanjis(parsed);
-              setLoading(false);
-              return;
-            }
-          } catch (e) {}
+      let loadedKanjis: KanjiItem[] = [];
+      try {
+        const res = await fetch(getApiUrl(`/admin/lessons/${lessonId}/kanji`), {
+          headers: getHeaders(),
+        });
+        if (res.ok) {
+          const data = await res.json();
+          const list = Array.isArray(data) ? data : (data.data || []);
+          if (list.length > 0) {
+            loadedKanjis = list.map((item: any) => ({
+              kanjiId: item.kanjiId || item.kanji?.kanjiId || item.id,
+              character: item.character || item.kanji?.character || "",
+              hanViet: item.hanViet || item.kanji?.hanViet || "",
+              onyomi: item.onyomi || item.kanji?.onyomi || "",
+              kunyomi: item.kunyomi || item.kanji?.kunyomi || "",
+              strokeCount: item.strokeCount || item.kanji?.strokeCount || 4,
+              meaningVi: item.meaningVi || item.kanji?.meaningVi || "",
+            }));
+          }
         }
+      } catch (err) {
+        console.warn("Could not fetch kanji from API:", err);
       }
 
-      // Fallback per specific lessonId
-      const initialKanjis = getLessonKanjiFallback(lNum);
+      if (loadedKanjis.length === 0) {
+        loadedKanjis = getLessonKanjiFallback(lNum);
+      }
+
       const initialSentences: ReadingSentenceItem[] = [
         { sentenceId: 1, japaneseText: `Bài #${lNum}: 窓（まど）が 開（あ）いています。`, readingKana: "まど が あいています。", meaningVi: `Cửa sổ đang mở (Bài #${lNum}).` },
       ];
@@ -127,20 +148,20 @@ export default function AdminKanjiLessonPage({ params }: { params: Promise<{ les
       const initialQuestions: QuestionItem[] = [
         {
           questionId: 301,
-          prompt: `Âm Hán Việt của Hán tự Bài #${lNum} 「 ${initialKanjis[0]?.character || "開"} 」 là gì?`,
+          prompt: `Âm Hán Việt của Hán tự Bài #${lNum} 「 ${loadedKanjis[0]?.character || "開"} 」 là gì?`,
           questionType: "MULTIPLE_CHOICE",
           category: "KANJI",
           options: [
-            { optionText: initialKanjis[0]?.hanViet || "KHẢI", isCorrect: true },
+            { optionText: loadedKanjis[0]?.hanViet || "KHẢI", isCorrect: true },
             { optionText: "BẢN", isCorrect: false },
             { optionText: "NHÂN", isCorrect: false },
             { optionText: "NGUYỆT", isCorrect: false },
           ],
-          explanation: `Chữ ${initialKanjis[0]?.character} có âm Hán Việt là ${initialKanjis[0]?.hanViet}.`,
+          explanation: `Chữ ${loadedKanjis[0]?.character} có âm Hán Việt là ${loadedKanjis[0]?.hanViet}.`,
         },
       ];
 
-      setKanjis(initialKanjis);
+      setKanjis(loadedKanjis);
       setReadingSentences(initialSentences);
       setQuestions(initialQuestions);
     } catch (e) {
@@ -160,37 +181,88 @@ export default function AdminKanjiLessonPage({ params }: { params: Promise<{ les
   };
 
   // Add Kanji
-  const handleAddKanji = (e: React.FormEvent) => {
+  const handleAddKanji = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!kChar.trim() || !kHanViet.trim()) {
       alert("Vui lòng nhập Chữ Kanji và Âm Hán Việt!");
       return;
     }
 
-    const newItem: KanjiItem = {
-      kanjiId: Date.now(),
-      character: kChar,
-      hanViet: kHanViet.toUpperCase(),
-      onyomi: kOnyomi,
-      kunyomi: kKunyomi,
+    const payload = {
+      character: kChar.trim(),
+      onyomi: kOnyomi.trim(),
+      kunyomi: kKunyomi.trim(),
+      meaningVi: kMeaning.trim() || kHanViet.trim(),
       strokeCount: Number(kStrokes) || 4,
-      meaningVi: kMeaning || kHanViet,
+      jlptLevel: Number(lessonId) > 25 ? "N4" : "N5",
     };
 
-    setKanjis((prev) => [...prev, newItem]);
+    try {
+      const res = await fetch(getApiUrl("/admin/kanji"), {
+        method: "POST",
+        headers: getHeaders(),
+        body: JSON.stringify(payload),
+      });
+      if (res.ok) {
+        const createdKanji = await res.json();
+        const createdId = createdKanji.kanjiId || createdKanji.id;
+        if (createdId) {
+          await fetch(getApiUrl(`/admin/lessons/${lessonId}/kanji`), {
+            method: "POST",
+            headers: getHeaders(),
+            body: JSON.stringify({ kanjiId: createdId, sortOrder: kanjis.length + 1 }),
+          });
+        }
+        showToast("✅ Đã lưu Hán tự mới vào database!");
+        fetchData();
+      } else {
+        const newItem: KanjiItem = {
+          kanjiId: Date.now(),
+          character: kChar,
+          hanViet: kHanViet.toUpperCase(),
+          onyomi: kOnyomi,
+          kunyomi: kKunyomi,
+          strokeCount: Number(kStrokes) || 4,
+          meaningVi: kMeaning || kHanViet,
+        };
+        setKanjis((prev) => [...prev, newItem]);
+        showToast("⚡ Đã thêm chữ Kanji mới!");
+      }
+    } catch (err) {
+      console.error(err);
+      const newItem: KanjiItem = {
+        kanjiId: Date.now(),
+        character: kChar,
+        hanViet: kHanViet.toUpperCase(),
+        onyomi: kOnyomi,
+        kunyomi: kKunyomi,
+        strokeCount: Number(kStrokes) || 4,
+        meaningVi: kMeaning || kHanViet,
+      };
+      setKanjis((prev) => [...prev, newItem]);
+      showToast("⚡ Đã thêm chữ Kanji mới!");
+    }
+
     setShowKanjiModal(false);
     setKChar("");
     setKHanViet("");
     setKOnyomi("");
     setKKunyomi("");
     setKMeaning("");
-    showToast("Đã thêm chữ Kanji mới thành công!");
   };
 
-  const handleDeleteKanji = (id: number) => {
+  const handleDeleteKanji = async (id: number) => {
     if (confirm("Bạn có chắc chắn muốn xóa chữ Kanji này?")) {
+      try {
+        await fetch(getApiUrl(`/admin/lessons/${lessonId}/kanji/${id}`), {
+          method: "DELETE",
+          headers: getHeaders(),
+        });
+      } catch (err) {
+        console.warn(err);
+      }
       setKanjis((prev) => prev.filter((k) => k.kanjiId !== id));
-      showToast("Đã xóa chữ Kanji thành công!");
+      showToast("🗑️ Đã xóa chữ Kanji thành công!");
     }
   };
 

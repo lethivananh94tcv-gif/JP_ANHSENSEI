@@ -20,6 +20,10 @@ public class UpdateVocabularyRequest {
     private String partOfSpeech;
     private String audioUrl;
     private String notes;
+    private String verbType;
+    private String verbTypeJa;
+    private String verbNote;
+    private Long pairedVerbId;
 
     @NotNull(message = "Thứ tự sắp xếp (sortOrder) không được để trống")
     @Min(value = 1, message = "Thứ tự sắp xếp phải >= 1")
@@ -52,6 +56,18 @@ public class UpdateVocabularyRequest {
 
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }
+
+    public String getVerbType() { return verbType; }
+    public void setVerbType(String verbType) { this.verbType = verbType; }
+
+    public String getVerbTypeJa() { return verbTypeJa; }
+    public void setVerbTypeJa(String verbTypeJa) { this.verbTypeJa = verbTypeJa; }
+
+    public String getVerbNote() { return verbNote; }
+    public void setVerbNote(String verbNote) { this.verbNote = verbNote; }
+
+    public Long getPairedVerbId() { return pairedVerbId; }
+    public void setPairedVerbId(Long pairedVerbId) { this.pairedVerbId = pairedVerbId; }
 
     public Integer getSortOrder() { return sortOrder; }
     public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder; }

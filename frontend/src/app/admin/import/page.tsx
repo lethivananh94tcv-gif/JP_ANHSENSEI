@@ -571,11 +571,40 @@ export default function AdminImportPage() {
               <p className="text-xs text-[#76685F]">
                 Toàn bộ dữ liệu từ vựng từ tệp Excel đã được phân tách và lưu chính xác vào từng Bài học N5/N4.
               </p>
+              {msg && <p className="text-xs font-bold text-emerald-700 bg-emerald-50 p-2.5 rounded-xl border border-emerald-200">{msg}</p>}
             </div>
 
-            <div className="flex justify-center gap-3">
+            <div className="flex justify-center gap-3 flex-wrap">
               <button
-                onClick={() => { setStep(1); setFile(null); setJob(null); }}
+                onClick={async () => {
+                  try {
+                    setLoading(true);
+                    if (selectedLessonId && selectedLessonId !== "ALL") {
+                      await fetch(getApiUrl(`/admin/lessons/${selectedLessonId}/publish`), {
+                        method: "POST",
+                        headers: getHeaders(),
+                      });
+                    } else if (selectedLevelId) {
+                      await fetch(getApiUrl(`/admin/levels/${selectedLevelId}/publish`), {
+                        method: "POST",
+                        headers: getHeaders(),
+                      });
+                    }
+                    setMsg("✅ Đã tự động xuất bản (Publish) nội dung vừa import cho Học viên!");
+                  } catch (e) {
+                    console.error(e);
+                  } finally {
+                    setLoading(false);
+                  }
+                }}
+                disabled={loading}
+                className="px-6 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-xs rounded-xl shadow-xs cursor-pointer flex items-center gap-2"
+              >
+                <span>🚀 {loading ? "Đang Xuất Bản..." : "Xuất Bản Ngay Cho Học Viên (Publish)"}</span>
+              </button>
+
+              <button
+                onClick={() => { setStep(1); setFile(null); setJob(null); setMsg(""); }}
                 className="px-6 py-2.5 bg-[#C65D4B] text-white font-extrabold text-xs rounded-xl shadow-xs"
               >
                 + Import Tệp Khác

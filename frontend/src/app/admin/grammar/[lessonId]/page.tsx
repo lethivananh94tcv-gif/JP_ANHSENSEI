@@ -176,34 +176,12 @@ export default function AdminGrammarLessonPage({ params }: { params: Promise<{ l
 
   const saveGrammarsState = (updatedList: GrammarPatternItem[]) => {
     setGrammars(updatedList);
-    if (typeof window !== "undefined") {
-      localStorage.setItem(`ADMIN_GRAMMAR_STORE_${lessonId}`, JSON.stringify(updatedList));
-      window.dispatchEvent(new CustomEvent("adminDataUpdated", { detail: { lessonId: Number(lessonId) } }));
-    }
   };
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const lNum = Number(lessonId) || 1;
-
-      // 0. Check Local Storage first for persistent Admin edits
-      if (typeof window !== "undefined") {
-        const localSaved = localStorage.getItem(`ADMIN_GRAMMAR_STORE_${lessonId}`);
-        if (localSaved) {
-          try {
-            const parsed = JSON.parse(localSaved);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-              setGrammars(parsed);
-              // Fetch questions or fallback
-              const fallbackQuestions = generateFallbackQuestions(parsed, lNum);
-              setQuestions(fallbackQuestions);
-              setLoading(false);
-              return;
-            }
-          } catch (e) {}
-        }
-      }
 
       // 1. Fetch Real Grammar Points from Backend
       let loadedGrammars: GrammarPatternItem[] = [];

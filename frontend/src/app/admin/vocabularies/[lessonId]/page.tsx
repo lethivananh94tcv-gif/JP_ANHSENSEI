@@ -17,6 +17,12 @@ interface VocabularyItem {
   meaningVi: string;
   audioText?: string;
   partOfSpeech?: string;
+  verbType?: string;
+  verbTypeJa?: string;
+  verbNote?: string;
+  pairedVerbId?: number;
+  pairedVerbWord?: string;
+  pairedVerbKana?: string;
   sortOrder?: number;
 }
 
@@ -114,45 +120,12 @@ export default function AdminVocabularyLessonPage({ params }: { params: Promise<
 
   const saveVocabsState = (updatedList: VocabularyItem[]) => {
     setVocabularies(updatedList);
-    if (typeof window !== "undefined") {
-      localStorage.setItem(`ADMIN_VOCAB_STORE_${lessonId}`, JSON.stringify(updatedList));
-      window.dispatchEvent(new CustomEvent("adminDataUpdated", { detail: { lessonId: Number(lessonId) } }));
-    }
   };
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const lNum = Number(lessonId) || 1;
-
-      // 0. Check local storage first
-      if (typeof window !== "undefined") {
-        const stored = localStorage.getItem(`ADMIN_VOCAB_STORE_${lessonId}`);
-        if (stored) {
-          try {
-            const parsed = JSON.parse(stored);
-            if (Array.isArray(parsed) && parsed.length > 0) {
-              setVocabularies(parsed);
-              const fallbackQuestions: QuestionItem[] = parsed.slice(0, 10).map((v: any, idx: number) => ({
-                questionId: Date.now() + idx,
-                prompt: `[Từ vựng Bài #${lessonId}] Từ 「 ${v.word} 」 (${v.kana}) có nghĩa tiếng Việt là gì?`,
-                questionType: "MULTIPLE_CHOICE",
-                category: "VOCAB",
-                explanation: `Từ 「 ${v.word} 」 (${v.kana}) có nghĩa chính xác là: ${v.meaningVi}.`,
-                options: [
-                  { optionText: v.meaningVi, isCorrect: true, sortOrder: 1 },
-                  { optionText: "Bạn bè", isCorrect: false, sortOrder: 2 },
-                  { optionText: "Trường học", isCorrect: false, sortOrder: 3 },
-                  { optionText: "Bệnh viện", isCorrect: false, sortOrder: 4 },
-                ].sort(() => Math.random() - 0.5),
-              }));
-              setQuestions(fallbackQuestions);
-              setLoading(false);
-              return;
-            }
-          } catch (e) {}
-        }
-      }
 
       // 1. Fetch Real Vocabularies from Backend
       let loadedVocabs: VocabularyItem[] = [];
@@ -173,6 +146,12 @@ export default function AdminVocabularyLessonPage({ params }: { params: Promise<
               meaningVi: item.meaningVi || "",
               audioText: item.kana || item.word,
               partOfSpeech: item.partOfSpeech || "NOUN",
+              verbType: item.verbType || null,
+              verbTypeJa: item.verbTypeJa || null,
+              verbNote: item.verbNote || null,
+              pairedVerbId: item.pairedVerbId || null,
+              pairedVerbWord: item.pairedVerbWord || null,
+              pairedVerbKana: item.pairedVerbKana || null,
               sortOrder: item.sortOrder || 1,
             }));
           }
@@ -597,9 +576,22 @@ export default function AdminVocabularyLessonPage({ params }: { params: Promise<
                 className="bg-white border-2 border-[#EADECF] p-4 rounded-2xl shadow-xs space-y-2 hover:border-[#C65D4B] transition-all relative group"
               >
                 <div className="flex justify-between items-start">
-                  <span className="text-[10px] font-black text-[#8C7B70] bg-[#FAF7F2] px-2 py-0.5 rounded-md border border-[#EADECF]">
-                    #{idx + 1}
-                  </span>
+                  <div className="flex items-center gap-1.5 flex-wrap">
+                    <span className="text-[10px] font-black text-[#8C7B70] bg-[#FAF7F2] px-2 py-0.5 rounded-md border border-[#EADECF]">
+                      #{idx + 1}
+                    </span>
+                    {v.verbTypeJa && (
+                      <span
+                        className={`text-[10px] font-black px-2 py-0.5 rounded-md border ${
+                          v.verbType === "transitive" || v.verbTypeJa === "他動詞"
+                            ? "bg-rose-50 text-rose-700 border-rose-200"
+                            : "bg-teal-50 text-teal-700 border-teal-200"
+                        }`}
+                      >
+                        {v.verbTypeJa}
+                      </span>
+                    )}
+                  </div>
                   <button
                     onClick={() => handleDeleteVocab(v.vocabularyId)}
                     className="p-1 text-[#8C7B70] hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-all"
@@ -619,8 +611,13 @@ export default function AdminVocabularyLessonPage({ params }: { params: Promise<
                   )}
                 </div>
 
-                <div className="pt-1.5 border-t border-[#EADECF]/60">
+                <div className="pt-1.5 border-t border-[#EADECF]/60 space-y-1">
                   <p className="text-xs font-bold text-[#C65D4B] line-clamp-2">{v.meaningVi}</p>
+                  {v.pairedVerbWord && (
+                    <p className="text-[10px] font-extrabold text-[#8B6F5A] bg-[#FAF7F2] px-2 py-0.5 rounded border border-[#EADECF] truncate">
+                      ↔ Đối ứng: <span className="text-[#C65D4B]">{v.pairedVerbWord}</span> ({v.pairedVerbKana})
+                    </p>
+                  )}
                 </div>
               </div>
             ))}

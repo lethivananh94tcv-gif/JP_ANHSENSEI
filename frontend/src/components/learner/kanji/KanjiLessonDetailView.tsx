@@ -173,7 +173,6 @@ export default function KanjiLessonDetailView({ topicId, onBack }: KanjiLessonDe
               badge: "Lật thẻ",
               icon: Layers,
               emoji: "🎴",
-              desc: "Tra cứu & 3D Flashcard",
             },
             {
               id: "STROKE",
@@ -181,7 +180,6 @@ export default function KanjiLessonDetailView({ topicId, onBack }: KanjiLessonDe
               badge: "Viết Hán tự",
               icon: PenTool,
               emoji: "✏️",
-              desc: "Luyện vẽ đúng thứ tự nét",
             },
             {
               id: "TYPING",
@@ -189,7 +187,6 @@ export default function KanjiLessonDetailView({ topicId, onBack }: KanjiLessonDe
               badge: "Phản xạ",
               icon: Keyboard,
               emoji: "⌨️",
-              desc: "Gõ Romaji / Kana nhanh",
             },
             {
               id: "READING",
@@ -197,7 +194,6 @@ export default function KanjiLessonDetailView({ topicId, onBack }: KanjiLessonDe
               badge: "Đọc hiểu",
               icon: BookOpen,
               emoji: "📖",
-              desc: "Đọc Kanji trong ngữ cảnh",
             },
             {
               id: "TEST",
@@ -205,7 +201,6 @@ export default function KanjiLessonDetailView({ topicId, onBack }: KanjiLessonDe
               badge: "Kiểm tra",
               icon: CheckSquare,
               emoji: "📝",
-              desc: "Chấm điểm & Đáp án",
             },
             {
               id: "GAME",
@@ -213,7 +208,6 @@ export default function KanjiLessonDetailView({ topicId, onBack }: KanjiLessonDe
               badge: "HOT +50XP",
               icon: Gamepad2,
               emoji: "🎮",
-              desc: "Ghép cặp thẻ Hán tự 3D",
               isHot: true,
             },
           ].map((tab) => {
@@ -223,7 +217,7 @@ export default function KanjiLessonDetailView({ topicId, onBack }: KanjiLessonDe
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`group relative flex flex-col items-center justify-between p-3 rounded-2xl transition-all duration-200 cursor-pointer text-center border min-h-[92px] ${
+                className={`group relative flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-200 cursor-pointer text-center border min-h-[84px] ${
                   isActive
                     ? "bg-gradient-to-b from-[#C65D4B] to-[#B04C3B] text-white border-[#C65D4B] shadow-lg shadow-[#C65D4B]/25 scale-[1.02] ring-2 ring-[#C65D4B]/30"
                     : "bg-[#FFFDF9] hover:bg-white text-[#231917] border-[#E5D7C7] hover:border-[#C65D4B]/60 hover:shadow-md"
@@ -249,7 +243,7 @@ export default function KanjiLessonDetailView({ topicId, onBack }: KanjiLessonDe
                   </span>
                 </div>
 
-                <div className="my-1">
+                <div className="mt-1.5">
                   <span
                     className={`text-xs font-black leading-tight block ${
                       isActive ? "text-white" : "text-[#231917] group-hover:text-[#C65D4B]"
@@ -258,14 +252,6 @@ export default function KanjiLessonDetailView({ topicId, onBack }: KanjiLessonDe
                     {tab.label}
                   </span>
                 </div>
-
-                <span
-                  className={`text-[10px] font-medium truncate max-w-full block ${
-                    isActive ? "text-white/80" : "text-[#76685F]"
-                  }`}
-                >
-                  {tab.desc}
-                </span>
               </button>
             );
           })}

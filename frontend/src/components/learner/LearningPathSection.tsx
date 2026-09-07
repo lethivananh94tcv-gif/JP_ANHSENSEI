@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { LevelSummary } from "@/types/learner";
-import { ArrowRight, Lock, Check } from "lucide-react";
+import { Lock, Check } from "lucide-react";
 import N3NoticeModal from "@/components/shared/N3NoticeModal";
 
 interface LearningPathSectionProps {
@@ -15,7 +15,7 @@ export default function LearningPathSection({ levels }: LearningPathSectionProps
   const defaultLevelsConfig = [
     { code: "N5", name: "JLPT N5", desc: "Chứng Nhập Môn", defaultId: 1, isLocked: false, isCurrent: true, color: "bg-[#C65D4B] text-white" },
     { code: "N4", name: "JLPT N4", desc: "Chứng Sơ Cấp", defaultId: 2, isLocked: false, isCurrent: false, color: "bg-[#3D2C26] text-white" },
-    { code: "N3", name: "JLPT N3", desc: "Sắp nâng cấp", defaultId: 3, isLocked: true, isCurrent: false, color: "bg-gray-200 text-gray-400" },
+    { code: "N3", name: "JLPT N3", desc: "Chứng Trung Cấp", defaultId: 3, isLocked: false, isCurrent: false, color: "bg-[#698B6E] text-white" },
     { code: "N2", name: "JLPT N2", desc: "Chờ cập nhật", defaultId: 4, isLocked: true, isCurrent: false, color: "bg-gray-200 text-gray-400" },
     { code: "N1", name: "JLPT N1", desc: "Chờ cập nhật", defaultId: 5, isLocked: true, isCurrent: false, color: "bg-gray-200 text-gray-400" },
   ];
@@ -29,18 +29,11 @@ export default function LearningPathSection({ levels }: LearningPathSectionProps
       />
 
       {/* Header */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-        <div className="flex items-center gap-2">
-          <span className="text-xl">⛩️</span>
-          <h2 className="text-xl sm:text-2xl font-black text-[#2C201D]">
-            Con đường chinh phục JLPT
-          </h2>
-        </div>
-
-        <div className="text-xs font-bold text-[#76685F] bg-[#FFF8F5] px-4 py-2 rounded-xl border border-[#F2DDD4] inline-flex items-center gap-1.5 select-none cursor-default">
-          <span>Xem lộ trình chi tiết</span>
-          <ArrowRight className="w-3.5 h-3.5 opacity-60" />
-        </div>
+      <div className="flex items-center gap-2">
+        <span className="text-xl">⛩️</span>
+        <h2 className="text-xl sm:text-2xl font-black text-[#2C201D]">
+          Con đường chinh phục JLPT
+        </h2>
       </div>
 
       {/* Level Cards Track (Interactive Cards) */}

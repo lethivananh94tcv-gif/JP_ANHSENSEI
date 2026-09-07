@@ -46,7 +46,7 @@ export default function GrammarLevelSelector({
               key={lvl.code}
               type="button"
               onClick={() => {
-                if (["N3", "N2", "N1"].includes(lvl.code.toUpperCase())) {
+                if (["N2", "N1"].includes(lvl.code.toUpperCase())) {
                   setShowN3Notice(true);
                   return;
                 }

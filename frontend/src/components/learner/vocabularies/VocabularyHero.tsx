@@ -97,7 +97,7 @@ export default function VocabularyHero({
               <span className="inline-block animate-bounce text-xl sm:text-2xl">🪴</span>
             </h1>
             <p className="text-xs sm:text-sm text-[#6E5D55] font-medium leading-relaxed max-w-xl">
-              Hệ thống thẻ ghi nhớ Spaced Repetition (SRS) giúp bạn ghi nhớ sâu từ vựng N5 – N1 và tự tin chinh phục kỳ thi JLPT.
+              Nhặt vài từ mỗi ngày, để đến lúc thi JLPT khỏi “ơ… từ này là gì ta?” 😂
             </p>
           </div>
 

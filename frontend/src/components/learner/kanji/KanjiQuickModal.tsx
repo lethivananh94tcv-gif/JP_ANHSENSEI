@@ -25,7 +25,7 @@ interface KanjiQuickModalProps {
 
 export default function KanjiQuickModal({ kanji, onClose }: KanjiQuickModalProps) {
   const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-  const [playingWord, setPlayingWord] = useState<string | null>(null);
+  const [playingVocabKey, setPlayingVocabKey] = useState<string | null>(null);
 
   if (!kanji) return null;
 
@@ -40,12 +40,13 @@ export default function KanjiQuickModal({ kanji, onClose }: KanjiQuickModalProps
     });
   };
 
-  const handlePlayVocabSound = (word: string, reading: string) => {
-    setPlayingWord(word);
+  const handlePlayVocabSound = (word: string, reading: string, idx: number) => {
+    const itemKey = `${word}_${reading}_${idx}`;
+    setPlayingVocabKey(itemKey);
     playJapaneseTTS({
-      text: `${word} (${reading})`,
-      onEnd: () => setPlayingWord(null),
-      onError: () => setPlayingWord(null),
+      text: reading || word,
+      onEnd: () => setPlayingVocabKey(null),
+      onError: () => setPlayingVocabKey(null),
     });
   };
 
@@ -167,43 +168,51 @@ export default function KanjiQuickModal({ kanji, onClose }: KanjiQuickModalProps
                 </div>
 
                 <div className="space-y-2">
-                  {detail.importantVocab.map((vItem, idx) => (
-                    <div
-                      key={idx}
-                      className="flex items-center justify-between p-3 bg-[#FAF4EB]/60 hover:bg-[#FAF4EB] border border-[#E5D7C7]/70 rounded-xl transition-all group"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="w-6 h-6 rounded-full bg-white text-[#C65D4B] border border-[#E5D7C7] text-[11px] font-black flex items-center justify-center shrink-0 shadow-2xs">
-                          {idx + 1}
-                        </span>
-                        <div>
-                          <div className="flex items-center gap-2">
-                            <span className="text-base font-jp font-black text-[#1F1714] group-hover:text-[#C65D4B] transition-colors">
-                              {vItem.word}
-                            </span>
-                            <span className="text-xs font-jp font-extrabold text-[#6E5D55]">
-                              （{vItem.reading}）
-                            </span>
-                          </div>
-                          <div className="text-xs font-extrabold text-[#C65D4B] mt-0.5">
-                            → {vItem.meaning || "Từ ghép ví dụ"}
+                  {detail.importantVocab.map((vItem, idx) => {
+                    const itemKey = `${vItem.word}_${vItem.reading}_${idx}`;
+                    const isPlayingThis = playingVocabKey === itemKey;
+                    return (
+                      <div
+                        key={idx}
+                        className="flex items-center justify-between p-3 bg-[#FAF4EB]/60 hover:bg-[#FAF4EB] border border-[#E5D7C7]/70 rounded-xl transition-all group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="w-6 h-6 rounded-full bg-white text-[#C65D4B] border border-[#E5D7C7] text-[11px] font-black flex items-center justify-center shrink-0 shadow-2xs">
+                            {idx + 1}
+                          </span>
+                          <div>
+                            <div className="flex items-center gap-2">
+                              <span className="text-base font-jp font-black text-[#1F1714] group-hover:text-[#C65D4B] transition-colors">
+                                {vItem.word}
+                              </span>
+                              <span className="text-xs font-jp font-extrabold text-[#6E5D55]">
+                                （{vItem.reading}）
+                              </span>
+                            </div>
+                            <div className="text-xs font-extrabold text-[#C65D4B] mt-0.5">
+                              → {vItem.meaning || "Từ ghép ví dụ"}
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <button
-                        onClick={() => handlePlayVocabSound(vItem.word, vItem.reading)}
-                        className="p-2 rounded-xl bg-white hover:bg-[#C65D4B] text-[#C65D4B] hover:text-white border border-[#E5D7C7] transition-all cursor-pointer shadow-2xs"
-                        title="Phát âm từ vựng"
-                      >
-                        <Volume2
-                          className={`w-3.5 h-3.5 ${
-                            playingWord === vItem.word ? "animate-bounce text-amber-300" : ""
+                        <button
+                          onClick={() => handlePlayVocabSound(vItem.word, vItem.reading, idx)}
+                          className={`p-2 rounded-xl border transition-all cursor-pointer shadow-2xs ${
+                            isPlayingThis
+                              ? "bg-[#C65D4B] text-white border-[#C65D4B]"
+                              : "bg-white hover:bg-[#C65D4B] text-[#C65D4B] hover:text-white border-[#E5D7C7]"
                           }`}
-                        />
-                      </button>
-                    </div>
-                  ))}
+                          title="Phát âm từ vựng"
+                        >
+                          <Volume2
+                            className={`w-3.5 h-3.5 ${
+                              isPlayingThis ? "animate-bounce text-amber-200" : ""
+                            }`}
+                          />
+                        </button>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}

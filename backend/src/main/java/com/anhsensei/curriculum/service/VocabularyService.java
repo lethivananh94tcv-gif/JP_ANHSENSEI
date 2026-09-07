@@ -43,6 +43,26 @@ public class VocabularyService {
         vocab.setPartOfSpeech(request.getPartOfSpeech() != null ? request.getPartOfSpeech().trim() : null);
         vocab.setAudioUrl(request.getAudioUrl() != null ? request.getAudioUrl().trim() : null);
         vocab.setNotes(request.getNotes() != null ? request.getNotes().trim() : null);
+        vocab.setVerbType(request.getVerbType() != null ? request.getVerbType().trim() : null);
+        if (request.getVerbTypeJa() != null && !request.getVerbTypeJa().trim().isEmpty()) {
+            vocab.setVerbTypeJa(request.getVerbTypeJa().trim());
+        } else if ("transitive".equalsIgnoreCase(request.getVerbType())) {
+            vocab.setVerbTypeJa("他動詞");
+        } else if ("intransitive".equalsIgnoreCase(request.getVerbType())) {
+            vocab.setVerbTypeJa("自動詞");
+        } else {
+            vocab.setVerbTypeJa(null);
+        }
+        vocab.setVerbNote(request.getVerbNote() != null ? request.getVerbNote().trim() : null);
+
+        if (request.getPairedVerbId() != null) {
+            Vocabulary paired = vocabularyRepository.findById(request.getPairedVerbId())
+                    .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy Động từ đối ứng (pairedVerbId): " + request.getPairedVerbId()));
+            vocab.setPairedVerb(paired);
+        } else {
+            vocab.setPairedVerb(null);
+        }
+
         vocab.setSortOrder(request.getSortOrder());
         vocab.setIsRequired(request.getIsRequired() != null ? request.getIsRequired() : true);
         vocab.setStatus("DRAFT");
@@ -50,6 +70,14 @@ public class VocabularyService {
         vocab.setUpdatedBy(adminId);
 
         Vocabulary saved = vocabularyRepository.save(vocab);
+
+        // Enforce pair symmetry if paired verb exists
+        if (saved.getPairedVerb() != null) {
+            Vocabulary paired = saved.getPairedVerb();
+            paired.setPairedVerb(saved);
+            vocabularyRepository.save(paired);
+        }
+
         return new VocabularyDto(saved);
     }
 
@@ -74,6 +102,40 @@ public class VocabularyService {
         vocab.setPartOfSpeech(request.getPartOfSpeech() != null ? request.getPartOfSpeech().trim() : null);
         vocab.setAudioUrl(request.getAudioUrl() != null ? request.getAudioUrl().trim() : null);
         vocab.setNotes(request.getNotes() != null ? request.getNotes().trim() : null);
+        
+        vocab.setVerbType(request.getVerbType() != null ? request.getVerbType().trim() : null);
+        if (request.getVerbTypeJa() != null && !request.getVerbTypeJa().trim().isEmpty()) {
+            vocab.setVerbTypeJa(request.getVerbTypeJa().trim());
+        } else if ("transitive".equalsIgnoreCase(request.getVerbType())) {
+            vocab.setVerbTypeJa("他動詞");
+        } else if ("intransitive".equalsIgnoreCase(request.getVerbType())) {
+            vocab.setVerbTypeJa("自動詞");
+        } else {
+            vocab.setVerbTypeJa(null);
+        }
+        vocab.setVerbNote(request.getVerbNote() != null ? request.getVerbNote().trim() : null);
+
+        Vocabulary oldPaired = vocab.getPairedVerb();
+        if (request.getPairedVerbId() != null) {
+            Vocabulary newPaired = vocabularyRepository.findById(request.getPairedVerbId())
+                    .orElseThrow(() -> new IllegalArgumentException("Không tìm thấy Động từ đối ứng (pairedVerbId): " + request.getPairedVerbId()));
+            vocab.setPairedVerb(newPaired);
+            
+            // If old paired verb changed, clean up old pairing
+            if (oldPaired != null && !oldPaired.getVocabularyId().equals(newPaired.getVocabularyId())) {
+                oldPaired.setPairedVerb(null);
+                vocabularyRepository.save(oldPaired);
+            }
+            newPaired.setPairedVerb(vocab);
+            vocabularyRepository.save(newPaired);
+        } else {
+            vocab.setPairedVerb(null);
+            if (oldPaired != null) {
+                oldPaired.setPairedVerb(null);
+                vocabularyRepository.save(oldPaired);
+            }
+        }
+
         vocab.setSortOrder(request.getSortOrder());
         if (request.getIsRequired() != null) {
             vocab.setIsRequired(request.getIsRequired());

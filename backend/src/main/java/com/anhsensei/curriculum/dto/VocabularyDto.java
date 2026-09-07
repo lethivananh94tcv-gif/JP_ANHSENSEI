@@ -13,6 +13,16 @@ public class VocabularyDto {
     private String partOfSpeech;
     private String audioUrl;
     private String notes;
+    private String exampleJp;
+    private String exampleVi;
+    private String exampleReading;
+    private String usageNote;
+    private String verbType;
+    private String verbTypeJa;
+    private String verbNote;
+    private Long pairedVerbId;
+    private String pairedVerbWord;
+    private String pairedVerbKana;
     private Integer sortOrder;
     private Boolean isRequired;
     private String status;
@@ -35,6 +45,26 @@ public class VocabularyDto {
         this.partOfSpeech = vocabulary.getPartOfSpeech();
         this.audioUrl = vocabulary.getAudioUrl();
         this.notes = vocabulary.getNotes();
+        this.exampleJp = (vocabulary.getExampleJp() != null && !vocabulary.getExampleJp().trim().isEmpty())
+                ? vocabulary.getExampleJp()
+                : (vocabulary.getWord() != null ? vocabulary.getWord() : vocabulary.getKana()) + " を 毎日 勉強します。";
+        this.exampleVi = (vocabulary.getExampleVi() != null && !vocabulary.getExampleVi().trim().isEmpty())
+                ? vocabulary.getExampleVi()
+                : "Tôi học từ \"" + vocabulary.getMeaningVi() + "\" mỗi ngày.";
+        this.exampleReading = (vocabulary.getExampleReading() != null && !vocabulary.getExampleReading().trim().isEmpty())
+                ? vocabulary.getExampleReading()
+                : (vocabulary.getKana() != null ? vocabulary.getKana() : vocabulary.getWord()) + " を まいにち べんきょうします。";
+        this.usageNote = (vocabulary.getUsageNote() != null && !vocabulary.getUsageNote().trim().isEmpty())
+                ? vocabulary.getUsageNote()
+                : "Mẫu câu ví dụ ứng dụng từ vựng vào đời sống hàng ngày.";
+        this.verbType = vocabulary.getVerbType();
+        this.verbTypeJa = vocabulary.getVerbTypeJa();
+        this.verbNote = vocabulary.getVerbNote();
+        if (vocabulary.getPairedVerb() != null) {
+            this.pairedVerbId = vocabulary.getPairedVerb().getVocabularyId();
+            this.pairedVerbWord = vocabulary.getPairedVerb().getWord();
+            this.pairedVerbKana = vocabulary.getPairedVerb().getKana();
+        }
         this.sortOrder = vocabulary.getSortOrder();
         this.isRequired = vocabulary.getIsRequired();
         this.status = vocabulary.getStatus();
@@ -70,6 +100,36 @@ public class VocabularyDto {
 
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }
+
+    public String getExampleJp() { return exampleJp; }
+    public void setExampleJp(String exampleJp) { this.exampleJp = exampleJp; }
+
+    public String getExampleVi() { return exampleVi; }
+    public void setExampleVi(String exampleVi) { this.exampleVi = exampleVi; }
+
+    public String getExampleReading() { return exampleReading; }
+    public void setExampleReading(String exampleReading) { this.exampleReading = exampleReading; }
+
+    public String getUsageNote() { return usageNote; }
+    public void setUsageNote(String usageNote) { this.usageNote = usageNote; }
+
+    public String getVerbType() { return verbType; }
+    public void setVerbType(String verbType) { this.verbType = verbType; }
+
+    public String getVerbTypeJa() { return verbTypeJa; }
+    public void setVerbTypeJa(String verbTypeJa) { this.verbTypeJa = verbTypeJa; }
+
+    public String getVerbNote() { return verbNote; }
+    public void setVerbNote(String verbNote) { this.verbNote = verbNote; }
+
+    public Long getPairedVerbId() { return pairedVerbId; }
+    public void setPairedVerbId(Long pairedVerbId) { this.pairedVerbId = pairedVerbId; }
+
+    public String getPairedVerbWord() { return pairedVerbWord; }
+    public void setPairedVerbWord(String pairedVerbWord) { this.pairedVerbWord = pairedVerbWord; }
+
+    public String getPairedVerbKana() { return pairedVerbKana; }
+    public void setPairedVerbKana(String pairedVerbKana) { this.pairedVerbKana = pairedVerbKana; }
 
     public Integer getSortOrder() { return sortOrder; }
     public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder; }

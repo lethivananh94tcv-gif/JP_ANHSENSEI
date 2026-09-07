@@ -271,6 +271,7 @@ public class AuthService {
             user.setTargetLevel("N5");
             user.setStatus("ACTIVE");
             user.setEmailVerifiedAt(OffsetDateTime.now());
+            user.setLastLoginAt(OffsetDateTime.now());
             user = userRepository.save(user);
         }
 
@@ -518,6 +519,7 @@ public class AuthService {
             user.setTargetLevel("N5");
             user.setStatus("ACTIVE");
             user.setEmailVerifiedAt(OffsetDateTime.now());
+            user.setLastLoginAt(OffsetDateTime.now());
             user = userRepository.save(user);
         } else {
             if ("LOCKED".equalsIgnoreCase(user.getStatus()) || "DISABLED".equalsIgnoreCase(user.getStatus())) {

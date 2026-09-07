@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { UserProfile } from "@/types/learner";
-import { Sparkles, BookOpen, Languages, PenTool, Flame, Bot, Home, User, LogOut, Shield, Menu, X, ChevronDown } from "lucide-react";
+import { Sparkles, BookOpen, Languages, PenTool, Flame, Bot, Home, User, LogOut, Shield, Menu, X, ChevronDown, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import AnhSenseiLogo from "@/components/ui/AnhSenseiLogo";
 import JlptNoticeModal from "@/components/shared/JlptNoticeModal";
@@ -60,6 +60,7 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
   const navItems = [
     { name: "Trang chủ", href: "/", active: pathname === "/" || pathname === "/dashboard", icon: Home },
     { name: "Từ vựng", href: "/vocabularies", active: pathname.startsWith("/vocabularies"), icon: Languages },
+    { name: "Chia Động Từ ⚡", href: "/verbs", active: pathname.startsWith("/verbs"), icon: Zap },
     { name: "Ngữ pháp", href: "/grammar", active: pathname.startsWith("/grammar"), icon: BookOpen },
     { name: "Kanji", href: "/kanji", active: pathname.startsWith("/kanji"), icon: PenTool },
     { name: "Luyện JLPT", href: "/jlpt-practice", active: pathname.startsWith("/jlpt-practice") || pathname.startsWith("/flashcards"), icon: Flame, badge: "JLPT" },

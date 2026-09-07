@@ -78,10 +78,10 @@ export default function LevelSelector({
       accentColor: "#698B6E",
       activeBorder: "border-2 border-[#698B6E] ring-2 ring-[#698B6E]/15 shadow-md",
       btnBg: "bg-[#698B6E]",
-      targetAudience: "Dành cho người muốn nâng cao",
+      targetAudience: "Dành cho người học N3 nâng cao",
       bullets: [
-        { icon: "book", text: "Học 2,000+ từ vựng học thuật" },
-        { icon: "star", text: "Chủ đề học thuật, chuyên sâu" },
+        { icon: "book", text: "Học 980+ từ vựng N3 cốt lõi" },
+        { icon: "star", text: "Phân loại theo 12 chủ đề" },
         { icon: "headphones", text: "Có phát âm & ví dụ minh họa" },
       ],
     },
@@ -156,10 +156,6 @@ export default function LevelSelector({
                 whileHover={{ y: -5 }}
                 whileTap={{ scale: 0.98 }}
                 onClick={() => {
-                  if (code === "N3") {
-                    setShowN3Notice(true);
-                    return;
-                  }
                   onSelectLevel(lvl.code);
                 }}
                 className={`relative bg-[#FFFDF9] bg-[radial-gradient(#E5D7C7_1px,transparent_1px)] [background-size:14px_14px] rounded-3xl p-5 sm:p-6 transition-all cursor-pointer flex flex-col justify-between overflow-hidden border shadow-sm ${

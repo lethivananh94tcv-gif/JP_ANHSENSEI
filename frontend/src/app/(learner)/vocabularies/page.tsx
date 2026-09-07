@@ -29,6 +29,9 @@ import VocabularyAllLessonsModal from "@/components/learner/vocabularies/Vocabul
 import JapaneseKanaChartModal from "@/components/learner/vocabularies/JapaneseKanaChartModal";
 import VocabularyHubSkeleton from "@/components/learner/vocabularies/VocabularyHubSkeleton";
 import { VocabularyHubErrorState, VocabularyHubEmptyState } from "@/components/learner/vocabularies/VocabularyHubErrorState";
+import QuickVerbConjugatorWidget from "@/components/learner/vocabularies/QuickVerbConjugatorWidget";
+import RecentVocabularyWidget from "@/components/learner/vocabularies/RecentVocabularyWidget";
+import VerbConjugationFeaturedBanner from "@/components/learner/vocabularies/VerbConjugationFeaturedBanner";
 
 const DEFAULT_LEVELS: LevelItem[] = [
   { levelId: 1, code: "N5", name: "JLPT N5", description: "Sơ cấp Minna No Nihongo", status: "PUBLISHED", sortOrder: 1 },
@@ -92,6 +95,24 @@ const DEFAULT_N4_LESSONS: LessonItem[] = [
   { lessonId: 50, levelId: 2, title: "Bài 50: Khiêm nhường ngữ Kenjougo (謙譲語)", description: "Khiêm nhường hạ mình về hành động bản thân để tôn trọng đối phương.", sortOrder: 50, status: "PUBLISHED" },
 ];
 
+const DEFAULT_N3_LESSONS: LessonItem[] = [
+  { lessonId: 51, levelId: 3, title: "Bài 51: Quan hệ giữa người với người (人と人との関係)", description: "Từ vựng về Gia đình, Bạn bè, Người yêu, Giao tiếp", sortOrder: 1, status: "PUBLISHED" },
+  { lessonId: 52, levelId: 3, title: "Bài 52: Cuộc sống hàng ngày ① (毎日の暮らし①)", description: "Từ vựng về Thời gian, Ẩm thực, Dụng cụ nấu ăn, Việc nhà", sortOrder: 2, status: "PUBLISHED" },
+  { lessonId: 53, levelId: 3, title: "Bài 53: Cuộc sống hàng ngày ② (毎日の暮らし②)", description: "Từ vựng về Nhà ở, Tiền bạc, Ngân hàng, Mua sắm", sortOrder: 3, status: "PUBLISHED" },
+  { lessonId: 54, levelId: 3, title: "Bài 54: Thành phố của chúng tôi (私たちの町)", description: "Từ vựng về Quang cảnh thành phố, Phương tiện giao thông, Lái xe", sortOrder: 4, status: "PUBLISHED" },
+  { lessonId: 55, levelId: 3, title: "Bài 55: Học tập & Thi cử (勉強しよう！)", description: "Từ vựng về Trường học, Thi cử, Trường Đại học Nhật Bản", sortOrder: 5, status: "PUBLISHED" },
+  { lessonId: 56, levelId: 3, title: "Bài 56: Công việc & Công ty (仕事)", description: "Từ vựng về Việc làm, Công ty, Quan hệ đồng nghiệp, Máy tính", sortOrder: 6, status: "PUBLISHED" },
+  { lessonId: 57, levelId: 3, title: "Bài 57: Những điều giải trí (楽しいこと)", description: "Từ vựng về Du lịch, Thể thao, Thời trang, Sở thích", sortOrder: 7, status: "PUBLISHED" },
+  { lessonId: 58, levelId: 3, title: "Bài 58: Sức khỏe & Bệnh viện (健康のために)", description: "Từ vựng về Cơ thể, Triệu chứng bệnh, Bệnh viện, Y tế", sortOrder: 8, status: "PUBLISHED" },
+  { lessonId: 59, levelId: 3, title: "Bài 59: Tự nhiên & Cuộc sống (自然と暮らし)", description: "Từ vựng về Thiên nhiên, Thời tiết, Các mùa trong năm", sortOrder: 9, status: "PUBLISHED" },
+  { lessonId: 60, levelId: 3, title: "Bài 60: Tin tức thời sự (ニュースで学ぼう！)", description: "Từ vựng về Truyền thông, Vụ việc, Rắc rối, Dữ liệu", sortOrder: 10, status: "PUBLISHED" },
+  { lessonId: 61, levelId: 3, title: "Bài 61: Cảm xúc & Tâm trạng (気持ちを伝えよう！)", description: "Từ vựng về Tính cách, Tâm trạng vui buồn, Cảm xúc", sortOrder: 11, status: "PUBLISHED" },
+  { lessonId: 62, levelId: 3, title: "Bài 62: Ấn tượng & Xã hội (イメージを伝えよう！)", description: "Từ vựng về Thiết kế, Impression con người, Xã hội quốc tế", sortOrder: 12, status: "PUBLISHED" },
+  { lessonId: 63, levelId: 3, title: "Bài 63: Văn thoại & Giao tiếp (会話の表現)", description: "Từ vựng về Hội thoại hàng ngày, Diễn đạt tự nhiên, Trả lời ngắn", sortOrder: 13, status: "PUBLISHED" },
+  { lessonId: 64, levelId: 3, title: "Bài 64: Kính ngữ & Công sở (敬語とビジネス)", description: "Từ vựng về Tôn kính ngữ, Khiêm nhường ngữ, Diễn đạt công sở", sortOrder: 14, status: "PUBLISHED" },
+  { lessonId: 65, levelId: 3, title: "Bài 65: Ôn tập tổng hợp & Thành ngữ (N3総合復習)", description: "Tổng hợp từ vựng N3 cốt lõi, Thành ngữ 4 chữ, Cụm từ hay gặp trong kỳ thi JLPT N3", sortOrder: 15, status: "PUBLISHED" },
+];
+
 export default function LearnerVocabulariesHubPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -145,7 +166,7 @@ export default function LearnerVocabulariesHubPage() {
 
       if (publishedLessons.length === 0) {
         const lvlCode = (targetLevel.code || "N5").toUpperCase();
-        publishedLessons = lvlCode === "N4" ? DEFAULT_N4_LESSONS : DEFAULT_N5_LESSONS;
+        publishedLessons = lvlCode === "N3" ? DEFAULT_N3_LESSONS : lvlCode === "N4" ? DEFAULT_N4_LESSONS : DEFAULT_N5_LESSONS;
       }
       setLessons(publishedLessons);
 
@@ -324,10 +345,6 @@ export default function LearnerVocabulariesHubPage() {
   // Event Handlers:
   // Level selection handler
   const handleSelectLevel = async (newLevelCode: string) => {
-    if (newLevelCode.toUpperCase() === "N3") {
-      setShowN3Notice(true);
-      return;
-    }
     if (newLevelCode.toUpperCase() === selectedLevelCode.toUpperCase()) return;
 
     const targetLvl = levels.find((l) => l.code.toUpperCase() === newLevelCode.toUpperCase());
@@ -362,8 +379,12 @@ export default function LearnerVocabulariesHubPage() {
   };
 
   const getCanonicalLessonId = (lesson: LessonItem) => {
-    const isN4 = selectedLevelCode === "N4" || (lesson.lessonId >= 100 && lesson.lessonId <= 150);
-    return isN4 ? 25 + lesson.sortOrder : lesson.sortOrder;
+    if (lesson.lessonId >= 51 && lesson.lessonId <= 65) return lesson.lessonId;
+    const isN4 = selectedLevelCode === "N4" || (lesson.lessonId >= 26 && lesson.lessonId <= 50);
+    const isN3 = selectedLevelCode === "N3" || (lesson.lessonId >= 51 && lesson.lessonId <= 65);
+    if (isN3) return 50 + lesson.sortOrder;
+    if (isN4) return 25 + lesson.sortOrder;
+    return lesson.sortOrder;
   };
 
   const handleOpenLesson = (lesson: LessonItem, mode?: "list" | "cards" | "typing" | "match" | null) => {
@@ -476,48 +497,68 @@ export default function LearnerVocabulariesHubPage() {
           onSelectLevel={handleSelectLevel}
         />
 
-        {/* 3. Main Full-Width Study Workspace */}
-        <div className="w-full space-y-6 sm:space-y-8">
-          {lessonsLoading ? (
-            <div className="w-full bg-[#FFFCF7] border border-[#DED3C8] rounded-3xl p-8 h-[160px] animate-pulse" />
-          ) : selectedLesson ? (
-            <SelectedLessonProgress
-              lesson={selectedLesson}
-              nextLesson={nextSuggestedLesson}
-              progress={progressMap[selectedLesson.lessonId] || progressMap[selectedLesson.sortOrder]}
-              nextLessonProgress={nextSuggestedLesson ? (progressMap[nextSuggestedLesson.lessonId] || progressMap[nextSuggestedLesson.sortOrder]) : null}
-              dueData={dueData}
-              onContinueLesson={handleContinueLesson}
-              onReviewDueFlashcards={handleReviewDueFlashcards}
-            />
-          ) : (
-            <VocabularyHubEmptyState
-              title={`Cấp độ ${selectedLevelCode} chưa có bài học`}
-              description="Hệ thống đang chuẩn bị dữ liệu bài học cho trình độ này."
-            />
-          )}
+        {/* 2-Column Split Layout (70% Main / 30% Sidebar) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 sm:gap-8 items-start">
+          {/* Main Area (70% - 8 cols out of 12) */}
+          <div className="lg:col-span-8 space-y-6 sm:space-y-8">
+            {/* Verb Conjugation Featured Banner */}
+            <VerbConjugationFeaturedBanner />
 
-          {/* 4. Recent Lesson List (Kho Bài Học) */}
-          {lessons.length > 0 && (
-            <RecentLessonList
-              levelCode={selectedLevelCode}
-              lessons={lessons}
-              selectedLessonId={selectedLesson?.sortOrder || selectedLesson?.lessonId}
-              progressMap={progressMap}
-              onSelectLesson={handleSelectLesson}
-              onOpenLesson={handleContinueLesson}
-              onOpenAllLessons={() => {
-                setModalMode(null);
-                setIsAllLessonsOpen(true);
-              }}
-            />
-          )}
+            {/* Selected Lesson Workspace */}
+            {lessonsLoading ? (
+              <div className="w-full bg-[#FFFCF7] border border-[#DED3C8] rounded-3xl p-8 h-[160px] animate-pulse" />
+            ) : selectedLesson ? (
+              <SelectedLessonProgress
+                lesson={selectedLesson}
+                nextLesson={nextSuggestedLesson}
+                progress={progressMap[selectedLesson.lessonId] || progressMap[selectedLesson.sortOrder]}
+                nextLessonProgress={nextSuggestedLesson ? (progressMap[nextSuggestedLesson.lessonId] || progressMap[nextSuggestedLesson.sortOrder]) : null}
+                dueData={dueData}
+                selectedLevelCode={selectedLevelCode}
+                onContinueLesson={handleContinueLesson}
+                onReviewDueFlashcards={handleReviewDueFlashcards}
+              />
+            ) : (
+              <VocabularyHubEmptyState
+                title={`Cấp độ ${selectedLevelCode} chưa có bài học`}
+                description="Hệ thống đang chuẩn bị dữ liệu bài học cho trình độ này."
+              />
+            )}
 
-          {/* 5. Study Modes Selector (Phương pháp học) */}
-          <VocabularyModeSelector
-            onSelectMode={handleSelectMode}
-            disabled={lessons.length === 0}
-          />
+            {/* Recent Lesson List (Kho Bài Học) */}
+            {lessons.length > 0 && (
+              <RecentLessonList
+                levelCode={selectedLevelCode}
+                lessons={lessons}
+                selectedLessonId={selectedLesson?.sortOrder || selectedLesson?.lessonId}
+                progressMap={progressMap}
+                onSelectLesson={handleSelectLesson}
+                onOpenLesson={handleContinueLesson}
+                onOpenAllLessons={() => {
+                  setModalMode(null);
+                  setIsAllLessonsOpen(true);
+                }}
+              />
+            )}
+
+            {/* Study Modes Selector (Phương pháp học) */}
+            <VocabularyModeSelector
+              onSelectMode={handleSelectMode}
+              disabled={lessons.length === 0}
+            />
+          </div>
+
+          {/* Sidebar Utility (30% - 4 cols out of 12) */}
+          <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-24">
+            {/* Quick Verb Conjugator Tool */}
+            <QuickVerbConjugatorWidget />
+
+            {/* Recently Accessed Vocabularies Widget */}
+            <RecentVocabularyWidget />
+
+            {/* Sidebar Utility Info / Tips */}
+            <VocabularySidebar streakData={streakData} />
+          </div>
         </div>
       </main>
 

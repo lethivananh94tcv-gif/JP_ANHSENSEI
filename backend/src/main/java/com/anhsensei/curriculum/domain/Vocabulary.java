@@ -37,6 +37,31 @@ public class Vocabulary {
     @Column(name = "notes", columnDefinition = "TEXT")
     private String notes;
 
+    @Column(name = "example_jp", columnDefinition = "TEXT")
+    private String exampleJp;
+
+    @Column(name = "example_vi", columnDefinition = "TEXT")
+    private String exampleVi;
+
+    @Column(name = "example_reading", columnDefinition = "TEXT")
+    private String exampleReading;
+
+    @Column(name = "usage_note", columnDefinition = "TEXT")
+    private String usageNote;
+
+    @Column(name = "verb_type", length = 50)
+    private String verbType;
+
+    @Column(name = "verb_type_ja", length = 50)
+    private String verbTypeJa;
+
+    @Column(name = "verb_note", columnDefinition = "TEXT")
+    private String verbNote;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "paired_verb_id")
+    private Vocabulary pairedVerb;
+
     @Column(name = "sort_order", nullable = false)
     private Integer sortOrder = 1;
 
@@ -96,6 +121,30 @@ public class Vocabulary {
 
     public String getNotes() { return notes; }
     public void setNotes(String notes) { this.notes = notes; }
+
+    public String getExampleJp() { return exampleJp; }
+    public void setExampleJp(String exampleJp) { this.exampleJp = exampleJp; }
+
+    public String getExampleVi() { return exampleVi; }
+    public void setExampleVi(String exampleVi) { this.exampleVi = exampleVi; }
+
+    public String getExampleReading() { return exampleReading; }
+    public void setExampleReading(String exampleReading) { this.exampleReading = exampleReading; }
+
+    public String getUsageNote() { return usageNote; }
+    public void setUsageNote(String usageNote) { this.usageNote = usageNote; }
+
+    public String getVerbType() { return verbType; }
+    public void setVerbType(String verbType) { this.verbType = verbType; }
+
+    public String getVerbTypeJa() { return verbTypeJa; }
+    public void setVerbTypeJa(String verbTypeJa) { this.verbTypeJa = verbTypeJa; }
+
+    public String getVerbNote() { return verbNote; }
+    public void setVerbNote(String verbNote) { this.verbNote = verbNote; }
+
+    public Vocabulary getPairedVerb() { return pairedVerb; }
+    public void setPairedVerb(Vocabulary pairedVerb) { this.pairedVerb = pairedVerb; }
 
     public Integer getSortOrder() { return sortOrder; }
     public void setSortOrder(Integer sortOrder) { this.sortOrder = sortOrder; }

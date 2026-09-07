@@ -15,9 +15,17 @@ export interface VocabularyDto {
   meaningVi: string;
   exampleJp?: string;
   exampleVi?: string;
+  exampleReading?: string;
+  usageNote?: string;
   partOfSpeech?: string;
   audioUrl?: string;
   notes?: string;
+  verbType?: "transitive" | "intransitive" | string;
+  verbTypeJa?: "他動詞" | "自動詞" | string;
+  verbNote?: string;
+  pairedVerbId?: number;
+  pairedVerbWord?: string;
+  pairedVerbKana?: string;
 }
 
 interface VocabularyLearningItemProps {
@@ -83,16 +91,87 @@ export default function VocabularyLearningItem({
             )}
           </div>
 
-          {item.partOfSpeech && (
-            <span className="text-[10px] bg-white text-[#C65D4B] font-black px-2.5 py-1 rounded-xl border border-[#DED3C8] shadow-2xs shrink-0 group-hover:border-[#C65D4B]/40 transition-colors">
-              {item.partOfSpeech}
-            </span>
-          )}
+          <div className="flex items-center gap-1.5 flex-wrap justify-end shrink-0">
+            {item.verbTypeJa && (
+              <span
+                className={`text-[10px] font-black px-2.5 py-1 rounded-xl border shadow-2xs transition-colors ${
+                  item.verbType === "transitive" || item.verbTypeJa === "他動詞"
+                    ? "bg-rose-50 text-rose-700 border-rose-200"
+                    : "bg-teal-50 text-teal-700 border-teal-200"
+                }`}
+                title={
+                  item.verbType === "transitive" || item.verbTypeJa === "他動詞"
+                    ? "Tha động từ (他動詞): 人がものに動作をする"
+                    : "Tự động từ (自動詞): 動作・変化が自然に起こる"
+                }
+              >
+                {item.verbTypeJa}
+              </span>
+            )}
+            {item.partOfSpeech && (
+              <span className="text-[10px] bg-white text-[#C65D4B] font-black px-2.5 py-1 rounded-xl border border-[#DED3C8] shadow-2xs group-hover:border-[#C65D4B]/40 transition-colors">
+                {item.partOfSpeech}
+              </span>
+            )}
+
+            {/* Bookmark / Learned Toggle Button - Compact Top Right */}
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                onToggleLearned(item.vocabularyId);
+              }}
+              title={isLearned ? "Đã thuộc từ này (Nhấp để bỏ đánh dấu)" : "Đánh dấu đã học"}
+              className={`px-2.5 py-1 rounded-xl text-xs font-black flex items-center gap-1 transition-all duration-200 cursor-pointer border shadow-2xs hover:scale-105 active:scale-95 ${
+                isLearned
+                  ? "bg-emerald-600 text-white border-emerald-700 shadow-emerald-500/20"
+                  : "bg-white hover:bg-[#C65D4B] text-[#76685F] hover:text-white border-[#DED3C8] hover:border-[#C65D4B]"
+              }`}
+            >
+              {isLearned ? (
+                <>
+                  <CheckCircle2 className="w-3.5 h-3.5 text-white" />
+                  <span>Đã thuộc</span>
+                </>
+              ) : (
+                <>
+                  <Bookmark className="w-3.5 h-3.5" />
+                  <span>Đã học</span>
+                </>
+              )}
+            </button>
+          </div>
         </div>
 
         <p className="text-sm font-extrabold text-[#231917] pt-2 border-t border-[#DED3C8]/70 leading-snug">
           {(item.meaningVi || "").normalize("NFC")}
         </p>
+
+        {/* Verb Helper Note & Paired Verb Widget */}
+        {(item.verbNote || item.verbTypeJa) && (
+          <div className="bg-[#FFFDF9] border border-[#EBE1D7] rounded-xl p-2.5 space-y-1 text-xs">
+            <div className="flex items-center gap-1.5 font-bold text-[#56423E]">
+              <span className="text-[10px] font-black text-[#C65D4B] bg-[#C65D4B]/10 px-1.5 py-0.5 rounded">
+                {item.verbTypeJa || (item.verbType === "transitive" ? "他動詞" : "自動詞")}
+              </span>
+              <span className="text-[11px] leading-tight text-[#6E5D57]">
+                {item.verbNote ||
+                  (item.verbType === "transitive" || item.verbTypeJa === "他動詞"
+                    ? "人がものに動作をする (Tác động trực tiếp lên đối tượng)"
+                    : "動作・変化が自然に起こる (Tự xảy ra/diễn ra tự nhiên)")}
+              </span>
+            </div>
+
+            {item.pairedVerbWord && (
+              <div className="pt-1.5 border-t border-[#EBE1D7] flex items-center justify-between text-[11px] font-bold text-[#56423E]">
+                <span className="text-[#8B6F5A]">自動詞 ↕ 他動詞 (Cặp đối ứng):</span>
+                <span className="text-[#C65D4B] font-extrabold bg-[#C65D4B]/10 px-2 py-0.5 rounded-md border border-[#C65D4B]/20">
+                  {item.pairedVerbWord} ({item.pairedVerbKana})
+                </span>
+              </div>
+            )}
+          </div>
+        )}
 
         {item.exampleJp && (
           <div 
@@ -113,30 +192,6 @@ export default function VocabularyLearningItem({
             💡 {(item.notes || "").normalize("NFC")}
           </p>
         )}
-      </div>
-
-      <div className="pt-3 border-t border-[#DED3C8]/60 flex justify-between items-center z-10">
-        <button
-          type="button"
-          onClick={() => onToggleLearned(item.vocabularyId)}
-          className={`w-full py-2.5 px-4 rounded-2xl text-xs font-black transition-all duration-200 min-h-[44px] flex items-center justify-center gap-2 cursor-pointer shadow-sm group-hover:shadow-md ${
-            isLearned
-              ? "bg-gradient-to-r from-emerald-600 to-teal-700 text-white shadow-emerald-500/20"
-              : "bg-white hover:bg-gradient-to-r hover:from-[#C65D4B] hover:to-[#B04F3F] text-[#8B6F5A] hover:text-white border border-[#DED3C8] hover:border-transparent"
-          }`}
-        >
-          {isLearned ? (
-            <>
-              <CheckCircle2 className="w-4 h-4 text-white" />
-              <span>✓ Đã thuộc từ này</span>
-            </>
-          ) : (
-            <>
-              <Bookmark className="w-4 h-4" />
-              <span>Đánh dấu đã học</span>
-            </>
-          )}
-        </button>
       </div>
     </motion.div>
   );
