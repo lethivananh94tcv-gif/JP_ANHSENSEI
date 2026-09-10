@@ -10,8 +10,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ConjugationRuleEngineTest {
 
     @Test
-    @DisplayName("Test Group 1 Verb Conjugations (書きます & 飲みます)")
+    @DisplayName("Test Verb Group Auto Detection (歩きます vs きます)")
+    void testGroupDetection() {
+        assertEquals(VerbGroup.GROUP_1, ConjugationRuleEngine.detectGroup("歩きます", null));
+        assertEquals(VerbGroup.GROUP_1, ConjugationRuleEngine.detectGroup("あるきます", null));
+        assertEquals(VerbGroup.GROUP_1, ConjugationRuleEngine.detectGroup("かきます", null));
+        assertEquals(VerbGroup.GROUP_1, ConjugationRuleEngine.detectGroup("話します", null));
+
+        assertEquals(VerbGroup.GROUP_3, ConjugationRuleEngine.detectGroup("きます", null));
+        assertEquals(VerbGroup.GROUP_3, ConjugationRuleEngine.detectGroup("来ます", null));
+        assertEquals(VerbGroup.GROUP_3, ConjugationRuleEngine.detectGroup("べんきょうします", null));
+    }
+
+    @Test
+    @DisplayName("Test Group 1 Verb Conjugations (歩きます & 書きます & 飲みます)")
     void testGroup1Conjugations() {
+        // 歩きます (Godan)
+        assertEquals(VerbGroup.GROUP_1, ConjugationRuleEngine.detectGroup("歩きます", null));
+        assertEquals("あるいて", ConjugationRuleEngine.conjugate("あるきます", null, ConjugationForm.TE));
+        assertEquals("歩いて", ConjugationRuleEngine.conjugate("歩きます", null, ConjugationForm.TE));
+        assertEquals("あるいた", ConjugationRuleEngine.conjugate("あるきます", null, ConjugationForm.TA));
+        assertEquals("あるかない", ConjugationRuleEngine.conjugate("あるきます", null, ConjugationForm.NAI));
+        assertEquals("あるく", ConjugationRuleEngine.conjugate("あるきます", null, ConjugationForm.DICT));
+
         // かきます (Godan)
         assertEquals("かく", ConjugationRuleEngine.conjugate("かきます", VerbGroup.GROUP_1, ConjugationForm.DICT));
         assertEquals("かいて", ConjugationRuleEngine.conjugate("かきます", VerbGroup.GROUP_1, ConjugationForm.TE));
@@ -61,3 +82,4 @@ class ConjugationRuleEngineTest {
         assertEquals("ない", ConjugationRuleEngine.conjugate("あります", VerbGroup.GROUP_1, ConjugationForm.NAI));
     }
 }
+

@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect } from "react";
 import { FlashcardItemDto } from "./types";
-import { Volume2, Star } from "lucide-react";
+import { Volume2, Star, Sparkles } from "lucide-react";
 import { playJapaneseTTS } from "@/lib/utils/japaneseAudioTTS";
+import { getVocabularyKanjiAnalysis } from "@/lib/utils/kanjiSinoVietnamese";
 
 interface FlashcardCard3DProps {
   card: FlashcardItemDto;
@@ -279,6 +280,38 @@ export default function FlashcardCard3D({
                   </span>
                 )}
               </div>
+
+              {/* Sino-Vietnamese (Hán Việt) Kanji Analysis */}
+              {(() => {
+                const kanjiAnalysis = getVocabularyKanjiAnalysis(card.word || card.kanjiForm);
+                if (!kanjiAnalysis) return null;
+
+                return (
+                  <div className="pt-1.5 flex flex-col items-center gap-1">
+                    <span className="inline-flex items-center gap-1 text-xs font-black text-[#C65D4B] bg-[#C65D4B]/10 px-3 py-0.5 rounded-full border border-[#C65D4B]/20">
+                      <Sparkles className="w-3 h-3 text-[#C65D4B]" />
+                      <span>Hán Việt: {kanjiAnalysis.fullHanViet}</span>
+                    </span>
+
+                    <div className="flex flex-wrap items-center justify-center gap-1.5 pt-0.5">
+                      {kanjiAnalysis.details.map((detail, idx) => (
+                        <div
+                          key={idx}
+                          className="inline-flex items-center gap-1 text-[11px] bg-white border border-[#DED3C8] px-2.5 py-0.5 rounded-lg shadow-2xs"
+                        >
+                          <span className="font-extrabold text-[#C65D4B]">{detail.char}</span>
+                          <span className="font-black text-[#302A26] uppercase">{detail.hanViet}</span>
+                          {detail.meaningVi && (
+                            <span className="text-[#76685F] text-[10px] italic border-l border-[#DED3C8] pl-1 ml-0.5">
+                              {detail.meaningVi.split(",")[0]}
+                            </span>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })()}
 
               {/* Meaning */}
               <div className="pt-2">

@@ -10,14 +10,14 @@ export interface VerbItem {
 
 export const MASTER_VERB_DATASET: VerbItem[] = [
   {
-    "word": "ちがいます",
-    "kana": "ちがいます",
+    "word": "います",
+    "kana": "います",
     "meaning": "Không phải, nhầm rồi",
     "level": "N5"
   },
   {
-    "word": "～でございます",
-    "kana": "～でございます",
+    "word": "ございます",
+    "kana": "でございます",
     "meaning": "Là ~ (kính ngữ của です)",
     "level": "N5"
   },
@@ -220,12 +220,6 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N5"
   },
   {
-    "word": "います",
-    "kana": "います",
-    "meaning": "Có, ở (người, động vật)",
-    "level": "N5"
-  },
-  {
     "word": "かかります",
     "kana": "かかります",
     "meaning": "mất, tốn (thời gian, tiền bạc)",
@@ -280,21 +274,15 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N5"
   },
   {
-    "word": "喉が渇きます",
-    "kana": "のどがかわきます",
+    "word": "渇きます",
+    "kana": "かわきます",
     "meaning": "Khát nước",
     "level": "N5"
   },
   {
-    "word": "お腹が空きます",
-    "kana": "おなかがすきます",
+    "word": "空きます",
+    "kana": "すきます",
     "meaning": "Bụng đói",
-    "level": "N5"
-  },
-  {
-    "word": "でございます",
-    "kana": "でございます",
-    "meaning": "Là (kính ngữ)",
     "level": "N5"
   },
   {
@@ -365,7 +353,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "曲がります",
-    "kana": "まがります",
+    "kana": "ります",
     "meaning": "Rẽ, quẹo",
     "level": "N5"
   },
@@ -430,15 +418,9 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N5"
   },
   {
-    "word": "これでおねがいします",
-    "kana": "これでおねがいします",
+    "word": "お願いします",
+    "kana": "おねがいします",
     "meaning": "Xin gửi tiền này",
-    "level": "N5"
-  },
-  {
-    "word": "雨が降っています",
-    "kana": "あめがふっています",
-    "meaning": "Trời đang mưa",
     "level": "N5"
   },
   {
@@ -517,12 +499,6 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "word": "出ます",
     "kana": "でます",
     "meaning": "Rời khỏi, ra",
-    "level": "N5"
-  },
-  {
-    "word": "家族は大阪に住んでいます",
-    "kana": "かぞくはおおさかにすんでいます",
-    "meaning": "Gia đình tôi đang sống ở Osaka",
     "level": "N5"
   },
   {
@@ -706,39 +682,15 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N5"
   },
   {
-    "word": "日本語を話すことができます",
-    "kana": "はなすことができます",
-    "meaning": "Có thể nói được tiếng Nhật",
-    "level": "N5"
-  },
-  {
-    "word": "寝る前に日記を書きます",
-    "kana": "ねるまえににっきをかきます",
+    "word": "書きます",
+    "kana": "かきます",
     "meaning": "Trước khi đi ngủ tôi viết nhật ký",
     "level": "N5"
   },
   {
-    "word": "カードで払うことができます",
-    "kana": "はらうことができます",
+    "word": "払います",
+    "kana": "はらいます",
     "meaning": "Có thể thanh toán bằng thẻ",
-    "level": "N5"
-  },
-  {
-    "word": "スキーができます",
-    "kana": "すきーができます",
-    "meaning": "Biết trượt tuyết",
-    "level": "N5"
-  },
-  {
-    "word": "歌を歌うことができます",
-    "kana": "うたをうたうことができます",
-    "meaning": "Có thể hát bài hát",
-    "level": "N5"
-  },
-  {
-    "word": "車を運転することができます",
-    "kana": "うんてんすることができます",
-    "meaning": "Có thể lái xe ô tô",
     "level": "N5"
   },
   {
@@ -772,12 +724,6 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N5"
   },
   {
-    "word": "富士山に登ったことがあります",
-    "kana": "ふじさんにのぼったことがあります",
-    "meaning": "Tôi đã từng leo núi Phú Sĩ",
-    "level": "N5"
-  },
-  {
     "word": "日曜日掃除したり洗濯したりします",
     "kana": "そうじしたりせんたくしたりします",
     "meaning": "Chủ nhật tôi dọn dẹp rồi giặt giũ",
@@ -793,18 +739,6 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "word": "だんだん寒くなります",
     "kana": "さむくなります",
     "meaning": "Trời dần trở nên lạnh",
-    "level": "N5"
-  },
-  {
-    "word": "元気になります",
-    "kana": "げんきになります",
-    "meaning": "Trở nên khỏe mạnh",
-    "level": "N5"
-  },
-  {
-    "word": "綺麗になります",
-    "kana": "きれいになります",
-    "meaning": "Trở nên đẹp hơn",
     "level": "N5"
   },
   {
@@ -850,12 +784,6 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N5"
   },
   {
-    "word": "役に立ちます",
-    "kana": "やくにたちます",
-    "meaning": "Có ích, giúp ích",
-    "level": "N5"
-  },
-  {
     "word": "動きます",
     "kana": "うごきます",
     "meaning": "Chuyển động, hoạt động",
@@ -868,27 +796,9 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N5"
   },
   {
-    "word": "気をつけます",
-    "kana": "きをつけます",
-    "meaning": "Chú ý, cẩn thận",
-    "level": "N5"
-  },
-  {
     "word": "留学します",
-    "kana": "りゅうがくします",
+    "kana": "くします",
     "meaning": "Du học",
-    "level": "N5"
-  },
-  {
-    "word": "日本は物価が高いと思います",
-    "kana": "ぶっかがたかいとおもいます",
-    "meaning": "Tôi nghĩ Nhật Bản có giá cả đắt đỏ",
-    "level": "N5"
-  },
-  {
-    "word": "明日雨が降ると思います",
-    "kana": "あしたあめがふるとおもいます",
-    "meaning": "Tôi nghĩ ngày mai trời sẽ mưa",
     "level": "N5"
   },
   {
@@ -910,7 +820,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N5"
   },
   {
-    "word": " megane をかけます",
+    "word": "かけます",
     "kana": "かけます",
     "meaning": "Đeo (kính)",
     "level": "N5"
@@ -922,8 +832,8 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N5"
   },
   {
-    "word": "おめでとうございます",
-    "kana": "おめでとうございます",
+    "word": "ございます",
+    "kana": "ございます",
     "meaning": "Xin chúc mừng!",
     "level": "N5"
   },
@@ -970,57 +880,15 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N5"
   },
   {
-    "word": "これに触ると水が出ます",
-    "kana": "これにさわるとみずがでます",
-    "meaning": "Chạm vào cái này nước sẽ chảy ra",
-    "level": "N5"
-  },
-  {
-    "word": "右へ曲がると銀行があります",
-    "kana": "みぎへまがるとぎんこうがあります",
+    "word": "曲がります",
+    "kana": "まがります",
     "meaning": "Rẽ phải sẽ thấy ngân hàng",
     "level": "N5"
   },
   {
-    "word": "図書館へ行くとき本を借ります",
-    "kana": "としょかんへいくときほんをかります",
+    "word": "借ります",
+    "kana": "かります",
     "meaning": "Khi đi thư viện tôi mượn sách",
-    "level": "N5"
-  },
-  {
-    "word": "家に帰ったときただいまと言います",
-    "kana": "うちにかえったとき",
-    "meaning": "Khi về đến nhà tôi nói Tadaima",
-    "level": "N5"
-  },
-  {
-    "word": "お釣りが出ます",
-    "kana": "おつりがでます",
-    "meaning": "Tiền thừa thối ra",
-    "level": "N5"
-  },
-  {
-    "word": "ボタンを押すと動きます",
-    "kana": "ぼたんをおすとうごきます",
-    "meaning": "Ấn nút thì máy sẽ hoạt động",
-    "level": "N5"
-  },
-  {
-    "word": "つまみを右へ回すと音が大きくなります",
-    "kana": "みぎへまわすと",
-    "meaning": "Vặn núm sang phải âm thanh to lên",
-    "level": "N5"
-  },
-  {
-    "word": "橋を渡ります",
-    "kana": "はしをわたります",
-    "meaning": "Đi qua cầu",
-    "level": "N5"
-  },
-  {
-    "word": "交差点を左へ曲がります",
-    "kana": "こうさてんをひだりへまがります",
-    "meaning": "Rẽ trái ở ngã tư",
     "level": "N5"
   },
   {
@@ -1072,26 +940,14 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N5"
   },
   {
-    "word": "車で送ってあげます",
-    "kana": "くるまでおくってあげます",
-    "meaning": "Tôi sẽ chở bạn đi bằng xe ô tô",
-    "level": "N5"
-  },
-  {
     "word": "感謝します",
     "kana": "かんしゃします",
     "meaning": "Cảm ơn, biết ơn",
     "level": "N5"
   },
   {
-    "word": "駅まで送ります",
-    "kana": "えくまでおくります",
-    "meaning": "Tiễn ra tận nhà ga",
-    "level": "N5"
-  },
-  {
     "word": "考えます",
-    "kana": "かんがえます",
+    "kana": "えます",
     "meaning": "Suy nghĩ, suy xét",
     "level": "N5"
   },
@@ -1126,8 +982,8 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N5"
   },
   {
-    "word": "日曜日でも働きます",
-    "kana": "にちようびでもはたらきます",
+    "word": "働きます",
+    "kana": "はたらきます",
     "meaning": "Cho dù là chủ nhật vẫn làm việc",
     "level": "N5"
   },
@@ -1145,7 +1001,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "探します",
-    "kana": "さがします",
+    "kana": "します",
     "meaning": "Tìm kiếm",
     "level": "N4"
   },
@@ -1157,7 +1013,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "間に合います",
-    "kana": "まにあいます",
+    "kana": "あいます",
     "meaning": "Kịp (giờ)",
     "level": "N4"
   },
@@ -1270,7 +1126,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N4"
   },
   {
-    "word": "がつきます",
+    "word": "つきます",
     "kana": "つきます",
     "meaning": "Sáng (điện tự bật sáng)",
     "level": "N4"
@@ -1330,14 +1186,14 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N4"
   },
   {
-    "word": "まちがえます",
-    "kana": "まちがえます",
+    "word": "えます",
+    "kana": "えます",
     "meaning": "Nhầm lẫn, sai lầm",
     "level": "N4"
   },
   {
     "word": "落とします",
-    "kana": "おとします",
+    "kana": "します",
     "meaning": "Làm rơi, đánh rơi",
     "level": "N4"
   },
@@ -1402,8 +1258,8 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N4"
   },
   {
-    "word": "まとめます",
-    "kana": "まとめます",
+    "word": "めます",
+    "kana": "めます",
     "meaning": "Gom lại, tóm tắt",
     "level": "N4"
   },
@@ -1444,8 +1300,8 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N4"
   },
   {
-    "word": "そのままにします",
-    "kana": "そのままにします",
+    "word": "します",
+    "kana": "します",
     "meaning": "Để nguyên như thế",
     "level": "N4"
   },
@@ -1468,14 +1324,14 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N4"
   },
   {
-    "word": " megane を受けます",
+    "word": "受けます",
     "kana": "うけます",
     "meaning": "Dự thi (kỳ thi)",
     "level": "N4"
   },
   {
     "word": "入学します",
-    "kana": "にゅうがくします",
+    "kana": "くします",
     "meaning": "Nhập học",
     "level": "N4"
   },
@@ -1570,8 +1426,8 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N4"
   },
   {
-    "word": "無理をします",
-    "kana": "むりをします",
+    "word": "無理します",
+    "kana": "むりします",
     "meaning": "Làm quá sức",
     "level": "N4"
   },
@@ -1643,7 +1499,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "磨きます",
-    "kana": "みがきます",
+    "kana": "きます",
     "meaning": "Đánh (răng), mài bóng",
     "level": "N4"
   },
@@ -1660,8 +1516,8 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N4"
   },
   {
-    "word": "気がつきます",
-    "kana": "きがつきます",
+    "word": "気付きます",
+    "kana": "きづきます",
     "meaning": "Nhận ra, phát hiện",
     "level": "N4"
   },
@@ -1846,8 +1702,8 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N4"
   },
   {
-    "word": "ゆにゅうします",
-    "kana": "ゆにゅうします",
+    "word": "ゅうします",
+    "kana": "ゅうします",
     "meaning": "nhập khẩu",
     "level": "N4"
   },
@@ -1954,14 +1810,14 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N4"
   },
   {
-    "word": "せわをします",
-    "kana": "せわをします",
+    "word": "世話します",
+    "kana": "せわします",
     "meaning": "chăm sóc , giúp đỡ",
     "level": "N4"
   },
   {
-    "word": "じかんがたちます",
-    "kana": "じかんがたちます",
+    "word": "立ちます",
+    "kana": "たちます",
     "meaning": "thời gian trôi đi",
     "level": "N4"
   },
@@ -1991,7 +1847,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "死にます",
-    "kana": "しにます",
+    "kana": "ます",
     "meaning": "Qua đời, chết",
     "level": "N4"
   },
@@ -2027,7 +1883,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "太ります",
-    "kana": "ふとります",
+    "kana": "ります",
     "meaning": "Béo lên, tăng cân",
     "level": "N4"
   },
@@ -2147,13 +2003,13 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "上がります",
-    "kana": "あがります",
+    "kana": "ります",
     "meaning": "Tăng cao (giá cả)",
     "level": "N4"
   },
   {
     "word": "下がります",
-    "kana": "さがります",
+    "kana": "ります",
     "meaning": "Giảm xuống (giá cả)",
     "level": "N4"
   },
@@ -2176,8 +2032,8 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N4"
   },
   {
-    "word": "～と申します",
-    "kana": "～ともします",
+    "word": "申します",
+    "kana": "もうします",
     "meaning": "Tên tôi là ~ (khiêm nhường)",
     "level": "N4"
   },
@@ -2236,8 +2092,8 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N4"
   },
   {
-    "word": "楽しみにしています",
-    "kana": "たのしみにしています",
+    "word": "楽しみにします",
+    "kana": "たのしみにします",
     "meaning": "Đang rất mong đợi",
     "level": "N4"
   },
@@ -2248,8 +2104,8 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N4"
   },
   {
-    "word": "目が覚めます",
-    "kana": "めがさめます",
+    "word": "覚めます",
+    "kana": "さめます",
     "meaning": "Tỉnh giấc",
     "level": "N4"
   },
@@ -2309,32 +2165,8 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "長生きします",
-    "kana": "ながいきします",
+    "kana": "いきします",
     "meaning": "Sống thọ",
-    "level": "N4"
-  },
-  {
-    "word": "音がします",
-    "kana": "おとがします",
-    "meaning": "Có âm thanh phát ra",
-    "level": "N4"
-  },
-  {
-    "word": "声がします",
-    "kana": "こえがします",
-    "meaning": "Có tiếng nói",
-    "level": "N4"
-  },
-  {
-    "word": "味がします",
-    "kana": "あじがします",
-    "meaning": "Có hương vị",
-    "level": "N4"
-  },
-  {
-    "word": "匂いがします",
-    "kana": "においがします",
-    "meaning": "Có mùi hương",
     "level": "N4"
   },
   {
@@ -2362,12 +2194,6 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N4"
   },
   {
-    "word": "世話をします",
-    "kana": "せわをします",
-    "meaning": "Chăm sóc",
-    "level": "N4"
-  },
-  {
     "word": "録音します",
     "kana": "ろくおんします",
     "meaning": "Ghi âm",
@@ -2381,19 +2207,19 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "勤めます",
-    "kana": "つとめます",
+    "kana": "めます",
     "meaning": "Làm việc (tại công ty)",
     "level": "N4"
   },
   {
-    "word": "休んでいらっしゃいます",
-    "kana": "やすんでいらっしゃいます",
+    "word": "いらっしゃいます",
+    "kana": "いらっしゃいます",
     "meaning": "Nghỉ ngơi (tôn kính ngữ)",
     "level": "N4"
   },
   {
     "word": "召し上がります",
-    "kana": "めしあがります",
+    "kana": "ります",
     "meaning": "Ăn, uống (tôn kính của 食べる/飲む)",
     "level": "N4"
   },
@@ -2411,13 +2237,13 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "ご覧になります",
-    "kana": "ごらんになります",
+    "kana": "なります",
     "meaning": "Xem (tôn kính của 見る)",
     "level": "N4"
   },
   {
-    "word": "～といいます",
-    "kana": "～といいます",
+    "word": "言います",
+    "kana": "いいま",
     "meaning": "Tên là ~",
     "level": "N4"
   },
@@ -2452,12 +2278,6 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N4"
   },
   {
-    "word": "申します",
-    "kana": "もうします",
-    "meaning": "Nói (khiêm nhường của 言う)",
-    "level": "N4"
-  },
-  {
     "word": "いたします",
     "kana": "いたします",
     "meaning": "Làm (khiêm nhường của する)",
@@ -2477,13 +2297,13 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "伺います",
-    "kana": "うかがいます",
+    "kana": "います",
     "meaning": "Hỏi, đến thăm (khiêm nhường của 聞く/行く)",
     "level": "N4"
   },
   {
-    "word": "お目にかかります",
-    "kana": "おめにかかります",
+    "word": "かかります",
+    "kana": "かかります",
     "meaning": "Gặp mặt (khiêm nhường của 会う)",
     "level": "N4"
   },
@@ -2639,7 +2459,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "受け取る",
-    "kana": "うけとる",
+    "kana": "る",
     "meaning": "tiếp nhận, nhận lấy",
     "level": "N3"
   },
@@ -2663,7 +2483,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "疑う",
-    "kana": "うたがう",
+    "kana": "う",
     "meaning": "nghi ngờ",
     "level": "N3"
   },
@@ -2765,7 +2585,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "大型化する",
-    "kana": "おおがたかする",
+    "kana": "たかする",
     "meaning": "phóng to, quy mô lớn",
     "level": "N3"
   },
@@ -2848,14 +2668,14 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N3"
   },
   {
-    "word": "おとずれる",
-    "kana": "おとずれる",
+    "word": "ずれる",
+    "kana": "ずれる",
     "meaning": "ghé thăm, ghé tới",
     "level": "N3"
   },
   {
     "word": "衰える",
-    "kana": "おとろえる",
+    "kana": "ろえる",
     "meaning": "suy yếu, sa sút",
     "level": "N3"
   },
@@ -2987,7 +2807,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "見学する",
-    "kana": "けんがくする",
+    "kana": "くする",
     "meaning": "tham quan học tập",
     "level": "N3"
   },
@@ -3113,13 +2933,13 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "探す",
-    "kana": "さがす",
+    "kana": "す",
     "meaning": "tìm kiếm",
     "level": "N3"
   },
   {
     "word": "下がる",
-    "kana": "さがる",
+    "kana": "る",
     "meaning": "ha giá, hạ xuống",
     "level": "N3"
   },
@@ -3383,7 +3203,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "立ち上がる",
-    "kana": "たちあがる",
+    "kana": "る",
     "meaning": "đứng dậy",
     "level": "N3"
   },
@@ -3551,7 +3371,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "願う",
-    "kana": "ねがう",
+    "kana": "う",
     "meaning": "cầu nguyện, ước",
     "level": "N3"
   },
@@ -3593,7 +3413,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "広がる",
-    "kana": "ひろがる",
+    "kana": "る",
     "meaning": "lan rộng",
     "level": "N3"
   },
@@ -3653,7 +3473,7 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
   },
   {
     "word": "認める",
-    "kana": "みとめる",
+    "kana": "める",
     "meaning": "thừa nhận",
     "level": "N3"
   },
@@ -3694,8 +3514,8 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N3"
   },
   {
-    "word": "文句を言った",
-    "kana": "もんくをいった",
+    "word": "言います",
+    "kana": "いいま",
     "meaning": "phàn nàn",
     "level": "N3"
   },
@@ -3706,8 +3526,8 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N3"
   },
   {
-    "word": "役に立つ",
-    "kana": "やくにたつ",
+    "word": "立つ",
+    "kana": "たつ",
     "meaning": "có ích",
     "level": "N3"
   },

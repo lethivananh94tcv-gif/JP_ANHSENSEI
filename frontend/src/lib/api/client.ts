@@ -90,6 +90,7 @@ export async function apiClient<T>(
   const { throwOnError = false, ...fetchOptions } = options;
 
   const config: RequestInit = {
+    cache: "no-store",
     ...fetchOptions,
     headers,
   };

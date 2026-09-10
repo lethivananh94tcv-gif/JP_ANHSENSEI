@@ -25,6 +25,15 @@ export interface PlayAudioOptions {
 }
 
 let activeAudioElement: HTMLAudioElement | null = null;
+let globalTTSRate: number = 0.92; // Default natural rate
+
+export function getGlobalTTSRate(): number {
+  return globalTTSRate;
+}
+
+export function setGlobalTTSRate(rate: number): void {
+  globalTTSRate = rate;
+}
 
 /**
  * Clean Japanese text for natural TTS output (strips HTML, ruby tags, furigana brackets, and UI prefixes)
@@ -76,13 +85,13 @@ export function stopJapaneseTTS(): void {
 export function playJapaneseTTS(
   textOrOptions?: string | PlayAudioOptions,
   audioUrlFallback?: string,
-  customRate: number = 0.92
+  customRate?: number
 ): void {
   if (typeof window === "undefined") return;
 
   let text = "";
   let audioUrl: string | undefined = undefined;
-  let rate = customRate;
+  let rate = customRate ?? globalTTSRate;
   let pitch = 1.0;
   let isKanaAlphabet = false;
   let onStart: (() => void) | undefined;
@@ -95,7 +104,7 @@ export function playJapaneseTTS(
   } else if (textOrOptions && typeof textOrOptions === "object") {
     text = textOrOptions.text || "";
     audioUrl = textOrOptions.audioUrl;
-    rate = textOrOptions.rate ?? customRate;
+    rate = textOrOptions.rate ?? customRate ?? globalTTSRate;
     pitch = textOrOptions.pitch ?? 1.0;
     isKanaAlphabet = !!textOrOptions.isKanaAlphabet;
     onStart = textOrOptions.onStart;

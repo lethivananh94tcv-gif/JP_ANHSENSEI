@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback, useTransition } from "react";
+import { useEffect, useState, useCallback, useMemo, useTransition, useRef } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 import { apiClient } from "@/lib/api/client";
@@ -20,6 +20,7 @@ import {
   ChevronRight,
   Trophy,
   Award,
+  RefreshCw,
 } from "lucide-react";
 import {
   detectGroup,
@@ -29,15 +30,19 @@ import {
   getGroupDisplayName,
   VerbGroup,
   ConjugationForm,
+  sanitizePureVerb,
 } from "@/lib/japanese/verbConjugator";
 
 import { UserProfile } from "@/types/learner";
 import DynamicConjugationRuleCard from "@/components/learner/verbs/DynamicConjugationRuleCard";
+import { toRomajiVariants } from "@/lib/japanese/romajiConverter";
 
 interface VerbQuestion {
   id: number;
   word: string;
   kana: string;
+  baseWord: string;
+  baseKana: string;
   kanjiForm?: string;
   meaning: string;
   group: VerbGroup;
@@ -88,6 +93,8 @@ export default function JapaneseVerbPracticePage() {
     streak: 0,
   });
 
+  const inputRef = useRef<HTMLInputElement>(null);
+
   // Flashcard Mode States
   const [flashcardIndex, setFlashcardIndex] = useState<number>(0);
   const [isFlipped, setIsFlipped] = useState<boolean>(false);
@@ -111,8 +118,15 @@ export default function JapaneseVerbPracticePage() {
     let idCounter = 1;
 
     filteredList.forEach((v) => {
-      const group = detectGroup(v.word);
+      const cleanWord = sanitizePureVerb(v.word);
+      const cleanKana = sanitizePureVerb(v.kana);
+      const group = detectGroup(cleanWord);
       if (selectedGroup !== "ALL" && group !== selectedGroup) return;
+
+      const masuWord = conjugate(cleanWord, group, "MASU");
+      const masuKana = conjugate(cleanKana, group, "MASU");
+      const dictWord = conjugate(cleanWord, group, "DICT");
+      const dictKana = conjugate(cleanKana, group, "DICT");
 
       const targetFormsToUse =
         selectedForm !== "ALL"
@@ -120,10 +134,26 @@ export default function JapaneseVerbPracticePage() {
           : ALL_FORMS;
 
       targetFormsToUse.forEach((form) => {
+        // Ensure prompt form is never identical to target form
+        let promptWord = masuWord;
+        let promptKana = masuKana;
+
+        if (form === "DICT") {
+          // If asking for Dictionary form, prompt must be in MASU form
+          promptWord = masuWord;
+          promptKana = masuKana;
+        } else if (form === "MASU") {
+          // If asking for MASU form, prompt must be in DICT form
+          promptWord = dictWord;
+          promptKana = dictKana;
+        }
+
         questionList.push({
           id: idCounter++,
-          word: v.word,
-          kana: v.kana,
+          word: promptWord,
+          kana: promptKana,
+          baseWord: cleanWord,
+          baseKana: cleanKana,
           meaning: v.meaning,
           group: group,
           level: v.level,
@@ -143,6 +173,7 @@ export default function JapaneseVerbPracticePage() {
     setUserAnswer("");
     setIsAnswered(false);
     setIsCorrect(null);
+    setScore({ correct: 0, total: 0, streak: 0 });
   }, [selectedLevel, selectedGroup, selectedForm]);
 
   useEffect(() => {
@@ -151,16 +182,81 @@ export default function JapaneseVerbPracticePage() {
 
   const currentQ = questions[currentIndex];
 
+  // Expected answer calculation supporting both plain and polite variants
+  const answerInfo = useMemo(() => {
+    if (!currentQ) return null;
+
+    const plainKanji = conjugate(currentQ.baseWord || currentQ.word, currentQ.group, currentQ.targetForm);
+    const plainKana = conjugate(currentQ.baseKana || currentQ.kana, currentQ.group, currentQ.targetForm);
+
+    const kanjiVariants = [plainKanji];
+    const kanaVariants = [plainKana];
+
+    const form = currentQ.targetForm;
+    const baseW = currentQ.baseWord || currentQ.word;
+    const baseK = currentQ.baseKana || currentQ.kana;
+
+    if (form === "POTENTIAL" || form === "PASSIVE" || form === "CAUSATIVE") {
+      const politeKanji = plainKanji.endsWith("できる")
+        ? plainKanji.replace(/できる$/, "できます")
+        : plainKanji.replace(/る$/, "ます");
+      const politeKana = plainKana.endsWith("できる")
+        ? plainKana.replace(/できる$/, "できます")
+        : plainKana.replace(/る$/, "ます");
+
+      if (!kanjiVariants.includes(politeKanji)) kanjiVariants.push(politeKanji);
+      if (!kanaVariants.includes(politeKana)) kanaVariants.push(politeKana);
+    } else if (form === "NAI") {
+      const masuKanji = conjugate(baseW, currentQ.group, "MASU").replace(/ます$/, "ません");
+      const masuKana = conjugate(baseK, currentQ.group, "MASU").replace(/ます$/, "ません");
+      if (!kanjiVariants.includes(masuKanji)) kanjiVariants.push(masuKanji);
+      if (!kanaVariants.includes(masuKana)) kanaVariants.push(masuKana);
+    } else if (form === "VOLITIONAL") {
+      const masuKanji = conjugate(baseW, currentQ.group, "MASU").replace(/ます$/, "ましょう");
+      const masuKana = conjugate(baseK, currentQ.group, "MASU").replace(/ます$/, "ましょう");
+      if (!kanjiVariants.includes(masuKanji)) kanjiVariants.push(masuKanji);
+      if (!kanaVariants.includes(masuKana)) kanaVariants.push(masuKana);
+    } else if (form === "TA") {
+      const masuKanji = conjugate(baseW, currentQ.group, "MASU").replace(/ます$/, "ました");
+      const masuKana = conjugate(baseK, currentQ.group, "MASU").replace(/ます$/, "ました");
+      if (!kanjiVariants.includes(masuKanji)) kanjiVariants.push(masuKanji);
+      if (!kanaVariants.includes(masuKana)) kanaVariants.push(masuKana);
+    }
+
+    const allRomaji: string[] = [];
+    kanaVariants.forEach((k) => {
+      toRomajiVariants(k).forEach((r) => {
+        if (!allRomaji.includes(r.toLowerCase())) {
+          allRomaji.push(r.toLowerCase());
+        }
+      });
+    });
+
+    const mainRomaji = toRomajiVariants(plainKana)[0] || "";
+    const displayAnswer = `${plainKanji} (${plainKana} / ${mainRomaji})`;
+
+    return {
+      kanjiVariants,
+      kanaVariants,
+      romajiVariants: allRomaji,
+      displayAnswer,
+      explanationKana: kanaVariants.join(" / "),
+      explanationRomaji: allRomaji.join(" / "),
+    };
+  }, [currentQ]);
+
   // Answer Check Handler
   const handleCheckAnswer = (e?: React.FormEvent) => {
     if (e) e.preventDefault();
-    if (!currentQ || isAnswered || !userAnswer.trim()) return;
-
-    const expectedKana = conjugate(currentQ.kana, currentQ.group, currentQ.targetForm);
-    const expectedKanji = conjugate(currentQ.word, currentQ.group, currentQ.targetForm);
+    if (!currentQ || isAnswered || !userAnswer.trim() || !answerInfo) return;
 
     const inputClean = userAnswer.trim().toLowerCase();
-    const correct = inputClean === expectedKana.toLowerCase() || inputClean === expectedKanji.toLowerCase();
+
+    const isKanaMatch = answerInfo.kanaVariants.some((k) => k.toLowerCase() === inputClean);
+    const isKanjiMatch = answerInfo.kanjiVariants.some((k) => k.toLowerCase() === inputClean);
+    const isRomajiMatch = answerInfo.romajiVariants.some((r) => r === inputClean);
+
+    const correct = isKanaMatch || isKanjiMatch || isRomajiMatch;
 
     setIsCorrect(correct);
     setIsAnswered(true);
@@ -172,7 +268,7 @@ export default function JapaneseVerbPracticePage() {
     }));
   };
 
-  const handleNextQuestion = () => {
+  const handleNextQuestion = useCallback(() => {
     if (currentIndex < questions.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     } else {
@@ -182,16 +278,49 @@ export default function JapaneseVerbPracticePage() {
     setUserAnswer("");
     setIsAnswered(false);
     setIsCorrect(null);
+  }, [currentIndex, questions.length, generateQuestions]);
+
+  const handleRetry = () => {
+    if (isAnswered) {
+      setScore((prev) => ({
+        correct: Math.max(0, prev.correct - (isCorrect ? 1 : 0)),
+        total: Math.max(0, prev.total - 1),
+        streak: isCorrect ? Math.max(0, prev.streak - 1) : prev.streak,
+      }));
+    }
+    setUserAnswer("");
+    setIsAnswered(false);
+    setIsCorrect(null);
+    setTimeout(() => {
+      inputRef.current?.focus();
+    }, 50);
   };
+
+  // Keyboard shortcut: Pressing Enter after answering automatically goes to Next Question
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (activeTab !== "practice") return;
+      if (e.key === "Enter" && isAnswered) {
+        e.preventDefault();
+        handleNextQuestion();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [activeTab, isAnswered, handleNextQuestion]);
+
+  // Auto-focus input on question load or retry
+  useEffect(() => {
+    if (!isAnswered && activeTab === "practice") {
+      inputRef.current?.focus();
+    }
+  }, [currentIndex, isAnswered, activeTab]);
 
   const handleRestart = () => {
     setScore({ correct: 0, total: 0, streak: 0 });
     generateQuestions();
   };
-
-  // Expected answer strings for display
-  const expectedKana = currentQ ? conjugate(currentQ.kana, currentQ.group, currentQ.targetForm) : "";
-  const expectedKanji = currentQ ? conjugate(currentQ.word, currentQ.group, currentQ.targetForm) : "";
 
   return (
     <div className="min-h-screen bg-[#F5EFE6] text-[#302A26] font-sans flex flex-col">
@@ -366,14 +495,25 @@ export default function JapaneseVerbPracticePage() {
                   </div>
 
                   {/* Input Form */}
-                  <form onSubmit={handleCheckAnswer} className="space-y-4">
+                  <form
+                    onSubmit={(e) => {
+                      e.preventDefault();
+                      if (isAnswered) {
+                        handleNextQuestion();
+                      } else {
+                        handleCheckAnswer(e);
+                      }
+                    }}
+                    className="space-y-4"
+                  >
                     <div className="relative">
                       <input
+                        ref={inputRef}
                         type="text"
                         value={userAnswer}
                         onChange={(e) => setUserAnswer(e.target.value)}
-                        disabled={isAnswered}
-                        placeholder="Nhập thể chia dạng Hiragana hoặc Kanji (VD: かいて / 書い...)"
+                        readOnly={isAnswered}
+                        placeholder="Nhập dạng Hiragana, Kanji hoặc Romaji (VD: かいて / 書い / kaite...)"
                         className={`w-full bg-white border-2 rounded-2xl px-5 py-4 text-base sm:text-lg font-bold text-[#302A26] placeholder-[#A0958C] focus:outline-none transition-all ${
                           isAnswered
                             ? isCorrect
@@ -399,25 +539,35 @@ export default function JapaneseVerbPracticePage() {
                       <button
                         type="submit"
                         disabled={!userAnswer.trim()}
-                        className="w-full py-3.5 rounded-2xl bg-[#C65D4B] hover:bg-[#B04C3B] disabled:opacity-50 disabled:cursor-not-allowed text-white font-black text-sm shadow-md transition-all flex items-center justify-center gap-2"
+                        className="w-full py-3.5 rounded-2xl bg-[#C65D4B] hover:bg-[#B04C3B] disabled:opacity-50 disabled:cursor-not-allowed text-white font-black text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
                       >
                         <CheckCircle2 className="w-4 h-4" />
                         Kiểm tra đáp án (Enter)
                       </button>
                     ) : (
-                      <button
-                        type="button"
-                        onClick={handleNextQuestion}
-                        className="w-full py-3.5 rounded-2xl bg-[#302A26] hover:bg-[#1E1917] text-white font-black text-sm shadow-md transition-all flex items-center justify-center gap-2"
-                      >
-                        Câu tiếp theo
-                        <ArrowRight className="w-4 h-4" />
-                      </button>
+                      <div className="flex gap-3">
+                        <button
+                          type="button"
+                          onClick={handleRetry}
+                          className="flex-1 py-3.5 rounded-2xl bg-[#FAF6F0] border-2 border-[#DED3C8] hover:border-[#C65D4B] hover:bg-[#FFFCF7] text-[#302A26] font-black text-sm transition-all flex items-center justify-center gap-2 cursor-pointer"
+                        >
+                          <RotateCcw className="w-4 h-4 text-[#C65D4B]" />
+                          Nhập lại 🔄
+                        </button>
+
+                        <button
+                          type="submit"
+                          className="flex-1 py-3.5 rounded-2xl bg-[#302A26] hover:bg-[#1E1917] text-white font-black text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
+                        >
+                          Câu tiếp theo (Enter ↵)
+                          <ArrowRight className="w-4 h-4" />
+                        </button>
+                      </div>
                     )}
                   </form>
 
                   {/* Feedback Explanation Card */}
-                  {isAnswered && (
+                  {isAnswered && answerInfo && (
                     <div
                       className={`p-5 rounded-2xl border space-y-2 animate-in fade-in duration-200 ${
                         isCorrect
@@ -432,15 +582,14 @@ export default function JapaneseVerbPracticePage() {
                       <p className="text-sm">
                         Đáp án đúng là:{" "}
                         <span className="font-extrabold underline underline-offset-4">
-                          {expectedKanji}
-                        </span>{" "}
-                        ({expectedKana})
+                          {answerInfo.displayAnswer}
+                        </span>
                       </p>
 
                       <div className="pt-2 border-t border-black/10 text-xs leading-relaxed opacity-90">
                         <strong>Quy tắc chia:</strong> Động từ 「 {currentQ.word} 」 thuộc{" "}
                         {getGroupDisplayName(currentQ.group)}. Chia sang{" "}
-                        {getFormDisplayName(currentQ.targetForm)} biến đổi thành 「 {expectedKana} 」.
+                        {getFormDisplayName(currentQ.targetForm)} biến đổi thành 「 {answerInfo.explanationKana} 」 (<span className="italic font-bold">{answerInfo.explanationRomaji}</span>).
                       </div>
                     </div>
                   )}

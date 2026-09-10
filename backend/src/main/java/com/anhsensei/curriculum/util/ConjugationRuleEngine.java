@@ -9,11 +9,25 @@ import java.util.Set;
 
 public class ConjugationRuleEngine {
 
+    // Known Group 1 verbs ending in します (Godan su-verbs)
+    private static final Set<String> GROUP_1_SU_VERBS = new HashSet<>(Arrays.asList(
+            "話します", "はなします", "貸します", "かします", "消します", "けします",
+            "押します", "おします", "直します", "なおします", "起こします", "おこします",
+            "落とします", "おとします", "探します", "さがします", "回します", "まわします",
+            "渡します", "わたします", "出します", "だします", "壊します", "こわします",
+            "戻します", "もどします", "沸かします", "わかします", "冷やします", "ひやします",
+            "蒸します", "むします", "動かします", "うごかします", "減らします", "へらします",
+            "増やします", "ふやします", "残します", "のこします", "伸ばします", "のばします",
+            "鳴らします", "ならします"
+    ));
+
     // Famous N5/N4 Ichidan (Group 2) verbs that end in -i + masu
     private static final Set<String> GROUP_2_I_EXCEPTIONS = new HashSet<>(Arrays.asList(
             "見ます", "みます", "起きます", "おきます", "借ります", "かります",
             "降ります", "ふります", "おります", "浴びます", "あびます",
-            "居ます", "います", "足ります", "たります", "着ます", "きます"
+            "居ます", "います", "足ります", "たります", "着ます", "きます",
+            "落ちます", "おちます", "信じます", "しんじます", "閉じます", "とじます",
+            "生きます", "いきます"
     ));
 
     /**
@@ -25,23 +39,46 @@ public class ConjugationRuleEngine {
             return VerbGroup.GROUP_1;
         }
 
-        if (verb.endsWith("します") || verb.equals("する") || verb.endsWith("きます") || verb.equals("くる") || verb.equals("来る")) {
+        // 1. Group 3 Irregular check
+        if (isGroup3Kuru(verb)) {
             return VerbGroup.GROUP_3;
         }
 
+        // Suru (します / する / Noun + します) - except known Group 1 su-verbs
+        if (!GROUP_1_SU_VERBS.contains(verb)) {
+            if (verb.equals("します") || verb.equals("する") || verb.endsWith("します") || verb.endsWith("する")) {
+                return VerbGroup.GROUP_3;
+            }
+        }
+
+        // 2. Group 2 Ichidan check
         if (GROUP_2_I_EXCEPTIONS.contains(verb)) {
             return VerbGroup.GROUP_2;
         }
 
         if (verb.endsWith("ます")) {
-            String stemChar = verb.substring(Math.max(0, verb.length() - 3), verb.length() - 2);
-            // Check if stemChar ends in -e sound (え, け, せ, て, ね, へ, め, れ)
-            if ("えけせてねへめれエケセテネヘメレ".contains(stemChar)) {
-                return VerbGroup.GROUP_2;
+            if (verb.length() >= 3) {
+                String stemChar = verb.substring(verb.length() - 3, verb.length() - 2);
+                if ("えけせてねへめれエケセテネヘメレ".contains(stemChar)) {
+                    return VerbGroup.GROUP_2;
+                }
+            }
+        } else if (verb.endsWith("る")) {
+            if (verb.length() >= 2) {
+                String prevChar = verb.substring(verb.length() - 2, verb.length() - 1);
+                if ("えけせてねへめれエケセテネヘメレ".contains(prevChar)) {
+                    return VerbGroup.GROUP_2;
+                }
             }
         }
 
+        // 3. Group 1 Godan fallback
         return VerbGroup.GROUP_1;
+    }
+
+    private static boolean isGroup3Kuru(String verb) {
+        return verb.equals("来ます") || verb.equals("きます") || verb.equals("くる") || verb.equals("来る")
+                || verb.endsWith("来ます") || verb.endsWith("てきます") || verb.endsWith("てくる") || verb.endsWith("て来る");
     }
 
     /**
@@ -103,8 +140,14 @@ public class ConjugationRuleEngine {
 
     private static String conjugateDict(String stem, String fullVerb, VerbGroup group) {
         if (group == VerbGroup.GROUP_3) {
-            if (fullVerb.endsWith("きます") || fullVerb.equals("くる") || fullVerb.equals("来る")) return "くる";
-            if (fullVerb.endsWith("します")) return stem.substring(0, stem.length() - 1) + "する";
+            if (isGroup3Kuru(fullVerb)) {
+                boolean isKanji = fullVerb.contains("来");
+                String prefix = extractPrefixBeforeKuru(fullVerb);
+                return prefix + (isKanji ? "来る" : "くる");
+            }
+            if (fullVerb.endsWith("します") && stem.endsWith("し")) {
+                return stem.substring(0, stem.length() - 1) + "する";
+            }
             return stem + "する";
         }
         if (group == VerbGroup.GROUP_2) {
@@ -124,11 +167,17 @@ public class ConjugationRuleEngine {
         }
 
         if (group == VerbGroup.GROUP_3) {
-            if (fullVerb.endsWith("きます") || fullVerb.equals("くる") || fullVerb.equals("来る")) {
-                return fullVerb.contains("来") ? "来て" : "きて";
+            if (isGroup3Kuru(fullVerb)) {
+                boolean isKanji = fullVerb.contains("来");
+                String prefix = extractPrefixBeforeKuru(fullVerb);
+                return prefix + (isKanji ? "来て" : "きて");
+            }
+            if (fullVerb.endsWith("します") && stem.endsWith("し")) {
+                return stem.substring(0, stem.length() - 1) + "して";
             }
             return stem + "て";
         }
+
         if (group == VerbGroup.GROUP_2) {
             return stem + "て";
         }
@@ -171,11 +220,17 @@ public class ConjugationRuleEngine {
         }
 
         if (group == VerbGroup.GROUP_3) {
-            if (fullVerb.endsWith("きます") || fullVerb.equals("くる") || fullVerb.equals("来る")) {
-                return fullVerb.contains("来") ? "来ない" : "こない";
+            if (isGroup3Kuru(fullVerb)) {
+                boolean isKanji = fullVerb.contains("来");
+                String prefix = extractPrefixBeforeKuru(fullVerb);
+                return prefix + (isKanji ? "来ない" : "こない");
+            }
+            if (fullVerb.endsWith("します") && stem.endsWith("し")) {
+                return stem.substring(0, stem.length() - 1) + "しない";
             }
             return stem + "ない";
         }
+
         if (group == VerbGroup.GROUP_2) {
             return stem + "ない";
         }
@@ -193,7 +248,14 @@ public class ConjugationRuleEngine {
 
     private static String conjugatePotential(String stem, String fullVerb, VerbGroup group) {
         if (group == VerbGroup.GROUP_3) {
-            if (fullVerb.endsWith("きます")) return "こられる";
+            if (isGroup3Kuru(fullVerb)) {
+                boolean isKanji = fullVerb.contains("来");
+                String prefix = extractPrefixBeforeKuru(fullVerb);
+                return prefix + (isKanji ? "来られる" : "こられる");
+            }
+            if (fullVerb.endsWith("します") && stem.endsWith("し")) {
+                return stem.substring(0, stem.length() - 1) + "できる";
+            }
             return "できる";
         }
         if (group == VerbGroup.GROUP_2) {
@@ -206,7 +268,14 @@ public class ConjugationRuleEngine {
 
     private static String conjugateVolitional(String stem, String fullVerb, VerbGroup group) {
         if (group == VerbGroup.GROUP_3) {
-            if (fullVerb.endsWith("きます")) return "こよう";
+            if (isGroup3Kuru(fullVerb)) {
+                boolean isKanji = fullVerb.contains("来");
+                String prefix = extractPrefixBeforeKuru(fullVerb);
+                return prefix + (isKanji ? "来よう" : "こよう");
+            }
+            if (fullVerb.endsWith("します") && stem.endsWith("し")) {
+                return stem.substring(0, stem.length() - 1) + "しよう";
+            }
             return "しよう";
         }
         if (group == VerbGroup.GROUP_2) {
@@ -219,7 +288,14 @@ public class ConjugationRuleEngine {
 
     private static String conjugateImperative(String stem, String fullVerb, VerbGroup group) {
         if (group == VerbGroup.GROUP_3) {
-            if (fullVerb.endsWith("きます")) return "こい";
+            if (isGroup3Kuru(fullVerb)) {
+                boolean isKanji = fullVerb.contains("来");
+                String prefix = extractPrefixBeforeKuru(fullVerb);
+                return prefix + (isKanji ? "来い" : "こい");
+            }
+            if (fullVerb.endsWith("します") && stem.endsWith("し")) {
+                return stem.substring(0, stem.length() - 1) + "しろ";
+            }
             return "しろ";
         }
         if (group == VerbGroup.GROUP_2) {
@@ -232,7 +308,14 @@ public class ConjugationRuleEngine {
 
     private static String conjugateConditionalBa(String stem, String fullVerb, VerbGroup group) {
         if (group == VerbGroup.GROUP_3) {
-            if (fullVerb.endsWith("きます")) return "くれば";
+            if (isGroup3Kuru(fullVerb)) {
+                boolean isKanji = fullVerb.contains("来");
+                String prefix = extractPrefixBeforeKuru(fullVerb);
+                return prefix + (isKanji ? "来れば" : "くれば");
+            }
+            if (fullVerb.endsWith("します") && stem.endsWith("し")) {
+                return stem.substring(0, stem.length() - 1) + "すれば";
+            }
             return "すれば";
         }
         if (group == VerbGroup.GROUP_2) {
@@ -245,7 +328,14 @@ public class ConjugationRuleEngine {
 
     private static String conjugatePassive(String stem, String fullVerb, VerbGroup group) {
         if (group == VerbGroup.GROUP_3) {
-            if (fullVerb.endsWith("きます")) return "こられる";
+            if (isGroup3Kuru(fullVerb)) {
+                boolean isKanji = fullVerb.contains("来");
+                String prefix = extractPrefixBeforeKuru(fullVerb);
+                return prefix + (isKanji ? "来られる" : "こられる");
+            }
+            if (fullVerb.endsWith("します") && stem.endsWith("し")) {
+                return stem.substring(0, stem.length() - 1) + "される";
+            }
             return "される";
         }
         if (group == VerbGroup.GROUP_2) {
@@ -258,7 +348,14 @@ public class ConjugationRuleEngine {
 
     private static String conjugateCausative(String stem, String fullVerb, VerbGroup group) {
         if (group == VerbGroup.GROUP_3) {
-            if (fullVerb.endsWith("きます")) return "こさせる";
+            if (isGroup3Kuru(fullVerb)) {
+                boolean isKanji = fullVerb.contains("来");
+                String prefix = extractPrefixBeforeKuru(fullVerb);
+                return prefix + (isKanji ? "来させる" : "こさせる");
+            }
+            if (fullVerb.endsWith("します") && stem.endsWith("し")) {
+                return stem.substring(0, stem.length() - 1) + "させる";
+            }
             return "させる";
         }
         if (group == VerbGroup.GROUP_2) {
@@ -267,6 +364,14 @@ public class ConjugationRuleEngine {
         char last = stem.charAt(stem.length() - 1);
         String prefix = stem.substring(0, stem.length() - 1);
         return prefix + changeItoA(last) + "せる";
+    }
+
+    private static String extractPrefixBeforeKuru(String verb) {
+        if (verb.endsWith("来ます")) return verb.substring(0, verb.length() - 3);
+        if (verb.endsWith("きます")) return verb.substring(0, verb.length() - 3);
+        if (verb.endsWith("来る")) return verb.substring(0, verb.length() - 2);
+        if (verb.endsWith("くる")) return verb.substring(0, verb.length() - 2);
+        return "";
     }
 
     // Helper Kana Transliterations

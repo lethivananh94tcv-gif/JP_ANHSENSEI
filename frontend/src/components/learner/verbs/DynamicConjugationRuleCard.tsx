@@ -174,20 +174,20 @@ const FORM_RULES: Record<ConjugationForm, FormRuleData> = {
     jpName: "可能形",
     summary: "Diễn tả khả năng có thể làm được việc gì đó (Có thể làm... / Biết làm...).",
     group1: {
-      pattern: "Đổi âm hàng い sang âm hàng え + ます",
+      pattern: "Đổi âm hàng い sang âm hàng え + る",
       details: [
-        { rule: "き → けます | い → えます", example: "書きます → 書けます | 買います → 買えます" },
-        { rule: "み → めます | ち → てます", example: "飲みます → 飲めます | 待ちます → 待てます" },
+        { rule: "き → ける | い → える", example: "置きます → 置ける | 書きます → 書ける | 買います → 買える" },
+        { rule: "み → める | ち → てる", example: "飲みます → 飲める | 待ちます → 待てる" },
       ],
     },
     group2: {
-      pattern: "Bỏ ます + られます",
-      example: "食べます → 食べられます | 見ます → 見られます",
+      pattern: "Bỏ ます + られる",
+      example: "食べます → 食べられる | 見ます → 見られる",
     },
     group3: {
       items: [
-        { word: "します", conjugated: "できます" },
-        { word: "来ます (きます)", conjugated: "来られます (こられます)" },
+        { word: "します", conjugated: "できる" },
+        { word: "来ます (きます)", conjugated: "来られる (こられる)" },
       ],
     },
   },
@@ -222,7 +222,7 @@ const FORM_RULES: Record<ConjugationForm, FormRuleData> = {
     group1: {
       pattern: "Đổi âm hàng い sang âm hàng え",
       details: [
-        { rule: "き → け | い → え", example: "書きます → 書け | 買います → 買え" },
+        { rule: "き → け | び → べ", example: "書きます → 書け | 飛びます → 飛べ | 買います → 買え" },
         { rule: "み → め | り → れ", example: "飲みます → 飲め | 走ります → 走れ" },
       ],
     },
@@ -266,20 +266,20 @@ const FORM_RULES: Record<ConjugationForm, FormRuleData> = {
     jpName: "受身形",
     summary: "Diễn tả hành động bị/được người khác thực hiện lên bản thân (Bị/Được làm...).",
     group1: {
-      pattern: "Đổi âm hàng い sang âm hàng あ + れます (Đuôi い → われます)",
+      pattern: "Đổi âm hàng い sang âm hàng あ + れる (Đuôi い → われる)",
       details: [
-        { rule: "き → かれます | み → まれます", example: "書きます → 書かれます | 飲みます → 飲まれます" },
-        { rule: "Đuôi い → われます", example: "買います → 買われます | 会います → 会われます" },
+        { rule: "き → かれる | み → まれる", example: "書きます → 書かれる | 飲みます → 飲まれる" },
+        { rule: "Đuôi い → われる", example: "買います → 買われる | 会います → 会われる" },
       ],
     },
     group2: {
-      pattern: "Bỏ ます + られます",
-      example: "食べます → 食べられます | 見ます → 見られます",
+      pattern: "Bỏ ます + られる",
+      example: "食べます → 食べられる | 見ます → 見られる",
     },
     group3: {
       items: [
-        { word: "します", conjugated: "されます" },
-        { word: "来ます (きます)", conjugated: "来られます (こられます)" },
+        { word: "します", conjugated: "される" },
+        { word: "来ます (きます)", conjugated: "来られる (こられる)" },
       ],
     },
   },
@@ -289,20 +289,20 @@ const FORM_RULES: Record<ConjugationForm, FormRuleData> = {
     jpName: "使役形",
     summary: "Diễn tả việc bắt ai đó hoặc cho phép ai đó làm gì (Bắt/Cho phép làm...).",
     group1: {
-      pattern: "Đổi âm hàng い sang âm hàng あ + せます (Đuôi い → わせます)",
+      pattern: "Đổi âm hàng い sang âm hàng あ + せる (Đuôi い → わせる)",
       details: [
-        { rule: "き → かせます | み → ませます", example: "書きます → 書かせます | 飲みます → 飲ませます" },
-        { rule: "Đuôi い → わせます", example: "買います → 買わせます | 会います → 会わせます" },
+        { rule: "き → かせる | み → ませる", example: "書きます → 書かせる | 飲みます → 飲ませる" },
+        { rule: "Đuôi い → わせる", example: "買います → 買わせる | 会います → 会わせる" },
       ],
     },
     group2: {
-      pattern: "Bỏ ます + させます",
-      example: "食べます → 食べさせます | 見ます → 見させます",
+      pattern: "Bỏ ます + させる",
+      example: "食べます → 食べさせる | 見ます → 見させる",
     },
     group3: {
       items: [
-        { word: "します", conjugated: "させます" },
-        { word: "来ます (きます)", conjugated: "来させます (こさせます)" },
+        { word: "します", conjugated: "させる" },
+        { word: "来ます (きます)", conjugated: "来させる (こさせる)" },
       ],
     },
   },

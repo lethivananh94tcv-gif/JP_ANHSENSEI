@@ -27,40 +27,83 @@ export interface VerbConjugationResult {
   causative: string;
 }
 
+const GROUP_1_SU_VERBS = new Set([
+  "話します", "はなします", "貸します", "かします", "消します", "けします",
+  "押します", "おします", "直します", "なおします", "起こします", "おこします",
+  "落とします", "おとします", "探します", "さがします", "回します", "まわします",
+  "渡します", "わたします", "出します", "だします", "壊します", "こわします",
+  "戻します", "もどします", "沸かします", "わかします", "冷やします", "ひやします",
+  "蒸します", "むします", "動かします", "うごかします", "減らします", "へらします",
+  "増やします", "ふやします", "残します", "のこします", "伸ばします", "のばします",
+  "鳴らします", "ならします"
+]);
+
+const GROUP_2_I_EXCEPTIONS = new Set([
+  "見ます", "みます", "起きます", "おきます", "借ります", "かります",
+  "降ります", "ふります", "おります", "浴びます", "あびます",
+  "居ます", "います", "足ります", "たります", "着ます", "きます",
+  "落ちます", "おちます", "信じます", "しんじます", "閉じます", "とじます",
+  "生きます", "いきます", "感じます", "かんじます", "過ぎます", "すぎます",
+  "伸びます", "のびます", "似ます", "にます", "煮ます", "にます"
+]);
+
+const E_COLUMN_CHARS = new Set([
+  'え', 'け', 'げ', 'せ', 'ぜ', 'て', 'で', 'ね', 'へ', 'べ', 'ぺ', 'め', 'れ',
+  'エ', 'ケ', 'ゲ', 'セ', 'ゼ', 'テ', 'デ', 'ネ', 'ヘ', 'ベ', 'ペ', 'メ', 'レ'
+]);
+
+function isGroup3Kuru(str: string): boolean {
+  return (
+    str === '来ます' || str === 'きます' || str === 'くる' || str === '来る' ||
+    str.endsWith('来ます') || str.endsWith('てきます') || str.endsWith('てくる') || str.endsWith('て来る')
+  );
+}
+
 export function detectGroup(masuForm: string, kanjiForm?: string): VerbGroup {
   const text = (masuForm || '').trim();
   const textKanji = (kanjiForm || '').trim();
 
-  // Check group 3 irregulars
-  if (text.includes('します') || text === 'する' || text.endsWith('する') || textKanji.endsWith('する')) {
+  if (!text && !textKanji) return 'GROUP_1';
+
+  // 1. Group 3 Check
+  if (isGroup3Kuru(text) || isGroup3Kuru(textKanji)) {
     return 'GROUP_3';
   }
-  if (text.includes('きます') || text.includes('來ます') || text.includes('来ます') || text === 'くる' || text === '来る') {
-    return 'GROUP_3';
-  }
 
-  // Masu form detection
-  if (text.endsWith('ます')) {
-    const stem = text.substring(0, text.length - 2);
-    if (stem.length === 0) return 'GROUP_2';
-
-    const lastChar = stem.charAt(stem.length - 1);
-    const iColumn = ['い', 'ち', 'り', 'き', 'ぎ', 'み', 'び', 'に', 'し'];
-
-    if (iColumn.includes(lastChar)) {
-      // Group 1 verbs ending in i-column before masu
-      return 'GROUP_1';
-    } else {
-      // e-column or single syllable (e.g. 見ます, 居ます)
-      return 'GROUP_2';
+  const isGroup1Su = GROUP_1_SU_VERBS.has(text) || GROUP_1_SU_VERBS.has(textKanji);
+  if (!isGroup1Su) {
+    if (
+      text === 'します' || text === 'する' || text.endsWith('します') || text.endsWith('する') ||
+      textKanji.endsWith('します') || textKanji.endsWith('する')
+    ) {
+      return 'GROUP_3';
     }
   }
 
-  // Dictionary form fallback detection
-  if (text.endsWith('る')) {
+  // 2. Group 2 Check
+  if (GROUP_2_I_EXCEPTIONS.has(text) || GROUP_2_I_EXCEPTIONS.has(textKanji)) {
     return 'GROUP_2';
   }
 
+  if (text.endsWith('ます')) {
+    const stem = text.substring(0, text.length - 2);
+    if (stem.length > 0) {
+      const lastChar = stem.charAt(stem.length - 1);
+      if (E_COLUMN_CHARS.has(lastChar)) {
+        return 'GROUP_2';
+      }
+    }
+  } else if (text.endsWith('る')) {
+    const stem = text.substring(0, text.length - 1);
+    if (stem.length > 0) {
+      const lastChar = stem.charAt(stem.length - 1);
+      if (E_COLUMN_CHARS.has(lastChar)) {
+        return 'GROUP_2';
+      }
+    }
+  }
+
+  // 3. Fallback: Group 1
   return 'GROUP_1';
 }
 
@@ -95,15 +138,11 @@ export function conjugate(masuForm: string, group: VerbGroup, targetForm: Conjug
 
   const text = masuForm.trim();
 
-  // If already target is MASU
-  if (targetForm === 'MASU') {
-    return text.endsWith('ます') ? text : text + 'ます';
-  }
-
   // Check irregular exceptions
   if (text.includes('行きます') || text.includes('いきます') || text === '行く' || text === 'いく') {
     const prefix = text.includes('行き') ? '行' : (text.includes('いき') ? 'い' : '');
     switch (targetForm) {
+      case 'MASU': return prefix + 'きます';
       case 'DICT': return prefix + 'く';
       case 'TE': return prefix + 'いて';
       case 'NAI': return prefix + 'かない';
@@ -121,11 +160,39 @@ export function conjugate(masuForm: string, group: VerbGroup, targetForm: Conjug
     if (targetForm === 'NAI') return 'ない';
   }
 
+  const effectiveGroup = group || detectGroup(text);
+
   // Handle Group 3 (Suru / Kuru)
-  if (group === 'GROUP_3') {
-    if (text.endsWith('します') || text === 'する') {
-      const stem = text.endsWith('します') ? text.substring(0, text.length - 3) : text.substring(0, text.length - 2);
+  if (effectiveGroup === 'GROUP_3') {
+    if (isGroup3Kuru(text)) {
+      const isKanji = text.includes('来');
+      let stem = '';
+      if (text.endsWith('来ます')) stem = text.substring(0, text.length - 3);
+      else if (text.endsWith('きます')) stem = text.substring(0, text.length - 3);
+      else if (text.endsWith('来る')) stem = text.substring(0, text.length - 2);
+      else if (text.endsWith('くる')) stem = text.substring(0, text.length - 2);
+
       switch (targetForm) {
+        case 'MASU': return stem + (isKanji ? '来ます' : 'きます');
+        case 'DICT': return stem + (isKanji ? '来る' : 'くる');
+        case 'TE': return stem + (isKanji ? '来て' : 'きて');
+        case 'NAI': return stem + (isKanji ? '来ない' : 'こない');
+        case 'TA': return stem + (isKanji ? '来た' : 'きた');
+        case 'POTENTIAL': return stem + (isKanji ? '来られる' : 'こられる');
+        case 'VOLITIONAL': return stem + (isKanji ? '来よう' : 'こよう');
+        case 'IMPERATIVE': return stem + (isKanji ? '来い' : 'こい');
+        case 'CONDITIONAL_BA': return stem + (isKanji ? '来れば' : 'くれば');
+        case 'PASSIVE': return stem + (isKanji ? '来られる' : 'こられる');
+        case 'CAUSATIVE': return stem + (isKanji ? '来させる' : 'こさせる');
+      }
+    }
+
+    if (text.endsWith('します') || text === 'する' || text.endsWith('する')) {
+      let stem = text.endsWith('します') ? text.substring(0, text.length - 3) :
+                 (text.endsWith('する') ? text.substring(0, text.length - 2) : text);
+      if (text === 'します' || text === 'する') stem = '';
+      switch (targetForm) {
+        case 'MASU': return stem + 'します';
         case 'DICT': return stem + 'する';
         case 'TE': return stem + 'して';
         case 'NAI': return stem + 'しない';
@@ -138,26 +205,10 @@ export function conjugate(masuForm: string, group: VerbGroup, targetForm: Conjug
         case 'CAUSATIVE': return stem + 'させる';
       }
     }
-    if (text.endsWith('きます') || text.endsWith('来ます') || text === 'くる' || text === '来る') {
-      const isKanji = text.includes('来');
-      const stem = isKanji ? '来' : '';
-      switch (targetForm) {
-        case 'DICT': return stem ? '来る' : 'くる';
-        case 'TE': return stem ? '来' : 'きて';
-        case 'NAI': return stem ? '来ない' : 'こない';
-        case 'TA': return stem ? '来た' : 'きた';
-        case 'POTENTIAL': return stem ? '来られる' : 'こられる';
-        case 'VOLITIONAL': return stem ? '来よう' : 'こよう';
-        case 'IMPERATIVE': return stem ? '来い' : 'こい';
-        case 'CONDITIONAL_BA': return stem ? '来れば' : 'くれば';
-        case 'PASSIVE': return stem ? '来られる' : 'こられる';
-        case 'CAUSATIVE': return stem ? '来させる' : 'こさせる';
-      }
-    }
   }
 
   // Handle Group 2 (Ichidan)
-  if (group === 'GROUP_2') {
+  if (effectiveGroup === 'GROUP_2') {
     let stem = text;
     if (text.endsWith('ます')) {
       stem = text.substring(0, text.length - 2);
@@ -165,6 +216,7 @@ export function conjugate(masuForm: string, group: VerbGroup, targetForm: Conjug
       stem = text.substring(0, text.length - 1);
     }
     switch (targetForm) {
+      case 'MASU': return stem + 'ます';
       case 'DICT': return stem + 'る';
       case 'TE': return stem + 'て';
       case 'NAI': return stem + 'ない';
@@ -190,12 +242,30 @@ export function conjugate(masuForm: string, group: VerbGroup, targetForm: Conjug
     stem = text.substring(0, text.length - 1);
   }
 
-  const uMap: Record<string, string> = { い: 'う', ち: 'つ', り: 'る', き: 'く', ぎ: 'ぐ', み: 'む', び: 'ぶ', に: 'ぬ', し: 'す' };
-  const aMap: Record<string, string> = { い: 'わ', ち: 'た', り: 'ら', き: 'か', ぎ: 'が', み: 'ま', び: 'ば', に: 'な', し: 'さ' };
-  const eMap: Record<string, string> = { い: 'え', ち: 'て', り: 'れ', き: 'け', ぎ: 'げ', み: 'め', び: 'べ', に: 'ね', し: 'せ' };
-  const oMap: Record<string, string> = { い: 'お', ち: 'と', り: 'ろ', き: 'こ', ぎ: 'ご', み: 'も', び: 'ぼ', に: 'の', し: 'そ' };
+  const iMap: Record<string, string> = {
+    う: 'い', つ: 'ち', る: 'り', く: 'き', ぐ: 'ぎ', む: 'み', ぶ: 'び', ぬ: 'に', す: 'し',
+    い: 'い', ち: 'ち', り: 'り', き: 'き', ぎ: 'ぎ', み: 'み', び: 'び', に: 'に', し: 'し'
+  };
+  const uMap: Record<string, string> = {
+    い: 'う', ち: 'つ', り: 'る', き: 'く', ぎ: 'ぐ', み: 'む', び: 'ぶ', に: 'ぬ', し: 'す',
+    う: 'う', つ: 'つ', る: 'る', く: 'く', ぐ: 'ぐ', む: 'む', ぶ: 'ぶ', ぬ: 'ぬ', す: 'す'
+  };
+  const aMap: Record<string, string> = {
+    う: 'わ', つ: 'た', る: 'ら', く: 'か', ぐ: 'が', む: 'ま', ぶ: 'ば', ぬ: 'な', す: 'さ',
+    い: 'わ', ち: 'た', り: 'ら', き: 'か', ぎ: 'が', み: 'ま', び: 'ば', に: 'な', し: 'さ'
+  };
+  const eMap: Record<string, string> = {
+    う: 'え', つ: 'て', る: 'れ', く: 'け', ぐ: 'げ', む: 'め', ぶ: 'べ', ぬ: 'ね', す: 'せ',
+    い: 'え', ち: 'て', り: 'れ', き: 'け', ぎ: 'げ', み: 'め', び: 'べ', に: 'ね', し: 'せ'
+  };
+  const oMap: Record<string, string> = {
+    う: 'お', つ: 'と', る: 'ろ', く: 'こ', ぐ: 'ご', む: 'も', ぶ: 'ぼ', ぬ: 'の', す: 'そ',
+    い: 'お', ち: 'と', り: 'ろ', き: 'こ', ぎ: 'ご', み: 'も', び: 'ぼ', に: 'の', し: 'そ'
+  };
 
   switch (targetForm) {
+    case 'MASU':
+      return stem + (iMap[lastKana] || lastKana) + 'ます';
     case 'DICT':
       return stem + (uMap[lastKana] || lastKana);
     case 'NAI':
@@ -255,3 +325,21 @@ export function conjugateAll(masuForm: string, kanjiForm?: string): VerbConjugat
     causative: conjugate(masuForm, group, 'CAUSATIVE'),
   };
 }
+
+export function sanitizePureVerb(input: string): string {
+  if (!input) return "";
+  let clean = input.trim();
+  clean = clean.replace(/^[～~\s]+/, "");
+  // Remove English prefix if present (e.g., "megane をかけます" -> "かけます")
+  clean = clean.replace(/^[a-zA-Z\s]+[をがにでへと]?\s*/, "");
+  // If there are space-separated words, take the last word (the verb)
+  if (clean.includes(" ") || clean.includes("\u3000")) {
+    const parts = clean.split(/[\s\u3000]+/);
+    const lastPart = parts[parts.length - 1];
+    if (lastPart && lastPart.trim().length > 0) {
+      return lastPart.trim();
+    }
+  }
+  return clean;
+}
+
