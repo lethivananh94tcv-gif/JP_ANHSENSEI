@@ -329,7 +329,7 @@ export default function ShadowingPronunciationModal({
 
               <div className="flex items-center gap-2">
                 <button
-                  onClick={() => handleSpeedChange(0.75)}
+                  onClick={() => setSelectedSpeed(0.75)}
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
                     selectedSpeed === 0.75
                       ? "bg-[#C65D4B] text-white shadow-sm"
@@ -339,7 +339,7 @@ export default function ShadowingPronunciationModal({
                   <span>🐢 Chậm (0.75x - Shadowing)</span>
                 </button>
                 <button
-                  onClick={() => handleSpeedChange(0.92)}
+                  onClick={() => setSelectedSpeed(0.92)}
                   className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
                     selectedSpeed === 0.92
                       ? "bg-[#C65D4B] text-white shadow-sm"
