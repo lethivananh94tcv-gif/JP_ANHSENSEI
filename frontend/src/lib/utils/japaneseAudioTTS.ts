@@ -25,7 +25,8 @@ export interface PlayAudioOptions {
 }
 
 let activeAudioElement: HTMLAudioElement | null = null;
-let globalTTSRate: number = 0.92; // Default natural rate
+let globalTTSRate: number = 0.92; // Default natural speed (triggers authentic Japanese devoicing 母音の無声化)
+let globalTTSPitch: number = 1.06; // Bright, natural Tokyo female voice pitch (matches SpeechGen.io Nanami/Aoi quality)
 
 export function getGlobalTTSRate(): number {
   return globalTTSRate;
@@ -33,6 +34,44 @@ export function getGlobalTTSRate(): number {
 
 export function setGlobalTTSRate(rate: number): void {
   globalTTSRate = rate;
+}
+
+export function getGlobalTTSPitch(): number {
+  return globalTTSPitch;
+}
+
+export function setGlobalTTSPitch(pitch: number): void {
+  globalTTSPitch = pitch;
+}
+
+/**
+ * Voice Scoring Algorithm to pick the highest quality Neural Voice available.
+ * Top Priority: Microsoft Azure Nanami Neural / Aoi Neural (same engine as SpeechGen.io),
+ * followed by Google Japanese Neural and Apple Kyoko Tokyo Voice.
+ */
+function calculateJapaneseVoiceScore(name: string): number {
+  const n = name.toLowerCase();
+  let score = 0;
+
+  // Tier 1: Azure / Edge Nanami Neural (SpeechGen.io standard female Tokyo voice)
+  if (n.includes("nanami")) score += 1000;
+  else if (n.includes("aoi")) score += 950;
+  else if (n.includes("google 日本語") || n.includes("google japanese")) score += 900;
+  else if (n.includes("kyoko")) score += 850;
+  else if (n.includes("shiori") || n.includes("mayu") || n.includes("sayaka")) score += 800;
+
+  // Bonus for Neural / Natural online voices
+  if (n.includes("natural") || n.includes("online") || n.includes("neural")) score += 400;
+
+  // Other Japanese female voices
+  if (n.includes("haruka") || n.includes("ayumi") || n.includes("mizuki")) score += 300;
+
+  // Penalize male voices slightly to prioritize smooth, clear female Tokyo voice
+  if (n.includes("ichiro") || n.includes("otoya") || n.includes("keita") || n.includes("daichi") || n.includes("hattori")) {
+    score -= 300;
+  }
+
+  return score;
 }
 
 /**
@@ -48,9 +87,7 @@ export function cleanJapaneseTextForSpeech(text: string): string {
   cleaned = cleaned.replace(/<[^>]+>/g, ""); // Remove HTML tags
 
   // 2. Handle furigana pattern 漢字(かんじ) or 漢字（かんじ） or 漢字[かんじ] or 漢字【かんじ】
-  // Replace Kanji(Reading) with Reading for clean pronunciation
   cleaned = cleaned.replace(/[\u4e00-\u9faf\u3400-\u4dbf]+[（\(\[\【]([ぁ-んァ-ヶ]+)[）\)\]\】]/g, "$1");
-  // Remove standalone bracket notes e.g. (Hello) or (N5)
   cleaned = cleaned.replace(/[（\(\[\【][^）\)\]\】]*[）\)\]\】]/g, "");
 
   // 3. Remove common quiz UI prefixes like 🔊, [LUYỆN NGHE], [KANA], [KHÓ], etc.
@@ -92,7 +129,7 @@ export function playJapaneseTTS(
   let text = "";
   let audioUrl: string | undefined = undefined;
   let rate = customRate ?? globalTTSRate;
-  let pitch = 1.0;
+  let pitch = globalTTSPitch;
   let isKanaAlphabet = false;
   let onStart: (() => void) | undefined;
   let onEnd: (() => void) | undefined;
@@ -105,7 +142,7 @@ export function playJapaneseTTS(
     text = textOrOptions.text || "";
     audioUrl = textOrOptions.audioUrl;
     rate = textOrOptions.rate ?? customRate ?? globalTTSRate;
-    pitch = textOrOptions.pitch ?? 1.0;
+    pitch = textOrOptions.pitch ?? globalTTSPitch;
     isKanaAlphabet = !!textOrOptions.isKanaAlphabet;
     onStart = textOrOptions.onStart;
     onEnd = textOrOptions.onEnd;
@@ -206,38 +243,14 @@ function speakWithWebSpeech(
   const tryPlaySpeech = () => {
     const voices = window.speechSynthesis.getVoices();
     if (voices && voices.length > 0) {
-      // Priority 1: Standard Tokyo Female Voices (Google 日本語, Kyoko, Nanami, Haruka, Ayumi, Sayaka, etc.)
-      const femaleTokyoVoices = voices.filter(
-        (v) =>
-          v.lang.startsWith("ja") &&
-          (v.name.includes("Google 日本語") ||
-            v.name.includes("Kyoko") ||
-            v.name.includes("Nanami") ||
-            v.name.includes("Haruka") ||
-            v.name.includes("Ayumi") ||
-            v.name.includes("Sayaka") ||
-            v.name.includes("Mayu") ||
-            v.name.includes("Mizuki") ||
-            v.name.includes("Online") ||
-            v.name.includes("Natural")) &&
-          !v.name.includes("Ichiro") &&
-          !v.name.includes("Otoya") &&
-          !v.name.includes("Hattori") &&
-          !v.name.includes("Keita")
+      const japaneseVoices = voices.filter(
+        (v) => v.lang.startsWith("ja") || v.lang.includes("ja") || v.lang.includes("JP")
       );
 
-      const preferredJaVoice =
-        femaleTokyoVoices.length > 0
-          ? femaleTokyoVoices[0]
-          : voices.find(
-              (v) =>
-                v.lang.startsWith("ja") &&
-                !v.name.includes("Ichiro") &&
-                !v.name.includes("Otoya")
-            ) || voices.find((v) => v.lang.startsWith("ja") || v.lang.includes("ja"));
-
-      if (preferredJaVoice) {
-        utterance.voice = preferredJaVoice;
+      if (japaneseVoices.length > 0) {
+        // Sort Japanese voices by quality score (Azure Nanami Neural > Azure Aoi Neural > Google Japanese Neural > Kyoko)
+        japaneseVoices.sort((a, b) => calculateJapaneseVoiceScore(b.name) - calculateJapaneseVoiceScore(a.name));
+        utterance.voice = japaneseVoices[0];
       }
     }
 
@@ -271,7 +284,7 @@ function speakWithWebSpeech(
 }
 
 /**
- * Fallback to Google Translate public TTS endpoint if browser has no Japanese voice installed
+ * High-Clarity Neural Audio Fallback Endpoint via Next.js API Route (/api/tts)
  */
 function fallbackToGoogleTranslateTTS(
   text: string,
@@ -281,28 +294,43 @@ function fallbackToGoogleTranslateTTS(
   onError?: (err: any) => void
 ): void {
   try {
-    const fallbackUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=${encodeURIComponent(
+    const apiRouteUrl = `/api/tts?text=${encodeURIComponent(text)}`;
+    const directFallbackUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=${encodeURIComponent(
       text
     )}`;
-    const audio = new Audio(fallbackUrl);
-    audio.playbackRate = rate;
-    activeAudioElement = audio;
 
-    audio.onplay = () => onStart?.();
-    audio.onended = () => {
-      activeAudioElement = null;
-      onEnd?.();
-    };
-    audio.onerror = (err) => {
-      activeAudioElement = null;
-      onError?.(err);
+    const playAudioUrl = (url: string, isRetry = false) => {
+      const audio = new Audio(url);
+      audio.playbackRate = rate;
+      activeAudioElement = audio;
+
+      audio.onplay = () => onStart?.();
+      audio.onended = () => {
+        activeAudioElement = null;
+        onEnd?.();
+      };
+      audio.onerror = (err) => {
+        activeAudioElement = null;
+        if (!isRetry) {
+          playAudioUrl(directFallbackUrl, true);
+        } else {
+          onError?.(err);
+        }
+      };
+
+      audio.play().catch((err) => {
+        if (!isRetry) {
+          playAudioUrl(directFallbackUrl, true);
+        } else {
+          onError?.(err);
+        }
+      });
     };
 
-    audio.play().catch((err) => {
-      onError?.(err);
-    });
+    playAudioUrl(apiRouteUrl);
   } catch (err) {
     onError?.(err);
   }
 }
+
 
