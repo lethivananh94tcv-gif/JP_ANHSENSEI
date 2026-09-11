@@ -47,13 +47,13 @@ export default function LessonProgressHeader({
           <span className="text-[#C65D4B] font-black">Bài học #{displayLessonNum}</span>
         </nav>
 
-        <button
-          onClick={() => window.history.back()}
+        <Link
+          href={`/vocabularies?level=${levelCode || "N5"}&lessonId=${lessonId}`}
           className="px-4 py-2 bg-white hover:bg-[#C65D4B] border border-[#DED3C8] hover:border-[#C65D4B] text-[#56423E] hover:text-white font-extrabold text-xs rounded-xl transition-all shadow-xs flex items-center gap-1.5 cursor-pointer"
         >
           <ArrowLeft className="w-3.5 h-3.5" />
           <span>Quay lại</span>
-        </button>
+        </Link>
       </div>
 
       {/* Main Header Banner */}

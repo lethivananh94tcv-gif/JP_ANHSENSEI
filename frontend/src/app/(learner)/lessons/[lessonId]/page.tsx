@@ -59,9 +59,7 @@ export default function LearnerLessonStudyPage() {
         }
       }
 
-      const savedProgress =
-        localStorage.getItem(`learned_items_lesson_${lessonId}`) ||
-        (sortOrder ? localStorage.getItem(`learned_items_lesson_${sortOrder}`) : null);
+      const savedProgress = localStorage.getItem(`learned_items_lesson_${lessonId}`);
 
       if (savedProgress) {
         try {
@@ -71,7 +69,7 @@ export default function LearnerLessonStudyPage() {
         }
       }
     }
-  }, [lessonId, sortOrder]);
+  }, [lessonId]);
 
   const fetchStudyContent = useCallback(async () => {
     try {
@@ -115,6 +113,9 @@ export default function LearnerLessonStudyPage() {
 
       if (Array.isArray(loadedVocabs) && loadedVocabs.length > 0) {
         setVocabularies(loadedVocabs);
+        if (typeof window !== "undefined") {
+          localStorage.setItem(`total_items_lesson_${lessonId}`, String(loadedVocabs.length));
+        }
       } else {
         // Guarantee 100% playable static vocabulary set for ANY lesson ID so it never crashes!
         const lNum = Number(lessonId) || 1;
@@ -134,7 +135,7 @@ export default function LearnerLessonStudyPage() {
           { vocabularyId: lNum * 100 + 2, word: "あなた", kana: "あなた", romaji: "anata", meaningVi: "Bạn, anh, chị", exampleJp: "あなたは日本人ですか。", exampleVi: "Bạn là người Nhật phải không?" },
           { vocabularyId: lNum * 100 + 3, word: "先生", kana: "せんせい", kanjiForm: "先生", romaji: "sensei", meaningVi: "Thầy / Cô giáo (giáo viên)", exampleJp: "ANH SENSEIは日本語の先生です。", exampleVi: "ANH SENSEI là giáo viên tiếng Nhật." },
           { vocabularyId: lNum * 100 + 4, word: "学生", kana: "がくせい", kanjiForm: "学生", romaji: "gakusei", meaningVi: "Học sinh, sinh viên", exampleJp: "わたしは学生です。", exampleVi: "Tôi là học sinh." },
-          { vocabularyId: lNum * 100 + 5, word: "会社員", kana: "かいしゃいん", kanjiForm: "会社員", romaji: "kaishain", meaningVi: "Nhân viên công ty", exampleJp: "父は会社員です。", exampleVi: "Bố tôi là nhân viên công ty." },
+          { vocabularyId: lNum * 100 + 5, word: "会社員", kana: "かいしゃいん", kanjiForm: "会社員", romaji: "kaishain", meaningVi: "Nhân viên công ty", exampleJp: "父 là nhân viên công ty.", exampleVi: "Bố tôi là nhân viên công ty." },
         ]);
         const numId = Number(lessonId) || 1;
         recordLessonAccess(numId, loadedLesson?.title || lessonTitle, loadedLesson?.levelCode || levelCode);
@@ -155,24 +156,32 @@ export default function LearnerLessonStudyPage() {
 
   // Synchronize completed status and mark items on open
   useEffect(() => {
-    if (vocabularies.length === 0 || typeof window === "undefined") return;
+    if (vocabularies.length === 0 || typeof window === "undefined" || !lessonId) return;
 
-    const saved =
-      localStorage.getItem(`learned_items_lesson_${lessonId}`) ||
-      (sortOrder ? localStorage.getItem(`learned_items_lesson_${sortOrder}`) : null);
+    const saved = localStorage.getItem(`learned_items_lesson_${lessonId}`);
 
     if (saved) {
       try {
-        const keys = new Set<string>(JSON.parse(saved));
-        setLearnedItemKeys(keys);
-        const pct = Math.round((keys.size / vocabularies.length) * 100);
-        recordLessonAccess(Number(lessonId) || 1, lessonTitle, levelCode, pct);
-        return;
+        const rawKeys: string[] = JSON.parse(saved);
+        if (Array.isArray(rawKeys)) {
+          const validSet = new Set(vocabularies.map((v, idx) => `v_${v.vocabularyId || (v as any).id || idx + 1}`));
+          const validKeys = rawKeys.filter((k) => validSet.has(k));
+          setLearnedItemKeys(new Set(validKeys));
+
+          const pct = vocabularies.length > 0 ? Math.round((validKeys.length / vocabularies.length) * 100) : 0;
+          const finalPct = validKeys.length >= vocabularies.length && vocabularies.length > 0 ? 100 : pct;
+
+          localStorage.setItem(`learned_items_lesson_${lessonId}`, JSON.stringify(validKeys));
+          localStorage.setItem(`completed_lesson_${lessonId}`, String(finalPct));
+          localStorage.setItem(`total_items_lesson_${lessonId}`, String(vocabularies.length));
+          recordLessonAccess(Number(lessonId) || 1, lessonTitle, levelCode, finalPct);
+          return;
+        }
       } catch (e) {}
     }
 
     recordLessonAccess(Number(lessonId) || 1, lessonTitle, levelCode, 0);
-  }, [vocabularies, lessonId, sortOrder, lessonTitle, levelCode]);
+  }, [vocabularies, lessonId, lessonTitle, levelCode]);
 
   // Toggle individual vocabulary item learned status
   const handleToggleLearned = async (itemKey: string) => {
@@ -189,16 +198,12 @@ export default function LearnerLessonStudyPage() {
       if (typeof window !== "undefined") {
         const jsonStr = JSON.stringify(Array.from(updated));
         localStorage.setItem(`learned_items_lesson_${lessonId}`, jsonStr);
-        if (sortOrder) {
-          localStorage.setItem(`learned_items_lesson_${sortOrder}`, jsonStr);
-        }
 
-        const pct = vocabularies.length > 0 ? Math.round((updated.size / vocabularies.length) * 100) : 0;
-        const finalPct = updated.size >= vocabularies.length ? 100 : pct;
+        const total = vocabularies.length > 0 ? vocabularies.length : 1;
+        const pct = Math.round((updated.size / total) * 100);
+        const finalPct = updated.size >= total ? 100 : pct;
         localStorage.setItem(`completed_lesson_${lessonId}`, String(finalPct));
-        if (sortOrder) {
-          localStorage.setItem(`completed_lesson_${sortOrder}`, String(finalPct));
-        }
+        localStorage.setItem(`total_items_lesson_${lessonId}`, String(total));
 
         recordLessonAccess(Number(lessonId) || 1, lessonTitle, levelCode, finalPct);
 
@@ -238,13 +243,8 @@ export default function LearnerLessonStudyPage() {
     if (typeof window !== "undefined") {
       const jsonStr = JSON.stringify(Array.from(allKeys));
       localStorage.setItem(`learned_items_lesson_${lessonId}`, jsonStr);
-      if (sortOrder) {
-        localStorage.setItem(`learned_items_lesson_${sortOrder}`, jsonStr);
-      }
       localStorage.setItem(`completed_lesson_${lessonId}`, "100");
-      if (sortOrder) {
-        localStorage.setItem(`completed_lesson_${sortOrder}`, "100");
-      }
+      localStorage.setItem(`total_items_lesson_${lessonId}`, String(vocabularies.length));
       recordLessonAccess(Number(lessonId) || 1, lessonTitle, levelCode, 100);
     }
 
@@ -263,13 +263,7 @@ export default function LearnerLessonStudyPage() {
     setLearnedItemKeys(new Set());
     if (typeof window !== "undefined") {
       localStorage.removeItem(`learned_items_lesson_${lessonId}`);
-      if (sortOrder) {
-        localStorage.removeItem(`learned_items_lesson_${sortOrder}`);
-      }
       localStorage.setItem(`completed_lesson_${lessonId}`, "0");
-      if (sortOrder) {
-        localStorage.setItem(`completed_lesson_${sortOrder}`, "0");
-      }
       recordLessonAccess(Number(lessonId) || 1, lessonTitle, levelCode, 0);
     }
 
@@ -301,9 +295,6 @@ export default function LearnerLessonStudyPage() {
     if (isLessonMastered && lessonId) {
       if (typeof window !== "undefined") {
         localStorage.setItem(`completed_lesson_${lessonId}`, "100");
-        if (sortOrder) {
-          localStorage.setItem(`completed_lesson_${sortOrder}`, "100");
-        }
       }
 
       apiClient("/learner/progress", {
@@ -367,6 +358,7 @@ export default function LearnerLessonStudyPage() {
         {isLessonMastered && (
           <LessonCompletedBanner
             levelCode={levelCode}
+            lessonId={lessonId}
             nextLessonId={nextLessonIdCalc}
           />
         )}

@@ -29,23 +29,34 @@ export default function RecentLessonList({
 
   const lvlUpper = (levelCode || "N5").toUpperCase();
 
+  // Helper to accurately resolve the unique lesson ID across levels (N5: 1-25, N4: 26-50, N3: 51-65)
+  const getUniqueLessonId = (l: LessonItem) => {
+    if (lvlUpper === "N4") {
+      return l.lessonId >= 26 && l.lessonId <= 50 ? l.lessonId : (l.sortOrder <= 25 ? l.sortOrder + 25 : l.sortOrder);
+    }
+    if (lvlUpper === "N3") {
+      return l.lessonId >= 51 && l.lessonId <= 65 ? l.lessonId : (l.sortOrder <= 15 ? l.sortOrder + 50 : l.sortOrder);
+    }
+    return l.lessonId <= 25 && l.lessonId > 0 ? l.lessonId : l.sortOrder;
+  };
+
   const completedCount = lessons.filter((l) => {
-    const p = progressMap[l.lessonId] || progressMap[l.sortOrder];
+    const p = progressMap[getUniqueLessonId(l)];
     return p && (p.completionPercent === 100 || p.status === "COMPLETED");
   }).length;
 
   const inProgressCount = lessons.filter((l) => {
-    const p = progressMap[l.lessonId] || progressMap[l.sortOrder];
+    const p = progressMap[getUniqueLessonId(l)];
     return p && p.completionPercent > 0 && p.completionPercent < 100;
   }).length;
 
   const notStartedCount = lessons.filter((l) => {
-    const p = progressMap[l.lessonId] || progressMap[l.sortOrder];
+    const p = progressMap[getUniqueLessonId(l)];
     return !p || (p.completionPercent === 0 && p.status !== "COMPLETED");
   }).length;
 
   const filteredLessons = lessons.filter((l) => {
-    const p = progressMap[l.lessonId] || progressMap[l.sortOrder];
+    const p = progressMap[getUniqueLessonId(l)];
     const comp = p?.completionPercent ?? 0;
     const isDone = comp === 100 || p?.status === "COMPLETED";
     const isDoing = comp > 0 && !isDone;
@@ -136,8 +147,9 @@ export default function RecentLessonList({
         <div className="space-y-3">
           <AnimatePresence>
             {displayedLessons.map((lsn, idx) => {
-              const isSelected = lsn.lessonId === selectedLessonId || lsn.sortOrder === selectedLessonId;
-              const prog = progressMap[lsn.lessonId] || progressMap[lsn.sortOrder];
+              const canonicalId = getUniqueLessonId(lsn);
+              const isSelected = canonicalId === selectedLessonId || lsn.lessonId === selectedLessonId;
+              const prog = progressMap[canonicalId];
               const completionPercent = prog?.completionPercent ?? 0;
               const isCompleted = completionPercent === 100 || prog?.status === "COMPLETED";
               const isInProgress = completionPercent > 0 && !isCompleted;

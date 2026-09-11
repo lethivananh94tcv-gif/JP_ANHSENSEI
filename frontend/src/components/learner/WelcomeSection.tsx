@@ -57,7 +57,7 @@ export default function WelcomeSection({
 
   return (
     <>
-      <section className="relative overflow-visible rounded-3xl bg-gradient-to-r from-[#FFF5F2] via-[#FDF3EE] to-[#FFF8F5] text-[#2C201D] border border-[#F5DDD4] px-4 sm:px-6 pt-7 sm:pt-9 pb-4 sm:pb-5 shadow-sm transition-all">
+      <section className="relative overflow-visible rounded-3xl bg-gradient-to-r from-[#FFF5F2] via-[#FDF3EE] to-[#FFF8F5] text-[#2C201D] border border-[#F5DDD4] px-4 sm:px-6 pt-7 sm:pt-9 pb-5 sm:pb-6 shadow-sm transition-all">
         {/* Background Decorative Sakura & Mount Fuji Graphic */}
         <div className="absolute top-0 right-1/3 w-80 h-80 bg-gradient-to-br from-[#FFD8D0]/25 to-transparent rounded-full blur-2xl pointer-events-none overflow-hidden" />
         <div className="absolute right-0 bottom-0 opacity-10 pointer-events-none select-none hidden lg:block overflow-hidden">
@@ -75,7 +75,7 @@ export default function WelcomeSection({
 
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
           {/* Left Side: Greeting & Buttons (7 cols) */}
-          <div className="lg:col-span-7 space-y-1.5">
+          <div className="lg:col-span-7 space-y-2 pt-1">
             <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#FFEAE5] border border-[#FFD0C5] text-[#C65D4B] text-[11px] font-black shadow-2xs">
               <span>🌸 おはようございます！ 🌸</span>
             </div>
@@ -120,7 +120,7 @@ export default function WelcomeSection({
           </div>
 
           {/* Right Side: Learning Progress Card with 3D Full-Body Postman Capybara Perched on Top (5 cols) */}
-          <div className="lg:col-span-5 bg-white rounded-2xl p-4 sm:p-5 border border-[#F2DDD4] space-y-3.5 shadow-sm relative overflow-visible mt-10 lg:mt-6">
+          <div className="lg:col-span-5 bg-white rounded-2xl p-4 sm:p-5 border border-[#F2DDD4] space-y-3.5 shadow-sm relative overflow-visible mt-11 lg:mt-7">
             {/* 🍊 FULL-BODY 3D POSTMAN CAPYBARA MASCOT BOUNCING ON TOP RIGHT CORNER OF PROGRESS CARD 📮 */}
             <div className="absolute -top-11 sm:-top-13 right-2 sm:right-6 z-40 pointer-events-auto">
               <PostmanCapybara3D

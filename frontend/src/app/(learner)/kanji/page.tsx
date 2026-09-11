@@ -1,8 +1,10 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { ArrowLeft, BookOpen, Layers, Sparkles, Map, ArrowRight } from "lucide-react";
+import LearnerHeader from "@/components/learner/LearnerHeader";
 import KanjiRadicalsView from "@/components/learner/kanji/KanjiRadicalsView";
 import KanjiLessonDetailView from "@/components/learner/kanji/KanjiLessonDetailView";
 
@@ -114,11 +116,23 @@ const DEFAULT_KANJI_TOPICS: Record<string, KanjiTopicDto[]> = {
 
 export default function LearnerKanjiPage() {
   const router = useRouter();
-  const [activeTab, setActiveTab] = useState<"RADICALS" | "N5" | "N4" | "N3" | "N2" | "N1">("N5");
+  const searchParams = useSearchParams();
+  const paramTab = (searchParams.get("tab") || searchParams.get("level"))?.toUpperCase();
+
+  const [activeTab, setActiveTab] = useState<"RADICALS" | "N5" | "N4" | "N3" | "N2" | "N1">(
+    paramTab && ["RADICALS", "N5", "N4", "N3", "N2", "N1"].includes(paramTab) ? (paramTab as any) : "N5"
+  );
   const [topics, setTopics] = useState<KanjiTopicDto[]>(DEFAULT_KANJI_TOPICS.N5);
   const [topicsCache, setTopicsCache] = useState<Record<string, KanjiTopicDto[]>>({});
   const [loadingTopics, setLoadingTopics] = useState(false);
   const [selectedTopicId, setSelectedTopicId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const p = (searchParams.get("tab") || searchParams.get("level"))?.toUpperCase();
+    if (p && ["RADICALS", "N5", "N4", "N3", "N2", "N1"].includes(p)) {
+      setActiveTab(p as any);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     if (activeTab !== "RADICALS") {
@@ -152,25 +166,18 @@ export default function LearnerKanjiPage() {
   }, [activeTab, topicsCache]);
 
   return (
-    <div className="min-h-screen bg-[#FFFDF9] p-4 sm:p-8 text-[#1F1714] select-none">
-      <div className="max-w-6xl mx-auto space-y-6 sm:space-y-7">
-        {/* Top Left Navigation Back Button */}
-        <div className="flex items-center justify-between">
-          <button
-            type="button"
-            onClick={() => {
-              if (selectedTopicId !== null) {
-                setSelectedTopicId(null);
-              } else {
-                router.back();
-              }
-            }}
-            className="inline-flex items-center gap-2 px-4 py-2 bg-[#FFFDF9] hover:bg-[#FAF4EB] text-[#8B786D] hover:text-[#C65D4B] border border-[#E5D7C7] hover:border-[#C65D4B] rounded-2xl text-xs font-extrabold shadow-2xs transition-all cursor-pointer group"
-          >
-            <ArrowLeft className="w-4 h-4 transition-transform group-hover:-translate-x-1 text-[#C65D4B]" />
-            <span>Quay lại</span>
-          </button>
-        </div>
+    <div className="min-h-screen bg-[#FFFDF9] text-[#1F1714] flex flex-col font-sans select-none">
+      <LearnerHeader />
+
+      <main className="flex-1 max-w-6xl w-full mx-auto p-4 sm:p-8 space-y-6 sm:space-y-7">
+        {/* Breadcrumb Navigation */}
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-bold text-[#756A62]">
+          <Link href="/dashboard" className="hover:text-[#C65D4B] transition-colors">
+            Trang chủ
+          </Link>
+          <span>/</span>
+          <span className="text-[#C65D4B] font-extrabold">Hán tự (Kanji)</span>
+        </nav>
 
         {/* 1. Header Hero Banner matching exact mockup in screenshot */}
         <div className="relative bg-[#FAF4ED] bg-[radial-gradient(#E8D4CC_1px,transparent_1px)] [background-size:20px_20px] border-2 border-[#E5D7C5] rounded-[32px] p-6 sm:p-8 shadow-xs overflow-hidden flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
@@ -416,7 +423,7 @@ export default function LearnerKanjiPage() {
             )}
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }

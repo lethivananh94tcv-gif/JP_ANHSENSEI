@@ -23,14 +23,16 @@ import {
   Check,
   Zap,
   Grid,
-  Shuffle
+  Shuffle,
+  Mic
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ManekiNeko3D from "@/components/ui/ManekiNeko3D";
 import { playKanaAlphabetTTS } from "@/lib/utils/japaneseAudioTTS";
+import ShadowingPronunciationModal from "@/components/learner/vocabularies/ShadowingPronunciationModal";
 
-// Full 46 Hiragana Gojuon Dataset
-const FULL_HIRAGANA = [
+// Hiragana Datasets
+const HIRAGANA_GOJUON = [
   { kana: "あ", romaji: "a" }, { kana: "い", romaji: "i" }, { kana: "う", romaji: "u" }, { kana: "え", romaji: "e" }, { kana: "お", romaji: "o" },
   { kana: "か", romaji: "ka" }, { kana: "き", romaji: "ki" }, { kana: "く", romaji: "ku" }, { kana: "け", romaji: "ke" }, { kana: "こ", romaji: "ko" },
   { kana: "さ", romaji: "sa" }, { kana: "し", romaji: "shi" }, { kana: "す", romaji: "su" }, { kana: "せ", romaji: "se" }, { kana: "そ", romaji: "so" },
@@ -43,8 +45,32 @@ const FULL_HIRAGANA = [
   { kana: "わ", romaji: "wa" }, { kana: "を", romaji: "wo" }, { kana: "ん", romaji: "n" },
 ];
 
-// Full 46 Katakana Gojuon Dataset
-const FULL_KATAKANA = [
+const HIRAGANA_DAKUON = [
+  { kana: "が", romaji: "ga" }, { kana: "ぎ", romaji: "gi" }, { kana: "ぐ", romaji: "gu" }, { kana: "げ", romaji: "ge" }, { kana: "ご", romaji: "go" },
+  { kana: "ざ", romaji: "za" }, { kana: "じ", romaji: "ji" }, { kana: "ず", romaji: "zu" }, { kana: "ぜ", romaji: "ze" }, { kana: "ぞ", romaji: "zo" },
+  { kana: "だ", romaji: "da" }, { kana: "ぢ", romaji: "ji" }, { kana: "づ", romaji: "zu" }, { kana: "で", romaji: "de" }, { kana: "ど", romaji: "do" },
+  { kana: "ば", romaji: "ba" }, { kana: "び", romaji: "bi" }, { kana: "ぶ", romaji: "bu" }, { kana: "べ", romaji: "be" }, { kana: "ぼ", romaji: "bo" },
+  { kana: "ぱ", romaji: "pa" }, { kana: "ぴ", romaji: "pi" }, { kana: "ぷ", romaji: "pu" }, { kana: "ぺ", romaji: "pe" }, { kana: "ぽ", romaji: "po" },
+];
+
+const HIRAGANA_YOON = [
+  { kana: "きゃ", romaji: "kya" }, { kana: "きゅ", romaji: "kyu" }, { kana: "きょ", romaji: "kyo" },
+  { kana: "しゃ", romaji: "sha" }, { kana: "しゅ", romaji: "shu" }, { kana: "しょ", romaji: "sho" },
+  { kana: "ちゃ", romaji: "cha" }, { kana: "ちゅ", romaji: "chu" }, { kana: "ちょ", romaji: "cho" },
+  { kana: "にゃ", romaji: "nya" }, { kana: "にゅ", romaji: "nyu" }, { kana: "にょ", romaji: "nyo" },
+  { kana: "ひゃ", romaji: "hya" }, { kana: "ひゅ", romaji: "hyu" }, { kana: "ひょ", romaji: "hyo" },
+  { kana: "みゃ", romaji: "mya" }, { kana: "みゅ", romaji: "myu" }, { kana: "みょ", romaji: "myo" },
+  { kana: "りゃ", romaji: "rya" }, { kana: "りゅ", romaji: "ryu" }, { kana: "りょ", romaji: "ryo" },
+  { kana: "ぎゃ", romaji: "gya" }, { kana: "ぎゅ", romaji: "gyu" }, { kana: "ぎょ", romaji: "gyo" },
+  { kana: "じゃ", romaji: "ja" }, { kana: "じゅ", romaji: "ju" }, { kana: "じょ", romaji: "jo" },
+  { kana: "びゃ", romaji: "bya" }, { kana: "びゅ", romaji: "byu" }, { kana: "びょ", romaji: "byo" },
+  { kana: "ぴゃ", romaji: "pya" }, { kana: "ぴゅ", romaji: "pyu" }, { kana: "ぴょ", romaji: "pyo" },
+];
+
+const ALL_HIRAGANA = [...HIRAGANA_GOJUON, ...HIRAGANA_DAKUON, ...HIRAGANA_YOON];
+
+// Katakana Datasets
+const KATAKANA_GOJUON = [
   { kana: "ア", romaji: "a" }, { kana: "イ", romaji: "i" }, { kana: "ウ", romaji: "u" }, { kana: "エ", romaji: "e" }, { kana: "オ", romaji: "o" },
   { kana: "カ", romaji: "ka" }, { kana: "キ", romaji: "ki" }, { kana: "ク", romaji: "ku" }, { kana: "ケ", romaji: "ke" }, { kana: "コ", romaji: "ko" },
   { kana: "サ", romaji: "sa" }, { kana: "シ", romaji: "shi" }, { kana: "ス", romaji: "su" }, { kana: "セ", romaji: "se" }, { kana: "ソ", romaji: "so" },
@@ -57,6 +83,32 @@ const FULL_KATAKANA = [
   { kana: "ワ", romaji: "wa" }, { kana: "ヲ", romaji: "wo" }, { kana: "ン", romaji: "n" },
 ];
 
+const KATAKANA_DAKUON = [
+  { kana: "ガ", romaji: "ga" }, { kana: "ギ", romaji: "gi" }, { kana: "グ", romaji: "gu" }, { kana: "ゲ", romaji: "ge" }, { kana: "ゴ", romaji: "go" },
+  { kana: "ザ", romaji: "za" }, { kana: "ジ", romaji: "ji" }, { kana: "ズ", romaji: "zu" }, { kana: "ゼ", romaji: "ze" }, { kana: "ゾ", romaji: "zo" },
+  { kana: "ダ", romaji: "da" }, { kana: "ヂ", romaji: "ji" }, { kana: "ヅ", romaji: "zu" }, { kana: "デ", romaji: "de" }, { kana: "ド", romaji: "do" },
+  { kana: "バ", romaji: "ba" }, { kana: "ビ", romaji: "bi" }, { kana: "ブ", romaji: "bu" }, { kana: "ベ", romaji: "be" }, { kana: "ボ", romaji: "bo" },
+  { kana: "パ", romaji: "pa" }, { kana: "ピ", romaji: "pi" }, { kana: "プ", romaji: "pu" }, { kana: "ペ", romaji: "pe" }, { kana: "ポ", romaji: "po" },
+];
+
+const KATAKANA_YOON = [
+  { kana: "キャ", romaji: "kya" }, { kana: "キュ", romaji: "kyu" }, { kana: "キョ", romaji: "kyo" },
+  { kana: "シャ", romaji: "sha" }, { kana: "シュ", romaji: "shu" }, { kana: "ショ", romaji: "sho" },
+  { kana: "チャ", romaji: "cha" }, { kana: "チュ", romaji: "chu" }, { kana: "チョ", romaji: "cho" },
+  { kana: "ニャ", romaji: "nya" }, { kana: "ニュ", romaji: "nyu" }, { kana: "ニョ", romaji: "nyo" },
+  { kana: "ヒャ", romaji: "hya" }, { kana: "ヒュ", romaji: "hyu" }, { kana: "ヒョ", romaji: "hyo" },
+  { kana: "ミャ", romaji: "mya" }, { kana: "ミュ", romaji: "myu" }, { kana: "ミョ", romaji: "myo" },
+  { kana: "リャ", romaji: "rya" }, { kana: "リュ", romaji: "ryu" }, { kana: "リョ", romaji: "ryo" },
+  { kana: "ギャ", romaji: "gya" }, { kana: "ギュ", romaji: "gyu" }, { kana: "ギョ", romaji: "gyo" },
+  { kana: "ジャ", romaji: "ja" }, { kana: "ジュ", romaji: "ju" }, { kana: "ジョ", romaji: "jo" },
+  { kana: "ビャ", romaji: "bya" }, { kana: "ビュ", romaji: "byu" }, { kana: "ビョ", romaji: "byo" },
+  { kana: "ピャ", romaji: "pya" }, { kana: "ピュ", romaji: "pyu" }, { kana: "ピョ", romaji: "pyo" },
+];
+
+const ALL_KATAKANA = [...KATAKANA_GOJUON, ...KATAKANA_DAKUON, ...KATAKANA_YOON];
+const FULL_HIRAGANA = HIRAGANA_GOJUON;
+const FULL_KATAKANA = KATAKANA_GOJUON;
+
 import JlptNoticeModal from "@/components/shared/JlptNoticeModal";
 
 interface LearningTypeGridProps {
@@ -65,12 +117,21 @@ interface LearningTypeGridProps {
 
 export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
   const [showJlptNotice, setShowJlptNotice] = useState(false);
+  const [showShadowingModal, setShowShadowingModal] = useState(false);
   const [selectedKanaType, setSelectedKanaType] = useState<"HIRAGANA" | "KATAKANA" | null>(null);
   const [modalTab, setModalTab] = useState<"TABLE" | "TYPING">("TABLE");
+  const [kanaCategory, setKanaCategory] = useState<"ALL" | "GOJUON" | "DAKUON" | "YOON">("ALL");
 
+  const getKanaDataset = (type: "HIRAGANA" | "KATAKANA" | null, category: "ALL" | "GOJUON" | "DAKUON" | "YOON") => {
+    const isKatakana = type === "KATAKANA";
+    if (category === "GOJUON") return isKatakana ? KATAKANA_GOJUON : HIRAGANA_GOJUON;
+    if (category === "DAKUON") return isKatakana ? KATAKANA_DAKUON : HIRAGANA_DAKUON;
+    if (category === "YOON") return isKatakana ? KATAKANA_YOON : HIRAGANA_YOON;
+    return isKatakana ? ALL_KATAKANA : ALL_HIRAGANA;
+  };
 
   // Typing Practice Game States
-  const [typingDataset, setTypingDataset] = useState(FULL_HIRAGANA);
+  const [typingDataset, setTypingDataset] = useState<Array<{ kana: string; romaji: string }>>(ALL_HIRAGANA);
   const [typingIndex, setTypingIndex] = useState(0);
   const [userTypedRomaji, setUserTypedRomaji] = useState("");
   const [typingScore, setTypingScore] = useState(0);
@@ -89,8 +150,8 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
     return arr;
   };
 
-  const reshuffleDataset = (type = selectedKanaType) => {
-    const base = type === "KATAKANA" ? FULL_KATAKANA : FULL_HIRAGANA;
+  const reshuffleDataset = (type = selectedKanaType, category = kanaCategory) => {
+    const base = getKanaDataset(type, category);
     setTypingDataset(shuffleDataset(base));
     setTypingIndex(0);
     setUserTypedRomaji("");
@@ -98,12 +159,12 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
     setTypingHint(null);
   };
 
-  // Sync and shuffle typing dataset when selectedKanaType or modalTab changes
+  // Sync and shuffle typing dataset when selectedKanaType, modalTab, or kanaCategory changes
   useEffect(() => {
     if (selectedKanaType) {
-      reshuffleDataset(selectedKanaType);
+      reshuffleDataset(selectedKanaType, kanaCategory);
     }
-  }, [selectedKanaType, modalTab]);
+  }, [selectedKanaType, modalTab, kanaCategory]);
 
   // TTS Speech Synthesis helper (Slower 0.72x, bright Tokyo female voice)
   const speakKana = (kana: string) => {
@@ -180,7 +241,15 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
                 Bảng Chữ Cái Tiếng Nhật (Kana)
               </h2>
             </div>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                onClick={() => setShowShadowingModal(true)}
+                className="text-xs font-black text-rose-700 bg-rose-50 hover:bg-rose-600 hover:text-white transition-all px-3 py-1.5 rounded-xl border border-rose-200 inline-flex items-center gap-1 cursor-pointer shadow-2xs"
+                title="Luyện ngữ điệu Pitch Accent & Thu âm giọng nói"
+              >
+                <Mic className="w-3.5 h-3.5" />
+                <span>🎙️ Luyện Phát Âm</span>
+              </button>
               <button
                 onClick={() => {
                   setSelectedKanaType("HIRAGANA");
@@ -198,7 +267,7 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
                 }}
                 className="text-xs font-bold text-[#76685F] hover:text-[#C65D4B] transition-colors inline-flex items-center gap-1 bg-[#FFF8F5] px-3 py-1.5 rounded-xl border border-[#F2DDD4] cursor-pointer"
               >
-                <span>Bảng trọn bộ (46)</span>
+                <span>Bảng trọn bộ (104)</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </button>
             </div>
@@ -506,14 +575,14 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
               <div className="absolute top-0 left-0 w-full h-1/2 bg-white/20 rounded-t-2xl pointer-events-none" />
               <Layers className="w-7 h-7 stroke-[2.2] drop-shadow-md text-purple-100" />
             </div>
-            <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-purple-600/10 text-purple-700 border border-purple-600/20">
-              🔥 ĐỀ THI THẬT
+            <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+              LUYỆN ĐỀ THẬT
             </span>
           </div>
 
           <div>
             <h3 className="text-base font-black text-[#2C201D] group-hover:text-purple-600 transition-colors">Luyện JLPT</h3>
-            <p className="text-xs text-[#76685F] font-extrabold">Bộ đề thi N5 • N4 • N3</p>
+            <p className="text-xs text-[#76685F] font-extrabold">Đề thi thật N5 • N4 • N3</p>
           </div>
 
           <div className="flex justify-end pt-1">
@@ -773,7 +842,7 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
               </button>
 
               {/* Modal Header */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pr-10">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5 pr-10">
                 <div className="flex items-center gap-3">
                   <div className={`w-12 h-12 rounded-2xl text-white font-black text-2xl flex items-center justify-center shadow-md transition-colors ${selectedKanaType === "HIRAGANA" ? "bg-[#C65D4B]" : "bg-[#3B66F5]"}`}>
                     {selectedKanaType === "HIRAGANA" ? "あ" : "ア"}
@@ -783,13 +852,14 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
                       {selectedKanaType === "HIRAGANA" ? "Bảng Chữ Cái Hiragana (平仮名)" : "Bảng Chữ Cái Katakana (片仮名)"}
                     </h3>
                     <p className="text-xs font-bold text-[#8B6F5A]">
-                      Trọn Bộ 46 Chữ Cái Căn Bản (Gojuon - 五十音) &amp; Chức Năng Luyện Gõ Siêu Tốc
+                      Trọn Bộ Chữ Cái (46 Âm Chuẩn, 25 Âm Đục ゛/゜, 33 Âm Ghép ゃゅょ) &amp; Luyện Gõ
                     </p>
                   </div>
                 </div>
 
-                <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
-                  {/* Kana Type Switcher (Hiragana vs Katakana) */}
+                {/* Main Controls: Kana Type Switcher (Hiragana vs Katakana) & Study Mode (Table vs Typing) */}
+                <div className="flex flex-wrap items-center gap-2.5">
+                  {/* 1. Hiragana vs Katakana Switcher */}
                   <div className="flex items-center bg-[#F5EFE6] p-1 rounded-2xl border border-[#E0D5C7]">
                     <button
                       onClick={() => setSelectedKanaType("HIRAGANA")}
@@ -799,7 +869,7 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
                           : "text-[#76685F] hover:text-[#2C201D]"
                       }`}
                     >
-                      <span className="font-jp font-black text-sm">あ</span>
+                      <span className="font-bold">あ</span>
                       <span>Hiragana</span>
                     </button>
                     <button
@@ -810,12 +880,12 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
                           : "text-[#76685F] hover:text-[#2C201D]"
                       }`}
                     >
-                      <span className="font-jp font-black text-sm">ア</span>
+                      <span className="font-bold">ア</span>
                       <span>Katakana</span>
                     </button>
                   </div>
 
-                  {/* Mode Switcher: Full Table vs Speed Typing Game */}
+                  {/* 2. Tab Switcher: Full Table vs Speed Typing Game */}
                   <div className="flex items-center bg-[#F5EFE6] p-1 rounded-2xl border border-[#E0D5C7]">
                     <button
                       onClick={() => setModalTab("TABLE")}
@@ -825,57 +895,101 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
                           : "text-[#76685F] hover:text-[#2C201D]"
                       }`}
                     >
-                      <Grid className="w-3.5 h-3.5 text-[#C65D4B]" />
-                      <span>Bảng 46 Chữ</span>
+                      <Grid className={`w-3.5 h-3.5 ${selectedKanaType === "KATAKANA" ? "text-[#3B66F5]" : "text-[#C65D4B]"}`} />
+                      <span>Trọn Bộ Bảng Chữ</span>
                     </button>
                     <button
                       onClick={() => setModalTab("TYPING")}
                       className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
                         modalTab === "TYPING"
-                          ? selectedKanaType === "HIRAGANA" ? "bg-[#C65D4B] text-white shadow-xs" : "bg-[#3B66F5] text-white shadow-xs"
+                          ? selectedKanaType === "KATAKANA" ? "bg-[#3B66F5] text-white shadow-xs" : "bg-[#C65D4B] text-white shadow-xs"
                           : "text-[#76685F] hover:text-[#2C201D]"
                       }`}
                     >
                       <Keyboard className="w-3.5 h-3.5" />
-                      <span>Luyện Gõ</span>
+                      <span>Luyện Gõ Romaji</span>
                     </button>
                   </div>
                 </div>
               </div>
 
-              {/* TAB 1: FULL 46 CHARACTER GRID TABLE WITH TTS AUDIO */}
+              {/* Category Sub-Filter Tabs (GOJUON / DAKUON / YOON / ALL) */}
+              <div className="flex flex-wrap items-center gap-2 mb-4 bg-[#FFF8F5] p-2 rounded-2xl border border-[#F5DDD4]">
+                <button
+                  onClick={() => setKanaCategory("ALL")}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                    kanaCategory === "ALL"
+                      ? selectedKanaType === "KATAKANA" ? "bg-[#3B66F5] text-white shadow-xs" : "bg-[#C65D4B] text-white shadow-xs"
+                      : selectedKanaType === "KATAKANA" ? "bg-white text-[#76685F] hover:text-[#3B66F5] border border-[#DCE4FF]" : "bg-white text-[#76685F] hover:text-[#C65D4B] border border-[#F2DDD4]"
+                  }`}
+                >
+                  Tất cả ({selectedKanaType === "HIRAGANA" ? ALL_HIRAGANA.length : ALL_KATAKANA.length})
+                </button>
+                <button
+                  onClick={() => setKanaCategory("GOJUON")}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                    kanaCategory === "GOJUON"
+                      ? selectedKanaType === "KATAKANA" ? "bg-[#3B66F5] text-white shadow-xs" : "bg-[#C65D4B] text-white shadow-xs"
+                      : selectedKanaType === "KATAKANA" ? "bg-white text-[#76685F] hover:text-[#3B66F5] border border-[#DCE4FF]" : "bg-white text-[#76685F] hover:text-[#C65D4B] border border-[#F2DDD4]"
+                  }`}
+                >
+                  🌸 Âm Chuẩn (Gojuon - 46)
+                </button>
+                <button
+                  onClick={() => setKanaCategory("DAKUON")}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                    kanaCategory === "DAKUON"
+                      ? selectedKanaType === "KATAKANA" ? "bg-[#3B66F5] text-white shadow-xs" : "bg-[#C65D4B] text-white shadow-xs"
+                      : selectedKanaType === "KATAKANA" ? "bg-white text-[#76685F] hover:text-[#3B66F5] border border-[#DCE4FF]" : "bg-white text-[#76685F] hover:text-[#C65D4B] border border-[#F2DDD4]"
+                  }`}
+                >
+                  ⚡ Âm Đục ゛ &amp; Bán Đục ゜ (25)
+                </button>
+                <button
+                  onClick={() => setKanaCategory("YOON")}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer ${
+                    kanaCategory === "YOON"
+                      ? selectedKanaType === "KATAKANA" ? "bg-[#3B66F5] text-white shadow-xs" : "bg-[#C65D4B] text-white shadow-xs"
+                      : selectedKanaType === "KATAKANA" ? "bg-white text-[#76685F] hover:text-[#3B66F5] border border-[#DCE4FF]" : "bg-white text-[#76685F] hover:text-[#C65D4B] border border-[#F2DDD4]"
+                  }`}
+                >
+                  ✨ Âm Ghép (Yoon ゃゅょ - 33)
+                </button>
+              </div>
+
+              {/* TAB 1: FULL CHARACTER GRID TABLE WITH TTS AUDIO */}
               {modalTab === "TABLE" && (
                 <div className="space-y-4">
                   <div className={`flex items-center justify-between p-3 rounded-2xl border text-xs font-bold ${
-                    selectedKanaType === "HIRAGANA" ? "bg-[#FFF8F5] border-[#F5DDD4] text-[#8B6F5A]" : "bg-[#F4F7FF] border-[#DCE4FF] text-[#3B66F5]"
+                    selectedKanaType === "KATAKANA" ? "bg-[#F4F7FF] border-[#DCE4FF] text-[#3B66F5]" : "bg-[#FFF8F5] border-[#F5DDD4] text-[#8B6F5A]"
                   }`}>
                     <span>💡 Click vào từng chữ để nghe giọng phát âm tiếng Nhật chuẩn (TTS)</span>
-                    <span className={`font-black ${selectedKanaType === "HIRAGANA" ? "text-[#C65D4B]" : "text-[#3B66F5]"}`}>
-                      46/46 Chữ {selectedKanaType === "HIRAGANA" ? "Hiragana" : "Katakana"}
+                    <span className={`font-black ${selectedKanaType === "KATAKANA" ? "text-[#3B66F5]" : "text-[#C65D4B]"}`}>
+                      {getKanaDataset(selectedKanaType, kanaCategory).length} Chữ cái ({selectedKanaType === "KATAKANA" ? "Katakana" : "Hiragana"})
                     </span>
                   </div>
 
-                  {/* 46 Kana Grid */}
-                  <div className="grid grid-cols-5 sm:grid-cols-10 gap-2 my-4">
-                    {(selectedKanaType === "HIRAGANA" ? FULL_HIRAGANA : FULL_KATAKANA).map((item, idx) => (
+                  {/* Kana Grid */}
+                  <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-10 gap-2 my-4">
+                    {getKanaDataset(selectedKanaType, kanaCategory).map((item, idx) => (
                       <div
                         key={idx}
                         onClick={() => speakKana(item.kana)}
                         title={`Bấm để nghe phát âm "${item.kana}"`}
                         className={`p-3 bg-white rounded-2xl border text-center shadow-2xs hover:scale-110 hover:shadow-md transition-all cursor-pointer group relative ${
-                          selectedKanaType === "HIRAGANA"
-                            ? "border-[#8B6F5A]/20 hover:border-[#C65D4B]"
-                            : "border-[#DCE4FF] hover:border-[#3B66F5]"
+                          selectedKanaType === "KATAKANA"
+                            ? "border-[#DCE4FF] hover:border-[#3B66F5]"
+                            : "border-[#8B6F5A]/20 hover:border-[#C65D4B]"
                         }`}
                       >
                         <Volume2 className={`w-3 h-3 absolute top-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity ${
-                          selectedKanaType === "HIRAGANA" ? "text-[#C65D4B]" : "text-[#3B66F5]"
+                          selectedKanaType === "KATAKANA" ? "text-[#3B66F5]" : "text-[#C65D4B]"
                         }`} />
-                        <span className={`text-2xl font-black block transition-colors ${
-                          selectedKanaType === "HIRAGANA" ? "text-[#2C221E] group-hover:text-[#C65D4B]" : "text-[#2C221E] group-hover:text-[#3B66F5]"
+                        <span className={`text-xl sm:text-2xl font-black block transition-colors ${
+                          selectedKanaType === "KATAKANA" ? "text-[#2C201D] group-hover:text-[#3B66F5]" : "text-[#2C221E] group-hover:text-[#C65D4B]"
                         }`}>{item.kana}</span>
                         <span className={`text-[10px] font-bold uppercase block mt-0.5 ${
-                          selectedKanaType === "HIRAGANA" ? "text-[#8B6F5A]" : "text-[#3B66F5]"
+                          selectedKanaType === "KATAKANA" ? "text-[#3B66F5]" : "text-[#8B6F5A]"
                         }`}>{item.romaji}</span>
                       </div>
                     ))}
@@ -885,16 +999,12 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
 
               {/* TAB 2: INTERACTIVE KANA SPEED TYPING PRACTICE GAME */}
               {modalTab === "TYPING" && (
-                <div className={`space-y-6 p-6 sm:p-8 rounded-3xl border-2 shadow-inner text-center ${
-                  selectedKanaType === "HIRAGANA"
-                    ? "bg-gradient-to-b from-[#FFF8F5] via-[#FFF3EF] to-[#FDFBF7] border-[#F5DDD4]"
-                    : "bg-gradient-to-b from-[#F4F7FF] via-[#EEF2FF] to-[#FDFBF7] border-[#DCE4FF]"
-                }`}>
+                <div className="space-y-6 bg-gradient-to-b from-[#FFF8F5] via-[#FFF3EF] to-[#FDFBF7] p-6 sm:p-8 rounded-3xl border-2 border-[#F5DDD4] shadow-inner text-center">
                   
                   {/* Game Stats Scoreboard */}
                   <div className="flex items-center justify-around bg-white p-3.5 rounded-2xl border border-[#F5DDD4] shadow-2xs text-xs font-black">
-                    <div className={`flex items-center gap-1.5 ${selectedKanaType === "HIRAGANA" ? "text-[#C65D4B]" : "text-[#3B66F5]"}`}>
-                      <Zap className={`w-4 h-4 ${selectedKanaType === "HIRAGANA" ? "fill-[#C65D4B]" : "fill-[#3B66F5]"}`} />
+                    <div className="flex items-center gap-1.5 text-[#C65D4B]">
+                      <Zap className="w-4 h-4 fill-[#C65D4B]" />
                       <span>Điểm: {typingScore}</span>
                     </div>
                     <div className="flex items-center gap-1.5 text-amber-600">
@@ -909,12 +1019,12 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
 
                   {/* Big Prompt Card */}
                   <div className={`relative max-w-xs mx-auto py-8 bg-white rounded-3xl border-4 shadow-xl flex flex-col items-center justify-center space-y-2 ${
-                    selectedKanaType === "HIRAGANA" ? "border-[#C65D4B]" : "border-[#3B66F5]"
+                    selectedKanaType === "KATAKANA" ? "border-[#3B66F5]" : "border-[#C65D4B]"
                   }`}>
                     <button
                       onClick={() => speakKana(currentItem.kana)}
-                      className={`absolute top-3 right-3 p-2 rounded-xl hover:scale-110 transition cursor-pointer ${
-                        selectedKanaType === "HIRAGANA" ? "bg-[#FFF8F5] text-[#C65D4B]" : "bg-[#EEF2FF] text-[#3B66F5]"
+                      className={`absolute top-3 right-3 p-2 rounded-xl transition cursor-pointer hover:scale-110 ${
+                        selectedKanaType === "KATAKANA" ? "bg-[#EEF2FF] text-[#3B66F5]" : "bg-[#FFF8F5] text-[#C65D4B]"
                       }`}
                       title="Nghe lại phát âm"
                     >
@@ -929,7 +1039,7 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
                       {currentItem.kana}
                     </motion.span>
                     <span className="text-xs font-bold text-[#8B6F5A] uppercase tracking-wider block">
-                      Gõ Romaji chữ {selectedKanaType === "HIRAGANA" ? "Hiragana" : "Katakana"} trên
+                      Gõ Romaji cho chữ {selectedKanaType === "KATAKANA" ? "Katakana" : "Hiragana"} trên
                     </span>
                   </div>
 
@@ -949,6 +1059,8 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
                             ? "bg-emerald-50 border-emerald-500 text-emerald-700 ring-4 ring-emerald-500/20"
                             : typingFeedback === "WRONG"
                             ? "bg-rose-50 border-rose-500 text-rose-700 ring-4 ring-rose-500/20 animate-shake"
+                            : selectedKanaType === "KATAKANA"
+                            ? "bg-white border-[#DCE4FF] text-[#2C201D] focus:border-[#3B66F5] focus:ring-4 focus:ring-[#3B66F5]/20"
                             : "bg-white border-[#EAD0C7] text-[#2C201D] focus:border-[#C65D4B] focus:ring-4 focus:ring-[#C65D4B]/20"
                         }`}
                       />
@@ -1004,6 +1116,12 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
           </div>
         )}
       </AnimatePresence>
+
+      <ShadowingPronunciationModal
+        isOpen={showShadowingModal}
+        onClose={() => setShowShadowingModal(false)}
+        mode="KANA"
+      />
 
     </div>
   );

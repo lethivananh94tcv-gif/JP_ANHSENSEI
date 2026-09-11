@@ -99,12 +99,6 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
               <Link
                 key={item.name}
                 href={item.href}
-                onClick={(e) => {
-                  if (isJlpt) {
-                    e.preventDefault();
-                    setShowJlptNotice(true);
-                  }
-                }}
                 className={`relative py-2 text-xs sm:text-sm font-extrabold transition-colors flex items-center gap-1.5 ${
                   item.active ? "text-[#C65D4B]" : "text-[#56423E] hover:text-[#231917]"
                 }`}
@@ -112,8 +106,8 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
                 <IconComp className={`w-4 h-4 ${item.active ? "text-[#C65D4B]" : "text-[#8B6F5A]"}`} />
                 <span>{item.name}</span>
                 {item.badge && (
-                  <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-[#C65D4B]/10 text-[#C65D4B] border border-[#C65D4B]/20">
-                    Sắp có
+                  <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
+                    Hot
                   </span>
                 )}
                 {item.active && (

@@ -5,12 +5,18 @@ import Link from "next/link";
 interface LessonCompletedBannerProps {
   levelCode?: string;
   nextLessonId?: number | null;
+  lessonId?: string | number;
 }
 
 export default function LessonCompletedBanner({
-  levelCode,
+  levelCode = "N5",
   nextLessonId = null,
+  lessonId,
 }: LessonCompletedBannerProps) {
+  const backHref = lessonId
+    ? `/vocabularies?level=${levelCode}&lessonId=${lessonId}`
+    : `/vocabularies?level=${levelCode}`;
+
   return (
     <div className="bg-gradient-to-br from-[#FFFDF9] via-[#FAF3EB] to-[#F5EFE6] border border-[#DED0C5] rounded-3xl p-6 sm:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 shadow-xs relative overflow-hidden">
       {/* Subtle Japanese Wood Pattern Texture Accent */}
@@ -40,7 +46,7 @@ export default function LessonCompletedBanner({
 
       <div className="flex flex-wrap sm:flex-nowrap gap-3 z-10 w-full md:w-auto">
         <Link
-          href="/levels"
+          href={backHref}
           className="px-5 py-3 bg-white hover:bg-[#FAF3EB] text-[#8B6F5A] border border-[#DED0C5] font-bold text-xs rounded-xl shadow-2xs transition-colors text-center flex-1 sm:flex-none"
         >
           Quay lại Danh sách bài

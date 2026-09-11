@@ -188,7 +188,17 @@ const getExamRichAnswerDetails = (examId: string, levelCode: string, totalQuesti
     const baseOpt = sourceAnswers[String(i)] || (((i * 3) % 4) + 1);
 
     // 1. Custom detailed manual explanation if provided
-    const customMatch = EXAM_DETAILED_EXPLANATION_MAP[examId]?.[i];
+    const matchedExamKey = Object.keys(EXAM_DETAILED_EXPLANATION_MAP).find(k => 
+      examId.toLowerCase() === k.toLowerCase() ||
+      (examId.includes("2010") && k.includes("2010")) ||
+      (examId.includes("2012") && k.includes("2012")) ||
+      (examId.includes("2013") && k.includes("2013")) ||
+      (examId.includes("2014") && k.includes("2014")) ||
+      (examId.includes("2017") && k.includes("2017")) ||
+      (examId.includes("2018") && k.includes("2018")) ||
+      (examId.includes("2021") && k.includes("2021"))
+    );
+    const customMatch = matchedExamKey ? EXAM_DETAILED_EXPLANATION_MAP[matchedExamKey]?.[i] : undefined;
 
     // 2. Gold Benchmark explanation standard generated dynamically
     const goldDefault = generateGoldStandardExplanation(i, localNum, secName, mName, baseOpt, examId, levelCode);
@@ -240,6 +250,7 @@ export default function JlptCleanMinimalExamPage() {
   };
 
   const totalQuestions = exam.totalQuestions;
+  const examConfig = parseExamStructure(examId, levelCode, totalQuestions);
   const richAnswers = getExamRichAnswerDetails(examId, levelCode, totalQuestions);
 
   const [userAnswers, setUserAnswers] = useState<Record<number, number>>({});
@@ -359,8 +370,8 @@ export default function JlptCleanMinimalExamPage() {
     let grammarCorrect = 0;
     let listeningCorrect = 0;
 
-    const vocabEndIndex = isN5 ? 30 : 35;
-    const grammarEndIndex = isN5 ? 61 : isN3 ? 74 : (examId === "n4-2017-07" ? 71 : 70);
+    const vocabEndIndex = examConfig.vocabSection.endQuestion;
+    const grammarEndIndex = examConfig.grammarSection.endQuestion;
 
     for (let i = 1; i <= totalQuestions; i++) {
       const userSel = userAnswers[i];
@@ -373,14 +384,14 @@ export default function JlptCleanMinimalExamPage() {
       }
     }
 
-    const vocabTotalCount = isN5 ? 30 : 35;
-    const grammarTotalCount = isN5 ? 31 : isN3 ? 39 : (examId === "n4-2017-07" ? 36 : 35);
-    const listeningTotalCount = isN5 ? 24 : isN3 ? 31 : 28;
+    const vocabTotalCount = examConfig.vocabSection.totalQuestions;
+    const grammarTotalCount = examConfig.grammarSection.totalQuestions;
+    const listeningTotalCount = examConfig.listeningSection.totalQuestions;
 
     const score180 = Math.round((correctCount / totalQuestions) * 180);
-    const vocabScore60 = Math.round((vocabCorrect / vocabTotalCount) * 60);
-    const grammarScore60 = Math.round((grammarCorrect / grammarTotalCount) * 60);
-    const listeningScore60 = Math.round((listeningCorrect / listeningTotalCount) * 60);
+    const vocabScore60 = Math.round((vocabCorrect / (vocabTotalCount || 1)) * 60);
+    const grammarScore60 = Math.round((grammarCorrect / (grammarTotalCount || 1)) * 60);
+    const listeningScore60 = Math.round((listeningCorrect / (listeningTotalCount || 1)) * 60);
 
     return {
       correctCount,
@@ -414,8 +425,8 @@ export default function JlptCleanMinimalExamPage() {
 
   const getFilteredQuestions = () => {
     const all = Array.from({ length: totalQuestions }, (_, idx) => idx + 1);
-    const vocabEndIndex = isN5 ? 30 : 35;
-    const grammarEndIndex = isN5 ? 61 : isN3 ? 74 : (examId === "n4-2017-07" ? 71 : 70);
+    const vocabEndIndex = examConfig.vocabSection.endQuestion;
+    const grammarEndIndex = examConfig.grammarSection.endQuestion;
 
     if (activeTab === "VOCAB") return all.filter((n) => n <= vocabEndIndex);
     if (activeTab === "GRAMMAR") return all.filter((n) => n > vocabEndIndex && n <= grammarEndIndex);
@@ -632,7 +643,7 @@ export default function JlptCleanMinimalExamPage() {
                   activeTab === "VOCAB" ? "bg-[#C65D4B] text-white font-extrabold" : "bg-[#FAF4EB] text-[#6E5D55] hover:text-[#1F1714]"
                 }`}
               >
-                Môn 1: Từ Vựng ({isN5 ? "1-30" : "1-35"})
+                Môn 1: Từ Vựng (1-{examConfig.vocabSection.totalQuestions})
               </button>
               <button
                 type="button"
@@ -641,7 +652,7 @@ export default function JlptCleanMinimalExamPage() {
                   activeTab === "GRAMMAR" ? "bg-[#C65D4B] text-white font-extrabold" : "bg-[#FAF4EB] text-[#6E5D55] hover:text-[#1F1714]"
                 }`}
               >
-                Môn 2: Ngữ Pháp & Đọc ({isN5 ? "1-31" : isN3 ? "1-39" : (examId === "n4-2017-07" ? "1-36" : "1-35")})
+                Môn 2: Ngữ Pháp & Đọc (1-{examConfig.grammarSection.totalQuestions})
               </button>
               <button
                 type="button"
@@ -650,7 +661,7 @@ export default function JlptCleanMinimalExamPage() {
                   activeTab === "LISTENING" ? "bg-[#C65D4B] text-white font-extrabold" : "bg-[#FAF4EB] text-[#6E5D55] hover:text-[#1F1714]"
                 }`}
               >
-                Môn 3: Nghe Hiểu ({isN5 ? "1-24" : isN3 ? "1-31" : (examId === "n4-2010-2011" ? "1-27" : "1-28")})
+                Môn 3: Nghe Hiểu (1-{examConfig.listeningSection.totalQuestions})
               </button>
             </div>
 
@@ -665,7 +676,7 @@ export default function JlptCleanMinimalExamPage() {
               }`}
             >
               <Sparkles className="w-3.5 h-3.5" />
-              <span>{showAllExplanations ? "🔒 Ẩn Bảng Đáp Án Gốc & Giải Thích" : "💡 Hiển Thị 98 Đáp Án Gốc 1:1 & Giải Thích Chi Tiết"}</span>
+              <span>{showAllExplanations ? "🔒 Ẩn Bảng Đáp Án Gốc & Giải Thích" : `💡 Hiển Thị ${totalQuestions} Đáp Án Gốc 1:1 & Giải Thích Chi Tiết`}</span>
             </button>
           </div>
 

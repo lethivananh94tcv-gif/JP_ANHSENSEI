@@ -51,6 +51,16 @@ export default function SelectedLessonProgress({
     displayLessonNum = displayLesson.lessonId;
   }
 
+  let currentLessonNum = lesson.lessonId || lesson.sortOrder || 1;
+  const currentLvlCode = (lesson.levelCode || selectedLevelCode || "N5").toUpperCase();
+  if (currentLvlCode === "N4" && lesson.sortOrder <= 25) {
+    currentLessonNum = lesson.sortOrder + 25;
+  } else if (currentLvlCode === "N3" && lesson.sortOrder <= 15) {
+    currentLessonNum = lesson.sortOrder + 50;
+  } else if (lesson.lessonId && lesson.lessonId > 0) {
+    currentLessonNum = lesson.lessonId;
+  }
+
   const buttonLabel = isRecommendingNext
     ? `Bắt đầu Bài #${displayLessonNum} ngay`
     : status === "COMPLETED" || completionPercent === 100
@@ -137,7 +147,7 @@ export default function SelectedLessonProgress({
 
               <p className="text-xs sm:text-sm text-[#56423E] font-medium leading-relaxed sm:pl-11 line-clamp-2">
                 {isRecommendingNext
-                  ? `Chúc mừng bạn đã hoàn thành Bài #${lesson.sortOrder}! Tiếp tục chinh phục bài học tiếp theo.`
+                  ? `Chúc mừng bạn đã hoàn thành Bài #${currentLessonNum}! Tiếp tục chinh phục bài học tiếp theo.`
                   : displayLesson.description || "Phỏng đoán chắc chắn và diễn tả khuynh hướng dễ xảy ra"}
               </p>
             </div>

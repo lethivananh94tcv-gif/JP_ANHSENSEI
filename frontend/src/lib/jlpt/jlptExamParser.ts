@@ -57,7 +57,7 @@ export function parseExamStructure(
   const isN2 = levelCode === "N2" || examId.includes("n2");
   const isN1 = levelCode === "N1" || examId.includes("n1");
 
-  // N4 2012 specific structure from scanned_n4_2012_official_answers.json
+  // N4 2012 specific structure: Vocab 34, Grammar 35, Listening 29 (Total = 98)
   if (examId.includes("2012")) {
     return {
       examId,
@@ -105,11 +105,59 @@ export function parseExamStructure(
     };
   }
 
-  // Standard N4 Level (2010-2011 benchmark: 35 Vocab, 35 Grammar, 27 Listening = 97 Qs)
+  // N4 2010-2011 specific structure: Vocab 35, Grammar 35, Listening 27 (Total = 97)
+  if (examId.includes("2010")) {
+    return {
+      examId,
+      levelCode: "N4",
+      totalQuestions: 97,
+      vocabSection: {
+        name: "Môn 1: Từ vựng & Kanji (文字・語彙)",
+        startQuestion: 1,
+        endQuestion: 35,
+        totalQuestions: 35,
+        mondais: [
+          { mondai: 1, mondaiTitle: "問題 1 (Cách đọc Kanji)", startQuestion: 1, endQuestion: 9 },
+          { mondai: 2, mondaiTitle: "問題 2 (Cách viết Kanji)", startQuestion: 10, endQuestion: 15 },
+          { mondai: 3, mondaiTitle: "問題 3 (Điền từ vào câu)", startQuestion: 16, endQuestion: 25 },
+          { mondai: 4, mondaiTitle: "問題 4 (Từ đồng nghĩa)", startQuestion: 26, endQuestion: 30 },
+          { mondai: 5, mondaiTitle: "問題 5 (Cách dùng từ)", startQuestion: 31, endQuestion: 35 },
+        ]
+      },
+      grammarSection: {
+        name: "Môn 2: Ngữ pháp & Đọc hiểu (文法・読解)",
+        startQuestion: 36,
+        endQuestion: 70,
+        totalQuestions: 35,
+        mondais: [
+          { mondai: 1, mondaiTitle: "問題 1 (Ngữ pháp điền câu)", startQuestion: 36, endQuestion: 50 },
+          { mondai: 2, mondaiTitle: "問題 2 (Sắp xếp từ tạo câu *)", startQuestion: 51, endQuestion: 55 },
+          { mondai: 3, mondaiTitle: "問題 3 (Ngữ pháp đoạn văn)", startQuestion: 56, endQuestion: 60 },
+          { mondai: 4, mondaiTitle: "問題 4 (Đọc hiểu ngắn)", startQuestion: 61, endQuestion: 64 },
+          { mondai: 5, mondaiTitle: "問題 5 (Đọc hiểu trung bình)", startQuestion: 65, endQuestion: 68 },
+          { mondai: 6, mondaiTitle: "問題 6 (Tìm kiếm thông tin)", startQuestion: 69, endQuestion: 70 },
+        ]
+      },
+      listeningSection: {
+        name: "Môn 3: Nghe hiểu (聴解)",
+        startQuestion: 71,
+        endQuestion: 97,
+        totalQuestions: 27,
+        mondais: [
+          { mondai: 1, mondaiTitle: "問題 1 (Nghe hiểu sự việc)", startQuestion: 71, endQuestion: 78 },
+          { mondai: 2, mondaiTitle: "問題 2 (Nghe hiểu điểm chính)", startQuestion: 79, endQuestion: 85 },
+          { mondai: 3, mondaiTitle: "問題 3 (Nghe diễn đạt thoại)", startQuestion: 86, endQuestion: 90 },
+          { mondai: 4, mondaiTitle: "問題 4 (Nghe ứng đáp nhanh)", startQuestion: 91, endQuestion: 97 },
+        ]
+      }
+    };
+  }
+
+  // Standard N4 Level (2013, 2014, 2018 standard: 35 Vocab, 35 Grammar, 28 Listening = 98 Qs)
   if (levelCode === "N4" || examId.includes("n4")) {
     const vEnd = 35;
     const gEnd = 70;
-    const lEnd = totalQuestions || 97;
+    const lEnd = totalQuestions || 98;
 
     return {
       examId,
@@ -138,8 +186,8 @@ export function parseExamStructure(
           { mondai: 2, mondaiTitle: "問題 2 (Sắp xếp từ tạo câu *)", startQuestion: 51, endQuestion: 55 },
           { mondai: 3, mondaiTitle: "問題 3 (Ngữ pháp đoạn văn)", startQuestion: 56, endQuestion: 60 },
           { mondai: 4, mondaiTitle: "問題 4 (Đọc hiểu ngắn)", startQuestion: 61, endQuestion: 64 },
-          { mondai: 5, mondaiTitle: "問題 5 (Đọc hiểu dài)", startQuestion: 65, endQuestion: 67 },
-          { mondai: 6, mondaiTitle: "問題 6 (Tìm kiếm thông tin)", startQuestion: 68, endQuestion: 70 },
+          { mondai: 5, mondaiTitle: "問題 5 (Đọc hiểu trung bình)", startQuestion: 65, endQuestion: 68 },
+          { mondai: 6, mondaiTitle: "問題 6 (Tìm kiếm thông tin)", startQuestion: 69, endQuestion: 70 },
         ]
       },
       listeningSection: {

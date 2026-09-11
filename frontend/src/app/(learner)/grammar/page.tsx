@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import LearnerHeader from "@/components/learner/LearnerHeader";
 import Breadcrumb from "@/components/learner/grammar/Breadcrumb";
 import LevelSidebar from "@/components/learner/grammar/LevelSidebar";
@@ -18,12 +18,23 @@ import { apiClient } from "@/lib/api/client";
 
 export default function LearnerGrammarPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const paramLevel = searchParams.get("level")?.toUpperCase();
 
   // Core Selection & Filtering States
-  const [activeLevelId, setActiveLevelId] = useState<string>("N5");
+  const [activeLevelId, setActiveLevelId] = useState<string>(
+    paramLevel && ["N5", "N4", "N3", "N2", "N1"].includes(paramLevel) ? paramLevel : "N5"
+  );
   const [selectedLessonNum, setSelectedLessonNum] = useState<number | "ALL">("ALL");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [showN3Notice, setShowN3Notice] = useState<boolean>(false);
+
+  useEffect(() => {
+    const p = searchParams.get("level")?.toUpperCase();
+    if (p && ["N5", "N4", "N3", "N2", "N1"].includes(p)) {
+      setActiveLevelId(p);
+    }
+  }, [searchParams]);
 
   // Real-time backend API data states
   const [apiLessons, setApiLessons] = useState<LessonData[] | null>(null);

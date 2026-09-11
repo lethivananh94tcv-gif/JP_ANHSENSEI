@@ -44,3 +44,9 @@ pdf_text_decoded.txt
 
 # Maven wrapper jar if not needed
 !.mvn/wrapper/maven-wrapper.jar
+
+# Python
+__pycache__/
+*.pyc
+scripts/tessdata/
+

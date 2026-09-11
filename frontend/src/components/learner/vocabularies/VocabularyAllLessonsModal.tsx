@@ -30,9 +30,20 @@ export default function VocabularyAllLessonsModal({
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<"all" | "NOT_STARTED" | "IN_PROGRESS" | "COMPLETED">("all");
 
+  const lvlUpper = (levelCode || "N5").toUpperCase();
+  const getUniqueLessonId = (l: LessonItem) => {
+    if (lvlUpper === "N4") {
+      return l.lessonId >= 26 && l.lessonId <= 50 ? l.lessonId : (l.sortOrder <= 25 ? l.sortOrder + 25 : l.sortOrder);
+    }
+    if (lvlUpper === "N3") {
+      return l.lessonId >= 51 && l.lessonId <= 65 ? l.lessonId : (l.sortOrder <= 15 ? l.sortOrder + 50 : l.sortOrder);
+    }
+    return l.lessonId <= 25 && l.lessonId > 0 ? l.lessonId : l.sortOrder;
+  };
+
   const filteredLessons = useMemo(() => {
     return lessons.filter((lsn) => {
-      const prog = progressMap[lsn.lessonId] || progressMap[lsn.sortOrder];
+      const prog = progressMap[getUniqueLessonId(lsn)];
       const completionPercent = prog?.completionPercent ?? 0;
       const status =
         prog?.status ??
@@ -55,7 +66,7 @@ export default function VocabularyAllLessonsModal({
 
       return true;
     });
-  }, [lessons, progressMap, statusFilter, searchQuery]);
+  }, [lessons, progressMap, statusFilter, searchQuery, lvlUpper]);
 
   if (!isOpen) return null;
 
@@ -124,8 +135,9 @@ export default function VocabularyAllLessonsModal({
             </div>
           ) : (
             filteredLessons.map((lsn) => {
-              const isSelected = lsn.lessonId === selectedLessonId || lsn.sortOrder === selectedLessonId;
-              const prog = progressMap[lsn.lessonId] || progressMap[lsn.sortOrder];
+              const canonicalId = getUniqueLessonId(lsn);
+              const isSelected = canonicalId === selectedLessonId || lsn.lessonId === selectedLessonId;
+              const prog = progressMap[canonicalId];
               const completionPercent = prog?.completionPercent ?? 0;
               const isCompleted = completionPercent >= 95;
               const isInProgress = completionPercent > 0 && !isCompleted;

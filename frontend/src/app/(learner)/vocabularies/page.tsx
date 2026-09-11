@@ -113,6 +113,21 @@ const DEFAULT_N3_LESSONS: LessonItem[] = [
   { lessonId: 65, levelId: 3, title: "Bài 65: Ôn tập tổng hợp & Thành ngữ (N3総合復習)", description: "Tổng hợp từ vựng N3 cốt lõi, Thành ngữ 4 chữ, Cụm từ hay gặp trong kỳ thi JLPT N3", sortOrder: 15, status: "PUBLISHED" },
 ];
 
+export const getCanonicalLessonId = (lesson: LessonItem, levelCode = "N5"): number => {
+  const lvl = (lesson.levelCode || levelCode || "N5").toUpperCase();
+  if (lvl === "N4") {
+    return lesson.lessonId >= 26 && lesson.lessonId <= 50
+      ? lesson.lessonId
+      : (lesson.sortOrder <= 25 ? 25 + lesson.sortOrder : lesson.sortOrder);
+  }
+  if (lvl === "N3") {
+    return lesson.lessonId >= 51 && lesson.lessonId <= 65
+      ? lesson.lessonId
+      : (lesson.sortOrder <= 15 ? 50 + lesson.sortOrder : lesson.sortOrder);
+  }
+  return lesson.lessonId <= 25 && lesson.lessonId > 0 ? lesson.lessonId : lesson.sortOrder;
+};
+
 export default function LearnerVocabulariesHubPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -180,22 +195,28 @@ export default function LearnerVocabulariesHubPage() {
 
       if (paramLessonId) {
         activeLesson = publishedLessons.find(
-          (l) => String(l.lessonId) === paramLessonId || String(l.sortOrder) === paramLessonId
+          (l) => String(getCanonicalLessonId(l, targetLevel.code)) === paramLessonId ||
+                 String(l.lessonId) === paramLessonId
         );
       }
 
       if (!activeLesson && continueInfo && continueInfo.lessonId) {
-        activeLesson = publishedLessons.find((l) => l.lessonId === continueInfo.lessonId || l.sortOrder === continueInfo.lessonId);
+        activeLesson = publishedLessons.find(
+          (l) => getCanonicalLessonId(l, targetLevel.code) === continueInfo.lessonId ||
+                 l.lessonId === continueInfo.lessonId
+        );
       }
 
       if (!activeLesson && currentProgressMap) {
         const inProgressLessons = publishedLessons.filter((l) => {
-          const p = currentProgressMap[l.lessonId] || currentProgressMap[l.sortOrder];
+          const canonicalId = getCanonicalLessonId(l, targetLevel.code);
+          const p = currentProgressMap[canonicalId];
           return p && p.status === "IN_PROGRESS";
         });
 
         const uncompletedLessons = publishedLessons.filter((l) => {
-          const p = currentProgressMap[l.lessonId] || currentProgressMap[l.sortOrder];
+          const canonicalId = getCanonicalLessonId(l, targetLevel.code);
+          const p = currentProgressMap[canonicalId];
           return !p || p.status !== "COMPLETED";
         });
 
@@ -214,7 +235,7 @@ export default function LearnerVocabulariesHubPage() {
         setSelectedLesson(activeLesson);
         const params = new URLSearchParams(searchParams.toString());
         params.set("level", targetLevel.code);
-        params.set("lessonId", String(activeLesson.sortOrder || activeLesson.lessonId));
+        params.set("lessonId", String(getCanonicalLessonId(activeLesson, targetLevel.code)));
         startTransition(() => {
           router.replace(`/vocabularies?${params.toString()}`, { scroll: false });
         });
@@ -277,39 +298,70 @@ export default function LearnerVocabulariesHubPage() {
 
       // Sync local storage completion fallbacks so actual progress percentage is accurately reflected
       if (typeof window !== "undefined") {
+        const DEFAULT_LESSON_COUNTS: Record<number, number> = {
+          26: 38, 27: 36, 28: 38, 29: 37, 30: 36, 31: 34, 32: 36, 33: 35, 34: 36, 35: 35,
+          36: 34, 37: 38, 38: 36, 39: 38, 40: 35, 41: 34, 42: 36, 43: 35, 44: 35, 45: 36,
+          46: 34, 47: 36, 48: 35, 49: 36, 50: 38,
+        };
+
         for (let i = 0; i < localStorage.length; i++) {
           const key = localStorage.key(i);
           if (key && (key.startsWith("completed_lesson_") || key.startsWith("learned_items_lesson_"))) {
             const lessonIdNum = Number(key.replace("completed_lesson_", "").replace("learned_items_lesson_", ""));
             if (lessonIdNum) {
               const savedItemsStr = localStorage.getItem(`learned_items_lesson_${lessonIdNum}`);
+              const valStr = localStorage.getItem(`completed_lesson_${lessonIdNum}`);
+              const valNum = Number(valStr);
+              const isComp = valStr === "100" || valStr === "true" || valNum >= 100;
+
+              // AUTO-CLEANUP: Check if an N4/N3 lesson accidentally cloned progress from N5 in the past
+              if (lessonIdNum >= 26 && lessonIdNum <= 50) {
+                const n5Equiv = lessonIdNum - 25;
+                const n5Str = localStorage.getItem(`learned_items_lesson_${n5Equiv}`);
+                if (savedItemsStr && n5Str && savedItemsStr === n5Str) {
+                  localStorage.removeItem(`learned_items_lesson_${lessonIdNum}`);
+                  localStorage.removeItem(`completed_lesson_${lessonIdNum}`);
+                  continue;
+                }
+              }
+              if (lessonIdNum >= 51 && lessonIdNum <= 65) {
+                const n5Equiv = lessonIdNum - 50;
+                const n5Str = localStorage.getItem(`learned_items_lesson_${n5Equiv}`);
+                if (savedItemsStr && n5Str && savedItemsStr === n5Str) {
+                  localStorage.removeItem(`learned_items_lesson_${lessonIdNum}`);
+                  localStorage.removeItem(`completed_lesson_${lessonIdNum}`);
+                  continue;
+                }
+              }
+
               let pct = 0;
               let hasLearnedItems = false;
 
               if (savedItemsStr) {
                 try {
                   const arr = JSON.parse(savedItemsStr);
-                  if (Array.isArray(arr)) {
+                  if (Array.isArray(arr) && arr.length > 0) {
                     hasLearnedItems = true;
-                    // Standard vocabulary count per lesson is approx 42
-                    const totalCount = 42;
+                    const storedTotal = Number(localStorage.getItem(`total_items_lesson_${lessonIdNum}`));
+                    const totalCount = storedTotal > 0 ? storedTotal : (DEFAULT_LESSON_COUNTS[lessonIdNum] || 38);
                     pct = arr.length >= totalCount ? 100 : Math.round((arr.length / totalCount) * 100);
+
+                    // If previously marked completed or reached 100%, never downgrade
+                    if (isComp) {
+                      pct = 100;
+                    }
                     localStorage.setItem(`completed_lesson_${lessonIdNum}`, String(pct));
                   }
                 } catch (e) {}
               }
 
               if (!hasLearnedItems) {
-                const valStr = localStorage.getItem(`completed_lesson_${lessonIdNum}`);
-                const valNum = Number(valStr);
-                const isComp = valStr === "100" || valStr === "true" || valNum === 100;
                 pct = !isNaN(valNum) && valNum >= 0 ? Math.min(100, valNum) : (isComp ? 100 : 0);
               }
 
               const currentP = pMap[lessonIdNum];
               const backendPct = currentP ? currentP.completionPercent : 0;
-              // If we have accurate local learned items, use that pct; otherwise fallback to backend or completed status
-              const finalPct = hasLearnedItems ? pct : Math.max(backendPct, pct);
+              const finalPct = isComp || pct >= 100 ? 100 : hasLearnedItems ? pct : Math.max(backendPct, pct);
 
               pMap[lessonIdNum] = {
                 progressId: lessonIdNum,
@@ -376,12 +428,12 @@ export default function LearnerVocabulariesHubPage() {
   // Lesson selection handler (pure local state update, zero page reloads)
   const handleSelectLesson = (lesson: LessonItem) => {
     setSelectedLesson(lesson);
-    const targetId = getCanonicalLessonId(lesson);
+    const targetId = getCanonicalLessonId(lesson, selectedLevelCode);
     recordLessonAccess(targetId, lesson.title, selectedLevelCode);
     if (typeof window !== "undefined") {
       const url = new URL(window.location.href);
       url.searchParams.set("level", selectedLevelCode);
-      url.searchParams.set("lessonId", String(lesson.sortOrder || lesson.lessonId));
+      url.searchParams.set("lessonId", String(targetId));
       window.history.replaceState(null, "", url.toString());
     }
   };
@@ -392,17 +444,8 @@ export default function LearnerVocabulariesHubPage() {
     setIsAllLessonsOpen(true);
   };
 
-  const getCanonicalLessonId = (lesson: LessonItem) => {
-    if (lesson.lessonId >= 51 && lesson.lessonId <= 65) return lesson.lessonId;
-    const isN4 = selectedLevelCode === "N4" || (lesson.lessonId >= 26 && lesson.lessonId <= 50);
-    const isN3 = selectedLevelCode === "N3" || (lesson.lessonId >= 51 && lesson.lessonId <= 65);
-    if (isN3) return 50 + lesson.sortOrder;
-    if (isN4) return 25 + lesson.sortOrder;
-    return lesson.sortOrder;
-  };
-
   const handleOpenLesson = (lesson: LessonItem, mode?: "list" | "cards" | "typing" | "match" | null) => {
-    const targetId = getCanonicalLessonId(lesson);
+    const targetId = getCanonicalLessonId(lesson, selectedLevelCode);
     recordLessonAccess(targetId, lesson.title, selectedLevelCode);
     if (mode) {
       router.push(`/lessons/${targetId}?mode=${mode}`);
@@ -420,11 +463,11 @@ export default function LearnerVocabulariesHubPage() {
       recordLessonAccess(targetId, continueData.title || `Bài học #${targetId}`, selectedLevelCode);
       router.push(`/lessons/${targetId}?mode=${mode}`);
     } else if (selectedLesson) {
-      const targetId = getCanonicalLessonId(selectedLesson);
+      const targetId = getCanonicalLessonId(selectedLesson, selectedLevelCode);
       recordLessonAccess(targetId, selectedLesson.title, selectedLevelCode);
       router.push(`/lessons/${targetId}?mode=cards`);
     } else if (lessons.length > 0) {
-      const targetId = getCanonicalLessonId(lessons[0]);
+      const targetId = getCanonicalLessonId(lessons[0], selectedLevelCode);
       recordLessonAccess(targetId, lessons[0].title, selectedLevelCode);
       router.push(`/lessons/${targetId}?mode=cards`);
     }
@@ -433,7 +476,7 @@ export default function LearnerVocabulariesHubPage() {
   const handleContinueLesson = (lessonToOpen?: LessonItem) => {
     const target = lessonToOpen || selectedLesson;
     if (!target) return;
-    const targetId = getCanonicalLessonId(target);
+    const targetId = getCanonicalLessonId(target, selectedLevelCode);
     recordLessonAccess(targetId, target.title, selectedLevelCode);
     router.push(`/lessons/${targetId}`);
   };
@@ -447,7 +490,8 @@ export default function LearnerVocabulariesHubPage() {
   };
 
   const nextSuggestedLesson = lessons.find((l) => {
-    const p = progressMap[l.lessonId] || progressMap[l.sortOrder];
+    const canonicalId = getCanonicalLessonId(l, selectedLevelCode);
+    const p = progressMap[canonicalId];
     return !p || (p.completionPercent < 100 && p.status !== "COMPLETED");
   });
 
@@ -525,8 +569,8 @@ export default function LearnerVocabulariesHubPage() {
               <SelectedLessonProgress
                 lesson={selectedLesson}
                 nextLesson={nextSuggestedLesson}
-                progress={progressMap[selectedLesson.lessonId] || progressMap[selectedLesson.sortOrder]}
-                nextLessonProgress={nextSuggestedLesson ? (progressMap[nextSuggestedLesson.lessonId] || progressMap[nextSuggestedLesson.sortOrder]) : null}
+                progress={progressMap[getCanonicalLessonId(selectedLesson, selectedLevelCode)]}
+                nextLessonProgress={nextSuggestedLesson ? progressMap[getCanonicalLessonId(nextSuggestedLesson, selectedLevelCode)] : null}
                 dueData={dueData}
                 selectedLevelCode={selectedLevelCode}
                 onContinueLesson={handleContinueLesson}
@@ -544,7 +588,7 @@ export default function LearnerVocabulariesHubPage() {
               <RecentLessonList
                 levelCode={selectedLevelCode}
                 lessons={lessons}
-                selectedLessonId={selectedLesson?.sortOrder || selectedLesson?.lessonId}
+                selectedLessonId={selectedLesson ? getCanonicalLessonId(selectedLesson, selectedLevelCode) : undefined}
                 progressMap={progressMap}
                 onSelectLesson={handleSelectLesson}
                 onOpenLesson={handleContinueLesson}
