@@ -1,5 +1,6 @@
 package com.anhsensei.common.security;
 
+import com.anhsensei.identity.repository.UserRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,6 +13,9 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
+import java.time.OffsetDateTime;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
@@ -20,6 +24,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
     private CustomUserDetailsService customUserDetailsService;
+
+    @Autowired
+    private UserRepository userRepository;
+
+    private static final Map<Long, Long> lastActivityUpdateMap = new ConcurrentHashMap<>();
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
@@ -37,6 +46,17 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 
                     SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                    // Throttle lastLoginAt update to once every 60 seconds per user
+                    long nowMs = System.currentTimeMillis();
+                    Long lastUpdateMs = lastActivityUpdateMap.get(userId);
+                    if (lastUpdateMs == null || (nowMs - lastUpdateMs > 60_000)) {
+                        lastActivityUpdateMap.put(userId, nowMs);
+                        try {
+                            userRepository.updateLastLoginAt(userId, OffsetDateTime.now());
+                        } catch (Exception ignored) {
+                        }
+                    }
                 } catch (Exception ignored) {
                     // Suppress authentication if user details lookup fails during initial foundation
                 }

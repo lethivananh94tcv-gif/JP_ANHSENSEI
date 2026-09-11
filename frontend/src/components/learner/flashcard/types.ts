@@ -2,10 +2,13 @@ export interface FlashcardItemDto {
   id: number;
   word: string;
   kana?: string;
+  kanjiForm?: string;
   romaji?: string;
   meaningVi: string;
   exampleJp?: string;
   exampleVi?: string;
+  exampleReading?: string;
+  usageNote?: string;
   partOfSpeech?: string;
   audioUrl?: string;
   notes?: string;

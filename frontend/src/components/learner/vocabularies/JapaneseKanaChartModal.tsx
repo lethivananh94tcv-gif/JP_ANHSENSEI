@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { X, Volume2, Search, Sparkles, BookOpen, Layers } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import { playJapaneseTTS } from "@/lib/utils/japaneseAudioTTS";
+import { playKanaAlphabetTTS } from "@/lib/utils/japaneseAudioTTS";
 
 interface KanaItem {
   hiragana: string;
@@ -117,9 +117,7 @@ export default function JapaneseKanaChartModal({ isOpen, onClose }: JapaneseKana
 
   const playAudio = (text: string, romaji: string) => {
     setPlayingRomaji(romaji);
-    playJapaneseTTS({
-      text,
-      rate: 0.88,
+    playKanaAlphabetTTS(text, {
       onStart: () => setPlayingRomaji(romaji),
       onEnd: () => setPlayingRomaji(null),
       onError: () => setPlayingRomaji(null),

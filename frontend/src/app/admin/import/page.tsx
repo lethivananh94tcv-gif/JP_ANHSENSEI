@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { getApiUrl } from "@/lib/api/client";
 
 interface LevelDto {
   levelId: number;
@@ -62,7 +63,7 @@ export default function AdminImportPage() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/v1/curriculum/levels", { headers: getHeaders() })
+    fetch(getApiUrl("/curriculum/levels"), { headers: getHeaders() })
       .then((res) => res.json())
       .then((data) => {
         if (Array.isArray(data) && data.length > 0) {
@@ -81,7 +82,7 @@ export default function AdminImportPage() {
       setLessons([]);
       return;
     }
-    fetch(`http://localhost:8080/api/v1/curriculum/levels/${selectedLevelId}/lessons`, { headers: getHeaders() })
+    fetch(getApiUrl(`/curriculum/levels/${selectedLevelId}/lessons`), { headers: getHeaders() })
       .then((res) => res.json())
       .then((data) => setLessons(Array.isArray(data) ? data : []))
       .catch(() => setLessons([]));
@@ -195,9 +196,8 @@ export default function AdminImportPage() {
 
       // Try Backend Spring Boot ImportJob Endpoints
       const endpoints = [
-        "http://localhost:8080/admin/import-jobs",
-        "http://localhost:8080/api/v1/admin/import-jobs",
-        "/api/v1/admin/import-jobs"
+        getApiUrl("/admin/import-jobs"),
+        getApiUrl("/import-jobs")
       ];
 
       let createdJob = null;
@@ -227,7 +227,7 @@ export default function AdminImportPage() {
               
               // Fetch validation errors if any
               try {
-                const errRes = await fetch(`http://localhost:8080/api/v1/admin/import-jobs/${jobId}/errors`, { headers: getHeaders() });
+                const errRes = await fetch(getApiUrl(`/admin/import-jobs/${jobId}/errors`), { headers: getHeaders() });
                 if (errRes.ok) {
                   const errList = await errRes.json();
                   setErrors(errList);
@@ -253,7 +253,7 @@ export default function AdminImportPage() {
       if (lastErrText) {
         throw new Error(lastErrText);
       } else {
-        throw new Error("Không thể kết nối tới Backend Máy chủ (http://localhost:8080). Vui lòng đảm bảo máy chủ Backend đang hoạt động.");
+        throw new Error("Không thể kết nối tới Backend Máy chủ. Vui lòng đảm bảo máy chủ Backend đang hoạt động.");
       }
     } catch (err: unknown) {
       setMsg("❌ Lỗi xử lý tệp: " + (err instanceof Error ? err.message : "Vui lòng thử lại"));
@@ -272,9 +272,8 @@ export default function AdminImportPage() {
       }
 
       const commitEndpoints = [
-        `http://localhost:8080/admin/import-jobs/${job.importJobId}/commit`,
-        `http://localhost:8080/api/v1/admin/import-jobs/${job.importJobId}/commit`,
-        `/api/v1/admin/import-jobs/${job.importJobId}/commit`
+        getApiUrl(`/admin/import-jobs/${job.importJobId}/commit`),
+        getApiUrl(`/import-jobs/${job.importJobId}/commit`)
       ];
 
       let success = false;
@@ -572,11 +571,40 @@ export default function AdminImportPage() {
               <p className="text-xs text-[#76685F]">
                 Toàn bộ dữ liệu từ vựng từ tệp Excel đã được phân tách và lưu chính xác vào từng Bài học N5/N4.
               </p>
+              {msg && <p className="text-xs font-bold text-emerald-700 bg-emerald-50 p-2.5 rounded-xl border border-emerald-200">{msg}</p>}
             </div>
 
-            <div className="flex justify-center gap-3">
+            <div className="flex justify-center gap-3 flex-wrap">
               <button
-                onClick={() => { setStep(1); setFile(null); setJob(null); }}
+                onClick={async () => {
+                  try {
+                    setLoading(true);
+                    if (selectedLessonId && selectedLessonId !== "ALL") {
+                      await fetch(getApiUrl(`/admin/lessons/${selectedLessonId}/publish`), {
+                        method: "POST",
+                        headers: getHeaders(),
+                      });
+                    } else if (selectedLevelId) {
+                      await fetch(getApiUrl(`/admin/levels/${selectedLevelId}/publish`), {
+                        method: "POST",
+                        headers: getHeaders(),
+                      });
+                    }
+                    setMsg("✅ Đã tự động xuất bản (Publish) nội dung vừa import cho Học viên!");
+                  } catch (e) {
+                    console.error(e);
+                  } finally {
+                    setLoading(false);
+                  }
+                }}
+                disabled={loading}
+                className="px-6 py-2.5 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-extrabold text-xs rounded-xl shadow-xs cursor-pointer flex items-center gap-2"
+              >
+                <span>🚀 {loading ? "Đang Xuất Bản..." : "Xuất Bản Ngay Cho Học Viên (Publish)"}</span>
+              </button>
+
+              <button
+                onClick={() => { setStep(1); setFile(null); setJob(null); setMsg(""); }}
                 className="px-6 py-2.5 bg-[#C65D4B] text-white font-extrabold text-xs rounded-xl shadow-xs"
               >
                 + Import Tệp Khác

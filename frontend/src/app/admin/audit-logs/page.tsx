@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { getApiUrl } from "@/lib/api/client";
 
 interface AuditLogItem {
   auditLogId: number;
@@ -33,7 +34,7 @@ export default function AdminAuditLogsPage() {
   const loadAuditLogs = async () => {
     setLoading(true);
     try {
-      const res = await fetch(`http://localhost:8080/api/v1/admin/audit-logs?page=${page}&size=20`, {
+      const res = await fetch(getApiUrl(`/admin/audit-logs?page=${page}&size=20`), {
         headers: getHeaders()
       });
       if (res.ok) {

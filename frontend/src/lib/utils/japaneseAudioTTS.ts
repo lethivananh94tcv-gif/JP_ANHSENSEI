@@ -18,6 +18,7 @@ export interface PlayAudioOptions {
   audioUrl?: string;
   rate?: number;
   pitch?: number;
+  isKanaAlphabet?: boolean;
   onStart?: () => void;
   onEnd?: () => void;
   onError?: (err: any) => void;
@@ -83,6 +84,7 @@ export function playJapaneseTTS(
   let audioUrl: string | undefined = undefined;
   let rate = customRate;
   let pitch = 1.0;
+  let isKanaAlphabet = false;
   let onStart: (() => void) | undefined;
   let onEnd: (() => void) | undefined;
   let onError: ((err: any) => void) | undefined;
@@ -95,6 +97,7 @@ export function playJapaneseTTS(
     audioUrl = textOrOptions.audioUrl;
     rate = textOrOptions.rate ?? customRate;
     pitch = textOrOptions.pitch ?? 1.0;
+    isKanaAlphabet = !!textOrOptions.isKanaAlphabet;
     onStart = textOrOptions.onStart;
     onEnd = textOrOptions.onEnd;
     onError = textOrOptions.onError;
@@ -120,14 +123,14 @@ export function playJapaneseTTS(
       audio.onerror = (e) => {
         activeAudioElement = null;
         console.warn("Audio URL playback failed, falling back to Web Speech API:", e);
-        speakWithWebSpeech(cleanText, rate, pitch, onStart, onEnd, onError);
+        speakWithWebSpeech(cleanText, rate, pitch, isKanaAlphabet, onStart, onEnd, onError);
       };
 
       const playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise.catch((err) => {
           console.warn("Audio element play error:", err);
-          speakWithWebSpeech(cleanText, rate, pitch, onStart, onEnd, onError);
+          speakWithWebSpeech(cleanText, rate, pitch, isKanaAlphabet, onStart, onEnd, onError);
         });
       }
       return;
@@ -137,7 +140,25 @@ export function playJapaneseTTS(
   }
 
   // Strategy B: Use Web Speech API or Fallback Online TTS
-  speakWithWebSpeech(cleanText, rate, pitch, onStart, onEnd, onError);
+  speakWithWebSpeech(cleanText, rate, pitch, isKanaAlphabet, onStart, onEnd, onError);
+}
+
+/**
+ * Specialized TTS for Kana / Alphabet characters (あ, か, さ...)
+ * Uses standard Tokyo female voice, slower rate (0.72x), and bright clear pitch (1.18)
+ * to ensure single character pronunciation is crystal clear, natural, and never deep/rushed.
+ */
+export function playKanaAlphabetTTS(
+  kana: string,
+  options?: Partial<PlayAudioOptions>
+): void {
+  playJapaneseTTS({
+    text: kana,
+    rate: 0.72,  // Slower, clearer speed specifically for Kana alphabet
+    pitch: 1.18, // Bright, pleasant Tokyo female voice pitch (prevents deep/trầm voice)
+    isKanaAlphabet: true,
+    ...options,
+  });
 }
 
 /**
@@ -147,6 +168,7 @@ function speakWithWebSpeech(
   cleanText: string,
   rate: number,
   pitch: number,
+  isKanaAlphabet: boolean,
   onStart?: () => void,
   onEnd?: () => void,
   onError?: (err: any) => void
@@ -175,20 +197,35 @@ function speakWithWebSpeech(
   const tryPlaySpeech = () => {
     const voices = window.speechSynthesis.getVoices();
     if (voices && voices.length > 0) {
+      // Priority 1: Standard Tokyo Female Voices (Google 日本語, Kyoko, Nanami, Haruka, Ayumi, Sayaka, etc.)
+      const femaleTokyoVoices = voices.filter(
+        (v) =>
+          v.lang.startsWith("ja") &&
+          (v.name.includes("Google 日本語") ||
+            v.name.includes("Kyoko") ||
+            v.name.includes("Nanami") ||
+            v.name.includes("Haruka") ||
+            v.name.includes("Ayumi") ||
+            v.name.includes("Sayaka") ||
+            v.name.includes("Mayu") ||
+            v.name.includes("Mizuki") ||
+            v.name.includes("Online") ||
+            v.name.includes("Natural")) &&
+          !v.name.includes("Ichiro") &&
+          !v.name.includes("Otoya") &&
+          !v.name.includes("Hattori") &&
+          !v.name.includes("Keita")
+      );
+
       const preferredJaVoice =
-        voices.find(
-          (v) =>
-            v.lang.startsWith("ja") &&
-            (v.name.includes("Google 日本語") ||
-              v.name.includes("Kyoko") ||
-              v.name.includes("Otoya") ||
-              v.name.includes("Nanami") ||
-              v.name.includes("Haruka") ||
-              v.name.includes("Ayumi") ||
-              v.name.includes("Ichiro") ||
-              v.name.includes("Hattori") ||
-              v.name.includes("Natural"))
-        ) || voices.find((v) => v.lang.startsWith("ja") || v.lang.includes("ja"));
+        femaleTokyoVoices.length > 0
+          ? femaleTokyoVoices[0]
+          : voices.find(
+              (v) =>
+                v.lang.startsWith("ja") &&
+                !v.name.includes("Ichiro") &&
+                !v.name.includes("Otoya")
+            ) || voices.find((v) => v.lang.startsWith("ja") || v.lang.includes("ja"));
 
       if (preferredJaVoice) {
         utterance.voice = preferredJaVoice;
@@ -259,3 +296,4 @@ function fallbackToGoogleTranslateTTS(
     onError?.(err);
   }
 }
+

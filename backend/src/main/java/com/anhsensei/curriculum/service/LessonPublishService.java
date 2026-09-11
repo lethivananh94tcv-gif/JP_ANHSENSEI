@@ -50,6 +50,23 @@ public class LessonPublishService {
             throw new IllegalStateException("Không thể xuất bản Bài học thuộc Trình độ không tồn tại hoặc đã bị ARCHIVED");
         }
 
+        // Auto-publish all DRAFT vocabulary and grammar items inside this lesson
+        List<Vocabulary> draftVocabs = vocabularyRepository.findByLesson_LessonIdAndStatusOrderBySortOrderAsc(lessonId, "DRAFT");
+        for (Vocabulary v : draftVocabs) {
+            v.setStatus("PUBLISHED");
+            v.setPublishedAt(OffsetDateTime.now());
+            v.setUpdatedBy(adminId);
+            vocabularyRepository.save(v);
+        }
+
+        List<GrammarPoint> draftGrammars = grammarPointRepository.findByLesson_LessonIdAndStatusOrderBySortOrderAsc(lessonId, "DRAFT");
+        for (GrammarPoint g : draftGrammars) {
+            g.setStatus("PUBLISHED");
+            g.setPublishedAt(OffsetDateTime.now());
+            g.setUpdatedBy(adminId);
+            grammarPointRepository.save(g);
+        }
+
         // BR-CONT-02 Validation: Must have at least 1 published content item (Vocabulary, Kanji, or Grammar)
         boolean hasPublishedVocab = vocabularyRepository.existsPublishedByLessonId(lessonId);
         boolean hasPublishedKanji = lessonKanjiRepository.existsPublishedKanjiByLessonId(lessonId);

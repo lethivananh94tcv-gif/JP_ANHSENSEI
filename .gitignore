@@ -38,6 +38,9 @@ test-results/
 **/scratch/
 check_db.js
 ~$*
+pdf_extracted_text.txt
+pdf_grammar_rules_parsed.json
+pdf_text_decoded.txt
 
 # Maven wrapper jar if not needed
 !.mvn/wrapper/maven-wrapper.jar

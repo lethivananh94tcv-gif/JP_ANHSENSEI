@@ -1,7 +1,6 @@
-"use client";
-
 import { useState, useEffect } from "react";
 import { Search, BookOpen, Layers } from "lucide-react";
+import { apiClient } from "@/lib/api/client";
 
 export interface RadicalDto {
   radicalId: number;
@@ -23,10 +22,9 @@ export default function KanjiRadicalsView() {
     const fetchRadicals = async () => {
       try {
         setLoading(true);
-        const res = await fetch("/api/v1/curriculum/radicals");
-        if (res.ok) {
-          const data = await res.json();
-          setRadicals(data);
+        const res = await apiClient<RadicalDto[]>("/curriculum/radicals");
+        if (res && res.data && Array.isArray(res.data)) {
+          setRadicals(res.data);
         }
       } catch (err) {
         console.error("Lỗi khi tải 214 bộ thủ:", err);

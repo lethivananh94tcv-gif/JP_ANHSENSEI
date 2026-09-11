@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+import { getApiUrl } from "@/lib/api/client";
 
 interface LessonDto {
   lessonId: number;
@@ -41,7 +42,7 @@ export default function AdminLessonsPage() {
       setLoading(true);
       setError("");
       const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token");
-      const res = await fetch(`/api/v1/curriculum/levels/${levelId}/lessons`, {
+      const res = await fetch(getApiUrl(`/curriculum/levels/${levelId}/lessons`), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (res.status === 401 || res.status === 403) {
@@ -94,7 +95,7 @@ export default function AdminLessonsPage() {
     try {
       if (editingLesson) {
         // Update Lesson
-        const res = await fetch(`http://localhost:8080/api/v1/admin/lessons/${editingLesson.lessonId}`, {
+        const res = await fetch(getApiUrl(`/admin/lessons/${editingLesson.lessonId}`), {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
@@ -115,7 +116,7 @@ export default function AdminLessonsPage() {
         }
       } else {
         // Create Lesson
-        const res = await fetch(`http://localhost:8080/api/v1/admin/levels/${levelId}/lessons`, {
+        const res = await fetch(getApiUrl(`/admin/levels/${levelId}/lessons`), {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -149,7 +150,7 @@ export default function AdminLessonsPage() {
     const endpoint = lsn.status === "PUBLISHED" ? "unpublish" : "publish";
     try {
       setError("");
-      const res = await fetch(`http://localhost:8080/api/v1/admin/lessons/${lsn.lessonId}/${endpoint}`, {
+      const res = await fetch(getApiUrl(`/admin/lessons/${lsn.lessonId}/${endpoint}`), {
         method: "POST",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -168,7 +169,7 @@ export default function AdminLessonsPage() {
     const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token");
     try {
       setError("");
-      const res = await fetch(`http://localhost:8080/api/v1/admin/lessons/${id}/archive`, {
+      const res = await fetch(getApiUrl(`/admin/lessons/${id}/archive`), {
         method: "PATCH",
         headers: { Authorization: `Bearer ${token}` },
       });

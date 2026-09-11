@@ -28,15 +28,22 @@ export default function FlashcardStudyMode({
 
     return (vocabularies || []).map((v, index) => {
       const item = v as any;
-      const exJp = item.exampleJp || (isJapanese(v.notes) ? v.notes : "");
+      const exJp = v.exampleJp || item.exampleJp || (isJapanese(v.notes) ? v.notes : "");
+      const exVi = v.exampleVi || item.exampleVi || "";
+      const exReading = v.exampleReading || item.exampleReading || "";
+      const usage = v.usageNote || item.usageNote || v.verbNote || "";
+
       return {
         id: v.vocabularyId || item.id || index + 1,
         word: v.word || "",
         kana: v.kana || "",
+        kanjiForm: v.kanjiForm || item.kanjiForm || "",
         romaji: item.romaji || v.kana || "",
         meaningVi: v.meaningVi || "",
         exampleJp: exJp,
-        exampleVi: item.exampleVi || "",
+        exampleVi: exVi,
+        exampleReading: exReading,
+        usageNote: usage,
         partOfSpeech: v.partOfSpeech || "Từ vựng",
         audioUrl: v.audioUrl || "",
         contentType: "VOCABULARY",

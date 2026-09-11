@@ -4,9 +4,10 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { UserProfile } from "@/types/learner";
-import { Sparkles, BookOpen, Languages, PenTool, Flame, Bot, Home, User, LogOut, Shield, Menu, X, ChevronDown } from "lucide-react";
+import { Sparkles, BookOpen, Languages, PenTool, Flame, Bot, Home, User, LogOut, Shield, Menu, X, ChevronDown, Zap } from "lucide-react";
 import { motion } from "framer-motion";
 import AnhSenseiLogo from "@/components/ui/AnhSenseiLogo";
+import JlptNoticeModal from "@/components/shared/JlptNoticeModal";
 
 interface LearnerHeaderProps {
   user?: UserProfile | null;
@@ -17,6 +18,7 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
   const router = useRouter();
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const [showJlptNotice, setShowJlptNotice] = useState(false);
   const [localUser, setLocalUser] = useState<UserProfile | null>(null);
   const [customAvatar, setCustomAvatar] = useState<string | null>(null);
   const [customEmoji, setCustomEmoji] = useState<string | null>(null);
@@ -58,9 +60,10 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
   const navItems = [
     { name: "Trang chủ", href: "/", active: pathname === "/" || pathname === "/dashboard", icon: Home },
     { name: "Từ vựng", href: "/vocabularies", active: pathname.startsWith("/vocabularies"), icon: Languages },
+    { name: "Chia Động Từ ⚡", href: "/verbs", active: pathname.startsWith("/verbs"), icon: Zap },
     { name: "Ngữ pháp", href: "/grammar", active: pathname.startsWith("/grammar"), icon: BookOpen },
     { name: "Kanji", href: "/kanji", active: pathname.startsWith("/kanji"), icon: PenTool },
-    { name: "Luyện tập", href: "/flashcards", active: pathname.startsWith("/flashcards"), icon: Flame, badge: "SRS" },
+    { name: "Luyện JLPT", href: "/jlpt-practice", active: pathname.startsWith("/jlpt-practice") || pathname.startsWith("/flashcards"), icon: Flame, badge: "JLPT" },
   ];
 
   // Synchronized User Full Name Display
@@ -71,6 +74,7 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#FFFDF9]/90 backdrop-blur-md border-b border-[#DED3C8] shadow-xs select-none">
+      <JlptNoticeModal isOpen={showJlptNotice} onClose={() => setShowJlptNotice(false)} />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
         {/* Left: Brand Logo with Dynamic Cat Mascot Icon */}
         <Link href="/dashboard" className="flex items-center gap-3 group relative cursor-pointer">
@@ -90,6 +94,7 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
         <nav className="hidden md:flex items-center gap-7">
           {navItems.map((item) => {
             const IconComp = item.icon;
+            const isJlpt = item.href === "/jlpt-practice";
             return (
               <Link
                 key={item.name}
@@ -102,7 +107,7 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
                 <span>{item.name}</span>
                 {item.badge && (
                   <span className="text-[9px] font-extrabold px-1.5 py-0.5 rounded-full bg-[#C65D4B]/10 text-[#C65D4B] border border-[#C65D4B]/20">
-                    {item.badge}
+                    Sắp có
                   </span>
                 )}
                 {item.active && (
@@ -113,17 +118,8 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
           })}
         </nav>
 
-        {/* Right: Actions & User Avatar Menu */}
+        {/* Right: User Avatar Menu */}
         <div className="flex items-center gap-3">
-          {/* AI Tutor Floating Button */}
-          <Link
-            href="/ai-tutor"
-            className="hidden sm:inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-[#F5EFE6] hover:bg-[#8B6F5A] text-[#8B6F5A] hover:text-white border border-[#DED3C8] text-xs font-bold transition-all shadow-xs"
-          >
-            <Bot className="w-4 h-4 text-[#C65D4B]" />
-            <span>AI Tutor</span>
-          </Link>
-
           {/* Synchronized User Profile Menu */}
           <div className="relative">
             <button
@@ -244,11 +240,11 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
                   key={item.name}
                   href={item.href}
                   onClick={() => setIsMobileOpen(false)}
-                  className={`px-4 py-3 rounded-xl text-xs font-bold flex items-center justify-between ${
-                    item.active ? "bg-[#C65D4B] text-white" : "text-[#56423E] hover:bg-[#F5EFE6]"
+                  className={`px-4 py-3 rounded-xl text-xs font-bold flex items-center justify-between transition-colors ${
+                    item.active ? "bg-[#C65D4B] text-white shadow-xs" : "text-[#56423E] hover:bg-[#F5EFE6]"
                   }`}
                 >
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2.5">
                     <IconComp className="w-4 h-4" />
                     <span>{item.name}</span>
                   </div>
@@ -266,3 +262,4 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
     </header>
   );
 }
+

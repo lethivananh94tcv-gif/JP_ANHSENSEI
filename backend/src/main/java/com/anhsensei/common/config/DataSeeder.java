@@ -53,24 +53,34 @@ public class DataSeeder implements CommandLineRunner {
     }
 
     @Override
-    @Transactional
     public void run(String... args) {
         // 0. Ensure target_lesson_id in import_jobs allows NULL values & update check constraints
         try {
             jdbcTemplate.execute("ALTER TABLE import_jobs ALTER COLUMN target_lesson_id DROP NOT NULL;");
             jdbcTemplate.execute("ALTER TABLE import_jobs DROP CONSTRAINT IF EXISTS ck_import_job_mode;");
-            jdbcTemplate.execute("DELETE FROM flyway_schema_history WHERE version = '26';");
-
-            // Reassign vocabularies from temporary lessons 151-157 to primary N4 lessons 101-107
-            jdbcTemplate.execute("UPDATE vocabulary SET lesson_id = 101 WHERE lesson_id = 151;");
-            jdbcTemplate.execute("UPDATE vocabulary SET lesson_id = 102 WHERE lesson_id = 152;");
-            jdbcTemplate.execute("UPDATE vocabulary SET lesson_id = 103 WHERE lesson_id = 153;");
-            jdbcTemplate.execute("UPDATE vocabulary SET lesson_id = 104 WHERE lesson_id = 154;");
-            jdbcTemplate.execute("UPDATE vocabulary SET lesson_id = 105 WHERE lesson_id = 155;");
-            jdbcTemplate.execute("UPDATE vocabulary SET lesson_id = 106 WHERE lesson_id = 156;");
-            jdbcTemplate.execute("UPDATE vocabulary SET lesson_id = 107 WHERE lesson_id = 157;");
-            jdbcTemplate.execute("DELETE FROM lessons WHERE lesson_id BETWEEN 151 AND 157;");
         } catch (Exception ignored) {}
+
+        // Seed initial data ONLY if vocabulary table is empty
+        if (vocabularyRepository.count() == 0) {
+            log.info(">>> [DATA SEEDER] Vocabulary table is empty. Seeding V26, V27, V59...");
+            executeSqlFile("src/main/resources/db/migration/V26__seed_minna_no_nihongo_n5_vocabularies.sql");
+            executeSqlFile("src/main/resources/db/migration/V27__seed_minna_no_nihongo_n4_vocabularies.sql");
+            executeSqlFile("src/main/resources/db/migration/V59__add_verb_classification_to_vocabulary.sql");
+
+            try {
+                jdbcTemplate.execute("UPDATE vocabulary SET lesson_id = 101 WHERE lesson_id = 151;");
+                jdbcTemplate.execute("UPDATE vocabulary SET lesson_id = 102 WHERE lesson_id = 152;");
+                jdbcTemplate.execute("UPDATE vocabulary SET lesson_id = 103 WHERE lesson_id = 153;");
+                jdbcTemplate.execute("UPDATE vocabulary SET lesson_id = 104 WHERE lesson_id = 154;");
+                jdbcTemplate.execute("UPDATE vocabulary SET lesson_id = 105 WHERE lesson_id = 155;");
+                jdbcTemplate.execute("UPDATE vocabulary SET lesson_id = 106 WHERE lesson_id = 156;");
+                jdbcTemplate.execute("UPDATE vocabulary SET lesson_id = 107 WHERE lesson_id = 157;");
+                jdbcTemplate.execute("DELETE FROM lessons WHERE lesson_id BETWEEN 151 AND 157;");
+            } catch (Exception ignored) {}
+        }
+
+        // Always execute V66 to ensure authentic example sentences are updated across all 1865 vocabularies
+        executeSqlFile("src/main/resources/db/migration/V66__seed_authentic_examples_all_vocabularies.sql");
 
         // 1. Ensure ADMIN Role exists
         Role adminRole = roleRepository.findByRoleName("ADMIN")
@@ -80,7 +90,7 @@ public class DataSeeder implements CommandLineRunner {
         roleRepository.findByRoleName("LEARNER")
                 .orElseGet(() -> roleRepository.save(new Role(null, "LEARNER", "Người học", null)));
 
-        // 3. Ensure Default Admin Accounts exist
+        // 3. Ensure Default Admin Account exists
         String adminEmail = "admin@anhsensei.com";
         if (!userRepository.existsByEmail(adminEmail)) {
             User admin = new User();
@@ -94,27 +104,50 @@ public class DataSeeder implements CommandLineRunner {
             userRepository.save(admin);
             log.info(">>> [DATA SEEDER] Đã khởi tạo tài khoản ADMIN mặc định: {} | Mật khẩu: AdminPassword123!", adminEmail);
         }
+    }
 
-        // 3b. Ensure Admin Account emkien@admin.com exists with password Kien2005
-        String emKienEmail = "emkien@admin.com";
-        User emKien = userRepository.findByEmail(emKienEmail).orElse(null);
-        if (emKien == null) {
-            emKien = new User();
-            emKien.setEmail(emKienEmail);
-            emKien.setFullName("Admin Em Kiên");
-            emKien.setRole(adminRole);
-            emKien.setTargetLevel("N1");
-            emKien.setStatus("ACTIVE");
-            emKien.setEmailVerifiedAt(OffsetDateTime.now());
+    private void executeSqlFile(String relativePath) {
+        try {
+            java.nio.file.Path path = java.nio.file.Paths.get(relativePath);
+            if (!java.nio.file.Files.exists(path)) {
+                path = java.nio.file.Paths.get("backend/" + relativePath);
+            }
+            if (java.nio.file.Files.exists(path)) {
+                String content = java.nio.file.Files.readString(path, java.nio.charset.StandardCharsets.UTF_8);
+                // Strip SQL single-line comments
+                String cleanContent = content.replaceAll("(?m)^--.*$", "");
+                String[] statements = cleanContent.split(";");
+                java.util.List<String> batch = new java.util.ArrayList<>();
+                int count = 0;
+                for (String stmt : statements) {
+                    String trimmed = stmt.trim();
+                    if (!trimmed.isEmpty()) {
+                        batch.add(trimmed);
+                        if (batch.size() >= 50) {
+                            try {
+                                jdbcTemplate.batchUpdate(batch.toArray(new String[0]));
+                                count += batch.size();
+                            } catch (Exception ex) {
+                                log.warn("Warning executing batch from {}: {}", relativePath, ex.getMessage());
+                            }
+                            batch.clear();
+                        }
+                    }
+                }
+                if (!batch.isEmpty()) {
+                    try {
+                        jdbcTemplate.batchUpdate(batch.toArray(new String[0]));
+                        count += batch.size();
+                    } catch (Exception ex) {
+                        log.warn("Warning executing remaining batch from {}: {}", relativePath, ex.getMessage());
+                    }
+                    batch.clear();
+                }
+                log.info(">>> [DATA SEEDER] Successfully executed {} statements from {}!", count, relativePath);
+            }
+        } catch (Exception e) {
+            log.warn("Error running SQL file {}: {}", relativePath, e.getMessage());
         }
-        emKien.setPasswordHash(passwordEncoder.encode("Kien2005"));
-        emKien.setStatus("ACTIVE");
-        emKien.setFailedLoginCount(0);
-        emKien.setLockUntil(null);
-        emKien.setRole(adminRole);
-        userRepository.save(emKien);
-        log.info(">>> [DATA SEEDER] Đã khởi tạo/cập nhật tài khoản ADMIN: {} | Mật khẩu: Kien2005", emKienEmail);
-
-        // 4. N4 Minna 26..32 vocabularies (347 items) have been successfully imported and mapped to Lessons 151..157.
     }
 }
+

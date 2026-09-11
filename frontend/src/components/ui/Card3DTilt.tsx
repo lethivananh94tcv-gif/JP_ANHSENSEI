@@ -1,56 +1,73 @@
 "use client";
 
-import React, { useState, useRef } from "react";
-import { motion } from "framer-motion";
+import React, { useRef } from "react";
+import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 
 interface Card3DTiltProps {
   children: React.ReactNode;
   className?: string;
   maxTilt?: number;
   scaleOnHover?: number;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>) => void;
 }
 
 export default function Card3DTilt({
   children,
   className = "",
-  maxTilt = 12,
-  scaleOnHover = 1.02,
+  maxTilt = 8,
+  scaleOnHover = 1.03,
+  onClick,
 }: Card3DTiltProps) {
   const cardRef = useRef<HTMLDivElement>(null);
-  const [tilt, setTilt] = useState({ x: 0, y: 0, glossX: 50, glossY: 50 });
-  const [isHovered, setIsHovered] = useState(false);
+
+  // High-performance Framer Motion values (no React state re-renders on mousemove!)
+  const xNorm = useMotionValue(0);
+  const yNorm = useMotionValue(0);
+  const scaleTarget = useMotionValue(1);
+  const glossOpacityTarget = useMotionValue(0);
+
+  const rotateX = useSpring(useTransform(yNorm, [-0.5, 0.5], [maxTilt, -maxTilt]), {
+    stiffness: 500,
+    damping: 35,
+    mass: 0.2,
+  });
+  const rotateY = useSpring(useTransform(xNorm, [-0.5, 0.5], [-maxTilt, maxTilt]), {
+    stiffness: 500,
+    damping: 35,
+    mass: 0.2,
+  });
+  const springScale = useSpring(scaleTarget, {
+    stiffness: 500,
+    damping: 30,
+    mass: 0.2,
+  });
+  const springGlossOpacity = useSpring(glossOpacityTarget, {
+    stiffness: 400,
+    damping: 30,
+  });
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
+    if (rect.width === 0 || rect.height === 0) return;
 
-    // Calculate normalized mouse position from -1 to 1
     const mouseX = e.clientX - rect.left;
     const mouseY = e.clientY - rect.top;
 
-    const xPct = (mouseX / width - 0.5) * 2;
-    const yPct = (mouseY / height - 0.5) * 2;
-
-    // Calculate tilt angles (inverse relationship for natural 3D feel)
-    const rotateX = -yPct * maxTilt;
-    const rotateY = xPct * maxTilt;
-
-    // Gloss position percentages
-    const glossX = (mouseX / width) * 100;
-    const glossY = (mouseY / height) * 100;
-
-    setTilt({ x: rotateX, y: rotateY, glossX, glossY });
+    xNorm.set(mouseX / rect.width - 0.5);
+    yNorm.set(mouseY / rect.height - 0.5);
   };
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
+    scaleTarget.set(scaleOnHover);
+    glossOpacityTarget.set(0.12);
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
-    setTilt({ x: 0, y: 0, glossX: 50, glossY: 50 });
+    xNorm.set(0);
+    yNorm.set(0);
+    scaleTarget.set(1);
+    glossOpacityTarget.set(0);
   };
 
   return (
@@ -59,37 +76,27 @@ export default function Card3DTilt({
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      className={`perspective-1000 ${className}`}
-      style={{ perspective: "1000px" }}
+      onClick={onClick}
+      className={`perspective-1000 cursor-pointer select-none touch-manipulation active:scale-[0.98] transition-transform ${className}`}
+      style={{ perspective: "1000px", WebkitTapHighlightColor: "transparent" }}
     >
       <motion.div
-        animate={{
-          rotateX: tilt.x,
-          rotateY: tilt.y,
-          scale: isHovered ? scaleOnHover : 1,
-        }}
-        transition={{
-          type: "spring",
-          stiffness: 400,
-          damping: 25,
-          mass: 0.5,
-        }}
         style={{
+          rotateX,
+          rotateY,
+          scale: springScale,
           transformStyle: "preserve-3d",
+          willChange: "transform",
         }}
         className="relative w-full h-full"
       >
         {children}
 
         {/* 3D Specular Light Sheen Overlay */}
-        {isHovered && (
-          <div
-            className="absolute inset-0 rounded-[inherit] pointer-events-none z-30 transition-opacity duration-300"
-            style={{
-              background: `radial-gradient(circle at ${tilt.glossX}% ${tilt.glossY}%, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0) 70%)`,
-            }}
-          />
-        )}
+        <motion.div
+          style={{ opacity: springGlossOpacity }}
+          className="absolute inset-0 rounded-[inherit] pointer-events-none z-30 bg-gradient-to-tr from-white/0 via-white/20 to-white/0"
+        />
       </motion.div>
     </div>
   );

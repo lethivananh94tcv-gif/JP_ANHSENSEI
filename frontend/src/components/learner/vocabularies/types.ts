@@ -18,8 +18,8 @@ export interface LevelItem {
 
 export interface LessonItem {
   lessonId: number;
-  levelId: number;
-  levelCode: string;
+  levelId?: number;
+  levelCode?: string;
   title: string;
   description?: string;
   sortOrder: number;

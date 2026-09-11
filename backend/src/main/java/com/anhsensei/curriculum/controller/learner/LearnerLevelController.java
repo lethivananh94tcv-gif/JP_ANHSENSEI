@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/curriculum/levels")
+@RequestMapping({"/curriculum/levels", "/learner/levels"})
 public class LearnerLevelController {
 
     private final LevelRepository levelRepository;

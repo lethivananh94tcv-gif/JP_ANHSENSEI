@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Star, Sparkles } from "lucide-react";
 import { FlashcardItemDto, FlashcardRating, FlashcardSessionStats } from "./types";
 import FlashcardHeader from "./FlashcardHeader";
 import FlashcardProgressBar from "./FlashcardProgressBar";
@@ -46,11 +46,69 @@ export default function FlashcardContainer({
   const [isSwapped, setIsSwapped] = useState<boolean>(false); // Front <-> Back Swap State
   const [isShuffle, setIsShuffle] = useState<boolean>(false);
   const [isAutoplay, setIsAutoplay] = useState<boolean>(false);
+  const [showFurigana, setShowFurigana] = useState<boolean>(true); // Default ON for N5/N4
+  const [isContextMode, setIsContextMode] = useState<boolean>(false); // Context mode toggle
 
-  // Ratings tracking
   const [masteredIds, setMasteredIds] = useState<Set<number>>(new Set());
   const [somewhatIds, setSomewhatIds] = useState<Set<number>>(new Set());
   const [unmasteredIds, setUnmasteredIds] = useState<Set<number>>(new Set());
+
+  // Favorites tracking & filter state ⭐
+  const [favoriteIds, setFavoriteIds] = useState<Set<number>>(new Set());
+  const [isFavoritesOnly, setIsFavoritesOnly] = useState<boolean>(false);
+
+  // Load Favorites from localStorage
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedFavs = localStorage.getItem("flashcard_favorite_vocab_ids");
+      if (savedFavs) {
+        try {
+          const parsed = JSON.parse(savedFavs);
+          if (Array.isArray(parsed)) {
+            setFavoriteIds(new Set(parsed));
+          }
+        } catch {}
+      }
+    }
+  }, []);
+
+  const handleToggleFavorite = useCallback((cardId: number) => {
+    setFavoriteIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(cardId)) {
+        next.delete(cardId);
+        showToast("Đã bỏ từ khỏi danh sách yêu thích");
+      } else {
+        next.add(cardId);
+        showToast("⭐ Đã thêm từ vào danh sách yêu thích!");
+      }
+      if (typeof window !== "undefined") {
+        localStorage.setItem("flashcard_favorite_vocab_ids", JSON.stringify(Array.from(next)));
+      }
+      return next;
+    });
+  }, []);
+
+  const handleToggleFavoritesOnly = useCallback(() => {
+    if (!isFavoritesOnly) {
+      const favItems = items.filter((item) => favoriteIds.has(item.id));
+      if (favItems.length === 0) {
+        showToast("💡 Bạn chưa lưu từ nào! Hãy bấm biểu tượng ⭐ góc trên bên phải mỗi thẻ để đánh dấu từ cần học nhé.");
+        return;
+      }
+      setDeck(favItems);
+      setIsFavoritesOnly(true);
+      setCurrentIndex(0);
+      setIsFlipped(false);
+      showToast(`⭐ Đang tập trung ôn lại ${favItems.length} từ vựng bạn đã đánh dấu!`);
+    } else {
+      setDeck(items);
+      setIsFavoritesOnly(false);
+      setCurrentIndex(0);
+      setIsFlipped(false);
+      showToast("Đã quay lại học tất cả từ vựng trong bài");
+    }
+  }, [isFavoritesOnly, items, favoriteIds]);
 
   // Session state
   const [isFinished, setIsFinished] = useState<boolean>(false);
@@ -378,22 +436,43 @@ export default function FlashcardContainer({
             <FlashcardProgressBar
               currentIndex={currentIndex}
               totalCount={deck.length}
-              unmasteredCount={unmasteredIds.size}
-              masteredCount={masteredIds.size}
-              isShuffle={isShuffle}
-              isAutoplay={isAutoplay}
-              isSwapped={isSwapped}
-              onToggleShuffle={handleToggleShuffle}
-              onToggleAutoplay={handleToggleAutoplay}
-              onToggleSwap={handleToggleSwap}
+              showFurigana={showFurigana}
+              isContextMode={isContextMode}
+              favoriteCount={favoriteIds.size}
+              isFavoritesOnly={isFavoritesOnly}
+              onToggleFurigana={() => setShowFurigana((prev) => !prev)}
+              onToggleContextMode={() => setIsContextMode((prev) => !prev)}
+              onToggleFavoritesOnly={handleToggleFavoritesOnly}
             />
+
+            {isFavoritesOnly && (
+              <div className="w-full max-w-xl mx-auto bg-[#FFFDF9] border-2 border-amber-300 rounded-2xl px-4 py-2.5 flex items-center justify-between gap-2 shadow-2xs text-xs font-bold text-amber-900 animate-fade-in">
+                <div className="flex items-center gap-2 min-w-0">
+                  <Star className="w-4 h-4 text-amber-500 fill-amber-500 shrink-0" />
+                  <span className="truncate">
+                    Chế độ: <strong>Ôn từ bạn đã đánh dấu ⭐ ({deck.length} từ)</strong>
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleToggleFavoritesOnly}
+                  className="px-2.5 py-1 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-800 text-[11px] font-black transition-colors cursor-pointer shrink-0"
+                >
+                  Xem tất cả từ ➔
+                </button>
+              </div>
+            )}
 
             {currentCard && (
               <FlashcardCard3D
                 card={currentCard}
                 isFlipped={isFlipped}
                 isSwapped={isSwapped}
+                showFurigana={showFurigana}
+                isContextMode={isContextMode}
+                isFavorite={favoriteIds.has(currentCard.id)}
                 onFlip={handleFlip}
+                onToggleFavorite={() => handleToggleFavorite(currentCard.id)}
                 onAudioError={() => showToast("Phát âm tự động không khả dụng trên trình duyệt của bạn.")}
               />
             )}

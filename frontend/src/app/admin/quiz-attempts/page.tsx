@@ -5,6 +5,7 @@ import {
   Search, RefreshCw, Trophy, FileText, Sparkles, Clock, 
   CheckCircle2, XCircle, ChevronRight, X, RotateCcw, ChevronLeft, AlertTriangle
 } from "lucide-react";
+import { getApiUrl } from "@/lib/api/client";
 
 interface AdminQuizAttemptDto {
   attemptId: number;
@@ -78,8 +79,8 @@ export default function AdminQuizAttemptsPage() {
       const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
 
       const [attemptsRes, statsRes] = await Promise.all([
-        fetch("http://localhost:8080/api/v1/admin/quiz-attempts", { headers }).catch(() => null),
-        fetch("http://localhost:8080/api/v1/admin/quiz-attempts/stats", { headers }).catch(() => null),
+        fetch(getApiUrl("/admin/quiz-attempts"), { headers }).catch(() => null),
+        fetch(getApiUrl("/admin/quiz-attempts/stats"), { headers }).catch(() => null),
       ]);
 
       if (attemptsRes && attemptsRes.ok) {
@@ -159,7 +160,7 @@ export default function AdminQuizAttemptsPage() {
       const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token") || "";
       const headers: Record<string, string> = token ? { Authorization: `Bearer ${token}` } : {};
 
-      const res = await fetch(`http://localhost:8080/api/v1/admin/quiz-attempts/${attemptId}`, { headers });
+      const res = await fetch(getApiUrl(`/admin/quiz-attempts/${attemptId}`), { headers });
       if (res.ok) {
         const json = await res.json();
         if (json && json.data) {

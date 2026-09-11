@@ -22,10 +22,12 @@ import {
   RotateCcw,
   Check,
   Zap,
-  Grid
+  Grid,
+  Shuffle
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import ManekiNeko3D from "@/components/ui/ManekiNeko3D";
+import { playKanaAlphabetTTS } from "@/lib/utils/japaneseAudioTTS";
 
 // Full 46 Hiragana Gojuon Dataset
 const FULL_HIRAGANA = [
@@ -55,13 +57,17 @@ const FULL_KATAKANA = [
   { kana: "ワ", romaji: "wa" }, { kana: "ヲ", romaji: "wo" }, { kana: "ン", romaji: "n" },
 ];
 
+import JlptNoticeModal from "@/components/shared/JlptNoticeModal";
+
 interface LearningTypeGridProps {
   summary?: LearnerProgressSummary | null;
 }
 
 export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
+  const [showJlptNotice, setShowJlptNotice] = useState(false);
   const [selectedKanaType, setSelectedKanaType] = useState<"HIRAGANA" | "KATAKANA" | null>(null);
   const [modalTab, setModalTab] = useState<"TABLE" | "TYPING">("TABLE");
+
 
   // Typing Practice Game States
   const [typingDataset, setTypingDataset] = useState(FULL_HIRAGANA);
@@ -73,31 +79,54 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
   const [typingHint, setTypingHint] = useState<string | null>(null);
   const typingInputRef = useRef<HTMLInputElement>(null);
 
-  // Sync typing dataset when selectedKanaType changes
-  useEffect(() => {
-    if (selectedKanaType === "HIRAGANA") {
-      setTypingDataset(FULL_HIRAGANA);
-    } else if (selectedKanaType === "KATAKANA") {
-      setTypingDataset(FULL_KATAKANA);
+  // Helper to shuffle dataset using Fisher-Yates algorithm
+  const shuffleDataset = (array: { kana: string; romaji: string }[]) => {
+    const arr = [...array];
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
     }
+    return arr;
+  };
+
+  const reshuffleDataset = (type = selectedKanaType) => {
+    const base = type === "KATAKANA" ? FULL_KATAKANA : FULL_HIRAGANA;
+    setTypingDataset(shuffleDataset(base));
     setTypingIndex(0);
     setUserTypedRomaji("");
     setTypingFeedback(null);
     setTypingHint(null);
-  }, [selectedKanaType]);
+  };
 
-  // TTS Speech Synthesis helper
-  const speakKana = (kana: string) => {
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(kana);
-      utterance.lang = "ja-JP";
-      utterance.rate = 0.9;
-      window.speechSynthesis.speak(utterance);
+  // Sync and shuffle typing dataset when selectedKanaType or modalTab changes
+  useEffect(() => {
+    if (selectedKanaType) {
+      reshuffleDataset(selectedKanaType);
     }
+  }, [selectedKanaType, modalTab]);
+
+  // TTS Speech Synthesis helper (Slower 0.72x, bright Tokyo female voice)
+  const speakKana = (kana: string) => {
+    playKanaAlphabetTTS(kana);
   };
 
   const currentItem = typingDataset[typingIndex] || typingDataset[0];
+
+  const goToNextKana = () => {
+    setTypingFeedback(null);
+    setUserTypedRomaji("");
+    setTypingHint(null);
+    setTypingIndex((prev) => {
+      const next = prev + 1;
+      if (next >= typingDataset.length) {
+        // Automatically re-shuffle once complete cycle is finished
+        const base = selectedKanaType === "KATAKANA" ? FULL_KATAKANA : FULL_HIRAGANA;
+        setTypingDataset(shuffleDataset(base));
+        return 0;
+      }
+      return next;
+    });
+  };
 
   // Handle typing input change
   const handleTypingInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -116,10 +145,7 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
       setTypingStreak((prev) => prev + 1);
 
       setTimeout(() => {
-        setTypingFeedback(null);
-        setUserTypedRomaji("");
-        // Pick next random index
-        setTypingIndex((prev) => (prev + 1) % typingDataset.length);
+        goToNextKana();
       }, 400);
     }
   };
@@ -139,6 +165,8 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
 
   return (
     <div className="space-y-8">
+      <JlptNoticeModal isOpen={showJlptNotice} onClose={() => setShowJlptNotice(false)} />
+
       
       {/* ⛩️ BLOCK 3: KANA ALPHABET (LEFT 7 COLS) & TODAY'S TASKS (RIGHT 5 COLS) */}
       <section className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
@@ -468,24 +496,24 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
           </div>
         </Link>
 
-        {/* Skill 5: AI Tutor */}
+        {/* Skill 5: Luyện JLPT */}
         <Link
-          href="/ai-tutor"
-          className="bg-white rounded-3xl p-5 border-2 border-[#F5E6FF] shadow-sm hover:shadow-xl hover:border-purple-600 hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between space-y-4 relative overflow-hidden"
+          href="/jlpt-practice"
+          className="bg-white rounded-3xl p-5 border-2 border-[#F5E6FF] shadow-sm hover:shadow-xl hover:border-purple-600 hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between space-y-4 relative overflow-hidden cursor-pointer select-none"
         >
           <div className="flex items-center justify-between">
             <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#5B21B6] via-[#7C3AED] to-[#C084FC] text-white flex items-center justify-center shadow-lg shadow-purple-600/30 border-2 border-white/50 relative overflow-hidden group-hover:scale-110 transition-transform duration-300">
               <div className="absolute top-0 left-0 w-full h-1/2 bg-white/20 rounded-t-2xl pointer-events-none" />
-              <Bot className="w-7 h-7 stroke-[2.2] drop-shadow-md text-purple-100" />
+              <Layers className="w-7 h-7 stroke-[2.2] drop-shadow-md text-purple-100" />
             </div>
             <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-purple-600/10 text-purple-700 border border-purple-600/20">
-              AI 24/7
+              🔥 ĐỀ THI THẬT
             </span>
           </div>
 
           <div>
-            <h3 className="text-base font-black text-[#2C201D] group-hover:text-purple-600 transition-colors">AI Tutor</h3>
-            <p className="text-xs text-[#76685F] font-extrabold">Hỏi đáp cùng AI</p>
+            <h3 className="text-base font-black text-[#2C201D] group-hover:text-purple-600 transition-colors">Luyện JLPT</h3>
+            <p className="text-xs text-[#76685F] font-extrabold">Bộ đề thi N5 • N4 • N3</p>
           </div>
 
           <div className="flex justify-end pt-1">
@@ -494,6 +522,7 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
             </div>
           </div>
         </Link>
+
       </section>
 
       {/* 📊 BLOCK 5: LEARNING STATS ANALYTICS & RECENT LESSONS & STREAK ACHIEVEMENTS */}
@@ -641,12 +670,31 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
               <div>
                 <span className="text-xs font-black text-[#2C201D] block">Ngày liên tục</span>
                 <div className="flex items-center gap-1.5 mt-1.5">
-                  {["T2", "T3", "T4", "T5", "T6", "T7", "CN"].map((day, i) => {
-                    const hasActivity = (summary?.weeklyActivities?.[i]?.count || 0) > 0;
+                  {["T2", "T3", "T4", "T5", "T6", "T7", "CN"].map((dayLabel) => {
+                    const dayCodeMap: Record<number, string> = {
+                      1: "T2", 2: "T3", 3: "T4", 4: "T5", 5: "T6", 6: "T7", 0: "CN"
+                    };
+                    const matchingActivity = summary?.weeklyActivities?.find((wa) => {
+                      if (!wa?.date) return false;
+                      const d = new Date(wa.date);
+                      return dayCodeMap[d.getDay()] === dayLabel && (wa.count || 0) > 0;
+                    });
+                    const todayDayLabel = dayCodeMap[new Date().getDay()];
+                    const isToday = todayDayLabel === dayLabel;
+                    const hasActivity = Boolean(matchingActivity) || (isToday && ((summary?.streakDays || 0) > 0 || (summary?.completedLessonsCount || 0) > 0 || (summary?.recentLessons?.length || 0) > 0));
+
                     return (
-                      <div key={day} className="text-center">
-                        <span className="text-[9px] font-bold text-[#76685F] block">{day}</span>
-                        <div className={`w-4 h-4 rounded-full flex items-center justify-center text-[8px] mt-0.5 ${hasActivity ? "bg-emerald-500 text-white" : "bg-gray-200 text-gray-400"}`}>
+                      <div key={dayLabel} className="text-center">
+                        <span className={`text-[9px] font-bold block ${isToday ? "text-[#C65D4B] font-black" : "text-[#76685F]"}`}>
+                          {dayLabel}
+                        </span>
+                        <div
+                          className={`w-4 h-4 rounded-full flex items-center justify-center text-[8px] mt-0.5 transition-all ${
+                            hasActivity
+                              ? "bg-gradient-to-r from-emerald-500 to-teal-500 text-white shadow-2xs font-bold scale-105"
+                              : "bg-gray-200 text-gray-400"
+                          }`}
+                        >
                           {hasActivity ? "✓" : ""}
                         </div>
                       </div>
@@ -727,7 +775,7 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
               {/* Modal Header */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pr-10">
                 <div className="flex items-center gap-3">
-                  <div className={`w-12 h-12 rounded-2xl text-white font-black text-2xl flex items-center justify-center shadow-md ${selectedKanaType === "HIRAGANA" ? "bg-[#C65D4B]" : "bg-[#3B66F5]"}`}>
+                  <div className={`w-12 h-12 rounded-2xl text-white font-black text-2xl flex items-center justify-center shadow-md transition-colors ${selectedKanaType === "HIRAGANA" ? "bg-[#C65D4B]" : "bg-[#3B66F5]"}`}>
                     {selectedKanaType === "HIRAGANA" ? "あ" : "ア"}
                   </div>
                   <div>
@@ -740,39 +788,71 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
                   </div>
                 </div>
 
-                {/* Tab Switcher: Full Table vs Speed Typing Game */}
-                <div className="flex items-center bg-[#F5EFE6] p-1 rounded-2xl border border-[#E0D5C7] self-start sm:self-auto">
-                  <button
-                    onClick={() => setModalTab("TABLE")}
-                    className={`px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
-                      modalTab === "TABLE"
-                        ? "bg-white text-[#2C201D] shadow-xs"
-                        : "text-[#76685F] hover:text-[#2C201D]"
-                    }`}
-                  >
-                    <Grid className="w-4 h-4 text-[#C65D4B]" />
-                    <span>Trọn Bộ 46 Chữ</span>
-                  </button>
-                  <button
-                    onClick={() => setModalTab("TYPING")}
-                    className={`px-4 py-2 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
-                      modalTab === "TYPING"
-                        ? "bg-[#C65D4B] text-white shadow-xs"
-                        : "text-[#76685F] hover:text-[#2C201D]"
-                    }`}
-                  >
-                    <Keyboard className="w-4 h-4" />
-                    <span>Luyện Gõ Romaji</span>
-                  </button>
+                <div className="flex flex-wrap items-center gap-2 self-start sm:self-auto">
+                  {/* Kana Type Switcher (Hiragana vs Katakana) */}
+                  <div className="flex items-center bg-[#F5EFE6] p-1 rounded-2xl border border-[#E0D5C7]">
+                    <button
+                      onClick={() => setSelectedKanaType("HIRAGANA")}
+                      className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                        selectedKanaType === "HIRAGANA"
+                          ? "bg-[#C65D4B] text-white shadow-xs"
+                          : "text-[#76685F] hover:text-[#2C201D]"
+                      }`}
+                    >
+                      <span className="font-jp font-black text-sm">あ</span>
+                      <span>Hiragana</span>
+                    </button>
+                    <button
+                      onClick={() => setSelectedKanaType("KATAKANA")}
+                      className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                        selectedKanaType === "KATAKANA"
+                          ? "bg-[#3B66F5] text-white shadow-xs"
+                          : "text-[#76685F] hover:text-[#2C201D]"
+                      }`}
+                    >
+                      <span className="font-jp font-black text-sm">ア</span>
+                      <span>Katakana</span>
+                    </button>
+                  </div>
+
+                  {/* Mode Switcher: Full Table vs Speed Typing Game */}
+                  <div className="flex items-center bg-[#F5EFE6] p-1 rounded-2xl border border-[#E0D5C7]">
+                    <button
+                      onClick={() => setModalTab("TABLE")}
+                      className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                        modalTab === "TABLE"
+                          ? "bg-white text-[#2C201D] shadow-xs"
+                          : "text-[#76685F] hover:text-[#2C201D]"
+                      }`}
+                    >
+                      <Grid className="w-3.5 h-3.5 text-[#C65D4B]" />
+                      <span>Bảng 46 Chữ</span>
+                    </button>
+                    <button
+                      onClick={() => setModalTab("TYPING")}
+                      className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer flex items-center gap-1.5 ${
+                        modalTab === "TYPING"
+                          ? selectedKanaType === "HIRAGANA" ? "bg-[#C65D4B] text-white shadow-xs" : "bg-[#3B66F5] text-white shadow-xs"
+                          : "text-[#76685F] hover:text-[#2C201D]"
+                      }`}
+                    >
+                      <Keyboard className="w-3.5 h-3.5" />
+                      <span>Luyện Gõ</span>
+                    </button>
+                  </div>
                 </div>
               </div>
 
               {/* TAB 1: FULL 46 CHARACTER GRID TABLE WITH TTS AUDIO */}
               {modalTab === "TABLE" && (
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between bg-[#FFF8F5] p-3 rounded-2xl border border-[#F5DDD4] text-xs font-bold text-[#8B6F5A]">
+                  <div className={`flex items-center justify-between p-3 rounded-2xl border text-xs font-bold ${
+                    selectedKanaType === "HIRAGANA" ? "bg-[#FFF8F5] border-[#F5DDD4] text-[#8B6F5A]" : "bg-[#F4F7FF] border-[#DCE4FF] text-[#3B66F5]"
+                  }`}>
                     <span>💡 Click vào từng chữ để nghe giọng phát âm tiếng Nhật chuẩn (TTS)</span>
-                    <span className="text-[#C65D4B] font-black">46/46 Chữ cái</span>
+                    <span className={`font-black ${selectedKanaType === "HIRAGANA" ? "text-[#C65D4B]" : "text-[#3B66F5]"}`}>
+                      46/46 Chữ {selectedKanaType === "HIRAGANA" ? "Hiragana" : "Katakana"}
+                    </span>
                   </div>
 
                   {/* 46 Kana Grid */}
@@ -782,11 +862,21 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
                         key={idx}
                         onClick={() => speakKana(item.kana)}
                         title={`Bấm để nghe phát âm "${item.kana}"`}
-                        className="p-3 bg-white rounded-2xl border border-[#8B6F5A]/20 text-center shadow-2xs hover:scale-110 hover:border-[#C65D4B] hover:shadow-md transition-all cursor-pointer group relative"
+                        className={`p-3 bg-white rounded-2xl border text-center shadow-2xs hover:scale-110 hover:shadow-md transition-all cursor-pointer group relative ${
+                          selectedKanaType === "HIRAGANA"
+                            ? "border-[#8B6F5A]/20 hover:border-[#C65D4B]"
+                            : "border-[#DCE4FF] hover:border-[#3B66F5]"
+                        }`}
                       >
-                        <Volume2 className="w-3 h-3 text-[#C65D4B] absolute top-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                        <span className="text-2xl font-black text-[#2C221E] block group-hover:text-[#C65D4B] transition-colors">{item.kana}</span>
-                        <span className="text-[10px] font-bold text-[#8B6F5A] uppercase block mt-0.5">{item.romaji}</span>
+                        <Volume2 className={`w-3 h-3 absolute top-1.5 right-1.5 opacity-0 group-hover:opacity-100 transition-opacity ${
+                          selectedKanaType === "HIRAGANA" ? "text-[#C65D4B]" : "text-[#3B66F5]"
+                        }`} />
+                        <span className={`text-2xl font-black block transition-colors ${
+                          selectedKanaType === "HIRAGANA" ? "text-[#2C221E] group-hover:text-[#C65D4B]" : "text-[#2C221E] group-hover:text-[#3B66F5]"
+                        }`}>{item.kana}</span>
+                        <span className={`text-[10px] font-bold uppercase block mt-0.5 ${
+                          selectedKanaType === "HIRAGANA" ? "text-[#8B6F5A]" : "text-[#3B66F5]"
+                        }`}>{item.romaji}</span>
                       </div>
                     ))}
                   </div>
@@ -795,28 +885,37 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
 
               {/* TAB 2: INTERACTIVE KANA SPEED TYPING PRACTICE GAME */}
               {modalTab === "TYPING" && (
-                <div className="space-y-6 bg-gradient-to-b from-[#FFF8F5] via-[#FFF3EF] to-[#FDFBF7] p-6 sm:p-8 rounded-3xl border-2 border-[#F5DDD4] shadow-inner text-center">
+                <div className={`space-y-6 p-6 sm:p-8 rounded-3xl border-2 shadow-inner text-center ${
+                  selectedKanaType === "HIRAGANA"
+                    ? "bg-gradient-to-b from-[#FFF8F5] via-[#FFF3EF] to-[#FDFBF7] border-[#F5DDD4]"
+                    : "bg-gradient-to-b from-[#F4F7FF] via-[#EEF2FF] to-[#FDFBF7] border-[#DCE4FF]"
+                }`}>
                   
                   {/* Game Stats Scoreboard */}
                   <div className="flex items-center justify-around bg-white p-3.5 rounded-2xl border border-[#F5DDD4] shadow-2xs text-xs font-black">
-                    <div className="flex items-center gap-1.5 text-[#C65D4B]">
-                      <Zap className="w-4 h-4 fill-[#C65D4B]" />
+                    <div className={`flex items-center gap-1.5 ${selectedKanaType === "HIRAGANA" ? "text-[#C65D4B]" : "text-[#3B66F5]"}`}>
+                      <Zap className={`w-4 h-4 ${selectedKanaType === "HIRAGANA" ? "fill-[#C65D4B]" : "fill-[#3B66F5]"}`} />
                       <span>Điểm: {typingScore}</span>
                     </div>
                     <div className="flex items-center gap-1.5 text-amber-600">
                       <Flame className="w-4 h-4 fill-amber-500" />
                       <span>Streak: {typingStreak}</span>
                     </div>
-                    <div className="flex items-center gap-1.5 text-[#8B6F5A]">
-                      <span>Bộ chữ: {selectedKanaType === "HIRAGANA" ? "Hiragana" : "Katakana"}</span>
+                    <div className="flex items-center gap-1.5 text-indigo-600">
+                      <Shuffle className="w-4 h-4" />
+                      <span>Xáo trộn: {typingIndex + 1}/{typingDataset.length}</span>
                     </div>
                   </div>
 
                   {/* Big Prompt Card */}
-                  <div className="relative max-w-xs mx-auto py-8 bg-white rounded-3xl border-4 border-[#C65D4B] shadow-xl flex flex-col items-center justify-center space-y-2">
+                  <div className={`relative max-w-xs mx-auto py-8 bg-white rounded-3xl border-4 shadow-xl flex flex-col items-center justify-center space-y-2 ${
+                    selectedKanaType === "HIRAGANA" ? "border-[#C65D4B]" : "border-[#3B66F5]"
+                  }`}>
                     <button
                       onClick={() => speakKana(currentItem.kana)}
-                      className="absolute top-3 right-3 p-2 rounded-xl bg-[#FFF8F5] text-[#C65D4B] hover:scale-110 transition cursor-pointer"
+                      className={`absolute top-3 right-3 p-2 rounded-xl hover:scale-110 transition cursor-pointer ${
+                        selectedKanaType === "HIRAGANA" ? "bg-[#FFF8F5] text-[#C65D4B]" : "bg-[#EEF2FF] text-[#3B66F5]"
+                      }`}
                       title="Nghe lại phát âm"
                     >
                       <Volume2 className="w-5 h-5" />
@@ -830,7 +929,7 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
                       {currentItem.kana}
                     </motion.span>
                     <span className="text-xs font-bold text-[#8B6F5A] uppercase tracking-wider block">
-                      Gõ phiên âm Romaji tương ứng
+                      Gõ Romaji chữ {selectedKanaType === "HIRAGANA" ? "Hiragana" : "Katakana"} trên
                     </span>
                   </div>
 
@@ -869,15 +968,19 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
 
                     <div className="flex items-center justify-center gap-3 pt-2">
                       <button
-                        onClick={() => {
-                          setTypingIndex((prev) => (prev + 1) % typingDataset.length);
-                          setUserTypedRomaji("");
-                          setTypingHint(null);
-                        }}
+                        onClick={goToNextKana}
                         className="px-4 py-2 rounded-xl bg-white border border-[#EAD0C7] text-[#8B6F5A] hover:text-[#C65D4B] text-xs font-bold shadow-2xs transition cursor-pointer flex items-center gap-1"
                       >
                         <RotateCcw className="w-3.5 h-3.5" />
                         <span>Bỏ qua chữ này</span>
+                      </button>
+                      <button
+                        onClick={() => reshuffleDataset()}
+                        className="px-4 py-2 rounded-xl bg-[#FFEFEA] border border-[#FFD8CD] text-[#C65D4B] hover:bg-[#C65D4B] hover:text-white text-xs font-bold shadow-2xs transition cursor-pointer flex items-center gap-1"
+                        title="Trộn lại thứ tự các chữ cái ngẫu nhiên"
+                      >
+                        <Shuffle className="w-3.5 h-3.5" />
+                        <span>🎲 Trộn lại ngẫu nhiên</span>
                       </button>
                     </div>
                   </div>

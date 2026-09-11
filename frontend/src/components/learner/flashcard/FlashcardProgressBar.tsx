@@ -1,32 +1,30 @@
 "use client";
 
-import { Repeat } from "lucide-react";
+import { Star } from "lucide-react";
 
 interface FlashcardProgressBarProps {
   currentIndex: number;
   totalCount: number;
-  unmasteredCount: number;
-  masteredCount: number;
-  isShuffle?: boolean;
-  isAutoplay?: boolean;
-  isSwapped?: boolean;
-  onToggleShuffle?: () => void;
-  onToggleAutoplay?: () => void;
-  onToggleSwap?: () => void;
+  showFurigana?: boolean;
+  isContextMode?: boolean;
+  favoriteCount?: number;
+  isFavoritesOnly?: boolean;
+  onToggleFurigana?: () => void;
+  onToggleContextMode?: () => void;
+  onToggleFavoritesOnly?: () => void;
   onOpenSettings?: () => void;
 }
 
 export default function FlashcardProgressBar({
   currentIndex,
   totalCount,
-  unmasteredCount,
-  masteredCount,
-  isShuffle = false,
-  isAutoplay = false,
-  isSwapped = false,
-  onToggleShuffle,
-  onToggleAutoplay,
-  onToggleSwap,
+  showFurigana = true,
+  isContextMode = false,
+  favoriteCount = 0,
+  isFavoritesOnly = false,
+  onToggleFurigana,
+  onToggleContextMode,
+  onToggleFavoritesOnly,
   onOpenSettings,
 }: FlashcardProgressBarProps) {
   const currentDisplay = totalCount > 0 ? Math.min(currentIndex + 1, totalCount) : 0;
@@ -39,12 +37,6 @@ export default function FlashcardProgressBar({
         <span className="text-[#302A26] font-extrabold text-sm sm:text-base">
           Tiến độ: {currentDisplay}/{totalCount}
         </span>
-        <span className="text-rose-600 bg-rose-50 px-2.5 py-0.5 rounded-full border border-rose-200">
-          ✕ {unmasteredCount} Chưa nhớ
-        </span>
-        <span className="text-emerald-700 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">
-          ✓ {masteredCount} Đã nhớ
-        </span>
       </div>
 
       {/* Center: Visual Progress Bar */}
@@ -56,51 +48,52 @@ export default function FlashcardProgressBar({
       </div>
 
       {/* Right: Quick Action Controls */}
-      <div className="flex items-center gap-2 shrink-0">
-        {onToggleSwap && (
-          <button
-            type="button"
-            onClick={onToggleSwap}
-            title="Đổi mặt thẻ (Nhật ➔ Việt / Việt ➔ Nhật)"
-            className={`px-3 py-1.5 rounded-xl border transition-all cursor-pointer text-xs font-black flex items-center gap-1.5 ${
-              isSwapped
-                ? "bg-[#C65D4B] text-white border-[#C65D4B] shadow-md"
-                : "bg-white text-[#C65D4B] border-[#C65D4B]/40 hover:bg-[#FAF3EB]"
-            }`}
-          >
-            <Repeat className="w-3.5 h-3.5" />
-            <span>{isSwapped ? "Mặt trước: Tiếng Việt" : "Đảo mặt thẻ"}</span>
-          </button>
-        )}
+      <div className="flex flex-wrap items-center gap-2 shrink-0">
 
-        {onToggleShuffle && (
+        {onToggleFurigana && (
           <button
             type="button"
-            onClick={onToggleShuffle}
-            title={isShuffle ? "Tắt xáo trộn" : "Xáo trộn thẻ"}
-            className={`p-2 rounded-xl border transition-all cursor-pointer text-sm ${
-              isShuffle
-                ? "bg-[#C65D4B] text-white border-[#C65D4B] shadow-2xs"
+            onClick={onToggleFurigana}
+            title={showFurigana ? "Tắt Furigana" : "Bật Furigana"}
+            className={`px-2.5 py-1.5 rounded-xl border transition-all cursor-pointer text-xs font-black flex items-center gap-1 ${
+              showFurigana
+                ? "bg-[#8B6F5A] text-white border-[#8B6F5A] shadow-2xs"
                 : "bg-[#FFFDF9] text-[#6E5E52] border-[#DED3C8] hover:bg-[#F5EFE6]"
             }`}
           >
-            🔀
+            <span className="font-jp text-[11px]">あ</span>
+            <span>{showFurigana ? "Furigana" : "Hiện cách đọc"}</span>
           </button>
         )}
 
-        {onToggleAutoplay && (
-          <button
-            type="button"
-            onClick={onToggleAutoplay}
-            title={isAutoplay ? "Dừng tự động lật" : "Tự động lật thẻ"}
-            className={`p-2 rounded-xl border transition-all cursor-pointer text-sm ${
-              isAutoplay
-                ? "bg-[#C65D4B] text-white border-[#C65D4B] shadow-2xs animate-pulse"
-                : "bg-[#FFFDF9] text-[#6E5E52] border-[#DED3C8] hover:bg-[#F5EFE6]"
-            }`}
-          >
-            🔄
-          </button>
+        {onToggleFavoritesOnly && (
+          <div className="relative group/fav">
+            <button
+              type="button"
+              onClick={onToggleFavoritesOnly}
+              title={
+                isFavoritesOnly
+                  ? "Bấm để quay lại danh sách tất cả từ vựng bài học"
+                  : "Ôn tập danh sách các từ vựng bạn đã đánh dấu ⭐"
+              }
+              className={`px-3 py-1.5 rounded-xl border transition-all cursor-pointer text-xs font-black flex items-center gap-1.5 ${
+                isFavoritesOnly
+                  ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white border-amber-500 shadow-md animate-pulse"
+                  : "bg-white hover:bg-amber-50 text-amber-700 border-amber-300 shadow-2xs"
+              }`}
+            >
+              <Star
+                className={`w-3.5 h-3.5 ${
+                  isFavoritesOnly ? "fill-white text-white" : "fill-amber-500 text-amber-500"
+                }`}
+              />
+              <span>
+                {isFavoritesOnly
+                  ? `Đang ôn từ đã lưu (${favoriteCount})`
+                  : `⭐ Từ đã đánh dấu (${favoriteCount})`}
+              </span>
+            </button>
+          </div>
         )}
       </div>
     </div>

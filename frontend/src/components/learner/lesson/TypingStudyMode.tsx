@@ -9,6 +9,7 @@ interface TypingStudyModeProps {
 }
 
 // Complete Hepburn & Kunrei-shiki Romaji Converter Engine
+// Complete Hepburn & Kunrei-shiki Romaji Converter Engine
 function toRomajiVariants(kanaStr: string): string[] {
   if (!kanaStr) return [];
 
@@ -38,6 +39,12 @@ function toRomajiVariants(kanaStr: string): string[] {
     "ジャ": "ja", "ジュ": "ju", "ジョ": "jo",
     "ビャ": "bya", "ビュ": "byu", "ビョ": "byo",
     "ピャ": "pya", "ピュ": "pyu", "ピョ": "pyo",
+    "ティ": "ti", "ディ": "di", "テュ": "tyu", "デュ": "dyu",
+    "ファ": "fa", "フィ": "fi", "フェ": "fe", "フォ": "fo", "フュ": "fyu",
+    "ウィ": "wi", "ウェ": "we", "ウォ": "wo",
+    "ヴァ": "va", "ヴィ": "vi", "ヴェ": "ve", "ヴォ": "vo",
+    "ツィ": "tsi", "チェ": "che", "シェ": "she", "ジェ": "je",
+    "クォ": "kwo", "クァ": "kwa", "グァ": "gwa", "スィ": "si", "ズィ": "zi",
   };
 
   const singles: Record<string, string> = {
@@ -71,11 +78,19 @@ function toRomajiVariants(kanaStr: string): string[] {
     "ダ": "da", "ヂ": "ji", "ヅ": "zu", "デ": "de", "ド": "do",
     "バ": "ba", "ビ": "bi", "ブ": "bu", "ベ": "be", "ボ": "bo",
     "パ": "pa", "ピ": "pi", "プ": "pu", "ペ": "pe", "ポ": "po",
+    "ぁ": "a", "ぃ": "i", "ぅ": "u", "ぇ": "e", "ぉ": "o",
+    "ァ": "a", "ィ": "i", "ゥ": "u", "ェ": "e", "ォ": "o",
   };
 
   let mainRomaji = "";
   let i = 0;
   while (i < s.length) {
+    if (s[i] === "〜" || s[i] === "~" || s[i] === "～" || s[i] === "…" || s[i] === ".") {
+      i++;
+      continue;
+    }
+
+    // Sokuon (っ / ッ) - doubled consonant
     if ((s[i] === "っ" || s[i] === "ッ") && i + 1 < s.length) {
       const nextPair = s.substring(i + 1, i + 3);
       const nextChar = s[i + 1];
@@ -92,6 +107,16 @@ function toRomajiVariants(kanaStr: string): string[] {
       continue;
     }
 
+    // Chōonpu (ー / — / -) - Katakana Long Vowel Mark
+    if (s[i] === "ー" || s[i] === "—" || s[i] === "-") {
+      const lastChar = mainRomaji.length > 0 ? mainRomaji[mainRomaji.length - 1] : "";
+      if ("aeiou".includes(lastChar)) {
+        mainRomaji += lastChar;
+      }
+      i++;
+      continue;
+    }
+
     const pair = s.substring(i, i + 2);
     if (digraphs[pair]) {
       mainRomaji += digraphs[pair];
@@ -102,13 +127,15 @@ function toRomajiVariants(kanaStr: string): string[] {
     const ch = s[i];
     if (singles[ch]) {
       mainRomaji += singles[ch];
-    } else {
+    } else if (ch !== "〜" && ch !== "~" && ch !== "～") {
       mainRomaji += ch;
     }
     i++;
   }
 
   variants.add(mainRomaji);
+
+  // Add Kunrei-shiki variants
   const kunrei = mainRomaji
     .replace(/shi/g, "si")
     .replace(/chi/g, "ti")
@@ -116,6 +143,15 @@ function toRomajiVariants(kanaStr: string): string[] {
     .replace(/ji/g, "zi")
     .replace(/fu/g, "hu");
   variants.add(kunrei);
+
+  // Add Hepburn variants
+  const hepburn = mainRomaji
+    .replace(/ti/g, "chi")
+    .replace(/si/g, "shi")
+    .replace(/tu/g, "tsu")
+    .replace(/zi/g, "ji")
+    .replace(/hu/g, "fu");
+  variants.add(hepburn);
 
   if (mainRomaji.endsWith("masu")) {
     variants.add(mainRomaji.replace(/masu$/, ""));
@@ -161,6 +197,11 @@ export default function TypingStudyMode({ vocabularies }: TypingStudyModeProps) 
     if (currentCard.kanjiForm) validTargets.add(normalize(currentCard.kanjiForm));
     if (currentCard.romaji) validTargets.add(normalize(currentCard.romaji));
 
+    // Also add targets with stripped leading tildes (~/〜)
+    if (currentCard.word) validTargets.add(normalize(currentCard.word.replace(/^[~〜～\s]+/, "")));
+    if (currentCard.kana) validTargets.add(normalize(currentCard.kana.replace(/^[~〜～\s]+/, "")));
+    if (currentCard.romaji) validTargets.add(normalize(currentCard.romaji.replace(/^[~〜～\s]+/, "")));
+
     if (currentCard.kana) {
       const romajiVariants = toRomajiVariants(currentCard.kana);
       romajiVariants.forEach((variant) => validTargets.add(normalize(variant)));
@@ -170,7 +211,35 @@ export default function TypingStudyMode({ vocabularies }: TypingStudyModeProps) 
       romajiVariants.forEach((variant) => validTargets.add(normalize(variant)));
     }
 
-    const isMatched = validTargets.has(normInput);
+    // Smart flexible matcher for Katakana long vowels, tildes (~/〜), doubled letters & punctuation
+    const isFlexibleMatch = (input: string, targets: Set<string>): boolean => {
+      if (targets.has(input)) return true;
+
+      // Clean all tildes (~/〜/～), hyphens, dashes, brackets, dots & spaces
+      const cleanSymbol = (str: string) => str.replace(/[~〜～\-ー—'’`….\s()（）!！?？,、]/g, "");
+
+      const cleanInput = cleanSymbol(input);
+
+      for (const target of Array.from(targets)) {
+        const cleanTarget = cleanSymbol(target);
+        if (!cleanTarget) continue;
+        if (cleanInput === cleanTarget) return true;
+
+        // Collapse repeated vowels (aa -> a, ii -> i...) and repeated consonants (tt -> t, kk -> k...)
+        const collapsedInput = cleanInput
+          .replace(/([aeiou])\1+/g, "$1")
+          .replace(/([bcdfghjklmnpqrstvwxyz])\1+/g, "$1");
+
+        const collapsedTarget = cleanTarget
+          .replace(/([aeiou])\1+/g, "$1")
+          .replace(/([bcdfghjklmnpqrstvwxyz])\1+/g, "$1");
+
+        if (collapsedInput === collapsedTarget) return true;
+      }
+      return false;
+    };
+
+    const isMatched = isFlexibleMatch(normInput, validTargets);
 
     if (isMatched) {
       setStatus("CORRECT");
@@ -179,6 +248,7 @@ export default function TypingStudyMode({ vocabularies }: TypingStudyModeProps) 
       setStatus("WRONG");
     }
   };
+
 
   const handleNext = () => {
     if (cards.length === 0) return;
@@ -213,8 +283,10 @@ export default function TypingStudyMode({ vocabularies }: TypingStudyModeProps) 
     );
   }
 
-  const romajiAnswer = currentCard?.kana ? toRomajiVariants(currentCard.kana)[0] : currentCard?.romaji || "";
+  const rawRomajiAnswer = currentCard?.kana ? toRomajiVariants(currentCard.kana)[0] : currentCard?.romaji || "";
+  const romajiAnswer = rawRomajiAnswer.replace(/^[~〜～\s]+/, "");
   const firstLetterHint = romajiAnswer ? `${romajiAnswer[0]}...` : "";
+
 
   return (
     <div className="space-y-6 max-w-xl mx-auto">

@@ -66,30 +66,30 @@ export default function VocabularyModeSelector({
                 type="button"
                 disabled={disabled}
                 onClick={() => onSelectMode(m.key)}
-                className={`group relative w-full h-full bg-gradient-to-br from-[#FFFDF9] via-[#FAF3EB] to-[#F5EFE6] border-2 border-[#DED3C8] hover:border-[#C65D4B]/60 p-5 rounded-3xl shadow-md hover:shadow-xl transition-all text-left flex flex-col justify-between min-h-[130px] overflow-hidden ${
+                className={`group relative w-full h-full bg-gradient-to-br from-[#FFFDF9] via-[#FAF2E8] to-[#F5ECE0] border-2 border-[#DCD0C4] hover:border-[#C65D4B] p-5 rounded-3xl shadow-lg hover:shadow-2xl hover:shadow-[#C65D4B]/10 hover:-translate-y-1 transition-all text-left flex flex-col justify-between min-h-[135px] overflow-hidden ${
                   disabled ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
                 }`}
               >
                 <div className="flex justify-between items-start z-10">
                   <motion.div
-                    whileHover={{ scale: 1.1, rotate: 6 }}
-                    className={`w-11 h-11 rounded-2xl bg-gradient-to-tr ${m.orbGrad} text-white shadow-md flex items-center justify-center border border-white/30`}
+                    whileHover={{ scale: 1.12, rotate: 6 }}
+                    className={`w-12 h-12 rounded-2xl bg-gradient-to-tr ${m.orbGrad} text-white shadow-lg shadow-[#2C2421]/15 flex items-center justify-center border-2 border-white/40`}
                   >
-                    <IconComp className="w-5.5 h-5.5" />
+                    <IconComp className="w-6 h-6" />
                   </motion.div>
 
-                  <span className="text-[10px] font-black text-[#8B6F5A] bg-[#F5EFE6] px-3 py-1 rounded-full border border-[#DED3C8] shadow-2xs">
+                  <span className="text-[10px] font-black text-[#5C4D43] bg-white/90 px-3.5 py-1 rounded-full border border-[#DCD0C4] shadow-2xs group-hover:border-[#C65D4B]/40 group-hover:text-[#C65D4B] transition-colors">
                     {m.badge}
                   </span>
                 </div>
 
                 <div className="pt-3 z-10 space-y-1">
-                  <h4 className="text-base font-extrabold text-[#231917] group-hover:text-[#C65D4B] transition-colors leading-tight">
+                  <h4 className="text-base font-black text-[#231917] group-hover:text-[#C65D4B] transition-colors leading-tight">
                     {m.title}
                   </h4>
-                  <p className="text-xs font-semibold text-[#76685F] flex items-center justify-between">
+                  <p className="text-xs font-bold text-[#6E5D55] flex items-center justify-between">
                     <span>{m.subtext}</span>
-                    <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform text-[#C65D4B]" />
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1.5 transition-transform text-[#C65D4B]" />
                   </p>
                 </div>
               </button>

@@ -34,6 +34,9 @@ public class KanjiExercise {
     @Column(name = "correct_option")
     private Integer correctOption;
 
+    @Column(name = "meaning_vi", columnDefinition = "TEXT")
+    private String meaningVi;
+
     @Column(name = "display_order")
     private Integer displayOrder = 1;
 
@@ -65,6 +68,9 @@ public class KanjiExercise {
 
     public Integer getCorrectOption() { return correctOption; }
     public void setCorrectOption(Integer correctOption) { this.correctOption = correctOption; }
+
+    public String getMeaningVi() { return meaningVi; }
+    public void setMeaningVi(String meaningVi) { this.meaningVi = meaningVi; }
 
     public Integer getDisplayOrder() { return displayOrder; }
     public void setDisplayOrder(Integer displayOrder) { this.displayOrder = displayOrder; }
