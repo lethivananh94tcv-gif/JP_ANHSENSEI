@@ -99,6 +99,12 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
               <Link
                 key={item.name}
                 href={item.href}
+                onClick={(e) => {
+                  if (isJlpt) {
+                    e.preventDefault();
+                    setShowJlptNotice(true);
+                  }
+                }}
                 className={`relative py-2 text-xs sm:text-sm font-extrabold transition-colors flex items-center gap-1.5 ${
                   item.active ? "text-[#C65D4B]" : "text-[#56423E] hover:text-[#231917]"
                 }`}

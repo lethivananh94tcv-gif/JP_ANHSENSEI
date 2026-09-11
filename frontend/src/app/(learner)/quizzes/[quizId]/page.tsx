@@ -3,7 +3,7 @@
 import { useEffect, useState, use } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
-import { apiClient } from "@/lib/api/client";
+import { apiClient, getApiUrl } from "@/lib/api/client";
 import { 
   CheckCircle2, AlertCircle, Trophy, RotateCcw, ArrowLeft, Volume2, Gamepad2, 
   Layers, Keyboard, Zap, Play, AlertTriangle, HelpCircle, Shuffle, ShieldCheck, ArrowRight,
@@ -866,7 +866,7 @@ export default function QuizPage({ params }: { params: Promise<{ quizId: string 
 
     try {
       // Check if next lesson has published quiz
-      const qRes = await fetch(`http://localhost:8080/api/v1/admin/question-bank/lesson/${nextNum}`);
+      const qRes = await fetch(getApiUrl(`/admin/question-bank/lesson/${nextNum}`));
       if (qRes.ok) {
         router.push(`/quizzes/${nextNum}`);
       } else {

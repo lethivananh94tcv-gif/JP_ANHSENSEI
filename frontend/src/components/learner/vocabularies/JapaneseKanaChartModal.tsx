@@ -9,7 +9,7 @@ interface KanaItem {
   hiragana: string;
   katakana: string;
   romaji: string;
-  type: "goin" | "dakuon" | "handakuon";
+  type: "goin" | "dakuon" | "handakuon" | "yoon";
 }
 
 const KANA_DATA: KanaItem[] = [
@@ -100,6 +100,41 @@ const KANA_DATA: KanaItem[] = [
   { hiragana: "ぷ", katakana: "プ", romaji: "pu", type: "handakuon" },
   { hiragana: "ぺ", katakana: "ペ", romaji: "pe", type: "handakuon" },
   { hiragana: "ぽ", katakana: "ポ", romaji: "po", type: "handakuon" },
+
+  // Yoon (Compound Sounds)
+  { hiragana: "きゃ", katakana: "キャ", romaji: "kya", type: "yoon" },
+  { hiragana: "きゅ", katakana: "キュ", romaji: "kyu", type: "yoon" },
+  { hiragana: "きょ", katakana: "キョ", romaji: "kyo", type: "yoon" },
+  { hiragana: "しゃ", katakana: "シャ", romaji: "sha", type: "yoon" },
+  { hiragana: "しゅ", katakana: "シュ", romaji: "shu", type: "yoon" },
+  { hiragana: "しょ", katakana: "ショ", romaji: "sho", type: "yoon" },
+  { hiragana: "ちゃ", katakana: "チャ", romaji: "cha", type: "yoon" },
+  { hiragana: "ちゅ", katakana: "チュ", romaji: "chu", type: "yoon" },
+  { hiragana: "ちょ", katakana: "チョ", romaji: "cho", type: "yoon" },
+  { hiragana: "にゃ", katakana: "ニャ", romaji: "nya", type: "yoon" },
+  { hiragana: "にゅ", katakana: "ニュ", romaji: "nyu", type: "yoon" },
+  { hiragana: "にょ", katakana: "ニョ", romaji: "nyo", type: "yoon" },
+  { hiragana: "ひゃ", katakana: "ヒャ", romaji: "hya", type: "yoon" },
+  { hiragana: "ひゅ", katakana: "ヒュ", romaji: "hyu", type: "yoon" },
+  { hiragana: "ひょ", katakana: "ヒョ", romaji: "hyo", type: "yoon" },
+  { hiragana: "みゃ", katakana: "ミャ", romaji: "mya", type: "yoon" },
+  { hiragana: "みゅ", katakana: "ミュ", romaji: "myu", type: "yoon" },
+  { hiragana: "みょ", katakana: "ミョ", romaji: "myo", type: "yoon" },
+  { hiragana: "りゃ", katakana: "リャ", romaji: "rya", type: "yoon" },
+  { hiragana: "りゅ", katakana: "リュ", romaji: "ryu", type: "yoon" },
+  { hiragana: "りょ", katakana: "リョ", romaji: "ryo", type: "yoon" },
+  { hiragana: "ぎゃ", katakana: "ギャ", romaji: "gya", type: "yoon" },
+  { hiragana: "ぎゅ", katakana: "ギュ", romaji: "gyu", type: "yoon" },
+  { hiragana: "ぎょ", katakana: "ギョ", romaji: "gyo", type: "yoon" },
+  { hiragana: "じゃ", katakana: "ジャ", romaji: "ja", type: "yoon" },
+  { hiragana: "じゅ", katakana: "ジュ", romaji: "ju", type: "yoon" },
+  { hiragana: "じょ", katakana: "ジョ", romaji: "jo", type: "yoon" },
+  { hiragana: "びゃ", katakana: "ビャ", romaji: "bya", type: "yoon" },
+  { hiragana: "びゅ", katakana: "ビュ", romaji: "byu", type: "yoon" },
+  { hiragana: "びょ", katakana: "ビョ", romaji: "byo", type: "yoon" },
+  { hiragana: "ぴゃ", katakana: "ピャ", romaji: "pya", type: "yoon" },
+  { hiragana: "ぴゅ", katakana: "ピュ", romaji: "pyu", type: "yoon" },
+  { hiragana: "ぴょ", katakana: "ピョ", romaji: "pyo", type: "yoon" },
 ];
 
 interface JapaneseKanaChartModalProps {
@@ -109,7 +144,7 @@ interface JapaneseKanaChartModalProps {
 
 export default function JapaneseKanaChartModal({ isOpen, onClose }: JapaneseKanaChartModalProps) {
   const [kanaType, setKanaType] = useState<"hiragana" | "katakana">("hiragana");
-  const [filterGroup, setFilterGroup] = useState<"all" | "goin" | "dakuon" | "handakuon">("all");
+  const [filterGroup, setFilterGroup] = useState<"all" | "goin" | "dakuon" | "handakuon" | "yoon">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [playingRomaji, setPlayingRomaji] = useState<string | null>(null);
 
@@ -225,6 +260,7 @@ export default function JapaneseKanaChartModal({ isOpen, onClose }: JapaneseKana
                 <option value="goin">Âm trong (46 chữ)</option>
                 <option value="dakuon">Âm đục (20 chữ)</option>
                 <option value="handakuon">Âm bán đục (5 chữ)</option>
+                <option value="yoon">Âm ghép (33 chữ)</option>
               </select>
             </div>
           </div>
