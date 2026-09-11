@@ -297,3 +297,13 @@ function fallbackToGoogleTranslateTTS(
   }
 }
 
+let globalTTSRate = 0.92;
+
+export function getGlobalTTSRate(): number {
+  return globalTTSRate;
+}
+
+export function setGlobalTTSRate(rate: number): void {
+  globalTTSRate = rate;
+}
+
