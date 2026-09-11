@@ -27,6 +27,7 @@ export interface PlayAudioOptions {
 let activeAudioElement: HTMLAudioElement | null = null;
 let globalTTSRate: number = 0.92; // Default natural speed (triggers authentic Japanese devoicing 母音の無声化)
 let globalTTSPitch: number = 1.06; // Bright, natural Tokyo female voice pitch (matches SpeechGen.io Nanami/Aoi quality)
+let activeUtteranceTimer: NodeJS.Timeout | null = null;
 
 export function getGlobalTTSRate(): number {
   return globalTTSRate;
@@ -101,6 +102,11 @@ export function cleanJapaneseTextForSpeech(text: string): string {
  * Stop any currently playing audio file or TTS utterance immediately
  */
 export function stopJapaneseTTS(): void {
+  if (activeUtteranceTimer) {
+    clearTimeout(activeUtteranceTimer);
+    activeUtteranceTimer = null;
+  }
+
   if (activeAudioElement) {
     try {
       activeAudioElement.pause();
@@ -117,7 +123,7 @@ export function stopJapaneseTTS(): void {
 }
 
 /**
- * Play Japanese audio with audio URL priority and Web Speech API fallback
+ * Play Japanese audio with single-track priority: /api/tts endpoint first, WebSpeech as fallback
  */
 export function playJapaneseTTS(
   textOrOptions?: string | PlayAudioOptions,
@@ -149,50 +155,79 @@ export function playJapaneseTTS(
     onError = textOrOptions.onError;
   }
 
-  // Stop previous playback
+  // Stop previous playback completely
   stopJapaneseTTS();
 
   const cleanText = cleanJapaneseTextForSpeech(text);
+  if (!cleanText) {
+    onEnd?.();
+    return;
+  }
 
-  // Strategy A: Play explicit audioUrl if present
-  if (audioUrl && audioUrl.trim().length > 0) {
+  // Strategy A: Explicit audio URL if provided
+  const targetAudioUrl = audioUrl && audioUrl.trim().length > 0
+    ? audioUrl.trim()
+    : `/api/tts?text=${encodeURIComponent(cleanText)}`;
+
+  let hasEnded = false;
+
+  const playAudioFile = (url: string, isFallback = false) => {
+    if (hasEnded) return;
+
     try {
-      const audio = new Audio(audioUrl.trim());
+      const audio = new Audio(url);
       audio.playbackRate = rate;
       activeAudioElement = audio;
 
-      audio.onplay = () => onStart?.();
+      audio.onplay = () => {
+        if (!hasEnded) onStart?.();
+      };
+
       audio.onended = () => {
+        hasEnded = true;
         activeAudioElement = null;
         onEnd?.();
       };
+
       audio.onerror = (e) => {
         activeAudioElement = null;
-        console.warn("Audio URL playback failed, falling back to Web Speech API:", e);
-        speakWithWebSpeech(cleanText, rate, pitch, isKanaAlphabet, onStart, onEnd, onError);
+        if (!isFallback && !hasEnded) {
+          // If /api/tts fails, try WebSpeech as fallback
+          speakWithWebSpeech(cleanText, rate, pitch, isKanaAlphabet, onStart, onEnd, onError);
+        } else {
+          hasEnded = true;
+          onError?.(e);
+        }
       };
 
       const playPromise = audio.play();
       if (playPromise !== undefined) {
         playPromise.catch((err) => {
-          console.warn("Audio element play error:", err);
-          speakWithWebSpeech(cleanText, rate, pitch, isKanaAlphabet, onStart, onEnd, onError);
+          activeAudioElement = null;
+          if (!isFallback && !hasEnded) {
+            speakWithWebSpeech(cleanText, rate, pitch, isKanaAlphabet, onStart, onEnd, onError);
+          } else {
+            hasEnded = true;
+            onError?.(err);
+          }
         });
       }
-      return;
-    } catch (e) {
-      console.warn("Error creating Audio element:", e);
+    } catch (err) {
+      activeAudioElement = null;
+      if (!isFallback && !hasEnded) {
+        speakWithWebSpeech(cleanText, rate, pitch, isKanaAlphabet, onStart, onEnd, onError);
+      } else {
+        hasEnded = true;
+        onError?.(err);
+      }
     }
-  }
+  };
 
-  // Strategy B: Use Web Speech API or Fallback Online TTS
-  speakWithWebSpeech(cleanText, rate, pitch, isKanaAlphabet, onStart, onEnd, onError);
+  playAudioFile(targetAudioUrl);
 }
 
 /**
  * Specialized TTS for Kana / Alphabet characters (あ, か, さ...)
- * Uses standard Tokyo female voice, slower rate (0.72x), and bright clear pitch (1.18)
- * to ensure single character pronunciation is crystal clear, natural, and never deep/rushed.
  */
 export function playKanaAlphabetTTS(
   kana: string,
@@ -201,14 +236,14 @@ export function playKanaAlphabetTTS(
   playJapaneseTTS({
     text: kana,
     rate: 0.72,  // Slower, clearer speed specifically for Kana alphabet
-    pitch: 1.18, // Bright, pleasant Tokyo female voice pitch (prevents deep/trầm voice)
+    pitch: 1.18, // Bright, pleasant Tokyo female voice pitch
     isKanaAlphabet: true,
     ...options,
   });
 }
 
 /**
- * Internal helper for Web Speech API with Google Translate audio fallback
+ * Secondary Fallback helper for Web Speech API (only used if network is offline or audio route fails)
  */
 function speakWithWebSpeech(
   cleanText: string,
@@ -219,15 +254,17 @@ function speakWithWebSpeech(
   onEnd?: () => void,
   onError?: (err: any) => void
 ): void {
-  if (!cleanText) {
+  if (!cleanText || typeof window === "undefined") {
     onEnd?.();
     return;
   }
 
   if (!("speechSynthesis" in window)) {
-    fallbackToGoogleTranslateTTS(cleanText, rate, onStart, onEnd, onError);
+    onError?.(new Error("No SpeechSynthesis support"));
     return;
   }
+
+  window.speechSynthesis.cancel();
 
   const utterance = new SpeechSynthesisUtterance(cleanText);
   utterance.lang = "ja-JP";
@@ -237,100 +274,31 @@ function speakWithWebSpeech(
   utterance.onstart = () => onStart?.();
   utterance.onend = () => onEnd?.();
   utterance.onerror = (e) => {
-    fallbackToGoogleTranslateTTS(cleanText, rate, onStart, onEnd, onError);
-  };
-
-  const tryPlaySpeech = () => {
-    const voices = window.speechSynthesis.getVoices();
-    if (voices && voices.length > 0) {
-      const japaneseVoices = voices.filter(
-        (v) => v.lang.startsWith("ja") || v.lang.includes("ja") || v.lang.includes("JP")
-      );
-
-      if (japaneseVoices.length > 0) {
-        // Sort Japanese voices by quality score (Azure Nanami Neural > Azure Aoi Neural > Google Japanese Neural > Kyoko)
-        japaneseVoices.sort((a, b) => calculateJapaneseVoiceScore(b.name) - calculateJapaneseVoiceScore(a.name));
-        utterance.voice = japaneseVoices[0];
-      }
-    }
-
-    try {
-      window.speechSynthesis.speak(utterance);
-    } catch (err) {
-      fallbackToGoogleTranslateTTS(cleanText, rate, onStart, onEnd, onError);
+    // Only report real errors, ignore interrupted/canceled
+    if (e.error !== "interrupted" && e.error !== "canceled") {
+      onError?.(e);
     }
   };
 
   const voices = window.speechSynthesis.getVoices();
   if (voices && voices.length > 0) {
-    tryPlaySpeech();
-  } else {
-    let triggered = false;
-    window.speechSynthesis.onvoiceschanged = () => {
-      if (!triggered) {
-        triggered = true;
-        tryPlaySpeech();
-        window.speechSynthesis.onvoiceschanged = null;
-      }
-    };
+    const japaneseVoices = voices.filter(
+      (v) => v.lang.startsWith("ja") || v.lang.includes("ja") || v.lang.includes("JP")
+    );
 
-    setTimeout(() => {
-      if (!triggered) {
-        triggered = true;
-        tryPlaySpeech();
-      }
-    }, 300);
+    if (japaneseVoices.length > 0) {
+      japaneseVoices.sort((a, b) => calculateJapaneseVoiceScore(b.name) - calculateJapaneseVoiceScore(a.name));
+      utterance.voice = japaneseVoices[0];
+    }
   }
-}
 
-/**
- * High-Clarity Neural Audio Fallback Endpoint via Next.js API Route (/api/tts)
- */
-function fallbackToGoogleTranslateTTS(
-  text: string,
-  rate: number,
-  onStart?: () => void,
-  onEnd?: () => void,
-  onError?: (err: any) => void
-): void {
   try {
-    const apiRouteUrl = `/api/tts?text=${encodeURIComponent(text)}`;
-    const directFallbackUrl = `https://translate.google.com/translate_tts?ie=UTF-8&tl=ja&client=tw-ob&q=${encodeURIComponent(
-      text
-    )}`;
-
-    const playAudioUrl = (url: string, isRetry = false) => {
-      const audio = new Audio(url);
-      audio.playbackRate = rate;
-      activeAudioElement = audio;
-
-      audio.onplay = () => onStart?.();
-      audio.onended = () => {
-        activeAudioElement = null;
-        onEnd?.();
-      };
-      audio.onerror = (err) => {
-        activeAudioElement = null;
-        if (!isRetry) {
-          playAudioUrl(directFallbackUrl, true);
-        } else {
-          onError?.(err);
-        }
-      };
-
-      audio.play().catch((err) => {
-        if (!isRetry) {
-          playAudioUrl(directFallbackUrl, true);
-        } else {
-          onError?.(err);
-        }
-      });
-    };
-
-    playAudioUrl(apiRouteUrl);
+    window.speechSynthesis.speak(utterance);
   } catch (err) {
     onError?.(err);
   }
 }
+
+
 
 

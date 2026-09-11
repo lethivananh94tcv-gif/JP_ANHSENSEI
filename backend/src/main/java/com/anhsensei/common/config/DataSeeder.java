@@ -79,8 +79,8 @@ public class DataSeeder implements CommandLineRunner {
             } catch (Exception ignored) {}
         }
 
-        // Always execute V66 to ensure authentic example sentences are updated across all 1865 vocabularies
-        executeSqlFile("src/main/resources/db/migration/V66__seed_authentic_examples_all_vocabularies.sql");
+        // V66 migration disabled on startup to prevent overwriting authentic handcrafted example sentences in DB
+        // executeSqlFile("src/main/resources/db/migration/V66__seed_authentic_examples_all_vocabularies.sql");
 
         // 1. Ensure ADMIN Role exists
         Role adminRole = roleRepository.findByRoleName("ADMIN")

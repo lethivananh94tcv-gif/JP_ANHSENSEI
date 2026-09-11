@@ -47,16 +47,14 @@ public class VocabularyDto {
         this.notes = vocabulary.getNotes();
         this.exampleJp = (vocabulary.getExampleJp() != null && !vocabulary.getExampleJp().trim().isEmpty())
                 ? vocabulary.getExampleJp()
-                : (vocabulary.getWord() != null ? vocabulary.getWord() : vocabulary.getKana()) + " を 毎日 勉強します。";
+                : null;
         this.exampleVi = (vocabulary.getExampleVi() != null && !vocabulary.getExampleVi().trim().isEmpty())
                 ? vocabulary.getExampleVi()
-                : "Tôi học từ \"" + vocabulary.getMeaningVi() + "\" mỗi ngày.";
+                : null;
         this.exampleReading = (vocabulary.getExampleReading() != null && !vocabulary.getExampleReading().trim().isEmpty())
                 ? vocabulary.getExampleReading()
-                : (vocabulary.getKana() != null ? vocabulary.getKana() : vocabulary.getWord()) + " を まいにち べんきょうします。";
-        this.usageNote = (vocabulary.getUsageNote() != null && !vocabulary.getUsageNote().trim().isEmpty())
-                ? vocabulary.getUsageNote()
-                : "Mẫu câu ví dụ ứng dụng từ vựng vào đời sống hàng ngày.";
+                : null;
+        this.usageNote = vocabulary.getUsageNote();
         this.verbType = vocabulary.getVerbType();
         this.verbTypeJa = vocabulary.getVerbTypeJa();
         this.verbNote = vocabulary.getVerbNote();
