@@ -20,6 +20,7 @@ import {
   ChevronRight,
   Trophy,
   Award,
+  Flame,
   RefreshCw,
 } from "lucide-react";
 import {
@@ -327,124 +328,119 @@ export default function JapaneseVerbPracticePage() {
       <LearnerHeader user={profile} />
 
       <main className="flex-1 w-full max-w-[1180px] mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6 pb-24 md:pb-12">
-        {/* Breadcrumb Navigation */}
-        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-bold text-[#756A62]">
-          <Link href="/dashboard" className="hover:text-[#C65D4B] transition-colors">
-            Trang chủ
-          </Link>
-          <span>/</span>
-          <Link href="/vocabularies" className="hover:text-[#C65D4B] transition-colors">
-            Từ vựng
-          </Link>
-          <span>/</span>
-          <span className="text-[#C65D4B] font-extrabold flex items-center gap-1">
-            <Zap className="w-3.5 h-3.5 fill-[#C65D4B]" />
-            Luyện Chia Động Từ
-          </span>
-        </nav>
-
-        {/* Page Header */}
-        <div className="bg-[#FFFCF7] border border-[#DED3C8] rounded-3xl p-6 sm:p-8 shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-2">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#F0705A]/10 text-[#C65D4B] text-xs font-extrabold">
-              <Zap className="w-3.5 h-3.5" />
-              Công Cụ Luyện Động Từ Chuyên Sâu
+        {/* Compact Header & Sticky Control Toolbar */}
+        <div className="space-y-3">
+          {/* Compact Top Header Row */}
+          <div className="flex flex-wrap items-center justify-between gap-3 px-1">
+            <div className="flex items-center gap-3">
+              <h1 className="text-xl sm:text-2xl font-black text-[#302A26] flex items-center gap-2 tracking-tight">
+                <Zap className="w-5 h-5 text-[#C65D4B] fill-[#C65D4B]" />
+                <span>Luyện Tập Chia Động Từ</span>
+              </h1>
+              <span className="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full bg-[#C65D4B]/10 text-[#C65D4B] text-[11px] font-black border border-[#C65D4B]/20">
+                N5 - N3 · 11 Thể Chia
+              </span>
             </div>
-            <h1 className="text-2xl sm:text-3xl font-black text-[#302A26]">
-              Luyện Tập Chia Động Từ Tiếng Nhật
-            </h1>
-            <p className="text-sm text-[#756A62] max-w-2xl">
-              Rèn luyện phản xạ chia động từ N5 - N3 theo 10 thể thông dụng. Phản hồi đáp án tức thì & giải thích chi tiết quy tắc chia!
-            </p>
+
+            {/* Breadcrumb Navigation */}
+            <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-bold text-[#756A62]">
+              <Link href="/dashboard" className="hover:text-[#C65D4B] transition-colors">
+                Trang chủ
+              </Link>
+              <span>/</span>
+              <Link href="/vocabularies" className="hover:text-[#C65D4B] transition-colors">
+                Từ vựng
+              </Link>
+              <span>/</span>
+              <span className="text-[#C65D4B] font-extrabold flex items-center gap-1">
+                <Zap className="w-3.5 h-3.5 fill-[#C65D4B]" />
+                Luyện Chia Động Từ
+              </span>
+            </nav>
           </div>
 
-          {/* Mode Switcher Tabs */}
-          <div className="flex bg-[#FAF6F0] p-1.5 rounded-2xl border border-[#DED3C8] shrink-0">
-            <button
-              onClick={() => setActiveTab("practice")}
-              className={`px-5 py-2.5 rounded-xl font-extrabold text-xs transition-all flex items-center gap-2 ${
-                activeTab === "practice"
-                  ? "bg-[#C65D4B] text-white shadow-sm"
-                  : "text-[#756A62] hover:text-[#302A26]"
-              }`}
-            >
-              <Zap className="w-4 h-4" />
-              Gõ Phản Xạ ⌨️
-            </button>
-            <button
-              onClick={() => setActiveTab("flashcard")}
-              className={`px-5 py-2.5 rounded-xl font-extrabold text-xs transition-all flex items-center gap-2 ${
-                activeTab === "flashcard"
-                  ? "bg-[#C65D4B] text-white shadow-sm"
-                  : "text-[#756A62] hover:text-[#302A26]"
-              }`}
-            >
-              <Layers className="w-4 h-4" />
-              Thẻ Flashcards 🎴
-            </button>
+          {/* Sticky Controls & Mode Switcher Panel */}
+          <div className="sticky top-16 sm:top-20 z-30 bg-[#FFFCF7]/95 backdrop-blur-md border border-[#DED3C8] rounded-2xl p-2.5 sm:p-3 shadow-md flex flex-wrap items-center justify-between gap-3">
+            
+            {/* Mode Switcher Tabs */}
+            <div className="flex bg-[#FAF6F0] p-1 rounded-xl border border-[#DED3C8] shrink-0">
+              <button
+                onClick={() => setActiveTab("practice")}
+                className={`px-4 py-2 rounded-lg font-black text-xs transition-all flex items-center gap-1.5 cursor-pointer ${
+                  activeTab === "practice"
+                    ? "bg-[#C65D4B] text-white shadow-xs"
+                    : "text-[#756A62] hover:text-[#302A26]"
+                }`}
+              >
+                <Zap className="w-3.5 h-3.5" />
+                <span>Gõ Phản Xạ ⌨️</span>
+              </button>
+              <button
+                onClick={() => setActiveTab("flashcard")}
+                className={`px-4 py-2 rounded-lg font-black text-xs transition-all flex items-center gap-1.5 cursor-pointer ${
+                  activeTab === "flashcard"
+                    ? "bg-[#C65D4B] text-white shadow-xs"
+                    : "text-[#756A62] hover:text-[#302A26]"
+                }`}
+              >
+                <Layers className="w-3.5 h-3.5" />
+                <span>Thẻ Flashcards 🎴</span>
+              </button>
+            </div>
+
+            {/* Filter Dropdowns & Restart Button */}
+            <div className="flex flex-wrap items-center gap-2">
+              <select
+                value={selectedLevel}
+                onChange={(e) => setSelectedLevel(e.target.value)}
+                className="bg-[#FAF6F0] border border-[#DED3C8] rounded-xl px-3 py-1.5 text-xs font-bold text-[#302A26] focus:outline-none focus:ring-2 focus:ring-[#C65D4B]/30 cursor-pointer"
+              >
+                <option value="ALL">Cấp độ: Tất cả (N5-N3)</option>
+                <option value="N5">Cấp độ N5</option>
+                <option value="N4">Cấp độ N4</option>
+                <option value="N3">Cấp độ N3</option>
+              </select>
+
+              <select
+                value={selectedGroup}
+                onChange={(e) => setSelectedGroup(e.target.value)}
+                className="bg-[#FAF6F0] border border-[#DED3C8] rounded-xl px-3 py-1.5 text-xs font-bold text-[#302A26] focus:outline-none focus:ring-2 focus:ring-[#C65D4B]/30 cursor-pointer"
+              >
+                <option value="ALL">Nhóm Động Từ: Tất cả</option>
+                <option value="GROUP_1">Nhóm I (Godan)</option>
+                <option value="GROUP_2">Nhóm II (Ichidan)</option>
+                <option value="GROUP_3">Nhóm III (Bất quy tắc)</option>
+              </select>
+
+              <select
+                value={selectedForm}
+                onChange={(e) => setSelectedForm(e.target.value)}
+                className="bg-[#FAF6F0] border border-[#DED3C8] rounded-xl px-3 py-1.5 text-xs font-bold text-[#302A26] focus:outline-none focus:ring-2 focus:ring-[#C65D4B]/30 cursor-pointer"
+              >
+                <option value="ALL">Thể Chia: Tất cả 11 thể</option>
+                <option value="TE">Thể Te (て形)</option>
+                <option value="NAI">Thể Phủ định (ない形)</option>
+                <option value="TA">Thể Quá khứ (た形)</option>
+                <option value="DICT">Thể Từ điển (辞書形)</option>
+                <option value="MASU">Thể Masu (ます形)</option>
+                <option value="POTENTIAL">Thể Khả năng (可能形)</option>
+                <option value="VOLITIONAL">Thể Ý định (意向形)</option>
+                <option value="IMPERATIVE">Thể Mệnh lệnh (命令形)</option>
+                <option value="CONDITIONAL_BA">Thể Điều kiện (ば形)</option>
+                <option value="PASSIVE">Thể Bị động (受身形)</option>
+                <option value="CAUSATIVE">Thể Sai khiến (使役形)</option>
+              </select>
+
+              <button
+                onClick={handleRestart}
+                className="flex items-center gap-1 px-3 py-1.5 rounded-xl bg-[#FAF6F0] border border-[#DED3C8] text-xs font-bold text-[#C65D4B] hover:bg-[#C65D4B] hover:text-white transition-all cursor-pointer shadow-2xs"
+                title="Làm lại từ đầu"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Làm lại</span>
+              </button>
+            </div>
           </div>
-        </div>
-
-        {/* Filter Controls Bar */}
-        <div className="bg-[#FFFCF7] border border-[#DED3C8] rounded-2xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-4">
-          <div className="flex items-center gap-2 text-xs font-bold text-[#756A62]">
-            <Filter className="w-4 h-4 text-[#C65D4B]" />
-            <span>Bộ lọc luyện tập:</span>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-3">
-            {/* Level Filter */}
-            <select
-              value={selectedLevel}
-              onChange={(e) => setSelectedLevel(e.target.value)}
-              className="bg-[#FAF6F0] border border-[#DED3C8] rounded-xl px-3 py-1.5 text-xs font-bold text-[#302A26] focus:outline-none focus:ring-2 focus:ring-[#C65D4B]/30"
-            >
-              <option value="ALL">Tất cả Cấp Độ (N5-N3)</option>
-              <option value="N5">Cấp độ N5</option>
-              <option value="N4">Cấp độ N4</option>
-              <option value="N3">Cấp độ N3</option>
-            </select>
-
-            {/* Group Filter */}
-            <select
-              value={selectedGroup}
-              onChange={(e) => setSelectedGroup(e.target.value)}
-              className="bg-[#FAF6F0] border border-[#DED3C8] rounded-xl px-3 py-1.5 text-xs font-bold text-[#302A26] focus:outline-none focus:ring-2 focus:ring-[#C65D4B]/30"
-            >
-              <option value="ALL">Tất cả Nhóm Động Từ</option>
-              <option value="GROUP_1">Nhóm I (Godan)</option>
-              <option value="GROUP_2">Nhóm II (Ichidan)</option>
-              <option value="GROUP_3">Nhóm III (Bất quy tắc)</option>
-            </select>
-
-            {/* Form Filter */}
-            <select
-              value={selectedForm}
-              onChange={(e) => setSelectedForm(e.target.value)}
-              className="bg-[#FAF6F0] border border-[#DED3C8] rounded-xl px-3 py-1.5 text-xs font-bold text-[#302A26] focus:outline-none focus:ring-2 focus:ring-[#C65D4B]/30"
-            >
-              <option value="ALL">Tất cả 11 Thể Chia</option>
-              <option value="TE">Thể Te (て形)</option>
-              <option value="NAI">Thể Phủ định (ない形)</option>
-              <option value="TA">Thể Quá khứ (た形)</option>
-              <option value="DICT">Thể Từ điển (辞書形)</option>
-              <option value="MASU">Thể Masu (ます形)</option>
-              <option value="POTENTIAL">Thể Khả năng (可能形)</option>
-              <option value="VOLITIONAL">Thể Ý định (意向形)</option>
-              <option value="IMPERATIVE">Thể Mệnh lệnh (命令形)</option>
-              <option value="CONDITIONAL_BA">Thể Điều kiện (ば形)</option>
-              <option value="PASSIVE">Thể Bị động (受身形)</option>
-              <option value="CAUSATIVE">Thể Sai khiến (使役形)</option>
-            </select>
-          </div>
-
-          <button
-            onClick={handleRestart}
-            className="flex items-center gap-1.5 text-xs font-bold text-[#C65D4B] hover:text-[#B04C3B] transition-colors"
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-            Làm lại từ đầu
-          </button>
         </div>
 
         {/* MODE 1: TYPING PRACTICE */}
@@ -610,25 +606,36 @@ export default function JapaneseVerbPracticePage() {
 
             {/* Score & Rule Reference Sidebar (4 cols) */}
             <div className="lg:col-span-4 space-y-6">
-              {/* Scorecard */}
-              <div className="bg-[#FFFCF7] border border-[#DED3C8] rounded-3xl p-5 shadow-sm space-y-4">
-                <div className="flex items-center gap-2 text-[#302A26]">
-                  <Award className="w-5 h-5 text-[#C65D4B]" />
-                  <h3 className="font-black text-sm">Thống Kê Luyện Tập</h3>
+              {/* Super Compact Vibrant Statistics Widget */}
+              <div className="relative overflow-hidden bg-gradient-to-r from-[#2B1E1A] via-[#3D2B27] to-[#C65D4B] border border-[#E5D7C7]/30 rounded-2xl px-4 py-3 shadow-md text-white flex items-center justify-between gap-3">
+                <div className="absolute -right-6 -top-6 w-20 h-20 rounded-full bg-[#FF8C78]/20 blur-xl pointer-events-none" />
+
+                {/* Title & Streak */}
+                <div className="flex items-center gap-2.5 relative z-10">
+                  <div className="p-1.5 rounded-lg bg-white/10 text-amber-300 border border-white/15">
+                    <Award className="w-4 h-4" />
+                  </div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-black text-xs text-white">Thống Kê</span>
+                      <span className="flex items-center gap-0.5 px-2 py-0.5 rounded-full bg-amber-500/25 border border-amber-400/40 text-amber-300 font-black text-[10px]">
+                        <Flame className="w-3 h-3 fill-amber-400 text-amber-400" />
+                        {score.streak} Streak
+                      </span>
+                    </div>
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <div className="bg-[#FAF6F0] p-3 rounded-2xl border border-[#EBE1D7] text-center">
-                    <p className="text-[11px] font-bold text-[#756A62]">Đúng / Tổng</p>
-                    <p className="text-xl font-black text-[#C65D4B]">
-                      {score.correct} / {score.total}
-                    </p>
+                {/* Metrics */}
+                <div className="flex items-center gap-2.5 text-xs font-black relative z-10">
+                  <div className="bg-white/10 px-2.5 py-1 rounded-xl border border-white/15 text-center">
+                    <span className="text-[9px] text-amber-100/70 font-bold block leading-none">Đúng/Đã làm</span>
+                    <span className="text-white text-xs">{score.correct} / {score.total}</span>
                   </div>
-                  <div className="bg-[#FAF6F0] p-3 rounded-2xl border border-[#EBE1D7] text-center">
-                    <p className="text-[11px] font-bold text-[#756A62]">Tỷ lệ chính xác</p>
-                    <p className="text-xl font-black text-emerald-600">
-                      {score.total > 0 ? Math.round((score.correct / score.total) * 100) : 0}%
-                    </p>
+
+                  <div className="bg-white/10 px-2.5 py-1 rounded-xl border border-white/15 text-center">
+                    <span className="text-[9px] text-amber-100/70 font-bold block leading-none">Chính xác</span>
+                    <span className="text-amber-300 text-xs">{score.total > 0 ? Math.round((score.correct / score.total) * 100) : 0}%</span>
                   </div>
                 </div>
               </div>

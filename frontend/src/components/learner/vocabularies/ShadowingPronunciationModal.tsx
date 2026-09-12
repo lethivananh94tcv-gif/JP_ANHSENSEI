@@ -421,6 +421,25 @@ export default function ShadowingPronunciationModal({
   const userAudioRef = useRef<HTMLAudioElement | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Helper to pick mobile-supported MIME types (iOS Safari, Android Chrome, Desktop)
+  const getSupportedMimeType = (): string => {
+    if (typeof window === "undefined" || !window.MediaRecorder) return "";
+    const types = [
+      "audio/mp4",
+      "audio/aac",
+      "audio/webm;codecs=opus",
+      "audio/webm",
+      "audio/ogg;codecs=opus",
+      "audio/wav",
+    ];
+    for (const type of types) {
+      if (MediaRecorder.isTypeSupported(type)) {
+        return type;
+      }
+    }
+    return "";
+  };
+
   useEffect(() => {
     if (isOpen) {
       setActiveItemIndex(0);
@@ -503,22 +522,32 @@ export default function ShadowingPronunciationModal({
   // Start Mic Recording
   const startRecording = async () => {
     try {
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        alert(
+          "Trình duyệt hoặc môi trường của bạn chưa mở quyền Microphone. Khi deploy, trang web bắt buộc truy cập qua HTTPS (https://...) để sử dụng được micro trên điện thoại!"
+        );
+        return;
+      }
+
       audioChunksRef.current = [];
       setAudioBlobUrl(null);
       setRecordingSeconds(0);
 
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      const mediaRecorder = new MediaRecorder(stream);
+      const mimeType = getSupportedMimeType();
+      const options = mimeType ? { mimeType } : undefined;
+      const mediaRecorder = new MediaRecorder(stream, options);
       mediaRecorderRef.current = mediaRecorder;
 
       mediaRecorder.ondataavailable = (event) => {
-        if (event.data.size > 0) {
+        if (event.data && event.data.size > 0) {
           audioChunksRef.current.push(event.data);
         }
       };
 
       mediaRecorder.onstop = () => {
-        const blob = new Blob(audioChunksRef.current, { type: "audio/webm" });
+        const actualType = mediaRecorder.mimeType || mimeType || "audio/mp4";
+        const blob = new Blob(audioChunksRef.current, { type: actualType });
         const url = URL.createObjectURL(blob);
         setAudioBlobUrl(url);
 
@@ -534,7 +563,8 @@ export default function ShadowingPronunciationModal({
         setRecordingSeconds((prev) => prev + 1);
       }, 1000);
     } catch (err) {
-      alert("Không thể truy cập Microphone trên trình duyệt. Vui lòng cho phép quyền micro!");
+      console.error("Microphone access error:", err);
+      alert("Không thể truy cập Microphone. Vui lòng kiểm tra quyền cho phép Micro trên thiết bị!");
     }
   };
 
@@ -549,73 +579,85 @@ export default function ShadowingPronunciationModal({
     }
   };
 
-  // Play Recorded User Audio
+  // Play Recorded User Audio (programmatic with mobile error catch)
   const playUserRecording = () => {
     if (!audioBlobUrl) return;
     stopJapaneseTTS();
+
+    if (userAudioRef.current) {
+      userAudioRef.current.pause();
+      userAudioRef.current = null;
+    }
 
     const audio = new Audio(audioBlobUrl);
     userAudioRef.current = audio;
 
     audio.onplay = () => setIsPlayingUserAudio(true);
     audio.onended = () => setIsPlayingUserAudio(false);
-    audio.onerror = () => setIsPlayingUserAudio(false);
+    audio.onerror = (e) => {
+      console.error("User audio playback error:", e);
+      setIsPlayingUserAudio(false);
+    };
 
-    audio.play();
+    audio.play().catch((err) => {
+      console.warn("Mobile autoplay restriction:", err);
+      setIsPlayingUserAudio(false);
+    });
   };
 
   if (!isOpen) return null;
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-black/65 backdrop-blur-md overflow-y-auto">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-4 md:p-6 bg-black/70 backdrop-blur-md overflow-y-auto">
         <motion.div
           initial={{ opacity: 0, scale: 0.94, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.94, y: 20 }}
-          className="relative w-full max-w-5xl bg-[#FFFDF9] border-2 border-[#8B6F5A]/25 rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[94vh] flex flex-col"
+          className="relative w-full max-w-5xl bg-[#FFFDF9] border-2 border-[#8B6F5A]/25 rounded-2xl sm:rounded-3xl shadow-2xl overflow-hidden my-auto max-h-[96vh] sm:max-h-[92vh] flex flex-col"
         >
           {/* Top Header Bar */}
-          <div className="flex items-center justify-between px-6 py-4 bg-[#FFF5EE] border-b border-[#F2DDD4] shrink-0">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-[#C65D4B] text-white flex items-center justify-center font-black text-xl shadow-md">
+          <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 bg-[#FFF5EE] border-b border-[#F2DDD4] shrink-0">
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl bg-[#C65D4B] text-white flex items-center justify-center font-black text-lg sm:text-xl shadow-md shrink-0">
                 🎙️
               </div>
               <div>
-                <h2 className="text-lg sm:text-xl font-black text-[#2C201D]">
-                  Luyện Ngữ Điệu &amp; Đọc Đuổi (Pitch Accent &amp; Shadowing)
+                <h2 className="text-base sm:text-xl font-black text-[#2C201D] leading-tight">
+                  Luyện Ngữ Điệu &amp; Thu Âm (Pitch Accent)
                 </h2>
-                <p className="text-xs font-bold text-[#8B6F5A]">
-                  Luyện tập phát âm chuẩn giọng Tokyo kèm công cụ Thu âm đối chiếu full bộ
+                <p className="text-[11px] sm:text-xs font-bold text-[#8B6F5A] hidden sm:block">
+                  Phát âm chuẩn Tokyo kèm công cụ Thu âm đối chiếu trực tiếp
                 </p>
               </div>
             </div>
 
             <button
               onClick={onClose}
-              className="w-9 h-9 rounded-full bg-[#F5EFE6] text-[#8B6F5A] hover:bg-[#C65D4B] hover:text-white transition flex items-center justify-center cursor-pointer shrink-0"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#F5EFE6] text-[#8B6F5A] hover:bg-[#C65D4B] hover:text-white transition flex items-center justify-center cursor-pointer shrink-0"
+              aria-label="Đóng modal"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
 
           {/* Main Content Area */}
-          <div className="p-5 sm:p-7 overflow-y-auto space-y-6 flex-1 text-[#2C201D]">
+          <div className="p-3 sm:p-6 overflow-y-auto space-y-4 sm:space-y-6 flex-1 text-[#2C201D]">
             
             {/* Speed Control Toolbar & Category Filter Tabs */}
-            <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-3 bg-gradient-to-r from-[#FFF8F5] via-[#FFF6F2] to-[#FFF1EC] p-3 sm:p-3.5 rounded-2xl border border-[#F5DDD4] shadow-xs">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 bg-gradient-to-r from-[#FFF8F5] via-[#FFF6F2] to-[#FFF1EC] p-2.5 sm:p-3.5 rounded-2xl border border-[#F5DDD4] shadow-xs">
               
-              {/* Category Filter Tabs */}
+              {/* Category Filter Tabs (Scrollable on mobile) */}
               {!singleWord && (!customItems || customItems.length === 0) && (
-                <div className="flex items-center gap-2 overflow-x-auto pb-1 xl:pb-0 scroll-smooth min-w-0 flex-1">
-                  <span className="text-xs font-black text-[#8B6F5A] flex items-center gap-1.5 shrink-0 bg-white/80 px-2.5 py-1.5 rounded-xl border border-[#F5DDD4] shadow-2xs whitespace-nowrap">
+                <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none min-w-0 flex-1">
+                  <span className="text-[11px] sm:text-xs font-black text-[#8B6F5A] flex items-center gap-1 shrink-0 bg-white/80 px-2 py-1 sm:px-2.5 sm:py-1.5 rounded-xl border border-[#F5DDD4] shadow-2xs whitespace-nowrap">
                     <Layers className="w-3.5 h-3.5 text-[#C65D4B]" />
-                    <span>Bộ luyện:</span>
+                    <span className="hidden sm:inline">Bộ luyện:</span>
                   </span>
                   <div className="flex items-center gap-1.5 shrink-0">
                     {[
                       { id: "SAMPLE", label: "🌟 Mẫu Ngữ Điệu" },
-                      { id: "KANA", label: "🌸 Bảng Kana (20)" },
+                      { id: "KANA", label: "🌸 Bảng Kana" },
                       { id: "N5", label: "📕 Từ Vựng N5" },
                       { id: "N4", label: "📗 Từ Vựng N4" },
                       { id: "N3", label: "📘 Từ Vựng N3" },
@@ -627,7 +669,7 @@ export default function ShadowingPronunciationModal({
                           setActiveItemIndex(0);
                           setAudioBlobUrl(null);
                         }}
-                        className={`px-3 py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer whitespace-nowrap shrink-0 ${
+                        className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-xl text-xs font-black transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                           selectedCategory === tab.id
                             ? "bg-[#C65D4B] text-white shadow-sm ring-2 ring-[#C65D4B]/20"
                             : "bg-white text-[#76685F] border border-[#F5DDD4] hover:text-[#C65D4B] hover:border-[#C65D4B]/50 hover:bg-[#FFF9F6]"
@@ -641,28 +683,28 @@ export default function ShadowingPronunciationModal({
               )}
 
               {/* Speed Controller */}
-              <div className="flex items-center justify-between sm:justify-start gap-2 shrink-0 bg-white/90 backdrop-blur-xs px-3 py-1.5 rounded-xl border border-[#F5DDD4] shadow-2xs self-start xl:self-auto">
+              <div className="flex items-center justify-between sm:justify-start gap-2 shrink-0 bg-white/90 backdrop-blur-xs px-3 py-1.5 rounded-xl border border-[#F5DDD4] shadow-2xs self-stretch sm:self-auto">
                 <div className="flex items-center gap-1.5 shrink-0">
                   <Sliders className="w-3.5 h-3.5 text-[#C65D4B]" />
-                  <span className="text-xs font-black text-[#8B6F5A] whitespace-nowrap shrink-0">Tốc độ:</span>
+                  <span className="text-xs font-black text-[#8B6F5A] whitespace-nowrap">Tốc độ:</span>
                 </div>
                 <div className="flex items-center gap-1 shrink-0">
                   <button
                     onClick={() => setSelectedSpeed(0.75)}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1 whitespace-nowrap shrink-0 ${
+                    className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1 whitespace-nowrap ${
                       selectedSpeed === 0.75
                         ? "bg-[#C65D4B] text-white shadow-2xs"
-                        : "bg-white text-[#76685F] border border-[#F5DDD4] hover:text-[#C65D4B] hover:border-[#C65D4B]/40"
+                        : "bg-white text-[#76685F] border border-[#F5DDD4] hover:text-[#C65D4B]"
                     }`}
                   >
                     <span>🐢 0.75x</span>
                   </button>
                   <button
                     onClick={() => setSelectedSpeed(0.92)}
-                    className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1 whitespace-nowrap shrink-0 ${
+                    className={`px-2.5 py-1 rounded-lg text-xs font-black transition-all cursor-pointer flex items-center gap-1 whitespace-nowrap ${
                       selectedSpeed === 0.92
                         ? "bg-[#C65D4B] text-white shadow-2xs"
-                        : "bg-white text-[#76685F] border border-[#F5DDD4] hover:text-[#C65D4B] hover:border-[#C65D4B]/40"
+                        : "bg-white text-[#76685F] border border-[#F5DDD4] hover:text-[#C65D4B]"
                     }`}
                   >
                     <span>🚀 1.0x</span>
@@ -671,69 +713,31 @@ export default function ShadowingPronunciationModal({
               </div>
             </div>
 
-            {/* Main Interactive Studio Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            {/* Main Studio Layout Grid (On Mobile: Studio is FIRST, List is SECOND) */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-4 sm:gap-6 items-start">
               
-              {/* Left Column: Sample Items List (5 cols) */}
-              <div className="lg:col-span-5 space-y-2.5">
-                <div className="flex items-center justify-between px-1">
-                  <h3 className="text-xs font-black text-[#8B6F5A] uppercase tracking-wider">
-                    Danh sách từ / câu ({itemsToDisplay.length}):
-                  </h3>
-                </div>
-
-                <div className="space-y-2 max-h-[420px] overflow-y-auto pr-1">
-                  {itemsToDisplay.map((item, index) => {
-                    const isSelected = index === activeItemIndex;
-                    return (
-                      <div
-                        key={item.id}
-                        onClick={() => {
-                          setActiveItemIndex(index);
-                          setAudioBlobUrl(null);
-                        }}
-                        className={`p-3.5 rounded-2xl border transition-all cursor-pointer text-left space-y-1 ${
-                          isSelected
-                            ? "bg-white border-[#C65D4B] shadow-md ring-2 ring-[#C65D4B]/20"
-                            : "bg-[#FFFDF9] border-[#F2DDD4] hover:border-[#C65D4B]/50 hover:bg-white"
-                        }`}
-                      >
-                        <div className="flex items-center justify-between">
-                          <span className="text-lg font-black font-jp text-[#2C201D]">
-                            {item.japanese}
-                          </span>
-                          <PitchAccentBadge pattern={item.pitchPattern} size="sm" showCurve={false} />
-                        </div>
-                        <p className="text-xs font-bold text-[#8B6F5A]">{item.reading}</p>
-                        <p className="text-[11px] font-bold text-[#76685F]">{item.meaning}</p>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-
-              {/* Right Column: Interactive Practice & Recording Studio (7 cols) */}
-              <div className="lg:col-span-7 bg-white rounded-3xl p-6 border-2 border-[#F2DDD4] shadow-sm space-y-6">
+              {/* Active Studio Card & Recording (ORDER 1 on Mobile, ORDER 2 on Desktop) */}
+              <div className="order-1 lg:order-2 lg:col-span-7 bg-white rounded-2xl sm:rounded-3xl p-4 sm:p-6 border-2 border-[#F2DDD4] shadow-sm space-y-4 sm:space-y-6">
                 
                 {/* Active Card Big Header */}
-                <div className="text-center space-y-3 pb-4 border-b border-[#F5EFE6]">
+                <div className="text-center space-y-2 pb-3 border-b border-[#F5EFE6]">
                   <div className="inline-block">
                     <PitchAccentBadge pattern={currentItem.pitchPattern} size="md" showCurve={true} />
                   </div>
 
-                  <h3 className="text-3xl sm:text-4xl font-black font-jp text-[#2C201D]">
+                  <h3 className="text-2xl sm:text-4xl font-black font-jp text-[#2C201D] tracking-tight">
                     {currentItem.japanese}
                   </h3>
-                  <p className="text-sm font-black text-[#C65D4B]">{currentItem.reading}</p>
+                  <p className="text-xs sm:text-sm font-black text-[#C65D4B]">{currentItem.reading}</p>
                   <p className="text-xs font-bold text-[#76685F]">{currentItem.meaning}</p>
                 </div>
 
                 {/* Mora & Pitch Accent Detailed Guidance Card */}
-                <div className="bg-gradient-to-br from-[#FFF9F6] via-[#FFF5F0] to-[#FFF0EA] p-4 sm:p-5 rounded-2xl border-2 border-[#F5DDD4] space-y-3.5 text-xs text-left shadow-2xs">
-                  <div className="flex items-center justify-between border-b border-[#F5DDD4] pb-2.5">
-                    <div className="flex items-center gap-2 text-[#C65D4B] font-black text-xs sm:text-sm">
+                <div className="bg-gradient-to-br from-[#FFF9F6] via-[#FFF5F0] to-[#FFF0EA] p-3.5 sm:p-5 rounded-2xl border-2 border-[#F5DDD4] space-y-3 text-xs text-left shadow-2xs">
+                  <div className="flex items-center justify-between border-b border-[#F5DDD4] pb-2">
+                    <div className="flex items-center gap-1.5 text-[#C65D4B] font-black text-xs sm:text-sm">
                       <Zap className="w-4 h-4 fill-[#C65D4B] shrink-0" />
-                      <span>Hướng Dẫn Phát Âm &amp; Phân Tách Nhịp (Mora Breakdown)</span>
+                      <span>Hướng Dẫn Phát Âm (Mora Breakdown)</span>
                     </div>
                     <span className="text-[10px] font-black uppercase tracking-wider bg-[#C65D4B]/10 text-[#C65D4B] px-2 py-0.5 rounded-full border border-[#C65D4B]/20">
                       Chuẩn Tokyo
@@ -741,11 +745,11 @@ export default function ShadowingPronunciationModal({
                   </div>
 
                   {/* Mora Sequence Breakdown Box */}
-                  <div className="space-y-1.5">
-                    <p className="text-[11px] font-black text-[#8B6F5A] uppercase tracking-wider">
-                      📌 Quy tắc ngắt nhịp cao độ từ vựng:
+                  <div className="space-y-1">
+                    <p className="text-[10px] sm:text-[11px] font-black text-[#8B6F5A] uppercase tracking-wider">
+                      📌 Quy tắc cao độ từng âm tiết:
                     </p>
-                    <div className="font-bold text-[#2C201D] bg-white p-3 rounded-xl border border-[#F5DDD4] shadow-2xs font-jp text-sm sm:text-base flex items-center justify-between">
+                    <div className="font-bold text-[#2C201D] bg-white p-2.5 sm:p-3 rounded-xl border border-[#F5DDD4] shadow-2xs font-jp text-xs sm:text-base flex items-center justify-between">
                       <span className="text-[#C65D4B] font-black">{activeBreakdown}</span>
                     </div>
                   </div>
@@ -754,19 +758,19 @@ export default function ShadowingPronunciationModal({
                   <div className="flex items-start gap-2 bg-[#FFF0EA] p-2.5 rounded-xl border border-[#F5DDD4]">
                     <Sparkles className="w-4 h-4 text-[#C65D4B] shrink-0 mt-0.5" />
                     <p className="text-[11px] font-bold text-[#76685F] leading-snug">
-                      <strong className="text-[#C65D4B]">Lời khuyên của Sensei:</strong> {activeNote}
+                      <strong className="text-[#C65D4B]">Sensei dặn:</strong> {activeNote}
                     </p>
                   </div>
                 </div>
 
                 {/* Dual Audio Player & Mic Recorder Studio */}
-                <div className="space-y-4 pt-1">
+                <div className="space-y-3.5 pt-1">
                   <div className="flex items-center justify-between">
                     <h4 className="text-xs font-black text-[#2C201D] uppercase tracking-wider flex items-center gap-1.5">
                       <Mic className="w-4 h-4 text-[#C65D4B]" />
-                      <span>STUDIO LUYỆN ĐỌC ĐUỔI &amp; THU ÂM ĐỐI CHIẾU</span>
+                      <span>STUDIO THU ÂM &amp; ĐỐI CHIẾU GIỌNG</span>
                     </h4>
-                    <span className="text-[10px] font-bold text-[#8B6F5A]">Tốc độ đang chọn: {selectedSpeed}x</span>
+                    <span className="text-[10px] font-bold text-[#8B6F5A]">Tốc độ mẫu: {selectedSpeed}x</span>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -774,15 +778,15 @@ export default function ShadowingPronunciationModal({
                     {/* Step 1: Play Tokyo Native Audio */}
                     <button
                       onClick={handlePlayNative}
-                      className={`p-4 rounded-2xl border-2 transition-all flex flex-col items-center justify-center gap-2 cursor-pointer shadow-xs ${
+                      className={`p-3.5 sm:p-4 rounded-2xl border-2 transition-all flex flex-col items-center justify-center gap-1.5 cursor-pointer shadow-xs min-h-[72px] ${
                         isPlayingNative
                           ? "bg-[#C65D4B] text-white border-[#C65D4B] shadow-md ring-4 ring-[#C65D4B]/20"
                           : "bg-[#FFF8F5] border-[#F2DDD4] text-[#C65D4B] hover:bg-[#C65D4B] hover:text-white"
                       }`}
                     >
                       <Volume2 className="w-6 h-6 animate-bounce-short" />
-                      <span className="text-xs font-black">
-                        {isPlayingNative ? "🔊 Đang phát mẫu Tokyo..." : `1. Nghe Giọng Mẫu (${selectedSpeed}x)`}
+                      <span className="text-xs font-black text-center">
+                        {isPlayingNative ? "🔊 Đang phát mẫu Tokyo..." : `1. Nghe Mẫu Tokyo (${selectedSpeed}x)`}
                       </span>
                     </button>
 
@@ -790,21 +794,21 @@ export default function ShadowingPronunciationModal({
                     {!isRecording ? (
                       <button
                         onClick={startRecording}
-                        className="p-4 rounded-2xl border-2 border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-600 hover:text-white hover:border-rose-600 transition-all flex flex-col items-center justify-center gap-2 cursor-pointer shadow-xs group"
+                        className="p-3.5 sm:p-4 rounded-2xl border-2 border-rose-300 bg-rose-50 text-rose-700 hover:bg-rose-600 hover:text-white hover:border-rose-600 transition-all flex flex-col items-center justify-center gap-1.5 cursor-pointer shadow-xs min-h-[72px] group"
                       >
                         <Mic className="w-6 h-6 group-hover:scale-110 transition-transform" />
-                        <span className="text-xs font-black">2. Bấm Để Thu Âm Giọng Bạn</span>
+                        <span className="text-xs font-black text-center">2. Bấm Để Thu Âm Giọng Bạn</span>
                       </button>
                     ) : (
                       <button
                         onClick={stopRecording}
-                        className="p-4 rounded-2xl border-2 border-rose-600 bg-rose-600 text-white animate-pulse transition-all flex flex-col items-center justify-center gap-2 cursor-pointer shadow-md"
+                        className="p-3.5 sm:p-4 rounded-2xl border-2 border-rose-600 bg-rose-600 text-white animate-pulse transition-all flex flex-col items-center justify-center gap-1.5 cursor-pointer shadow-md min-h-[72px]"
                       >
                         <div className="flex items-center gap-1.5">
                           <span className="w-2.5 h-2.5 rounded-full bg-white animate-ping" />
-                          <Square className="w-5 h-5 fill-white" />
+                          <Square className="w-4 h-4 fill-white" />
                         </div>
-                        <span className="text-xs font-black">
+                        <span className="text-xs font-black text-center">
                           ⏹️ Dừng Thu Âm ({recordingSeconds}s)
                         </span>
                       </button>
@@ -816,20 +820,20 @@ export default function ShadowingPronunciationModal({
                     <motion.div
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className="bg-emerald-50 border-2 border-emerald-300 p-4 rounded-2xl space-y-3 text-center shadow-xs"
+                      className="bg-emerald-50 border-2 border-emerald-300 p-3.5 sm:p-4 rounded-2xl space-y-3 text-center shadow-xs"
                     >
                       <div className="flex items-center justify-center gap-2 text-emerald-800 font-black text-xs">
-                        <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                        <span>🎉 Đã hoàn thành bản thu! Nghe lại để đối chiếu ngữ điệu:</span>
+                        <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                        <span>🎉 Đã thu âm xong! Nghe lại giọng bạn dưới đây:</span>
                       </div>
 
-                      <div className="flex flex-col sm:flex-row items-center justify-center gap-2.5">
+                      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2">
                         <button
                           onClick={playUserRecording}
-                          className="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-emerald-600 text-white font-black text-xs hover:bg-emerald-700 transition shadow-sm flex items-center justify-center gap-2 cursor-pointer"
+                          className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-emerald-600 text-white font-black text-xs hover:bg-emerald-700 transition shadow-sm flex items-center justify-center gap-2 cursor-pointer"
                         >
                           <Play className="w-4 h-4 fill-white" />
-                          <span>{isPlayingUserAudio ? "Đang phát giọng bạn..." : "▶️ Nghe Giọng Thu Của Bạn"}</span>
+                          <span>{isPlayingUserAudio ? "Đang phát giọng bạn..." : "▶️ Bấm Nghe Giọng Bạn"}</span>
                         </button>
 
                         <button
@@ -837,13 +841,21 @@ export default function ShadowingPronunciationModal({
                           className="w-full sm:w-auto px-4 py-2.5 rounded-xl bg-white border border-emerald-300 text-emerald-800 font-black text-xs hover:bg-emerald-100 transition shadow-2xs flex items-center justify-center gap-1.5 cursor-pointer"
                         >
                           <Volume2 className="w-4 h-4 text-emerald-700" />
-                          <span>🔊 Nghe Lại Mẫu Chuẩn</span>
+                          <span>🔊 Nghe Lại Mẫu Tokyo</span>
                         </button>
                       </div>
 
-                      <p className="text-[11px] font-bold text-emerald-700 italic">
-                        ✨ Mẹo: So sánh xem cao độ (pitch) và nhịp ngắt (mora) của bạn đã trùng khớp với mẫu Tokyo chưa nhé!
-                      </p>
+                      {/* Native HTML5 Audio Player Fallback for Mobile (iOS Safari / Mobile Chrome) */}
+                      <div className="pt-2 border-t border-emerald-200/70 text-left">
+                        <p className="text-[10px] font-bold text-emerald-800 mb-1">
+                          Trình phát gốc thiết bị (dành cho điện thoại iOS/Android):
+                        </p>
+                        <audio
+                          controls
+                          src={audioBlobUrl}
+                          className="w-full h-9 rounded-lg bg-white/80 border border-emerald-300 shadow-2xs"
+                        />
+                      </div>
                     </motion.div>
                   )}
 
@@ -851,16 +863,55 @@ export default function ShadowingPronunciationModal({
 
               </div>
 
+              {/* Sample Items List (ORDER 2 on Mobile, ORDER 1 on Desktop) */}
+              <div className="order-2 lg:order-1 lg:col-span-5 space-y-2 sm:space-y-2.5">
+                <div className="flex items-center justify-between px-1">
+                  <h3 className="text-xs font-black text-[#8B6F5A] uppercase tracking-wider">
+                    Danh sách bài luyện ({itemsToDisplay.length}):
+                  </h3>
+                </div>
+
+                <div className="space-y-2 max-h-52 sm:max-h-[420px] overflow-y-auto pr-1">
+                  {itemsToDisplay.map((item, index) => {
+                    const isSelected = index === activeItemIndex;
+                    return (
+                      <div
+                        key={item.id}
+                        onClick={() => {
+                          setActiveItemIndex(index);
+                          setAudioBlobUrl(null);
+                        }}
+                        className={`p-3 rounded-xl sm:rounded-2xl border transition-all cursor-pointer text-left space-y-1 ${
+                          isSelected
+                            ? "bg-white border-[#C65D4B] shadow-md ring-2 ring-[#C65D4B]/20"
+                            : "bg-[#FFFDF9] border-[#F2DDD4] hover:border-[#C65D4B]/50 hover:bg-white"
+                        }`}
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-base sm:text-lg font-black font-jp text-[#2C201D]">
+                            {item.japanese}
+                          </span>
+                          <PitchAccentBadge pattern={item.pitchPattern} size="sm" showCurve={false} />
+                        </div>
+                        <p className="text-xs font-bold text-[#8B6F5A]">{item.reading}</p>
+                        <p className="text-[11px] font-bold text-[#76685F] line-clamp-1">{item.meaning}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
             </div>
 
           </div>
 
           {/* Modal Footer */}
-          <div className="px-6 py-4 bg-[#FFF5EE] border-t border-[#F2DDD4] flex items-center justify-between text-xs font-bold text-[#8B6F5A] shrink-0">
-            <span>💡 Áp dụng kỹ thuật Shadowing luyện nói mỗi ngày 5 phút để tạo phản xạ ngữ điệu tự nhiên.</span>
+          <div className="px-4 sm:px-6 py-3 sm:py-4 bg-[#FFF5EE] border-t border-[#F2DDD4] flex items-center justify-between text-xs font-bold text-[#8B6F5A] shrink-0">
+            <span className="hidden sm:inline">💡 Luyện tập Shadowing mỗi ngày 5 phút để làm chủ ngữ điệu tự nhiên.</span>
+            <span className="sm:hidden text-[11px]">💡 Luyện ngữ điệu tiếng Nhật 5 phút mỗi ngày</span>
             <button
               onClick={onClose}
-              className="px-6 py-2.5 rounded-xl bg-[#C65D4B] text-white font-bold shadow-md hover:bg-[#B04F3F] transition cursor-pointer"
+              className="px-5 sm:px-6 py-2 sm:py-2.5 rounded-xl bg-[#C65D4B] text-white font-bold shadow-md hover:bg-[#B04F3F] transition cursor-pointer"
             >
               Hoàn thành
             </button>

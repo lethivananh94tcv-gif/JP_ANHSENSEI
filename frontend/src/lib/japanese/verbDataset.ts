@@ -1660,9 +1660,9 @@ export const MASTER_VERB_DATASET: VerbItem[] = [
     "level": "N4"
   },
   {
-    "word": "たのみます",
-    "kana": "たのんみます",
-    "meaning": "nhờ",
+    "word": "頼みます",
+    "kana": "たのみます",
+    "meaning": "nhờ, nhờ vả",
     "level": "N4"
   },
   {

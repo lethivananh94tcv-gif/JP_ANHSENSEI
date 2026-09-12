@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { apiClient } from "@/lib/api/client";
 import LearnerHeader from "@/components/learner/LearnerHeader";
 import LearnerFooter from "@/components/learner/LearnerFooter";
@@ -52,12 +52,34 @@ interface ProfileData {
   status: string;
 }
 
+interface LearnerProgressSummary {
+  targetLevel?: string;
+  completionPercent?: number;
+  completedLessonsCount?: number;
+  dueFlashcardsCount?: number;
+  totalValidActivities?: number;
+  learnedVocabCount?: number;
+  learnedGrammarCount?: number;
+  learnedKanjiCount?: number;
+  completedQuizCount?: number;
+  accuracyPercent?: number;
+  streakDays?: number;
+  recentLessons?: Array<{
+    lessonId: number;
+    title: string;
+    levelCode: string;
+    completionPercent: number;
+    status: string;
+  }>;
+}
+
 export default function LearnerProfilePage() {
   const [profile, setProfile] = useState<ProfileData | null>(null);
+  const [summary, setSummary] = useState<LearnerProgressSummary | null>(null);
   const [fullName, setFullName] = useState("");
   const [targetLevel, setTargetLevel] = useState("N5");
   const [timezone, setTimezone] = useState("Asia/Ho_Chi_Minh");
-  const [bio, setBio] = useState("Dự định chinh phục N3 JLPT năm 2026 🌸");
+  const [bio, setBio] = useState("Tự học tiếng Nhật chinh phục JLPT cùng ANH SENSEI 🌸");
   const [dailyGoal, setDailyGoal] = useState("20");
 
   // Avatar Customization State
@@ -89,38 +111,134 @@ export default function LearnerProfilePage() {
     { id: "panda", name: "Panda Sensei", emoji: "🐼", bg: "from-[#56423E] to-[#231917]" },
   ];
 
+  // Refs for scrolling & focusing
+  const editFormRef = useRef<HTMLDivElement>(null);
+  const fullNameInputRef = useRef<HTMLInputElement>(null);
+
+  // Cover Image State
+  const [coverUrl, setCoverUrl] = useState<string | null>(null);
+
+  const handleEditButtonClick = () => {
+    setActiveTab("ABOUT");
+    setTimeout(() => {
+      if (editFormRef.current) {
+        editFormRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+      if (fullNameInputRef.current) {
+        fullNameInputRef.current.focus();
+      }
+    }, 120);
+  };
+
+  const handleCoverUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setCoverUrl(url);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("user_cover", url);
+      }
+    }
+  };
+
   const fetchProfile = async () => {
     try {
       setLoading(true);
       setErrorMessage("");
-      let data: ProfileData | null = null;
-      try {
-        const res = await apiClient<ProfileData>("/learner/profile");
-        if (res.data) data = res.data;
-      } catch {
+
+      // Read stored logged in user from localStorage
+      let localUser: any = null;
+      if (typeof window !== "undefined") {
         const localRaw = localStorage.getItem("user");
         if (localRaw) {
-          data = JSON.parse(localRaw);
+          try {
+            localUser = JSON.parse(localRaw);
+          } catch (e) {
+            console.error("Error parsing user from localStorage:", e);
+          }
+        }
+        const savedBio = localStorage.getItem(`user_bio_${localUser?.userId || 'default'}`);
+        if (savedBio) {
+          setBio(savedBio);
+        }
+        const savedCover = localStorage.getItem("user_cover");
+        if (savedCover) {
+          setCoverUrl(savedCover);
         }
       }
 
+      let data: ProfileData | null = null;
+
+      try {
+        const res = await apiClient<ProfileData>("/learner/profile");
+        if (res.data) {
+          data = res.data;
+        }
+      } catch (err) {
+        console.warn("Backend profile endpoint fetch error, fallback to local user:", err);
+      }
+
+      // Fetch Real Progress Summary from Backend API (/learner/progress/summary)
+      try {
+        const summaryRes = await apiClient<LearnerProgressSummary>("/learner/progress/summary");
+        if (summaryRes.data) {
+          setSummary(summaryRes.data);
+        }
+      } catch (err) {
+        console.warn("Could not load real summary metrics:", err);
+      }
+
+      // Merge backend data or fallback to localUser
+      if (!data && localUser) {
+        data = {
+          userId: localUser.userId || localUser.id || 1,
+          email: localUser.email || "learner@anhsensei.com",
+          fullName: localUser.fullName || localUser.email?.split("@")[0] || "Học viên ANH SENSEI",
+          targetLevel: localUser.targetLevel || "N5",
+          timezone: localUser.timezone || "Asia/Ho_Chi_Minh",
+          role: localUser.role || "LEARNER",
+          status: localUser.status || "ACTIVE",
+          avatarUrl: localUser.avatarUrl || undefined,
+        };
+      }
+
       if (data) {
+        const displayName =
+          data.fullName ||
+          localUser?.fullName ||
+          data.email?.split("@")[0] ||
+          localUser?.email?.split("@")[0] ||
+          "Học viên ANH SENSEI";
         setProfile(data);
-        setFullName(data.fullName || "emkienne");
-        setTargetLevel(data.targetLevel || "N5");
-        setTimezone(data.timezone || "Asia/Ho_Chi_Minh");
-        if (data.avatarUrl) setAvatarUrl(data.avatarUrl);
+        setFullName(displayName);
+        setTargetLevel(data.targetLevel || localUser?.targetLevel || "N5");
+        setTimezone(data.timezone || localUser?.timezone || "Asia/Ho_Chi_Minh");
+        if (data.avatarUrl) {
+          setAvatarUrl(data.avatarUrl);
+        } else if (localUser?.avatarUrl) {
+          setAvatarUrl(localUser.avatarUrl);
+        }
+        const savedEmoji = localStorage.getItem("user_emoji");
+        if (savedEmoji) {
+          setPresetEmoji(savedEmoji);
+        }
+        const savedAvatar = localStorage.getItem("user_avatar");
+        if (savedAvatar) {
+          setAvatarUrl(savedAvatar);
+          setPresetEmoji(null);
+        }
       } else {
-        setProfile({
+        const defaultUser: ProfileData = {
           userId: 1,
-          email: "emkienne@anhsensei.com",
-          fullName: "emkienne",
+          email: "learner@anhsensei.com",
+          fullName: "Học viên ANH SENSEI",
           targetLevel: "N5",
           timezone: "Asia/Ho_Chi_Minh",
           role: "LEARNER",
-          status: "ACTIVE"
-        });
-        setFullName("emkienne");
+          status: "ACTIVE",
+        };
+        setProfile(defaultUser);
+        setFullName("Học viên ANH SENSEI");
       }
     } catch (err: any) {
       setErrorMessage("Không thể tải thông tin trang cá nhân.");
@@ -148,21 +266,46 @@ export default function LearnerProfilePage() {
       };
 
       try {
-        await apiClient("/learner/profile", {
-          method: "PUT",
+        const res = await apiClient<ProfileData>("/learner/profile", {
+          method: "PATCH",
           body: JSON.stringify(payload),
         });
-      } catch {
-        // Fallback save to localStorage
-        const localRaw = localStorage.getItem("user");
-        if (localRaw) {
-          const u = JSON.parse(localRaw);
-          const updated = { ...u, fullName, targetLevel, timezone, avatarUrl };
-          localStorage.setItem("user", JSON.stringify(updated));
+        if (res.data) {
+          setProfile(res.data);
         }
+      } catch (err) {
+        console.warn("Backend profile patch failed, saving to localStorage:", err);
       }
 
-      setSuccessMessage("✅ Đã cập nhật trang cá nhân Facebook thành công!");
+      // Synchronize updated profile to localStorage
+      if (typeof window !== "undefined") {
+        const localRaw = localStorage.getItem("user");
+        const u = localRaw ? JSON.parse(localRaw) : {};
+        const updated = {
+          ...u,
+          fullName,
+          targetLevel,
+          timezone,
+          avatarUrl: avatarUrl || undefined,
+        };
+        localStorage.setItem("user", JSON.stringify(updated));
+        if (profile?.userId) {
+          localStorage.setItem(`user_bio_${profile.userId}`, bio);
+        } else {
+          localStorage.setItem("user_bio_default", bio);
+        }
+        if (avatarUrl) {
+          localStorage.setItem("user_avatar", avatarUrl);
+          localStorage.removeItem("user_emoji");
+        } else if (presetEmoji) {
+          localStorage.setItem("user_emoji", presetEmoji);
+          localStorage.removeItem("user_avatar");
+        }
+        setProfile((prev) => (prev ? { ...prev, ...updated } : updated));
+        window.dispatchEvent(new Event("user_profile_updated"));
+      }
+
+      setSuccessMessage("✅ Đã cập nhật thông tin trang cá nhân thành công!");
       setTimeout(() => setSuccessMessage(""), 4000);
     } catch (err: any) {
       setErrorMessage(err.message || "Lỗi khi lưu thông tin cá nhân.");
@@ -188,6 +331,11 @@ export default function LearnerProfilePage() {
     setPresetEmoji(emoji);
     setAvatarBg(bg);
     setAvatarUrl(null);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("user_emoji", emoji);
+      localStorage.removeItem("user_avatar");
+      window.dispatchEvent(new Event("user_profile_updated"));
+    }
   };
 
   const handleFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -196,6 +344,11 @@ export default function LearnerProfilePage() {
       const url = URL.createObjectURL(file);
       setAvatarUrl(url);
       setPresetEmoji(null);
+      if (typeof window !== "undefined") {
+        localStorage.setItem("user_avatar", url);
+        localStorage.removeItem("user_emoji");
+        window.dispatchEvent(new Event("user_profile_updated"));
+      }
     }
   };
 
@@ -223,7 +376,10 @@ export default function LearnerProfilePage() {
           <div className="max-w-[1120px] mx-auto">
 
             {/* COVER PHOTO BANNER CONTAINER */}
-            <div className="relative h-48 sm:h-72 md:h-80 w-full rounded-b-2xl sm:rounded-b-3xl overflow-hidden bg-gradient-to-r from-[#231917] via-[#4A3426] to-[#C65D4B] border-x border-b border-[#E5D7C7]">
+            <div
+              className="relative h-48 sm:h-72 md:h-80 w-full rounded-b-2xl sm:rounded-b-3xl overflow-hidden bg-gradient-to-r from-[#231917] via-[#4A3426] to-[#C65D4B] border-x border-b border-[#E5D7C7] bg-cover bg-center"
+              style={coverUrl ? { backgroundImage: `url(${coverUrl})` } : undefined}
+            >
               {/* Decorative Japanese Fuji & Torii Pattern Overlay */}
               <div className="absolute inset-0 bg-[radial-gradient(#FFFDF9_1.5px,transparent_1.5px)] [background-size:20px_20px] opacity-15 pointer-events-none" />
               <div className="absolute right-6 top-6 opacity-20 pointer-events-none font-black text-6xl text-white select-none">
@@ -234,13 +390,20 @@ export default function LearnerProfilePage() {
               <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/20" />
 
               {/* Edit Cover Photo Button (Facebook Style) */}
-              <button
-                type="button"
-                className="absolute bottom-3.5 right-3.5 sm:bottom-4 sm:right-4 bg-black/60 hover:bg-black/80 backdrop-blur-md text-white text-xs font-bold px-3.5 py-2 rounded-xl border border-white/20 transition-all flex items-center gap-2 cursor-pointer shadow-lg"
+              <label
+                htmlFor="cover-file-input"
+                className="absolute bottom-3.5 right-3.5 sm:bottom-4 sm:right-4 bg-black/60 hover:bg-black/80 backdrop-blur-md text-white text-xs font-bold px-3.5 py-2 rounded-xl border border-white/20 transition-all flex items-center gap-2 cursor-pointer shadow-lg z-30"
               >
                 <Camera className="w-4 h-4 text-white" />
                 <span className="hidden sm:inline">Chỉnh sửa ảnh bìa</span>
-              </button>
+                <input
+                  id="cover-file-input"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleCoverUpload}
+                  className="hidden"
+                />
+              </label>
             </div>
 
             {/* PROFILE INFO BAR (OVERLAPPING AVATAR & USER DETAILS) */}
@@ -280,7 +443,7 @@ export default function LearnerProfilePage() {
 
                     {/* JLPT Level Badge Tag */}
                     <span className="absolute top-1 left-1 px-2.5 py-0.5 rounded-full bg-[#C65D4B] text-white font-black text-[10px] uppercase shadow-xs border border-white">
-                      {targetLevel} PASS
+                      JLPT {targetLevel}
                     </span>
                   </div>
 
@@ -302,12 +465,12 @@ export default function LearnerProfilePage() {
                     <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 text-xs text-[#8B6F5A] font-medium pt-0.5">
                       <span className="flex items-center gap-1 font-bold text-[#C65D4B]">
                         <Flame className="w-3.5 h-3.5 fill-[#C65D4B]" />
-                        <span>30 Ngày liên tục</span>
+                        <span>{summary?.streakDays || 0} Ngày liên tục</span>
                       </span>
                       <span>·</span>
                       <span className="flex items-center gap-1">
-                        <Users className="w-3.5 h-3.5 text-[#76655A]" />
-                        <span>2.4k Bạn cùng học</span>
+                        <BookOpen className="w-3.5 h-3.5 text-[#76655A]" />
+                        <span>{summary?.totalValidActivities || 0} Hoạt động tích lũy</span>
                       </span>
                     </div>
                   </div>
@@ -317,8 +480,8 @@ export default function LearnerProfilePage() {
                 <div className="flex items-center gap-2.5 w-full md:w-auto justify-center md:justify-end shrink-0 pt-2 md:pt-4">
                   <button
                     type="button"
-                    onClick={() => setActiveTab("ABOUT")}
-                    className="px-4 py-2 bg-[#C65D4B] hover:bg-[#B44C3B] text-white font-black text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+                    onClick={handleEditButtonClick}
+                    className="px-4 py-2 bg-[#C65D4B] hover:bg-[#B44C3B] text-white font-black text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
                   >
                     <Edit3 className="w-3.5 h-3.5" />
                     <span>Chỉnh sửa trang cá nhân</span>
@@ -330,7 +493,7 @@ export default function LearnerProfilePage() {
                     className="px-4 py-2 bg-[#FAF4EB] hover:bg-[#E5D7C7] text-[#1F1714] font-bold text-xs rounded-xl border border-[#E5D7C7] transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
                   >
                     <Award className="w-3.5 h-3.5 text-[#C65D4B]" />
-                    <span>Thành tích JLPT</span>
+                    <span>Mục tiêu JLPT</span>
                   </button>
 
                   <button
@@ -440,11 +603,6 @@ export default function LearnerProfilePage() {
                   </div>
 
                   <div className="flex items-center gap-2.5">
-                    <MapPin className="w-4 h-4 text-[#C65D4B] shrink-0" />
-                    <span>Sống tại <strong className="text-[#1F1714]">Hà Nội, Việt Nam</strong></span>
-                  </div>
-
-                  <div className="flex items-center gap-2.5">
                     <Target className="w-4 h-4 text-[#C65D4B] shrink-0" />
                     <span>Mục tiêu: <strong className="text-[#C65D4B]">Đạt Bằng JLPT {targetLevel}</strong></span>
                   </div>
@@ -460,65 +618,49 @@ export default function LearnerProfilePage() {
                   </div>
 
                   <div className="flex items-center gap-2.5">
-                    <Calendar className="w-4 h-4 text-[#C65D4B] shrink-0" />
-                    <span>Tham gia từ tháng 8 năm 2026</span>
+                    <Shield className="w-4 h-4 text-[#C65D4B] shrink-0" />
+                    <span>Vai trò: <strong className="text-[#1F1714]">{profile?.role === 'ADMIN' ? 'Quản trị viên (Admin)' : 'Học viên chính thức'}</strong></span>
                   </div>
                 </div>
 
                 <button
                   type="button"
-                  onClick={() => setActiveTab("ABOUT")}
-                  className="w-full py-2 bg-[#FAF4EB] hover:bg-[#E5D7C7] text-[#1F1714] font-bold text-xs rounded-xl border border-[#E5D7C7] transition-all cursor-pointer shadow-2xs"
+                  onClick={handleEditButtonClick}
+                  className="w-full py-2 bg-[#FAF4EB] hover:bg-[#E5D7C7] text-[#1F1714] font-bold text-xs rounded-xl border border-[#E5D7C7] transition-all cursor-pointer shadow-2xs active:scale-95"
                 >
                   Chỉnh sửa chi tiết
                 </button>
               </div>
 
-              {/* CARD 2: HỘ CHIẾU & HUY HIỆU JLPT */}
-              <div className="bg-[#FFFDF9] border border-[#E5D7C7] rounded-2xl p-4.5 shadow-2xs space-y-3">
-                <div className="flex items-center justify-between">
-                  <h3 className="text-sm font-black text-[#1F1714]">Huy hiệu & Bằng cấp</h3>
-                  <span className="text-[11px] font-bold text-[#C65D4B] cursor-pointer hover:underline">Xem tất cả</span>
-                </div>
-
-                <div className="grid grid-cols-2 gap-2">
-                  <div className="bg-[#FAF4EB] border border-[#E5D7C7] p-2.5 rounded-xl text-center space-y-1">
-                    <div className="w-8 h-8 rounded-full bg-[#C65D4B]/10 text-[#C65D4B] flex items-center justify-center mx-auto">
-                      <Award className="w-4 h-4" />
-                    </div>
-                    <span className="text-[11px] font-black text-[#1F1714] block">N5 PASS</span>
-                    <span className="text-[10px] text-[#76655A] block">Đã hoàn thành</span>
-                  </div>
-
-                  <div className="bg-[#FAF4EB] border border-[#E5D7C7] p-2.5 rounded-xl text-center space-y-1">
-                    <div className="w-8 h-8 rounded-full bg-amber-500/10 text-amber-600 flex items-center justify-center mx-auto">
-                      <Flame className="w-4 h-4" />
-                    </div>
-                    <span className="text-[11px] font-black text-[#1F1714] block">SRS 30 Ngày</span>
-                    <span className="text-[10px] text-[#76655A] block">Chuỗi học xuất sắc</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* CARD 3: BẠN CÙNG HỌC (FRIENDS GRID) */}
+              {/* CARD 3: THỐNG KÊ KẾT QUẢ HỌC TẬP THỰC TẾ (REAL METRICS FROM DATABASE) */}
               <div className="bg-[#FFFDF9] border border-[#E5D7C7] rounded-2xl p-4.5 shadow-2xs space-y-3">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h3 className="text-sm font-black text-[#1F1714]">Bạn cùng học</h3>
-                    <span className="text-[11px] text-[#76655A] font-medium">2,418 người bạn</span>
+                    <h3 className="text-sm font-black text-[#1F1714]">Thống Kê Kết Quả Học</h3>
+                    <span className="text-[11px] text-[#76655A] font-medium">Dữ liệu từ Cơ sở dữ liệu</span>
                   </div>
-                  <span className="text-[11px] font-bold text-[#C65D4B] cursor-pointer hover:underline">Xem tất cả</span>
                 </div>
 
-                <div className="grid grid-cols-3 gap-2">
-                  {["Tanaka", "Satou", "Kimura", "Yamada", "Santos", "Suzuki", "Watanabe", "Ito", "Kobayashi"].map((name, idx) => (
-                    <div key={idx} className="space-y-1 text-center">
-                      <div className="w-full aspect-square rounded-xl bg-gradient-to-tr from-[#C65D4B] to-[#FF8C78] text-white flex items-center justify-center font-bold text-xs shadow-2xs">
-                        {name.charAt(0)}
-                      </div>
-                      <span className="text-[10px] font-bold text-[#1F1714] block truncate">{name}</span>
-                    </div>
-                  ))}
+                <div className="grid grid-cols-2 gap-2 text-xs">
+                  <div className="bg-[#FAF4EB] border border-[#E5D7C7] p-2.5 rounded-xl space-y-0.5">
+                    <span className="text-[10px] font-bold text-[#76655A] uppercase block">Từ vựng đã thuộc</span>
+                    <span className="text-base font-black text-[#C65D4B]">{summary?.learnedVocabCount || 0} từ</span>
+                  </div>
+
+                  <div className="bg-[#FAF4EB] border border-[#E5D7C7] p-2.5 rounded-xl space-y-0.5">
+                    <span className="text-[10px] font-bold text-[#76655A] uppercase block">Ngữ pháp hoàn thành</span>
+                    <span className="text-base font-black text-[#231917]">{summary?.learnedGrammarCount || 0} mẫu</span>
+                  </div>
+
+                  <div className="bg-[#FAF4EB] border border-[#E5D7C7] p-2.5 rounded-xl space-y-0.5">
+                    <span className="text-[10px] font-bold text-[#76655A] uppercase block">Kanji ghi nhớ</span>
+                    <span className="text-base font-black text-[#C65D4B]">{summary?.learnedKanjiCount || 0} chữ</span>
+                  </div>
+
+                  <div className="bg-[#FAF4EB] border border-[#E5D7C7] p-2.5 rounded-xl space-y-0.5">
+                    <span className="text-[10px] font-bold text-[#76655A] uppercase block">Lượt nộp Quiz</span>
+                    <span className="text-base font-black text-[#231917]">{summary?.completedQuizCount || 0} lượt</span>
+                  </div>
                 </div>
               </div>
 
@@ -531,13 +673,13 @@ export default function LearnerProfilePage() {
 
               {/* TAB 1: ABOUT (CẤU HÌNH THÔNG TIN CÁ NHÂN & AVATAR) */}
               {activeTab === "ABOUT" && (
-                <div className="bg-[#FFFDF9] border border-[#E5D7C7] rounded-2xl p-5 sm:p-6 shadow-2xs space-y-5">
+                <div ref={editFormRef} className="bg-[#FFFDF9] border border-[#E5D7C7] rounded-2xl p-5 sm:p-6 shadow-2xs space-y-5 scroll-mt-6">
                   <div className="border-b border-[#E5D7C7] pb-3">
                     <h3 className="text-base sm:text-lg font-black text-[#1F1714]">
-                      Cấu Hình Thông Tin Cá Nhân & Ảnh Đại Diện
+                      Chỉnh Sửa Trang Cá Nhân
                     </h3>
                     <p className="text-xs text-[#6E5D55]">
-                      Cập nhật ảnh đại diện, danh xưng và avatar mascot hiển thị trên toàn bộ hệ thống ANH SENSEI.
+                      Cập nhật ảnh đại diện, họ tên và tiểu sử học tập của bạn trên hệ thống ANH SENSEI.
                     </p>
                   </div>
 
@@ -546,7 +688,7 @@ export default function LearnerProfilePage() {
                     {/* AVATAR MASCOT SELECTION */}
                     <div className="bg-[#FAF4EB] border border-[#E5D7C7] p-4 rounded-xl space-y-3">
                       <span className="text-xs font-black text-[#8B6F5A] uppercase tracking-wider block">
-                        📸 TÙY CHỌN ÁNH ĐẠI DIỆN (AVATAR MASCOT):
+                        📸 Chọn Avatar Mascot:
                       </span>
 
                       <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
@@ -578,10 +720,11 @@ export default function LearnerProfilePage() {
                         Họ và Tên (Tên hiển thị):
                       </label>
                       <input
+                        ref={fullNameInputRef}
                         type="text"
                         value={fullName}
                         onChange={(e) => setFullName(e.target.value)}
-                        className="w-full px-4 py-2.5 bg-[#FFFDF9] border border-[#E5D7C7] rounded-xl text-sm font-bold text-[#1F1714] focus:outline-none focus:border-[#C65D4B]"
+                        className="w-full px-4 py-2.5 bg-[#FFFDF9] border border-[#E5D7C7] rounded-xl text-sm font-bold text-[#1F1714] focus:outline-none focus:border-[#C65D4B] focus:ring-2 focus:ring-[#C65D4B]/20"
                         placeholder="Nhập họ tên của bạn..."
                       />
                     </div>
@@ -630,31 +773,33 @@ export default function LearnerProfilePage() {
                 </div>
               )}
 
-              {/* TAB 2: TIMELINE (NHẬT KÝ HỌC HÀNG NGÀY) */}
+              {/* TAB 2: TIMELINE (NHẬT KÝ HỌC HÀNG NGÀY THỰC TẾ) */}
               {activeTab === "TIMELINE" && (
                 <div className="bg-[#FFFDF9] border border-[#E5D7C7] rounded-2xl p-5 sm:p-6 shadow-2xs space-y-4">
-                  <h3 className="text-base font-black text-[#1F1714]">Nhật Ký Học Tập (Timeline Feed)</h3>
-                  <div className="space-y-3 text-xs">
-                    <div className="bg-[#FAF4EB] border border-[#E5D7C7] p-3.5 rounded-xl space-y-1">
-                      <div className="flex items-center justify-between font-bold text-[#C65D4B]">
-                        <span>⛩️ Đã hoàn thành Bài 7 Ngữ Pháp N5</span>
-                        <span className="text-[10px] text-[#76655A]">2 giờ trước</span>
-                      </div>
-                      <p className="text-[#52443C]">Đã vượt qua 10/10 câu hỏi điền trợ từ và 10 thử thách xếp thẻ gỗ Ema!</p>
-                    </div>
+                  <h3 className="text-base font-black text-[#1F1714]">Nhật Ký Học Tập Thực Tế (Timeline Feed)</h3>
 
-                    <div className="bg-[#FAF4EB] border border-[#E5D7C7] p-3.5 rounded-xl space-y-1">
-                      <div className="flex items-center justify-between font-bold text-[#C65D4B]">
-                        <span>🌸 Đã đạt mốc 30 Ngày Chuỗi Liên Tục (Streak)</span>
-                        <span className="text-[10px] text-[#76655A]">Hôm qua</span>
-                      </div>
-                      <p className="text-[#52443C]">Duy trì học 20 thẻ từ vựng mỗi ngày trên thuật toán SRS Spaced Repetition.</p>
+                  {summary?.recentLessons && summary.recentLessons.length > 0 ? (
+                    <div className="space-y-3 text-xs">
+                      {summary.recentLessons.map((item, idx) => (
+                        <div key={idx} className="bg-[#FAF4EB] border border-[#E5D7C7] p-3.5 rounded-xl space-y-1">
+                          <div className="flex items-center justify-between font-bold text-[#C65D4B]">
+                            <span>⛩️ Bài học: {item.title} (Cấp độ {item.levelCode})</span>
+                            <span className="text-[10px] text-[#76655A]">Hoàn thành {item.completionPercent}%</span>
+                          </div>
+                          <p className="text-[#52443C]">Trạng thái tiến độ: {item.status === 'COMPLETED' ? '🎉 Đã hoàn thành xuất sắc' : '📖 Đang tiếp tục học'}</p>
+                        </div>
+                      ))}
                     </div>
-                  </div>
+                  ) : (
+                    <div className="bg-[#FAF4EB] border border-[#E5D7C7] p-4 rounded-xl text-center text-xs space-y-1">
+                      <p className="font-bold text-[#231917]">📖 Hiện tại chưa ghi nhận nhật ký học tập nào</p>
+                      <p className="text-[#76655A]">Hãy hoàn thành 1 bài học từ vựng, ngữ pháp hoặc bài kiểm tra Quiz đầu tiên để lưu nhật ký học tập tại đây!</p>
+                    </div>
+                  )}
                 </div>
               )}
 
-              {/* TAB 3: GOALS (MỤC TIÊU JLPT) */}
+              {/* TAB 3: GOALS (MỤC TIÊU JLPT THỰC TẾ) */}
               {activeTab === "GOALS" && (
                 <div className="bg-[#FFFDF9] border border-[#E5D7C7] rounded-2xl p-5 sm:p-6 shadow-2xs space-y-5">
                   <div className="border-b border-[#E5D7C7] pb-3">
@@ -678,6 +823,19 @@ export default function LearnerProfilePage() {
                         </button>
                       );
                     })}
+                  </div>
+
+                  <div className="bg-[#FAF4EB] border border-[#E5D7C7] p-4 rounded-xl space-y-2">
+                    <div className="flex items-center justify-between text-xs font-black text-[#1F1714]">
+                      <span>Tiến độ chinh phục cấp độ {targetLevel}:</span>
+                      <span className="text-[#C65D4B]">{summary?.completionPercent || 0}%</span>
+                    </div>
+                    <div className="w-full h-3 bg-[#E5D7C7] rounded-full overflow-hidden">
+                      <div
+                        className="h-full bg-[#C65D4B] rounded-full transition-all duration-500"
+                        style={{ width: `${Math.min(100, Math.max(0, summary?.completionPercent || 0))}%` }}
+                      />
+                    </div>
                   </div>
                 </div>
               )}

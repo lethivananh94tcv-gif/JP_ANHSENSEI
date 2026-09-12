@@ -23,8 +23,7 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
   const [customAvatar, setCustomAvatar] = useState<string | null>(null);
   const [customEmoji, setCustomEmoji] = useState<string | null>(null);
 
-  // Read stored user profile & avatar from localStorage as fallback
-  useEffect(() => {
+  const loadUserData = () => {
     if (typeof window !== "undefined") {
       const savedUserRaw = localStorage.getItem("user");
       if (savedUserRaw) {
@@ -35,14 +34,26 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
         }
       }
       const savedAvatar = localStorage.getItem("user_avatar");
-      if (savedAvatar) {
-        setCustomAvatar(savedAvatar);
-      }
+      setCustomAvatar(savedAvatar || null);
+
       const savedEmoji = localStorage.getItem("user_emoji");
-      if (savedEmoji) {
-        setCustomEmoji(savedEmoji);
-      }
+      setCustomEmoji(savedEmoji || null);
     }
+  };
+
+  // Read stored user profile & avatar from localStorage as fallback & listen for updates
+  useEffect(() => {
+    loadUserData();
+    if (typeof window !== "undefined") {
+      window.addEventListener("storage", loadUserData);
+      window.addEventListener("user_profile_updated", loadUserData);
+    }
+    return () => {
+      if (typeof window !== "undefined") {
+        window.removeEventListener("storage", loadUserData);
+        window.removeEventListener("user_profile_updated", loadUserData);
+      }
+    };
   }, []);
 
   const activeUser = propUser || localUser;
@@ -67,10 +78,10 @@ export default function LearnerHeader({ user: propUser }: LearnerHeaderProps) {
   ];
 
   // Synchronized User Full Name Display
-  const userName = activeUser?.fullName || activeUser?.email?.split("@")[0] || "emkienne";
-  const userEmail = activeUser?.email || `${userName.toLowerCase()}@anhsensei.com`;
+  const userName = activeUser?.fullName || activeUser?.email?.split("@")[0] || "Học viên";
+  const userEmail = activeUser?.email || "learner@anhsensei.com";
   const userInitial = userName.charAt(0).toUpperCase();
-  const avatarImage = activeUser?.avatarUrl || customAvatar;
+  const avatarImage = customAvatar || (customEmoji ? null : activeUser?.avatarUrl);
 
   return (
     <header className="sticky top-0 z-50 w-full bg-[#FFFDF9]/90 backdrop-blur-md border-b border-[#DED3C8] shadow-xs select-none">
