@@ -19,4 +19,7 @@ public interface LearningActivityRepository extends JpaRepository<LearningActivi
 
     @Query("SELECT la.activityDate, COUNT(la) FROM LearningActivity la WHERE la.user.userId = :userId AND la.activityDate >= :startDate GROUP BY la.activityDate ORDER BY la.activityDate ASC")
     List<Object[]> findWeeklyActivityCounts(@Param("userId") Long userId, @Param("startDate") LocalDate startDate);
+
+    @Query("SELECT la.user.userId, COALESCE(SUM(la.durationSeconds), 0L) FROM LearningActivity la WHERE la.user.userId IN :userIds GROUP BY la.user.userId")
+    List<Object[]> findTotalDurationSecondsByUserIds(@Param("userIds") List<Long> userIds);
 }

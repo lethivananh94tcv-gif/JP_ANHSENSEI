@@ -11,6 +11,8 @@ public class UserSummaryDto {
     private String status;
     private OffsetDateTime createdAt;
     private OffsetDateTime lastLoginAt;
+    private Long totalDurationSeconds;
+    private Double activeHours;
 
     public UserSummaryDto() {}
 
@@ -22,6 +24,8 @@ public class UserSummaryDto {
         this.status = user.getStatus();
         this.createdAt = user.getCreatedAt();
         this.lastLoginAt = user.getLastLoginAt();
+        this.totalDurationSeconds = 0L;
+        this.activeHours = 0.0;
     }
 
     public Long getUserId() { return userId; }
@@ -44,4 +48,10 @@ public class UserSummaryDto {
 
     public OffsetDateTime getLastLoginAt() { return lastLoginAt; }
     public void setLastLoginAt(OffsetDateTime lastLoginAt) { this.lastLoginAt = lastLoginAt; }
+
+    public Long getTotalDurationSeconds() { return totalDurationSeconds; }
+    public void setTotalDurationSeconds(Long totalDurationSeconds) { this.totalDurationSeconds = totalDurationSeconds; }
+
+    public Double getActiveHours() { return activeHours; }
+    public void setActiveHours(Double activeHours) { this.activeHours = activeHours; }
 }

@@ -36,6 +36,105 @@ interface UserStats {
   yearly: ChartItem[];
 }
 
+interface RecentUser {
+  userId: number;
+  fullName: string;
+  email: string;
+  roleName: string;
+  status: string;
+  totalDurationSeconds?: number;
+  activeHours?: number;
+  lastLoginAt?: string | null;
+  createdAt?: string | null;
+}
+
+function getAccountActiveHours(user: RecentUser) {
+  const sec = user.totalDurationSeconds != null 
+    ? user.totalDurationSeconds 
+    : (user.activeHours != null ? Math.round(user.activeHours * 3600) : 0);
+
+  if (!sec || sec <= 0) {
+    return "0 phút";
+  }
+
+  const hours = Math.floor(sec / 3600);
+  const minutes = Math.floor((sec % 3600) / 60);
+
+  if (hours > 0 && minutes > 0) {
+    return `${hours} giờ ${minutes} phút`;
+  }
+  if (hours > 0) {
+    return `${hours} giờ`;
+  }
+  return `${minutes} phút`;
+}
+
+function formatLastActive(dateStr?: string | null) {
+  if (!dateStr) return "Hôm nay";
+  try {
+    const d = new Date(dateStr);
+    const now = new Date();
+    const diffMs = now.getTime() - d.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+
+    if (diffMins < 1) return "Vừa xong";
+    if (diffMins < 60) return `${diffMins} phút trước`;
+    if (diffHours < 24 && d.getDate() === now.getDate()) {
+      return d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+    }
+    if (diffHours < 48) {
+      return `Hôm qua ${d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}`;
+    }
+    return `${d.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" })} ${d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}`;
+  } catch {
+    return "Hôm nay";
+  }
+}
+
+const defaultRecentUsers: RecentUser[] = [
+  {
+    userId: 1,
+    fullName: "Le Thi Van Anh",
+    email: "lethivananh.test@gmail.com",
+    roleName: "LEARNER",
+    status: "ACTIVE",
+    totalDurationSeconds: 12600,
+    activeHours: 3.5,
+    lastLoginAt: new Date(Date.now() - 18 * 60000).toISOString(),
+  },
+  {
+    userId: 281,
+    fullName: "Thái Duy",
+    email: "lythaiduykid@gmail.com",
+    roleName: "LEARNER",
+    status: "ACTIVE",
+    totalDurationSeconds: 7800,
+    activeHours: 2.2,
+    lastLoginAt: new Date(Date.now() - 75 * 60000).toISOString(),
+  },
+  {
+    userId: 999,
+    fullName: "Quản Trị Viên ANH SENSEI",
+    email: "admin@anhsensei.com",
+    roleName: "ADMIN",
+    status: "ACTIVE",
+    totalDurationSeconds: 1479,
+    activeHours: 0.4,
+    lastLoginAt: new Date().toISOString(),
+  },
+  {
+    userId: 285,
+    fullName: "Khâm Trương Hoàng",
+    email: "truonghoangkham1205@gmail.com",
+    roleName: "LEARNER",
+    status: "ACTIVE",
+    totalDurationSeconds: 12600,
+    activeHours: 3.5,
+    lastLoginAt: new Date(Date.now() - 3 * 3600000).toISOString(),
+  },
+];
+
 export default function AdminDashboardPage() {
   const router = useRouter();
   const [levels, setLevels] = useState<LevelDto[]>([]);
@@ -43,6 +142,7 @@ export default function AdminDashboardPage() {
   const [autoRefresh, setAutoRefresh] = useState(true);
   const [lastUpdatedTime, setLastUpdatedTime] = useState<string>("");
   const [timeMode, setTimeMode] = useState<"DAILY" | "MONTHLY" | "YEARLY">("DAILY");
+  const [recentUsers, setRecentUsers] = useState<RecentUser[]>([]);
 
   const [showAuthModal, setShowAuthModal] = useState<boolean>(false);
   const [stats, setStats] = useState<UserStats>({
@@ -67,9 +167,10 @@ export default function AdminDashboardPage() {
     const headers = token ? { Authorization: `Bearer ${token}` } : undefined;
 
     try {
-      const [levelsRes, statsRes] = await Promise.all([
+      const [levelsRes, statsRes, usersRes] = await Promise.all([
         fetch(getApiUrl("/admin/levels"), { headers }).catch(() => null),
-        fetch(getApiUrl("/admin/users/stats"), { headers }).catch(() => null)
+        fetch(getApiUrl("/admin/users/stats"), { headers }).catch(() => null),
+        fetch(getApiUrl("/admin/users?page=0&size=5"), { headers }).catch(() => null)
       ]);
 
       if (statsRes?.status === 401 || statsRes?.status === 403 || levelsRes?.status === 401 || levelsRes?.status === 403) {
@@ -99,6 +200,35 @@ export default function AdminDashboardPage() {
             monthly: Array.isArray(data.monthly) && data.monthly.length > 0 ? data.monthly : prev.monthly,
             yearly: Array.isArray(data.yearly) && data.yearly.length > 0 ? data.yearly : prev.yearly,
           }));
+        }
+      }
+
+      if (usersRes && usersRes.ok) {
+        try {
+          const uData = await usersRes.json();
+          const rawList = Array.isArray(uData)
+            ? uData
+            : Array.isArray(uData?.content)
+            ? uData.content
+            : Array.isArray(uData?.data)
+            ? uData.data
+            : [];
+          if (rawList.length > 0) {
+            const list: RecentUser[] = rawList.map((u: any) => ({
+              userId: u.userId,
+              fullName: u.fullName,
+              email: u.email,
+              roleName: u.roleName || "LEARNER",
+              status: u.status || "ACTIVE",
+              lastLoginAt: u.lastLoginAt,
+              createdAt: u.createdAt,
+              totalDurationSeconds: u.totalDurationSeconds != null ? u.totalDurationSeconds : 0,
+              activeHours: u.activeHours != null ? u.activeHours : 0,
+            }));
+            setRecentUsers(list);
+          }
+        } catch {
+          // Keep default if json parse error
         }
       }
 
@@ -382,57 +512,64 @@ export default function AdminDashboardPage() {
                   <th className="pb-3 pr-4">HỌC VIÊN</th>
                   <th className="pb-3 px-4">EMAIL</th>
                   <th className="pb-3 px-4">VAI TRÒ</th>
+                  <th className="pb-3 px-4">SỐ GIỜ HOẠT ĐỘNG</th>
                   <th className="pb-3 pl-4 text-right">TRẠNG THÁI</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-[#E5D7C7]/50 text-xs font-extrabold text-[#231917]">
-                <tr className="hover:bg-[#FAF3EB]/80 transition-colors">
-                  <td className="py-3.5 pr-4 flex items-center gap-3">
-                    <span className="w-8 h-8 rounded-xl bg-[#C65D4B]/10 border border-[#C65D4B]/30 text-[#C65D4B] font-black text-xs flex items-center justify-center shrink-0">
-                      L
-                    </span>
-                    <span className="font-black">Le Thi Van Anh</span>
-                  </td>
-                  <td className="py-3.5 px-4 text-[#76685F] font-mono text-[11px]">lethivananh.test@gmail.com</td>
-                  <td className="py-3.5 px-4"><span className="bg-blue-50 text-blue-800 border border-blue-200 text-[10px] px-2.5 py-0.5 rounded-md font-black">LEARNER</span></td>
-                  <td className="py-3.5 pl-4 text-right"><span className="bg-emerald-50 text-emerald-800 border border-emerald-200 text-[10px] px-2.5 py-0.5 rounded-md font-black">ACTIVE</span></td>
-                </tr>
+                {(recentUsers.length > 0 ? recentUsers : defaultRecentUsers).slice(0, 5).map((item) => {
+                  const roleUpper = (item.roleName || "").toUpperCase();
+                  const isLearner = roleUpper.includes("LEARNER");
+                  const isActive = (item.status || "").toUpperCase() === "ACTIVE";
+                  const initial = item.fullName ? item.fullName.charAt(0).toUpperCase() : "U";
 
-                <tr className="hover:bg-[#FAF3EB]/80 transition-colors">
-                  <td className="py-3.5 pr-4 flex items-center gap-3">
-                    <span className="w-8 h-8 rounded-xl bg-[#C65D4B]/10 border border-[#C65D4B]/30 text-[#C65D4B] font-black text-xs flex items-center justify-center shrink-0">
-                      T
-                    </span>
-                    <span className="font-black">Thái Duy</span>
-                  </td>
-                  <td className="py-3.5 px-4 text-[#76685F] font-mono text-[11px]">lythaiduykid@gmail.com</td>
-                  <td className="py-3.5 px-4"><span className="bg-blue-50 text-blue-800 border border-blue-200 text-[10px] px-2.5 py-0.5 rounded-md font-black">LEARNER</span></td>
-                  <td className="py-3.5 pl-4 text-right"><span className="bg-emerald-50 text-emerald-800 border border-emerald-200 text-[10px] px-2.5 py-0.5 rounded-md font-black">ACTIVE</span></td>
-                </tr>
-
-                <tr className="hover:bg-[#FAF3EB]/80 transition-colors">
-                  <td className="py-3.5 pr-4 flex items-center gap-3">
-                    <span className="w-8 h-8 rounded-xl bg-purple-50 border border-purple-200 text-purple-700 font-black text-xs flex items-center justify-center shrink-0">
-                      A
-                    </span>
-                    <span className="font-black">Quản Trị Viên ANH SENSEI</span>
-                  </td>
-                  <td className="py-3.5 px-4 text-[#76685F] font-mono text-[11px]">admin@anhsensei.com</td>
-                  <td className="py-3.5 px-4"><span className="bg-purple-50 text-purple-800 border border-purple-200 text-[10px] px-2.5 py-0.5 rounded-md font-black">ADMIN</span></td>
-                  <td className="py-3.5 pl-4 text-right"><span className="bg-emerald-50 text-emerald-800 border border-emerald-200 text-[10px] px-2.5 py-0.5 rounded-md font-black">ACTIVE</span></td>
-                </tr>
-
-                <tr className="hover:bg-[#FAF3EB]/80 transition-colors">
-                  <td className="py-3.5 pr-4 flex items-center gap-3">
-                    <span className="w-8 h-8 rounded-xl bg-[#C65D4B]/10 border border-[#C65D4B]/30 text-[#C65D4B] font-black text-xs flex items-center justify-center shrink-0">
-                      K
-                    </span>
-                    <span className="font-black">Khâm Trương Hoàng</span>
-                  </td>
-                  <td className="py-3.5 px-4 text-[#76685F] font-mono text-[11px]">truonghoangkham1205@gmail.com</td>
-                  <td className="py-3.5 px-4"><span className="bg-blue-50 text-blue-800 border border-blue-200 text-[10px] px-2.5 py-0.5 rounded-md font-black">LEARNER</span></td>
-                  <td className="py-3.5 pl-4 text-right"><span className="bg-emerald-50 text-emerald-800 border border-emerald-200 text-[10px] px-2.5 py-0.5 rounded-md font-black">ACTIVE</span></td>
-                </tr>
+                  return (
+                    <tr key={item.userId} className="hover:bg-[#FAF3EB]/80 transition-colors">
+                      <td className="py-3.5 pr-4 flex items-center gap-3">
+                        <span className={`w-8 h-8 rounded-xl font-black text-xs flex items-center justify-center shrink-0 border ${
+                          isLearner
+                            ? "bg-[#C65D4B]/10 border-[#C65D4B]/30 text-[#C65D4B]"
+                            : "bg-purple-50 border-purple-200 text-purple-700"
+                        }`}>
+                          {initial}
+                        </span>
+                        <span className="font-black text-[#231917]">{item.fullName}</span>
+                      </td>
+                      <td className="py-3.5 px-4 text-[#76685F] font-mono text-[11px]">{item.email}</td>
+                      <td className="py-3.5 px-4">
+                        <span className={`border text-[10px] px-2.5 py-0.5 rounded-md font-black ${
+                          isLearner
+                            ? "bg-blue-50 text-blue-800 border-blue-200"
+                            : "bg-purple-50 text-purple-800 border-purple-200"
+                        }`}>
+                          {item.roleName || "LEARNER"}
+                        </span>
+                      </td>
+                      <td className="py-3.5 px-4">
+                        <div className="flex flex-col gap-0.5">
+                          <div className="flex items-center gap-1.5 font-black text-[#231917] text-xs">
+                            <Clock className="w-3.5 h-3.5 text-[#C65D4B] shrink-0" />
+                            <span className="bg-[#FAF3EB] px-2 py-0.5 rounded-md border border-[#E5D7C7] text-[#C65D4B] font-black">
+                              {getAccountActiveHours(item)}
+                            </span>
+                          </div>
+                          <span className="text-[10px] text-[#8C7B70] font-medium pl-0.5">
+                            Gần nhất: {formatLastActive(item.lastLoginAt)}
+                          </span>
+                        </div>
+                      </td>
+                      <td className="py-3.5 pl-4 text-right">
+                        <span className={`border text-[10px] px-2.5 py-0.5 rounded-md font-black ${
+                          isActive
+                            ? "bg-emerald-50 text-emerald-800 border-emerald-200"
+                            : "bg-amber-50 text-amber-800 border-amber-200"
+                        }`}>
+                          {item.status || "ACTIVE"}
+                        </span>
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

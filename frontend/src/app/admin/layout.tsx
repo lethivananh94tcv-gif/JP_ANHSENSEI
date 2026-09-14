@@ -4,10 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { 
-  Bell, Settings, Plus, ExternalLink, User as UserIcon, LogOut, 
+  ExternalLink, LogOut, 
   LayoutDashboard, BookOpen, Layers, Users, BarChart3, FileSpreadsheet, 
-  ShieldCheck, ChevronRight, PenTool, Puzzle, Target, Search, UserCheck,
-  Sparkles, Command, SlidersHorizontal, Activity
+  ShieldCheck, ChevronRight, PenTool, Puzzle, Target, UserCheck
 } from "lucide-react";
 
 interface UserProfile {
@@ -34,7 +33,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -159,15 +157,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         }
       ]
     }
-  ];
-
-  const topTabs = [
-    { name: "TỔNG QUAN", href: "/admin", active: pathname === "/admin" },
-    { name: "TỪ VỰNG", href: "/admin/vocabularies", active: pathname.startsWith("/admin/vocabularies") },
-    { name: "HÁN TỰ", href: "/admin/kanji", active: pathname.startsWith("/admin/kanji") },
-    { name: "NGỮ PHÁP", href: "/admin/grammar", active: pathname.startsWith("/admin/grammar") },
-    { name: "HỌC VIÊN", href: "/admin/users", active: pathname.startsWith("/admin/users") || pathname.startsWith("/admin/hoc-vien") },
-    { name: "HỆ THỐNG", href: "/admin/audit-logs", active: pathname.startsWith("/admin/audit-logs") },
   ];
 
   return (
@@ -297,86 +286,56 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               正常
             </span>
           </div>
+
+          {/* Admin User Profile & Logout */}
+          <div className="p-3 bg-white/70 border border-[#E5D7C7] rounded-2xl flex items-center justify-between shadow-2xs">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="w-8 h-8 rounded-xl bg-gradient-to-tr from-[#FAF3EB] to-[#F5EFE6] border border-[#E5D7C7] text-[#C65D4B] font-black text-xs flex items-center justify-center shrink-0">
+                {user?.fullName ? user.fullName.charAt(0).toUpperCase() : "A"}
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="text-xs font-black text-[#231917] truncate">
+                  {user?.fullName || "Admin"}
+                </div>
+                <div className="text-[10px] text-[#76685F] font-semibold truncate">
+                  {user?.email || "Quản trị viên"}
+                </div>
+              </div>
+            </div>
+            <button
+              type="button"
+              onClick={handleLogout}
+              className="p-1.5 text-[#8B6F5A] hover:text-[#C65D4B] hover:bg-[#FAF3EB] rounded-xl transition-colors shrink-0 cursor-pointer"
+              title="Đăng xuất"
+            >
+              <LogOut className="w-4 h-4" />
+            </button>
+          </div>
         </div>
       </aside>
 
-      {/* 2. Main Executive Header & Content Container */}
+      {/* 2. Main Executive Content Container */}
       <div className="flex-1 lg:pl-68 flex flex-col min-h-screen">
-        {/* Top Sticky Header Bar */}
-        <header className="bg-white/90 backdrop-blur-md border-b border-[#E5D7C7] px-5 sm:px-8 py-3 flex items-center justify-between sticky top-0 z-30 shadow-2xs gap-4">
-          {/* Left: Mobile Toggle & Top Sub-nav Horizontal Tabs */}
-          <div className="flex items-center gap-4 min-w-0 flex-1">
-            <button
-              type="button"
-              onClick={() => setIsMobileOpen(true)}
-              className="lg:hidden p-2 rounded-xl bg-[#FAF3EB] text-[#231917] hover:bg-[#C65D4B] hover:text-white transition-colors text-sm font-bold shrink-0"
-            >
-              ☰
-            </button>
-
-            {/* Horizontal Sub-nav Tabs */}
-            <div className="hidden sm:flex items-center gap-6 overflow-x-auto scrollbar-none py-1">
-              {topTabs.map((tab) => (
-                <Link
-                  key={tab.name}
-                  href={tab.href}
-                  className={`text-xs font-black tracking-wider transition-all relative py-1.5 whitespace-nowrap ${
-                    tab.active
-                      ? "text-[#C65D4B]"
-                      : "text-[#76685F] hover:text-[#231917]"
-                  }`}
-                >
-                  <span>{tab.name}</span>
-                  {tab.active && (
-                    <div className="absolute -bottom-3 left-0 right-0 h-0.5 bg-[#C65D4B] rounded-full shadow-xs" />
-                  )}
-                </Link>
-              ))}
-            </div>
+        {/* Mobile Header Bar (hidden on desktop) */}
+        <div className="lg:hidden bg-white/90 backdrop-blur-md border-b border-[#E5D7C7] px-4 py-3 flex items-center justify-between sticky top-0 z-30 shadow-2xs">
+          <button
+            type="button"
+            onClick={() => setIsMobileOpen(true)}
+            className="p-2 rounded-xl bg-[#FAF3EB] text-[#231917] hover:bg-[#C65D4B] hover:text-white transition-colors text-sm font-bold cursor-pointer"
+          >
+            ☰
+          </button>
+          <span className="font-black text-sm font-jp text-[#231917] tracking-wider">
+            ANH SENSEI ADMIN
+          </span>
+          <div 
+            onClick={handleLogout}
+            className="w-8 h-8 rounded-xl bg-[#FAF3EB] border border-[#E5D7C7] text-[#C65D4B] font-bold text-xs flex items-center justify-center cursor-pointer"
+            title="Đăng xuất"
+          >
+            {user?.fullName ? user.fullName.charAt(0).toUpperCase() : "A"}
           </div>
-
-          {/* Center/Right: Quick Search & Admin Action Bar */}
-          <div className="flex items-center gap-3 shrink-0">
-            {/* Quick Action Button */}
-            <Link
-              href="/admin/curriculum"
-              className="px-4 py-2 bg-gradient-to-r from-[#C65D4B] to-[#B04C3B] hover:from-[#B04C3B] hover:to-[#9E3426] text-white font-black text-xs rounded-2xl shadow-md shadow-[#C65D4B]/20 transition-all flex items-center gap-1.5 cursor-pointer hover:scale-105 active:scale-95"
-            >
-              <Plus className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">+ Tạo nhanh</span>
-            </Link>
-
-            {/* Notification Bell */}
-            <button
-              type="button"
-              className="p-2 text-[#76685F] hover:text-[#C65D4B] hover:bg-[#FAF3EB] rounded-2xl transition-colors cursor-pointer relative border border-transparent hover:border-[#E5D7C7]"
-              title="Thông báo hệ thống"
-            >
-              <Bell className="w-4 h-4" />
-              <span className="w-2 h-2 rounded-full bg-[#C65D4B] absolute top-1.5 right-1.5 ring-2 ring-white animate-pulse" />
-            </button>
-
-            {/* Settings Link */}
-            <Link
-              href="/admin/audit-logs"
-              className="p-2 text-[#76685F] hover:text-[#C65D4B] hover:bg-[#FAF3EB] rounded-2xl transition-colors cursor-pointer border border-transparent hover:border-[#E5D7C7]"
-              title="Cài đặt hệ thống & Nhật ký"
-            >
-              <Settings className="w-4 h-4" />
-            </Link>
-
-            {/* User Avatar & Logout */}
-            <div className="pl-1 border-l border-[#E5D7C7] flex items-center gap-2">
-              <div 
-                onClick={handleLogout}
-                className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-[#FAF3EB] to-[#F5EFE6] border border-[#E5D7C7] text-[#C65D4B] font-black text-xs flex items-center justify-center cursor-pointer shadow-2xs hover:border-[#C65D4B] hover:scale-105 transition-all"
-                title="Đăng xuất khỏi hệ thống"
-              >
-                {user?.fullName ? user.fullName.charAt(0).toUpperCase() : "A"}
-              </div>
-            </div>
-          </div>
-        </header>
+        </div>
 
         {/* Dynamic Page Body */}
         <main className="flex-1 p-4 sm:p-6 lg:p-8">{children}</main>

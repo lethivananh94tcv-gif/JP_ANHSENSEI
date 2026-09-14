@@ -52,12 +52,12 @@ export default function LearnerGrammarPage() {
           const mapped = validLessons.map((l: any, idx: number) => ({
             id: l.lessonId || l.id || idx + 1,
             level: activeLevelId,
-            lessonNumber: l.lessonNumber && l.lessonNumber > 0 
-              ? l.lessonNumber 
-              : activeLevelId === "N4" && l.sortOrder <= 25 
-                ? l.sortOrder + 25 
-                : activeLevelId === "N3" && l.sortOrder <= 15 
-                  ? l.sortOrder + 50 
+            lessonNumber: l.lessonNumber && l.lessonNumber > 0
+              ? l.lessonNumber
+              : activeLevelId === "N4" && l.sortOrder <= 25
+                ? l.sortOrder + 25
+                : activeLevelId === "N3" && l.sortOrder <= 15
+                  ? l.sortOrder + 50
                   : (l.sortOrder || idx + 1),
             title: l.title || l.lessonTitle || `Bài ${idx + 1}`,
             description: l.description || "Nội dung bài học ngữ pháp",
@@ -133,13 +133,13 @@ export default function LearnerGrammarPage() {
 
       {/* 2. MAIN DASHBOARD CONTAINER */}
       <main className="flex-1 w-full max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
-        
+
         {/* BREADCRUMB */}
         <Breadcrumb currentPage="Ngữ pháp" />
 
         {/* 3-COLUMN BALANCED DESKTOP LAYOUT (Left 230px, Main flex-1, Right 280px) */}
         <div className="flex flex-col xl:flex-row items-start gap-6">
-          
+
           {/* LEFT SIDEBAR (~230px) */}
           <aside className="w-full xl:w-[230px] shrink-0 space-y-5">
             {/* Card 1: Chọn cấp độ */}

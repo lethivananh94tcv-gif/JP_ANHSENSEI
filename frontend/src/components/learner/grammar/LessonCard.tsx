@@ -53,9 +53,8 @@ export default function LessonCard({
     return (
       <Link
         href={targetUrl}
-        className={`relative overflow-hidden bg-[#FFFDF9] border border-[#EFE5DA] rounded-2xl p-5 shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer flex flex-col justify-between gap-4 hover:-translate-y-1 group ${
-          isSelected ? "border-[#C65D4B] bg-[#C65D4B]/5" : "hover:border-[#C65D4B]/40"
-        }`}
+        className={`relative overflow-hidden bg-[#FFFDF9] border border-[#EFE5DA] rounded-2xl p-5 shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer flex flex-col justify-between gap-4 hover:-translate-y-1 group ${isSelected ? "border-[#C65D4B] bg-[#C65D4B]/5" : "hover:border-[#C65D4B]/40"
+          }`}
       >
         {/* Left Status Bar Indicator */}
         <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${accentColor}`} />
@@ -137,9 +136,8 @@ export default function LessonCard({
   return (
     <Link
       href={targetUrl}
-      className={`relative overflow-hidden bg-[#FFFDF9] border border-[#EFE5DA] rounded-2xl p-4 sm:p-4.5 shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:-translate-y-0.5 group ${
-        isSelected ? "border-[#C65D4B] bg-[#C65D4B]/5" : "hover:border-[#C65D4B]/40"
-      }`}
+      className={`relative overflow-hidden bg-[#FFFDF9] border border-[#EFE5DA] rounded-2xl p-4 sm:p-4.5 shadow-2xs hover:shadow-md transition-all duration-200 cursor-pointer flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:-translate-y-0.5 group ${isSelected ? "border-[#C65D4B] bg-[#C65D4B]/5" : "hover:border-[#C65D4B]/40"
+        }`}
     >
       {/* Status Accent Bar */}
       <div className={`absolute left-0 top-0 bottom-0 w-1.5 ${accentColor}`} />

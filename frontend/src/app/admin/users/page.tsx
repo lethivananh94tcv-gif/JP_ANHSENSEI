@@ -6,7 +6,7 @@ import {
   Search, Bell, User as UserIcon, ChevronDown, Users, GraduationCap, 
   Hourglass, CheckCircle2, TrendingUp, Filter, Plus, Eye, Edit3, Trash2,
   Lock, Unlock, ArrowUpRight, ArrowDownRight, ShoppingBag, 
-  HelpCircle, ChevronLeft, ChevronRight, X, ShieldAlert, LogIn
+  HelpCircle, ChevronLeft, ChevronRight, X, ShieldAlert, LogIn, Clock
 } from "lucide-react";
 import { getApiUrl } from "@/lib/api/client";
 
@@ -23,6 +23,52 @@ interface UserItem {
   level?: "N5 - Beginner" | "N4 - Basic" | "N3 - Intermediate" | "N2 - Advanced" | "N1 - Master";
   progress?: number;
   classCode?: string;
+  totalDurationSeconds?: number;
+  activeHours?: number;
+}
+
+function getAccountActiveHours(user: UserItem) {
+  const sec = user.totalDurationSeconds != null 
+    ? user.totalDurationSeconds 
+    : (user.activeHours != null ? Math.round(user.activeHours * 3600) : 0);
+
+  if (!sec || sec <= 0) {
+    return "0 phút";
+  }
+
+  const hours = Math.floor(sec / 3600);
+  const minutes = Math.floor((sec % 3600) / 60);
+
+  if (hours > 0 && minutes > 0) {
+    return `${hours} giờ ${minutes} phút`;
+  }
+  if (hours > 0) {
+    return `${hours} giờ`;
+  }
+  return `${minutes} phút`;
+}
+
+function formatUserLastActive(dateStr?: string | null) {
+  if (!dateStr) return "Hôm nay";
+  try {
+    const d = new Date(dateStr);
+    const now = new Date();
+    const diffMs = now.getTime() - d.getTime();
+    const diffMins = Math.floor(diffMs / 60000);
+    const diffHours = Math.floor(diffMins / 60);
+
+    if (diffMins < 1) return "Vừa xong";
+    if (diffMins < 60) return `${diffMins} phút trước`;
+    if (diffHours < 24 && d.getDate() === now.getDate()) {
+      return d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" });
+    }
+    if (diffHours < 48) {
+      return `Hôm qua ${d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}`;
+    }
+    return `${d.toLocaleDateString("vi-VN", { day: "2-digit", month: "2-digit" })} ${d.toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" })}`;
+  } catch {
+    return "Hôm nay";
+  }
 }
 
 export default function AdminUsersPage() {
@@ -153,13 +199,18 @@ export default function AdminUsersPage() {
       const classCodes = ["N4-KA-05", "N3-KA-03", "N5-KA-01", "N4-KA-04", "N3-KA-02"];
 
       // Map enrichment fields for UI display
-      const mapped = list.map((u, idx) => ({
-        ...u,
-        id: `#${u.userId}`,
-        level: u.level || levelsList[idx % 5],
-        progress: u.progress != null ? u.progress : Math.floor(((u.userId * 17) % 75) + 20),
-        classCode: u.classCode || classCodes[idx % classCodes.length],
-      }));
+      const mapped = list.map((u, idx) => {
+        const progressVal = u.progress != null ? u.progress : Math.floor(((u.userId * 17) % 75) + 20);
+        return {
+          ...u,
+          id: `#${u.userId}`,
+          level: u.level || levelsList[idx % 5],
+          progress: progressVal,
+          totalDurationSeconds: u.totalDurationSeconds != null ? u.totalDurationSeconds : 0,
+          activeHours: u.activeHours != null ? u.activeHours : 0,
+          classCode: u.classCode || classCodes[idx % classCodes.length],
+        };
+      });
 
       setUsers(mapped);
       setLoading(false);
@@ -520,7 +571,7 @@ export default function AdminUsersPage() {
                   <th className="p-3 w-40">TIẾN ĐỘ TRUNG BÌNH</th>
                   <th className="p-3">TRẠNG THÁI</th>
                   <th className="p-3">LỚP HỌC</th>
-                  <th className="p-3">HOẠT ĐỘNG GẦN NHẤT</th>
+                  <th className="p-3">SỐ GIỜ HOẠT ĐỘNG</th>
                   <th className="p-3 text-center">THAO TÁC</th>
                 </tr>
               </thead>
@@ -627,9 +678,19 @@ export default function AdminUsersPage() {
                           </span>
                         </td>
 
-                        {/* Hoạt động gần nhất */}
-                        <td className="p-3 text-[#8C7B70] font-medium">
-                          {item.lastLoginAt ? new Date(item.lastLoginAt).toLocaleTimeString("vi-VN", { hour: "2-digit", minute: "2-digit" }) : "Hôm nay"}
+                        {/* Số giờ hoạt động */}
+                        <td className="p-3 whitespace-nowrap">
+                          <div className="flex flex-col gap-0.5">
+                            <span className="inline-flex items-center gap-1.5 font-black text-[#231917] text-xs">
+                              <Clock className="w-3.5 h-3.5 text-[#C65D4B] shrink-0" />
+                              <span className="bg-[#FAF3EB] px-2 py-0.5 rounded-md border border-[#E5D7C7] text-[#C65D4B] font-black">
+                                {getAccountActiveHours(item)}
+                              </span>
+                            </span>
+                            <span className="text-[10px] text-[#8C7B70] font-medium pl-0.5">
+                              Gần nhất: {formatUserLastActive(item.lastLoginAt)}
+                            </span>
+                          </div>
                         </td>
 
                         {/* Actions */}

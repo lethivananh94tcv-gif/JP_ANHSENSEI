@@ -337,7 +337,7 @@ export default function LearnerGrammarDetailPage() {
             if (Array.isArray(parsed) && parsed.length > 0) {
               adminSaved = parsed;
             }
-          } catch (e) {}
+          } catch (e) { }
         }
       }
 
@@ -363,10 +363,10 @@ export default function LearnerGrammarDetailPage() {
             usageNotes: g.usageNotes || g.notes || "",
             examples: Array.isArray(g.examples)
               ? g.examples.map((ex: any) => ({
-                  japaneseText: ex.japaneseText || ex.japanese || "",
-                  furiganaText: ex.reading || ex.furigana || ex.furiganaText || ex.japaneseText || "",
-                  meaningVi: ex.meaningVi || ex.translationVi || ex.meaning || "",
-                }))
+                japaneseText: ex.japaneseText || ex.japanese || "",
+                furiganaText: ex.reading || ex.furigana || ex.furiganaText || ex.japaneseText || "",
+                meaningVi: ex.meaningVi || ex.translationVi || ex.meaning || "",
+              }))
               : [],
           }));
 
@@ -526,7 +526,7 @@ export default function LearnerGrammarDetailPage() {
 
       {/* 2. MAIN LESSON CONTAINER */}
       <main className="flex-1 w-full max-w-[1320px] mx-auto px-4 sm:px-6 py-6 space-y-6">
-        
+
         {/* BREADCRUMB & BACK LINK */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-[#E5D7C7] pb-3.5">
           <div className="flex items-center gap-2 text-xs font-bold text-[#76655A]">
@@ -550,7 +550,7 @@ export default function LearnerGrammarDetailPage() {
 
         {/* ULTRA-CUTE JAPANESE STUDY HERO BANNER */}
         <div className="relative overflow-hidden bg-gradient-to-br from-[#FFFDF9] via-[#FFF7F4] to-[#FAF1E8] border-2 border-[#EBDCD0] rounded-3xl p-5 sm:p-7 shadow-md flex flex-col md:flex-row items-center justify-between gap-6">
-          
+
           {/* Subtle Decorative Sakura & Japanese Grid Accents */}
           <div className="absolute right-0 top-0 bottom-0 w-48 bg-[radial-gradient(#C65D4B_1.2px,transparent_1.2px)] [background-size:14px_14px] opacity-15 pointer-events-none" />
           <div className="absolute -bottom-8 -left-8 w-28 h-28 bg-[#C65D4B]/10 rounded-full blur-xl pointer-events-none" />
@@ -687,9 +687,8 @@ export default function LearnerGrammarDetailPage() {
                 <button
                   key={g.grammarId}
                   onClick={() => scrollToPoint(g.grammarId)}
-                  className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition-all ${
-                    activePointId === g.grammarId ? "bg-[#C65D4B] text-white" : "text-[#76655A] hover:bg-[#FAF4EB]"
-                  }`}
+                  className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition-all ${activePointId === g.grammarId ? "bg-[#C65D4B] text-white" : "text-[#76655A] hover:bg-[#FAF4EB]"
+                    }`}
                 >
                   <span className="mr-2 font-mono">{String(idx + 1).padStart(2, "0")}</span>
                   <span>{g.pattern}</span>
@@ -701,7 +700,7 @@ export default function LearnerGrammarDetailPage() {
 
         {/* DESKTOP 2-COLUMN TEXTBOOK LAYOUT (Sticky Sidebar ~220px & Main Cards Area) */}
         <div className="flex flex-col lg:flex-row items-start gap-6">
-          
+
           {/* LEFT SIDEBAR: INDIVIDUAL GRAMMAR POINTS MỤC LỤC (~220px Sticky) */}
           <aside className="hidden lg:block w-[220px] shrink-0 sticky top-20 space-y-3">
             <div className="bg-[#FFFDF9] border border-[#E5D7C7] rounded-2xl p-4 shadow-[0_4px_16px_rgba(74,52,38,0.03)] space-y-3">
@@ -725,11 +724,10 @@ export default function LearnerGrammarDetailPage() {
                       key={g.grammarId}
                       type="button"
                       onClick={() => scrollToPoint(g.grammarId)}
-                      className={`w-full text-left px-3 py-2 rounded-xl text-xs transition-all cursor-pointer flex items-center justify-between gap-2 ${
-                        isActive
+                      className={`w-full text-left px-3 py-2 rounded-xl text-xs transition-all cursor-pointer flex items-center justify-between gap-2 ${isActive
                           ? "bg-[#C65D4B] text-white font-black shadow-xs"
                           : "text-[#6E5D55] hover:text-[#1F1714] hover:bg-[#FAF4EB] font-bold"
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center gap-2 min-w-0">
                         <span className={`font-mono text-[11px] shrink-0 ${isActive ? "text-white" : "text-[#C65D4B]"}`}>
@@ -759,7 +757,7 @@ export default function LearnerGrammarDetailPage() {
 
           {/* MAIN WORKSPACE: HIGH-CONTRAST JAPANESE TEXTBOOK GRAMMAR CARDS */}
           <div className="flex-1 w-full space-y-6 min-w-0">
-            
+
             {loading ? (
               <div className="bg-[#FFFDF9] rounded-2xl p-12 text-center text-[#76655A] border border-[#E5D7C7] font-bold animate-pulse">
                 ⛩️ Đang nạp giáo trình bài học...
@@ -774,9 +772,8 @@ export default function LearnerGrammarDetailPage() {
                   <section
                     key={g.grammarId}
                     id={`grammar-point-${g.grammarId}`}
-                    className={`bg-[#FFFDF9] border rounded-2xl p-5 sm:p-6 shadow-[0_4px_20px_rgba(74,52,38,0.04)] space-y-4.5 transition-all duration-200 scroll-mt-24 ${
-                      isActive ? "border-[#C65D4B] ring-2 ring-[#C65D4B]/15" : "border-[#E5D7C7]"
-                    }`}
+                    className={`bg-[#FFFDF9] border rounded-2xl p-5 sm:p-6 shadow-[0_4px_20px_rgba(74,52,38,0.04)] space-y-4.5 transition-all duration-200 scroll-mt-24 ${isActive ? "border-[#C65D4B] ring-2 ring-[#C65D4B]/15" : "border-[#E5D7C7]"
+                      }`}
                   >
                     {/* Header Strip: Number Badge + Formula Title + Meaning Tag + Action Button */}
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-[#E5D7C7] pb-3.5">
@@ -800,11 +797,10 @@ export default function LearnerGrammarDetailPage() {
                       <button
                         type="button"
                         onClick={() => toggleLearned(g.grammarId)}
-                        className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shrink-0 border ${
-                          isLearned
+                        className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer shrink-0 border ${isLearned
                             ? "bg-emerald-50 text-emerald-800 border-emerald-300 shadow-2xs"
                             : "bg-[#FAF4EB] text-[#76655A] border-[#E5D7C7] hover:text-[#C65D4B] hover:border-[#C65D4B]/40"
-                        }`}
+                          }`}
                       >
                         <CheckCircle2 className={`w-4 h-4 ${isLearned ? "text-emerald-600" : "text-[#76655A]"}`} />
                         <span>{isLearned ? "Đã thuộc" : "Đánh dấu đã thuộc"}</span>
@@ -897,11 +893,10 @@ export default function LearnerGrammarDetailPage() {
                                   type="button"
                                   title="Nghe phát âm chuẩn tiếng Nhật"
                                   onClick={() => handlePlayAudio(ex.japaneseText, audioKey)}
-                                  className={`w-9 h-9 rounded-xl border flex items-center justify-center transition-all shrink-0 cursor-pointer ${
-                                    isPlaying
+                                  className={`w-9 h-9 rounded-xl border flex items-center justify-center transition-all shrink-0 cursor-pointer ${isPlaying
                                       ? "bg-[#C65D4B] text-white border-[#C65D4B] animate-pulse"
                                       : "bg-[#FFFDF9] hover:bg-[#C65D4B] text-[#C65D4B] hover:text-white border-[#E5D7C7] hover:border-[#C65D4B]"
-                                  }`}
+                                    }`}
                                 >
                                   <Volume2 className="w-4 h-4" />
                                 </button>
@@ -1092,11 +1087,10 @@ export default function LearnerGrammarDetailPage() {
             <button
               type="button"
               onClick={() => setPracticeTab("CLOZE")}
-              className={`px-4 py-2 rounded-xl text-xs font-black transition-all duration-200 cursor-pointer flex items-center gap-1.5 shrink-0 ${
-                practiceTab === "CLOZE"
+              className={`px-4 py-2 rounded-xl text-xs font-black transition-all duration-200 cursor-pointer flex items-center gap-1.5 shrink-0 ${practiceTab === "CLOZE"
                   ? "bg-gradient-to-r from-[#D94129] via-[#FF5733] to-[#E6B655] text-white shadow-[0_0_20px_rgba(217,65,41,0.6)] scale-105 border border-[#FF9E85]/40"
                   : "text-[#D4C5B3] hover:text-white bg-[#221816] hover:bg-[#2F211D] border border-[#D4AF37]/20"
-              }`}
+                }`}
             >
               <Edit3 className="w-3.5 h-3.5" />
               <span>1. Biến Đổi Thể & Điền Trợ Từ</span>
@@ -1105,11 +1099,10 @@ export default function LearnerGrammarDetailPage() {
             <button
               type="button"
               onClick={() => setPracticeTab("REFLEX")}
-              className={`px-4 py-2 rounded-xl text-xs font-black transition-all duration-200 cursor-pointer flex items-center gap-1.5 shrink-0 ${
-                practiceTab === "REFLEX"
+              className={`px-4 py-2 rounded-xl text-xs font-black transition-all duration-200 cursor-pointer flex items-center gap-1.5 shrink-0 ${practiceTab === "REFLEX"
                   ? "bg-gradient-to-r from-[#D94129] via-[#FF5733] to-[#E6B655] text-white shadow-[0_0_20px_rgba(217,65,41,0.6)] scale-105 border border-[#FF9E85]/40"
                   : "text-[#D4C5B3] hover:text-white bg-[#221816] hover:bg-[#2F211D] border border-[#D4AF37]/20"
-              }`}
+                }`}
             >
               <MessageSquare className="w-3.5 h-3.5" />
               <span>2. Phản Xạ Hội Thoại</span>
@@ -1118,11 +1111,10 @@ export default function LearnerGrammarDetailPage() {
             <button
               type="button"
               onClick={() => setPracticeTab("EMA")}
-              className={`px-4 py-2 rounded-xl text-xs font-black transition-all duration-200 cursor-pointer flex items-center gap-1.5 shrink-0 ${
-                practiceTab === "EMA"
+              className={`px-4 py-2 rounded-xl text-xs font-black transition-all duration-200 cursor-pointer flex items-center gap-1.5 shrink-0 ${practiceTab === "EMA"
                   ? "bg-gradient-to-r from-[#D94129] via-[#FF5733] to-[#E6B655] text-white shadow-[0_0_20px_rgba(217,65,41,0.6)] scale-105 border border-[#FF9E85]/40"
                   : "text-[#D4C5B3] hover:text-white bg-[#221816] hover:bg-[#2F211D] border border-[#D4AF37]/20"
-              }`}
+                }`}
             >
               <Gamepad2 className="w-3.5 h-3.5" />
               <span>3. Game Xếp Câu Ema</span>

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { 
   FileText, Volume2, Plus, Trash2, Key, Sparkles, CheckCircle2, ShieldCheck, 
-  Layers, Search, BookOpen, Lightbulb, Save, X, Eye, GitBranch, ArrowRight, Check, History, Edit, FileSpreadsheet, Upload
+  Layers, Search, BookOpen, Lightbulb, Save, X, Eye, GitBranch, ArrowRight, Check, History, Edit, FileSpreadsheet, Upload, Music, Play
 } from "lucide-react";
 import scannedExamData from "@/app/data/scanned_n4_exams.json";
 import official2010Data from "@/app/data/scanned_n4_2010_official_answers.json";
@@ -12,6 +12,29 @@ import official2012Data from "@/app/data/scanned_n4_2012_official_answers.json";
 import official2014Data from "@/app/data/scanned_n4_2014_official_answers.json";
 import official2018Data from "@/app/data/scanned_n4_2018_official_answers.json";
 import { EXAM_DETAILED_EXPLANATION_MAP } from "@/app/data/jlptDetailedExplanations";
+
+interface SystemAudioTrack {
+  level: "N5" | "N4" | "N3";
+  name: string;
+  path: string;
+  label: string;
+}
+
+const AVAILABLE_SYSTEM_AUDIO_TRACKS: SystemAudioTrack[] = [
+  { level: "N4", name: "n4-2018.m4a", path: "/audio/jlpt/n4/n4-2018.m4a", label: "JLPT N4 - Đề 12/2018 (Băng gốc M4A - 18.6 MB)" },
+  { level: "N4", name: "n4-2021-12.mp3", path: "/audio/jlpt/n4/n4-2021-12.mp3", label: "JLPT N4 - Đề 12/2021 (Băng gốc MP3 - 18.6 MB)" },
+  { level: "N4", name: "n4-2017-07.mp3", path: "/audio/jlpt/n4/n4-2017-07.mp3", label: "JLPT N4 - Đề 07/2017 (Băng gốc MP3 - 35.1 MB)" },
+  { level: "N4", name: "n4-2014-07.m4a", path: "/audio/jlpt/n4/n4-2014-07.m4a", label: "JLPT N4 - Đề 07/2014 (Băng gốc M4A - 18.6 MB)" },
+  { level: "N4", name: "n4-2013-07.m4a", path: "/audio/jlpt/n4/n4-2013-07.m4a", label: "JLPT N4 - Đề 07/2013 (Băng gốc M4A - 18.8 MB)" },
+  { level: "N4", name: "n4-2012-12.m4a", path: "/audio/jlpt/n4/n4-2012-12.m4a", label: "JLPT N4 - Đề 12/2012 (Băng gốc M4A - 17.5 MB)" },
+  { level: "N4", name: "n4-2010-2011.m4a", path: "/audio/jlpt/n4/n4-2010-2011.m4a", label: "JLPT N4 - Đề 2010-2011 (Băng gốc M4A - 17.4 MB)" },
+  { level: "N5", name: "n5-2023-07.mp3", path: "/audio/jlpt/n5/n5-2023-07.mp3", label: "JLPT N5 - Đề 07/2023 (Băng gốc MP3 - 35.1 MB)" },
+  { level: "N5", name: "n5-2022-12.mp3", path: "/audio/jlpt/n5/n5-2022-12.mp3", label: "JLPT N5 - Đề 12/2022 (Băng gốc MP3 - 35.1 MB)" },
+  { level: "N5", name: "n5-2021-12.mp3", path: "/audio/jlpt/n5/n5-2021-12.mp3", label: "JLPT N5 - Đề 12/2021 (Băng gốc MP3 - 35.1 MB)" },
+  { level: "N5", name: "n5-2020-12.mp3", path: "/audio/jlpt/n5/n5-2020-12.mp3", label: "JLPT N5 - Đề 12/2020 (Băng gốc MP3 - 35.1 MB)" },
+  { level: "N3", name: "n3-2023-07.mp3", path: "/audio/jlpt/n3/n3-2023-07.mp3", label: "JLPT N3 - Đề 07/2023 (Băng gốc MP3 - 35.1 MB)" },
+  { level: "N3", name: "n3-2022-12.mp3", path: "/audio/jlpt/n3/n3-2022-12.mp3", label: "JLPT N3 - Đề 12/2022 (Băng gốc MP3 - 35.1 MB)" },
+];
 
 export type ExamStatus = "DRAFT" | "AI_GENERATED" | "ADMIN_REVIEW" | "APPROVED" | "PUBLISHED";
 
@@ -345,16 +368,40 @@ export default function AdminJlptExamManagementPage() {
   const [scannedAnswers, setScannedAnswers] = useState<Record<number, number>>({});
   const [uploadedFileName, setUploadedFileName] = useState<string>("n4-2010-2011.pdf");
   const [viewerExam, setViewerExam] = useState<{ title: string; pdfUrl: string; pdfFileName: string; audioUrl: string; audioFileName: string } | null>(null);
+  const [deleteConfirmExam, setDeleteConfirmExam] = useState<{ id: string; title: string } | null>(null);
 
   // Dynamic PDF Import Modal States
   const [isImportModalOpen, setIsImportModalOpen] = useState(false);
   const [importLevel, setImportLevel] = useState<"N5" | "N4" | "N3">("N4");
   const [importYearTitle, setImportYearTitle] = useState("Đề Thi Thật JLPT N4 (Bộ Upload Mới)");
   const [importExamCode, setImportExamCode] = useState("n4-2024-new");
+  const [importDurationMinutes, setImportDurationMinutes] = useState<number>(105);
   const [selectedPdfFile, setSelectedPdfFile] = useState<File | null>(null);
   const [isParsingPdf, setIsParsingPdf] = useState(false);
   const [pdfPreviewData, setPdfPreviewData] = useState<any>(null);
   const [importPreviewFilter, setImportPreviewFilter] = useState<"ALL" | "VOCAB" | "GRAMMAR" | "LISTENING" | "NEEDS_REVIEW">("ALL");
+
+  // Audio Import States in Import Modal
+  const [selectedAudioFile, setSelectedAudioFile] = useState<File | null>(null);
+  const [audioSourceType, setAudioSourceType] = useState<"SYSTEM" | "UPLOAD" | "URL">("SYSTEM");
+  const [selectedSystemAudio, setSelectedSystemAudio] = useState<string>("/audio/jlpt/n4/n4-2018.m4a");
+  const [customAudioUrl, setCustomAudioUrl] = useState<string>("");
+
+  // Audio Quick Edit Modal for Existing Exams
+  const [audioEditModalExam, setAudioEditModalExam] = useState<{
+    examId: string;
+    versionId: string;
+    title: string;
+    currentAudioUrl: string;
+    currentAudioFileName: string;
+  } | null>(null);
+  const [audioEditSourceType, setAudioEditSourceType] = useState<"SYSTEM" | "UPLOAD" | "URL">("SYSTEM");
+  const [audioEditFile, setAudioEditFile] = useState<File | null>(null);
+  const [audioEditSystemPath, setAudioEditSystemPath] = useState<string>("/audio/jlpt/n4/n4-2018.m4a");
+  const [audioEditCustomUrl, setAudioEditCustomUrl] = useState<string>("");
+
+  // Standalone Choukai Audio Library Modal
+  const [isAudioLibraryOpen, setIsAudioLibraryOpen] = useState(false);
 
   const handleSimulatePdfPipeline = (file: File) => {
     setIsParsingPdf(true);
@@ -433,41 +480,63 @@ export default function AdminJlptExamManagementPage() {
   };
 
   const handleConfirmImportExam = () => {
-    if (!pdfPreviewData) return;
-
     const newExamId = `ex-${Date.now()}`;
     const verId = `ver-${newExamId}-1`;
 
-    const qDetails: Record<number, QuestionDetail> = {};
-    pdfPreviewData.questions.forEach((q: any) => {
-      qDetails[q.globalIndex] = {
-        globalIndex: q.globalIndex,
-        localPdfNumber: q.localQuestionNumber,
-        sectionType: q.section,
-        snippet: `[Trích PDF ${pdfPreviewData.pdfName}] Câu ${q.localQuestionNumber}`,
-        correctOption: q.correctAnswer || 1,
-        optionText: q.correctAnswer ? `Phương án [${q.correctAnswer}]` : "CHƯA BÓC TÁCH",
-        explanation: q.explanation || "Chờ review",
-      };
-    });
+    let qDetails: Record<number, QuestionDetail> = {};
+    let totalQuestionsCount = 98;
+    let examStatus: ExamStatus = "DRAFT";
+
+    if (pdfPreviewData && pdfPreviewData.questions) {
+      totalQuestionsCount = pdfPreviewData.totalQuestions;
+      examStatus = pdfPreviewData.status === "APPROVED" ? "APPROVED" : "DRAFT";
+      pdfPreviewData.questions.forEach((q: any) => {
+        qDetails[q.globalIndex] = {
+          globalIndex: q.globalIndex,
+          localPdfNumber: q.localQuestionNumber,
+          sectionType: q.section,
+          snippet: `[Trích PDF ${pdfPreviewData.pdfName}] Câu ${q.localQuestionNumber}`,
+          correctOption: q.correctAnswer || 1,
+          optionText: q.correctAnswer ? `Phương án [${q.correctAnswer}]` : "CHƯA BÓC TÁCH",
+          explanation: q.explanation || "Chờ review",
+        };
+      });
+    } else {
+      qDetails = generateInitialQuestions(98, importExamCode);
+    }
+
+    let finalAudioUrl = `/audio/jlpt/${importLevel.toLowerCase()}/${importExamCode}.mp3`;
+    let finalAudioFileName = `Audio-${importExamCode}.mp3`;
+
+    if (audioSourceType === "UPLOAD" && selectedAudioFile) {
+      finalAudioUrl = URL.createObjectURL(selectedAudioFile);
+      finalAudioFileName = selectedAudioFile.name;
+    } else if (audioSourceType === "SYSTEM" && selectedSystemAudio) {
+      finalAudioUrl = selectedSystemAudio;
+      const track = AVAILABLE_SYSTEM_AUDIO_TRACKS.find((t) => t.path === selectedSystemAudio);
+      finalAudioFileName = track ? track.name : selectedSystemAudio.split("/").pop() || "audio.mp3";
+    } else if (audioSourceType === "URL" && customAudioUrl.trim()) {
+      finalAudioUrl = customAudioUrl.trim();
+      finalAudioFileName = customAudioUrl.split("/").pop() || "remote-audio.mp3";
+    }
 
     const newExam: AdminJlptExam = {
       id: newExamId,
-      examCode: importExamCode,
+      examCode: importExamCode || `jlpt-${importLevel.toLowerCase()}-${Date.now()}`,
       level: importLevel,
-      yearTitle: importYearTitle,
+      yearTitle: importYearTitle || `Bộ Đề Thi JLPT ${importLevel}`,
       activeVersionId: verId,
       versions: [
         {
           versionId: verId,
           versionNumber: 1,
-          status: pdfPreviewData.status === "APPROVED" ? "APPROVED" : "DRAFT",
+          status: examStatus,
           pdfUrl: `/pdf/jlpt/${importLevel.toLowerCase()}/${importExamCode}.pdf`,
           pdfFileName: selectedPdfFile?.name || `${importExamCode}.pdf`,
-          audioUrl: `/audio/jlpt/${importLevel.toLowerCase()}/${importExamCode}.mp3`,
-          audioFileName: `Audio-${importExamCode}.mp3`,
-          durationMinutes: 105,
-          totalQuestions: pdfPreviewData.totalQuestions,
+          audioUrl: finalAudioUrl,
+          audioFileName: finalAudioFileName,
+          durationMinutes: importDurationMinutes || 105,
+          totalQuestions: totalQuestionsCount,
           createdAt: new Date().toISOString().split("T")[0],
           questions: qDetails,
         }
@@ -478,7 +547,47 @@ export default function AdminJlptExamManagementPage() {
     setIsImportModalOpen(false);
     setPdfPreviewData(null);
     setSelectedPdfFile(null);
-    showToast("🎉 Đã Confirm Import & lưu bộ đề thi mới vào hệ thống thành công!");
+    setSelectedAudioFile(null);
+    showToast(`🎉 Đã tạo bộ đề "${newExam.yearTitle}" kèm file nghe [${finalAudioFileName}] thành công!`);
+  };
+
+  const handleSaveAudioForExam = () => {
+    if (!audioEditModalExam) return;
+
+    let finalAudioUrl = audioEditModalExam.currentAudioUrl;
+    let finalAudioFileName = audioEditModalExam.currentAudioFileName;
+
+    if (audioEditSourceType === "UPLOAD" && audioEditFile) {
+      finalAudioUrl = URL.createObjectURL(audioEditFile);
+      finalAudioFileName = audioEditFile.name;
+    } else if (audioEditSourceType === "SYSTEM" && audioEditSystemPath) {
+      finalAudioUrl = audioEditSystemPath;
+      const track = AVAILABLE_SYSTEM_AUDIO_TRACKS.find((t) => t.path === audioEditSystemPath);
+      finalAudioFileName = track ? track.name : audioEditSystemPath.split("/").pop() || "audio.mp3";
+    } else if (audioEditSourceType === "URL" && audioEditCustomUrl.trim()) {
+      finalAudioUrl = audioEditCustomUrl.trim();
+      finalAudioFileName = audioEditCustomUrl.split("/").pop() || "remote-audio.mp3";
+    }
+
+    const updated = exams.map((ex) => {
+      if (ex.id !== audioEditModalExam.examId) return ex;
+      return {
+        ...ex,
+        versions: ex.versions.map((ver) => {
+          if (ver.versionId !== audioEditModalExam.versionId) return ver;
+          return {
+            ...ver,
+            audioUrl: finalAudioUrl,
+            audioFileName: finalAudioFileName,
+          };
+        }),
+      };
+    });
+
+    saveExamsToStorage(updated);
+    showToast(`🎵 Đã cập nhật file nghe Choukai [${finalAudioFileName}] cho đề "${audioEditModalExam.title}"!`);
+    setAudioEditModalExam(null);
+    setAudioEditFile(null);
   };
 
   const handleOpenScanner = (examId: string, ver: AdminJlptExamVersion) => {
@@ -772,6 +881,33 @@ export default function AdminJlptExamManagementPage() {
           <button
             type="button"
             onClick={() => {
+              setImportLevel("N4");
+              setImportExamCode(`n4-${new Date().getFullYear()}-new`);
+              setImportYearTitle(`Đề Thi Thật JLPT N4 (Năm ${new Date().getFullYear()})`);
+              setImportDurationMinutes(105);
+              setSelectedPdfFile(null);
+              setSelectedAudioFile(null);
+              setPdfPreviewData(null);
+              setIsImportModalOpen(true);
+            }}
+            className="px-5 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl shadow-lg transition-all flex items-center gap-2 cursor-pointer shrink-0 hover:scale-102"
+          >
+            <Plus className="w-4 h-4" />
+            <span>➕ Thêm / Import Đề Thi Mới (PDF & Audio)</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setIsAudioLibraryOpen(true)}
+            className="px-5 py-3.5 bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs rounded-2xl shadow-lg transition-all flex items-center gap-2 cursor-pointer shrink-0 hover:scale-102"
+          >
+            <Volume2 className="w-4 h-4" />
+            <span>🎵 Kho File Nghe Choukai</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => {
               showToast("🔄 Đang chạy Universal Batch Re-process cho tất cả PDF hiện có...");
               fetch("http://localhost:8080/api/v1/jlpt/exams/reprocess-all", { method: "POST" })
                 .then((res) => res.json())
@@ -786,51 +922,6 @@ export default function AdminJlptExamManagementPage() {
           >
             <GitBranch className="w-4 h-4" />
             <span>🔄 Re-process Tất Cả Đề PDF</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setIsImportModalOpen(true)}
-            className="px-5 py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-2xl shadow-lg transition-all flex items-center gap-2 cursor-pointer shrink-0 hover:scale-102"
-          >
-            <FileText className="w-4 h-4" />
-            <span>📄 Import Đề PDF (Pipeline)</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => {
-              const newExamId = `ex-${Date.now()}`;
-              const newVerId = `ver-${newExamId}-1`;
-              const newExam: AdminJlptExam = {
-                id: newExamId,
-                examCode: `n4-${Date.now()}`,
-                level: "N4",
-                yearTitle: "Đề Thi Thật JLPT N4 Mới (Năm 2024)",
-                activeVersionId: newVerId,
-                versions: [
-                  {
-                    versionId: newVerId,
-                    versionNumber: 1,
-                    status: "PUBLISHED",
-                    pdfUrl: "/pdf/jlpt/n4/n4-2021-12.pdf",
-                    pdfFileName: "N4-2024-New.pdf",
-                    audioUrl: "/audio/jlpt/n4/n4-2021-12.mp3",
-                    audioFileName: "Nghe-N4-2024.mp3",
-                    durationMinutes: 105,
-                    totalQuestions: 98,
-                    createdAt: new Date().toISOString().split("T")[0],
-                    questions: generateInitialQuestions(98, "n4-2024"),
-                  }
-                ]
-              };
-              saveExamsToStorage([newExam, ...exams]);
-              showToast("Đã khởi tạo đề thi mới thành công!");
-            }}
-            className="px-5 py-3.5 bg-[#C65D4B] hover:bg-[#B44C3B] text-white font-extrabold text-xs rounded-2xl shadow-lg transition-all flex items-center gap-2 cursor-pointer shrink-0 hover:scale-102"
-          >
-            <Plus className="w-4 h-4" />
-            <span>➕ Thêm Đề Thi Mới</span>
           </button>
         </div>
       </div>
@@ -855,8 +946,24 @@ export default function AdminJlptExamManagementPage() {
           ))}
         </div>
 
-        <div className="text-xs font-bold text-[#8C7B70]">
-          Tổng cộng <strong>{filteredExams.length}</strong> bộ đề thi trong hệ thống
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={() => {
+              if (confirm("Khôi phục lại toàn bộ danh sách các bộ đề thi JLPT mặc định?")) {
+                localStorage.removeItem("ADMIN_JLPT_EXAMS");
+                setExams(INITIAL_ADMIN_EXAMS);
+                showToast("Đã khôi phục danh sách bộ đề mặc định thành công!");
+              }
+            }}
+            className="text-[11px] text-[#8C7B70] hover:text-[#C65D4B] underline transition-colors cursor-pointer"
+            title="Khôi phục các đề mặc định"
+          >
+            Khôi phục mặc định
+          </button>
+          <div className="text-xs font-bold text-[#8C7B70]">
+            Tổng cộng <strong>{filteredExams.length}</strong> bộ đề thi trong hệ thống
+          </div>
         </div>
       </div>
 
@@ -912,7 +1019,7 @@ export default function AdminJlptExamManagementPage() {
                   </h3>
                 </div>
 
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2.5 flex-wrap">
                   {/* BUTTON 1: XEM ĐỀ THI (PDF & AUDIO) */}
                   <button
                     type="button"
@@ -925,10 +1032,44 @@ export default function AdminJlptExamManagementPage() {
                         audioFileName: ver.audioFileName,
                       })
                     }
-                    className="px-4 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+                    className="px-3.5 py-2.5 bg-amber-600 hover:bg-amber-700 text-white font-extrabold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
                   >
                     <Eye className="w-4 h-4" />
-                    <span>👁️ Xem Đề Thi (File PDF & Audio)</span>
+                    <span>👁️ Xem Đề Thi</span>
+                  </button>
+
+                  {/* BUTTON 2: GẮN / ĐỔI FILE AUDIO NGHE */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setAudioEditModalExam({
+                        examId: exam.id,
+                        versionId: ver.versionId,
+                        title: exam.yearTitle,
+                        currentAudioUrl: ver.audioUrl,
+                        currentAudioFileName: ver.audioFileName,
+                      });
+                      setAudioEditSourceType("SYSTEM");
+                      setAudioEditFile(null);
+                      setAudioEditSystemPath(ver.audioUrl || "/audio/jlpt/n4/n4-2018.m4a");
+                      setAudioEditCustomUrl(ver.audioUrl?.startsWith("http") ? ver.audioUrl : "");
+                    }}
+                    className="px-3.5 py-2.5 bg-[#C65D4B] hover:bg-[#B44C3B] text-white font-extrabold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+                    title="Gắn hoặc cập nhật file âm thanh bài nghe Choukai"
+                  >
+                    <Volume2 className="w-4 h-4" />
+                    <span>🎵 Cập Nhật File Nghe</span>
+                  </button>
+
+                  {/* BUTTON 3: XÓA ĐỀ THI */}
+                  <button
+                    type="button"
+                    onClick={() => setDeleteConfirmExam({ id: exam.id, title: exam.yearTitle })}
+                    className="px-3.5 py-2.5 bg-rose-50 hover:bg-rose-100 text-rose-600 border border-rose-200 hover:border-rose-400 font-extrabold text-xs rounded-xl shadow-xs transition-all flex items-center gap-1.5 cursor-pointer"
+                    title="Xóa đề thi này khỏi hệ thống"
+                  >
+                    <Trash2 className="w-4 h-4 text-rose-600" />
+                    <span>Xóa Đề</span>
                   </button>
                 </div>
               </div>
@@ -939,7 +1080,30 @@ export default function AdminJlptExamManagementPage() {
                 <div className="space-y-1 text-xs text-[#6E5D55]">
                   <div className="flex items-center gap-4 flex-wrap">
                     <span>📄 File Đề (PDF): <strong className="text-[#1F1714] font-mono">{ver.pdfFileName}</strong></span>
-                    <span>🎵 File Audio: <strong className="text-[#1F1714] font-mono">{ver.audioFileName}</strong></span>
+                    <span className="flex items-center gap-1.5">
+                      <span>🎵 File Audio:</span>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setAudioEditModalExam({
+                            examId: exam.id,
+                            versionId: ver.versionId,
+                            title: exam.yearTitle,
+                            currentAudioUrl: ver.audioUrl,
+                            currentAudioFileName: ver.audioFileName,
+                          });
+                          setAudioEditSourceType("SYSTEM");
+                          setAudioEditFile(null);
+                          setAudioEditSystemPath(ver.audioUrl || "/audio/jlpt/n4/n4-2018.m4a");
+                          setAudioEditCustomUrl(ver.audioUrl?.startsWith("http") ? ver.audioUrl : "");
+                        }}
+                        className="inline-flex items-center gap-1 text-[#C65D4B] hover:text-[#933C2D] font-mono font-bold underline cursor-pointer"
+                        title="Bấm để cập nhật / đổi file âm thanh cho bài thi này"
+                      >
+                        <Volume2 className="w-3.5 h-3.5" />
+                        <span>{ver.audioFileName}</span>
+                      </button>
+                    </span>
                     <span>⏱️ Thời gian: <strong>{ver.durationMinutes} phút</strong></span>
                     <span>📊 Số câu: <strong className="text-[#C65D4B]">{ver.totalQuestions} câu</strong></span>
                   </div>
@@ -1457,17 +1621,17 @@ export default function AdminJlptExamManagementPage() {
             <div className="p-6 bg-gradient-to-r from-[#2C2421] via-[#3E322D] to-[#1F1714] text-white flex justify-between items-center shrink-0 border-b border-[#4E3F39]">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-emerald-600/30 text-emerald-400 flex items-center justify-center border border-emerald-500/30 font-black">
-                  <FileText className="w-5 h-5" />
+                  <Upload className="w-5 h-5" />
                 </div>
                 <div>
                   <h3 className="text-lg font-extrabold text-white flex items-center gap-2">
-                    <span>📄 Pipeline Bóc Tách Đề Thi Từ File PDF</span>
+                    <span>📄🎵 Pipeline Import Đề Thi (PDF) & File Âm Thanh Nghe Choukai</span>
                     <span className="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-xs border border-emerald-500/30 font-bold">
                       Tự Động 100%
                     </span>
                   </h3>
                   <p className="text-xs text-amber-200/90 font-mono">
-                    Tự động tìm 「参考答案」 & 「试题解析」 • Khớp Section + Mondai + Q# • Transactional DB
+                    Tự động bóc tách PDF + Gắn File âm thanh bài nghe Choukai (.mp3/.m4a) vào đề thi
                   </p>
                 </div>
               </div>
@@ -1488,12 +1652,17 @@ export default function AdminJlptExamManagementPage() {
             <div className="p-6 overflow-y-auto space-y-6 flex-1 bg-[#FAF4EB]">
               
               {/* Exam Info Form */}
-              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 bg-white p-5 rounded-2xl border-2 border-[#E5D7C7]">
+              <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 bg-white p-5 rounded-2xl border-2 border-[#E5D7C7]">
                 <div>
                   <label className="block text-xs font-black text-[#1F1714] mb-1.5">Cấp Độ (Level):</label>
                   <select
                     value={importLevel}
-                    onChange={(e) => setImportLevel(e.target.value as any)}
+                    onChange={(e) => {
+                      const lvl = e.target.value as any;
+                      setImportLevel(lvl);
+                      const defaultTrack = AVAILABLE_SYSTEM_AUDIO_TRACKS.find((t) => t.level === lvl);
+                      if (defaultTrack) setSelectedSystemAudio(defaultTrack.path);
+                    }}
                     className="w-full px-3.5 py-2.5 rounded-xl border border-[#E5D7C7] font-bold text-xs bg-[#FFFDF9] outline-none"
                   >
                     <option value="N5">JLPT N5</option>
@@ -1523,57 +1692,213 @@ export default function AdminJlptExamManagementPage() {
                     className="w-full px-3.5 py-2.5 rounded-xl border border-[#E5D7C7] font-bold text-xs bg-[#FFFDF9] outline-none"
                   />
                 </div>
-              </div>
-
-              {/* Upload Box & Pipeline Trigger */}
-              <div className="bg-white p-6 rounded-2xl border-2 border-dashed border-[#C65D4B]/40 hover:border-[#C65D4B] transition-all text-center space-y-4">
-                <div className="w-14 h-14 mx-auto rounded-2xl bg-amber-100 text-[#C65D4B] flex items-center justify-center font-black">
-                  <Upload className="w-7 h-7" />
-                </div>
 
                 <div>
-                  <h4 className="text-sm font-extrabold text-[#1F1714]">
-                    Tải Lên File PDF Đề Thi (Chứa cả đề, 参考答案 & 试题解析)
-                  </h4>
-                  <p className="text-xs text-[#8C7B70] mt-1">
-                    Pipeline sẽ tự động quét OCR & bóc tách toàn bộ đáp án + giải thích chi tiết từng câu.
-                  </p>
-                </div>
-
-                <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                  <label className="block text-xs font-black text-[#1F1714] mb-1.5">Thời Gian Thi (Phút):</label>
                   <input
-                    type="file"
-                    accept=".pdf"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0];
-                      if (file) {
-                        setSelectedPdfFile(file);
-                        handleSimulatePdfPipeline(file);
-                      }
-                    }}
-                    className="hidden"
-                    id="pdf-upload-input"
+                    type="number"
+                    value={importDurationMinutes}
+                    onChange={(e) => setImportDurationMinutes(Number(e.target.value) || 105)}
+                    placeholder="105"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E5D7C7] font-bold text-xs bg-[#FFFDF9] outline-none"
                   />
-                  <label
-                    htmlFor="pdf-upload-input"
-                    className="px-6 py-3 bg-[#C65D4B] hover:bg-[#B44C3B] text-white font-extrabold text-xs rounded-xl shadow-md transition-all cursor-pointer flex items-center gap-2"
-                  >
-                    <FileText className="w-4 h-4" />
-                    <span>{selectedPdfFile ? selectedPdfFile.name : "Chọn File PDF Từ Máy Tính"}</span>
-                  </label>
+                </div>
+              </div>
+
+              {/* DUAL UPLOAD GRID: PDF & AUDIO */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                
+                {/* 1. PDF Upload Box */}
+                <div className="bg-white p-5 rounded-2xl border-2 border-[#E5D7C7] hover:border-[#C65D4B] transition-all space-y-3.5 flex flex-col justify-between">
+                  <div className="space-y-2">
+                    <div className="flex items-center gap-2.5 pb-2 border-b border-[#E5D7C7]">
+                      <div className="w-8 h-8 rounded-xl bg-amber-100 text-[#C65D4B] flex items-center justify-center font-black shrink-0">
+                        <FileText className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-black text-[#1F1714] uppercase tracking-wider">
+                          1. File Đề Thi (PDF Gốc)
+                        </h4>
+                        <p className="text-2xs text-[#8C7B70]">
+                          Chứa toàn bộ câu hỏi, bảng 参考答案 & 试题解析
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="p-4 border-2 border-dashed border-[#C65D4B]/30 rounded-xl bg-amber-50/20 text-center space-y-2">
+                      <input
+                        type="file"
+                        accept=".pdf"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            setSelectedPdfFile(file);
+                            handleSimulatePdfPipeline(file);
+                          }
+                        }}
+                        className="hidden"
+                        id="pdf-upload-input"
+                      />
+                      <label
+                        htmlFor="pdf-upload-input"
+                        className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#C65D4B] hover:bg-[#B44C3B] text-white font-extrabold text-xs rounded-xl shadow-xs transition-all cursor-pointer"
+                      >
+                        <FileText className="w-4 h-4" />
+                        <span>{selectedPdfFile ? selectedPdfFile.name : "Chọn File PDF Từ Máy"}</span>
+                      </label>
+                      <p className="text-2xs text-[#8C7B70]">
+                        {selectedPdfFile ? `Đã chọn: ${selectedPdfFile.name} (${(selectedPdfFile.size / (1024 * 1024)).toFixed(1)} MB)` : "Kéo thả hoặc bấm để chọn file .pdf"}
+                      </p>
+                    </div>
+                  </div>
 
                   {selectedPdfFile && (
                     <button
                       type="button"
                       onClick={() => handleSimulatePdfPipeline(selectedPdfFile)}
                       disabled={isParsingPdf}
-                      className="px-6 py-3 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-extrabold text-xs rounded-xl shadow-md transition-all cursor-pointer flex items-center gap-2"
+                      className="w-full py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-extrabold text-xs rounded-xl shadow-xs transition-all cursor-pointer flex items-center justify-center gap-2"
                     >
                       {isParsingPdf ? <Sparkles className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
-                      <span>{isParsingPdf ? "Đang Phân Tích PDF..." : "Chạy Phân Tích Lại (Re-run)"}</span>
+                      <span>{isParsingPdf ? "Đang Phân Tích PDF..." : "Chạy Lại Pipeline Bóc Tách PDF"}</span>
                     </button>
                   )}
                 </div>
+
+                {/* 2. Audio Choukai Upload & Selector Box */}
+                <div className="bg-white p-5 rounded-2xl border-2 border-[#E5D7C7] hover:border-purple-500 transition-all space-y-3.5 flex flex-col justify-between">
+                  <div className="space-y-2.5">
+                    <div className="flex items-center gap-2.5 pb-2 border-b border-[#E5D7C7]">
+                      <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center font-black shrink-0">
+                        <Volume2 className="w-4 h-4" />
+                      </div>
+                      <div>
+                        <h4 className="text-xs font-black text-[#1F1714] uppercase tracking-wider">
+                          2. File Âm Thanh Nghe Choukai (.MP3/.M4A)
+                        </h4>
+                        <p className="text-2xs text-[#8C7B70]">
+                          Bắt buộc cho phần thi Nghe Hiểu (Choukai) của học viên
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Selector Tabs */}
+                    <div className="grid grid-cols-3 gap-1.5 p-1 bg-[#FAF4EB] rounded-xl">
+                      <button
+                        type="button"
+                        onClick={() => setAudioSourceType("SYSTEM")}
+                        className={`py-1.5 text-2xs font-extrabold rounded-lg transition-all cursor-pointer ${
+                          audioSourceType === "SYSTEM" ? "bg-purple-600 text-white shadow-2xs" : "text-stone-700 hover:bg-white/60"
+                        }`}
+                      >
+                        🎵 Kho Có Sẵn
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setAudioSourceType("UPLOAD")}
+                        className={`py-1.5 text-2xs font-extrabold rounded-lg transition-all cursor-pointer ${
+                          audioSourceType === "UPLOAD" ? "bg-purple-600 text-white shadow-2xs" : "text-stone-700 hover:bg-white/60"
+                        }`}
+                      >
+                        📂 Tải File Lên
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setAudioSourceType("URL")}
+                        className={`py-1.5 text-2xs font-extrabold rounded-lg transition-all cursor-pointer ${
+                          audioSourceType === "URL" ? "bg-purple-600 text-white shadow-2xs" : "text-stone-700 hover:bg-white/60"
+                        }`}
+                      >
+                        🔗 Link URL
+                      </button>
+                    </div>
+
+                    {/* Tab 1: System Audio */}
+                    {audioSourceType === "SYSTEM" && (
+                      <div className="space-y-1">
+                        <label className="block text-2xs font-bold text-[#8C7B70]">Chọn từ danh sách bài nghe hệ thống:</label>
+                        <select
+                          value={selectedSystemAudio}
+                          onChange={(e) => setSelectedSystemAudio(e.target.value)}
+                          className="w-full px-3 py-2 rounded-xl border border-[#E5D7C7] font-bold text-xs bg-white outline-none"
+                        >
+                          {AVAILABLE_SYSTEM_AUDIO_TRACKS.map((track) => (
+                            <option key={track.path} value={track.path}>
+                              [{track.level}] {track.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+
+                    {/* Tab 2: Upload File */}
+                    {audioSourceType === "UPLOAD" && (
+                      <div className="p-3.5 border-2 border-dashed border-purple-300 rounded-xl bg-purple-50/20 text-center space-y-1.5">
+                        <input
+                          type="file"
+                          accept="audio/*,.mp3,.m4a"
+                          onChange={(e) => {
+                            const f = e.target.files?.[0];
+                            if (f) setSelectedAudioFile(f);
+                          }}
+                          className="hidden"
+                          id="audio-upload-input"
+                        />
+                        <label
+                          htmlFor="audio-upload-input"
+                          className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-purple-600 hover:bg-purple-700 text-white font-extrabold text-xs rounded-xl shadow-xs transition-all cursor-pointer"
+                        >
+                          <Upload className="w-3.5 h-3.5" />
+                          <span>{selectedAudioFile ? selectedAudioFile.name : "Chọn File MP3/M4A Từ Máy"}</span>
+                        </label>
+                        <p className="text-2xs text-[#8C7B70]">
+                          {selectedAudioFile ? `Đã chọn: ${selectedAudioFile.name} (${(selectedAudioFile.size / (1024 * 1024)).toFixed(1)} MB)` : "Hỗ trợ định dạng .mp3, .m4a, wav"}
+                        </p>
+                      </div>
+                    )}
+
+                    {/* Tab 3: URL Input */}
+                    {audioSourceType === "URL" && (
+                      <div className="space-y-1">
+                        <label className="block text-2xs font-bold text-[#8C7B70]">Nhập link file âm thanh (URL / CDN):</label>
+                        <input
+                          type="url"
+                          value={customAudioUrl}
+                          onChange={(e) => setCustomAudioUrl(e.target.value)}
+                          placeholder="https://example.com/audio/choukai.mp3"
+                          className="w-full px-3 py-2 rounded-xl border border-[#E5D7C7] font-bold text-xs bg-white outline-none"
+                        />
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Live Audio Preview Player */}
+                  <div className="p-2.5 bg-amber-50/80 rounded-xl border border-amber-200 space-y-1">
+                    <div className="flex items-center gap-1.5 text-2xs font-bold text-amber-950">
+                      <Volume2 className="w-3.5 h-3.5 text-amber-700 animate-pulse" />
+                      <span>Nghe thử băng Choukai đã chọn:</span>
+                    </div>
+                    <audio
+                      key={
+                        audioSourceType === "UPLOAD" && selectedAudioFile
+                          ? selectedAudioFile.name
+                          : audioSourceType === "SYSTEM"
+                          ? selectedSystemAudio
+                          : customAudioUrl
+                      }
+                      controls
+                      src={
+                        audioSourceType === "UPLOAD" && selectedAudioFile
+                          ? URL.createObjectURL(selectedAudioFile)
+                          : audioSourceType === "SYSTEM"
+                          ? selectedSystemAudio
+                          : customAudioUrl
+                      }
+                      className="w-full h-8 rounded-lg"
+                    />
+                  </div>
+                </div>
+
               </div>
 
               {/* Progress Spinner */}
@@ -1737,14 +2062,321 @@ export default function AdminJlptExamManagementPage() {
               <button
                 type="button"
                 onClick={handleConfirmImportExam}
-                disabled={!pdfPreviewData}
-                className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-extrabold text-xs rounded-xl shadow-md transition-all cursor-pointer flex items-center gap-2"
+                className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs rounded-xl shadow-md transition-all cursor-pointer flex items-center gap-2"
               >
                 <Save className="w-4 h-4" />
-                <span>Confirm Import & Lưu Bộ Đề (Transactional Save)</span>
+                <span>
+                  {pdfPreviewData
+                    ? "Confirm & Lưu Bộ Đề (Từ File PDF Đã Bóc Tách)"
+                    : "Xác Nhận & Tạo Bộ Đề Mới Vào Hệ Thống"}
+                </span>
               </button>
             </div>
 
+          </div>
+        </div>
+      )}
+
+      {/* Delete Exam Confirmation Modal */}
+      {deleteConfirmExam && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div className="bg-[#FFFDF9] border-2 border-[#E5D7C7] rounded-3xl max-w-md w-full p-6 shadow-2xl space-y-5 animate-in fade-in zoom-in-95">
+            <div className="flex items-center gap-3.5">
+              <div className="w-12 h-12 rounded-2xl bg-rose-100 border border-rose-200 text-rose-600 flex items-center justify-center text-xl shrink-0">
+                <Trash2 className="w-6 h-6" />
+              </div>
+              <div>
+                <h3 className="text-base font-black text-[#1F1714]">Xác Nhận Xóa Đề Thi</h3>
+                <p className="text-xs text-[#8C7B70]">Hành động này không thể hoàn tác</p>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-2xl bg-rose-50/60 border border-rose-200 text-xs text-[#56423E] space-y-2">
+              <p>Bạn có chắc chắn muốn xóa bộ đề thi này khỏi hệ thống?</p>
+              <div className="font-black text-[#1F1714] bg-white p-3 rounded-xl border border-rose-200 text-sm">
+                {deleteConfirmExam.title}
+              </div>
+              <p className="text-[11px] text-rose-600">
+                ⚠️ Toàn bộ câu hỏi, đáp án, file đề thi PDF và file âm thanh liên kết với đề thi này sẽ bị xóa khỏi danh sách học viên.
+              </p>
+            </div>
+
+            <div className="flex items-center justify-end gap-3 pt-2">
+              <button
+                type="button"
+                onClick={() => setDeleteConfirmExam(null)}
+                className="px-4 py-2.5 rounded-xl border border-[#E5D7C7] text-[#6E5D55] font-bold text-xs hover:bg-[#FAF4EB] transition-all cursor-pointer"
+              >
+                Hủy Bỏ
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  const idToDelete = deleteConfirmExam.id;
+                  const titleToDelete = deleteConfirmExam.title;
+                  const updated = exams.filter((e) => e.id !== idToDelete);
+                  saveExamsToStorage(updated);
+                  setDeleteConfirmExam(null);
+                  showToast(`Đã xóa bộ đề "${titleToDelete}" thành công!`);
+                }}
+                className="px-5 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-black text-xs shadow-md shadow-rose-600/20 transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <Trash2 className="w-3.5 h-3.5" />
+                <span>Xác Nhận Xóa</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+      {/* Audio Quick Update Modal */}
+      {audioEditModalExam && (
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
+          <div className="bg-[#FFFDF9] border-2 border-[#E5D7C7] rounded-3xl max-w-xl w-full p-6 shadow-2xl space-y-5">
+            {/* Header */}
+            <div className="flex items-center justify-between border-b border-[#E5D7C7] pb-4">
+              <div className="flex items-center gap-3">
+                <div className="w-12 h-12 rounded-2xl bg-amber-100 border border-amber-200 text-[#C65D4B] flex items-center justify-center text-xl shrink-0 font-black">
+                  <Volume2 className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-[#1F1714]">
+                    🎵 Cập Nhật File Âm Thanh Choukai
+                  </h3>
+                  <p className="text-xs text-[#8C7B70] line-clamp-1">
+                    Đề: <strong>{audioEditModalExam.title}</strong>
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setAudioEditModalExam(null)}
+                className="p-2 hover:bg-stone-100 rounded-xl transition-all text-stone-500 hover:text-stone-800 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Current File Info */}
+            <div className="p-3.5 bg-[#FAF4EB] rounded-2xl border border-[#E5D7C7] text-xs space-y-1">
+              <div className="text-stone-500 font-bold">File audio bài nghe hiện tại:</div>
+              <div className="font-mono font-bold text-[#1F1714] flex items-center gap-2">
+                <Volume2 className="w-4 h-4 text-emerald-600 shrink-0" />
+                <span>{audioEditModalExam.currentAudioFileName || "Chưa có file audio"}</span>
+              </div>
+            </div>
+
+            {/* Selection Tabs */}
+            <div className="space-y-3">
+              <label className="block text-xs font-black text-[#1F1714]">
+                Chọn phương thức gắn / cập nhật file nghe:
+              </label>
+              <div className="grid grid-cols-3 gap-2">
+                <button
+                  type="button"
+                  onClick={() => setAudioEditSourceType("SYSTEM")}
+                  className={`px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    audioEditSourceType === "SYSTEM"
+                      ? "bg-[#C65D4B] text-white shadow-xs"
+                      : "bg-white border border-[#E5D7C7] text-stone-700 hover:bg-stone-50"
+                  }`}
+                >
+                  🎵 Kho Hệ Thống
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAudioEditSourceType("UPLOAD")}
+                  className={`px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    audioEditSourceType === "UPLOAD"
+                      ? "bg-[#C65D4B] text-white shadow-xs"
+                      : "bg-white border border-[#E5D7C7] text-stone-700 hover:bg-stone-50"
+                  }`}
+                >
+                  📂 Tải Từ Máy Tính
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setAudioEditSourceType("URL")}
+                  className={`px-3 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                    audioEditSourceType === "URL"
+                      ? "bg-[#C65D4B] text-white shadow-xs"
+                      : "bg-white border border-[#E5D7C7] text-stone-700 hover:bg-stone-50"
+                  }`}
+                >
+                  🔗 Nhập Link URL
+                </button>
+              </div>
+
+              {audioEditSourceType === "SYSTEM" && (
+                <div className="space-y-2">
+                  <label className="block text-2xs font-bold text-[#8C7B70]">Chọn file audio có sẵn:</label>
+                  <select
+                    value={audioEditSystemPath}
+                    onChange={(e) => setAudioEditSystemPath(e.target.value)}
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E5D7C7] font-bold text-xs bg-white outline-none"
+                  >
+                    {AVAILABLE_SYSTEM_AUDIO_TRACKS.map((track) => (
+                      <option key={track.path} value={track.path}>
+                        [{track.level}] {track.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+
+              {audioEditSourceType === "UPLOAD" && (
+                <div className="p-4 border-2 border-dashed border-[#C65D4B]/40 rounded-2xl text-center space-y-2 bg-amber-50/30">
+                  <input
+                    type="file"
+                    accept="audio/*,.mp3,.m4a"
+                    id="audio-edit-file-input"
+                    className="hidden"
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      if (f) setAudioEditFile(f);
+                    }}
+                  />
+                  <label
+                    htmlFor="audio-edit-file-input"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-[#C65D4B] hover:bg-[#B44C3B] text-white text-xs font-black rounded-xl cursor-pointer shadow-xs"
+                  >
+                    <Upload className="w-3.5 h-3.5" />
+                    <span>{audioEditFile ? audioEditFile.name : "Chọn File MP3/M4A Từ Máy Tính"}</span>
+                  </label>
+                  <p className="text-2xs text-[#8C7B70]">
+                    {audioEditFile ? `Đã chọn: ${audioEditFile.name} (${(audioEditFile.size / (1024 * 1024)).toFixed(1)} MB)` : "Hỗ trợ định dạng .mp3, .m4a, wav"}
+                  </p>
+                </div>
+              )}
+
+              {audioEditSourceType === "URL" && (
+                <div className="space-y-2">
+                  <label className="block text-2xs font-bold text-[#8C7B70]">Nhập link file âm thanh (URL / CDN):</label>
+                  <input
+                    type="url"
+                    value={audioEditCustomUrl}
+                    onChange={(e) => setAudioEditCustomUrl(e.target.value)}
+                    placeholder="https://example.com/audio/choukai-2024.mp3"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E5D7C7] font-bold text-xs bg-white outline-none"
+                  />
+                </div>
+              )}
+            </div>
+
+            {/* Audio Preview Box */}
+            <div className="p-3.5 bg-amber-50/80 rounded-2xl border border-amber-200 space-y-2">
+              <div className="flex items-center gap-2 text-xs font-black text-amber-950">
+                <Volume2 className="w-4 h-4 text-amber-700 animate-pulse" />
+                <span>Nghe Thử File Âm Thanh Trước Khi Lưu:</span>
+              </div>
+              <audio
+                key={
+                  audioEditSourceType === "UPLOAD" && audioEditFile
+                    ? audioEditFile.name
+                    : audioEditSourceType === "SYSTEM"
+                    ? audioEditSystemPath
+                    : audioEditCustomUrl
+                }
+                controls
+                src={
+                  audioEditSourceType === "UPLOAD" && audioEditFile
+                    ? URL.createObjectURL(audioEditFile)
+                    : audioEditSourceType === "SYSTEM"
+                    ? audioEditSystemPath
+                    : audioEditCustomUrl
+                }
+                className="w-full h-10 rounded-xl"
+              />
+            </div>
+
+            {/* Actions */}
+            <div className="flex items-center justify-end gap-3 pt-2 border-t border-[#E5D7C7]">
+              <button
+                type="button"
+                onClick={() => setAudioEditModalExam(null)}
+                className="px-4 py-2.5 rounded-xl border border-[#E5D7C7] text-[#6E5D55] font-bold text-xs hover:bg-[#FAF4EB] transition-all cursor-pointer"
+              >
+                Hủy Bỏ
+              </button>
+              <button
+                type="button"
+                onClick={handleSaveAudioForExam}
+                className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-black text-xs shadow-md transition-all flex items-center gap-1.5 cursor-pointer"
+              >
+                <Save className="w-3.5 h-3.5" />
+                <span>Lưu & Gắn File Audio</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Standalone Choukai Audio Library Modal */}
+      {isAudioLibraryOpen && (
+        <div className="fixed inset-0 z-50 bg-black/75 backdrop-blur-xs flex items-center justify-center p-4 animate-in fade-in duration-200">
+          <div className="bg-[#FFFDF9] border-2 border-[#E5D7C7] rounded-3xl max-w-3xl w-full max-h-[90vh] flex flex-col shadow-2xl overflow-hidden">
+            {/* Header */}
+            <div className="p-6 bg-gradient-to-r from-[#2C2421] via-[#3E322D] to-[#1F1714] text-white flex justify-between items-center shrink-0 border-b border-[#4E3F39]">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-purple-600/30 text-purple-400 flex items-center justify-center border border-purple-500/30 font-black">
+                  <Volume2 className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-lg font-extrabold text-white">
+                    🎵 Kho File Nghe Choukai Hệ Thống
+                  </h3>
+                  <p className="text-xs text-amber-200/90 font-mono">
+                    Danh sách các file băng nghe chuẩn thi thật JLPT (N5, N4, N3)
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsAudioLibraryOpen(false)}
+                className="p-2 hover:bg-white/10 rounded-xl text-white transition-all cursor-pointer"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Body */}
+            <div className="p-6 overflow-y-auto space-y-4 flex-1 bg-[#FAF4EB]">
+              <div className="p-3.5 bg-purple-50 border border-purple-200 rounded-2xl text-xs text-purple-950 flex items-center justify-between gap-4">
+                <span>💡 Bạn có thể gắn bất kỳ file âm thanh nào dưới đây vào các bộ đề thi hoặc nghe thử ngay tại đây.</span>
+                <span className="font-bold shrink-0">{AVAILABLE_SYSTEM_AUDIO_TRACKS.length} files</span>
+              </div>
+
+              <div className="grid grid-cols-1 gap-3">
+                {AVAILABLE_SYSTEM_AUDIO_TRACKS.map((track) => (
+                  <div key={track.path} className="p-4 bg-white rounded-2xl border border-[#E5D7C7] shadow-2xs hover:border-[#C65D4B] transition-all space-y-2">
+                    <div className="flex justify-between items-center flex-wrap gap-2">
+                      <div className="flex items-center gap-2">
+                        <span className={`px-2.5 py-0.5 rounded-md text-2xs font-black text-white ${
+                          track.level === "N4" ? "bg-[#C65D4B]" : track.level === "N5" ? "bg-amber-600" : "bg-blue-600"
+                        }`}>
+                          JLPT {track.level}
+                        </span>
+                        <h4 className="text-xs font-black text-[#1F1714]">{track.label}</h4>
+                      </div>
+                      <span className="font-mono text-2xs text-[#8C7B70] bg-stone-100 px-2 py-0.5 rounded-md">
+                        {track.path}
+                      </span>
+                    </div>
+                    <audio controls src={track.path} className="w-full h-9 rounded-lg" />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Footer */}
+            <div className="p-4 bg-white border-t border-[#E5D7C7] flex justify-end">
+              <button
+                type="button"
+                onClick={() => setIsAudioLibraryOpen(false)}
+                className="px-5 py-2.5 bg-[#2C2421] hover:bg-[#1F1714] text-white font-extrabold text-xs rounded-xl shadow-md transition-all cursor-pointer"
+              >
+                Đóng Cửa Sổ
+              </button>
+            </div>
           </div>
         </div>
       )}

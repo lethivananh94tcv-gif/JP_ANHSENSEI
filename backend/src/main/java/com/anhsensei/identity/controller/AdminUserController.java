@@ -18,13 +18,16 @@ public class AdminUserController {
 
     private final AdminUserService adminUserService;
     private final com.anhsensei.identity.repository.UserRepository userRepository;
+    private final com.anhsensei.learning.repository.LearningActivityRepository learningActivityRepository;
 
     public AdminUserController(
             AdminUserService adminUserService,
-            com.anhsensei.identity.repository.UserRepository userRepository
+            com.anhsensei.identity.repository.UserRepository userRepository,
+            com.anhsensei.learning.repository.LearningActivityRepository learningActivityRepository
     ) {
         this.adminUserService = adminUserService;
         this.userRepository = userRepository;
+        this.learningActivityRepository = learningActivityRepository;
     }
 
     @GetMapping
@@ -32,9 +35,34 @@ public class AdminUserController {
             @RequestParam(value = "page", defaultValue = "0") int page,
             @RequestParam(value = "size", defaultValue = "10") int size
     ) {
-        org.springframework.data.domain.Page<com.anhsensei.identity.dto.UserSummaryDto> pageRes = userRepository
-                .findAll(org.springframework.data.domain.PageRequest.of(page, size))
-                .map(com.anhsensei.identity.dto.UserSummaryDto::new);
+        org.springframework.data.domain.Page<com.anhsensei.identity.domain.User> userPage = userRepository
+                .findAll(org.springframework.data.domain.PageRequest.of(page, size));
+
+        java.util.List<Long> userIds = userPage.getContent().stream()
+                .map(com.anhsensei.identity.domain.User::getUserId)
+                .toList();
+
+        java.util.Map<Long, Long> durationMap = new java.util.HashMap<>();
+        if (!userIds.isEmpty()) {
+            java.util.List<Object[]> rows = learningActivityRepository.findTotalDurationSecondsByUserIds(userIds);
+            for (Object[] r : rows) {
+                if (r != null && r.length >= 2 && r[0] != null && r[1] != null) {
+                    Long uid = ((Number) r[0]).longValue();
+                    Long totalSec = ((Number) r[1]).longValue();
+                    durationMap.put(uid, totalSec);
+                }
+            }
+        }
+
+        org.springframework.data.domain.Page<com.anhsensei.identity.dto.UserSummaryDto> pageRes = userPage.map(user -> {
+            com.anhsensei.identity.dto.UserSummaryDto dto = new com.anhsensei.identity.dto.UserSummaryDto(user);
+            long totalSec = durationMap.getOrDefault(user.getUserId(), 0L);
+            dto.setTotalDurationSeconds(totalSec);
+            double hours = Math.round((totalSec / 3600.0) * 10.0) / 10.0;
+            dto.setActiveHours(hours);
+            return dto;
+        });
+
         return ResponseEntity.ok(pageRes);
     }
 

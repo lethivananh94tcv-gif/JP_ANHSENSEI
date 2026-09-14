@@ -14,7 +14,7 @@ export default function GrammarHero({
   totalExercises = 1000,
 }: GrammarHeroProps) {
   return (
-    <section 
+    <section
       className="relative overflow-hidden bg-gradient-to-r from-[#FFF5F2] via-[#FDF2EC] to-[#F9ECE4] bg-[radial-gradient(#E8D4CC_1.2px,transparent_1.2px)] [background-size:20px_20px] border-2 border-[#F3D7CE] rounded-[32px] p-6 sm:p-8 shadow-xs min-h-[240px] flex items-center justify-between select-none"
     >
       {/* Ambient Decorative Glows */}
@@ -24,7 +24,7 @@ export default function GrammarHero({
       <div className="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6 w-full">
         {/* Left Content */}
         <div className="space-y-4 max-w-xl">
-          
+
           {/* Cute Badge */}
           <div className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full bg-[#FFF0ED] border border-[#F9CDC5] text-[#D04A46] text-xs font-bold shadow-2xs">
             <Sparkles className="w-3.5 h-3.5 text-[#D04A46] animate-pulse" />
@@ -41,7 +41,7 @@ export default function GrammarHero({
                 </svg>
               </span>
             </h1>
-            <motion.span 
+            <motion.span
               animate={{ rotate: [0, 12, -12, 0] }}
               transition={{ repeat: Infinity, duration: 3, ease: "easeInOut" }}
               className="text-2xl sm:text-3xl inline-block"
@@ -58,7 +58,7 @@ export default function GrammarHero({
           {/* 2 White Stat Cards */}
           <div className="flex flex-wrap items-center gap-3 pt-1">
             {/* Card 1: 50+ Chủ điểm ngữ pháp */}
-            <motion.div 
+            <motion.div
               whileHover={{ y: -2, scale: 1.02 }}
               className="bg-white/95 rounded-2xl border border-[#F5E2DE] px-4 py-2.5 flex items-center gap-3 shadow-xs"
             >
@@ -72,7 +72,7 @@ export default function GrammarHero({
             </motion.div>
 
             {/* Card 2: 1000+ Bài tập luyện tập */}
-            <motion.div 
+            <motion.div
               whileHover={{ y: -2, scale: 1.02 }}
               className="bg-white/95 rounded-2xl border border-[#F5E2DE] px-4 py-2.5 flex items-center gap-3 shadow-xs"
             >
@@ -89,7 +89,7 @@ export default function GrammarHero({
 
         {/* Right Side: Redesigned White Japanese Mascot Card (matching screenshot 100%) */}
         <div className="flex items-center justify-center shrink-0 relative w-full lg:w-auto pt-2 lg:pt-0">
-          
+
           {/* White Card Container */}
           <motion.div
             whileHover={{ y: -4, scale: 1.02 }}

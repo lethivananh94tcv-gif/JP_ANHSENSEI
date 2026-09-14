@@ -52,18 +52,16 @@ export default function GrammarLevelSelector({
                 }
                 onSelectLevel(lvl.code);
               }}
-              className={`p-3 rounded-2xl text-center transition-all cursor-pointer border flex flex-col items-center justify-center space-y-1 ${
-                isSelected
+              className={`p-3 rounded-2xl text-center transition-all cursor-pointer border flex flex-col items-center justify-center space-y-1 ${isSelected
                   ? "bg-[#C65D4B] text-white border-[#C65D4B] shadow-md scale-102 font-bold"
                   : "bg-[#FAF6EE] hover:bg-white text-[#231917] border-[#DED3C8] hover:border-[#C65D4B]/60"
-              }`}
+                }`}
             >
               <span className="text-sm font-serif font-black">{lvl.code}</span>
               <span className="text-[11px] opacity-90">{lvl.name}</span>
               <span
-                className={`text-[10px] px-2 py-0.5 rounded-full ${
-                  isSelected ? "bg-white/20 text-white font-bold" : "bg-[#FFFDF9] text-[#76685F] border border-[#DED3C8]"
-                }`}
+                className={`text-[10px] px-2 py-0.5 rounded-full ${isSelected ? "bg-white/20 text-white font-bold" : "bg-[#FFFDF9] text-[#76685F] border border-[#DED3C8]"
+                  }`}
               >
                 {lvl.count}
               </span>

@@ -53,27 +53,24 @@ export default function LessonList({
             <button
               type="button"
               onClick={() => setFilterTab("ALL")}
-              className={`px-3 py-1 rounded-lg transition-all cursor-pointer ${
-                filterTab === "ALL" ? "bg-white text-[#C65D4B] shadow-2xs" : "text-[#76685F] hover:text-[#2B211D]"
-              }`}
+              className={`px-3 py-1 rounded-lg transition-all cursor-pointer ${filterTab === "ALL" ? "bg-white text-[#C65D4B] shadow-2xs" : "text-[#76685F] hover:text-[#2B211D]"
+                }`}
             >
               Tất cả
             </button>
             <button
               type="button"
               onClick={() => setFilterTab("IN_PROGRESS")}
-              className={`px-3 py-1 rounded-lg transition-all cursor-pointer ${
-                filterTab === "IN_PROGRESS" ? "bg-white text-[#C65D4B] shadow-2xs" : "text-[#76685F] hover:text-[#2B211D]"
-              }`}
+              className={`px-3 py-1 rounded-lg transition-all cursor-pointer ${filterTab === "IN_PROGRESS" ? "bg-white text-[#C65D4B] shadow-2xs" : "text-[#76685F] hover:text-[#2B211D]"
+                }`}
             >
               Đang học
             </button>
             <button
               type="button"
               onClick={() => setFilterTab("COMPLETED")}
-              className={`px-3 py-1 rounded-lg transition-all cursor-pointer ${
-                filterTab === "COMPLETED" ? "bg-white text-[#C65D4B] shadow-2xs" : "text-[#76685F] hover:text-[#2B211D]"
-              }`}
+              className={`px-3 py-1 rounded-lg transition-all cursor-pointer ${filterTab === "COMPLETED" ? "bg-white text-[#C65D4B] shadow-2xs" : "text-[#76685F] hover:text-[#2B211D]"
+                }`}
             >
               Đã xong
             </button>
@@ -85,9 +82,8 @@ export default function LessonList({
               type="button"
               title="Hiển thị dạng Danh sách"
               onClick={() => setViewMode("list")}
-              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                viewMode === "list" ? "bg-white text-[#C65D4B] shadow-2xs" : "hover:text-[#2B211D]"
-              }`}
+              className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === "list" ? "bg-white text-[#C65D4B] shadow-2xs" : "hover:text-[#2B211D]"
+                }`}
             >
               <LayoutList className="w-4 h-4" />
             </button>
@@ -95,9 +91,8 @@ export default function LessonList({
               type="button"
               title="Hiển thị dạng Lưới"
               onClick={() => setViewMode("grid")}
-              className={`p-1.5 rounded-lg transition-all cursor-pointer ${
-                viewMode === "grid" ? "bg-white text-[#C65D4B] shadow-2xs" : "hover:text-[#2B211D]"
-              }`}
+              className={`p-1.5 rounded-lg transition-all cursor-pointer ${viewMode === "grid" ? "bg-white text-[#C65D4B] shadow-2xs" : "hover:text-[#2B211D]"
+                }`}
             >
               <LayoutGrid className="w-4 h-4" />
             </button>
