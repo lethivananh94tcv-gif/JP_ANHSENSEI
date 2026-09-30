@@ -373,7 +373,11 @@ export default function LearnerVocabulariesHubPage() {
   };
 
   // Mode Selection Navigation -> Prompt user with lesson selector modal
-  const handleSelectMode = (mode: "list" | "cards" | "typing" | "match") => {
+  const handleSelectMode = (mode: "list" | "cards" | "typing" | "match" | "favorites") => {
+    if (mode === "favorites") {
+      router.push("/flashcards?favorites=true");
+      return;
+    }
     setModalMode(mode);
     setIsAllLessonsOpen(true);
   };

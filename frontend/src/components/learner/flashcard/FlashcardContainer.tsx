@@ -12,6 +12,7 @@ import FlashcardCompletionScreen from "./FlashcardCompletionScreen";
 import FlashcardSkeleton from "./FlashcardSkeleton";
 import FlashcardErrorState from "./FlashcardErrorState";
 import { UserProfile } from "@/types/learner";
+import { apiClient } from "@/lib/api/client";
 
 interface FlashcardContainerProps {
   items: FlashcardItemDto[];
