@@ -2,6 +2,7 @@ package com.anhsensei.curriculum.repository;
 
 import com.anhsensei.curriculum.domain.LessonKanji;
 import com.anhsensei.curriculum.domain.LessonKanjiId;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -10,8 +11,10 @@ import java.util.List;
 
 public interface LessonKanjiRepository extends JpaRepository<LessonKanji, LessonKanjiId> {
 
+    @EntityGraph(attributePaths = {"kanji", "lesson"})
     List<LessonKanji> findByLesson_LessonIdOrderBySortOrderAsc(Long lessonId);
 
+    @EntityGraph(attributePaths = {"kanji", "lesson"})
     List<LessonKanji> findByLesson_LessonIdAndKanji_StatusAndKanji_DeletedAtIsNullOrderBySortOrderAsc(Long lessonId, String status);
 
     boolean existsByLesson_LessonIdAndKanji_KanjiId(Long lessonId, Long kanjiId);

@@ -1,11 +1,11 @@
 "use client";
 
 import Card3DTilt from "@/components/ui/Card3DTilt";
-import { BookOpen, Layers, Keyboard, Sparkles, ArrowRight, Gamepad2 } from "lucide-react";
+import { BookOpen, Layers, Keyboard, Sparkles, ArrowRight, Gamepad2, Heart } from "lucide-react";
 import { motion } from "framer-motion";
 
 interface VocabularyModeSelectorProps {
-  onSelectMode: (mode: "list" | "cards" | "typing" | "match") => void;
+  onSelectMode: (mode: "list" | "cards" | "typing" | "match" | "favorites") => void;
   disabled?: boolean;
 }
 
@@ -14,6 +14,14 @@ export default function VocabularyModeSelector({
   disabled = false,
 }: VocabularyModeSelectorProps) {
   const modes = [
+    {
+      key: "favorites" as const,
+      title: "❤️ Từ Vựng Yêu Thích",
+      subtext: "Ôn lại các từ vựng chưa nhớ đã thả tim",
+      badge: "Từ vựng yêu thích",
+      orbGrad: "from-rose-500 to-rose-600",
+      icon: Heart,
+    },
     {
       key: "list" as const,
       title: "Xem Từ Vựng",
@@ -57,7 +65,7 @@ export default function VocabularyModeSelector({
         </h3>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {modes.map((m) => {
           const IconComp = m.icon;
           return (

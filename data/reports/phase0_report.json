@@ -1,0 +1,17 @@
+{
+  "phase": 0,
+  "n5_total": 1005,
+  "n5_sha256": "7c7ea88c870cfc722143e83280374e86c21108b7f501329425194983c871ae3b",
+  "n4_total": 860,
+  "n3_total": 1010,
+  "db_schema": {
+    "table": "vocabulary",
+    "primary_key": "vocabulary_id",
+    "columns": {
+      "ja": "example_jp",
+      "furigana": "example_reading",
+      "vi": "example_vi"
+    }
+  },
+  "next_flyway_version": "V74"
+}

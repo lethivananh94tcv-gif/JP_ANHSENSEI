@@ -26,6 +26,8 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.*;
 
+import org.springframework.data.domain.PageRequest;
+
 @Service
 public class FlashcardService {
 
@@ -61,7 +63,7 @@ public class FlashcardService {
                 .orElseThrow(() -> new ResourceNotFoundException("User", "id", userId));
 
         OffsetDateTime now = OffsetDateTime.now();
-        List<FlashcardProgress> progressList = flashcardProgressRepository.findDueFlashcards(userId, now);
+        List<FlashcardProgress> progressList = flashcardProgressRepository.findDueFlashcards(userId, now, PageRequest.of(0, 50));
 
         List<LearnerFlashcardDto> result = new ArrayList<>();
         Set<String> trackedKeys = new HashSet<>();

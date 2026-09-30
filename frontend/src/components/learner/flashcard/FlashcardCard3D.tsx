@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { FlashcardItemDto } from "./types";
-import { Volume2, Star, Sparkles } from "lucide-react";
+import { Volume2, Heart, Sparkles } from "lucide-react";
 import { playJapaneseTTS } from "@/lib/utils/japaneseAudioTTS";
 import { getVocabularyKanjiAnalysis } from "@/lib/utils/kanjiSinoVietnamese";
 
@@ -141,20 +141,20 @@ export default function FlashcardCard3D({
                 <Volume2 className={`w-4 h-4 ${isPlayingAudio ? "animate-bounce" : "text-[#C65D4B]"}`} />
               </button>
 
-              {/* Favorite Star button top right corner */}
+              {/* Favorite Heart button top right corner */}
               <button
                 type="button"
                 onClick={toggleBookmark}
                 className={`p-2 rounded-xl border transition-all cursor-pointer shadow-2xs ${
                   isFavorite
-                    ? "bg-amber-100 text-amber-500 border-amber-300"
+                    ? "bg-rose-50 text-rose-500 border-rose-300 scale-105"
                     : "bg-[#FAF3EB] hover:bg-[#F5EFE6] text-[#8B6F5A] border-[#DED3C8]"
                 }`}
                 title={isFavorite ? "Bỏ yêu thích" : "Yêu thích từ vựng này"}
               >
-                <Star
-                  className={`w-4 h-4 ${
-                    isFavorite ? "fill-amber-500 text-amber-500" : ""
+                <Heart
+                  className={`w-4 h-4 transition-transform ${
+                    isFavorite ? "fill-rose-500 text-rose-500 scale-110" : ""
                   }`}
                 />
               </button>
@@ -244,14 +244,14 @@ export default function FlashcardCard3D({
                 onClick={toggleBookmark}
                 className={`p-1.5 rounded-lg border transition-colors cursor-pointer ${
                   isFavorite
-                    ? "bg-amber-50 text-amber-500 border-amber-300"
+                    ? "bg-rose-50 text-rose-500 border-rose-300"
                     : "bg-[#FAF3EB] hover:bg-[#F5EFE6] text-[#8B6F5A] border-[#DED3C8]"
                 }`}
                 title={isFavorite ? "Bỏ yêu thích" : "Yêu thích từ vựng này"}
               >
-                <Star
+                <Heart
                   className={`w-4 h-4 ${
-                    isFavorite ? "fill-amber-500 text-amber-500" : ""
+                    isFavorite ? "fill-rose-500 text-rose-500" : ""
                   }`}
                 />
               </button>

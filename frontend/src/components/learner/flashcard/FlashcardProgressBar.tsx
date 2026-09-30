@@ -1,6 +1,6 @@
 "use client";
 
-import { Star } from "lucide-react";
+import { Heart } from "lucide-react";
 
 interface FlashcardProgressBarProps {
   currentIndex: number;
@@ -74,23 +74,23 @@ export default function FlashcardProgressBar({
               title={
                 isFavoritesOnly
                   ? "Bấm để quay lại danh sách tất cả từ vựng bài học"
-                  : "Ôn tập danh sách các từ vựng bạn đã đánh dấu ⭐"
+                  : "Ôn tập danh sách các từ vựng bạn đã thả tim ❤️"
               }
               className={`px-3 py-1.5 rounded-xl border transition-all cursor-pointer text-xs font-black flex items-center gap-1.5 ${
                 isFavoritesOnly
-                  ? "bg-gradient-to-r from-amber-500 to-amber-600 text-white border-amber-500 shadow-md animate-pulse"
-                  : "bg-white hover:bg-amber-50 text-amber-700 border-amber-300 shadow-2xs"
+                  ? "bg-gradient-to-r from-rose-500 to-rose-600 text-white border-rose-500 shadow-md animate-pulse"
+                  : "bg-white hover:bg-rose-50 text-rose-700 border-rose-300 shadow-2xs"
               }`}
             >
-              <Star
+              <Heart
                 className={`w-3.5 h-3.5 ${
-                  isFavoritesOnly ? "fill-white text-white" : "fill-amber-500 text-amber-500"
+                  isFavoritesOnly ? "fill-white text-white" : "fill-rose-500 text-rose-500"
                 }`}
               />
               <span>
                 {isFavoritesOnly
-                  ? `Đang ôn từ đã lưu (${favoriteCount})`
-                  : `⭐ Từ đã đánh dấu (${favoriteCount})`}
+                  ? `Đang ôn từ yêu thích (${favoriteCount})`
+                  : `❤️ Từ yêu thích (${favoriteCount})`}
               </span>
             </button>
           </div>

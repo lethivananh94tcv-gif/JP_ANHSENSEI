@@ -108,7 +108,7 @@ export default function KanjiMatchGame3D({ items, onFinish }: KanjiMatchGame3DPr
   const [cards, setCards] = useState<MatchCard[]>([]);
   const [selectedCards, setSelectedCards] = useState<MatchCard[]>([]);
   const [mismatchedIds, setMismatchedIds] = useState<string[]>([]);
-  const [timeLeft, setTimeLeft] = useState<number>(60);
+  const [timeLeft, setTimeLeft] = useState<number>(40);
   const [gameStatus, setGameStatus] = useState<"IDLE" | "PLAYING" | "WON" | "TIME_UP">("IDLE");
   const [isFullScreen, setIsFullScreen] = useState<boolean>(false);
   const [matchedPairsCount, setMatchedPairsCount] = useState<number>(0);
@@ -165,7 +165,7 @@ export default function KanjiMatchGame3D({ items, onFinish }: KanjiMatchGame3DPr
     setSelectedCards([]);
     setMismatchedIds([]);
     setMatchedPairsCount(0);
-    setTimeLeft(60);
+    setTimeLeft(40);
     setScore(0);
     setCombo(1);
     setMaxCombo(1);

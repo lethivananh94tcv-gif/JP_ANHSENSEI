@@ -19,6 +19,115 @@ interface ReadingSentenceItem {
   meaningVi: string;
 }
 
+import { playJapaneseTTS } from "@/lib/utils/japaneseAudioTTS";
+import { COMMON_VOCAB_MAP } from "@/lib/utils/kanjiDictionaryMap";
+
+// Smart sentence builder for words not explicitly listed in static map
+function buildSmartSentence(word: string, fallbackReading?: string, fallbackMeaning?: string, sinoVi?: string) {
+  const vocab = COMMON_VOCAB_MAP[word] || COMMON_VOCAB_MAP[word.replace(/(する|な|の|に)$/, "")];
+  const reading = vocab?.reading || fallbackReading || word;
+  let meaning = vocab?.meaning || fallbackMeaning;
+
+  if (!meaning || meaning === "Từ Hán tự trong bài" || meaning === "từ ghép ví dụ") {
+    meaning = sinoVi ? `Hán tự ${sinoVi}` : `từ vựng ${word}`;
+  }
+
+  const cleanMeaning = meaning.replace(/^Nghĩa:\s*/i, "").trim();
+  const lowerMeaning = cleanMeaning.toLowerCase();
+
+  // 1. Special Check for 先, お先に, 先に
+  if (word === "先" || word === "お先に" || word === "先に") {
+    return {
+      sentenceJp: "お先に 失礼します。",
+      readingHiragana: "おさきに しつれいします。",
+      meaningVi: "Xin phép tôi về trước.",
+    };
+  }
+
+  // 2. Adverbs & Polite Expressions ending in に
+  if (["お先に", "先に", "どうぞ", "失礼"].includes(word) || word.endsWith("に")) {
+    return {
+      sentenceJp: `${word} 失礼します。`,
+      readingHiragana: `${reading} しつれいします。`,
+      meaningVi: `Xin phép ${lowerMeaning}.`,
+    };
+  }
+
+  // 3. Question Words
+  if (["何", "何歳", "何時", "どこ", "だれ", "なに", "なん"].some((q) => word.includes(q))) {
+    return {
+      sentenceJp: `これは ${word}ですか。`,
+      readingHiragana: `これは ${reading}ですか。`,
+      meaningVi: `Cái này là ${lowerMeaning}?`,
+    };
+  }
+
+  // 4. Time expressions
+  if (["今", "今日", "今月", "今年", "今朝", "今晩", "先月", "来月", "去年", "来年", "時間", "時計", "毎日", "毎朝", "毎晩"].some((k) => word.includes(k))) {
+    return {
+      sentenceJp: `${word} 日本へ 行きます。`,
+      readingHiragana: `${reading} にほんへ いきます。`,
+      meaningVi: `${cleanMeaning} tôi sẽ đi Nhật Bản.`,
+    };
+  }
+
+  // 5. Nouns representing people, family, or titles
+  if (
+    ["男", "女", "子", "人", "友", "父", "母", "兄", "弟", "姉", "妹", "員", "者", "家", "犬", "猫", "先生", "学生", "主人"].some((k) =>
+      word.includes(k)
+    )
+  ) {
+    return {
+      sentenceJp: `あの方は ${word}です。`,
+      readingHiragana: `あのかたは ${reading}です。`,
+      meaningVi: `Vị kia là ${lowerMeaning}.`,
+    };
+  }
+
+  // 6. Verbs & actions
+  if (
+    word.endsWith("ます") ||
+    word.endsWith("する") ||
+    word.endsWith("く") ||
+    word.endsWith("む") ||
+    word.endsWith("う") ||
+    word.endsWith("る") ||
+    word.endsWith("つ") ||
+    word.endsWith("ぶ")
+  ) {
+    return {
+      sentenceJp: `一緒に ${word}。`,
+      readingHiragana: `いっしょに ${reading}。`,
+      meaningVi: `Cùng nhau ${lowerMeaning}.`,
+    };
+  }
+
+  // 7. Adjectives
+  if (word.endsWith("い") || word.endsWith("な")) {
+    return {
+      sentenceJp: `この 物は ${word}です。`,
+      readingHiragana: `この ものは ${reading}です。`,
+      meaningVi: `Món đồ này rất ${lowerMeaning}.`,
+    };
+  }
+
+  // 8. Raw Sino-Vietnamese uppercase tag protection (e.g. "TIÊN", "HÀ", "SINH")
+  if (/^[A-ZÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠƯ\s]+$/.test(cleanMeaning) && cleanMeaning.length <= 6) {
+    return {
+      sentenceJp: `${word}の 勉強を します。`,
+      readingHiragana: `${reading}の べんきょうを します。`,
+      meaningVi: `Tôi học về chữ Hán 「${word}」.`,
+    };
+  }
+
+  // 9. Default objects & places
+  return {
+    sentenceJp: `ここに ${word}が あります。`,
+    readingHiragana: `ここに ${reading}が あります。`,
+    meaningVi: `Ở đây có ${lowerMeaning}.`,
+  };
+}
+
 // Helper to convert non-target Kanji words to Hiragana for beginner learners
 function focusTargetKanjiOnly(sentence: string, targetKanji: string): string {
   if (!sentence) return "";
@@ -71,8 +180,62 @@ function focusTargetKanjiOnly(sentence: string, targetKanji: string): string {
   return result;
 }
 
-// Rich contextual dictionary map for natural Japanese sentences (keeping only target Kanji)
+// Rich contextual dictionary map for natural Japanese sentences with authentic Vietnamese translations
 const MEANINGFUL_SENTENCE_MAP: { [key: string]: { sentenceJp: string; meaningVi: string; readingHiragana: string } } = {
+  // Tiền bối & Thời gian & Thầy cô
+  "先": { sentenceJp: "お先に 失礼します。", meaningVi: "Xin phép tôi về trước.", readingHiragana: "おさきに しつれいします。" },
+  "お先に": { sentenceJp: "お先に どうぞ。", meaningVi: "Mời bạn đi trước.", readingHiragana: "おさきに どうぞ。" },
+  "先に": { sentenceJp: "お先に 失礼します。", meaningVi: "Xin phép tôi đi trước.", readingHiragana: "おさきに しつれいします。" },
+  "先生": { sentenceJp: "たなか先生は 日本語を 教えます。", meaningVi: "Thầy Tanaka dạy tiếng Nhật.", readingHiragana: "たなかせんせいは にほんごを おしえます。" },
+  "学生": { sentenceJp: "わたしは 大学の 学生です。", meaningVi: "Tôi là sinh viên đại học.", readingHiragana: "わたしは だいがくの がくせいです。" },
+  "先月": { sentenceJp: "先月 日本へ 来ました。", meaningVi: "Tôi đã đến Nhật Bản vào tháng trước.", readingHiragana: "せんげつ にほんへ きました。" },
+  "先輩": { sentenceJp: "会社で 先輩に 相談します。", meaningVi: "Tôi thảo luận với tiền bối ở công ty.", readingHiragana: "かいしゃで せんぱいに そうだんします。" },
+
+  // Con người & Cơ thể & Gia đình
+  "男": { sentenceJp: "あの 男の人は たなかさんです。", meaningVi: "Người đàn ông đó là anh Tanaka.", readingHiragana: "あの おとこのひとは たなかさんです。" },
+  "男の人": { sentenceJp: "あの 男の人は たなかさんです。", meaningVi: "Người đàn ông đó là anh Tanaka.", readingHiragana: "あの おとこのひとは たなかさんです。" },
+  "男の子": { sentenceJp: "あそこに 男の子が います。", meaningVi: "Ở đằng kia có một cậu bé.", readingHiragana: "あそこに おとこのこが います。" },
+  "女": { sentenceJp: "あの 女の人は せんせいです。", meaningVi: "Người phụ nữ đó là cô giáo.", readingHiragana: "あの おんなのひとは せんせいです。" },
+  "女の人": { sentenceJp: "あの 女の人は せんせいです。", meaningVi: "Người phụ nữ đó là cô giáo.", readingHiragana: "あの おんなのひとは せんせいです。" },
+  "女の子": { sentenceJp: "あそこに 女の子が います。", meaningVi: "Ở đằng kia có một bé gái.", readingHiragana: "あところに おんなのこが います。" },
+  "子供": { sentenceJp: "公園で 子供たちが あそんでいます。", meaningVi: "Bọn trẻ đang chơi ở công viên.", readingHiragana: "こうえんで こどもたちが あそんでいます。" },
+  "父": { sentenceJp: "父は 会社員です。", meaningVi: "Bố tôi là nhân viên công ty.", readingHiragana: "ちちは かいしゃいんです。" },
+  "お父さん": { sentenceJp: "お父さんは 50歳です。", meaningVi: "Bố tôi 50 tuổi.", readingHiragana: "おとうさんは ごじゅっさいです。" },
+  "母": { sentenceJp: "母は 料理が 上手です。", meaningVi: "Mẹ tôi nấu ăn rất giỏi.", readingHiragana: "ははは りょうりが じょうずです。" },
+  "お母さん": { sentenceJp: "お母さんに 手紙を 書きます。", meaningVi: "Tôi viết thư cho mẹ.", readingHiragana: "おかあさんに てがみを かきます。" },
+  "兄": { sentenceJp: "兄は 大学生です。", meaningVi: "Anh trai tôi là sinh viên đại học.", readingHiragana: "あには だいがくせいです。" },
+  "お兄さん": { sentenceJp: "あの方の お兄さんは 背が 高いです。", meaningVi: "Anh trai của vị đó rất cao.", readingHiragana: "あのかたの おにいさんは せが たかいです。" },
+  "弟": { sentenceJp: "弟は 高校生です。", meaningVi: "Em trai tôi là học sinh cấp 3.", readingHiragana: "おとうとは こうこうせいです。" },
+  "姉": { sentenceJp: "姉は 銀行で 働いています。", meaningVi: "Chị gái tôi làm việc ở ngân hàng.", readingHiragana: "あねは ぎんこうで はたらいています。" },
+  "お姉さん": { sentenceJp: "お姉さんは ピアノを ひきます。", meaningVi: "Chị gái chơi đàn piano.", readingHiragana: "おねえさんは ぴあのを ひきます。" },
+  "妹": { sentenceJp: "妹は 中学生です。", meaningVi: "Em gái tôi là học sinh cấp 2.", readingHiragana: "いもうとは ちゅうがくせいです。" },
+  "友": { sentenceJp: "友達と 一緒に 勉強します。", meaningVi: "Tôi học cùng với bạn bè.", readingHiragana: "ともだちと いっしょに べんきょうします。" },
+  "友達": { sentenceJp: "友達と 一緒に 勉強します。", meaningVi: "Tôi học cùng với bạn bè.", readingHiragana: "ともだちと いっしょに べんきょうします。" },
+  "子": { sentenceJp: "女の子が こうえんで あそんでいます。", meaningVi: "Bé gái đang chơi ở trong công viên.", readingHiragana: "おんなのこが こうえんで あそんでいます。" },
+  "人": { sentenceJp: "あの 人は にほん人です。", meaningVi: "Người đó là người Nhật Bản.", readingHiragana: "あの ひと は にほんじん です。" },
+  "目": { sentenceJp: "目と 耳が いいです。", meaningVi: "Mắt và tai của tôi đều rất tốt.", readingHiragana: "めと みみが いいです。" },
+  "口": { sentenceJp: "大きな 口を あけます。", meaningVi: "Mở một cái miệng thật to.", readingHiragana: "おおきな くちを あけます。" },
+  "耳": { sentenceJp: "耳を すまして ききます。", meaningVi: "Lắng tai nghe thật kỹ.", readingHiragana: "みみを すまして ききます。" },
+  "手": { sentenceJp: "手を きれいに あらいます。", meaningVi: "Rửa tay thật sạch sẻ.", readingHiragana: "てを きれいに あらいます。" },
+  "足": { sentenceJp: "足が いたいです。", meaningVi: "Chân tôi bị đau.", readingHiragana: "あしが いたいです。" },
+
+  // Vị trí & Kích thước
+  "上": { sentenceJp: "つくえの 上に ほんが あります。", meaningVi: "Trên bàn có một cuốn sách.", readingHiragana: "つくえの うえに ほんが あります。" },
+  "下": { sentenceJp: "椅子の 下に ねこが います。", meaningVi: "Dưới ghế có một con mèo.", readingHiragana: "いすの したに ねこが います。" },
+  "中": { sentenceJp: "箱の 中に なにが ありますか。", meaningVi: "Trong hộp có cái gì vậy?", readingHiragana: "はこの なかに なにが ありますか。" },
+  "大": { sentenceJp: "大きな いえに すんでいます。", meaningVi: "Tôi đang sống trong một ngôi nhà lớn.", readingHiragana: "おおきな いえに すんでいます。" },
+  "小": { sentenceJp: "小さな いぬが います。", meaningVi: "Có một chú chó nhỏ.", readingHiragana: "ちいさな いぬが います。" },
+
+  // Tự nhiên & Đời sống
+  "山": { sentenceJp: "ふじ山は きれいな 山です。", meaningVi: "Núi Phú Sĩ là ngọn núi rất đẹp.", readingHiragana: "ふじさんは きれいな やまです。" },
+  "川": { sentenceJp: "きれいな 川で およぎます。", meaningVi: "Tôi bơi ở một dòng sông sạch.", readingHiragana: "きれいな かわで およぎます。" },
+  "田": { sentenceJp: "田んぼに こめが あります。", meaningVi: "Trong cánh đồng lúa có bông lúa chín.", readingHiragana: "たんぼに こめが あります。" },
+  "天": { sentenceJp: "きょうは 天気が いいです。", meaningVi: "Hôm nay thời tiết rất tốt.", readingHiragana: "きょうは てんきが いいです。" },
+  "生": { sentenceJp: "わたしは 学生です。", meaningVi: "Tôi là học sinh / sinh viên.", readingHiragana: "わたしは がくせいです。" },
+  "花": { sentenceJp: "きれいな 花が さいています。", meaningVi: "Những bông hoa đẹp đang nở.", readingHiragana: "きれいな はなが さいています。" },
+  "雨": { sentenceJp: "きょうは 雨が ふっています。", meaningVi: "Hôm nay trời đang mưa.", readingHiragana: "きょうは あめが ふっています。" },
+
+  // Số đếm & Tiền tệ
   "一": { sentenceJp: "りんごを 一つ ください。", meaningVi: "Cho tôi xin một quả táo.", readingHiragana: "りんごを ひとつ ください。" },
   "二": { sentenceJp: "二人の ともだちと あいます。", meaningVi: "Tôi gặp hai người bạn.", readingHiragana: "ふたりの ともだちと あいます。" },
   "三": { sentenceJp: "三日に りょこうします。", meaningVi: "Tôi đi du lịch vào ngày mùng 3.", readingHiragana: "みっかに りょこうします。" },
@@ -92,6 +255,8 @@ const MEANINGFUL_SENTENCE_MAP: { [key: string]: { sentenceJp: string; meaningVi:
   "千": { sentenceJp: "千円さつを だします。", meaningVi: "Tôi đưa tờ 1000 yên.", readingHiragana: "せんえんさつを だします。" },
   "万": { sentenceJp: "一万円の とけいです。", meaningVi: "Đây là chiếc đồng hồ giá 1 vạn yên.", readingHiragana: "いちまんえんの とけいです。" },
   "円": { sentenceJp: "にほん円で はらいます。", meaningVi: "Tôi thanh toán bằng tiền Yên Nhật.", readingHiragana: "にほんえんで はらいます。" },
+
+  // Thời gian & Thứ ngày
   "日": { sentenceJp: "きょうは いい 日ですね。", meaningVi: "Hôm nay là một ngày đẹp trời.", readingHiragana: "きょうは いい ひですね。" },
   "月": { sentenceJp: "こん月は とても いそがしいです。", meaningVi: "Tháng này tôi rất bận.", readingHiragana: "こんげつは とても いそがしいです。" },
   "火": { sentenceJp: "火に ちゅういして ください。", meaningVi: "Hãy chú ý an toàn với lửa.", readingHiragana: "ひに ちゅういして ください。" },
@@ -99,12 +264,43 @@ const MEANINGFUL_SENTENCE_MAP: { [key: string]: { sentenceJp: string; meaningVi:
   "木": { sentenceJp: "こうえんに おおきな 木が あります。", meaningVi: "Trong công viên có một cái cây lớn.", readingHiragana: "こうえんに おおきな きが あります。" },
   "金": { sentenceJp: "金ようびに えいがを みます。", meaningVi: "Tôi xem phim vào Thứ Sáu.", readingHiragana: "きんようびに えいがを みます。" },
   "土": { sentenceJp: "土ようびは やすみです。", meaningVi: "Thứ Bảy là ngày nghỉ.", readingHiragana: "どようびは やすみです。" },
-  "山": { sentenceJp: "ふじ山は きれいな 山です。", meaningVi: "Núi Phú Sĩ là ngọn núi rất đẹp.", readingHiragana: "ふじさんは きれいな やまです。" },
-  "川": { sentenceJp: "きれいな 川で およぎます。", meaningVi: "Tôi bơi ở một dòng sông sạch.", readingHiragana: "きれいな かわで およぎます。" },
-  "田": { sentenceJp: "田んぼに こめが あります。", meaningVi: "Trong cánh ruộng có lúa.", readingHiragana: "たんぼに こめが あります。" },
-  "人": { sentenceJp: "あの 人は にほん人です。", meaningVi: "Người đó là người Nhật Bản.", readingHiragana: "あの ひと は にほんじん です。" },
   "日本": { sentenceJp: "わたしは 日本へ いきます。", meaningVi: "Tôi sẽ đi Nhật Bản.", readingHiragana: "わたしは にほんへ いきます。" },
   "日曜日": { sentenceJp: "日曜日 に ともだちと あいます。", meaningVi: "Tôi gặp bạn vào Chủ Nhật.", readingHiragana: "にちようびに ともだちと あいます。" },
+
+  // Xã hội & Địa điểm
+  "国": { sentenceJp: "あなたの 国は どこですか。", meaningVi: "Đất nước của bạn ở đâu?", readingHiragana: "あなたの くには どこですか。" },
+  "会": { sentenceJp: "友達と 駅で 会います。", meaningVi: "Tôi gặp bạn bè ở nhà ga.", readingHiragana: "ともだちと えきで あいます。" },
+  "社": { sentenceJp: "毎朝 8時に 会社へ 行きます。", meaningVi: "Mỗi sáng tôi đi làm ở công ty lúc 8 giờ.", readingHiragana: "まいあさ はちじに かいしゃへ いきます。" },
+  "校": { sentenceJp: "あした 学校へ 行きます。", meaningVi: "Ngày mai tôi đến trường học.", readingHiragana: "あした がっこうへ いきます。" },
+  "店": { sentenceJp: "あの 店で パンを 買いました。", meaningVi: "Tôi đã mua bánh mì ở cửa hàng đó.", readingHiragana: "あの みせで ぱんを かいました。" },
+  "駅": { sentenceJp: "東京駅で 電車を 降ります。", meaningVi: "Tôi xuống tàu ở Ga Tokyo.", readingHiragana: "とうきょうえきで でんしゃを おりまし。" },
+  "車": { sentenceJp: "新しい 車を 買いました。", meaningVi: "Tôi đã mua một chiếc xe ô tô mới.", readingHiragana: "あたらしい くるまを かいました。" },
+
+  // Hành động & Giao tiếp
+  "買": { sentenceJp: "スーパーで 野菜を 買います。", meaningVi: "Tôi mua rau củ ở siêu thị.", readingHiragana: "すーぱーで やさいを かいます。" },
+  "売": { sentenceJp: "本屋で 本を 売っています。", meaningVi: "Tiệm sách đang bán những cuốn sách.", readingHiragana: "ほんやで ほんを うっています。" },
+  "行": { sentenceJp: "来週 日本へ 行きます。", meaningVi: "Tuần sau tôi sẽ đi Nhật Bản.", readingHiragana: "らいしゅう にほんへ いきます。" },
+  "来": { sentenceJp: "友達が 家に 来ました。", meaningVi: "Bạn tôi đã đến nhà tôi chơi.", readingHiragana: "ともだちが いえに きました。" },
+  "食": { sentenceJp: "昼ご飯を 食べます。", meaningVi: "Tôi ăn bữa trưa.", readingHiragana: "ひるごはんを たべます。" },
+  "飲": { sentenceJp: "温かい お茶を 飲みます。", meaningVi: "Tôi uống trà ấm.", readingHiragana: "あたたかい おちゃを のみます。" },
+  "見": { sentenceJp: "週末に 映画を 見ます。", meaningVi: "Tôi xem phim vào cuối tuần.", readingHiragana: "しゅうまつに えいがを みます。" },
+  "聞": { sentenceJp: "音楽を 聴きます。", meaningVi: "Tôi nghe nhạc.", readingHiragana: "おんがくを ききます。" },
+  "書": { sentenceJp: "日本語で 手紙を 書きます。", meaningVi: "Tôi viết thư bằng tiếng Nhật.", readingHiragana: "にほんごで てがみを かきます。" },
+  "読": { sentenceJp: "毎夜 本を 読みます。", meaningVi: "Mỗi tối tôi đều đọc sách.", readingHiragana: "まいよ ほんを よみます。" },
+  "話": { sentenceJp: "先生と 日本語で 話します。", meaningVi: "Tôi nói chuyện bằng tiếng Nhật với thầy cô giáo.", readingHiragana: "せんせいと にほんごで はなします。" },
+  "学": { sentenceJp: "大学で 経済を 学びます。", meaningVi: "Tôi học ngành kinh tế ở trường đại học.", readingHiragana: "だいがくで けいざいを まなびます。" },
+  "休": { sentenceJp: "日曜日には 会社を 休みにします。", meaningVi: "Chủ nhật tôi nghỉ làm ở công ty.", readingHiragana: "にちようびには かいしゃを やすみにします。" },
+  "言": { sentenceJp: "ありがとうと 言いました。", meaningVi: "Tôi đã nói cảm ơn.", readingHiragana: "ありがとうと いいました。" },
+  "語": { sentenceJp: "日本語の 勉強は 楽しいです。", meaningVi: "Học tiếng Nhật rất là vui.", readingHiragana: "にほんごの べんきょうは たのしいです。" },
+
+  // Phương hướng
+  "東": { sentenceJp: "東京は 日本の 首都です。", meaningVi: "Tokyo là thủ đô của Nhật Bản.", readingHiragana: "とうきょうは にほんの しゅとです。" },
+  "西": { sentenceJp: "太陽が 西に 沈みます。", meaningVi: "Mặt trời lặn về phía Tây.", readingHiragana: "たいようが にしに しずみます。" },
+  "南": { sentenceJp: "南の 島へ 旅行します。", meaningVi: "Tôi đi du lịch đến hòn đảo phía Nam.", readingHiragana: "みなみの しまへ りょこうします。" },
+  "北": { sentenceJp: "北海道は 日本の 北に あります。", meaningVi: "Hokkaido nằm ở phía Bắc Nhật Bản.", readingHiragana: "ほっかいどうは にほんの きたに あります。" },
+  "午": { sentenceJp: "午前 9時に 授業が 始まります。", meaningVi: "Giờ học bắt đầu lúc 9 giờ sáng.", readingHiragana: "ごぜん くじに じゅぎょうが はじまります。" },
+  "前": { sentenceJp: "駅の 前で 待ち合わせます。", meaningVi: "Chúng tôi hẹn gặp nhau ở trước nhà ga.", readingHiragana: "えきの まえで まちあわせます。" },
+  "後": { sentenceJp: "食事の 後で 薬を 飲みます。", meaningVi: "Tôi uống thuốc sau bữa ăn.", readingHiragana: "しょくじの あとで くすりを のみます。" },
 };
 
 export default function KanjiReadingSentencesView({ topicTitle, exercises, items }: KanjiReadingSentencesViewProps) {
@@ -209,9 +405,11 @@ export default function KanjiReadingSentencesView({ topicTitle, exercises, items
     // 2. Dynamic Generator from items using rich sentence mapping
     if (items && items.length > 0) {
       items.forEach((item) => {
-        // Parse examples if available
-        const exSource = item.kunExamples || item.onExamples || "";
-        if (exSource) {
+        // Collect examples from BOTH kunExamples and onExamples
+        const exampleSources = [item.kunExamples, item.onExamples].filter(Boolean);
+        
+        exampleSources.forEach((exSource) => {
+          if (!exSource || exSource === "—") return;
           const parts = exSource.split(/[,;\n]+/);
           parts.forEach((p) => {
             const m = p.match(/^([^\(（]+)[\(（]([^\)）]+)[\)）]:?\s*(.*)$/);
@@ -219,6 +417,10 @@ export default function KanjiReadingSentencesView({ topicTitle, exercises, items
               const word = m[1].trim();
               const reading = m[2].trim();
               const meaning = m[3].trim();
+
+              // Skip pure Katakana Onyomi readings like "セン", "ジン", "ショウ"
+              if (/^[\u30A0-\u30FF\s—]+$/.test(word)) return;
+              if (word === "—" || word.length === 0) return;
 
               const mapped = MEANINGFUL_SENTENCE_MAP[word];
               if (mapped) {
@@ -230,17 +432,18 @@ export default function KanjiReadingSentencesView({ topicTitle, exercises, items
                   meaningVi: mapped.meaningVi,
                 });
               } else {
+                const smart = buildSmartSentence(word, reading, meaning, item.meaningVi);
                 list.push({
                   id: idCounter++,
                   kanjiWord: word,
-                  readingHiragana: `${word} (${reading})`,
-                  sentenceJp: `${word}を つかった 例文です。`,
-                  meaningVi: meaning ? `Nghĩa: ${meaning}` : `Từ Hán tự trong bài`,
+                  readingHiragana: smart.readingHiragana,
+                  sentenceJp: focusTargetKanjiOnly(smart.sentenceJp, word),
+                  meaningVi: smart.meaningVi,
                 });
               }
             }
           });
-        }
+        });
 
         // Single character fallback with rich sentence map
         const mappedChar = MEANINGFUL_SENTENCE_MAP[item.character];
@@ -253,12 +456,13 @@ export default function KanjiReadingSentencesView({ topicTitle, exercises, items
             meaningVi: mappedChar.meaningVi,
           });
         } else {
+          const smart = buildSmartSentence(item.character, item.kunyomi || item.onyomi, item.meaningVi, item.meaningVi);
           list.push({
             id: idCounter++,
             kanjiWord: item.character,
-            readingHiragana: item.kunyomi || item.onyomi || "—",
-            sentenceJp: `【${item.character}】の 漢字です。`,
-            meaningVi: `Âm Hán Việt: ${item.meaningVi}`,
+            readingHiragana: smart.readingHiragana,
+            sentenceJp: focusTargetKanjiOnly(smart.sentenceJp, item.character),
+            meaningVi: smart.meaningVi,
           });
         }
       });
@@ -313,16 +517,9 @@ export default function KanjiReadingSentencesView({ topicTitle, exercises, items
     }
   };
 
-  // Text-To-Speech (Native Japanese Pronunciation)
+  // Text-To-Speech (Native Neural Japanese Pronunciation)
   const handleSpeak = (text: string) => {
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
-      const cleanText = text.replace(/[\(（][^\)）]+[\)）]/g, ""); // Clean text for smooth TTS
-      const utterance = new SpeechSynthesisUtterance(cleanText);
-      utterance.lang = "ja-JP";
-      utterance.rate = 0.9;
-      window.speechSynthesis.cancel();
-      window.speechSynthesis.speak(utterance);
-    }
+    playJapaneseTTS(text);
   };
 
   if (!sentenceList || sentenceList.length === 0) {

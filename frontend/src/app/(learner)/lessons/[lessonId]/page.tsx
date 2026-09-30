@@ -129,12 +129,11 @@ export default function LearnerLessonStudyPage() {
         setLevelCode(lNum > 50 ? "N3" : lNum > 25 ? "N4" : "N5");
         setSortOrder(lNum);
         setVocabularies([
-          { vocabularyId: lNum * 100 + 1, word: "わたし", kana: "わたし", romaji: "watashi", meaningVi: "Tôi (bản thân)", exampleJp: "わたしは学生です。", exampleVi: "Tôi là học sinh." },
-          // Fallback vocabulary item 2 with proper Japanese script
-          { vocabularyId: lNum * 100 + 2, word: "あなた", kana: "あなた", romaji: "anata", meaningVi: "Bạn, anh, chị", exampleJp: "あなたは日本人ですか。", exampleVi: "Bạn là người Nhật phải không?" },
-          { vocabularyId: lNum * 100 + 3, word: "先生", kana: "せんせい", kanjiForm: "先生", romaji: "sensei", meaningVi: "Thầy / Cô giáo (giáo viên)", exampleJp: "ANH SENSEIは日本語の先生です。", exampleVi: "ANH SENSEI là giáo viên tiếng Nhật." },
-          { vocabularyId: lNum * 100 + 4, word: "学生", kana: "がくせい", kanjiForm: "学生", romaji: "gakusei", meaningVi: "Học sinh, sinh viên", exampleJp: "わたしは学生です。", exampleVi: "Tôi là học sinh." },
-          { vocabularyId: lNum * 100 + 5, word: "会社員", kana: "かいしゃいん", kanjiForm: "会社員", romaji: "kaishain", meaningVi: "Nhân viên công ty", exampleJp: "父は会社員です。", exampleVi: "Bố tôi là nhân viên công ty." },
+          { vocabularyId: lNum * 100 + 1, word: "わたし", kana: "わたし", romaji: "watashi", meaningVi: "Tôi (bản thân)" },
+          { vocabularyId: lNum * 100 + 2, word: "あなた", kana: "あなた", romaji: "anata", meaningVi: "Bạn, anh, chị" },
+          { vocabularyId: lNum * 100 + 3, word: "先生", kana: "せんせい", kanjiForm: "先生", romaji: "sensei", meaningVi: "Thầy / Cô giáo (giáo viên)" },
+          { vocabularyId: lNum * 100 + 4, word: "学生", kana: "がくせい", kanjiForm: "学生", romaji: "gakusei", meaningVi: "Học sinh, sinh viên" },
+          { vocabularyId: lNum * 100 + 5, word: "会社員", kana: "かいしゃいん", kanjiForm: "会社員", romaji: "kaishain", meaningVi: "Nhân viên công ty" },
         ]);
         const numId = Number(lessonId) || 1;
         recordLessonAccess(numId, loadedLesson?.title || lessonTitle, loadedLesson?.levelCode || levelCode);

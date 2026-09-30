@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useMemo, useRef } from "react";
 import { ArrowRight, Star, Sparkles } from "lucide-react";
 import { FlashcardItemDto, FlashcardRating, FlashcardSessionStats } from "./types";
 import FlashcardHeader from "./FlashcardHeader";
@@ -57,7 +57,7 @@ export default function FlashcardContainer({
   const [favoriteIds, setFavoriteIds] = useState<Set<number>>(new Set());
   const [isFavoritesOnly, setIsFavoritesOnly] = useState<boolean>(false);
 
-  // Load Favorites from localStorage
+  // Load Favorites from API & LocalStorage
   useEffect(() => {
     if (typeof window !== "undefined") {
       const savedFavs = localStorage.getItem("flashcard_favorite_vocab_ids");
@@ -70,30 +70,65 @@ export default function FlashcardContainer({
         } catch {}
       }
     }
+
+    const fetchApiFavs = async () => {
+      try {
+        const res = await apiClient<number[]>("/learner/favorites?contentType=VOCABULARY");
+        if (res.data && Array.isArray(res.data)) {
+          setFavoriteIds((prev) => {
+            const merged = new Set([...Array.from(prev), ...res.data]);
+            if (typeof window !== "undefined") {
+              localStorage.setItem("flashcard_favorite_vocab_ids", JSON.stringify(Array.from(merged)));
+            }
+            return merged;
+          });
+        }
+      } catch {}
+    };
+
+    fetchApiFavs();
   }, []);
 
-  const handleToggleFavorite = useCallback((cardId: number) => {
+  const handleToggleFavorite = useCallback(async (cardId: number) => {
+    let isNowFav = false;
     setFavoriteIds((prev) => {
       const next = new Set(prev);
       if (next.has(cardId)) {
         next.delete(cardId);
+        isNowFav = false;
         showToast("Đã bỏ từ khỏi danh sách yêu thích");
       } else {
         next.add(cardId);
-        showToast("⭐ Đã thêm từ vào danh sách yêu thích!");
+        isNowFav = true;
+        showToast("❤️ Đã thêm vào danh sách từ vựng yêu thích!");
       }
       if (typeof window !== "undefined") {
         localStorage.setItem("flashcard_favorite_vocab_ids", JSON.stringify(Array.from(next)));
       }
       return next;
     });
+
+    try {
+      await apiClient("/learner/favorites/toggle", {
+        method: "POST",
+        body: JSON.stringify({ contentType: "VOCABULARY", contentId: cardId }),
+      });
+    } catch {}
   }, []);
+
+  const currentLessonFavCount = useMemo(() => {
+    return items.filter((item) => favoriteIds.has(item.id)).length;
+  }, [items, favoriteIds]);
 
   const handleToggleFavoritesOnly = useCallback(() => {
     if (!isFavoritesOnly) {
       const favItems = items.filter((item) => favoriteIds.has(item.id));
       if (favItems.length === 0) {
-        showToast("💡 Bạn chưa lưu từ nào! Hãy bấm biểu tượng ⭐ góc trên bên phải mỗi thẻ để đánh dấu từ cần học nhé.");
+        if (favoriteIds.size > 0) {
+          showToast(`💡 Bài học này chưa có từ yêu thích nào! (Bạn có ${favoriteIds.size} từ yêu thích ở bài học khác)`);
+        } else {
+          showToast("💡 Bạn chưa lưu từ nào! Hãy bấm biểu tượng ❤️ góc trên bên phải mỗi thẻ để đánh dấu nhé.");
+        }
         return;
       }
       setDeck(favItems);
@@ -438,7 +473,7 @@ export default function FlashcardContainer({
               totalCount={deck.length}
               showFurigana={showFurigana}
               isContextMode={isContextMode}
-              favoriteCount={favoriteIds.size}
+              favoriteCount={currentLessonFavCount}
               isFavoritesOnly={isFavoritesOnly}
               onToggleFurigana={() => setShowFurigana((prev) => !prev)}
               onToggleContextMode={() => setIsContextMode((prev) => !prev)}
@@ -486,8 +521,6 @@ export default function FlashcardContainer({
               hasPrev={currentIndex > 0}
               hasNext={currentIndex < deck.length - 1}
             />
-
-            <FlashcardShortcutLegend />
 
             {onNextLesson && (
               <div className="pt-2 flex justify-center w-full">
