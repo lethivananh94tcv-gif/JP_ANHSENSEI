@@ -226,7 +226,22 @@ FROM lessons l JOIN levels lvl ON l.level_id = lvl.level_id CROSS JOIN (VALUES
   ('元の場所', 'もとのばしょ', '元の場所', 'Danh từ', 'Nơi ban đầu', 35),
   ('周り', 'まわり', '周り', 'Danh từ', 'Xung quanh', 36),
   ('真ん中', 'まんなか', '真ん中', 'Danh từ', 'Chính giữa', 37),
-  ('隅', 'すみ', '隅', 'Danh từ', 'Góc (trong phòng)', 38)
+  ('隅', 'すみ', '隅', 'Danh từ', 'Góc (trong phòng)', 38),
+  ('まだ', 'まだ', NULL, 'Phó từ', 'Chưa', 39),
+  ('―ほど', '―ほど', NULL, 'Hậu tố', 'Chừng—', 40),
+  ('予定表', 'よていひょう', '予定表', 'Danh từ', 'Thời khóa biểu', 41),
+  ('ごくろうさま', 'ごくろうさま', NULL, 'Cụm từ', 'Anh, chị đã làm việc vất vả/cảm ơn anh, chị', 42),
+  ('希望', 'きぼう', '希望', 'Danh từ', 'Hi vọng, nguyện vọng', 43),
+  ('何かご希望がありますか', 'なにかごきぼうがありますか', '何かご希望がありますか', 'Cụm từ', 'Anh/chị có nguyện vọng gì không?', 44),
+  ('ミュージカル', 'ミュージカル', NULL, 'Danh từ', 'Ca kịch', 45),
+  ('それはいいですな', 'それはいいですな', NULL, 'Cụm từ', 'Hay quá nhỉ', 46),
+  ('丸い', 'まるい', '丸い', 'Tính từ i', 'Tròn', 47),
+  ('月', 'つき', '月', 'Danh từ', 'Mặt trăng', 48),
+  ('地球', 'ちきゅう', '地球', 'Danh từ', 'Trái đất', 49),
+  ('うれしい', 'うれしい', NULL, 'Tính từ i', 'Vui', 50),
+  ('嫌（な）', 'いや（な）', '嫌（な）', 'Tính từ na', 'Chán, ghét, không chấp nhận được', 51),
+  ('すると', 'すると', NULL, 'Liên từ', 'Sau đó, tiếp đó', 52),
+  ('目が覚めます', 'めがさめます', '目が覚めます', 'Động từ nhóm 2', 'Tỉnh giấc, mở mắt', 53)
 ) AS v(word, kana, kanji_form, part_of_speech, meaning_vi, sort_order)
 WHERE lvl.code = 'N4' AND l.sort_order = 5;
 
@@ -268,7 +283,13 @@ FROM lessons l JOIN levels lvl ON l.level_id = lvl.level_id CROSS JOIN (VALUES
   ('嫌な', 'いやな', '嫌な', 'Tính từ na', 'Ghét, khó chịu', 32),
   ('空き地', 'あきち', '空き地', 'Danh từ', 'Khu đất trống', 33),
   ('閉じます', 'とじます', '閉じます', 'Động từ nhóm 2', 'Nhắm (mắt), đóng (sách)', 34),
-  ('都会', 'とかい', '都会', 'Danh từ', 'Thành thị', 35)
+  ('都会', 'とかい', '都会', 'Danh từ', 'Thành thị', 35),
+  ('世界中', 'せかいじゅう', '世界中', 'Danh từ', 'Khắp thế giới', 36),
+  ('集まります', 'あつまります', '集まります', 'Động từ nhóm 1', 'Tập hợp', 37),
+  ('美しい', 'うつくしい', '美しい', 'Tính từ i', 'Đẹp', 38),
+  ('自然', 'しぜん', '自然', 'Danh từ', 'Thiên nhiên, tự nhiên', 39),
+  ('すばらしさ', 'すばらしさ', NULL, 'Danh từ', 'Tuyệt vời', 40),
+  ('気が付きます', 'きがつきます', '気が付きます', 'Động từ nhóm 1', 'Để ý, nhận ra', 41)
 ) AS v(word, kana, kanji_form, part_of_speech, meaning_vi, sort_order)
 WHERE lvl.code = 'N4' AND l.sort_order = 6;
 
@@ -310,7 +331,24 @@ FROM lessons l JOIN levels lvl ON l.level_id = lvl.level_id CROSS JOIN (VALUES
   ('こんなに', 'こんなに', NULL, 'Phó từ', 'Đến mức như thế này', 32),
   ('そんなに', 'そんなに', NULL, 'Phó từ', 'Đến mức như thế đó', 33),
   ('あんなに', 'あんなに', NULL, 'Phó từ', 'Đến mức như thế kia', 34),
-  ('もしかしたら', 'もしかしたら', NULL, 'Phó từ', 'Có thể là, biết đâu', 35)
+  ('もしかしたら', 'もしかしたら', NULL, 'Phó từ', 'Có thể là, biết đâu', 35),
+  ('それはいけませんね', 'それはいけませんね', NULL, 'Cụm từ', 'Thế thì thật không tốt.', 36),
+  ('オリンピック', 'オリンピック', NULL, 'Danh từ', 'Olympic', 37),
+  ('元気', 'げんき', '元気', 'Tính từ na', 'Khỏe mạnh', 38),
+  ('胃', 'い', '胃', 'Danh từ', 'Dạ dày', 39),
+  ('働きすぎ', 'はたらきすぎ', '働きすぎ', 'Danh từ', 'Làm việc quá sức', 40),
+  ('ストレス', 'ストレス', NULL, 'Danh từ', 'Stress, căng thẳng tâm lý', 41),
+  ('無理をします', 'むりをします', '無理をします', 'Động từ nhóm 3', 'Làm quá sức', 42),
+  ('ゆっくりします', 'ゆっくりします', NULL, 'Động từ nhóm 3', 'Nghỉ ngơi, thư thái, dưỡng sức', 43),
+  ('星占い', 'ほしうらない', '星占い', 'Danh từ', 'Bói sao', 44),
+  ('牡牛座', 'おうしざ', '牡牛座', 'Danh từ', 'Chòm sao Kim Ngưu', 45),
+  ('困ります', 'こまります', '困ります', 'Động từ nhóm 1', 'Rắc rối, khó xử, vấn đề', 46),
+  ('宝くじ', 'たからくじ', '宝くじ', 'Danh từ', 'Xổ số', 47),
+  ('当たります（宝くじが～）', 'あたります（たからくじが～）', '当たります（宝くじが～）', 'Động từ nhóm 1', 'Trúng (số)', 48),
+  ('健康', 'けんこう', '健康', 'Danh từ', 'Sức khỏe', 49),
+  ('恋愛', 'れんあい', '恋愛', 'Danh từ', 'Tình yêu', 50),
+  ('恋人', 'こいびと', '恋人', 'Danh từ', 'Người yêu', 51),
+  ('（お）金持ち', '（お）かねもち', '（お）金持ち', 'Danh từ', 'Người giàu có', 52)
 ) AS v(word, kana, kanji_form, part_of_speech, meaning_vi, sort_order)
 WHERE lvl.code = 'N4' AND l.sort_order = 7;
 

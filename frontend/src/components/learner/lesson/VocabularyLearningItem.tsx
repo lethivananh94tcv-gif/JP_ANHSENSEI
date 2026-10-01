@@ -190,19 +190,30 @@ export default function VocabularyLearningItem({
           )}
 
           {/* Authentic Example Sentence Card */}
-          {item.exampleJp && (
+          {(item.exampleJp || (item as any).example_jp) && (
             <div
-              onClick={(e) => playAudio(e, item.exampleJp)}
+              onClick={(e) => playAudio(e, item.exampleJp || (item as any).example_jp)}
               title="Nhấp để nghe phát âm câu ví dụ"
               className="bg-[#FFF8F5] border border-[#F2DDD4] hover:border-[#C65D4B] p-3 rounded-2xl space-y-1 text-xs transition-all cursor-pointer group/ex shadow-2xs"
             >
               <div className="flex items-center justify-between gap-2">
                 <p className="font-jp font-bold text-[#C65D4B] group-hover/ex:text-[#B04F3F] transition-colors leading-relaxed text-sm">
-                  {item.exampleJp}
+                  {item.exampleJp || (item as any).example_jp}
                 </p>
                 <Volume2 className="w-4 h-4 text-[#C65D4B] shrink-0" />
               </div>
-              {item.exampleVi && <p className="text-xs text-[#76685F] font-bold">{item.exampleVi}</p>}
+              {(item.exampleReading || (item as any).example_reading) &&
+                /[\u3400-\u4dbf\u4e00-\u9fff]/.test(item.exampleJp || (item as any).example_jp || "") &&
+                (item.exampleReading || (item as any).example_reading) !== (item.exampleJp || (item as any).example_jp) && (
+                <p className="text-xs font-semibold text-[#8B6F5A] font-jp opacity-90">
+                  {item.exampleReading || (item as any).example_reading}
+                </p>
+              )}
+              {(item.exampleVi || (item as any).example_vi) && (
+                <p className="text-xs text-[#76685F] font-bold">
+                  ➔ {item.exampleVi || (item as any).example_vi}
+                </p>
+              )}
             </div>
           )}
 

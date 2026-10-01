@@ -372,7 +372,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                 className="w-9 h-9 rounded-2xl bg-gradient-to-tr from-[#FAF3EB] to-[#F5EFE6] border border-[#E5D7C7] text-[#C65D4B] font-black text-xs flex items-center justify-center cursor-pointer shadow-2xs hover:border-[#C65D4B] hover:scale-105 transition-all"
                 title="Đăng xuất khỏi hệ thống"
               >
-                {user?.fullName ? user.fullName.charAt(0).toUpperCase() : "A"}
+                {(user?.fullName || user?.email?.split("@")[0] || "Admin").charAt(0).toUpperCase()}
               </div>
             </div>
           </div>

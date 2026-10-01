@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { UserProfile } from "@/types/learner";
 
@@ -14,10 +15,32 @@ interface FlashcardHeaderProps {
 export default function FlashcardHeader({
   levelCode = "N5",
   lessonTitle = "Bài 1: Giới thiệu bản thân & Chào hỏi",
-  user,
+  user: propUser,
   onBack,
   onOpenSettings,
 }: FlashcardHeaderProps) {
+  const [localUser, setLocalUser] = useState<UserProfile | null>(null);
+  const [customAvatar, setCustomAvatar] = useState<string | null>(null);
+  const [customEmoji, setCustomEmoji] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const savedUserRaw = localStorage.getItem("user");
+      if (savedUserRaw) {
+        try {
+          setLocalUser(JSON.parse(savedUserRaw));
+        } catch {}
+      }
+      setCustomAvatar(localStorage.getItem("user_avatar") || null);
+      setCustomEmoji(localStorage.getItem("user_emoji") || null);
+    }
+  }, []);
+
+  const activeUser = propUser || localUser;
+  const displayName = activeUser?.fullName || activeUser?.email?.split("@")[0] || "Học viên";
+  const userInitial = displayName.charAt(0).toUpperCase();
+  const avatarUrl = customAvatar || activeUser?.avatarUrl;
+
   return (
     <header className="w-full bg-[#FFFDF9] border-b border-[#DED3C8] px-4 sm:px-8 py-3 flex items-center justify-between shadow-2xs z-30">
       {/* Left: Back Button */}
@@ -55,9 +78,21 @@ export default function FlashcardHeader({
           </button>
         )}
 
-        <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#8B6F5A] text-white font-serif font-bold text-xs sm:text-sm flex items-center justify-center shadow-xs">
-          {user?.fullName ? user.fullName.charAt(0).toUpperCase() : "A"}
-        </div>
+        {avatarUrl ? (
+          <img
+            src={avatarUrl}
+            alt={displayName}
+            className="w-8 h-8 sm:w-9 sm:h-9 rounded-full object-cover border border-[#DED3C8] shadow-xs"
+          />
+        ) : customEmoji ? (
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#8B6F5A] text-white flex items-center justify-center text-sm sm:text-base shadow-xs">
+            {customEmoji}
+          </div>
+        ) : (
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#8B6F5A] text-white font-serif font-bold text-xs sm:text-sm flex items-center justify-center shadow-xs">
+            {userInitial}
+          </div>
+        )}
       </div>
     </header>
   );

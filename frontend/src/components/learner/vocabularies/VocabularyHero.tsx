@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { DueFlashcardsCountData } from "./types";
 import { Sparkles, Play, Flame, ArrowRight, HelpCircle, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
@@ -161,6 +162,14 @@ export default function VocabularyHero({
               <span>Tiếp tục học ngay</span>
               <ArrowRight className="w-4 h-4" />
             </button>
+
+            <Link
+              href="/vocabularies/custom-review"
+              className="px-5 py-2.5 font-bold text-xs sm:text-sm rounded-xl border border-amber-300 bg-amber-50 hover:bg-amber-100 text-amber-900 transition-all flex items-center justify-center gap-2 shadow-2xs hover:scale-105 active:scale-95"
+            >
+              <Sparkles className="w-4 h-4 text-amber-600" />
+              <span>Ôn Gộp Nhiều Bài 🚀</span>
+            </Link>
 
             {/* Streak & XP Stats */}
             <div className="flex items-center gap-3 text-xs font-bold text-[#6E5D55] pt-0.5">

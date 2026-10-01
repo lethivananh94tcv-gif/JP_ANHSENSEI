@@ -184,14 +184,14 @@ export default function FlashcardCard3D({
                     <span className="text-[10px] font-extrabold text-[#C65D4B] uppercase tracking-wider block">
                       💬 Ví dụ thực tế
                     </span>
-                    {showFurigana && card.exampleReading && (
+                    <p className="text-base sm:text-lg font-jp font-bold text-[#231917] leading-relaxed">
+                      {card.exampleJp}
+                    </p>
+                    {/[\u3400-\u4dbf\u4e00-\u9fff]/.test(card.exampleJp) && card.exampleReading && card.exampleReading !== card.exampleJp && (
                       <p className="text-xs font-bold text-[#8B6F5A] tracking-wide font-jp opacity-90">
                         {card.exampleReading}
                       </p>
                     )}
-                    <p className="text-base sm:text-lg font-jp font-bold text-[#231917] leading-relaxed">
-                      {card.exampleJp}
-                    </p>
                   </div>
                 )}
               </div>
@@ -363,12 +363,6 @@ export default function FlashcardCard3D({
                 {/* Japanese Example Sentence */}
                 {card.exampleJp && (
                   <div className="space-y-1">
-                    {/* Optional Furigana Subtext */}
-                    {showFurigana && card.exampleReading && (
-                      <p className="text-xs font-bold text-[#8B6F5A] tracking-wide font-jp opacity-90">
-                        {card.exampleReading}
-                      </p>
-                    )}
                     <p
                       className={`font-jp font-bold text-[#231917] leading-relaxed ${
                         isContextMode ? "text-lg sm:text-xl" : "text-base sm:text-lg"
@@ -376,6 +370,12 @@ export default function FlashcardCard3D({
                     >
                       {card.exampleJp}
                     </p>
+                    {/* Hiragana Reading Subtext Below (only if example contains Kanji) */}
+                    {/[\u3400-\u4dbf\u4e00-\u9fff]/.test(card.exampleJp) && card.exampleReading && card.exampleReading !== card.exampleJp && (
+                      <p className="text-xs sm:text-sm font-semibold text-[#8B6F5A] tracking-wide font-jp opacity-95">
+                        {card.exampleReading}
+                      </p>
+                    )}
                   </div>
                 )}
 

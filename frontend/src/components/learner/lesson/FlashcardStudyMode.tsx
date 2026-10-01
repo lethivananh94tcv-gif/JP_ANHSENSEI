@@ -28,9 +28,9 @@ export default function FlashcardStudyMode({
 
     return (vocabularies || []).map((v, index) => {
       const item = v as any;
-      const exJp = v.exampleJp || item.exampleJp || (isJapanese(v.notes) ? v.notes : "");
-      const exVi = v.exampleVi || item.exampleVi || "";
-      const exReading = v.exampleReading || item.exampleReading || "";
+      const exJp = v.exampleJp || item.exampleJp || item.example_jp || (isJapanese(v.notes) ? v.notes : "");
+      const exVi = v.exampleVi || item.exampleVi || item.example_vi || "";
+      const exReading = v.exampleReading || item.exampleReading || item.example_reading || "";
       const usage = v.usageNote || item.usageNote || v.verbNote || "";
 
       return {

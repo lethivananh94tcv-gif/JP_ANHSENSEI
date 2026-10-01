@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Be_Vietnam_Pro, Noto_Serif_JP } from "next/font/google";
+import { Be_Vietnam_Pro, Noto_Serif_JP, Lora } from "next/font/google";
 import "./globals.css";
 import MobileBottomNav from "@/components/learner/MobileBottomNav";
 
@@ -7,6 +7,13 @@ const beVietnamPro = Be_Vietnam_Pro({
   subsets: ["vietnamese", "latin"],
   weight: ["400", "500", "600", "700", "800", "900"],
   variable: "--font-be-vietnam",
+  display: "swap",
+});
+
+const lora = Lora({
+  subsets: ["vietnamese", "latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-serif",
   display: "swap",
 });
 
@@ -36,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="vi" className={`${beVietnamPro.variable} ${notoSerifJP.variable}`}>
+    <html lang="vi" className={`${beVietnamPro.variable} ${lora.variable} ${notoSerifJP.variable}`}>
       <body className={`${beVietnamPro.className} min-h-screen antialiased bg-[#FDFBF7] text-[#2C221E] pb-20 md:pb-0`}>
         {children}
         <MobileBottomNav />
