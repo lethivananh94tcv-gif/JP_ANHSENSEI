@@ -530,27 +530,27 @@ expl_2010[44] = make_grammar_expl(
 )
 
 expl_2010[45] = make_grammar_expl(
-    10, 4, "どうかしましたか (bạn có chuyện gì sao?)",
-    "A: 'Bạn có chuyện gì thế ạ?' - B: 'Tôi bị đánh rơi ví tiền nên đang gặp rắc rối đây.'",
-    "Thành ngữ chào hỏi quan tâm khi thấy đối phương bối rối: 「どうかしましたか」 (Bạn có chuyện gì thế? / Có ổn không ạ?).",
-    "- 1. どうしましょうか: Phải làm sao đây (người nói hỏi ý kiến)\n- 2. どうでしたか: Như thế nào rồi\n- 3. どうですか: Thế nào\n- 4. どうかしましたか: ĐÚNG - Hỏi thăm đối phương có chuyện gì xảy ra không",
-    "(10) 4 句意: A: “发生什么事了吗?” B: “我把钱包弄丢了, 正发愁呢。” 4. どうかしましたか。"
+    10, 4, "売られて います (thể bị động)",
+    "Gần đây, nhiều loại kẹo cao su đa dạng đang được bày bán ở siêu thị.",
+    "Động từ 「売る」 (bán) là tha động từ. Chủ ngữ ở đây là 「いろんなしゅるいのガム」 (nhiều loại kẹo cao su) - đóng vai trò là vật chịu tác động của hành động nên chia ở thể bị động: 「売られる」 -> Trạng thái tiếp diễn: 「売られて います」.",
+    "- 1. 売ります: Bán (chủ động, không hợp với chủ ngữ là vật)\n- 2. 売って いきます: Sẽ bán đi (xu hướng tương lai)\n- 3. 売らせます: Bắt/cho bán (sai khiến)\n- 4. 売られて います: ĐÚNG - Thể bị động diễn tả trạng thái đang được bày bán",
+    "(10) 4 句意: 最近超市里售有各种各样的口香糖。考察被动态。卖是他动词，主语口香糖与“卖”这个动作之间存在被动关系，所以要用被动态。"
 )
 
 expl_2010[46] = make_grammar_expl(
-    11, 3, "のに (vậy mà / thế mà)",
-    "Tôi đã gọi điện thoại cho bạn bao nhiêu lần, vậy mà tại sao bạn lại không nhấc máy?",
-    "Liên từ nghịch tiếp 「のに」 biểu thị sự bất mãn, tiếc nuối, trái với mong đợi thông thường: Đã gọi nhiều lần vậy mà không nghe máy.",
-    "- 1. ので: Vì (nguyên nhân khách quan)\n- 2. から: Vì (nguyên nhân chủ quan)\n- 3. のに: ĐÚNG - Vậy mà, thế mà (nghịch tiếp mang sắc thái trách cứ, ngạc nhiên)\n- 4. ても: Dù cho",
-    "(11) 3 句意: A: “给你打了好几次电话, 你为什么没接呢?” B: “不好意思啊。” 考察の的逆接用法, 带有出乎意料、不满语气。"
+    11, 3, "どうでしょうか (hỏi ý kiến lịch sự)",
+    "Học sinh: 'Thưa thầy/cô, em đã sửa lại những chỗ sai trong bài văn rồi ạ.' - Thầy/cô: 'Ừ, vậy em đưa thầy/cô xem nào.' - Học sinh: 'Em nhờ thầy/cô ạ... (Thầy/cô thấy bài văn) thế nào / được chưa ạ?' - Thầy/cô: 'Ừ, khá hơn nhiều rồi đấy.'",
+    "Cụm từ 「どうでしょうか」 là cách nói khiêm nhường, lịch sự dùng để hỏi ý kiến, nhận xét hoặc đánh giá của người trên/đối phương về việc mình đã làm ('Thầy/cô thấy thế nào ạ?'). Phù hợp với lời nhận xét tiếp theo của giáo viên 「ええ。よく なりましたね。」.",
+    "- 1. どうしますか: Làm thế nào bây giờ? (Hỏi cách thức hành động)\n- 2. どうしましょうか: Chúng ta nên làm thế nào đây? (Bàn bạc giải pháp cùng nhau)\n- 3. どうでしょうか: ĐÚNG - Hỏi ý kiến, nhận định, đánh giá một cách khiêm nhường, lịch sự\n- 4. どうしましたか: Có chuyện gì thế? / Bị làm sao vậy? (Hỏi thăm khi thấy bất thường, sai ngữ cảnh)",
+    "(11) 3 句意: 学生: “老师，我把作文中的错误改过来了。” 老师: “是嘛，那我看看。” 学生: “拜托您了。(您觉得) 怎么样啊?” 老师: “挺不错哦。” 考察「どうでしょうか」用于礼貌征求对方意见、评价的用法。"
 )
 
 expl_2010[47] = make_grammar_expl(
-    12, 4, "ひいてみたら (V-たらどうですか)",
-    "Những từ ngữ nào bạn không hiểu thì thử tra từ điển xem sao?",
-    "Mẫu ngữ pháp đưa ra lời khuyên cho đối phương: 「V-たらどうですか」 (thử làm V xem sao?). Ở đây kết hợp 「～てみる」 (thử làm) -> 「ひいてみたらどうですか」.",
-    "- 1. ひくなら: Nếu tra\n- 2. ひけば: Nếu tra (điều kiện)\n- 3. ひくと: Hễ tra\n- 4. ひいてみたら: ĐÚNG - Mẫu câu đưa lời khuyên ~たらどうですか",
-    "(12) 4 句意: 不懂的词语, 查查字典怎么样? 考察建议句型: ～たらどうですか。"
+    12, 4, "したのに (vậy mà / thế mà)",
+    "A: 'Tôi đã gọi điện thoại cho bạn bao nhiêu lần, vậy mà tại sao bạn lại không nhấc máy?' - B: 'Tôi xin lỗi.'",
+    "Liên từ nghịch tiếp 「のに」 đi sau thể thông thường (V-た + のに = したのに), biểu thị sự bất mãn, tiếc nuối, kết quả trái ngược với mong đợi thông thường: 'Đã gọi nhiều lần vậy mà không nghe máy'.",
+    "- 1. すれば: Nếu gọi (thể điều kiện ば)\n- 2. したら: Sau khi gọi / Nếu gọi (thể điều kiện たら)\n- 3. したので: Vì đã gọi (chỉ nguyên nhân, lý do khách quan)\n- 4. したのに: ĐÚNG - Thể hiện nghịch tiếp mang sắc thái trách móc, ngạc nhiên ('vậy mà...')",
+    "(12) 4 句意: A: “给你打了好几次电话，你为什么没接呢？” B: “不好意思啊。” 考察のに的逆接用法，表示其前后所述的两项内容是相反的、矛盾的，往往带有出乎意料、感到不满等语气。"
 )
 
 expl_2010[48] = make_grammar_expl(
@@ -576,107 +576,22 @@ expl_2010[50] = make_grammar_expl(
     "- 1. おしえてあげませんか: Cho bạn lời khuyên\n- 2. おしえてもらいませんか: Sai ngữ pháp kính ngữ\n- 3. おしえてくれませんか: Nhờ vả bạn bè, chưa đủ lịch sự\n- 4. おしえていただけませんか: ĐÚNG - Kính ngữ nhờ vả chuẩn mực",
     "(15) 4 句意: 不好意思, 能麻烦您告诉我星期天图书馆的开馆时间吗? 考察礼貌请求句型: ～ていただけませんか。"
 )
-
-# Grammar 2 (Dấu sao * 51-55)
-for q_idx, (star_pos, full_sent, trans, pattern_note) in enumerate([
-    (4, "田中さんは　英語【だけでなく　ドイツ語も】　話せます。", "Anh Tanaka không chỉ nói được tiếng Anh mà còn nói được cả tiếng Đức.", "Cấu trúc: ～だけでなく～も (không những... mà còn...)."),
-    (1, "川の　そばで　【子供たちが　遊んで　いるのが】　見えます。", "Có thể nhìn thấy lũ trẻ con đang chơi đùa bên bờ sông.", "Cấu trúc: Danh từ hóa mệnh đề V-ているの + が見える."),
-    (2, "山田さんは　【忙しくて　昼ご飯を　食べる　時間が】　ありません。", "Anh Yamada bận rộn đến mức không có thời gian ăn cơm trưa.", "Cấu trúc: Tính từ thể て + V-る + 名詞."),
-    (3, "電車が　【遅れた　ために　会議に】　間に合いませんでした。", "Vì chuyến tàu điện bị muộn nên tôi đã không kịp giờ họp.", "Cấu trúc: ～ために chỉ nguyên nhân kết quả tiêu cực."),
-    (4, "先生に　【勧められた　本を　読んで】　みました。", "Tôi đã thử đọc cuốn sách được thầy giáo giới thiệu.", "Cấu trúc: Bị động 勧められた + Bổ ngữ 本 + V-てみる.")
-], start=51):
-    expl_2010[q_idx] = {
-        "snippet": f"Ghép câu dấu sao (*): Câu {q_idx - 35}",
-        "explanation": f"""🎯 Đáp án đúng: [{star_pos}]
-
-💬 Câu ghép hoàn chỉnh:
-"{full_sent}"
-Dịch nghĩa: "{trans}"
-
-💡 Phân tích cú pháp ghép câu:
-• Vị trí dấu sao (*) tương ứng với phương án [{star_pos}].
-• {pattern_note}
-
-🔍 Thứ tự sắp xếp chuẩn xác:
-Ghép đúng cấu trúc ngữ pháp giúp câu văn mạch lạc, tự nhiên và đạt chuẩn tuyệt đối JLPT N4."""
-    }
-
-# Grammar 3 (Đoạn văn 56-60)
-for q_idx, (ans_opt, topic, trans, rule_note) in enumerate([
-    (2, "Liên từ nối mạch văn", "Nối kết ý kiến trình bày với ví dụ thực tế.", "Cần một liên từ nối tiếp tự nhiên phù hợp diễn biến văn cảnh."),
-    (4, "Chia thể động từ trong ngữ cảnh", "Thời điểm hành động hoàn thành trước khi sang Nhật.", "Trước khi sang Nhật cần dùng thể quá khứ hoặc cấu trúc chuẩn."),
-    (1, "Chọn phó từ / quán ngữ", "Diễn đạt mức độ hiểu biết của tác giả.", "Phó từ bổ nghĩa thể hiện rõ tâm lý nhân vật."),
-    (3, "Mẫu câu kết luận đoạn", "Lời nhắn nhủ hoặc cảm nghĩ của tác giả.", "Cấu trúc câu biểu thị nhận thức mới mẻ."),
-    (2, "Đại từ / từ chỉ định kết bài", "Tóm gọn lại thông điệp toàn bài.", "Từ chỉ định quy chiếu toàn bộ nội dung đã trình bày phía trên.")
-], start=56):
-    expl_2010[q_idx] = {
-        "snippet": f"Ngữ pháp đoạn văn: Câu {q_idx - 35} ({topic})",
-        "explanation": f"""🎯 Đáp án đúng: [{ans_opt}]
-
-💬 Dịch nghĩa ngữ cảnh:
-"{trans}"
-
-💡 Phân tích mạch văn:
-• {rule_note}
-• Phương án [{ans_opt}] tạo nên mạch liên kết trơn tru nhất giữa câu trước và câu sau trong đoạn văn."""
-    }
-
-# Reading (Đọc hiểu 61-70)
-for q_idx, (ans_opt, q_title, q_trans, evidence) in enumerate([
-    (3, "Đoạn văn ngắn 1: Ý chính của người viết", "Người viết muốn thông báo điều gì nhất qua bức thư ngắn?", "Dòng 3 đoạn văn nói rõ mục đích chính của thông báo là đề nghị mọi người nộp lại bản khảo sát đúng hạn."),
-    (4, "Đoạn văn ngắn 2: Lý do sự việc", "Tại sao nhân vật lại chọn đi vào thời điểm này?", "Nhân vật giải thích rõ vì thời điểm này ít người đông đúc và giá vé rẻ hơn đáng kể."),
-    (1, "Đoạn văn ngắn 3: Nội dung cuộc hẹn", "Hai người đã thỏa thuận thay đổi lịch hẹn như thế nào?", "Trong email gửi lại, bạn hẹn đã chốt lại dời sang 3 giờ chiều ở trước cổng ga."),
-    (1, "Đoạn văn ngắn 4: Cảm nghĩ nhân vật", "Tác giả cảm thấy như thế nào sau trải nghiệm vừa qua?", "Tác giả cảm nhận được sự ấm áp và lòng tốt bất ngờ từ những người dân địa phương."),
-    (4, "Đoạn văn trung 1: Chi tiết bài viết", "Theo bài đọc, việc làm nào sau đây là đúng quy định?", "Đối chiếu với các điều khoản trong bài đọc, hành vi ở phương án [4] tuân thủ đúng mọi hướng dẫn."),
-    (2, "Đoạn văn trung 2: Ý đồ của tác giả", "Tác giả muốn truyền tải thông điệp gì qua câu chuyện?", "Tác giả nhấn mạnh tầm quan trọng của việc kiên trì luyện tập từng chút một mỗi ngày."),
-    (4, "Đoạn văn trung 3: Giải thích cụm từ", "Cụm từ gạch chân trong bài ám chỉ điều gì?", "Từ ngữ quy chiếu trực tiếp về hoàn cảnh khó khăn đã được miêu tả ở đoạn văn liền trước."),
-    (2, "Đoạn văn trung 4: Kết luận bài đọc", "Kết luận phù hợp nhất với bài viết là gì?", "Toàn bộ bài viết hướng đến việc khẳng định giá trị của sự thấu hiểu lẫn nhau giữa các thế hệ."),
-    (3, "Tìm kiếm thông tin 1: Điều kiện tham gia", "Người muốn tham gia khóa học vào thứ 7 cần đáp ứng điều kiện gì?", "Cột ghi chú thứ 7 trong bảng thông báo quy định rõ phải đăng ký trước 3 ngày và mang theo thẻ học viên."),
-    (4, "Tìm kiếm thông tin 2: Chi phí & Địa điểm", "Nếu đi theo nhóm 3 người thì tổng chi phí là bao nhiêu và tập trung ở đâu?", "Bảng giá áp dụng ưu đãi giảm giá nhóm và ghi rõ điểm tập kết tại sảnh tầng 1.")
-], start=61):
-    expl_2010[q_idx] = make_reading_expl(
-        q_idx, ans_opt, q_title, q_trans, evidence,
-        f"- 1. { 'ĐÚNG' if ans_opt == 1 else 'Sai thông tin hoặc không được nhắc tới' }\n- 2. { 'ĐÚNG' if ans_opt == 2 else 'Sai thông tin hoặc không được nhắc tới' }\n- 3. { 'ĐÚNG' if ans_opt == 3 else 'Sai thông tin hoặc không được nhắc tới' }\n- 4. { 'ĐÚNG' if ans_opt == 4 else 'Sai thông tin hoặc không được nhắc tới' }",
-        f"Câu hỏi đọc hiểu ({q_idx - 35}): Căn cứ vào bài đọc, đáp án đúng là [{ans_opt}]."
-    )
+# Grammar 2 (Dấu sao * 51-55), Grammar 3 (Đoạn văn 56-60), Reading (Đọc hiểu 61-70)
+# Load authentic verified data from master_gold_explanations.json for questions 51..70
+master_gold_path = os.path.join(os.path.dirname(__file__), "master_gold_explanations.json")
+if os.path.exists(master_gold_path):
+    with open(master_gold_path, "r", encoding="utf-8") as f:
+        master_data = json.load(f)
+    if "n4-2010-2011" in master_data:
+        for q_idx in range(51, 71):
+            s_idx = str(q_idx)
+            if s_idx in master_data["n4-2010-2011"]:
+                expl_2010[q_idx] = master_data["n4-2010-2011"][s_idx]
 
 # Listening (Nghe hiểu 71-97)
-for q_idx, (ans_opt, m_type, task_desc, ja_s, vi_s) in enumerate([
-    (3, "Mondai 1 (1)", "Người phụ nữ sẽ làm gì đầu tiên?", "女：これから部屋の片付けをするから、まずゴミを出してきて。\n男：わかった。ゴミ袋はどこ？\n女：台所のシンクの下にあるよ。", "Nữ: Bây giờ dọn dẹp phòng, anh mang rác ra ngoài vứt trước nhé.\nNam: Được rồi. Túi rác ở đâu?\nNữ: Ở dưới bồn rửa bát trong bếp ấy."),
-    (3, "Mondai 1 (2)", "Người đàn ông cần mang theo vật dụng gì ngày mai?", "男：明日の持ち物は何ですか。\n女：筆記用具と写真付きの身分証明書を忘れないでください。", "Nam: Ngày mai cần mang theo đồ gì ạ?\nNữ: Xin đừng quên mang dụng cụ viết và giấy tờ tùy thân có dán ảnh nhé."),
-    (1, "Mondai 1 (3)", "Hai người quyết định gặp nhau ở đâu?", "男：駅の改札口で待ってるね。\n女：人が多いから、北口のカフェの前にしない？\n男：いいね、そうしよう。", "Nam: Tôi sẽ đợi ở cửa soát vé của ga nhé.\nNữ: Ở đó đông người lắm, hẹn trước quán cà phê ở cửa Bắc được không?\nNam: Hay đấy, cứ vậy đi."),
-    (2, "Mondai 1 (4)", "Người phụ nữ phải liên lạc với ai tiếp theo?", "女：先生に連絡したあと、事務室にも電話をかけなきゃいけないのね。", "Nữ: Sau khi liên lạc với thầy giáo thì mình còn phải gọi điện cho văn phòng khoa nữa nhỉ."),
-    (3, "Mondai 1 (5)", "Nhân vật nam sẽ chọn mua món quà nào?", "男：山田さんのお祝い、何がいいかな。\n女：実用的なマグカップはどう？\n男：いいね、それに決めるよ。", "Nam: Quà mừng anh Yamada mua gì thì hay nhỉ?\nNữ: Chiếc cốc mug tiện dụng thì sao?\nNam: Hay đấy, chốt chọn cái đó nhé."),
-    (3, "Mondai 1 (6)", "Người học viên phải chỉnh sửa phần nào trong bài báo cáo?", "先生：グラフのタイトルと日付を直して、もう一度提出してください。", "Thầy giáo: Hãy sửa lại tiêu đề biểu đồ và ngày tháng, rồi nộp lại cho thầy một lần nữa nhé."),
-    (2, "Mondai 1 (7)", "Người phụ nữ sẽ đi bằng phương tiện gì đến công ty?", "女：雨が激しいから、今日はバスで行くことにするわ。", "Nữ: Mưa to quá nên hôm nay tôi quyết định đi xe buýt vậy."),
-    (2, "Mondai 1 (8)", "Người nam sẽ hỗ trợ công việc gì trước?", "女：まず机を運ぶのを手伝ってくれる？\n男：オッケー、すぐやるよ。", "Nữ: Trước tiên anh phụ giúp em khiêng chiếc bàn này được không?\nNam: OK, anh làm ngay đây."),
-    (4, "Mondai 2 (1)", "Tại sao cửa hàng lại tạm thời đóng cửa?", "男：改装工事のため、今週末までお休みをいただいております。", "Nam: Do việc sửa chữa nâng cấp cửa hàng nên chúng tôi xin phép tạm nghỉ đến hết cuối tuần này ạ."),
-    (3, "Mondai 2 (2)", "Lý do người phụ nữ thích sống ở căn hộ này là gì?", "女：駅から近くて、周りにスーパーも多くてとても便利なんです。", "Nữ: Căn hộ này gần ga, xung quanh lại có nhiều siêu thị nên vô cùng thuận tiện."),
-    (2, "Mondai 2 (3)", "Người đàn ông cảm thấy khó khăn nhất ở điểm nào khi học tiếng Nhật?", "男：漢字の読み方を覚えるのが一番大変だと感じています。", "Nam: Tôi thấy việc ghi nhớ cách đọc chữ Hán là khó khăn vất vả nhất."),
-    (4, "Mondai 2 (4)", "Mục đích chính của chuyến đi du lịch lần này là gì?", "女：有名な温泉に入って、日頃の疲れを癒やすのが目的です。", "Nữ: Mục đích là được ngâm mình trong suối nước nóng nổi tiếng để giải tỏa mệt mỏi thường ngày."),
-    (3, "Mondai 2 (5)", "Bác sĩ dặn dò bệnh nhân cần lưu ý điều gì sau khi uống thuốc?", "医者：薬を飲んだ後は眠くなることがありますので、車の運転は控えてください。", "Bác sĩ: Sau khi uống thuốc có thể sẽ buồn ngủ, nên xin vui lòng không lái xe ô tô nhé."),
-    (1, "Mondai 2 (6)", "Tại sao cô gái lại từ chối lời mời ăn tối?", "女：明日の朝早くから大事なプレゼンがあるので、今夜は準備に専念したいんです。", "Nữ: Sáng mai tôi có bài thuyết trình quan trọng từ sớm, nên tối nay tôi muốn tập trung chuẩn bị."),
-    (3, "Mondai 2 (7)", "Điểm đặc biệt của sản phẩm mới được giới thiệu là gì?", "男：軽くて持ち運びがしやすく、バッテリーも長持ちします。", "Nam: Sản phẩm rất nhẹ, dễ mang theo bên mình và thời lượng pin sử dụng rất lâu."),
-    (2, "Mondai 3 (1)", "Muốn nhờ người khác chụp ảnh giúp thì nói câu gì?", "「すみません、シャッターを押していただけませんか。」", "Xin lỗi, anh có thể bấm giúp tôi một kiểu ảnh được không ạ?"),
-    (2, "Mondai 3 (2)", "Đến trễ buổi họp thì nói câu xin lỗi lịch sự nào?", "「遅れてしまって、大変申し訳ありません。」", "Tôi đến muộn, thành thật vô cùng xin lỗi mọi người ạ."),
-    (2, "Mondai 3 (3)", "Muốn mượn bút của đồng nghiệp thì nói thế nào?", "「ちょっとペンを貸してもらえませんか。」", "Bạn có thể cho tôi mượn cây bút một chút được không?"),
-    (3, "Mondai 3 (4)", "Rời khỏi công ty trước đồng nghiệp thì chào câu gì?", "「お先に失礼します。」", "Tôi xin phép ra về trước ạ."),
-    (3, "Mondai 3 (5)", "Mời khách uống thêm trà thì nói câu nào lịch sự?", "「お茶をもう一杯いかがですか。」", "Mời bác dùng thêm một chén trà nữa được không ạ?"),
-    (3, "Mondai 4 (1)", "A: '明日、一緒にテニスをしませんか。' -> Phản hồi thích hợp nhất?", "B: 「ええ、喜んで。ぜひやりましょう。」", "B: 'Vâng, tôi rất sẵn lòng. Chúng ta cùng chơi nhé.'"),
-    (3, "Mondai 4 (2)", "A: 'この荷物、重そうですね。' -> Phản hồi giúp đỡ?", "B: 「手伝いましょうか。」", "B: 'Để tôi giúp một tay nhé.'"),
-    (2, "Mondai 4 (3)", "A: 'レポート、もう出しましたか。' -> Phản hồi tiến độ?", "B: 「いいえ、まだ書いていません。」", "B: 'Chưa ạ, tôi vẫn chưa viết xong.'"),
-    (2, "Mondai 4 (4)", "A: 'お茶、冷たくないですか。' -> Phản hồi nhiệt độ?", "B: 「ちょうどいい温度ですよ。」", "B: 'Nhiệt độ vừa vặn lắm ạ.'"),
-    (1, "Mondai 4 (5)", "A: 'コーヒーのおかわりはいかがですか。' -> Phản hồi từ chối lịch sự?", "B: 「あ、もう十分いただきました。」", "B: 'A, tôi đã uống đủ rồi ạ, cảm ơn bạn.'"),
-    (2, "Mondai 4 (6)", "A: '来週の会議、何時からでしたっけ。' -> Phản hồi thời gian?", "B: 「午後2時からですよ。」", "B: 'Bắt đầu từ 2 giờ chiều đấy.'"),
-    (2, "Mondai 4 (7)", "A: '駅までどのくらいかかりますか。' -> Phản hồi thời gian đi lại?", "B: 「歩いて10分くらいですよ。」", "B: 'Đi bộ khoảng 10 phút là tới nơi.'")
-], start=71):
-    expl_2010[q_idx] = make_listening_expl(
-        q_idx, ans_opt, m_type, task_desc,
-        "Căn cứ nội dung hội thoại chuẩn xác.",
-        f"- 1. { 'ĐÚNG - Khớp 100% nội dung đoạn băng thoại' if ans_opt == 1 else 'Sai thông tin hoặc hành động chưa chính xác' }\n- 2. { 'ĐÚNG - Khớp 100% nội dung đoạn băng thoại' if ans_opt == 2 else 'Sai thông tin hoặc hành động chưa chính xác' }\n- 3. { 'ĐÚNG - Khớp 100% nội dung đoạn băng thoại' if ans_opt == 3 else 'Sai thông tin hoặc hành động chưa chính xác' }\n- 4. { 'ĐÚNG - Khớp 100% nội dung đoạn băng thoại' if ans_opt == 4 else 'Sai thông tin hoặc hành động chưa chính xác' }",
-        ja_s, vi_s,
-        f"聴解 問題: Đáp án đúng là [{ans_opt}]."
-    )
+from build_authentic_listening_2010 import get_listening_2010_explanations
+for q_idx, item in get_listening_2010_explanations().items():
+    expl_2010[q_idx] = item
 
 print(f"[ExplanationsBuilder] Successfully created {len(expl_2010)} rich authentic explanations for 2010!")
 

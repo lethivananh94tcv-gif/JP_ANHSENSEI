@@ -8,10 +8,16 @@ public class AuthResponse {
     private String email;
     private String fullName;
     private String role;
+    private String avatarUrl;
+    private String targetLevel;
 
     public AuthResponse() {}
 
     public AuthResponse(String accessToken, String refreshToken, String tokenType, Long userId, String email, String fullName, String role) {
+        this(accessToken, refreshToken, tokenType, userId, email, fullName, role, null, null);
+    }
+
+    public AuthResponse(String accessToken, String refreshToken, String tokenType, Long userId, String email, String fullName, String role, String avatarUrl, String targetLevel) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.tokenType = tokenType != null ? tokenType : "Bearer";
@@ -19,6 +25,8 @@ public class AuthResponse {
         this.email = email;
         this.fullName = fullName;
         this.role = role;
+        this.avatarUrl = avatarUrl;
+        this.targetLevel = targetLevel;
     }
 
     public static AuthResponseBuilder builder() {
@@ -46,6 +54,12 @@ public class AuthResponse {
     public String getRole() { return role; }
     public void setRole(String role) { this.role = role; }
 
+    public String getAvatarUrl() { return avatarUrl; }
+    public void setAvatarUrl(String avatarUrl) { this.avatarUrl = avatarUrl; }
+
+    public String getTargetLevel() { return targetLevel; }
+    public void setTargetLevel(String targetLevel) { this.targetLevel = targetLevel; }
+
     public static class AuthResponseBuilder {
         private String accessToken;
         private String refreshToken;
@@ -54,6 +68,8 @@ public class AuthResponse {
         private String email;
         private String fullName;
         private String role;
+        private String avatarUrl;
+        private String targetLevel;
 
         public AuthResponseBuilder accessToken(String accessToken) { this.accessToken = accessToken; return this; }
         public AuthResponseBuilder refreshToken(String refreshToken) { this.refreshToken = refreshToken; return this; }
@@ -62,9 +78,11 @@ public class AuthResponse {
         public AuthResponseBuilder email(String email) { this.email = email; return this; }
         public AuthResponseBuilder fullName(String fullName) { this.fullName = fullName; return this; }
         public AuthResponseBuilder role(String role) { this.role = role; return this; }
+        public AuthResponseBuilder avatarUrl(String avatarUrl) { this.avatarUrl = avatarUrl; return this; }
+        public AuthResponseBuilder targetLevel(String targetLevel) { this.targetLevel = targetLevel; return this; }
 
         public AuthResponse build() {
-            return new AuthResponse(accessToken, refreshToken, tokenType, userId, email, fullName, role);
+            return new AuthResponse(accessToken, refreshToken, tokenType, userId, email, fullName, role, avatarUrl, targetLevel);
         }
     }
 }

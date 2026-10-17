@@ -22,11 +22,11 @@ export const metadata: Metadata = {
   description: "Tự học tiếng Nhật với Flashcard Spaced Repetition (SRS), Quiz tự động chấm và Game Ghép Thẻ 3D",
   icons: {
     icon: [
-      { url: "/favicon.svg", type: "image/svg+xml" },
-      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.png", type: "image/png", sizes: "any" },
+      { url: "/images/capybara_logo.png", type: "image/png", sizes: "256x256" },
     ],
-    shortcut: "/favicon.svg",
-    apple: "/favicon.svg",
+    shortcut: "/favicon.png",
+    apple: "/favicon.png",
   },
 };
 

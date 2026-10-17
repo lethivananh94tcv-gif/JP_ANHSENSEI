@@ -363,6 +363,8 @@ public class AuthService {
                 .email(user.getEmail())
                 .fullName(user.getFullName())
                 .role(user.getRole().getRoleName())
+                .avatarUrl(user.getAvatarUrl())
+                .targetLevel(user.getTargetLevel())
                 .build();
     }
 
@@ -557,6 +559,8 @@ public class AuthService {
                 .email(user.getEmail())
                 .fullName(user.getFullName())
                 .role(user.getRole().getRoleName())
+                .avatarUrl(user.getAvatarUrl())
+                .targetLevel(user.getTargetLevel())
                 .build();
     }
 }

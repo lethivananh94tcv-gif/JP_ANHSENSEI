@@ -53,7 +53,7 @@ export default function WelcomeSection({
     Math.round(((todayMinutes || 0) / (dailyGoalMinutes || 20)) * 100)
   );
 
-  const displayName = user?.fullName || user?.email?.split("@")[0] || "Quản Trị Viên ANH SENSEI";
+  const displayName = user?.fullName || user?.email?.split("@")[0] || "Bạn";
 
   return (
     <>
@@ -126,7 +126,7 @@ export default function WelcomeSection({
               <PostmanCapybara3D
                 onClick={() => setIsLetterOpen(true)}
                 isJumping={!hasOpenedLetter}
-                bubbleText={hasOpenedLetter ? "Xem lại thư ✉️" : "Capybara có thư nè! 🍊✉️"}
+                bubbleText={hasOpenedLetter ? "Hướng dẫn sử dụng 📖" : "Hướng dẫn sử dụng 🍊📖"}
               />
             </div>
 

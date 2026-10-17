@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { apiClient } from "@/lib/api/client";
 import LearnerHeader from "@/components/learner/LearnerHeader";
 import LearnerFooter from "@/components/learner/LearnerFooter";
@@ -53,6 +54,7 @@ interface ProfileData {
 }
 
 export default function LearnerProfilePage() {
+  const router = useRouter();
   const [profile, setProfile] = useState<ProfileData | null>(null);
   const [fullName, setFullName] = useState("");
   const [targetLevel, setTargetLevel] = useState("N5");
@@ -68,16 +70,19 @@ export default function LearnerProfilePage() {
   // Facebook Navigation Tabs State: "ABOUT" | "TIMELINE" | "GOALS" | "SECURITY"
   const [activeTab, setActiveTab] = useState<"ABOUT" | "TIMELINE" | "GOALS" | "SECURITY">("ABOUT");
 
+  // Edit State
+  const [isEditing, setIsEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [uploadingAvatar, setUploadingAvatar] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+
   // Password Change Fields
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordSaved, setPasswordSaved] = useState(false);
-
-  const [loading, setLoading] = useState(true);
-  const [saving, setSaving] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
   // Preset Avatar Mascot List
   const presetAvatars = [
@@ -93,6 +98,19 @@ export default function LearnerProfilePage() {
     try {
       setLoading(true);
       setErrorMessage("");
+
+      const token = typeof window !== "undefined"
+        ? (localStorage.getItem("access_token") || localStorage.getItem("auth_token"))
+        : null;
+
+      if (!token) {
+        if (typeof window !== "undefined") {
+          localStorage.removeItem("user");
+        }
+        router.replace("/login");
+        return;
+      }
+
       let data: ProfileData | null = null;
       try {
         const res = await apiClient<ProfileData>("/learner/profile");
@@ -104,23 +122,15 @@ export default function LearnerProfilePage() {
         }
       }
 
-      if (data) {
+      if (data && (data.email || data.fullName)) {
         setProfile(data);
-        setFullName(data.fullName || "emkienne");
+        setFullName(data.fullName || data.email?.split("@")[0] || "Học viên");
         setTargetLevel(data.targetLevel || "N5");
         setTimezone(data.timezone || "Asia/Ho_Chi_Minh");
         if (data.avatarUrl) setAvatarUrl(data.avatarUrl);
       } else {
-        setProfile({
-          userId: 1,
-          email: "emkienne@anhsensei.com",
-          fullName: "emkienne",
-          targetLevel: "N5",
-          timezone: "Asia/Ho_Chi_Minh",
-          role: "LEARNER",
-          status: "ACTIVE"
-        });
-        setFullName("emkienne");
+        router.replace("/login");
+        return;
       }
     } catch (err: any) {
       setErrorMessage("Không thể tải thông tin trang cá nhân.");

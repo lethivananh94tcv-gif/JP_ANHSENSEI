@@ -18,10 +18,10 @@ def verify_ts_data():
 
     for exam in exams:
         print(f"\n--- Checking Exam: {exam} ---")
-        # Extract block for exam
-        m_block = re.search(r'"' + re.escape(exam) + r'":\s*\{([\s\S]*?)\n\s*\},?\n\s*"', content)
-        if not m_block and exam == "n4-2021-12":
-            m_block = re.search(r'"n4-2021-12":\s*\{([\s\S]*?)\n\s*\}\n\};', content)
+        # Extract block for exam (delimited by \n  },)
+        m_block = re.search(r'  "' + re.escape(exam) + r'":\s*\{([\s\S]*?)\n  \},', content)
+        if not m_block:
+            m_block = re.search(r'  "' + re.escape(exam) + r'":\s*\{([\s\S]*?)\n\};', content)
 
         if not m_block:
             print(f"  ❌ Could not parse block for {exam}")

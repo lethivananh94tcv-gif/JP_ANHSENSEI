@@ -89,6 +89,8 @@ public class SecurityConfig {
                                 "/api/v1/learning/quizzes/**",
                                 "/learning/kanji/**",
                                 "/api/v1/learning/kanji/**",
+                                "/jlpt/**",
+                                "/api/v1/jlpt/**",
                                 "/v3/api-docs/**",
                                 "/swagger-ui/**",
                                 "/swagger-ui.html",

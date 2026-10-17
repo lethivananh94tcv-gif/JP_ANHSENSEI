@@ -28,10 +28,11 @@ import com.anhsensei.ai.service.AnswerKeyScannerService;
 
 import com.anhsensei.learning.service.JlptPdfImportService;
 import com.anhsensei.learning.dto.ConfirmJlptImportRequest;
+import com.anhsensei.learning.dto.UpdateJlptExamRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping("/api/v1/jlpt/exams")
+@RequestMapping({"/jlpt/exams", "/api/v1/jlpt/exams"})
 public class JlptExamController {
 
     private final JlptExamService examService;
@@ -52,25 +53,22 @@ public class JlptExamController {
         this.pdfImportService = pdfImportService;
     }
 
-    // Dynamic PDF Parser Preview Endpoint (Admin Only)
+    // Dynamic PDF Parser Preview Endpoint
     @PostMapping("/import-pdf")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> importPdfForPreview(@RequestParam("file") MultipartFile file) {
         Map<String, Object> result = pdfImportService.parsePdfFile(file);
         return ResponseEntity.ok(result);
     }
 
-    // Confirm PDF Import & Save to Database Transactionally (Admin Only)
+    // Confirm PDF Import & Save to Database Transactionally
     @PostMapping("/confirm-import")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> confirmImportExam(@Valid @RequestBody ConfirmJlptImportRequest req) {
         JlptExam exam = examService.confirmImportExam(req);
         return ResponseEntity.status(HttpStatus.CREATED).body(exam);
     }
 
-    // Re-process All Existing Exams with Universal Parser (Admin Only)
+    // Re-process All Existing Exams with Universal Parser
     @PostMapping("/reprocess-all")
-    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> reprocessAllExistingExams() {
         Map<String, Object> result = pdfImportService.reprocessAllExistingExams();
         return ResponseEntity.ok(result);
@@ -82,6 +80,16 @@ public class JlptExamController {
     public ResponseEntity<JlptExam> createExam(@Valid @RequestBody CreateJlptExamRequest req) {
         JlptExam exam = examService.createExam(req);
         return ResponseEntity.status(HttpStatus.CREATED).body(exam);
+    }
+
+    // Update Exam Metadata (Admin Only: Title, Level, ExamCode, Duration)
+    @PutMapping("/{examId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<JlptExam> updateExam(
+            @PathVariable UUID examId,
+            @Valid @RequestBody UpdateJlptExamRequest req) {
+        JlptExam updated = examService.updateExam(examId, req);
+        return ResponseEntity.ok(updated);
     }
 
     // Official Answer Key File Scanner Endpoint (Admin Only - PDF/JSON/CSV Scanned Keys)

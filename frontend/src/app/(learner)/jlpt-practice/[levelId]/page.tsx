@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { 
@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import LearnerHeader from "@/components/learner/LearnerHeader";
 import LearnerFooter from "@/components/learner/LearnerFooter";
+import { INITIAL_ADMIN_EXAMS, sanitizeAndDeduplicateExams, getStoredAdminExams, syncAdminExamsFromServer } from "@/app/data/initialAdminExams";
+import { parseExamStructure, parseExamYearData, ExamYearInfo } from "@/lib/jlpt/jlptExamParser";
 
 interface JlptExamItem {
   examId: string;
@@ -29,7 +31,7 @@ const MOCK_LEVEL_EXAMS: Record<string, JlptExamItem[]> = {
       yearGroup: "2010-2011",
       yearSession: "Bộ Đề Thi Thật 2010 - 2011",
       title: "Đề Thi Thật JLPT N4 - Kỳ Thi 2010 - 2011",
-      durationMinutes: 105,
+      durationMinutes: 115,
       totalQuestions: 98,
       sections: [
         { name: "Từ vựng & Kanji (Moji/Vocab)", count: 35 },
@@ -45,7 +47,7 @@ const MOCK_LEVEL_EXAMS: Record<string, JlptExamItem[]> = {
       yearGroup: "2012-12",
       yearSession: "Kỳ Tháng 12/2012",
       title: "Đề Thi Thật JLPT N4 - Kỳ Tháng 12/2012",
-      durationMinutes: 105,
+      durationMinutes: 115,
       totalQuestions: 98,
       sections: [
         { name: "Từ vựng & Kanji (Moji/Vocab)", count: 35 },
@@ -61,7 +63,7 @@ const MOCK_LEVEL_EXAMS: Record<string, JlptExamItem[]> = {
       yearGroup: "2013-07",
       yearSession: "Kỳ Tháng 07/2013",
       title: "Đề Thi Thật JLPT N4 - Kỳ Tháng 07/2013",
-      durationMinutes: 105,
+      durationMinutes: 115,
       totalQuestions: 98,
       sections: [
         { name: "Từ vựng & Kanji (Moji/Vocab)", count: 35 },
@@ -77,7 +79,7 @@ const MOCK_LEVEL_EXAMS: Record<string, JlptExamItem[]> = {
       yearGroup: "2014-07",
       yearSession: "Kỳ Tháng 07/2014",
       title: "Đề Thi Thật JLPT N4 - Kỳ Tháng 07/2014",
-      durationMinutes: 105,
+      durationMinutes: 115,
       totalQuestions: 98,
       sections: [
         { name: "Từ vựng & Kanji", count: 35 },
@@ -93,7 +95,7 @@ const MOCK_LEVEL_EXAMS: Record<string, JlptExamItem[]> = {
       yearGroup: "2017-07",
       yearSession: "Kỳ Tháng 07/2017",
       title: "Đề Thi Thật JLPT N4 - Kỳ Tháng 07/2017",
-      durationMinutes: 105,
+      durationMinutes: 115,
       totalQuestions: 99, // Dynamic total questions: 99 questions
       sections: [
         { name: "Từ vựng & Kanji", count: 35 },
@@ -109,7 +111,7 @@ const MOCK_LEVEL_EXAMS: Record<string, JlptExamItem[]> = {
       yearGroup: "2018",
       yearSession: "Bộ Đề Thi Thật 2018",
       title: "Đề Thi Thật JLPT N4 - Bộ Đề Năm 2018",
-      durationMinutes: 105,
+      durationMinutes: 115,
       totalQuestions: 98,
       sections: [
         { name: "Từ vựng & Kanji", count: 35 },
@@ -125,7 +127,7 @@ const MOCK_LEVEL_EXAMS: Record<string, JlptExamItem[]> = {
       yearGroup: "2021-12",
       yearSession: "Kỳ Tháng 12/2021",
       title: "Đề Thi Thật JLPT N4 - Kỳ Tháng 12/2021 (Yuuki Bùi)",
-      durationMinutes: 105,
+      durationMinutes: 115,
       totalQuestions: 98,
       sections: [
         { name: "Từ vựng & Kanji", count: 35 },
@@ -136,74 +138,75 @@ const MOCK_LEVEL_EXAMS: Record<string, JlptExamItem[]> = {
       pdfFileName: "Đề N4 T12-2021 Mark (1).pdf",
       audioFileName: "Nghe N4 T12-2021 bản chuẩn Yuuki Bùi.mp3",
     },
+    {
+      examId: "n4-2024-07",
+      yearGroup: "2024-07",
+      yearSession: "Kỳ Tháng 07/2024",
+      title: "Đề Thi Thật JLPT N4 - Kỳ Tháng 07/2024 (Yuuki Bùi)",
+      durationMinutes: 115,
+      totalQuestions: 85,
+      sections: [
+        { name: "Từ vựng & Kanji", count: 28 },
+        { name: "Ngữ pháp & Đọc hiểu", count: 29 },
+        { name: "Nghe hiểu", count: 28 },
+      ],
+      difficulty: "Trung bình",
+      pdfFileName: "n4-2026-2122.pdf",
+      audioFileName: "Nghe N4 T7-2024.mp3",
+    },
   ],
 
   n5: [
     {
-      examId: "n5-2020-12",
-      yearGroup: "2020",
-      yearSession: "Kỳ Tháng 12/2020",
-      title: "Đề Thi Thật JLPT N5 - Kỳ Tháng 12/2020",
+      examId: "n5-2013-07",
+      yearGroup: "2013-07",
+      yearSession: "Kỳ Tháng 07/2013",
+      title: "Đề Thi Thật JLPT N5 - Kỳ Tháng 07/2013",
       durationMinutes: 90,
-      totalQuestions: 85,
+      totalQuestions: 91,
       sections: [
-        { name: "Từ vựng & Kanji", count: 30 },
-        { name: "Ngữ pháp & Đọc hiểu", count: 31 },
+        { name: "Môn 1: Từ vựng & Kanji", count: 35 },
+        { name: "Môn 2: Ngữ pháp & Đọc hiểu", count: 32 },
+        { name: "Môn 3: Nghe hiểu (Choukai)", count: 24 },
+      ],
+      difficulty: "Trung bình",
+      pdfFileName: "N5-2013年7月.pdf",
+      audioFileName: "Nghe N5-2013年7月.mp3",
+    },
+    {
+      examId: "n5-2012-12",
+      yearGroup: "2012-12",
+      yearSession: "Kỳ Tháng 12/2012",
+      title: "Đề Thi Thật JLPT N5 - Kỳ Tháng 12/2012",
+      durationMinutes: 90,
+      totalQuestions: 91,
+      sections: [
+        { name: "Từ vựng & Kanji", count: 35 },
+        { name: "Ngữ pháp & Đọc hiểu", count: 32 },
         { name: "Nghe hiểu (Choukai)", count: 24 },
       ],
       difficulty: "Trung bình",
-      pdfFileName: "N5-2020年12月.pdf",
-      audioFileName: "Nghe N5-2020年12月.mp3",
+      pdfFileName: "N5-2012年12月.pdf",
+      audioFileName: "Nghe N5-2012年12月.m4a",
     },
     {
-      examId: "n5-2021-12",
-      yearGroup: "2021",
-      yearSession: "Kỳ Tháng 12/2021",
-      title: "Đề Thi Thật JLPT N5 - Kỳ Tháng 12/2021",
+      examId: "n5-2010-2011",
+      yearGroup: "2010-2011",
+      yearSession: "Kỳ Thi 2010 - 2011",
+      title: "Đề Thi Thật JLPT N5 - Kỳ Thi 2010 - 2011",
       durationMinutes: 90,
-      totalQuestions: 85,
+      totalQuestions: 89,
       sections: [
-        { name: "Từ vựng & Kanji", count: 30 },
-        { name: "Ngữ pháp & Đọc hiểu", count: 31 },
+        { name: "Từ vựng & Kanji", count: 33 },
+        { name: "Ngữ pháp & Đọc hiểu", count: 32 },
         { name: "Nghe hiểu (Choukai)", count: 24 },
       ],
       difficulty: "Trung bình",
-      pdfFileName: "N5-2021年12月.pdf",
-      audioFileName: "Nghe N5-2021年12月.mp3",
-    },
-    {
-      examId: "n5-2022-12",
-      yearGroup: "2022",
-      yearSession: "Kỳ Tháng 12/2022",
-      title: "Đề Thi Thật JLPT N5 - Kỳ Tháng 12/2022",
-      durationMinutes: 90,
-      totalQuestions: 85,
-      sections: [
-        { name: "Từ vựng & Kanji", count: 30 },
-        { name: "Ngữ pháp & Đọc hiểu", count: 31 },
-        { name: "Nghe hiểu (Choukai)", count: 24 },
-      ],
-      difficulty: "Trung bình",
-      pdfFileName: "N5-2022年12月.pdf",
-      audioFileName: "Nghe N5-2022年12月.mp3",
-    },
-    {
-      examId: "n5-2023-07",
-      yearGroup: "2023",
-      yearSession: "Kỳ Tháng 07/2023",
-      title: "Đề Thi Thật JLPT N5 - Kỳ Tháng 07/2023",
-      durationMinutes: 90,
-      totalQuestions: 85,
-      sections: [
-        { name: "Từ vựng & Kanji", count: 30 },
-        { name: "Ngữ pháp & Đọc hiểu", count: 31 },
-        { name: "Nghe hiểu (Choukai)", count: 24 },
-      ],
-      difficulty: "Dễ",
-      pdfFileName: "N5-2023年7月.pdf",
-      audioFileName: "Nghe N5-2023年7月.mp3",
+      pdfFileName: "N5-2010-2011年.pdf",
+      audioFileName: "Nghe N5-2010-2011.mp3",
     },
   ],
+
 
   n3: [
     {
@@ -241,28 +244,6 @@ const MOCK_LEVEL_EXAMS: Record<string, JlptExamItem[]> = {
   ],
 };
 
-const YEAR_OPTIONS_MAP: Record<string, { id: string; label: string }[]> = {
-  n4: [
-    { id: "ALL", label: "Tất Cả Bộ Đề N4" },
-    { id: "2010-2011", label: "2010 - 2011" },
-    { id: "2012-12", label: "Tháng 12/2012" },
-    { id: "2013-07", label: "Tháng 07/2013" },
-    { id: "2014-07", label: "Tháng 07/2014" },
-    { id: "2017-07", label: "Tháng 07/2017 (99 câu)" },
-    { id: "2018", label: "Bộ Đề 2018" },
-    { id: "2021-12", label: "Tháng 12/2021" },
-  ],
-  n5: [
-    { id: "ALL", label: "Tất Cả Bộ Đề N5" },
-    { id: "2022", label: "Tháng 12/2022" },
-    { id: "2023", label: "Tháng 07/2023" },
-  ],
-  n3: [
-    { id: "ALL", label: "Tất Cả Bộ Đề N3" },
-    { id: "2022", label: "Tháng 12/2022" },
-    { id: "2023", label: "Tháng 07/2023" },
-  ],
-};
 
 import JlptNoticeModal from "@/components/shared/JlptNoticeModal";
 
@@ -287,41 +268,164 @@ export default function JlptLevelExamsPage() {
   };
 
   useEffect(() => {
-    const loadAdminState = () => {
-      const saved = localStorage.getItem("ADMIN_JLPT_EXAMS");
-      if (saved) {
-        try {
-          setAdminExams(JSON.parse(saved));
-        } catch (e) {}
-      }
+    const areExamListsEqual = (a: any[], b: any[]) => {
+      if (a === b) return true;
+      if (!a || !b || a.length !== b.length) return false;
+      const keyA = a.map(e => `${e.id}_${e.examCode || ''}_${e.activeVersionId || ''}_${e.versions?.length || 0}`).join('|');
+      const keyB = b.map(e => `${e.id}_${e.examCode || ''}_${e.activeVersionId || ''}_${e.versions?.length || 0}`).join('|');
+      return keyA === keyB;
     };
+
+    const loadAdminState = () => {
+      const currentList = getStoredAdminExams();
+      setAdminExams((prev) => areExamListsEqual(prev, currentList) ? prev : currentList);
+      syncAdminExamsFromServer().then((serverList) => {
+        if (serverList && serverList.length > 0) {
+          setAdminExams((prev) => areExamListsEqual(prev, serverList) ? prev : serverList);
+        }
+      });
+    };
+
     loadAdminState();
-    window.addEventListener("adminExamsUpdated", loadAdminState);
-    return () => window.removeEventListener("adminExamsUpdated", loadAdminState);
+
+    const handleLocalUpdate = () => {
+      const stored = getStoredAdminExams();
+      setAdminExams((prev) => areExamListsEqual(prev, stored) ? prev : stored);
+    };
+
+    window.addEventListener("adminExamsUpdated", handleLocalUpdate);
+    window.addEventListener("storage", loadAdminState);
+    window.addEventListener("focus", loadAdminState);
+
+    return () => {
+      window.removeEventListener("adminExamsUpdated", handleLocalUpdate);
+      window.removeEventListener("storage", loadAdminState);
+      window.removeEventListener("focus", loadAdminState);
+    };
   }, []);
 
-  const exams = MOCK_LEVEL_EXAMS[cleanLevel] || MOCK_LEVEL_EXAMS.n4 || [];
-  const yearOptions = YEAR_OPTIONS_MAP[cleanLevel] || YEAR_OPTIONS_MAP.n4;
+  // Display strictly the exams uploaded and published by the Admin (deduplicated & synchronized)
+  const allPublishedExams: JlptExamItem[] = useMemo(() => {
+    const effectiveAdminExams = sanitizeAndDeduplicateExams(
+      (adminExams && adminExams.length > 0) ? adminExams : INITIAL_ADMIN_EXAMS
+    );
 
-  const filteredExams = (exams || []).filter((e) => {
-    if (selectedYear !== "ALL" && e.yearGroup !== selectedYear) return false;
+    const list: JlptExamItem[] = [];
+    const seenExamIds = new Set<string>();
 
-    // Strict status check: Hide from learner if not PUBLISHED!
-    if (adminExams && adminExams.length > 0) {
-      const adminMatch = adminExams.find(
-        (ad) => ad.examCode === e.examId || ad.id === e.examId
-      );
-      if (adminMatch) {
-        const activeVer = adminMatch.versions.find(
-          (v: any) => v.versionId === adminMatch.activeVersionId
-        ) || adminMatch.versions[adminMatch.versions.length - 1];
-        if (activeVer && activeVer.status !== "PUBLISHED") {
-          return false; // HIDE UNPUBLISHED EXAM!
-        }
+    effectiveAdminExams.forEach((ad: any) => {
+      let adLevel = (ad.level || "").toLowerCase().trim();
+      if (!adLevel) {
+        if ((ad.examCode || "").toLowerCase().includes("n5") || (ad.yearTitle || "").includes("N5")) adLevel = "n5";
+        else if ((ad.examCode || "").toLowerCase().includes("n3") || (ad.yearTitle || "").includes("N3")) adLevel = "n3";
+        else adLevel = "n4";
       }
+      if (adLevel !== cleanLevel) return;
+
+      const publishedVer =
+        ad.versions?.find((v: any) => v.versionId === ad.activeVersionId && v.status === "PUBLISHED") ||
+        ad.versions?.find((v: any) => v.versionId === ad.activeVersionId) ||
+        ad.versions?.find((v: any) => v.status === "PUBLISHED") ||
+        ad.versions?.[ad.versions.length - 1];
+
+      if (publishedVer) {
+        const cleanCode = (ad.examCode || ad.id || "").replace(/[\/\\#?&:\s]+/g, "-").replace(/-+/g, "-");
+        if (seenExamIds.has(cleanCode)) return;
+        seenExamIds.add(cleanCode);
+
+        const totalQ =
+          publishedVer.totalQuestions ||
+          (cleanLevel === "n5" ? (cleanCode.includes("2012") || cleanCode.includes("2013") ? 91 : 89) : cleanLevel === "n3" ? 105 : 98);
+
+        // Authentic section counts from standard parser
+        const structure = parseExamStructure(cleanCode, cleanLevel.toUpperCase(), totalQ);
+        const vocabQ = structure.vocabSection.totalQuestions;
+        const grammarQ = structure.grammarSection.totalQuestions;
+        const listeningQ = structure.listeningSection.totalQuestions;
+
+        const examYearInfo = parseExamYearData({
+          title: ad.yearTitle || `Đề Thi Thật JLPT ${levelCode}`,
+          yearTitle: ad.yearTitle,
+          yearSession: ad.yearTitle,
+          examId: cleanCode,
+          examCode: ad.examCode,
+          id: ad.id,
+        });
+
+        list.push({
+          examId: cleanCode,
+          yearGroup: examYearInfo.yearKey,
+          yearSession: ad.yearTitle || examYearInfo.sessionBadge,
+          title: ad.yearTitle || `Đề Thi Thật JLPT ${levelCode}`,
+          durationMinutes:
+            publishedVer.durationMinutes ||
+            (cleanLevel === "n5" ? 90 : cleanLevel === "n3" ? 140 : 115),
+          totalQuestions: totalQ,
+          sections: [
+            { name: "Từ vựng & Kanji", count: vocabQ },
+            { name: "Ngữ pháp & Đọc hiểu", count: grammarQ },
+            { name: "Nghe hiểu", count: listeningQ },
+          ],
+          difficulty: "Trung bình",
+          pdfFileName: publishedVer.pdfFileName,
+          audioFileName: publishedVer.audioFileName,
+        });
+      }
+    });
+
+    return list;
+  }, [cleanLevel, levelCode, adminExams]);
+
+  // Dynamically compute year filters to group cleanly by Year and sort newest first
+  const yearOptions = useMemo(() => {
+    const yearCounts: Record<string, { yearNumber: number; yearKey: string; yearLabel: string; count: number }> = {};
+
+    allPublishedExams.forEach((exam) => {
+      const yearInfo = parseExamYearData(exam);
+      if (!yearCounts[yearInfo.yearKey]) {
+        yearCounts[yearInfo.yearKey] = {
+          yearNumber: yearInfo.yearNumber,
+          yearKey: yearInfo.yearKey,
+          yearLabel: yearInfo.yearLabel,
+          count: 0,
+        };
+      }
+      yearCounts[yearInfo.yearKey].count++;
+    });
+
+    // Sort newest year to oldest year
+    const sortedYears = Object.values(yearCounts).sort((a, b) => b.yearNumber - a.yearNumber);
+
+    return [
+      {
+        id: "ALL",
+        label: `Tất Cả Bộ Đề ${levelCode}`,
+        count: allPublishedExams.length,
+      },
+      ...sortedYears.map((y) => ({
+        id: y.yearKey,
+        label: y.yearLabel,
+        count: y.count,
+      })),
+    ];
+  }, [cleanLevel, levelCode, allPublishedExams]);
+
+  const filteredExams = useMemo(() => {
+    let list = allPublishedExams;
+    if (selectedYear !== "ALL") {
+      list = list.filter((exam) => {
+        const info = parseExamYearData(exam);
+        return info.yearKey === selectedYear || exam.yearGroup === selectedYear;
+      });
     }
-    return true;
-  });
+
+    // Sort strictly by Year & Month descending (newest exam to oldest exam)
+    return [...list].sort((a, b) => {
+      const infoA = parseExamYearData(a);
+      const infoB = parseExamYearData(b);
+      return infoB.yearNumber - infoA.yearNumber;
+    });
+  }, [allPublishedExams, selectedYear]);
 
   return (
     <div className="min-h-screen bg-[#FAF4EB] text-[#1F1714] font-sans flex flex-col justify-between selection:bg-[#C65D4B] selection:text-white">
@@ -345,16 +449,16 @@ export default function JlptLevelExamsPage() {
           <div className="space-y-2">
             <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-amber-300 font-black text-xs border border-white/15 backdrop-blur-md">
               <Sparkles className="w-3.5 h-3.5 fill-amber-300 text-amber-300" />
-              <span>KHO {exams.length} BỘ ĐỀ THI CHÍNH THỨC JLPT {levelCode}</span>
+              <span>KHO {allPublishedExams.length} BỘ ĐỀ THI CHÍNH THỨC JLPT {levelCode}</span>
             </span>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              Tuyển Tập {exams.length} Bộ Đề Thi JLPT {levelCode} (Đánh Số Câu Động)
+              Tuyển Tập {allPublishedExams.length} Bộ Đề Thi Thật JLPT {levelCode} Chuẩn Format 1:1
             </h1>
           </div>
 
           <div className="flex items-center gap-2 bg-white/10 px-4 py-2 rounded-2xl border border-white/15 text-xs text-amber-200">
             <Trophy className="w-4 h-4 text-amber-400" />
-            <span>Hiển thị {filteredExams.length} / {exams.length} bộ đề thi thật {levelCode}</span>
+            <span>Hiển thị {filteredExams.length} / {allPublishedExams.length} bộ đề thi thật {levelCode}</span>
           </div>
         </div>
 
@@ -394,7 +498,7 @@ export default function JlptLevelExamsPage() {
                 {/* Badge */}
                 <div className="flex justify-between items-center flex-wrap gap-2">
                   <span className="px-3 py-1 bg-[#FAF4EB] text-[#C65D4B] font-black text-xs rounded-full border border-[#E5D7C7]">
-                    {levelCode} • {exam.yearSession}
+                    {levelCode} • {parseExamYearData(exam).sessionBadge}
                   </span>
                   {exam.pdfFileName && (
                     <span className="text-[10px] font-black px-2.5 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-300">
@@ -466,6 +570,14 @@ export default function JlptLevelExamsPage() {
             </div>
           ))}
         </div>
+
+        {filteredExams.length === 0 && (
+          <div className="bg-white border-2 border-dashed border-[#E5D7C7] rounded-3xl p-12 text-center space-y-3">
+            <FileText className="w-10 h-10 text-[#8C7B70] mx-auto" />
+            <h3 className="text-base font-bold text-[#1F1714]">Chưa có đề thi nào được xuất bản trong mục này</h3>
+            <p className="text-xs text-[#8C7B70]">Hãy quay lại sau hoặc chọn mốc thời gian khác.</p>
+          </div>
+        )}
       </main>
 
       <LearnerFooter />

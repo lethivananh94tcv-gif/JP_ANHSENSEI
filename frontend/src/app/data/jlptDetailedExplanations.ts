@@ -4,9 +4,1499 @@ export interface DetailedExplanationItem {
   audioScriptJa?: string;
   audioScriptVi?: string;
   correctOption?: number;
+  text?: string;
+  options?: string[];
 }
 
 export const EXAM_DETAILED_EXPLANATION_MAP: Record<string, Record<number, DetailedExplanationItem>> = {
+  "n4-2013-12": {
+    "1": {
+      "snippet": "指 (ゆび)",
+      "explanation": "🎯 Đáp án đúng: [3] ゆび (指)\n\n💬 Dịch nghĩa câu:\n\"Tôi đã bị thương ở ngón tay.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「指」 (Chỉ - ngón tay), âm Kun thuần Nhật chuẩn xác là 「ゆび」.\n• Cụm từ thông dụng: 指にけがをする (bị thương ở ngón tay).\n\n🔍 Phân tích các lựa chọn:\n- 1. はな (鼻): Mũi\n- 2. あたま (頭): Đầu, não bộ\n- 3. ゆび (指): Ngón tay (ĐÚNG)\n- 4. うで (腕): Cánh tay, bắp tay\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(1) 3 句意: 手指受伤了。1. はな(鼻): 鼻子; 2. あたま(頭): 脑袋; 3. ゆび(指): 手指; 4. うで(腕): 胳膊",
+      "correctOption": 3,
+      "text": "指 に けがを しました。",
+      "options": ["1. はな", "2. あたま", "3. ゆび", "4. うで"]
+    },
+    "2": {
+      "snippet": "旅行 (りょこう)",
+      "explanation": "🎯 Đáp án đúng: [2] りょこう (旅行)\n\n💬 Dịch nghĩa câu:\n\"Tháng trước tôi đã đi du lịch cùng bạn bè.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「旅行」 (Lữ hành):\n  - Chữ 「旅」 (lữ) có âm On là 「りょ」 (âm ngắn, không có trường âm).\n  - Chữ 「行」 (hành) có âm On là 「こう」 (có trường âm う).\n  - Kết hợp chuẩn xác: 「りょこう」 (du lịch).\n\n🔍 Phân tích các lựa chọn:\n- 1. りょこ: Thiếu trường âm [う] ở chữ 行\n- 2. りょこう (旅行): ĐÚNG - Du lịch\n- 3. りょうこ: Thừa trường âm ở chữ 旅, thiếu ở chữ 行\n- 4. りょうこう (良好): Thừa trường âm ở chữ 旅 (mang nghĩa là tốt đẹp)\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(2) 2 句意: 上个月和朋友一起去旅行了。考察汉字词，“旅”音读为“りょ”，“行”音读为“こう・ぎょう・あん”。",
+      "correctOption": 2,
+      "text": "先月 友だちと 旅行 しました。",
+      "options": ["1. りょこ", "2. りょこう", "3. りょうこ", "4. りょうこう"]
+    },
+    "3": {
+      "snippet": "急ぐ (いそぐ)",
+      "explanation": "🎯 Đáp án đúng: [2] いそがなくても (急ぐ)\n\n💬 Dịch nghĩa câu:\n\"Không cần phải vội vàng / gấp gáp đâu nhé.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「急ぐ (いそぐ)」 (Cấp - vội vã, khẩn trương).\n• Chia thể phủ định điều kiện: 急ぐ → 急がない → 急がなくてもいい (không cần phải vội cũng được).\n\n🔍 Phân tích các lựa chọn:\n- 1. さわがなくても (騒ぐ - さわぐ): Không cần làm ồn ào, huyên náo\n- 2. いそがなくても (急ぐ - いそぐ): ĐÚNG - Không cần vội vã, gấp gáp\n- 3. およがなくても (泳ぐ - およぐ): Không cần bơi lội\n- 4. ぬがなくても (脱ぐ - ぬぐ): Không cần cởi bỏ (áo quần, giày dép)\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(3) 2 句意: 可以不用那么赶时间。1. さわぐ(騒ぐ): 吵, 吵闹; 2. いそぐ(急ぐ): 赶紧, 赶快; 3. およぐ(泳ぐ): 游泳; 4. ぬぐ(脱ぐ): 脱; 摘掉",
+      "correctOption": 2,
+      "text": "急がなくても いいですよ。",
+      "options": ["1. さわがなくても", "2. いそがなくても", "3. およがなくても", "4. ぬがなくても"]
+    },
+    "4": {
+      "snippet": "工場 (こうじょう)",
+      "explanation": "🎯 Đáp án đúng: [4] こうじょう (工場)\n\n💬 Dịch nghĩa câu:\n\"Trong nhà máy / phân xưởng không có một ai cả.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「工場」 (Công trường):\n  - Chữ 「工」 (công) có âm On là 「こう」.\n  - Chữ 「場」 (trường) có âm On là 「じょう」.\n  - Kết hợp tạo thành: 「こうじょう」 (nhà máy, phân xưởng, xí nghiệp).\n\n🔍 Phân tích các lựa chọn:\n- 1. おくじょ: Sai âm và thiếu trường âm\n- 2. おくじょう (屋上): Sân thượng của tòa nhà\n- 3. こうじょ: Thiếu trường âm [う] ở chữ 場\n- 4. こうじょう (工場): ĐÚNG - Nhà máy, phân xưởng\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(4) 4 句意: 工厂里一个人都没有。考察汉字词，“工”音读为“こう・く”，“場”音读为“じょう”。",
+      "correctOption": 4,
+      "text": "工場 には だれも いません。",
+      "options": ["1. おくじょ", "2. おくじょう", "3. こうじょ", "4. こうじょう"]
+    },
+    "5": {
+      "snippet": "妹 (いもうと)",
+      "explanation": "🎯 Đáp án đúng: [1] いもうと (妹)\n\n💬 Dịch nghĩa câu:\n\"Em gái của tôi đang sinh sống tại Nhật Bản.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「妹」 (Muội) có âm Kun thuần Nhật chuẩn xác là 「いもうと」 (em gái).\n\n🔍 Phân tích các lựa chọn:\n- 1. いもうと (妹): ĐÚNG - Em gái\n- 2. あね (姉): Chị gái\n- 3. おとうと (弟): Em trai\n- 4. あに (兄): Anh trai\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(5) 1 句意: 我妹妹住在日本。考察日语固有词汇的读音，“妹”训读为“いもうと”。1. いもうと(妹): 妹妹; 2. あね(姉): 姐姐; 3. おとうと(弟): 弟弟; 4. あに(兄): 哥哥",
+      "correctOption": 1,
+      "text": "わたしの 妹 は 日本に すんで います。",
+      "options": ["1. いもうと", "2. あね", "3. おとうと", "4. あに"]
+    },
+    "6": {
+      "snippet": "待つ (まつ)",
+      "explanation": "🎯 Đáp án đúng: [1] まって (待って)\n\n💬 Dịch nghĩa câu:\n\"Xin vui lòng đợi một chút.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「待つ (まつ)」 (Đãi - chờ đợi).\n• Chia thể て (âm ngắt): 待つ → 待って (まって).\n• Cụm từ giao tiếp quen thuộc: ちょっと待ってください (Xin đợi một chút).\n\n🔍 Phân tích các lựa chọn:\n- 1. まって (待つ): ĐÚNG - Chờ đợi\n- 2. もって (持つ): Cầm, mang, nắm giữ\n- 3. とって (取る): Lấy, cầm lấy\n- 4. たって (経つ / 立つ): Trôi qua (thời gian) / Đứng\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(6) 1 句意: 请稍等一下。1. まつ(待つ): 等待; 2. もつ(持つ): 拿着; 3. とる(取る): 拿, 取; 4. たつ(経つ): 经, 过",
+      "correctOption": 1,
+      "text": "ちょっと 待って ください。",
+      "options": ["1. まって", "2. もって", "3. とって", "4. たって"]
+    },
+    "7": {
+      "snippet": "強い (つよい)",
+      "explanation": "🎯 Đáp án đúng: [3] つよく (強く)\n\n💬 Dịch nghĩa câu:\n\"Gió đã trở nên mạnh hơn một chút rồi.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ đuôi い: 「強い (つよい)」 (Cường - mạnh, mạnh mẽ).\n• Chuyển sang phó từ bổ nghĩa cho động từ なる: 強い → 強く (つよく) + なりました.\n\n🔍 Phân tích các lựa chọn:\n- 1. あたたかく (暖かい): Ấm áp\n- 2. よわく (弱い): Yếu, nhẹ\n- 3. つよく (強い): ĐÚNG - Mạnh mẽ\n- 4. つめたく (冷たい): Lạnh lẽo\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(7) 3 句意: 风变大了点。1. あたたかい(暖かい): 温暖; 2. よわい(弱い): 弱; 3. つよい(強い): 强; 4. つめたい(冷たい): 冷",
+      "correctOption": 3,
+      "text": "かぜが 少し 強く なりました。",
+      "options": ["1. あたたかく", "2. よわく", "3. つよく", "4. つめたく"]
+    },
+    "8": {
+      "snippet": "駅員 (えきいん)",
+      "explanation": "🎯 Đáp án đúng: [4] えきいん (駅員)\n\n💬 Dịch nghĩa câu:\n\"Tôi đã hỏi đường nhân viên nhà ga.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「駅員」 (Dịch viên):\n  - Chữ 「駅」 (dịch - ga tàu) âm On là 「えき」.\n  - Chữ 「員」 (viên - nhân viên) âm On là 「いん」.\n  - Ghép lại thành: 「えきいん」 (nhân viên nhà ga tàu điện).\n\n🔍 Phân tích các lựa chọn:\n- 1. てんにん: Sai cả hai âm\n- 2. えきにん: Sai âm của chữ 員 (phải là いん)\n- 3. てんいん (店員): Nhân viên cửa hàng\n- 4. えきいん (駅員): ĐÚNG - Nhân viên nhà ga\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(8) 4 句意: 向车站工作人员问了路。考察汉字词，“駅”音读为“えき”，“員”音读为“いん”。",
+      "correctOption": 4,
+      "text": "駅員 に みちを 聞きました。",
+      "options": ["1. てんにん", "2. えきにん", "3. てんいん", "4. えきいん"]
+    },
+    "9": {
+      "snippet": "医者 (いしゃ)",
+      "explanation": "🎯 Đáp án đúng: [2] いしゃ (医者)\n\n💬 Dịch nghĩa câu:\n\"Tương lai tôi muốn trở thành bác sĩ.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「医者」 (Y giả):\n  - Chữ 「医」 (y) âm On là 「い」.\n  - Chữ 「者」 (giả) âm On là 「しゃ」 (không có âm đục).\n  - Ghép lại thành: 「いしゃ」 (bác sĩ, thầy thuốc).\n\n🔍 Phân tích các lựa chọn:\n- 1. いじゃ: Sai biến âm đục\n- 2. いしゃ (医者): ĐÚNG - Bác sĩ\n- 3. いいじゃ: Thừa trường âm và sai âm đục\n- 4. いいしゃ: Thừa trường âm\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(9) 2 句意: 我将来想做一名医生。考察汉字词，“医”音读为“い”，“者”音读为“しゃ”。",
+      "correctOption": 2,
+      "text": "わたしは しょうらい 医者 に なりたいです。",
+      "options": ["1. いじゃ", "2. いしゃ", "3. いいじゃ", "4. いいしゃ"]
+    },
+    "10": {
+      "snippet": "反対 (はんたい)",
+      "explanation": "🎯 Đáp án đúng: [1] 反対 (はんたい)\n\n💬 Dịch nghĩa câu:\n\"Tôi phản đối ý kiến đó.\"\n\n💡 Phân tích & Giải thích:\n• Từ Hiragana 「はんたい」 mang nghĩa phản đối, không tán thành.\n• Chữ Hán chuẩn xác là 「反対」 (Phản đối), gồm chữ 「反」 (phản) và chữ 「対」 (đối).\n\n🔍 Phân tích các lựa chọn:\n- 1. 反対: ĐÚNG - Phản đối\n- 2. 半対: Sai chữ 半 (bán - một nửa)\n- 3. 反体: Sai chữ 体 (thể - thân thể)\n- 4. 半体: Sai cả hai chữ Hán\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(10) 1 句意: 我反对那个意见。1. 反対(はんたい): 反对。其他选项为干扰项。",
+      "correctOption": 1,
+      "text": "その いけんには はんたい です。",
+      "options": ["1. 反対", "2. 半対", "3. 反体", "4. 半体"]
+    },
+    "11": {
+      "snippet": "開く (ひらく)",
+      "explanation": "🎯 Đáp án đúng: [4] 開いて (開く)\n\n💬 Dịch nghĩa câu:\n\"Xin vui lòng mở trang 10 của sách giáo trình ra.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「ひらく」 mang nghĩa mở sách, mở trang giấy, mở dù, khai mạc.\n• Chữ Hán chuẩn xác là 「開く」 (Khai - mở ra).\n• Thể て: 開いて (ひらいて).\n\n🔍 Phân tích các lựa chọn:\n- 1. 関いて: Sai chữ 関 (quan trong quan hệ, liên quan)\n- 2. 閉いて: Chữ 閉 (bế - đóng lại), động từ là 閉じる (とじる)\n- 3. 閑いて: Sai chữ 閑 (nhàn trong an nhàn)\n- 4. 開いて (開く): ĐÚNG - Mở (sách, hội nghị, khai mạc)\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(11) 4 句意: 请翻开课本第十页。2. 閉じる(とじる): 关闭, 合上; 4. 開く(ひらく): 开放; 开门",
+      "correctOption": 4,
+      "text": "テキストの 10 ページを ひらいて ください。",
+      "options": ["1. 関いて", "2. 閉いて", "3. 閑いて", "4. 開いて"]
+    },
+    "12": {
+      "snippet": "赤い (あかい)",
+      "explanation": "🎯 Đáp án đúng: [3] 赤い (あかい)\n\n💬 Dịch nghĩa câu:\n\"Chiếc xe đạp màu đỏ này là của ai vậy?\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「あかい」 chỉ màu đỏ, chữ Hán tương ứng là 「赤い」 (Xích).\n\n🔍 Phân tích các lựa chọn:\n- 1. 黒い (くろい): Màu đen\n- 2. 青い (あおい): Màu xanh da trời / xanh lam\n- 3. 赤い (あかい): ĐÚNG - Màu đỏ\n- 4. 白い (しろい): Màu trắng\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(12) 3 句意: 这辆红色的自行车是谁的？1. 黒い(くろい): 黑色的; 2. 青い(あおい): 蓝色的; 3. 赤い(あかい): 红色的; 4. 白い(しろい): 白色的",
+      "correctOption": 3,
+      "text": "この あかい じてんしゃは だれのですか。",
+      "options": ["1. 黒い", "2. 青い", "3. 赤い", "4. 白い"]
+    },
+    "13": {
+      "snippet": "走る (はしる)",
+      "explanation": "🎯 Đáp án đúng: [2] 走って (走る)\n\n💬 Dịch nghĩa câu:\n\"Mỗi ngày tôi đều chạy bộ 30 phút.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「はしる」 (chạy) có chữ Hán chuẩn là 「走る」 (Tẩu).\n• Thể て: 走る → 走って (はしって).\n\n🔍 Phân tích các lựa chọn:\n- 1. 足って: Chữ 足 (túc - chân/đầy đủ: 足る - たる)\n- 2. 走って (走る): ĐÚNG - Chạy bộ\n- 3. 是って: Chữ 是 (thị)\n- 4. 定って: Chữ 定 (định: 定まる - さだまる)\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(13) 2 句意: 每天跑 30 分钟步。1. 足る(たる): 足, 够; 2. 走る(はしる): 跑; 4. 定まる(さだまる): 稳定; 决定。其他选项为干扰项。",
+      "correctOption": 2,
+      "text": "毎日 30 ぷん はしって います。",
+      "options": ["1. 足って", "2. 走って", "3. 是って", "4. 定って"]
+    },
+    "14": {
+      "snippet": "暗い (くらい)",
+      "explanation": "🎯 Đáp án đúng: [1] 暗い (くらい)\n\n💬 Dịch nghĩa câu:\n\"Căn phòng này tối tăm thật nhỉ.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「くらい」 chỉ tình trạng thiếu ánh sáng, tối tăm.\n• Chữ Hán chuẩn xác là 「暗い」 (Ám).\n\n🔍 Phân tích các lựa chọn:\n- 1. 暗い (くらい): ĐÚNG - Tối, u tối\n- 2. 明い: Chữ viết sai (sáng là 明るい)\n- 3. 暑い (あつい): Nóng nực (thời tiết)\n- 4. 寒い (さむい): Lạnh giá (thời tiết)\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(14) 1 句意: 这间房间真暗啊。1. 暗い(くらい): 暗, 黑暗; 2. 明るい(あかるい): 明亮, 亮堂; 3. 暑い(あつい): 热, 炎热; 4. 寒い(さむい): 冷, 寒冷",
+      "correctOption": 1,
+      "text": "この へやは くらい ですね。",
+      "options": ["1. 暗い", "2. 明い", "3. 暑い", "4. 寒い"]
+    },
+    "15": {
+      "snippet": "野菜 (やさい)",
+      "explanation": "🎯 Đáp án đúng: [4] 野菜 (やさい)\n\n💬 Dịch nghĩa câu:\n\"Tôi luôn mua rau củ quả ở siêu thị đằng kia.\"\n\n💡 Phân tích & Giải thích:\n• Từ vựng 「やさい」 (rau củ) có chữ Hán chuẩn là 「野菜」 (Dã thái).\n• Chữ 「野」 (dã) ghép với chữ 「菜」 (thái - rau cỏ).\n\n🔍 Phân tích các lựa chọn:\n- 1. 理薬: Chữ ghép không có nghĩa\n- 2. 野薬: Sai chữ 薬 (thuốc)\n- 3. 理菜: Sai chữ 理\n- 4. 野菜 (やさい): ĐÚNG - Rau củ\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(15) 4 句意: 我一直在那家超市买菜。4. 野菜(やさい): 蔬菜。其他选项为干扰项。",
+      "correctOption": 4,
+      "text": "いつも あの スーパーで やさい を 買います。",
+      "options": ["1. 理薬", "2. 野薬", "3. 理菜", "4. 野菜"]
+    },
+    "16": {
+      "snippet": "慣れる (なれる)",
+      "explanation": "🎯 Đáp án đúng: [1] なれましたか (慣れる)\n\n💬 Dịch nghĩa câu:\n\"Bạn đã quen với công việc mới chưa?\"\n\n💡 Phân tích & Giải thích:\n• Đi với trợ từ に: cấu trúc 「～に慣れる (なれる)」 (quen thuộc, thích nghi với điều gì/môi trường nào).\n• Cụm câu giao tiếp thường gặp: 仕事に慣れましたか.\n\n🔍 Phân tích các lựa chọn:\n- 1. なれましたか (慣れる): ĐÚNG - Đã quen chưa\n- 2. がんばりましたか (頑張る): Đã cố gắng hết sức chưa\n- 3. つとめましたか (勤める): Đi làm tại (thường dùng 会社に勤める)\n- 4. かよいましたか (通う): Đi lại thường xuyên (学校/会社に通う)\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(16) 1 句意: 新工作习惯了吗？1. なれる(慣れる): 习惯; 2. がんばる(頑張る): 坚持; 努力; 3. つとめる(勤める): 工作; 4. かよう(通う): 上(班)",
+      "correctOption": 1,
+      "text": "新しい しごとには もう (　　)。",
+      "options": ["1. なれましたか", "2. がんばりましたか", "3. つとめましたか", "4. かよいましたか"]
+    },
+    "17": {
+      "snippet": "止む (やむ)",
+      "explanation": "🎯 Đáp án đúng: [3] やんで (止む)\n\n💬 Dịch nghĩa câu:\n\"Mưa tạnh rồi, thời tiết đã trở nên đẹp hơn.\"\n\n💡 Phân tích & Giải thích:\n• Đối với hiện tượng tự nhiên mưa (雨) hoặc tuyết (雪) ngừng rơi, tiếng Nhật dùng động từ chuyên biệt 「止む (やむ)」.\n• Cụm cố định: 「雨がやむ」 (mưa tạnh). Chia thể て là 「やんで」.\n\n🔍 Phân tích các lựa chọn:\n- 1. おわって (終わる): Kết thúc (giờ học, công việc, bộ phim)\n- 2. とまって (止まる): Dừng lại (xe cộ, đồng hồ chạy)\n- 3. やんで (止む): ĐÚNG - Mưa tạnh (雨がやむ)\n- 4. きえて (消える): Biến mất, tắt đi (đèn, lửa)\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(17) 3 句意: 雨停了, 天气变好了。1. おわる(終わる): 完, 结束; 2. とまる(止まる): 停, 停止; 3. やむ(止む): (雨)停; 4. きえる(消える): 消失",
+      "correctOption": 3,
+      "text": "雨が (　　)、いい天気に なりました。",
+      "options": ["1. おわって", "2. とまって", "3. やんで", "4. きえて"]
+    },
+    "18": {
+      "snippet": "おとなしい (大人しい)",
+      "explanation": "🎯 Đáp án đúng: [2] おとなしい (大人しい)\n\n💬 Dịch nghĩa câu:\n\"Đứa bé này rất trầm tính / hiền lành, nên ít khi trò chuyện với mọi người.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「おとなしい (大人しい)」 miêu tả tính cách trầm lặng, ngoan ngoãn, ít nói, điềm đạm.\n• Vế sau: 「あまりひとと話をしません」 (không mấy khi nói chuyện với ai) làm rõ nét tính cách trầm tính này.\n\n🔍 Phân tích các lựa chọn:\n- 1. かわいい (可愛い): Đáng yêu, dễ thương\n- 2. おとなしい (大人しい): ĐÚNG - Trầm tính, ngoan ngoãn, ít nói\n- 3. わかい (若い): Trẻ trung\n- 4. うつくしい (美しい): Xinh đẹp, mỹ lệ\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(18) 2 句意: 那个孩子沉稳安静, 不怎么和人说话。1. かわいい(可愛い): 可爱; 2. おとなしい(大人しい): 温顺, 稳静; 3. わかい(若い): 年轻; 4. うつくしい(美しい): 美丽, 漂亮",
+      "correctOption": 2,
+      "text": "この 子は (　　)ので、あまり ひとと話を しません。",
+      "options": ["1. かわいい", "2. おとなしい", "3. わかい", "4. うつくしい"]
+    },
+    "19": {
+      "snippet": "お見舞い (おみまい)",
+      "explanation": "🎯 Đáp án đúng: [1] おみまい (お見舞い)\n\n💬 Dịch nghĩa câu:\n\"Khi tôi nhập viện, bạn bè đã đến thăm hỏi động viên tôi.\"\n\n💡 Phân tích & Giải thích:\n• Hành động đến bệnh viện hoặc nhà riêng thăm hỏi người bị ốm đau/tai nạn trong văn hóa Nhật gọi là 「お見舞い (おみまい)」.\n• Cụm từ: 「お見舞いに来る」 (đến thăm bệnh).\n\n🔍 Phân tích các lựa chọn:\n- 1. おみまい (お見舞い): ĐÚNG - Thăm hỏi người ốm/nhập viện\n- 2. おねがい (お願い): Lời nhờ vả, yêu cầu giúp đỡ\n- 3. けんがく (見学): Đi tham quan học hỏi thực tế (nhà máy, bảo tàng)\n- 4. けんぶつ (見物): Tham quan ngắm cảnh du lịch\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(19) 1 句意: 我住院的时候, 我的朋友都来看望我了。1. おみまい(お見舞い): 探望, 慰问; 2. おねがい(お願い): 希望, 请求; 3. けんがく(見学): 参观, 考察; 4. けんぶつ(见物): 观赏, 游览",
+      "correctOption": 1,
+      "text": "わたしが にゅういんした とき、友だちが (　　)に来てくれました。",
+      "options": ["1. おみまい", "2. おねがい", "3. けんがく", "4. けんぶつ"]
+    },
+    "20": {
+      "snippet": "予約 (よやく)",
+      "explanation": "🎯 Đáp án đúng: [2] よやく (予約)\n\n💬 Dịch nghĩa câu:\n\"Vì tháng sau sẽ về nước nên tôi đã đặt vé máy bay rồi.\"\n\n💡 Phân tích & Giải thích:\n• Việc đặt trước vé máy bay, phòng khách sạn, chỗ ngồi dùng từ 「予約 (よやく)」 (dự ước - đặt trước).\n• Cụm kết hợp: 「チケットを予約する」 (đặt vé).\n\n🔍 Phân tích các lựa chọn:\n- 1. けいかく (計画): Lập kế hoạch, đề án\n- 2. よやく (予約): ĐÚNG - Đặt trước vé/chỗ\n- 3. うけつけ (受付): Quầy lễ tân, tiếp nhận\n- 4. やくそく (約束): Hứa hẹn, ước hẹn với ai đó\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(20) 2 句意: 下个月要回国, 所以预定了机票。1. けいかく(計画): 规划, 计划; 2. よやく(予約): 预约; 3. うけつけ(受付): 受理; 接待; 4. やくそく(約束): 约定",
+      "correctOption": 2,
+      "text": "来月 きこくするので、ひこうきの チケットを (　　)しました。",
+      "options": ["1. けいかく", "2. よやく", "3. うけつけ", "4. やくそく"]
+    },
+    "21": {
+      "snippet": "真面目 (まじめ)",
+      "explanation": "🎯 Đáp án đúng: [3] まじめに (真面目)\n\n💬 Dịch nghĩa câu:\n\"Vì tuần sau có bài kiểm tra nên tuần này tôi sẽ học hành thật chăm chỉ / nghiêm túc.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ đuôi な: 「真面目 (まじめ)」 (chăm chỉ, đứng đắn, nghiêm túc).\n• Biến đổi thành phó từ bổ nghĩa cho động từ: 「まじめに勉強する」 (chăm chỉ, nghiêm túc học bài).\n\n🔍 Phân tích các lựa chọn:\n- 1. じょうぶに (丈夫に): Bền vững, chắc chắn, khỏe mạnh\n- 2. しんせつに (親切に): Thân thiện, tốt bụng, chu đáo\n- 3. まじめに (真面目に): ĐÚNG - Chăm chỉ, nghiêm túc\n- 4. だいじに (大事に): Cẩn thận, trân trọng, giữ gìn\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(21) 3 句意: 下周有考试, 所以这周要认真地学习。1. じょうぶ(丈夫): 坚固地, 结实地; 2. しんせつ(親切): 亲切地; 3. まじめ(真面目): 认真; 踏实; 4. だいじ(大事): 珍惜; 小心",
+      "correctOption": 3,
+      "text": "来週 テストが あるので、今週は (　　)べんきょうします。",
+      "options": ["1. じょうぶに", "2. しんせつに", "3. まじめに", "4. だいじに"]
+    },
+    "22": {
+      "snippet": "落とす (おとす)",
+      "explanation": "🎯 Đáp án đúng: [4] おとして (落とす)\n\n💬 Dịch nghĩa câu:\n\"Tôi đã làm rơi chiếc cốc từ trên bàn xuống và làm vỡ mất rồi.\"\n\n💡 Phân tích & Giải thích:\n• Tha động từ 「落とす (おとす)」: làm rơi, thả rơi một vật từ trên cao xuống.\n• Chuỗi hành động: テーブルからコップを落とす (làm rơi cốc từ bàn) → 割ってしまう (làm vỡ toang).\n\n🔍 Phân tích các lựa chọn:\n- 1. わたして (渡す): Trao tay, đưa cho ai\n- 2. なくして (無くす): Làm mất, đánh mất đồ\n- 3. こわして (壊す): Phá hỏng (máy móc, đồ dùng)\n- 4. おとして (落とす): ĐÚNG - Làm rơi từ trên xuống\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(22) 4 句意: 把桌上的杯子摔到了地上, 摔碎了。1. わたす(渡す): 递, 交; 2. なくす(無くす): 丢, 丢掉; 3. こわす(壊す): 毁坏, 损害; 4. おとす(落とす): 使落下",
+      "correctOption": 4,
+      "text": "テーブルから コップを (　　)、わって しまいました。",
+      "options": ["1. わたして", "2. なくして", "3. こわして", "4. おとして"]
+    },
+    "23": {
+      "snippet": "習慣 (しゅうかん)",
+      "explanation": "🎯 Đáp án đúng: [2] しゅうかん (習慣)\n\n💬 Dịch nghĩa câu:\n\"Ở quốc gia này có phong tục / tập quán ăn món đặc biệt vào ngày sinh nhật.\"\n\n💡 Phân tích & Giải thích:\n• Từ vựng 「習慣 (しゅうかん)」 chỉ tập quán văn hóa, phong tục, thói quen lâu đời của một cộng đồng hay quốc gia.\n• Cụm diễn đạt: 「～習慣がある」 (có phong tục/tập quán làm gì).\n\n🔍 Phân tích các lựa chọn:\n- 1. よてい (予定): Kế hoạch, dự định cá nhân\n- 2. しゅうかん (習慣): ĐÚNG - Phong tục, tập quán, thói quen\n- 3. けいけん (経験): Kinh nghiệm, sự trải nghiệm cá nhân\n- 4. きょうみ (興味): Sự hứng thú, sở thích quan tâm\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(23) 2 句意: 这个国家有在生日时吃某种特殊东西的习俗。1. よてい(予定): 预订, 计划; 2. しゅうかん(習慣): 习惯, 风俗; 3. けいけん(経験): 经验; 4. きょうみ(興味): 兴趣",
+      "correctOption": 2,
+      "text": "この 国には、たんじょうびに とくべつな ものを 食べる (　　)があります。",
+      "options": ["1. よてい", "2. しゅうかん", "3. けいけん", "4. きょうみ"]
+    },
+    "24": {
+      "snippet": "スイッチ (switch)",
+      "explanation": "🎯 Đáp án đúng: [4] スイッチ (switch)\n\n💬 Dịch nghĩa câu:\n\"Nếu bạn ấn công tắc cạnh cửa ra vào thì đèn trong phòng sẽ bật sáng.\"\n\n💡 Phân tích & Giải thích:\n• Từ mượn Katakana 「スイッチ (switch)」: công tắc đóng/ngắt mạch điện.\n• Cụm từ cố định: 「スイッチを押す」 (ấn công tắc, bật/tắt công tắc điện).\n\n🔍 Phân tích các lựa chọn:\n- 1. チェック (check): Kiểm tra, rà soát\n- 2. スタート (start): Bắt đầu, khởi động\n- 3. チャンス (chance): Cơ hội, thời cơ\n- 4. スイッチ (switch): ĐÚNG - Công tắc điện\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(24) 4 句意: 按下门边的开关, 房间里的灯就会打开。1. チェック: 检查, 核对; 2. スタート: 出发, 启动; 3. チャンス: 机会, 时机; 4. スイッチ: 开关",
+      "correctOption": 4,
+      "text": "ドアの よこの (　　)を おすと、へやの 電気が つきます。",
+      "options": ["1. チェック", "2. スタート", "3. チャンス", "4. スイッチ"]
+    },
+    "25": {
+      "snippet": "決める (きめる)",
+      "explanation": "🎯 Đáp án đúng: [1] きめましょう (決める)\n\n💬 Dịch nghĩa câu:\n\"Chúng ta cùng quyết định xem tối nay sẽ ăn cơm ở đâu nhé.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc câu hỏi lồng: 「nghi vấn từ + か + 決める (きめる)」: quyết định điều gì đó.\n• Thể rủ rê / đề nghị 「～ましょう」: 決めましょう (chúng ta hãy cùng quyết định nào).\n\n🔍 Phân tích các lựa chọn:\n- 1. きめましょう (決める): ĐÚNG - Cùng quyết định nào\n- 2. はいりましょう (入る): Cùng đi vào trong nào\n- 3. はらいましょう (払う): Cùng thanh toán tiền nào\n- 4. さそいましょう (誘う): Cùng rủ/mời ai đó nào\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(25) 1 句意: 决定一下今晚去哪里吃饭吧。1. きめる(決める): 决定; 2. はいる(入る): 进, 入; 3. はらう(払う): 付款; 4. さそう(誘う): 邀请",
+      "correctOption": 1,
+      "text": "こんばん どこで しょくじを するか (　　)。",
+      "options": ["1. きめましょう", "2. はいりましょう", "3. はらいましょう", "4. さそいましょう"]
+    },
+    "26": {
+      "snippet": "うそ (嘘)",
+      "explanation": "🎯 Đáp án đúng: [2] きのうの 話は ほんとうじゃありませんよ。\n\n💬 Dịch nghĩa câu:\n\"Câu chuyện ngày hôm qua là nói dối đấy.\"\n\n💡 Phân tích & Giải thích:\n• Từ vựng 「うそ (嘘)」: lời nói dối, điều bịa đặt không có thật.\n• Do đó, đồng nghĩa với: 「ほんとうじゃありません (本当ではありません)」 (không phải là sự thật).\n\n🔍 Phân tích các lựa chọn:\n- 1. ほんとうですよ: Là thật đấy (trái nghĩa hoàn toàn)\n- 2. ほんとうじゃありませんよ: ĐÚNG - Không phải là thật đâu\n- 3. ゆうめいですよ: Nổi tiếng đấy\n- 4. ゆうめいじゃありませんよ: Không nổi tiếng đâu\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(26) 2 句意: 昨天的话是骗你的。(うそ: 谎言, 假话)。1. 昨天的话是真的; 2. 昨天的话不是真的; 3. 昨天的话很有名; 4. 昨天的话不怎么有名。",
+      "correctOption": 2,
+      "text": "きのうの 話は うそですよ。",
+      "options": ["1. きのうの 話は ほんとうですよ。", "2. きのうの 話は ほんとうじゃありませんよ。", "3. きのうの 話は ゆうめいですよ。", "4. きのうの 話は ゆうめいじゃありませんよ。"]
+    },
+    "27": {
+      "snippet": "戻る (もどる)",
+      "explanation": "🎯 Đáp án đúng: [1] やまださんは 何時ごろ かえって きますか。\n\n💬 Dịch nghĩa câu:\n\"Anh Yamada khoảng mấy giờ thì quay trở lại?\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「戻る (もどる)」 nghĩa là trở lại vị trí cũ, quay về.\n• Từ đồng nghĩa trực tiếp: 「帰って来る (かえってくる)」 (quay trở về lại đây).\n\n🔍 Phân tích các lựa chọn:\n- 1. かえって きますか: ĐÚNG - Trở về, quay lại\n- 2. でかけますか (出かける): Đi ra ngoài\n- 3. ねますか (寝る): Đi ngủ\n- 4. おきますか (起きる): Thức dậy\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(27) 1 句意: 山田先生大概几点回来？(もどる: 回, 回来)。1. 山田先生大概几点回来？; 2. 山田先生大概几点出门？; 3. 山田先生大概几点睡觉？; 4. 山田先生大概几点起床？",
+      "correctOption": 1,
+      "text": "やまださんは 何時ごろ もどりますか。",
+      "options": ["1. やまださんは 何時ごろ かえって きますか。", "2. やまださんは 何時ごろ でかけますか。", "3. やまださんは 何時ごろ ねますか。", "4. やまださんは 何時ごろ おきますか。"]
+    },
+    "28": {
+      "snippet": "輸出する (ゆしゅつする)",
+      "explanation": "🎯 Đáp án đúng: [4] この 国は こめを ほかの 国に うって いますか。\n\n💬 Dịch nghĩa câu:\n\"Đất nước này có đang xuất khẩu gạo không?\"\n\n💡 Phân tích & Giải thích:\n• 「輸出する (ゆしゅつする)」 (xuất khẩu): bán hàng hóa sản phẩm của nước mình cho nước khác.\n• Đồng nghĩa với: 「ほかの国に売っている (うっている)」 (bán cho quốc gia khác).\n\n🔍 Phân tích các lựa chọn:\n- 1. ほかの国からもらっていますか: Nhận từ nước khác\n- 2. ほかの国からかっていますか: Mua từ nước khác (nhập khẩu - 輸入)\n- 3. ほかの国にあげていますか: Tặng/cho nước khác\n- 4. ほかの国にうっていますか: ĐÚNG - Bán cho nước khác (xuất khẩu)\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(28) 4 句意: 这个国家出口大米吗？(ゆしゅつ: 出口)。1. 这个国家从别的国家获得大米吗？; 2. 这个国家从别的国家买大米吗？; 3. 这个国家给别的国家大米吗？; 4. 这个国家向别的国家出售大米吗？",
+      "correctOption": 4,
+      "text": "この 国は こめを ゆしゅつして いますか。",
+      "options": ["1. この 国は こめを ほかの 国から もらって いますか。", "2. この 国は こめを ほかの 国から かって いますか。", "3. この 国は こめを ほかの 国に あげて いますか。", "4. この 国は こめを ほかの 国に うって いますか。"]
+    },
+    "29": {
+      "snippet": "にこにこ",
+      "explanation": "🎯 Đáp án đúng: [3] たなかさんは わらって いました。\n\n💬 Dịch nghĩa câu:\n\"Anh Tanaka lúc đó đang mỉm cười tươi tắn.\"\n\n💡 Phân tích & Giải thích:\n• Từ tượng thái 「にこにこ」: mỉm cười, nét mặt vui tươi rạng rỡ.\n• Đồng nghĩa với: 「笑っている (わらっている)」 (đang cười).\n\n🔍 Phân tích các lựa chọn:\n- 1. こまって いました (困る): Bối rối, gặp khó khăn phiền toái\n- 2. やすんで いました (休む): Đang nghỉ ngơi\n- 3. わらって いました (笑う): ĐÚNG - Đang cười\n- 4. あそんで いました (遊ぶ): Đang vui chơi\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(29) 3 句意: 田中先生那时笑嘻嘻的。(にこにこ: 笑嘻嘻)。1. 田中先生那时很困扰; 2. 田中先生那时在休息; 3. 田中先生那时在笑; 4. 田中先生那时在玩。",
+      "correctOption": 3,
+      "text": "たなかさんは にこにこして いました。",
+      "options": ["1. たなかさんは こまって いました。", "2. たなかさんは やすんで いました。", "3. たなかさんは わらって いました。", "4. たなかさんは あそんで いました。"]
+    },
+    "30": {
+      "snippet": "家具 (かぐ)",
+      "explanation": "🎯 Đáp án đúng: [2] 新しい つくえや ベッドが ほしいです。\n\n💬 Dịch nghĩa câu:\n\"Tôi muốn có đồ nội thất mới.\"\n\n💡 Phân tích & Giải thích:\n• Từ vựng 「家具 (かぐ)」: đồ đạc trong nhà, đồ nội thất phục vụ sinh hoạt.\n• Trong các phương án, 「つくえ (bàn làm việc/bàn học)」 và 「ベッド (giường ngủ)」 chính là các đồ nội thất tiêu biểu (家具).\n\n🔍 Phân tích các lựa chọn:\n- 1. かばんや さいふ: Túi xách và ví tiền (phụ kiện cá nhân)\n- 2. つくえや ベッド: ĐÚNG - Bàn học và giường ngủ (đồ nội thất - 家具)\n- 3. カメラや ビデオ: Máy ảnh và máy quay video (thiết bị điện tử)\n- 4. ノートや ペン: Sổ ghi chép và bút viết (văn phòng phẩm - 文房具)\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(30) 2 句意: 想要新的家具。(かぐ: 家具)。1. 想要新的包和钱包; 2. 想要新的书桌和床; 3. 想要新的相机和录像机; 4. 想要新的笔记本和钢笔。",
+      "correctOption": 2,
+      "text": "新しい かぐが ほしいです。",
+      "options": ["1. 新しい かばんや さいふが ほしいです。", "2. 新しい つくえや ベッドが ほしいです。", "3. 新しい カメラや ビデオが ほしいです。", "4. 新しい ノートや ペンが ほしいです。"]
+    },
+    "31": {
+      "snippet": "せんたく (洗濯)",
+      "explanation": "🎯 Đáp án đúng: [4] シャツと パンツを せんたく しました。\n\n💬 Dịch nghĩa câu đúng:\n\"Tôi đã giặt áo sơ mi và quần đùi.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ / động từ 「洗濯 (せんたく) / 洗濯する」 mang nghĩa giặt quần áo, giặt đồ vải vóc bằng xà phòng và nước.\n• Lựa chọn 4 dùng chính xác tân ngữ vải vóc quần áo: 「シャツ (áo sơ mi)」 và 「パンツ (quần đùi / quần lót)」.\n\n🔍 Phân tích các lựa chọn khác:\n- 1. Gội đầu bằng dầu gội dùng động từ 「洗う (あらう)」: 髪を洗いました.\n- 2. Dọn dẹp phòng ốc dùng 「掃除する (そうじする)」: 部屋を掃除します.\n- 3. Đánh răng sau bữa ăn dùng 「磨く (みがく)」: 歯を磨きます.\n- 4. シャツと パンツを せんたく しました: ĐÚNG - Giặt áo và quần.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(31) 4 せんたく 意思是“洗”, 选项4为正确应用。1. 洗う 用洗发水洗了头; 2. 掃除する 周日打扫房间; 3. 磨く 吃饭后刷牙; 4. 我把衬衫和内裤洗了。",
+      "correctOption": 4,
+      "text": "せんたく",
+      "options": ["1. シャンプーで かみを せんたくしました。", "2. にちようびに へやを せんたくします。", "3. しょくじの あとで、はを せんたくします。", "4. シャツと パンツを せんたく しました。"]
+    },
+    "32": {
+      "snippet": "こむ (混む)",
+      "explanation": "🎯 Đáp án đúng: [4] あさの 電車は こんで いて、すわれません。\n\n💬 Dịch nghĩa câu đúng:\n\"Chuyến tàu điện buổi sáng rất đông đúc chen chúc, không thể ngồi được.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「混む (こむ)」 chỉ tình trạng đông đúc, chật ních, tắc nghẽn người hoặc phương tiện giao thông (電車が混む, 道が混む).\n\n🔍 Phân tích các lựa chọn khác:\n- 1. Ăn quá no bụng căng lên dùng 「お腹がいっぱい」 hoặc 「膨れる (ふくれる)」.\n- 2. Chữ viết trong từ điển san sát dày đặc dùng 「ぎっしり書かれている」 hoặc 「字が細かい」.\n- 3. Vali nhét đầy ắp quần áo dùng 「詰まっている (つまっている)」.\n- 4. あさの 電車は こんで いて、すわれません: ĐÚNG - Tàu điện buổi sáng đông đúc.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(32) 4 こむ 意思是“拥挤”, 选项4为正确应用。1. 膨れる 饭吃多了, 吃撑了; 2. ぎっしりと書かれる 那本字典的字很密, 读起来很困难; 3. 詰まる 森先生的行李箱里塞满了西服; 4. 早上的电车十分拥挤, 没地方坐。",
+      "correctOption": 4,
+      "text": "こむ",
+      "options": ["1. ごはんを 食べすぎて、おなかが こんで います。", "2. この じしょは じが こんで いて、読みにくいです。", "3. もりさんの スーツケースは ようふくで こんで います。", "4. あさの 電車は こんで いて、すわれません。"]
+    },
+    "33": {
+      "snippet": "にあう (似合う)",
+      "explanation": "🎯 Đáp án đúng: [2] その みどりの ぼうしは よく にあって いますよ。\n\n💬 Dịch nghĩa câu đúng:\n\"Chiếc mũ màu xanh lá cây đó trông rất hợp với bạn đấy.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「似合う (にあう)」 dùng khi trang phục, phụ kiện hoặc màu sắc rất hài hòa, vừa vặn, tôn vẻ đẹp của một người nào đó (帽子/服/色がよく似合う).\n\n🔍 Phân tích các lựa chọn khác:\n- 1. Hai anh em khuôn mặt giống nhau dùng 「似ている (にている)」 (似る).\n- 2. その みどりの ぼうしは よく にあって いますよ: ĐÚNG - Chiếc mũ rất hợp với bạn.\n- 3. Cùng chung sở thích hoặc hợp nhau dùng 「趣味が合う (しゅみがあう)」.\n- 4. Phù hợp tính chất công việc dùng 「仕事が合っている」 hoặc 「向いている」.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(33) 2 にあう 意思是“相称; 合适”, 选项2为正确应用。1. 似る 那对兄弟长得好像啊; 2. 那顶绿色的帽子很适合你; 3. 合う 我和田先生兴趣相投; 4. 合う 这家公司的工作很适合我。",
+      "correctOption": 2,
+      "text": "にあう",
+      "options": ["1. あの きょうだいは かおが よく にあって いますね。", "2. その みどりの ぼうしは よく にあって いますよ。", "3. わたしと たなかさんは しゅみが にあって います。", "4. この 会社の しごとは わたしに にあって います。"]
+    },
+    "34": {
+      "snippet": "そだてる (育てる)",
+      "explanation": "🎯 Đáp án đúng: [1] みんなで さくらの 木を たいせつに そだてて います。\n\n💬 Dịch nghĩa câu đúng:\n\"Mọi người đang cùng nhau chăm sóc, vun trồng cây hoa anh đào một cách cẩn thận.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「育てる (そだてる)」: nuôi dạy (con cái), nuôi nấng (thú cưng) hoặc chăm sóc vun trồng, bồi dưỡng cho lớn lên (cây cối, thực vật, nhân tài).\n• Cụm kết hợp chuẩn: 「木を育てる / 植物を育てる」 (chăm sóc nuôi dưỡng cây cối).\n\n🔍 Phân tích các lựa chọn khác:\n- 1. みんなで さくらの 木を たいせつに そだてて います: ĐÚNG - Chăm sóc vun trồng cây hoa anh đào.\n- 2. Soạn và hoàn thành bài báo cáo dùng 「レポートをまとめる / 書く / 完成する」.\n- 3. Xây dựng tòa nhà cao tầng dùng 「ビルを建てる (たてる)」.\n- 4. Nấu nướng chế biến món ăn ngon dùng 「料理を作る / 調理する」.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(34) 1 そだてる 意思是“养; 培育”, 选项1为正确应用。1. 大家在精心培育樱花树; 2. 完成する 查了很多资料, 完成了报告; 3. 建てる 这里从上个月起就在建新大楼; 4. 調理する 耐心地烹调, 做出好吃的菜。",
+      "correctOption": 1,
+      "text": "そだてる",
+      "options": ["1. みんなで さくらの 木を たいせつに そだてて います。", "2. いろいろな しりょうを しらべて、レポートを そだてました。", "3. 先月から ここで 新しい ビルを そだてて います。", "4. おいしく なるまで、ゆっくりと りょうりを そだてます。"]
+    },
+    "35": {
+      "snippet": "ぜひ (是非)",
+      "explanation": "🎯 Đáp án đúng: [1] ぜひ いちど 読んで みて ください。\n\n💬 Dịch nghĩa câu đúng:\n\"Xin bạn nhất định hãy thử đọc nó một lần nhé.\"\n\n💡 Phân tích & Giải thích:\n• Phó từ 「ぜひ (是非)」 thể hiện nguyện vọng thiết tha của người nói, thường đi kèm với câu cầu khiến, đề nghị, rủ rê tha thiết: 「ぜひ～てください / ～たい / ～ましょう」 (nhất định hãy...).\n\n🔍 Phân tích các lựa chọn khác:\n- 1. ぜひ いちど 読んで みて ください: ĐÚNG - Nhất định hãy thử đọc nhé.\n- 2. Phỏng đoán chắc chắn về thời tiết ngày mai dùng 「きっと」: きっと晴れるでしょう.\n- 3. Cấm đoán vì nguy hiểm tuyệt đối không chạm vào dùng 「絶対に」: 絶対にさわらないでください.\n- 4. Lời hứa danh dự nhất định trả nợ dùng 「必ず (かならず)」: 必ず返します.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(35) 1 ぜひ 意思是“一定”, 选项1为正确应用。1. 请一定要读一读; 2. きっと 明天也一定会是晴天吧？; 3. 絶対に 很危险, 请勿触碰; 4. 必ず 找你借的钱我一定会还的。",
+      "correctOption": 1,
+      "text": "ぜひ",
+      "options": ["1. ぜひ いちど 読んで みて ください。", "2. あしたも ぜひ はれるでしょう。", "3. あぶないので、ぜひ さわらないで ください。", "4. かりた お金は ぜひ かえします。"]
+    },
+    "36": {
+      "snippet": "10分で行けます (Trợ từ で chỉ giới hạn thời gian)",
+      "explanation": "🎯 Đáp án đúng: [3] で\n\n💬 Dịch nghĩa câu:\n\"Từ đây đến nhà ga, nếu đi bằng ô tô thì trong vòng 10 phút là tới nơi.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Trợ từ 「で」 dùng để biểu thị phạm vi, giới hạn về mặt thời gian, tiền bạc hoặc số lượng cần thiết để hoàn thành một hành động / sự việc.\n• Mẫu câu: 「[Khoảng thời gian / tiền bạc] + で + Động từ khả năng」: 10分で行けます (trong vòng 10 phút có thể đi tới nơi).\n\n🔍 Phân tích các lựa chọn:\n- 1. が: Trợ từ chủ ngữ, không đứng sau lượng từ chỉ thời gian trong ngữ cảnh này.\n- 2. に: Trợ từ chỉ thời điểm cụ thể (ví dụ 10時に) hoặc tần suất (1日に3回), không dùng để chỉ hạn mức thời gian hoàn thành.\n- 3. で: ĐÚNG - Biểu thị giới hạn khoảng thời gian cần thiết (10分で行けます).\n- 4. を: Trợ từ tân ngữ trực tiếp, không phù hợp.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(1) 3 句意: 从这里开车去车站, 10分钟就能到。考察で表示限定的用法, で常用于限定一个地点或时间范围, 表示在此范围内。",
+      "correctOption": 3,
+      "text": "ここから 駅まで、車なら 10分 ( ) 行けます。",
+      "options": ["1. が", "2. に", "3. で", "4. を"]
+    },
+    "37": {
+      "snippet": "電話すると伝えてください (Trợ từ と trích dẫn nội dung truyền đạt)",
+      "explanation": "🎯 Đáp án đúng: [1] と\n\n💬 Dịch nghĩa câu:\n\"(Nói qua điện thoại) 'Vậy thì nhờ anh/chị nhắn lại giúp tôi rằng lát nữa tôi sẽ gọi lại nhé.'\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Mẫu câu truyền đạt nội dung gián tiếp: 「[Mệnh đề / Nội dung nhắn nhủ] + と + 伝えてください」 (Xin hãy truyền đạt / nhắn lại rằng...).\n• Trợ từ 「と」 đóng vai trò trích dẫn nội dung lời nói, thông điệp truyền đạt.\n\n🔍 Phân tích các lựa chọn:\n- 1. と: ĐÚNG - Trợ từ trích dẫn nội dung đi với 伝える.\n- 2. は: Trợ từ chủ đề, không thể đi trực tiếp sau thể thông thường (V-ru) để làm lời dẫn.\n- 3. を: Trợ từ tân ngữ, chỉ đi trực tiếp sau danh từ (伝言を伝えてください), không đứng ngay sau thể ngắn của động từ mà không danh từ hóa.\n- 4. に: Trợ từ chỉ đối tượng tiếp nhận (山田さんに伝えてください), không dùng cho nội dung.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(2) 1 句意: (电话中)“那么请帮忙转告他我之后还会打电话过来。” 说话者希望听话者向另一个人传达某些内容, 考察と表示引出具体转达内容的用法。",
+      "correctOption": 1,
+      "text": "(電話で)「では、また 後で 電話する ( ) 伝えて ください。」",
+      "options": ["1. と", "2. は", "3. を", "4. に"]
+    },
+    "38": {
+      "snippet": "さとうも ミルクも 入れないで (Cấu trúc Aも Bも ～ない)",
+      "explanation": "🎯 Đáp án đúng: [4] も／も\n\n💬 Dịch nghĩa câu:\n\"Tôi uống cà phê mà không cho cả đường lẫn sữa.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc ngữ pháp: 「Aも Bも ～ない」 (Cả A lẫn B đều không...). Dùng để phủ định toàn bộ cả hai sự vật, hiện tượng.\n• Vế sau dùng thể phủ định 「入れないで」 (không cho vào), kết hợp với 「さとうも ミルクも」 tạo nghĩa: không cho đường cũng không cho sữa.\n\n🔍 Phân tích các lựa chọn:\n- 1. は／は: Dùng đối chiếu tương phản hai vế, không dùng dạng cặp phủ định đồng thời kiểu này.\n- 2. に／に: Sai chức năng trợ từ tân ngữ khi cho vào cà phê (chỉ có コーヒーに, không thểさとうに và ミルクに).\n- 3. で／で: Trợ từ で không dùng cặp đôi để liệt kê tân ngữ hành động.\n- 4. も／も: ĐÚNG - Cấu trúc 「Aも Bも ～ない」 phủ định song song cả hai yếu tố.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(3) 4 句意: 我喝咖啡不加糖也不加奶。考察～も～も～ない表示“两者都不”的用法。",
+      "correctOption": 4,
+      "text": "私は、さとう ( ) ミルク ( ) 入れないで コーヒーを 飲みます。",
+      "options": ["1. は／は", "2. に／に", "3. で／で", "4. も／も"]
+    },
+    "39": {
+      "snippet": "ともだちを 待たせている (Thể sai khiến 使役形)",
+      "explanation": "🎯 Đáp án đúng: [1] を\n\n💬 Dịch nghĩa hội thoại:\nA: \"Bây giờ đi đá bóng với bọn tớ không?\"\nB: \"Xin lỗi cậu, tớ đang để bạn tớ phải đứng đợi rồi, nên lần tới lại rủ tớ nhé.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Động từ chia ở thể sai khiến: 「待たせる (またせる)」 (bắt / để cho ai đó phải chờ).\n• Trong thể sai khiến, khi đối tượng bị sai khiến là người làm hành động tự thân (được xem như tự động từ khi không nêu rõ tân ngữ chờ cái gì), trợ từ chỉ đối tượng này là 「を」: 「[Người] + を + 待たせる」 (bắt ai đó chờ đợi).\n\n🔍 Phân tích các lựa chọn:\n- 1. を: ĐÚNG - Chỉ đối tượng chịu sự tác động trong thể sai khiến (ともだちを待たせている).\n- 2. の: Trợ từ sở hữu, làm câu vô nghĩa.\n- 3. へ: Chỉ phương hướng di chuyển.\n- 4. で: Chỉ phương tiện, địa điểm hành động.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(4) 1 句意: A:“我们现在去踢球吧?” B:“不好意思, 我让我朋友等着我了, 我们下次再约吧。” 考察使役句的基本句型, 一般他动词的使役态需用助词に, 但待つ比较特殊, 在忽略等待的内容的时候, 也可以当做中性态自动词来看待, 使役态一般用助词を。",
+      "correctOption": 1,
+      "text": "A「今から サッカーを しませんか。」\nB「すみません、ともだち ( ) 待たせて いるので、また 今度 さそって ください。」",
+      "options": ["1. を", "2. の", "3. へ", "4. で"]
+    },
+    "40": {
+      "snippet": "月曜日だけです (Phân biệt だけ và しか)",
+      "explanation": "🎯 Đáp án đúng: [4] だけ\n\n💬 Dịch nghĩa hội thoại:\nA: \"Bạn có đi làm thêm mỗi ngày không?\"\nB: \"Không, tôi chỉ làm vào thứ Hai thôi.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Để biểu thị sự giới hạn \"chỉ\", tiếng Nhật có hai phó từ quan trọng là 「だけ」 và 「しか」:\n  - 「だけ」: Đi với đuôi câu khẳng định: 「Danh từ + だけ + です / ます」 (Chỉ có...).\n  - 「しか」: Bắt buộc phải đi với đuôi câu phủ định: 「Danh từ + しか + ません / ない」 (Chỉ... mà thôi).\n• Vì đuôi câu là khẳng định 「です」 nên bắt buộc phải chọn 「だけ」: 「月曜日だけです」.\n\n🔍 Phân tích các lựa chọn:\n- 1. も: Nghĩa là \"cũng\" (trái nghĩa với câu trả lời いいえ).\n- 2. しか: Chỉ đi với phủ định (phải là 月曜日しかしていません), không đi với です.\n- 3. の: Trợ từ sở hữu hoặc danh từ hóa, không hợp ngữ cảnh.\n- 4. だけ: ĐÚNG - Giới hạn khẳng định: 月曜日だけです (chỉ vào thứ Hai).\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(5) 4 句意: A:“你每天都在打工吗?” B:“不, 我只在星期一打工。” 句意要表达“只在周一”之意。だけ和しか都可表示限定, 但后者需与否定表达呼应使用, 故选择前者。",
+      "correctOption": 4,
+      "text": "A「アルバイトは、毎日 して いますか。」\nB「いいえ、月曜日 ( ) です。」",
+      "options": ["1. も", "2. しか", "3. の", "4. だけ"]
+    },
+    "41": {
+      "snippet": "大阪に来たのは (Danh từ hóa mệnh đề bằng のは)",
+      "explanation": "🎯 Đáp án đúng: [4] のは\n\n💬 Dịch nghĩa câu:\n\"Đây là lần đầu tiên tôi đến Osaka.\" (Việc đến Osaka thì hôm nay là lần đầu).\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc danh từ hóa mệnh đề làm chủ đề: 「V (thể thông thường) + のは + Danh từ + です」.\n• Vế trước 「大阪に来た」 là một cụm động từ, muốn đưa lên làm chủ ngữ/chủ đề đứng trước trợ từ 「は」 thì cần phải danh từ hóa bằng trợ từ hình thức 「の」 (kết hợp thành 「のは」).\n• Dạng câu quen thuộc: 「[Hành động] + のは + 初めてです」 (Làm việc gì đó là lần đầu tiên).\n\n🔍 Phân tích các lựa chọn:\n- 1. を: Không thể đứng trước 今日が初めて.\n- 2. は: Không thể nối trực tiếp sau động từ 来た mà thiếu trợ từ danh từ hóa の/こと.\n- 3. のを: Trợ từ tân ngữ, không dùng làm chủ đề cho vị ngữ tính từ/danh từ ở sau.\n- 4. のは: ĐÚNG - Danh từ hóa mệnh đề làm chủ ngữ/chủ đề trong câu nhận định.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(6) 4 句意: 今天是我第一次来大阪。は用于提示句子主题, 当主题内容为用言或句子时, 需要在它们后面加上形式体言の或こと。のは前多为具体内容, ことは前多为抽象内容。",
+      "correctOption": 4,
+      "text": "大阪に 来た ( ) 今日が 初めてです。",
+      "options": ["1. を", "2. は", "3. のを", "4. のは"]
+    },
+    "42": {
+      "snippet": "今週中に (Phạm vi thời hạn ～中に)",
+      "explanation": "🎯 Đáp án đúng: [2] 中に\n\n💬 Dịch nghĩa câu:\n\"Báo cáo thì xin hãy nộp trong tuần này nhé.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc: 「Khoảng thời gian (tuần, tháng, năm, hôm nay) + 中に (ちゅうに)」: Biểu thị một hành động có tính dứt điểm phải được hoàn thành trong khoảng thời hạn đó (trước khi thời hạn đó kết thúc).\n• 「今週中に (こんしゅうちゅうに)」: Trong tuần này.\n\n🔍 Phân tích các lựa chọn:\n- 1. の間 (のあいだ): Thường đi với hành động kéo dài liên tục suốt khoảng thời gian, không dùng cho hành động nộp mang tính dứt điểm (出してください).\n- 2. 中に: ĐÚNG - 「今週中に」 chỉ hạn chót nộp nội trong tuần này.\n- 3. とき: Đi sau danh từ phải có の (今週のとき), nhưng về nghĩa cũng không đúng.\n- 4. の前に: \"Trước tuần này\" (nghĩa là tuần trước), trái ngược với ngữ cảnh yêu cầu nộp.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(7) 2 句意: 请在本周内提交报告。1. 間の: 表示在某时候, 后通常接某种持续性动作或状态; 2. 中に: 表示在某一时间段内; 3. とき: 表示在某时候, 接名词时前面需加の; 4. の前に: 表示在某时间前。",
+      "correctOption": 2,
+      "text": "レポートは、今週 ( ) 出して ください。",
+      "options": ["1. の間", "2. 中に", "3. とき", "4. の前に"]
+    },
+    "43": {
+      "snippet": "歴史について調べています (Mẫu câu ～について)",
+      "explanation": "🎯 Đáp án đúng: [4] について\n\n💬 Dịch nghĩa câu:\n\"Hiện tại, trong giờ học chúng tôi đang tìm hiểu về lịch sử của thị trấn.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Mẫu câu ngữ pháp N4: 「Danh từ + について + Động từ (調べる / 勉強する / 書く / 話す...)」: biểu thị nội dung, chủ đề mà hành động hướng tới (nghĩa là \"về...\", \"liên quan đến...\").\n• Cụm từ: 「町の歴史について調べています」 (đang tìm hiểu/nghiên cứu về lịch sử thị trấn).\n\n🔍 Phân tích các lựa chọn:\n- 1. のことが: Nếu muốn dùng phải là のことを調べる, ở đây dùng が là sai trợ từ.\n- 2. によって: Tùy thuộc vào... / Do bởi... (không đi với 調べる để chỉ đối tượng tìm hiểu).\n- 3. のほうが: Dùng trong câu so sánh hơn, không phù hợp.\n- 4. について: ĐÚNG - Biểu thị chủ đề tìm hiểu, nghiên cứu (～について調べる).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(8) 4 句意: 现在, 请大家在课上查一查关于城市历史的内容。1. のことが: 此处应用のことを; 2. によって: 根据……, 通过……; 3. のほうが: ……更……; 4. について: 关于……, 就……",
+      "correctOption": 4,
+      "text": "今、じゅぎょうで 町の れきし ( ) 調べて います。",
+      "options": ["1. のことが", "2. によって", "3. のほうが", "4. について"]
+    },
+    "44": {
+      "snippet": "ずっと待っていた (Phó từ ずっと biểu thị liên tục)",
+      "explanation": "🎯 Đáp án đúng: [2] ずっと\n\n💬 Dịch nghĩa hội thoại:\nA: \"Hôm qua tại sao cậu lại không đến thế? Tớ đã đứng chờ cậu suốt đấy.\"\nB: \"Tớ xin lỗi cậu.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Phó từ 「ずっと」 khi đi với động từ thể tiếp diễn (V-ていた) diễn tả một hành động hoặc trạng thái diễn ra liên tục, không ngắt quãng trong suốt một khoảng thời gian dài: 「ずっと待っていた」 (đã chờ suốt/chờ mãi).\n\n🔍 Phân tích các lựa chọn:\n- 1. よく: Thường xuyên (chỉ tần suất) hoặc rõ ràng, không dùng cho sự việc đứng đợi liên tục ngày hôm qua.\n- 2. ずっと: ĐÚNG - Diễn tả trạng thái tiếp diễn liên tục suốt thời gian (chờ suốt).\n- 3. いつか: Một ngày nào đó trong tương lai / lúc nào đó trong quá khứ xa.\n- 4. かならず: Nhất định (biểu thị sự chắc chắn hoặc mệnh lệnh).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(9) 2 句意: A:“你昨天为什么没有来? 我一直在等你。” B:“对不起。” 1. よく: 屡次, 经常; 2. ずっと: 一直, 始终; 3. いつか: 以前, 曾经; 4. かならず: 一定, 肯定",
+      "correctOption": 2,
+      "text": "A「きのうは どうして 来なかったんですか。( ) 待っていたんですよ。」\nB「すみません」",
+      "options": ["1. よく", "2. ずっと", "3. いつか", "4. かならず"]
+    },
+    "45": {
+      "snippet": "駅前の あの店 (Chỉ thị từ あの cho thông tin cả hai cùng biết)",
+      "explanation": "🎯 Đáp án đúng: [2] あの\n\n💬 Dịch nghĩa hội thoại:\nA: \"Tối nay chúng mình đi ăn ở nhà hàng mà tuần trước hai đứa mình đã cùng đi nhé?\"\nB: \"Có phải cái quán ở trước nhà ga ấy không? Tuyệt quá, đi thôi.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Quy tắc sử dụng đại từ chỉ thị ko-so-a-do trong văn cảnh giao tiếp:\n  - 「あ (あの / あれ...)」: Dùng khi sự vật, địa điểm, sự việc mà **cả người nói lẫn người nghe đều đã biết rõ** hoặc đã cùng nhau trải nghiệm trong quá khứ.\n  - Tuần trước cả hai người đã cùng nhau đến nhà hàng đó (先週 いっしょに行った), nên nhà hàng này là tri thức chung của cả hai -> bắt buộc dùng 「あの店」 (cái quán ấy).\n\n🔍 Phân tích các lựa chọn:\n- 1. こんな: Dùng khi sự vật đang ở gần người nói hoặc mang tính minh họa cụ thể.\n- 2. あの: ĐÚNG - Chỉ sự vật/địa điểm mà cả hai bên đều đã biết rõ.\n- 3. そんな: Dùng khi chỉ có đối phương biết, hoặc mang hàm ý mỉa mai, ngạc nhiên.\n- 4. どの: Từ nghi vấn (quán nào?).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(10) 2 句意: A:“我们今晚去上周一起去过的那家餐厅如何?” B:“车站前的那家店吗? 好啊。” 1. こんな: 这样的; 2. あの: 那个, 指代都知道的内容; 3. そんな: 那样的; 4. どの: 哪个",
+      "correctOption": 2,
+      "text": "A「先週 いっしょに 行った レストランに 今夜 行きませんか。」\nB「駅前の ( ) 店ですか。いいですね。」",
+      "options": ["1. こんな", "2. あの", "3. そんな", "4. どの"]
+    },
+    "46": {
+      "snippet": "ひくことが できる (Mẫu câu khả năng V-る ことができる)",
+      "explanation": "🎯 Đáp án đúng: [3] ひくこと\n\n💬 Dịch nghĩa câu:\n\"Tôi có thể chơi đàn piano và đàn guitar.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc ngữ pháp chỉ khả năng cơ bản: 「Động từ thể từ điển (V-る) + ことができる」 (Có thể làm việc gì).\n• Động từ chơi nhạc cụ phím/dây (piano, guitar) là 「弾く (ひく)」.\n• Động từ chia ở thể từ điển là 「ひく」, kết hợp với danh từ hóa 「こと」 tạo thành: 「ひくことが できる」.\n\n🔍 Phân tích các lựa chọn:\n- 1. ひく: Thiếu danh từ hóa 「こと」, không thể đi trực tiếp trước ができる.\n- 2. ひける: Đã là động từ thể khả năng, nếu dùng thể khả năng thì đi trực tiếp: ピアノとギターがひける (không đi với ことができる).\n- 3. ひくこと: ĐÚNG - Cấu trúc chuẩn: V-る + ことができる.\n- 4. ひけること: Sai ngữ pháp do lặp hai lần khả năng (thể khả năng ひける lại đi với ことができる).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(11) 3 句意: 我会弹钢琴和吉他。考察句型～ことができる, 前接动词基本形, 表示“会, 能, 可以”之意。",
+      "correctOption": 3,
+      "text": "私は、ピアノと ギターを ( ) が できる。",
+      "options": ["1. ひく", "2. ひける", "3. ひくこと", "4. ひけること"]
+    },
+    "47": {
+      "snippet": "5分ぐらいです (Phân biệt ごろ và ぐらい)",
+      "explanation": "🎯 Đáp án đúng: [2] ぐらいです\n\n💬 Dịch nghĩa hội thoại:\nA: \"Ga tàu điện ngầm có cách xa đây không?\"\nB: \"Không, gần lắm bạn ơi. Mất khoảng tầm 5 phút thôi.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Phân biệt lượng từ ước chừng trong tiếng Nhật:\n  - 「ぐらい (くらい)」: Đi sau **khoảng thời gian** (khoảng lượng) để biểu thị \"khoảng, tầm bao lâu\": 「5分ぐらい」 (khoảng 5 phút).\n  - 「ごろ」: Chỉ đi sau **mốc thời điểm** cụ thể trên đồng hồ hoặc lịch: 「5時ごろ」 (khoảng lúc 5 giờ), không bao giờ đi sau lượng thời gian (5分ごろ là SAI).\n\n🔍 Phân tích các lựa chọn:\n- 1. ごろです: Sai ngữ pháp vì ごろ chỉ đi với mốc thời điểm, không đi với khoảng thời gian 5分.\n- 2. ぐらいです: ĐÚNG - Đi với khoảng lượng thời gian để chỉ ước lượng: 5分ぐらいです (khoảng 5 phút).\n- 3. 遠いです: Xa (trái ngược hoàn toàn với câu trả lời いいえ、近いですよ ở trước).\n- 4. 着きます: Động từ đến nơi, đứng sau lượng từ thiếu trợ từ và sai cấu trúc vị ngữ.\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(12) 2 句意: A:“地铁站离这里远吗?” B:“不, 离这里很近, 过去差不多只要 5 分钟。” ごろ和ぐらい都可表示概数, 但ごろ只能接在时间点后, 而ぐらい的用法更为广泛, 可接在时间段后。",
+      "correctOption": 2,
+      "text": "A「地下鉄の 駅は ここから 遠いですか。」\nB「いいえ、近いですよ。だいたい 5分 ( )。」",
+      "options": ["1. ごろです", "2. ぐらいです", "3. 遠いです", "4. 着きます"]
+    },
+    "48": {
+      "snippet": "生まれたら (Thể điều kiện ～たら giả định tương lai)",
+      "explanation": "🎯 Đáp án đúng: [1] 生まれたら／生まれたら\n\n💬 Dịch nghĩa hội thoại:\nVợ: \"Tên của em bé thì nếu là con gái sinh ra thì đặt là 'Eri', còn nếu sinh con trai thì đặt là 'Ken', anh thấy thế nào?\"\nChồng: \"Được đấy em. Anh thì thích sinh con gái hơn cơ.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Mẫu câu giả định điều kiện trong tương lai: 「V-た + ら」 (Nếu... thì...).\n• Ở đây em bé vẫn chưa chào đời, hai vợ chồng đang bàn luận đưa ra giả định cho trường hợp tương lai chưa xảy ra: 「女の子が 生まれたら」 (nếu sinh con gái) và 「男の子が 生まれたら」 (nếu sinh con trai).\n\n🔍 Phân tích các lựa chọn:\n- 1. 生まれたら／生まれたら: ĐÚNG - Dùng thể たら giả định điều kiện tương lai cho sự việc chưa xảy ra.\n- 2. 生まれても／生まれても: Cho dù có sinh ra (thể ても nghịch tiếp nhượng bộ, không hợp nghĩa).\n- 3. 生まれるけど／生まれるけど: Sinh ra nhưng mà (liên từ nhưng).\n- 4. 生まれたから／生まれたから: Vì đã sinh ra (chỉ nguyên nhân thực tế đã xảy ra rồi, mâu thuẫn vì đứa bé chưa sinh).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(13) 1 句意: 妻子:“孩子的名字, 如果是女孩就叫‘绘里’, 如果是男孩就叫‘健’, 行吗?” 丈夫:“好啊。我希望如果是个女孩就好了。” 根据丈夫的答语可知, 此处妻子在对未实现的事情进行假设, 考察たら表示假定条件的用法。",
+      "correctOption": 1,
+      "text": "妻「こどもの 名前は、女の子が ( )『えり』で、男の子が ( )『けん』は どう？」\n夫「いいね。ぼくは 女の子が いいなあ。」",
+      "options": ["1. 生まれたら／生まれたら", "2. 生まれても／生まれても", "3. 生まれるけど／生まれるけど", "4. 生まれたから／生まれたから"]
+    },
+    "49": {
+      "snippet": "もう時間がありません (Ngữ cảnh thúc giục 急いでください)",
+      "explanation": "🎯 Đáp án đúng: [3] が ありません\n\n💬 Dịch nghĩa câu:\n\"(Ở trên xe taxi) 'Cho đến giờ tàu Shinkansen xuất phát chẳng còn bao nhiêu thời gian nữa đâu. Bác tài xế ơi, xin bác hãy đi nhanh lên giúp cháu với ạ.'\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cụm từ: 「時間がある」 (còn thời gian) ↔ 「時間がない / 時間がありません」 (không còn thời gian).\n• Phó từ 「もう」 kết hợp với đuôi phủ định: 「もう～ない」 mang nghĩa \"không còn... nữa\".\n• Do người nói đang hối thúc bác tài 「運転手さん、急いでください」 (bác tài đi gấp giúp cháu), nên tình huống bắt buộc là \"không còn thời gian\": 「もう 時間が ありません」.\n\n🔍 Phân tích các lựa chọn:\n- 1. が あります: Còn thời gian (mâu thuẫn với câu hối thúc bác tài đi gấp).\n- 2. に なります: Đến giờ (chỉ dùng 時間になります khi thông báo đến giờ làm gì, không hợp với nghĩa thúc giục tài xế).\n- 3. が ありません: ĐÚNG - Không còn thời gian nữa (もう時間がありません).\n- 4. に なりません: Không đến giờ (sai nghĩa ngữ cảnh).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(14) 3 句意: (出租车上)“新干线马上就要发车了, 麻烦司机你开快一点。” 時間がある表示“还有时间”, 時間になる表示“到了某一时间”, 选择前者。根据后半句内容可知说话者在催促司机, 可推测时间快来不及了, 需用否定表达。",
+      "correctOption": 3,
+      "text": "(タクシーで)「新幹線の 出発まで もう 時間 ( )。運転手さん、急いで ください。」",
+      "options": ["1. が あります", "2. に なります", "3. が ありません", "4. に なりません"]
+    },
+    "50": {
+      "snippet": "何も書いてはいけません (Cấm đoán ～てはいけません)",
+      "explanation": "🎯 Đáp án đúng: [1] 書いては いけません\n\n💬 Dịch nghĩa câu:\n\"Ở trang này tuyệt đối không được viết bất cứ thứ gì vào.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc: 「Nghi vấn từ + も + Động từ phủ định / cấm đoán」 biểu thị sự phủ định hoàn toàn: 「何も～ない / てはいけない」 (Không một cái gì / Tuyệt đối không được làm gì...).\n• Cấu trúc cấm đoán: 「V-て + は いけません」 (Không được làm V / Cấm làm V).\n• Vì có 「何も (bất cứ thứ gì)」 nên vị ngữ phải mang nghĩa phủ định / cấm đoán -> 「何も書いてはいけません」 (Không được viết bất cứ thứ gì).\n\n🔍 Phân tích các lựa chọn:\n- 1. 書いては いけません: ĐÚNG - Mẫu câu cấm đoán phù hợp với đại từ phủ định 何も.\n- 2. 書いたほうが いいです: Nên viết (khẳng định khuyên nhủ, mâu thuẫn với 何も).\n- 3. 書かなければ なりません: Phải viết (mâu thuẫn với 何も).\n- 4. 書いて ください: Hãy viết (câu cầu khiến khẳng định, mâu thuẫn với 何も).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(15) 1 句意: 这一页上什么都不能写。考察疑问词+も+否定表达, 表示全面否定的用法。1. てはいけない: 不能……, 不准……; 2. ほうがいい: 还是……更好; 3. なければならない: 必须……; 4. てください: 请……",
+      "correctOption": 1,
+      "text": "この ページには 何も ( )。",
+      "options": ["1. 書いては いけません", "2. 書いたほうが いいです", "3. 書かなければ なりません", "4. 書いて ください"]
+    },
+    "51": {
+      "snippet": "ABC 大学の 図書館と 食堂は どなた ★でも 利用 できます",
+      "explanation": "🎯 Đáp án đúng: [2] でも\n\n💬 Dịch nghĩa câu hoàn chỉnh:\n\"Cả thư viện và căng-tin của trường Đại học ABC thì bất kỳ ai cũng đều có thể sử dụng được.\"\n\n💡 Phân tích & Cấu trúc sắp xếp:\n• Câu đề bài: 「ABC 大学の 図書館と [ 1 ] [ 4 ] [ ★ 2 ] [ 3 ] できます。」\n• Thứ tự sắp xếp chính xác: 【1. 食堂は】 ➔ 【4. どなた】 ➔ 【★ 2. でも】 ➔ 【3. 利用】\n• Cụm hoàn chỉnh: 「ABC 大学の 図書館と 食堂は どなたでも 利用 できます。」\n• Vị trí dấu sao ★ rơi vào vị trí thứ 3, chính là lựa chọn **[2] でも**.\n• Ngữ pháp trọng tâm:\n  - 「どなたでも」: Từ để hỏi lịch sự どなた (vị nào/ai) + でも mang nghĩa \"bất kỳ ai, ai cũng...\".\n  - 「利用できます」: Có thể sử dụng (Danh từ suru: 利用 + できます).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(16) 2 正确语序: ABC 大学の 図書館と 1 食堂は 4 どなた 2 でも 3 利用 できます。(任何人都能使用 ABC 大学的图书馆和食堂) ～でも 和疑问词连用时, 表示无论什么条件下都成立。",
+      "correctOption": 2,
+      "text": "ABC 大学の 図書館と _____ _____ ★ _____ できます。",
+      "options": ["1. 食堂は", "2. でも", "3. 利用", "4. どなた"]
+    },
+    "52": {
+      "snippet": "日本の 生活 に ★なれた ところ です",
+      "explanation": "🎯 Đáp án đúng: [1] なれた\n\n💬 Dịch nghĩa hội thoại hoàn chỉnh:\nTanaka: \"Ken này, cậu sang Nhật Bản được 1 tháng rồi nhỉ.\"\nKen: \"Vâng. Cuối cùng thì tôi cũng vừa mới quen dần với cuộc sống ở Nhật Bản.\"\n\n💡 Phân tích & Cấu trúc sắp xếp:\n• Câu đề bài: 「はい。やっと 日本の [ 4 ] [ 3 ] [ ★ 1 ] [ 2 ] です。」\n• Thứ tự sắp xếp chính xác: 【4. 生活】 ➔ 【3. に】 ➔ 【★ 1. なれた】 ➔ 【2. ところ】\n• Cụm hoàn chỉnh: 「日本の 生活 に なれた ところ です。」\n• Vị trí dấu sao ★ rơi vào vị trí thứ 3, chính là lựa chọn **[1] なれた**.\n• Ngữ pháp trọng tâm:\n  - Cấu trúc quen với cái gì: 「[Danh từ] + に慣れる (なれる)」 (日本の生活に慣れる: quen với cuộc sống ở Nhật).\n  - Cấu trúc vừa mới hoàn thành hành động: 「V-た + ところです」: なれたところです (vừa mới làm quen được).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(17) 1 正确语序: はい。やっと 日本の 4 生活 3 に 1 なれた 2 ところ です。(是的, 我现在才刚适应在日本的生活。) ～になれる 表示习惯……, 适应……",
+      "correctOption": 1,
+      "text": "田中「ケンさん、日本に 来て 1か月ですね。」\nケン「はい。やっと 日本の _____ _____ ★ _____ です。」",
+      "options": ["1. なれた", "2. ところ", "3. に", "4. 生活"]
+    },
+    "53": {
+      "snippet": "しゅくだいを やった のに ★家に 忘れて きてしまいました",
+      "explanation": "🎯 Đáp án đúng: [3] 家に\n\n💬 Dịch nghĩa hội thoại hoàn chỉnh:\n(Ở trường học)\nA: \"Ôi thôi, bài tập về nhà không có ở đây rồi.\"\nB: \"Hả, cậu quên ở đâu rồi à?\"\nA: \"Vâng. Em đã rất cố gắng làm xong bài tập về nhà thế mà lại để quên ở nhà mang đi mất rồi.\"\n\n💡 Phân tích & Cấu trúc sắp xếp:\n• Câu đề bài: 「がんばって しゅくだいを [ 4 ] [ 1 ] [ ★ 3 ] [ 2 ] きて しまいました。」\n• Thứ tự sắp xếp chính xác: 【4. やった】 ➔ 【1. のに】 ➔ 【★ 3. 家に】 ➔ 【2. 忘れて】\n• Cụm hoàn chỉnh: 「がんばって しゅくだいを やった のに 家に 忘れて きて しまいました。」\n• Vị trí dấu sao ★ rơi vào vị trí thứ 3, chính là lựa chọn **[3] 家に**.\n• Ngữ pháp trọng tâm:\n  - Mẫu câu nghịch tiếp: 「V-た + のに」 (Đã làm xong vậy mà...).\n  - Cụm từ để quên ở đâu: 「[Địa điểm] + に 忘れてくる」 (家に忘れてきてしまいました: trót để quên ở nhà mất rồi).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(18) 3 正确语序: はい。がんばって しゅくだいを 4 やった 1 のに 3 家に 2 忘れて きて しまいました。(是的。好不容易把作业做完了, 却把它忘在家里了。) ～のに 表示发生了意料之外的事情, 意为“……却……”",
+      "correctOption": 3,
+      "text": "(学校で)\nA「あ、しゅくだいが ない。」\nB「え、忘れたんですか。」\nA「はい。がんばって しゅくだいを _____ _____ ★ _____ きて しまいました。」",
+      "options": ["1. のに", "2. 忘れて", "3. 家に", "4. やった"]
+    },
+    "54": {
+      "snippet": "すべり やすくて あぶないから ★気を つけて通って ください",
+      "explanation": "🎯 Đáp án đúng: [3] 気を\n\n💬 Dịch nghĩa câu hoàn chỉnh:\n\"Con đường này vào những ngày trời mưa rất dễ trượt té và nguy hiểm, vì vậy xin hãy cẩn thận chú ý khi đi qua đây nhé.\"\n\n💡 Phân tích & Cấu trúc sắp xếp:\n• Đề bài gốc: 「この 道は、雨の 日は すべり [ 2 ] [ 4 ] [ ★ 3 ] [ 1 ] ください。」\n• Thứ tự sắp xếp chính xác: 【2. やすくて】 ➔ 【4. あぶないから】 ➔ 【★ 3. 気を】 ➔ 【1. 通って】\n• Cụm hoàn chỉnh: 「この 道は、雨の 日は すべりやすくて あぶないから 気を つけて 通って ください。」\n• Vị trí dấu sao ★ rơi vào vị trí thứ 3, chính là lựa chọn **[3] 気を**.\n• Ngữ pháp trọng tâm:\n  - Cấu trúc dễ làm gì: 「V-bỏます + やすい」: すべりやすい → chuyển thể て nối vế: すべりやすくて.\n  - Cụm từ cẩn thận: 「気をつける」 (chú ý cẩn thận) kết hợp với động từ 通る: 気をつけて通ってください (hãy cẩn thận khi đi qua).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(19) 3 正确语序: この 道は、雨の 日は すべり 2 やすくて 4 あぶないから 3 気を つけて 1 通って ください。(下雨的时候走这条路很容易滑倒, 很危险, 请一定要注意。) 気をつける 表示注意自己的某种行为举止。",
+      "correctOption": 3,
+      "text": "この 道は、雨の 日は すべり _____ _____ ★ _____ ください。",
+      "options": ["1. 通って", "2. やすくて", "3. 気を", "4. あぶないから"]
+    },
+    "55": {
+      "snippet": "一年で 夜 が ★最も 長い 日 です",
+      "explanation": "🎯 Đáp án đúng: [4] 最も 長い\n\n💬 Dịch nghĩa câu hoàn chỉnh:\n\"Hôm nay là ngày có thời gian ban đêm dài nhất trong một năm (ngày đông chí).\"\n\n💡 Phân tích & Cấu trúc sắp xếp:\n• Câu đề bài: 「今日は、一年で [ 3 ] [ 2 ] [ ★ 4 ] [ 1 ] です。」\n• Thứ tự sắp xếp chính xác: 【3. 夜】 ➔ 【2. が】 ➔ 【★ 4. 最も 長い】 ➔ 【1. 日】\n• Cụm hoàn chỉnh: 「今日は、一年で 夜が 最も 長い 日 です。」\n• Vị trí dấu sao ★ rơi vào vị trí thứ 3, chính là lựa chọn **[4] 最も 長い**.\n• Ngữ pháp trọng tâm:\n  - So sánh nhất trong một phạm vi: 「[Phạm vi] + で + [Chủ ngữ] + が + 最も (もっとも) + Tính từ + Danh từ + です」.\n  - Phó từ 「最も (もっとも)」 mang nghĩa cao nhất, nhất (tương đương 一番).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(20) 4 正确语序: 今日は、一年で 3 夜 2 が 4 最も 長い 1 日 です。(今天是一年之中夜晚最长的一天。) 最も 表示最高级, 意为“最……”。",
+      "correctOption": 4,
+      "text": "今日は、一年で _____ _____ ★ _____ です。",
+      "options": ["1. 日", "2. が", "3. 夜", "4. 最も 長い"]
+    },
+    "56": {
+      "snippet": "かざられることに なりました (Bị động kết hợp ～ことになる)",
+      "explanation": "🎯 Đáp án đúng: [4] かざられることに なりました\n\n💬 Dịch nghĩa câu:\n\"Từ thứ Sáu ngày 3 tháng 5 trong vòng 3 ngày, bức ảnh của tôi đã được quyết định sẽ được trưng bày tại trung tâm thương mại G.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Động từ 「飾る (かざる - trang trí, trưng bày)」 được chia ở thể bị động: 「飾られる (かざられる)」 vì chủ ngữ là bức ảnh của tôi (私の写真が).\n• Sự kiện trưng bày diễn ra trong tương lai (từ ngày 3/5, hiện tại mới là cuối tháng 4 \"もうすぐ5月\"), và đây là kết quả của việc tuyển chọn từ câu lạc bộ nhiếp ảnh được ban tổ chức ấn định/quyết định: cấu trúc 「V (thể từ điển) + ことになる / ことになりました」 (được quyết định là sẽ...).\n• Kết hợp lại thành: 「かざられることに なりました」.\n\n🔍 Phân tích các lựa chọn:\n- 1. かざられました: Đã được trưng bày (thì quá khứ, sai vì thời điểm 3/5 vẫn chưa tới).\n- 2. かざられたでしょう: Chắc là đã được trưng bày rồi nhỉ (suy đoán việc quá khứ, sai ngữ cảnh).\n- 3. かざられることでした: Định là sẽ trưng bày (dùng quá khứ chỉ việc dự định trước đây mà không thực hiện được, sai ngữ nghĩa).\n- 4. かざられることに なりました: ĐÚNG - Đã được ấn định/quyết định sẽ được trưng bày.\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(21) 4 从邮件第一句可知现在还没有到5月, 此处汤姆告知对方自己的画要被展出了, 展出时间是5月3日至6日, 画还未被展出, 只是已经确定要被展出了。",
+      "correctOption": 4,
+      "text": "【Đoạn văn Thư điện tử】\n5月3日金曜日から 三日間、Gデパートに 私の 写真が ( 21 )。\n冬に とった 空の 写真です。",
+      "options": ["1. かざられました", "2. かざられたでしょう", "3. かざられることでした", "4. かざられることに なりました"]
+    },
+    "57": {
+      "snippet": "それで (Liên từ nối nguyên nhân - kết quả)",
+      "explanation": "🎯 Đáp án đúng: [1] それで\n\n💬 Dịch nghĩa câu:\n\"Năm nay tác phẩm của tôi đã được chọn. Vì thế, tôi rất mong anh Mori cũng nhất định đến xem, không biết anh có tiện sắp xếp thời gian không?\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Liên từ liên kết mệnh đề:\n  - Vế trước là nguyên nhân/tiền đề: Bức ảnh của Tom đã được chọn đem triển lãm.\n  - Vế sau là kết quả/hành động phát sinh từ nguyên nhân đó: Tom muốn mời bạn Mori đến xem triển lãm.\n  - Do đó, từ nối phù hợp nhất biểu thị quan hệ nhân quả \"vì thế, do vậy, chính vì thế mà...\" là 「それで」.\n\n🔍 Phân tích các lựa chọn:\n- 1. それで: ĐÚNG - Vì thế, do đó (nối quan hệ nguyên nhân - kết quả).\n- 2. しかし: Tuy nhiên, nhưng mà (nghịch tiếp, không phù hợp).\n- 3. それから: Sau đó, hơn nữa (liệt kê thời gian hoặc bổ sung sự việc).\n- 4. たとえば: Ví dụ như (đưa ra ví dụ minh họa).\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(22) 1 前文讲述自己的画要被展出, 后文邀请对方来看展览, 前后存在因果关系。1. それで: 因此, 所以; 2. しかし: 但是, 然而; 3. それから: 然后; 4. たとえば: 例如。",
+      "correctOption": 1,
+      "text": "【Đoạn văn Thư điện tử】\n今年は 私のが 選ばれたのです。( 22 )、森さんにも ぜひ 見て もらいたいのですが、ご都合は いかがですか。",
+      "options": ["1. それで", "2. しかし", "3. それから", "4. たとえば"]
+    },
+    "58": {
+      "snippet": "選ばれたんですか (Mẫu câu xác nhận cảm xúc ngạc nhiên, khen ngợi)",
+      "explanation": "🎯 Đáp án đúng: [1] 選ばれたんですか\n\n💬 Dịch nghĩa câu:\n\"Cảm ơn bạn vì bức thư nhé. Ảnh của bạn Tom đã được chọn đem triển lãm rồi đó à? Tuyệt vời quá! Chúc mừng bạn nhé!\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc: 「V (thể thông thường) + んですか」 dùng khi người nghe tiếp nhận thông tin từ đối phương và nhắc lại thông tin đó với thái độ ngạc nhiên, hào hứng, thể hiện sự quan tâm sâu sắc để mở đầu cho lời tán thưởng/chúc mừng: 「選ばれたんですか。すごいですね。おめでとうございます。」\n\n🔍 Phân tích các lựa chọn:\n- 1. 選ばれたんですか: ĐÚNG - Thể hiện sự bất ngờ, xác nhận hào hứng trước tin vui của bạn.\n- 2. 選ばれたからですか: Là vì được chọn sao? (Hỏi lý do, không phù hợp ngữ cảnh).\n- 3. 選ばれたそうですよ: Nghe nói là được chọn đấy (Dùng cung cấp tin đồn cho Tom, trong khi chính Tom vừa kể cho Mori nghe).\n- 4. 選ばれたようですよ: Dường như là được chọn đấy (Phỏng đoán thông tin của Tom, vô lý).\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(23) 1 作者此处在复述对方的话, 表示出自己的赞赏。1. のですか: ……吗?; 2. からだ: 是因为……; 3. そうだ: 听说……; 4. ようだ: 好像……",
+      "correctOption": 1,
+      "text": "【Đoạn văn Thư điện tử - Thư trả lời của Mori】\nメールを ありがとうございます。トムさんの 写真が ( 23 )。すごいですね。おめでとうございます。",
+      "options": ["1. 選ばれたんですか", "2. 選ばれたからですか", "3. 選ばれたそうですよ", "4. 選ばれたようですよ"]
+    },
+    "59": {
+      "snippet": "トムさんが とった 写真 (Trợ từ が trong mệnh đề định ngữ)",
+      "explanation": "🎯 Đáp án đúng: [3] が\n\n💬 Dịch nghĩa câu:\n\"Vì tôi vẫn chưa từng được xem những bức ảnh mà anh Tom chụp bao giờ, nên tôi rất muốn đi xem.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Quy tắc ngữ pháp mệnh đề bổ ngữ cho danh từ (mệnh đề định ngữ):\n  - Cụm định ngữ: 「トムさんが とった」 bổ nghĩa cho danh từ 「写真」 đứng sau (bức ảnh mà anh Tom chụp).\n  - Trong mệnh đề định ngữ tiếng Nhật, chủ ngữ của mệnh đề phụ **bắt buộc phải đi với trợ từ 「が」** (hoặc chuyển thành 「の」), tuyệt đối **không dùng trợ từ 「は」**.\n  - Động từ 「撮る (とる)」 là hành động chủ động do anh Tom thực hiện, nên chủ thể thực hiện hành động này là Tom đi với 「が」: 「トムさんが とった 写真」.\n\n🔍 Phân tích các lựa chọn:\n- 1. に: Trợ từ に không dùng làm chủ ngữ của hành động chụp ảnh chủ động.\n- 2. を: Trợ từ tân ngữ, trong khi tân ngữ là bức ảnh (写真を撮る) đã được đưa ra làm danh từ trung tâm.\n- 3. が: ĐÚNG - Đánh dấu chủ ngữ trong mệnh đề định ngữ bổ nghĩa cho danh từ.\n- 4. は: Không dùng trợ từ は để đánh dấu chủ ngữ bên trong mệnh đề định ngữ.\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(24) 3 此处指的是汤姆拍的照片, 空后的动词撮る提示此句使用了主动语态, 考察が提示主语的用法。",
+      "correctOption": 3,
+      "text": "【Đoạn văn Thư điện tử - Thư trả lời của Mori】\nトムさん ( 24 ) とった 写真は まだ 見たことが ないので、見て みたいです。",
+      "options": ["1. に", "2. を", "3. が", "4. は"]
+    },
+    "60": {
+      "snippet": "見に行こうと 思います (Thể ý chí + と思います)",
+      "explanation": "🎯 Đáp án đúng: [2] 行こうと 思います\n\n💬 Dịch nghĩa câu:\n\"Chiều ngày 4 tháng 5, tôi định sẽ đến trung tâm thương mại G để xem triển lãm. Tôi rất mong đợi buổi triển lãm này.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Người viết thư là anh Mori, đang nói về quyết định và kế hoạch của chính bản thân mình (tôi định sẽ đi...).\n• Cấu trúc ngữ pháp biểu thị ý định của bản thân: 「Động từ thể ý chí (V-よう) + と思います」:\n  - Động từ di chuyển từ nơi khác đến trung tâm thương mại G là 「行く (đi)」 ➔ thể ý chí là 「行こう」.\n  - Kết hợp: 「見に行こうと思います」 (Tôi định sẽ đi đến đó xem).\n\n🔍 Phân tích các lựa chọn:\n- 1. 行ってください: Xin hãy đi (câu sai khiến/yêu cầu người khác đi, mâu thuẫn vì Mori tự mình đi).\n- 2. 行こうと 思います: ĐÚNG - Thể hiện ý định của người nói sẽ đi đến xem (見に行こうと思います).\n- 3. 来てください: Xin hãy đến đây (yêu cầu đối phương đến nơi của mình, sai nghĩa).\n- 4. 来ようと思います: Dùng 来る (đến) không phù hợp vì trung tâm thương mại G không phải là nơi Mori đang ở lúc viết thư.\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(25) 2 此处为小森做的决定, 他准备5月4日下午去看展览, 此处应用意志形。表示去看展览应用“行く”, 故此处填入“行こうと 思います”最为合适。",
+      "correctOption": 2,
+      "text": "【Đoạn văn Thư điện tử - Thư trả lời của Mori】\n5月4日の 午後、Gデパートに 見に ( 25 )。楽しみに して います。\n森",
+      "options": ["1. 行って ください", "2. 行こうと 思います", "3. 来て ください", "4. 来ようと 思います"]
+    },
+    "61": {
+      "snippet": "使った机といすを初めにあった場所に並べます (Xếp bàn ghế về vị trí ban đầu)",
+      "explanation": "🎯 Đáp án đúng: [2] 使った机といすを初めにあった場所に並べます。\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Bài đọc: Bảng thông báo dán trong phòng họp tòa nhà Satsuki (さつきビル):\n  「会議室を使う皆様へ」 (Kính gửi quý khách sử dụng phòng họp)\n  1. Hãy rời khỏi phòng trước khi kết thúc thời gian đặt 3 phút.\n  2. Bàn và ghế đã sử dụng, hãy đặt lại nơi đã được xếp ban đầu.\n  3. Rác không được để lại, hãy mang về.\n  4. Hãy tắt điều hòa và đèn điện.\n  5. Hãy khóa cửa và trả chìa khóa cho quầy lễ tân.\n• Câu hỏi: 会議室を使う人は、使った後にどうしなければなりませんか。\n  (Người sử dụng phòng họp, sau khi dùng xong thì phải làm gì?)\n\n💡 Câu then chốt (Key Sentence - Dòng 2 quy định):\n「２ 使った机といすは、最初に並べられていた所に置いてください。」\n(2. Bàn và ghế đã sử dụng, hãy đặt lại nơi đã được xếp ban đầu.)\n\n🔍 Phân tích các lựa chọn:\n- 1. 予約の終わりの時間になったら、3分以内に部屋を出ます: SAI. Điều 1 yêu cầu rời phòng \"3 phút trước khi hết giờ\" (3分前までに), chứ không phải \"trong vòng 3 phút sau khi hết giờ\".\n- 2. 使った机といすを初めにあった場所に並べます: ĐÚNG. Khớp hoàn toàn với điều 2 (最初に並べられていた所 = 初めにあった場所).\n- 3. ごみを集めて、部屋に置いてあるごみ箱に捨てます: SAI. Điều 3 yêu cầu mang rác về (持って帰ってください), không vứt tại phòng.\n- 4. 受付に行って、部屋の鍵をかけてもらいます: SAI. Điều 5 yêu cầu người dùng tự khóa cửa rồi mang chìa khóa trả lại quầy lễ tân (鍵をかけて、受付に鍵を返してください)。\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(26) 2 该告示提醒使用者需提前三分钟离开会议室；走的时候需将桌椅归还原位；带走自己的垃圾；关上灯和空调；锁好会议室的门后需归还钥匙。",
+      "correctOption": 2,
+      "text": "【問題 4 (1) - Bảng thông báo phòng họp】\nこのポスターが 会議室に はって あります。\n\n会議室を使う皆様へ\n１ 予約時間が終わる3分前までに部屋を出てください。\n２ 使った机といすは、最初に並べられていた所に置いてください。\n３ ごみは置いたままにしないで、持って帰ってください。\n４ エアコンと電気を消してください。\n５ 鍵をかけて、受付に鍵を返してください。\nさつきビル\n\n質問：会議室を使う人は、使った後にどうしなければなりませんか。",
+      "options": ["1. 予約の終わりの時間になったら、3分以内に部屋を出ます。", "2. 使った机といすを初めにあった場所に並べます。", "3. ごみを集めて、部屋に置いてあるごみ箱に捨てます。", "4. 受付に行って、部屋の鍵をかけてもらいます。"]
+    },
+    "62": {
+      "snippet": "昨日から階段が狭くなっていたから (Do thi công thang cuốn nên từ hôm qua cầu thang bộ bị hẹp lại)",
+      "explanation": "🎯 Đáp án đúng: [1] 昨日から階段が狭くなっていたから\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Bài đọc: \"Mỗi sáng tôi đều đi tàu đến trường. Tôi thường đến ga lúc 7:00 và đi chuyến tàu 7:05. Nhưng hôm qua, thời gian lên tàu mất nhiều hơn bình thường nên tôi phải đi chuyến 7:15 và bị trễ học. Ở cửa nam của ga không có thang cuốn. Từ hôm qua, công trình xây thang cuốn bên phải cầu thang bộ bắt đầu, nên cầu thang bộ bị hẹp lại. Buổi sáng người đi tàu đông đúc trên cầu thang nên đã mất nhiều thời gian. Tuy nhiên hôm nay tôi đã ra khỏi nhà sớm, đến ga lúc 6:55 nên đã lên được chuyến tàu như thường lệ.\"\n• Câu hỏi: いつもより時間がかかってとありますが、どうしてですか。\n  (Trong bài có đoạn 'mất nhiều thời gian hơn bình thường', tại sao lại như vậy?)\n\n💡 Câu then chốt (Key Sentence - Đoạn 2):\n「昨日から南口の階段の右側にエスカレーターを作る工事が始まって、階段が狭くなっていました。朝は電車に乗る人で階段が込んでいて、時間がかかってしまったのです。」\n(Từ hôm qua, công trình làm thang cuốn ở bên phải cầu thang bộ cửa nam bắt đầu, cầu thang bộ bị hẹp lại. Buổi sáng người đông đúc trên cầu thang nên đã mất nhiều thời gian.)\n\n🔍 Phân tích các lựa chọn:\n- 1. 昨日から階段が狭くなっていたから: ĐÚNG. Nguyên nhân trực tiếp khiến mất nhiều thời gian là vì từ hôm qua cầu thang bộ đã bị hẹp lại do công trường thi công.\n- 2. 南口にはエスカレーターがないから: SAI. Trước giờ vốn dĩ không có thang cuốn, nhưng hôm qua mới bị mất thời gian vì công trình thi công làm hẹp cầu thang.\n- 3. エスカレーターを使う人が多かったから: SAI. Thang cuốn đang thi công chứ chưa hoàn thành để sử dụng.\n- 4. いつも乗る電車に乗れなかったから: SAI. Đây là kết quả chứ không phải nguyên nhân khiến mất nhiều thời gian.\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(27) 1 关键内容在文章的第二段。由于站台的南出口开始修电梯，楼梯变窄了，早上坐车的人又很多，所以花了很多时间。",
+      "correctOption": 1,
+      "text": "【問題 4 (2) - Đi tàu đến trường】\nわたしは毎朝電車で学校へ行きます。7時に駅に着いて、7時5分の電車に乗ります。でも、昨日は電車に乗るまでにいつもより時間がかかって、7時15分の電車に乗ったので、遅刻してしまいました。\n駅の南口にはエスカレーターがありません。昨日から南口の階段の右側にエスカレーターを作る工事が始まって、階段が狭くなっていました。朝は電車に乗る人で階段が込んでいて、時間がかかってしまったのです。\nでも、今日は早く家を出て、6時55分に駅に着いたので、いつもの電車に乗れました。\n\n質問：いつもより時間がかかってとありますが、どうしてですか。",
+      "options": ["1. 昨日から階段が狭くなっていたから", "2. 南口にはエスカレーターがないから", "3. エスカレーターを使う人が多かったから", "4. いつも乗る電車に乗れなかったから"]
+    },
+    "63": {
+      "snippet": "7時5分 (Chuyến tàu như thường lệ 7:05)",
+      "explanation": "🎯 Đáp án đúng: [3] 7時5分\n\n💬 Dịch nghĩa câu hỏi:\n• Câu hỏi: 「わたし」は、今日、何時の電車に乗りましたか。\n  (Hôm nay, 'tôi' đã lên chuyến tàu lúc mấy giờ?)\n\n💡 Câu then chốt (Key Sentence):\n• Đoạn 1 nêu rõ chuyến tàu như thường lệ:\n  「7時に駅に着いて、7時5分の電車に乗ります。」(Đến ga lúc 7:00 và lên chuyến tàu 7:05).\n• Đoạn cuối nêu rõ kết quả ngày hôm nay:\n  「でも、今日は早く家を出て、6時55分に駅に着いたので、いつもの電車に乗れました。」(Nhưng hôm nay tôi ra khỏi nhà sớm, đến ga lúc 6:55 nên đã lên được chuyến tàu như thường lệ).\n• \"Chuyến tàu như thường lệ\" (いつもの電車) chính là chuyến tàu 7 giờ 5 phút (7時5分).\n\n🔍 Phân tích các lựa chọn:\n- 1. 6時55分: SAI. Đây là thời gian nhân vật \"tôi\" đến nhà ga (駅に着いた時間), không phải giờ tàu chạy.\n- 2. 7時: SAI. Đây là giờ bình thường đến ga.\n- 3. 7時5分: ĐÚNG. Đây là giờ chuyến tàu thường lệ khởi hành mà hôm nay \"tôi\" đã kịp lên.\n- 4. 7時15分: SAI. Đây là chuyến tàu ngày hôm qua phải đi vì bị trễ.\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(28) 3 关键内容在文章的第三段。作者提到今天他提早出门，坐上了平常一直坐的那班车。即文章第一句中提到的七点过五分的那趟车。",
+      "correctOption": 3,
+      "text": "【問題 4 (2) - Giờ lên tàu hôm nay】\n（前文参照）\nわたしは毎朝電車で学校へ行きます。7時に駅に着いて、7時5分の電車に乗ります。でも、昨日は電車に乗るまでにいつもより時間がかかって、7時15分の電車に乗ったので、遅刻してしまいました。\n...\nでも、今日は早く家を出て、6時55分に駅に着いたので、いつもの電車に乗れました。\n\n質問：「わたし」は、今日、何時の電車に乗りましたか。",
+      "options": ["1. 6時55分", "2. 7時", "3. 7時5分", "4. 7時15分"]
+    },
+    "64": {
+      "snippet": "手帳が見つかりました。手帳をどうするか返事をください (Đã tìm thấy sổ tay, xin hãy phản hồi xem muốn nhận lại bằng cách nào)",
+      "explanation": "🎯 Đáp án đúng: [4] 手帳が見つかりました。手帳をどうするか返事をください。\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Bài đọc: Email của anh Hayashi (Phụ trách đồ thất lạc, Trung tâm Văn hóa Công dân) gửi John Mauer:\n  \"Gửi anh John Mauer, Tôi là Hayashi ở Trung tâm Văn hóa Công dân, người đã nhận cuộc gọi hôm qua. Đã tìm thấy cuốn sổ tay của anh rồi. Anh có thể đến tận nơi lấy được không? Hay là chúng tôi nên gửi bưu điện cho anh? (Trường hợp gửi từ đây, anh sẽ phải thanh toán các khoản phí cần thiết). Rất mong nhận được phản hồi từ anh.\"\n• Câu hỏi: このメールで、林さんが言いたいことは何ですか。\n  (Trong email này, điều anh Hayashi muốn nói nhất là gì?)\n\n💡 Câu then chốt (Key Sentence):\n「こちらまで取りに来ることができますか。それとも、送ったほうがいいでしょうか... お返事、よろしくお願いします。」\n(Anh có thể đến lấy được không? Hay là chúng tôi gửi cho anh? ... Mong anh hồi âm.)\n\n🔍 Phân tích các lựa chọn:\n- 1. 手帳が見つかりました。手帳を取りに来てください: SAI. Anh Hayashi không bắt buộc anh Mauer phải đến lấy mà cho phép lựa chọn gửi bưu điện.\n- 2. 手帳が見つかりました。手帳を送ります: SAI. Chưa quyết định gửi mà đang hỏi ý kiến anh Mauer.\n- 3. 手帳が見つかりました。手帳を送るので、料金を払ってください: SAI. Chỉ trả phí nếu chọn phương án gửi, hiện tại chưa quyết định gửi.\n- 4. 手帳が見つかりました。手帳をどうするか返事をください: ĐÚNG. Báo đã tìm thấy sổ và yêu cầu phản hồi xem sẽ xử lý nhận lại sổ như thế nào (tự đến lấy hay nhờ gửi).\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(29) 4 林先生表示找到了对方丢失的记事本，并询问对方选择自己来拿还是由文化教室送去，也提醒了对方如果由这边送的话对方需要支付一定的费用，希望对方能做出选择，进行回复。",
+      "correctOption": 4,
+      "text": "【問題 4 (3) - Email thông báo tìm thấy sổ tay】\nこれは市民文化教室の林さんからマウアーさんに届いたメールです。\n\nジョン・マウアーさん\n昨日お電話をもらった市民文化教室の林です。マウアーさんの手帳が見つかりました。\nこちらまで取りに来ることができますか。それとも、送ったほうがいいでしょうか（こちらから送るときは、必要な料金を払ってもらわなければなりません）。\nお返事、よろしくお願いします。\n市民文化教室　忘れ物係　林\n\n質問：このメールで、林さんが言いたいことは何ですか。",
+      "options": ["1. 手帳が見つかりました。手帳を取りに来てください。", "2. 手帳が見つかりました。手帳を送ります。", "3. 手帳が見つかりました。手帳を送るので、料金を払ってください。", "4. 手帳が見つかりました。手帳をどうするか返事をください。"]
+    },
+    "65": {
+      "snippet": "南小学校の子どもたちが、秋山さんの家を一か月後に訪ねること (Học sinh sẽ đến thăm nhà bà Akiyama sau 1 tháng nữa)",
+      "explanation": "🎯 Đáp án đúng: [2] 南小学校の子どもたちが、秋山さんの家を一か月後に訪ねること\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Bài đọc: Lá thư bà Akiyama Shizuko gửi các em học sinh lớp 6 trường tiểu học Minami để cảm ơn vì đã đến thăm bà vào thứ Sáu tuần trước.\n• Câu hỏi: ①お知らせのお手紙には、どんなことが書いてありましたか。\n  (Trong ① lá thư thông báo, đã viết nội dung gì?)\n\n💡 Câu then chốt (Key Sentence - Đoạn 2):\n「私は、①お知らせのお手紙をもらってから、みなさんが来るのを一か月間ずっと楽しみにしていました。」\n(Kể từ khi nhận được lá thư thông báo, tôi đã mong chờ các cháu đến trong suốt một tháng trời.)\nĐiều này cho thấy lá thư thông báo báo trước 1 tháng về việc: các em học sinh trường tiểu học Minami sẽ đến thăm nhà bà Akiyama sau đó 1 tháng (一か月後に訪ねること).\n\n🔍 Phân tích các lựa chọn:\n- 1. 南小学校の子どもたちが、秋山さんの家を一か月前に訪ねたこと: SAI. \"Đã đến thăm cách đây 1 tháng\" là sai mốc thời gian.\n- 2. 南小学校の子どもたちが、秋山さんの家を一か月後に訪ねること: ĐÚNG. Thư thông báo rằng 1 tháng sau các em học sinh sẽ đến thăm.\n- 3. 75歳以上の人が南小学校を訪ねることが、一か月前に決まったこと: SAI. Không phải người già đến thăm trường tiểu học.\n- 4. 75歳以上の人が、南小学校を一か月後に訪ねることが決まったこと: SAI. Ngược đối tượng thăm viếng.\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(30) 2 关键内容在信件内容的第二段，根据“南小学校では、75歳以上の人が一人で住んでいる家を訪ねて、話をしたり、掃除をしたりすることを、もう5年も続けているそうですね。”可知是学校学生去秋山家探望她，根据“みなさんが来るのを一か月間ずっと楽しみにしていました”可知通知信息是在去之前的一个月前发送给她的。",
+      "correctOption": 2,
+      "text": "【問題 5 - Thư cảm ơn của bà Akiyama gửi học sinh lớp 6 trường tiểu học Minami】\nこれは秋山さんが南小学校の子どもたちに書いた手紙です。\n\n南小学校6年のみなさんへ\n　先週の金曜日は家に来てくれて、ありがとうございました。\n　南小学校では、75歳以上の人が一人で住んでいる家を訪ねて、話をしたり、掃除をしたりすることを、もう5年も続けているそうですね。私は、①お知らせのお手紙をもらってから、みなさんが来るのを一か月間ずっと楽しみにしていました。\n　私の家には、若い人たちが来ることがあまりありません。ですから、用意したお菓子や料理を、みなさんが食べてくれるかどうか、ちょっと②心配でした。でも、喜んでたくさん食べてくれましたね。\n　楽しい話もいろいろ聞けました。今川くんが犬にお菓子を取られた話は、思い出すと、今でも笑ってしまいます。大きい声を出して笑ったことは、最近はほとんどありませんでした。それから、掃除もしてくれました。高い所の窓は、汚れたままになっていたのですが、山下さんたちがいすに上がってきれいにしてくれたので、とても明るくなりました。\n　私には娘がいて、娘には男の子が二人いますが、今は外国に住んでいるので、あまり会えません。みなさんが帰るときは、泣きそうになってしまってごめんなさいね。でも、本当に③うれしかったのです。\n　また、いつか遊びに来てください。\n2013年10月23日　秋山静子\n\n質問：①お知らせのお手紙には、どんなことが書いてありましたか。",
+      "options": ["1. 南小学校の子どもたちが、秋山さんの家を一か月前に訪ねたこと", "2. 南小学校の子どもたちが、秋山さんの家を一か月後に訪ねること", "3. 75歳以上の人が南小学校を訪ねることが、一か月前に決まったこと", "4. 75歳以上の人が、南小学校を一か月後に訪ねることが決まったこと"]
+    },
+    "66": {
+      "snippet": "自分が用意したお菓子や料理を小学生が喜んでくれるかどうか (Học sinh có vui lòng thưởng thức bánh kẹo và đồ ăn do mình chuẩn bị không)",
+      "explanation": "🎯 Đáp án đúng: [1] 自分が用意したお菓子や料理を小学生が喜んでくれるかどうか\n\n💬 Dịch nghĩa câu hỏi:\n• Câu hỏi: ②心配でしたとありますが、心配だったのはどんなことですか。\n  (Trong bài có đoạn '② đã cảm thấy lo lắng', điều khiến bà lo lắng là việc gì?)\n\n💡 Câu then chốt (Key Sentence - Đoạn 3):\n「ですから、用意したお菓子や料理を、みなさんが食べてくれるかどうか、ちょっと②心配でした。でも、喜んでたくさん食べてくれましたね。」\n(Do đó, tôi đã có chút lo lắng không biết các cháu có ăn bánh kẹo và món ăn tôi chuẩn bị hay không. Nhưng các cháu đã vui mừng ăn thật nhiều.)\n\n🔍 Phân tích các lựa chọn:\n- 1. 自分が用意したお菓子や料理を小学生が喜んでくれるかどうか: ĐÚNG. Khớp trọn vẹn với nội dung: bà lo liệu các em học sinh có thích và vui vẻ ăn đồ bà chuẩn bị hay không.\n- 2. 若い人たちが用意したお菓子や料理を小学生が食べてくれるかどうか: SAI. Đồ ăn do chính bà Akiyama chuẩn bị (自分が用意した), không phải người trẻ chuẩn bị.\n- 3. 子どもの好きなお菓子や料理を自分が食べられるかどうか: SAI. Sai đối tượng ăn (bà lo các em ăn, chứ không phải bản thân bà ăn).\n- 4. お菓子や料理を自分がたくさん用意できるかどうか: SAI. Không phải lo về số lượng chuẩn bị được nhiều hay ít.\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(31) 1 关键句是“ですから、用意したお菓子や料理を、みなさんが食べてくれるかどうか、ちょっと心配でした。”, 秋山不知道他们吃不吃得惯她准备的点心和菜，因此感到担心。",
+      "correctOption": 1,
+      "text": "【問題 5 - Điều bà Akiyama lo lắng】\n（前文参照）\n私の家には、若い人たちが来ることがあまりありません。ですから、用意したお菓子や料理を、みなさんが食べてくれるかどうか、ちょっと②心配でした。でも、喜んでたくさん食べてくれましたね。\n\n質問：②心配でしたとありますが、心配だったのはどんなことですか。",
+      "options": ["1. 自分が用意したお菓子や料理を小学生が喜んでくれるかどうか", "2. 若い人たちが用意したお菓子や料理を小学生が食べてくれるかどうか", "3. 子どもの好きなお菓子や料理を自分が食べられるかどうか", "4. お菓子や料理を自分がたくさん用意できるかどうか"]
+    },
+    "67": {
+      "snippet": "子どもたちと話ができたり、子どもたちが掃除をしてくれたりしたこと (Được trò chuyện và các em đã giúp dọn dẹp nhà cửa)",
+      "explanation": "🎯 Đáp án đúng: [2] 子どもたちと話ができたり、子どもたちが掃除をしてくれたりしたこと\n\n💬 Dịch nghĩa câu hỏi:\n• Câu hỏi: ③うれしかったのですとありますが、うれしかったのはどんなことですか。\n  (Trong bài có đoạn '③ thực sự đã rất vui mừng', điều khiến bà vui mừng là việc gì?)\n\n💡 Câu then chốt (Key Sentence - Đoạn 4):\n「楽しい話もいろいろ聞けました。...それから、掃除もしてくれました。高い所の窓は、汚れたままになっていたのですが、山下さんたちがいすに上がってきれいにしてくれたので、とても明るくなりました。」\n(Tôi đã nghe được nhiều câu chuyện vui... Hơn nữa các cháu còn dọn dẹp giúp tôi. Cửa sổ trên cao... các cháu trèo lên ghế lau chùi sạch sẽ nên nhà sáng sủa hẳn lên.)\n\n🔍 Phân tích các lựa chọn:\n- 1. 子どもたちと料理を作ったり...: SAI. Bà không cùng nấu ăn với các em mà bà chuẩn bị trước đồ ăn cho các em.\n- 2. 子どもたちと話ができたり、子どもたちが掃除をしてくれたりしたこと: ĐÚNG. Hai hoạt động chính mang lại niềm vui lớn cho bà là được trò chuyện vui vẻ với các em và các em dọn dẹp, lau chùi cửa sổ giúp bà.\n- 3. 外国に住んでいる娘と二人の男の子が、家に遊びに来てくれたこと: SAI. Con gái và hai cháu trai đang ở nước ngoài, ít khi được gặp.\n- 4. 子どもたちが帰るとき、泣かないで「さようなら。」と言えたこと: SAI. Trong bài bà viết bà suýt khóc (泣きそうになってしまってごめんなさいね).\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(32) 2 最后一段是总结段，解题的关键内容在文章第四段，根据“楽しい話もいろいろ聞けました。”“それから、掃除もしてくれました。”可知，因为有人陪着聊天，帮忙打扫，所以秋山感到很开心。",
+      "correctOption": 2,
+      "text": "【問題 5 - Điều khiến bà Akiyama vui mừng】\n（前文参照）\n楽しい話もいろいろ聞けました。今川くんが犬にお菓子を取られた話は、思い出すと、今でも笑ってしまいます。大きい声を出して笑ったことは、最近はほとんどありませんでした。それから、掃除もしてくれました。高い所の窓は、汚れたままになっていたのですが、山下さんたちがいすに上がってきれいにしてくれたので、とても明るくなりました。\n...でも、本当に③うれしかったのです。\n\n質問：③うれしかったのですとありますが、うれしかったのはどんなことですか。",
+      "options": ["1. 子どもたちと料理を作ったり、子どもたちから楽しい話を聞いたりしたこと", "2. 子どもたちと話ができたり、子どもたちが掃除をしてくれたりしたこと", "3. 外国に住んでいる娘と二人の男の子が、家に遊びに来てくれたこと", "4. 子どもたちが帰るとき、泣かないで「さようなら。」と言えたこと"]
+    },
+    "68": {
+      "snippet": "家に来てくれて、本当にありがとうございました (Chân thành cảm ơn các em vì đã đến thăm nhà)",
+      "explanation": "🎯 Đáp án đúng: [4] 家に来てくれて、本当にありがとうございました。\n\n💬 Dịch nghĩa câu hỏi:\n• Câu hỏi: 秋山さんがこの手紙で一番言いたいことは何ですか。\n  (Điều bà Akiyama muốn nói nhất qua bức thư này là gì?)\n\n💡 Câu then chốt (Key Sentence):\n• Câu mở đầu thư: 「先週の金曜日は家に来てくれて、ありがとうございました。」(Cảm ơn các cháu vì thứ Sáu tuần trước đã đến nhà bà).\n• Câu kết thư: 「でも、本当にうれしかったのです。また、いつか遊びに来てください。」(Nhưng bà thực sự đã rất vui. Khi nào đó các cháu lại đến chơi nhé).\n• Toàn bộ bức thư là một lá thư cảm ơn (お礼の手紙) nhằm bày tỏ lòng biết ơn chân thành sâu sắc đối với các em học sinh vì đã đến thăm và mang lại niềm vui cho bà.\n\n🔍 Phân tích các lựa chọn:\n- 1. みんなが帰るとき、泣きそうになってしまってごめんなさい: SAI. Lời xin lỗi vì suýt khóc chỉ là cảm xúc bộc lộ nhất thời ở cuối thư, không phải mục đích chính của bức thư.\n- 2. 家族が近くにいないので、ぜひまた手伝いに来てください: SAI. Bà không viết thư để nhờ vả các em đến giúp việc nhà.\n- 3. ぜひ一度、みんなで私の家へ遊びに来てみてください: SAI. \"Nhất định hãy thử đến một lần\" chỉ dùng khi chưa từng đến, trong khi các em vừa đến vào thứ Sáu tuần trước.\n- 4. 家に来てくれて、本当にありがとうございました: ĐÚNG. Thể hiện trọn vẹn chủ đề và mục đích chính của bức thư: Cảm ơn các em học sinh vì đã ghé thăm nhà bà.\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(33) 4 关键句是文章的第一句“先週の金曜日は家に来てくれて、ありがとうございました。”, 秋山写这封信主要是为了表达自己的感谢之情。",
+      "correctOption": 4,
+      "text": "【問題 5 - Điều bà Akiyama muốn nói nhất qua bức thư】\n（前文参照）\n南小学校6年のみなさんへ\n　先週の金曜日は家に来てくれて、ありがとうございました。\n...\n　みなさんが帰るときは、泣きそうになってしまってごめんなさいね。でも、本当にうれしかったのです。\n　また、いつか遊びに来てください。\n2013年10月23日　秋山静子\n\n質問：秋山さんがこの手紙で一番言いたいことは何ですか。",
+      "options": ["1. みんなが帰るとき、泣きそうになってしまってごめんなさい。", "2. 家族が近くにいないので、ぜひまた手伝いに来てください。", "3. ぜひ一度、みんなで私の家へ遊びに来てみてください。", "4. 家に来てくれて、本当にありがとうございました。"]
+    },
+    "69": {
+      "snippet": "10,000 円 (Giá phòng đơn thứ Sáu đặt qua mạng)",
+      "explanation": "🎯 Đáp án đúng: [3] 10,000 円\n\n💬 Dịch nghĩa câu hỏi:\n• Câu hỏi: マイさんは今週の金曜日に、山の森ホテルに一人で泊まろうと思います。インターネットでシングルの部屋を予約したら、いくらですか。\n  (Mai định ở khách sạn Yamanomori một mình vào thứ Sáu tuần này. Nếu đặt phòng đơn (single) qua internet thì giá là bao nhiêu?)\n\n💡 Tra cứu bảng thông tin (Bảng 1: インターネットで予約するとき):\n1. Phương thức đặt:「インターネットで予約するとき」 (Bảng đầu tiên - Đặt qua Internet).\n2. Loại phòng: Ở một mình nên chọn phòng đơn:「シングル」.\n3. Ngày lưu trú: Thứ Sáu: Cột「金曜日〜土曜日」.\n➔ Gióng hàng `シングル` và cột `金曜日〜土曜日`, ta thu được mức giá chính xác là: **10,000 円**.\n\n🔍 Phân tích các lựa chọn:\n- 1. 8,000 円: Sai (Giá phòng đơn đặt mạng vào các ngày thường Chủ Nhật đến Thứ Năm).\n- 2. 8,500 円: Sai (Giá phòng đơn đặt qua điện thoại vào Chủ Nhật đến Thứ Năm).\n- 3. 10,000 円: ĐÚNG (Giá phòng đơn đặt qua Internet vào Thứ Sáu - Thứ Bảy).\n- 4. 10,500 円: Sai (Giá phòng đơn đặt qua điện thoại vào Thứ Sáu - Thứ Bảy).\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(34) 3 根据题干可知，她要进行网上预订，对应第一个表格可知，周五的单人房房价为1万日元。",
+      "correctOption": 3,
+      "text": "【問題 6 - Bảng thông tin khách sạn Yamanomori (山の森ホテルの案内)】\n右のページの「山の森ホテルの案内」を見て、下の質問に答えてください。\n\n【山の森ホテル】\n土田市前田町1-23 (前田駅から歩いて2分)\n電話: 012-345-6789 FAX: 012-345-6790\nホームページ: http://www.yamanomori-hotel.com/\n\n[インターネットで予約するとき]\n部屋の種類 / 泊まる曜日:\n・シングル: 日曜日〜木曜日: 8,000円 | 金曜日〜土曜日: 10,000円\n・ツイン: 日曜日〜木曜日: 14,000円 | 金曜日〜土曜日: 16,000円\n\n[電話で予約するとき]\n部屋の種類 / 泊まる曜日:\n・シングル: 日曜日〜木曜日: 8,500円 | 金曜日〜土曜日: 10,500円\n・ツイン: 日曜日〜木曜日: 14,500円 | 金曜日〜土曜日: 16,500円\n\n●ツインの部屋にもう1台ベッドを入れて、3人で泊まれます。ベッド1台の料金は1晩3,000円です。\n●ホテルの食堂で朝ご飯が食べられます。1人1,000円で、和食と洋食が選べます。\n●全部の部屋で、インターネットをただで利用できます。パソコンは受付で借りられます。12時間1,000円です。\n●ホテルにはプールがあります。ホテルに泊まっている人は、ただで利用できます。泊まっていない人も1日2,000円で利用できます。\n\n質問：マイさんは今週の金曜日に、山の森ホテルに一人で泊まろうと思います。インターネットでシングルの部屋を予約したら、いくらですか。",
+      "options": ["1. 8,000 円", "2. 8,500 円", "3. 10,000 円", "4. 10,500 円"]
+    },
+    "70": {
+      "snippet": "ホテルのプールで泳ぐこと (Bơi ở hồ bơi khách sạn miễn phí)",
+      "explanation": "🎯 Đáp án đúng: [4] ホテルのプールで泳ぐこと\n\n💬 Dịch nghĩa câu hỏi:\n• Câu hỏi: 山の森ホテルに泊まる人が、お金を払わないでできることは、どれですか。\n  (Người lưu trú tại khách sạn Yamanomori có thể làm việc gì mà không phải trả tiền - miễn phí?)\n\n💡 Câu then chốt (Key Sentence - Dòng ghi chú thứ 3 & 4):\n•「全部の部屋で、インターネットをただで利用できます。」(Tất cả các phòng đều dùng được Internet miễn phí).\n•「ホテルにはプールがあります。ホテルに泊まっている人は、ただで利用できます。」(Khách sạn có bể bơi. Khách lưu trú tại khách sạn được sử dụng miễn phí).\nTừ「ただで」trong tiếng Nhật đồng nghĩa với「お金を払わないで」(không mất tiền / miễn phí).\nKhách nghỉ tại khách sạn được miễn phí 2 dịch vụ: Internet và Bể bơi. Trong 4 phương án, chỉ có Bơi ở bể bơi khách sạn là xuất hiện.\n\n🔍 Phân tích các lựa chọn:\n- 1. ツインの部屋でもう一つベッドを借りること: SAI. Thêm 1 giường phụ giá 3,000 yên / đêm (ベッド1台の料金は1晩3,000円).\n- 2. ホテルの食堂で朝ご飯を食べること: SAI. Ăn sáng giá 1,000 yên / người (1人1,000円).\n- 3. ホテルでパソコンを借りること: SAI. Thuê máy tính tại quầy lễ tân mất phí 1,000 yên / 12 tiếng (12時間1,000円).\n- 4. ホテルのプールで泳ぐこと: ĐÚNG. Khách lưu trú được bơi miễn phí (ホテルに泊まっている人は、ただで利用できます).\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(35) 4 关键句是“全部の部屋で、インターネットをただで利用できます。”和“ホテルにはプールがあります。ホテルに泊まっている人は、ただで利用できます。”。住在酒店里的人能免费享受的只有网络和泳池。",
+      "correctOption": 4,
+      "text": "【問題 6 - Dịch vụ miễn phí cho khách lưu trú】\n（前文の「山の森ホテルの案内」参照）\n●ツインの部屋にもう1台ベッドを入れて、3人で泊まれます。ベッド1台の料金は1晩3,000円です。\n●ホテルの食堂で朝ご飯が食べられます。1人1,000円で、和食と洋食が選べます。\n●全部の部屋で、インターネットをただで利用できます。パソコンは受付で借りられます。12時間1,000円です。\n●ホテルにはプールがあります。ホテルに泊まっている人は、ただで利用できます。泊まっていない人も1日2,000円で利用できます。\n\n質問：山の森ホテルに泊まる人が、お金を払わないでできることは、どれですか。",
+      "options": ["1. ツインの部屋でもう一つベッドを借りること", "2. ホテルの食堂で朝ご飯を食べること", "3. ホテルでパソコンを借りること", "4. ホテルのプールで泳ぐこと"]
+    },
+    "71": {
+      "snippet": "しりょうを コピーする (Photo tài liệu trước tiên)",
+      "explanation": "🎯 Đáp án đúng: [3] しりょうを コピーする (Photo tài liệu)\n\n💬 Dịch nghĩa bài nghe & Phân tích trình tự hành động:\n• Bàn ghế (椅子や机): Đã xếp xong rồi (もう並べてあります).\n• Trà (お茶): Chị Kato sẽ mang đi (加藤さんが持って行ってくれます).\n• Máy tính (パソコン): Photo xong mới chuẩn bị (コピーが済んだら準備します).\n• Người phụ nữ yêu cầu: 「この資料、会議で使うんだけど、コピーしておいて」 (Photo tài liệu này trước nhé). Người nam đồng ý: 「はい」.\n➔ Hành động người nam phải làm TRƯỚC TIÊN (まず) chính là photo tài liệu (しりょうを コピーする).\n\n📄 Trích PDF gốc (听力原文 Trang 20):\n女: そう？それから、この資料、会議で使うんだけど、コピーしておいて。男: はい。",
+      "audioScriptJa": "会社で女の人と男の人が会議の準備をしています。男の人はまず何をしますか。\n女：村上さん、二時から会議が始まるけど、椅子や机は並べてある？\n男：ええ、必要な数、もう並べてあります。\n女：お茶は？\n男：お茶は加藤さんが持って行ってくれます。\n女：そう？それから、この資料、会議で使うんだけど、コピーしておいて。\n男：はい。\n女：パソコンは準備した？\n男：コピーが済んだら準備します。\n男の人はまず何をしますか。",
+      "audioScriptVi": "Nữ: Murakami này, cuộc họp bắt đầu từ lúc 2 giờ đấy, bàn ghế đã xếp xong chưa?\nNam: Vâng, số lượng cần thiết thì tôi đã xếp sẵn xong hết rồi ạ.\nNữ: Còn trà thì sao?\nNam: Trà thì chị Kato sẽ mang đến giúp ạ.\nNữ: Thế à? Vậy thì tài liệu này dùng trong cuộc họp, anh đi photo trước giúp tôi nhé.\nNam: Vâng.\nNữ: Máy tính xách tay đã chuẩn bị chưa?\nNam: Photo xong thì tôi sẽ chuẩn bị ngay ạ.\nHỏi: Người đàn ông sẽ làm gì trước tiên?",
+      "correctOption": 3,
+      "text": "会社で女の人と男の人が会議の準備をしています。男の人はまず何をしますか。",
+      "options": ["1. いすや つくえを ならべる", "2. おちゃを もっていく", "3. しりょうを コピーする", "4. パソコンを じゅんびする"]
+    },
+    "72": {
+      "snippet": "きゅうり: 薄切り / じゃがいも: 細切り / にんじん: 星の形 (Hình 2)",
+      "explanation": "🎯 Đáp án đúng: [2] (Hình 2: きゅうりは薄く、じゃがいもは細く、にんじんは星の形)\n\n💬 Dịch nghĩa bài nghe & Phân tích hình dạng rau củ:\n• Dưa leo (きゅうり): Cắt lát mỏng (薄く切る) ➔ dạng lát mỏng tròn.\n• Khoai tây (じゃがいも): Cắt sợi mảnh dài (細く切る) ➔ dạng que thái sợi.\n• Cà rốt (にんじん): Cắt mỏng rồi tạo hình ngôi sao (薄く切ってから、星の形にする) ➔ hình ngôi sao.\n➔ Đối chiếu 4 hình vẽ trong đề thi, Hình 2 thể hiện chính xác cả 3 yêu cầu trên.\n\n📄 Trích PDF gốc (听力原文 Trang 20):\nきゅうりは薄く切ってください。じゃがいもは細く切ってください。それから、にんじんは薄く切ってから、星の形にしてください。",
+      "audioScriptJa": "料理のクラスで男の人と女の人が話しています。女の人は野菜をどう切りますか。\n男：伊藤さん、きゅうりとじゃがいもとにんじんを切ってくれませんか？\n女：ええ、いいですよ。どうきりますか？\n男：きゅうりは薄く切ってください。じゃがいもは細く切ってください。それから、にんじんは薄く切ってから、星の形にしてください。\n女：星の形ですか？\n男：はい。\n女：分かりました。\n女の人は野菜をどう切りますか。",
+      "audioScriptVi": "Nam: Ito ơi, cô cắt giúp tôi dưa leo, khoai tây và cà rốt được không?\nNữ: Vâng, được chứ ạ. Cắt như thế nào vậy anh?\nNam: Dưa leo thì cô cắt lát mỏng nhé. Khoai tây thì cắt sợi dài mảnh. Sau đó, cà rốt thì cắt lát mỏng rồi tỉa thành hình ngôi sao nhé.\nNữ: Hình ngôi sao ạ?\nNam: Vâng.\nNữ: Tôi hiểu rồi ạ.\nHỏi: Người phụ nữ sẽ cắt các loại rau củ như thế nào?",
+      "correctOption": 2,
+      "text": "料理のクラスで男の人と女の人が話しています。女の人は野菜をどう切りますか。",
+      "options": ["1. きゅうり: 薄切り / じゃがいも: 丸切り / にんじん: 千切り", "2. きゅうり: 薄切り / じゃがいも: 細切り / にんじん: 星の形", "3. きゅうり: 星の形 / じゃがいも: 細切り / にんじん: 千切り", "4. きゅうり: 星の形 / じゃがいも: 丸切り / にんじん: 星の形"]
+    },
+    "73": {
+      "snippet": "プレゼント 10個 (5 nam + 4 nữ + 1 du học sinh Kim)",
+      "explanation": "🎯 Đáp án đúng: [4] 10こ (10 phần quà)\n\n💬 Dịch nghĩa bài nghe & Phép tính số lượng:\n• Tiền bối nam tốt nghiệp: 5 người (男の先輩が五人).\n• Tiền bối nữ tốt nghiệp: 4 người (女の先輩が四人).\n➔ Ban đầu dự tính: 5 + 4 = 9 phần quà (9つ).\n• Sau đó người nam nhớ ra du học sinh Kim sắp về nước cũng tặng quà: thêm 1 phần nữa (キムさんにもあげよう ➔ もう一つ).\n➔ Tổng số quà cần chuẩn bị: 9 + 1 = 10 phần quà (10こ).\n\n📄 Trích PDF gốc (听力原文 Trang 20):\n男の先輩が五人、女の先輩が四人だね。じゃあ、プレゼントは9つだね。留学生のキムさんにもあげよう。うん、もう一つだね。",
+      "audioScriptJa": "大学で同じクラブの男の学生と女の学生が話しています。女の学生はプレゼントを何個用意しますか。\n男：あっ、ちょっとお願いがあるんだけど、いい？\n女：うん、なに？\n男：来月、卒業するクラブの先輩にプレゼントをあげたいんだけど、用意してくれる？僕は花を用意するから。\n女：分かった。\n男：ええと、男の先輩が五人、女の先輩が四人だね。\n女：じゃあ、プレゼントは9つだね。\n男：うん、あっ、留学生のキムさんが国に帰るから、キムさんにもあげよう。\n女：うん、もう一つだね。分かった。\n女の学生はプレゼント何個を用意しますか。",
+      "audioScriptVi": "Nam: À, tớ có việc này muốn nhờ cậu một chút được không?\nNữ: Ừ, việc gì thế?\nNam: Tháng sau tớ muốn tặng quà cho các tiền bối trong câu lạc bộ sắp tốt nghiệp, cậu chuẩn bị giúp tớ được không? Tớ sẽ lo phần hoa.\nNữ: Được rồi.\nNam: Để xem nào, tiền bối nam có 5 người, tiền bối nữ có 4 người nhỉ.\nNữ: Vậy thì quà là 9 phần nhỉ.\nNam: Ừ... À, bạn Kim là du học sinh sắp về nước nữa, hay là tặng cho cả Kim nữa đi.\nNữ: Ừ, thêm một phần nữa nhỉ. Tớ hiểu rồi.\nHỏi: Nữ sinh sẽ chuẩn bị bao nhiêu phần quà?",
+      "correctOption": 4,
+      "text": "大学で同じクラブの男の学生と女の学生が話しています。女の学生はプレゼントを何個用意しますか。",
+      "options": ["1. 4こ", "2. 5こ", "3. 9こ", "4. 10こ"]
+    },
+    "74": {
+      "snippet": "新幹線 (Đi suối nước nóng bằng tàu Shinkansen - Hình 2)",
+      "explanation": "🎯 Đáp án đúng: [2] 新幹線 (Tàu Shinkansen - Hình 2)\n\n💬 Dịch nghĩa bài nghe & Phân tích lựa chọn phương tiện:\n• Máy bay (飛行機): Đắt và suối nước nóng xa sân bay.\n• Xe buýt (バス) & Ô tô (車): Đi mất thời gian và lái xe thì mệt.\n• Tàu Shinkansen (新幹線): Tiện lợi, ga tàu gần suối nước nóng và đi nhanh nhất (新幹線のほうが便利ですよ。駅も近いですし。新幹線が早いと思いますよ).\n➔ Người nam chốt quyết định: 「じゃあ、そうします」 (Vậy tôi sẽ đi tàu Shinkansen) ➔ Chọn Hình 2 (新幹線).\n\n📄 Trích PDF gốc (听力原文 Trang 20):\n新幹線のほうが便利ですよ。駅も近いですし。新幹線が早いと思いますよ。男: じゃあ、そうします。",
+      "audioScriptJa": "男の人と女の人が話しています。男の人は何で温泉に行きますか。\n男：今度の夏休みに友達四人で北原温泉に旅行に行こうと思っているんです。\n女：それはいいですね。私も去年行きましたが、とてもよかったですよ。\n男：そうですか、北原温泉には何で行くのがいいでしょうか。\n女：そうですね。飛行機は高いし、温泉は空港から遠いんですよ。新幹線のほうが便利ですよ。駅も近いですし。\n男：バスや車で行ったら、時間がかかりますか？\n女：ええ、かかるでしょうね。新幹線が早いと思いますよ。\n男：じゃあ、そうします。\n女：車も荷物が多い時は便利ですけど、疲れますからね。\n男：そうですね。\n男の人は何で温泉に行きますか。",
+      "audioScriptVi": "Nam: Kỳ nghỉ hè tới tớ định cùng 4 người bạn đi du lịch ở suối nước nóng Kitahara.\nNữ: Thích thế! Năm ngoái tớ cũng đi rồi, tuyệt vời lắm đấy.\nNam: Thế à, đi suối nước nóng Kitahara bằng phương tiện gì thì tiện nhất nhỉ?\nNữ: À... Máy bay thì đắt, mà suối nước nóng lại xa sân bay lắm. Đi tàu Shinkansen tiện hơn đấy. Ga tàu cũng gần suối nước nóng nữa.\nNam: Đi bằng xe buýt hoặc ô tô thì có mất thời gian không?\nNữ: Có chứ, chắc chắn mất thời gian rồi. Tớ nghĩ Shinkansen là nhanh nhất đấy.\nNam: Vậy thì tớ sẽ đi bằng cách đó (Shinkansen).\nHỏi: Người đàn ông sẽ đi suối nước nóng bằng phương tiện gì?",
+      "correctOption": 2,
+      "text": "男の人と女の人が話しています。男の人は何で温泉に行きますか。",
+      "options": ["1. 飛行機", "2. 新幹線", "3. バス", "4. 車"]
+    },
+    "75": {
+      "snippet": "おちゃと はし (Trà và đũa Nhật Bản)",
+      "explanation": "🎯 Đáp án đúng: [4] おちゃと はし (Trà và đũa Nhật Bản)\n\n💬 Dịch nghĩa bài nghe & Phân tích lựa chọn:\n• Bánh kẹo / Socola (お菓子 / チョコレート): Gia đình không thích ăn bánh kẹo ➔ Loại.\n• Búp bê (人形): Dễ vỡ, mang đi xa nguy hiểm ➔ Loại.\n• Trà Nhật (お茶): Nữ sinh đồng ý chọn (そうですね、いいですね).\n• Đũa Nhật (箸): Nhẹ, không sợ vỡ, nữ sinh chốt: 「じゃあ、それも買って帰ります」 (Vậy tớ sẽ mua cả đũa nữa).\n➔ Kết hợp: Mua Trà và Đũa (おちゃと はし) ➔ Đáp án [4].\n\n📄 Trích PDF gốc (听力原文 Trang 20-21):\n日本のお茶も人気がありますよ。そうですね、いいですね。箸のほうがいいかもしれませんね。じゃあ、それも買って帰ります。",
+      "audioScriptJa": "女の留学生と男の学生が話しています。女の留学生はどんなお土産を買いますか。\n男：マリアさん、来週帰国しますね。はじめての日本はどうでしたか。\n女：短い間でしたが、とても楽しかったです。あのう、日本のお土産を探しているんですが、いいお土産ありませんか？\n男：そうですね。チョコレートは？日本のチョコレートは美味しいですよ。\n女：ううん、私の家族はあまりお菓子を食べないので……\n男：日本のお茶も人気がありますよ。\n女：そうですね、いいですね。あのう、他になにかありますか？\n男：えっと、日本の人形や箸もきれいだし、みんな喜ぶと思いますよ。でも、人形が壊れるのが心配ですね。\n女：そうですね。\n男：お土産は軽くて壊れにくいのがいいですね。箸のほうがいいかもしれませんね。\n女：じゃあ、それも買って帰ります。\n女の留学生はどんなお土産を買いますか。",
+      "audioScriptVi": "Nam: Maria này, tuần tới cậu về nước rồi nhỉ. Lần đầu tiên đến Nhật Bản cậu thấy thế nào?\nNữ: Thời gian tuy ngắn nhưng vui lắm cậu ạ. À này, tớ đang tìm mua quà lưu niệm Nhật Bản, cậu có gợi ý món nào hay không?\nNam: Xem nào... Socola thì sao? Socola Nhật ngon lắm đấy.\nNữ: Không, gia đình tớ không thích ăn bánh kẹo lắm...\nNam: Trà Nhật Bản (お茶) cũng rất được ưa chuộng đấy.\nNữ: Ừ nhỉ, món đó hay đấy! À, còn món nào khác nữa không cậu?\nNam: Búp bê Nhật hay đũa (箸) cũng rất đẹp, tớ nghĩ mọi người sẽ thích. Nhưng mà búp bê thì sợ dễ vỡ/hỏng.\nNữ: Đúng thế thật.\nNam: Quà lưu niệm thì nhẹ và khó vỡ là tốt nhất. Có khi đũa (箸) sẽ hợp hơn đấy.\nNữ: Vậy thì tớ cũng sẽ mua cả món đó (đũa) mang về nữa!\nHỏi: Nữ du học sinh sẽ mua quà lưu niệm gì?",
+      "correctOption": 4,
+      "text": "女の留学生と男の学生が話しています。女の留学生はどんなお土産を買いますか。",
+      "options": ["1. おかしと にんぎょう", "2. おかしと はし", "3. おちゃと にんぎょう", "4. おちゃと はし"]
+    },
+    "76": {
+      "snippet": "「まつり」の さくぶん (Bài văn giới thiệu lễ hội)",
+      "explanation": "🎯 Đáp án đúng: [3] 「まつり」の さくぶん (Bài văn giới thiệu lễ hội)\n\n💬 Dịch nghĩa bài nghe & Phân loại chuẩn bị:\n• Bản đồ (地図): Thầy giáo sẽ chuẩn bị sẵn (地図は私が準備します) ➔ Không mang.\n• Ảnh (写真): Thầy giáo sẽ chụp trên lớp (来週の授業の時私が取ります) ➔ Không mang.\n• Bài văn về đồ ăn (「食べもの」の作文): Sẽ viết tại lớp trong buổi học tới (来週の授業の時作文を書きましょう) ➔ Không chuẩn bị mang đi.\n• Bài văn về lễ hội: Thầy dặn rõ viết ở nhà mang đến lớp: 「祭りについては、祭りを紹介する作文を書いて、来週の授業の時に持ってきてください」.\n➔ Đáp án chính xác là [3].\n\n📄 Trích PDF gốc (听力原文 Trang 21):\n祭りについては、祭りを紹介する作文を書いて、来週の授業の時に持ってきてください。",
+      "audioScriptJa": "授業で男の先生が話しています。学生は来週の授業の時、何を持ってこなければなりませんか。\n男：来週から皆さんの国を紹介するポスターを作ります。例えば、これは日本を紹介するポスターです。日本の地図があります。そして作った人の写真と名前があります。それから日本の祭りというところに、祭りの説明がありますね。その下は日本の食べ物が紹介されています。皆さんは自分の国を紹介します。祭りについては、祭りを紹介する作文を書いて、来週の授業の時に持ってきてください。皆さんの国の食べ物については、来週の授業の時作文を書きましょう。\n女：来週、地図も持ってきますか？\n男：地図は私が準備します。それから皆さんの写真は来週の授業の時私が取ります。\n学生は来週の授業の時、何を持ってこなければなりませんか。",
+      "audioScriptVi": "Thầy giáo: Từ tuần sau chúng ta sẽ làm áp phích giới thiệu về đất nước của các em. Ví dụ, đây là áp phích giới thiệu Nhật Bản: có bản đồ Nhật Bản, có ảnh và tên người làm, mục lễ hội Nhật Bản có bài giải thích về lễ hội, phía dưới là giới thiệu món ăn Nhật Bản. Các em sẽ giới thiệu về đất nước mình. Về phần lễ hội, các em hãy viết bài văn giới thiệu lễ hội ở nhà và mang đến vào buổi học tuần sau nhé. Còn bài văn về món ăn thì tuần sau trên lớp chúng ta sẽ cùng viết.\nHọc sinh nữ: Thưa thầy, tuần sau có phải mang bản đồ đi không ạ?\nThầy giáo: Bản đồ thì thầy sẽ chuẩn bị. Ảnh của các em thì tuần sau trên lớp thầy sẽ chụp cho.\nHỏi: Học sinh phải mang theo thứ gì đến buổi học tuần sau?",
+      "correctOption": 3,
+      "text": "授業で男の先生が話しています。学生は来週の授業の時、何を持ってこなければなりませんか。",
+      "options": ["1. ちず", "2. しゃしん", "3. 「まつり」の さくぶん", "4. 「食べもの」の さくぶん"]
+    },
+    "77": {
+      "snippet": "トマトと りんご (Cà chua và táo)",
+      "explanation": "🎯 Đáp án đúng: [4] トマトと りんご (Cà chua và táo)\n\n💬 Dịch nghĩa bài nghe & Kiểm tra tủ lạnh:\n• Thịt gà (鶏肉): Nhà đã có sẵn (鶏肉もある) ➔ Không mua.\n• Cà tím (ナス): Nhà đã có sẵn (ナスもある) ➔ Không mua.\n• Cà chua (トマト): Nhà chưa có (あっ、トマトがない) ➔ Cần mua.\n• Táo (リンゴ): Mẹ nhắc thêm, nhà cũng hết (それもないから一緒に買ってこよう) ➔ Cần mua.\n➔ Người con trai sẽ mua cà chua và táo: トマトと りんご ➔ Đáp án [4].\n\n📄 Trích PDF gốc (听力原文 Trang 21):\nあっ、トマトがない。それは忘れないでね。ほかには、あっ、リンゴも入れるよ。そう、それもないから一緒に買ってこよう。",
+      "audioScriptJa": "電話で息子とお母さんが話しています。息子は何を買いますか。\n男：あ、もしもし、お母さん、元気？\n女：あっ、一郎？元気よ。\n男：あのう、ちょっと、教えてくれない？\n女：なに？\n男：明日友達が来るから、カレーを作ろうと思っているんだけど、お母さんはカレーにいつも何を入れている？今から買いに行こうと思っているんだ。\n女：カレーね、まず鶏肉ね、野菜はナスとトマト。\n男：うんうん、鶏肉もあるし、ナスもある、あっ、トマトがない。\n女：そう？それは忘れないでね。ほかには、あっ、リンゴも入れるよ。\n男：そう、それもないから一緒に買ってこよう。ありがとう。\n息子は何を買いますか。",
+      "audioScriptVi": "Con trai: Alo mẹ ạ, mẹ có khỏe không?\nMẹ: Ichiro đấy à? Mẹ khỏe.\nCon trai: Mẹ ơi mẹ chỉ cho con chút được không?\nMẹ: Chuyện gì thế con?\nCon trai: Ngày mai bạn con đến chơi nên con định nấu món cà ri. Mẹ nấu cà ri thì thường cho những nguyên liệu gì vậy mẹ? Con đang chuẩn bị đi siêu thị mua đây.\nMẹ: Cà ri à, đầu tiên là thịt gà này, rau củ thì có cà tím và cà chua.\nCon trai: Dạ vâng, thịt gà nhà con có rồi, cà tím cũng có rồi... À, cà chua (トマト) thì chưa có!\nMẹ: Thế à? Nhớ đừng quên mua cà chua nhé. Ngoài ra thì à, mẹ còn cho cả táo (リンゴ) nữa đấy.\nCon trai: Vâng, táo nhà con cũng hết rồi nên con sẽ mua cùng luôn. Con cảm ơn mẹ nhé!\nHỏi: Người con trai sẽ đi mua những thứ gì?",
+      "correctOption": 4,
+      "text": "電話で息子とお母さんが話しています。息子は何を買いますか。",
+      "options": ["1. とりにくと なす", "2. とりにくと りんご", "3. トマトと なす", "4. トマトと りんご"]
+    },
+    "78": {
+      "snippet": "ア ウ エ (Máy ảnh: ア, Ô: ウ, Áo khoác ấm: エ)",
+      "explanation": "🎯 Đáp án đúng: [3] ア ウ エ (Máy ảnh: ア, Ô: ウ, Áo khoác ấm: エ)\n\n💬 Dịch nghĩa bài nghe & Kiểm tra đồ dùng:\n• Máy ảnh (カメラ - ア): Đồng ý mượn anh mang đi (うん、ありがとう).\n• Thuốc (薬 - イ): Đã khỏi ốm nên không mang theo (もう治ったから大丈夫).\n• Chiếc ô (傘 - ウ): Anh trai nhắc núi hay mưa nên mang theo.\n• Áo ấm (上着 - エ): Anh trai nhắc mai trời rét nên phải mang theo.\n• Em gái chốt: 「じゃあ、両方持っていこう」 (mang cả ô lẫn áo khoác).\n➔ Tổng hợp các món đồ mang theo: Máy ảnh (ア) + Ô (ウ) + Áo khoác (エ) = ア ウ エ ➔ Đáp án [3].\n\n📄 Trích PDF gốc (听力原文 Trang 21):\n僕のカメラを持っていく？うん、ありがとう。傘は入れた？上着は必要だよ。じゃあ、両方持っていこう。",
+      "audioScriptJa": "うちで女の人とお兄さんが話しています。女の人は明日何を持っていきますか。\n女：お兄ちゃん、私ね、明日友達と山へ行くんだ。\n男：じゃあ、僕のカメラを持っていく？\n女：うん、ありがとう。\n男：風邪を引いていたけど、大丈夫？薬は持った？\n女：あっ、もう治ったから大丈夫。\n男：そう？傘は入れた？山ではよく雨が降るから、それに明日は寒くなるから、上着は必要だよ。\n女：えっ？そうなんだ。じゃあ、両方持っていこう。\n女の人は明日何を持っていきますか。",
+      "audioScriptVi": "Em gái: Anh ơi, ngày mai em đi leo núi với bạn đấy.\nAnh trai: Thế em có mang máy ảnh (カメラ) của anh đi chụp không?\nEm gái: Dạ có, em cảm ơn anh nhé.\nAnh trai: Mấy hôm trước em bị cảm cúm, đỡ chưa? Đã mang thuốc (薬) theo chưa đấy?\nEm gái: À, em khỏi hẳn rồi nên không cần thuốc đâu ạ.\nAnh trai: Thế à? Thế đã bỏ ô (傘) vào balo chưa? Ở trên núi hay mưa lắm đấy. Với lại ngày mai trời trở lạnh nên áo khoác ấm (上着) là rất cần thiết đấy nhé.\nEm gái: Ơ thế ạ? Vậy thì em sẽ mang theo cả hai thứ đó (両方持っていこう - ô và áo khoác)!\nHỏi: Ngày mai cô gái sẽ mang theo những đồ vật nào?",
+      "correctOption": 3,
+      "text": "うちで女の人とお兄さんが話しています。女の人は明日何を持っていきますか。",
+      "options": ["1. ア イ", "2. イ エ", "3. ア ウ エ", "4. イ ウ エ"]
+    },
+    "79": {
+      "snippet": "来週の 木ようび (Sáng thứ Năm tuần sau)",
+      "explanation": "🎯 Đáp án đúng: [3] 来週の 木ようび (Thứ Năm tuần sau)\n\n💬 Dịch nghĩa bài nghe & Đối chiếu mốc thời gian:\n• Nữ đi du lịch: Thứ Sáu tuần này đến tối thứ Tư tuần sau (8/10) mới về.\n• Nam xuất phát chuyến đi: Thứ Sáu tuần sau (来週の金曜日).\n• Nam đề nghị thời gian nhận lại vali: 「じゃあ、木曜日の朝に持ってこられる？」 (Vậy sáng thứ Năm cậu mang qua cho tớ được không?).\n• Nữ đồng ý: 「うん、大丈夫」.\n➔ Thời điểm trả vali là: Sáng thứ Năm tuần sau (来週の木曜日) ➔ Đáp án [3].\n\n📄 Trích PDF gốc (听力原文 Trang 21):\n男: 分かった。じゃあ、木曜日の朝に持ってこられる？ 女: うん、大丈夫。ありがとう。",
+      "audioScriptJa": "女の人と男の人が話しています。女の人はいつ男の人にスーツケースを返しますか。\n女：松本くん、ちょっといい？\n男：うん、なに？\n女：私、今週の金曜日から旅行に行くんだけど、スーツケースが壊れてしまったんで、かしてくれない？\n男：僕も来週使うんだよ。いつ旅行から帰ってくる？\n女：ええと、来週の水曜日、8月10日の晩。\n男：僕は金曜日出発なんだ、間に合う？\n女：帰ってきたらすぐに返すから。お願い！\n男：分かった。じゃあ、木曜日の朝に持ってこられる？\n女：うん、大丈夫。ありがとう。\n女の人はいつ男の人にスーツケースを返しますか。",
+      "audioScriptVi": "Nữ: Matsumoto ơi, tớ nhờ chút được không?\nNam: Ừ, có chuyện gì thế?\nNữ: Thứ Sáu tuần này tớ đi du lịch, nhưng vali của tớ bị hỏng mất rồi, cậu cho tớ mượn vali được không?\nNam: Tuần sau tớ cũng phải dùng đấy. Bao giờ thì cậu đi du lịch về?\nNữ: Để xem nào, tối thứ Tư tuần sau, ngày 10 tháng 8 tớ về đến nơi.\nNam: Thứ Sáu là tớ xuất phát rồi, liệu có kịp không?\nNữ: Tớ về đến nơi là sẽ trả cậu ngay lập tức. Giúp tớ với nhé!\nNam: Được rồi. Vậy sáng thứ Năm (木曜日の朝) cậu mang trả cho tớ được không?\nNữ: Ừ, được chứ. Cảm ơn cậu nhiều nhé!\nHỏi: Người phụ nữ sẽ trả vali cho người đàn ông vào thời điểm nào?",
+      "correctOption": 3,
+      "text": "女の人と男の人が話しています。女の人はいつ男の人にスーツケースを返しますか。",
+      "options": ["1. 今週の 木ようび", "2. 今週の 金ようび", "3. 来週の 木ようび", "4. 来週の 金ようび"]
+    },
+    "80": {
+      "snippet": "としょかんに 本を かえすこと (Trả sách cho thư viện)",
+      "explanation": "🎯 Đáp án đúng: [2] としょかんに 本を かえすこと (Trả sách cho thư viện)\n\n💬 Dịch nghĩa bài nghe & Phân tích lời nhờ vả:\n• Đi bệnh viện (びょういん): Nam đã tự đi khám xong rồi.\n• Mua đồ ăn / Nấu cơm (買いもの / ごはん): Nam từ chối vì ở nhà có sẵn nhiều thức ăn rồi.\n• Việc nam sinh chính thức nhờ vả: 「明日までに図書館に本を返さないといけないんだけど、お願いしてもいい？」 (Trước ngày mai phải trả sách cho thư viện, tớ nhờ cậu việc đó được không?).\n➔ Việc được nhờ là: Trả sách thư viện (としょかんに 本を かえすこと) ➔ Đáp án [2].\n\n📄 Trích PDF gốc (听力原文 Trang 21):\nじゃあ、明日までに図書館に本を返さないといけないんだけど、お願いしてもいい？うん、いいよ。",
+      "audioScriptJa": "電話で女の学生と男の学生が話しています。男の学生は女の学生に何を頼みましたか。\n女：もしもし、足の怪我は大丈夫？\n男：え、病院に行って診てもらったから大丈夫。でも歩けないから困っているんだ。\n女：私にできることがあったら何でも言って。\n男：じゃあ、明日までに図書館に本を返さないといけないんだけど、お願いしてもいい？\n女：うん、いいよ。食べるものはある？何か買って行こうか？\n男：食べ物はうちにたくさんあるから、いいよ。\n女：じゃあ、本は、今日授業の後で取りに行くね。\n男の学生は女の学生に何を頼みましたか。",
+      "audioScriptVi": "Nữ: Alo, chân cậu bị thương đã đỡ chưa?\nNam: Ừ, tớ đi bệnh viện khám rồi nên không sao. Nhưng vì không đi lại được nên đang gặp rắc rối đây.\nNữ: Có việc gì tớ giúp được thì cậu cứ nói nhé.\nNam: Thế thì, trước ngày mai tớ phải trả sách cho thư viện (図書館に本を返す), tớ nhờ cậu việc đó được không?\nNữ: Ừ, được chứ. Cậu có đồ ăn chưa? Có cần tớ mua gì mang qua không?\nNam: Đồ ăn ở nhà tớ có nhiều rồi, không cần đâu.\nNữ: Vậy thì sách, lát nữa tan học tớ sẽ qua lấy giúp cậu nhé.\nHỏi: Nam sinh đã nhờ nữ sinh giúp việc gì?",
+      "correctOption": 2,
+      "text": "電話で女の学生と男の学生が話しています。男の学生は女の学生に何を頼みましたか。",
+      "options": ["1. びょういんに つれて いくこと", "2. としょかんに 本を かえすこと", "3. 買いものを すること", "4. ごはんを つくること"]
+    },
+    "81": {
+      "snippet": "1か月に 1かい (Mỗi tháng một lần)",
+      "explanation": "🎯 Đáp án đúng: [4] 1か月に 1かい (Một tháng một lần)\n\n💬 Dịch nghĩa bài nghe & Bẫy thông tin tần suất:\n• Chạy bộ hàng ngày (毎日): Đó là chuyện của năm ngoái (去年まで).\n• Mỗi tuần 1 lần (1週間に1回): Đó chỉ là mong muốn chưa làm được của người nam (本当は一週間に一回は運動したいんだけど).\n• Mỗi tuần 2 lần (1週間に2回): Đó là tần suất tập của người NỮ (私は一週間に二回は運動をしているよ).\n• Thực tế hiện tại của người NAM: 「月に一回友達とテニスをしている」 (Mỗi tháng 1 lần chơi tennis cùng bạn).\n➔ Tần suất tập của người nam: 1か月に 1かい ➔ Đáp án [4].\n\n📄 Trích PDF gốc (听力原文 Trang 21-22):\n月に一回友達とテニスをしているけど、ほかには何もしていないよ。",
+      "audioScriptJa": "女の人と男の人が話しています。男の人は最近どのくらい運動をしていますか。男の人です。\n女：最近運動している？\n男：去年までは毎日走っていたんだけど、最近忙しいから全然走っていないよ。\n女：でも一週間に一回ぐらいはなにかしている？\n男：ううん。月に一回友達とテニスをしているけど、ほかには何もしていないよ。本当は一週間に一回は運動したいんだけど。なかなか。\n女：そう。忙しくても、もう少し何かしたほうがいいと思うよ。私は一週間に二回は運動をしているよ。\n男の人は最近どのくらい運動をしていますか。",
+      "audioScriptVi": "Nữ: Dạo này cậu có tập thể dục thể thao gì không?\nNam: Đến tận năm ngoái thì ngày nào tớ cũng chạy bộ, nhưng dạo này bận quá nên hoàn toàn không chạy bộ nữa rồi.\nNữ: Nhưng mỗi tuần 1 lần cậu có tập gì không?\nNam: Không. Mỗi tháng 1 lần (月に一回) tớ đi đánh tennis với bạn bè, ngoài ra thì chẳng tập gì khác cả. Thực ra tớ cũng muốn mỗi tuần tập 1 lần đấy, nhưng khó thu xếp quá.\nNữ: Thế à. Dù bận nhưng tớ nghĩ cậu nên vận động thêm một chút thì hơn. Tớ thì một tuần tập thể dục 2 lần đấy.\nHỏi: Dạo gần đây người đàn ông tập thể dục với tần suất như thế nào? (Chú ý hỏi người đàn ông).",
+      "correctOption": 4,
+      "text": "女の人と男の人が話しています。男の人は最近どのくらい運動をしていますか。男の人です。",
+      "options": ["1. 毎日", "2. 1週間に 2かい", "3. 1週間に 1かい", "4. 1か月に 1かい"]
+    },
+    "82": {
+      "snippet": "レポートを 出しに 行くから (Đi nộp báo cáo cho thầy giáo)",
+      "explanation": "🎯 Đáp án đúng: [3] レポートを 出しに 行くから (Vì phải đi nộp báo cáo)\n\n💬 Dịch nghĩa bài nghe & Phân biệt lý do bận việc:\n• Giúp thầy giáo làm việc (先生のしごとを手つだう): Nam sinh phủ định ngay: 「いいえ」.\n• Photo tài liệu (コピーをする): Đó là việc của nữ sinh, nam sinh chưa làm.\n• Đến văn phòng (じむしょ): Nữ sinh đi đến văn phòng để photo.\n• Lý do nam sinh bận ngay lúc này: 「先生の部屋にレポートを出しに行くんですね」 (Đang đi đến phòng thầy để nộp bài báo cáo).\n➔ Lý do chính xác: レポートを 出しに 行くから ➔ Đáp án [3].\n\n📄 Trích PDF gốc (听力原文 Trang 22):\nいいえ、先生の部屋にレポートを出しに行くんですね。だからすぐ終わると思います。",
+      "audioScriptJa": "大学で女の学生と男の学生が話しています。男の学生はどうして、いますぐ女の学生を手伝うことができませんか。\n女：中山くん、今から研究会の資料をコピーするんですけど、手伝ってもらえませんか？\n男：あっ、今先生の部屋に行くところなんです。ちょっと待っていてください。\n女：ああ、先生が手伝ってもらいたい仕事があると言っていましたね。その仕事ですか？\n男：いいえ、先生の部屋にレポートを出しに行くんですね。だからすぐ終わると思います。\n女：じゃあ、私これから事務所へ行ってコピーを始めますから、終わったら来てください。\n男：はい。\n男の学生はどうして、いますぐ女の学生を手伝うことができませんか。",
+      "audioScriptVi": "Nữ: Nakayama ơi, bây giờ tớ chuẩn bị đi photo tài liệu cho buổi nghiên cứu, cậu giúp tớ một tay được không?\nNam: À, bây giờ tớ đang trên đường đến phòng thầy giáo. Cậu đợi tớ một chút nhé.\nNữ: À, thầy có bảo có việc muốn nhờ giúp, có phải công việc đó không?\nNam: Không phải, tớ đến phòng thầy để nộp báo cáo thôi (レポートを出しに行くんですね). Nên chắc sẽ xong ngay thôi mà.\nNữ: Vậy tớ đi đến văn phòng bắt đầu photo trước đây, xong việc thì cậu qua nhé.\nNam: Vâng.\nHỏi: Tại sao nam sinh không thể giúp nữ sinh ngay bây giờ?",
+      "correctOption": 3,
+      "text": "大学で女の学生と男の学生が話しています。男の学生はどうして、いますぐ女の学生を手伝うことができませんか。",
+      "options": ["1. しりょうの コピーを するから", "2. 先生の しごとを てつだうから", "3. レポートを 出しに 行くから", "4. じむしょに 行くから"]
+    },
+    "83": {
+      "snippet": "れいぞうこだけ (Chỉ cho chiếc tủ lạnh)",
+      "explanation": "🎯 Đáp án đúng: [2] れいぞうこだけ (Chỉ cho chiếc tủ lạnh)\n\n💬 Dịch nghĩa bài nghe & Phân loại từng món đồ:\n• Lò vi sóng (電子レンジ): Nhà nữ đã có lò mới rồi ➔ Từ chối không lấy (レンジはうちに新しいのがあるんです).\n• Bàn (テーブル): Phòng của nữ cũng chật không kê được ➔ Từ chối không lấy (私の部屋も狭いんです).\n• Tủ lạnh (冷蔵庫): Tủ lạnh nhà nữ đã cũ nên đồng ý nhận (それなら、私にください。うちの冷蔵庫もう古いから).\n➔ Người nam chỉ cho người nữ duy nhất chiếc tủ lạnh: れいぞうこだけ ➔ Đáp án [2].\n\n📄 Trích PDF gốc (听力原文 Trang 22):\nそれなら、私にください。うちの冷蔵庫もう古いから。電子レンジもどう？ううん、レンジはうちに新しいのがあるんです。",
+      "audioScriptJa": "男の人と女の人が話しています。男の人は女の人に何をあげますか。\n男：ねえ、山田さん、冷蔵庫と電子レンジいらない？\n女：えっ、どうしたんですか。\n男：今度姉が結婚して引っ越すんだ。それでいろいろな物が要らなくなるから、僕にくれるんだよ。\n女：ああ。\n男：それで、今僕が使っているのを誰かにあげようと思っているんだ。\n女：それなら、私にください。うちの冷蔵庫もう古いから。\n男：いいよ、電子レンジもどう？\n女：ううん、レンジはうちに新しいのがあるんです。\n男：そっか、あっ、それからテーブルもあげると言われたんだけど、僕の部屋は狭くて置けないと思うんだ、いる？\n女：テーブルは、私の部屋も狭いんです。\n男：そっか、分かった。\n男の人は女の人に何をあげますか。",
+      "audioScriptVi": "Nam: Này Yamada, cậu có cần tủ lạnh và lò vi sóng không?\nNữ: Ơ, có chuyện gì thế anh?\nNam: Chị gái tôi sắp kết hôn chuyển nhà đi, thừa ra nhiều đồ nên cho tôi. Vì thế tôi định đem đồ tôi đang dùng cho ai đó.\nNữ: Thế thì cho tôi xin tủ lạnh nhé. Tủ lạnh nhà tôi cũng cũ rồi.\nNam: Được chứ, lò vi sóng (電子レンジ) thì sao?\nNữ: Dạ không, lò vi sóng nhà tôi có cái mới rồi.\nNam: Thế à... À, chị tôi còn bảo cho cái bàn (テーブル) nữa, nhưng phòng tôi chật không kê được, cô có lấy không?\nNữ: Bàn thì phòng tôi cũng chật lắm ạ.\nNam: Thế à, tôi hiểu rồi.\nHỏi: Người đàn ông sẽ cho người phụ nữ đồ vật gì?",
+      "correctOption": 2,
+      "text": "男の人と女の人が話しています。男の人は女の人に何をあげますか。",
+      "options": ["1. れいぞうこと 電子レンジ", "2. れいぞうこだけ", "3. 電子レンジと テーブル", "4. テーブルだけ"]
+    },
+    "84": {
+      "snippet": "ぎんこうの たてもの (Tòa nhà ngân hàng vẫn không thay đổi)",
+      "explanation": "🎯 Đáp án đúng: [1] ぎんこうの たてもの (Tòa nhà ngân hàng)\n\n💬 Dịch nghĩa bài nghe & Phân tích các địa điểm:\n• Rạp chiếu phim (映画館): Đã bị phá để biến thành bãi đỗ xe (映画館は駐車場になった) ➔ Đã thay đổi.\n• Công viên (公園): Dự kiến sang năm mới xây (来年公園ができる) ➔ Hiện tại chưa có.\n• Tòa nhà ngân hàng (銀行の建物): Người nữ khẳng định bản thân tòa nhà vẫn y hệt như xưa: 「昔と同じなのに、今は小さく見えます」 (Dù sang năm sẽ bị phá, nhưng hiện tại vẫn y như thời thơ ấu).\n➔ Thứ không thay đổi từ thời thơ ấu đến nay là: Tòa nhà ngân hàng (ぎんこうの たてもの) ➔ Đáp án [1].\n\n📄 Trích PDF gốc (听力原文 Trang 22):\nあそこに見える銀行、昔と同じなのに、今は小さく見えます。周りに高いマンションが立ったから。",
+      "audioScriptJa": "街で男の人と女の人が話しています。二人が子供の時から変わらないものは何だと言っていますか。変わらないものです。\n男：僕、今日久しぶりにこの街に来たんですけど。僕達が小学生の頃とは、街がすっかり変わってしまいましたね。マンションが増えていて、びっくりしました。\n女：ええ、この十年ぐらいの間に、どんどん変わっているんです。あそこに見える銀行、前はこの辺で一番高い建物だったんだけど。\n男：ええ。\n女：昔と同じなのに、今は小さく見えます。周りに高いマンションが立ったから。\n男：本当ですね。あのう、この辺りに小さい映画館がありませんでしたか。子供の頃家族でよく見に来たんですょ。\n女：ああ、映画館。映画館は駐車場になったんですよ。\n男：そうですか。\n女：あ、それにあそこの銀行の建物も来年には壊されて、公園ができるそうです。\n男：思い出の場所がなくなってしまうのは寂しいですね。\n二人が子供の時から変わらないものは何だと言っていますか。",
+      "audioScriptVi": "Nam: Hôm nay lâu lắm rồi tôi mới trở lại khu phố này. So với hồi chúng mình còn là học sinh tiểu học thì phố xá đã thay đổi hoàn toàn rồi nhỉ. Chung cư mọc lên nhiều làm tôi ngạc nhiên quá.\nNữ: Vâng, trong khoảng 10 năm trở lại đây thay đổi nhanh lắm. Ngân hàng nhìn thấy đằng kia kìa, trước đây từng là tòa nhà cao nhất khu này đấy.\nNam: Đúng vậy.\nNữ: Bản thân tòa nhà ngân hàng vẫn y nguyên như xưa (昔と同じなのに), nhưng bây giờ trông bé lại hẳn, vì xung quanh toàn mọc lên chung cư cao tầng.\nNam: Chuẩn thật đấy. À này, khu này trước đây có rạp chiếu phim nhỏ đúng không? Hồi bé tôi hay cùng gia đình đến xem lắm.\nNữ: À, rạp chiếu phim thì đã biến thành bãi đỗ xe (駐車場) mất rồi. Tòa nhà ngân hàng kia nghe nói sang năm cũng sẽ bị phá dỡ để xây công viên (公園).\nHỏi: Vật gì từ thời thơ ấu của hai người đến nay vẫn KHÔNG THAY ĐỔI (変わらないもの)?",
+      "correctOption": 1,
+      "text": "街で男の人と女の人が話しています。二人が子供の時から変わらないものは何だと言っていますか。変わらないものです。",
+      "options": ["1. ぎんこうの たてもの", "2. えいがかんの たてもの", "3. ちゅうしゃじょう", "4. こうえん"]
+    },
+    "85": {
+      "snippet": "べんきょう (Được Takashi dạy học)",
+      "explanation": "🎯 Đáp án đúng: [1] べんきょう (Việc học tập)\n\n💬 Dịch nghĩa bài nghe & Phân biệt hướng hành động (ai dạy cho ai):\n• Đàn guitar (ギター): Người nói dạy cho Takashi (僕はギターの弾き方を教えた).\n• Nấu ăn (料理): Takashi nấu ăn giỏi, người nói chúc Takashi nấu cho vợ ăn.\n• Học tập (勉強): Takashi dạy cho người nói ➔ Người nói ĐƯỢC Takashi dạy học: 「隆くんは... よく僕に勉強を教えてくれました」 (Takashi thường dạy học cho tôi).\n➔ Thứ người nam được Takashi dạy là: Việc học tập (べんきょう) ➔ Đáp án [1].\n\n📄 Trích PDF gốc (听力原文 Trang 22):\n隆くんはクラスで一番頭がよくて、よく僕に勉強を教えてくれました。",
+      "audioScriptJa": "男の人が友達の隆くんの結婚式で話しています。男の人は隆くんに何を教えてもらいましたか。\n男：隆くん、陽子さん、ご結婚おめでとうございます。僕と隆くんは高校の時からの友達です。隆くんはクラスで一番頭がよくて、よく僕に勉強を教えてくれました。僕はギターの弾き方を教えたんですが、隆くんはすぐ僕より上手になって、ギターを引きながら、歌も歌っていました。それだけじゃなくて、料理も上手です。隆くん、陽子さんにぜひ料理を教えて、いいえ、美味しい料理を作ってあげてください。\n男の人は隆くんに何を教えてもらいましたか。",
+      "audioScriptVi": "Nam: Chúc mừng hạnh phúc Takashi và Yoko nhé! Tôi và Takashi là bạn thân từ hồi cấp ba. Takashi thông minh nhất lớp, và cậu ấy thường xuyên dạy học cho tôi (よく僕に勉強を教えてくれました). Tôi thì có dạy Takashi cách chơi đàn guitar, nhưng Takashi học nhanh còn chơi giỏi hơn cả tôi, vừa gảy đàn vừa hát. Không chỉ vậy, Takashi còn nấu ăn rất ngon nữa. Takashi này, cậu hãy dạy Yoko nấu ăn... à không, hãy nấu những món thật ngon cho Yoko ăn nhé!\nHỏi: Người đàn ông ĐƯỢC Takashi dạy cho điều gì (教えてもらいましたか)?",
+      "correctOption": 1,
+      "text": "男の人が友達の隆くんの結婚式で話しています。男の人は隆くんに何を教えてもらいましたか。",
+      "options": ["1. べんきょう", "2. ギター", "3. うた", "4. りょうり"]
+    },
+    "86": {
+      "snippet": "ここでとめてください (Xin dừng xe ở đây)",
+      "explanation": "🎯 Đáp án đúng: [2] ここでとめてください。\n\n💬 Ngữ cảnh tình huống: Đang đi taxi và muốn xuống xe tại chỗ này.\n💡 Phân tích các câu phát ngôn:\n• 1. ここでとまっています: Xe đang đỗ ở đây (chỉ miêu tả trạng thái, không phải câu yêu cầu dừng xe).\n• 2. ここでとめてください: Xin hãy dừng xe ở đây (Tha động từ 止める chia thể てください là mẫu câu lịch sự chuẩn mực để yêu cầu tài xế dừng xe cho mình xuống).\n• 3. ここで降りてもらいますね: Nhận được việc tài xế xuống xe (sai chủ thể hành động).\n\n📄 Trích PDF gốc (听力原文 Trang 22):\nタクシーに乗っています。ここで降りたいです。なんと言いますか。2. ここでとめてください。",
+      "audioScriptJa": "タクシーに乗っています。ここで降りたいです。なんと言いますか。\n1. ここでとまっています。\n2. ここでとめてください。\n3. ここで降りてもらいますね。",
+      "audioScriptVi": "Ngữ cảnh: Đang ngồi trên xe taxi và muốn xuống xe ở chỗ này. Bạn sẽ nói thế nào?\n1. Xe đang dừng ở đây.\n2. Xin hãy dừng xe ở đây giúp tôi.\n3. Nhận được việc tài xế xuống xe ở đây.",
+      "correctOption": 2,
+      "text": "タクシーに乗っています。ここで降りたいです。なんと言いますか。",
+      "options": ["1. ここでとまっています。", "2. ここでとめてください。", "3. ここで降りてもらいますね。"]
+    },
+    "87": {
+      "snippet": "手伝おうか (Để tớ giúp một tay nhé)",
+      "explanation": "🎯 Đáp án đúng: [2] 手伝おうか。\n\n💬 Ngữ cảnh tình huống: Thấy bạn bè đang vất vả bê đồ nặng, mình muốn chủ động giúp bạn.\n💡 Phân tích các câu phát ngôn:\n• 1. 手伝ってくるよ: Đi giúp người khác rồi quay lại (sai ngữ nghĩa).\n• 2. 手伝おうか: Thể ý chí + か (V-ようか) dùng để chủ động đề nghị giúp đỡ đối phương một cách thân thiện: \"Để tớ giúp một tay nhé?\" (ĐÚNG).\n• 3. 手伝ってもらえる？: Cậu giúp tớ được không? (Mẫu câu nhờ đối phương giúp mình, ngược ngữ cảnh).\n\n📄 Trích PDF gốc (听力原文 Trang 22):\n友達が重そうな荷物を運んでいます。手伝いたいです。なんと言いますか。2. 手伝おうか。",
+      "audioScriptJa": "友達が重そうな荷物を運んでいます。手伝いたいです。なんと言いますか。\n1. 手伝ってくるよ。\n2. 手伝おうか。\n3. 手伝ってもらえる？",
+      "audioScriptVi": "Ngữ cảnh: Bạn bè đang bê đồ có vẻ rất nặng. Bạn muốn giúp đỡ bạn mình thì sẽ nói thế nào?\n1. Tớ đi giúp ai đó rồi về nhé.\n2. Để tớ giúp một tay nhé?\n3. Cậu giúp tớ được không?",
+      "correctOption": 2,
+      "text": "友達が重そうな荷物を運んでいます。手伝いたいです。なんと言いますか。",
+      "options": ["1. 手伝ってくるよ。", "2. 手伝おうか。", "3. 手伝ってもらえる？"]
+    },
+    "88": {
+      "snippet": "資料ができました (Em đã làm xong tài liệu rồi ạ)",
+      "explanation": "🎯 Đáp án đúng: [3] 資料ができました。\n\n💬 Ngữ cảnh tình huống: Đã hoàn thành tài liệu được trưởng phòng (課長) giao, cần báo cáo công việc hoàn thành.\n💡 Phân tích các câu phát ngôn:\n• 1. 資料をみせてくださいませんか: Xin trưởng phòng cho xem tài liệu (sai ngữ cảnh).\n• 2. すぐに資料を作ります: Em sẽ làm ngay tài liệu (nói khi vừa nhận việc, chưa làm xong).\n• 3. 資料ができました: Tài liệu đã làm xong rồi ạ (Động từ できる ở quá khứ biểu thị việc đã hoàn thành xong xuôi) ➔ Đáp án [3].\n\n📄 Trích PDF gốc (听力原文 Trang 22-23):\n課長に頼まれた資料を作りました。課長になんと言いますか。3. 資料ができました。",
+      "audioScriptJa": "課長に頼まれた資料を作りました。課長になんと言いますか。\n1. 資料をみせてくださいませんか。\n2. すぐに資料を作ります。\n3. 資料ができました。",
+      "audioScriptVi": "Ngữ cảnh: Bạn đã làm xong tài liệu mà trưởng phòng giao cho. Bạn sẽ nói gì với trưởng phòng?\n1. Trưởng phòng cho em xem tài liệu được không ạ?\n2. Em sẽ làm tài liệu ngay bây giờ ạ.\n3. Em đã hoàn thành tài liệu rồi ạ.",
+      "correctOption": 3,
+      "text": "課長に頼まれた資料を作りました。課長になんと言いますか。",
+      "options": ["1. 資料をみせてくださいませんか。", "2. すぐに資料を作ります。", "3. 資料ができました。"]
+    },
+    "89": {
+      "snippet": "あのう、部屋はあいていますか (Khách sạn còn phòng trống không ạ?)",
+      "explanation": "🎯 Đáp án đúng: [1] あのう、部屋はあいていますか。\n\n💬 Ngữ cảnh tình huống: Đến khách sạn trực tiếp không qua đặt phòng trước và muốn nghỉ trọ.\n💡 Phân tích các câu phát ngôn:\n• 1. あのう、部屋はあいていますか: Xin hỏi ở đây có còn phòng trống không ạ? (Mẫu câu hỏi phòng trống chuẩn mực khi đến khách sạn: 部屋があいている).\n• 2. こちらに泊まっていますか: Anh/chị đang nghỉ ở đây à? (Hỏi khách khác, không phải nói với lễ tân).\n• 3. これから予約してみましょうか: Chúng ta thử đặt phòng xem sao nhé (Rủ người đồng hành, không dùng nói với lễ tân).\n\n📄 Trích PDF gốc (听力原文 Trang 23):\n予約をしていませんが、このホテルに泊まりたいです。なんと言いますか。1. あのう、部屋はあいていますか。",
+      "audioScriptJa": "予約をしていませんが、このホテルに泊まりたいです。なんと言いますか。\n1. あのう、部屋はあいていますか。\n2. こちらに泊まっていますか。\n3. これから予約してみましょうか。",
+      "audioScriptVi": "Ngữ cảnh: Bạn chưa đặt phòng trước nhưng muốn nghỉ tại khách sạn này. Bạn sẽ nói với lễ tân thế nào?\n1. Xin lỗi, khách sạn còn phòng trống không ạ?\n2. Anh/chị đang trọ ở đây à?\n3. Từ bây giờ chúng ta thử đặt phòng xem sao nhé.",
+      "correctOption": 1,
+      "text": "予約をしていませんが、このホテルに泊まりたいです。なんと言いますか。",
+      "options": ["1. あのう、部屋はあいていますか。", "2. こちらに泊まっていますか。", "3. これから予約してみましょうか。"]
+    },
+    "90": {
+      "snippet": "先生、辞書を見てもいいでしょうか (Thưa cô, em có được tra từ điển không ạ?)",
+      "explanation": "🎯 Đáp án đúng: [2] 先生、辞書を見てもいいでしょうか。\n\n💬 Ngữ cảnh tình huống: Muốn xin phép giáo viên xem có được tra từ điển trong bài thi hay không.\n💡 Phân tích các câu phát ngôn:\n• 1. すみません、辞書で調べてもらえますか: Nhờ thầy tra từ điển hộ em (vô lý và thiếu lễ độ trong phòng thi).\n• 2. 先生、辞書を見てもいいでしょうか: Thưa cô, em có thể tra từ điển được không ạ? (Mẫu xin phép lịch sự: V-てもいいでしょうか) ➔ Đáp án [2].\n• 3. あのう、辞書の使い方を教えてください: Hãy chỉ cho em cách dùng từ điển (hỏi cách tra từ, sai mục đích).\n\n📄 Trích PDF gốc (听力原文 Trang 23):\nテストが始まります。辞書が使えるかどうか知りたいです、先生になんと言いますか。2. 先生、辞書を見てもいいでしょうか。",
+      "audioScriptJa": "テストが始まります。辞書が使えるかどうか知りたいです、先生になんと言いますか。\n1. すみません、辞書で調べてもらえますか。\n2. 先生、辞書を見てもいいでしょうか。\n3. あのう、辞書の使い方を教えてください。",
+      "audioScriptVi": "Ngữ cảnh: Giờ kiểm tra sắp bắt đầu. Bạn muốn biết có được dùng từ điển hay không. Bạn sẽ hỏi giáo viên thế nào?\n1. Xin lỗi, thầy tra từ điển giúp em được không ạ?\n2. Thưa thầy/cô, em có thể xem/tra từ điển được không ạ?\n3. Xin thầy chỉ cho em cách tra từ điển với ạ.",
+      "correctOption": 2,
+      "text": "テストが始まります。辞書が使えるかどうか知りたいです、先生になんと言いますか。",
+      "options": ["1. すみません、辞書で調べてもらえますか。", "2. 先生、辞書を見てもいいでしょうか。", "3. あのう、辞書の使い方を教えてください。"]
+    },
+    "91": {
+      "snippet": "十五分です (Mất 15 phút)",
+      "explanation": "🎯 Đáp án đúng: [1] 十五分です。\n\n💬 Phân tích câu hỏi phản xạ:\n• Câu hỏi: 「どのぐらいかかりますか (Mất bao lâu?)」 hỏi về khoảng thời gian cần thiết khi đi bộ từ nhà đến trường.\n• 1. 十五分です: Mất 15 phút (ĐÚNG - Trả lời cho lượng thời gian).\n• 2. 五百メートルです: 500 mét (Trả lời cho câu hỏi khoảng cách: どのくらいありますか).\n• 3. 五百円です: 500 yên (Trả lời cho câu hỏi chi phí: いくらかかりますか).\n\n📄 Trích PDF gốc (听力原文 Trang 23):\n家から学校まで歩いてどのぐらいかかりますか。1. 十五分です。",
+      "audioScriptJa": "家から学校まで歩いてどのぐらいかかりますか。\n1. 十五分です。\n2. 五百メートルです。\n3. 五百円です。",
+      "audioScriptVi": "Câu hỏi: Đi bộ từ nhà đến trường mất khoảng bao lâu?\n1. Mất 15 phút.\n2. Khoảng 500 mét.\n3. Mất 500 yên.",
+      "correctOption": 1,
+      "text": "家から学校まで歩いてどのぐらいかかりますか。",
+      "options": ["1. 十五分です。", "2. 五百メートルです。", "3. 五百円です。"]
+    },
+    "92": {
+      "snippet": "最近はちょっと忙しいです (Dạo này tôi hơi bận một chút)",
+      "explanation": "🎯 Đáp án đúng: [2] 最近はちょっと忙しいです。\n\n💬 Phân tích câu hỏi phản xạ:\n• Lời chào hỏi: 「最近お仕事はいかがですか (Dạo này công việc thế nào rồi?)」 hỏi thăm tình trạng công việc.\n• 1. あんまり上手じゃないんですよ: Tôi không giỏi lắm (dùng đáp lại lời khen ngợi kỹ năng, không khớp câu hỏi).\n• 2. 最近はちょっと忙しいです: Dạo này tôi hơi bận một chút (ĐÚNG - Trả lời tình hình công việc).\n• 3. とても元気だと思います: Tôi nghĩ là rất khỏe (nói phỏng đoán người thứ ba, không phù hợp).\n\n📄 Trích PDF gốc (听力原文 Trang 23):\nあ、田中さん久しぶり、最近お仕事はいかがですか。2. 最近はちょっと忙しいです。",
+      "audioScriptJa": "あ、田中さん久しぶり、最近お仕事はいかがですか。\n1. あんまり上手じゃないんですよ。\n2. 最近はちょっと忙しいです。\n3. とても元気だと思います。",
+      "audioScriptVi": "Câu hỏi: A, anh Tanaka lâu ngày quá, dạo này công việc thế nào rồi anh?\n1. Tôi làm không giỏi lắm đâu.\n2. Dạo này tôi hơi bận một chút.\n3. Tôi nghĩ là rất khỏe.",
+      "correctOption": 2,
+      "text": "あ、田中さん久しぶり、最近お仕事はいかがですか。",
+      "options": ["1. あんまり上手じゃないんですよ。", "2. 最近はちょっと忙しいです。", "3. とても元気だと思います。"]
+    },
+    "93": {
+      "snippet": "はじめて来ました (Lần đầu tiên tôi đến đây)",
+      "explanation": "🎯 Đáp án đúng: [3] はじめて来ました。\n\n💬 Phân tích câu hỏi phản xạ:\n• Câu hỏi: 「前にこの店に来たことがある？ (Trước đây cậu từng đến quán này lần nào chưa?)」 hỏi về trải nghiệm quá khứ (V-たことがある).\n• 1. 店の前にあったんです: Nhầm chữ 前に (trước đây) thành phía trước cửa tiệm.\n• 2. いま来たところです: Tớ vừa mới tới nơi (chỉ thời điểm hành động vừa xảy ra, không trả lời cho trải nghiệm).\n• 3. はじめて来ました: Đây là lần đầu tiên tôi đến (ĐÚNG - Trả lời phủ định kinh nghiệm trước đó: chưa từng đến, đây là lần đầu) ➔ Đáp án [3].\n\n📄 Trích PDF gốc (听力原文 Trang 23):\n前にこの店に来たことがある？ 3. はじめて来ました。",
+      "audioScriptJa": "前にこの店に来たことがある？\n1. 店の前にあったんです。\n2. いま来たところです。\n3. はじめて来ました。",
+      "audioScriptVi": "Câu hỏi: Trước đây cậu đã từng đến quán này bao giờ chưa?\n1. Nó ở đằng trước cửa hàng.\n2. Tớ vừa mới tới nơi đây.\n3. Đây là lần đầu tiên tớ đến.",
+      "correctOption": 3,
+      "text": "前にこの店に来たことがある？",
+      "options": ["1. 店の前にあったんです。", "2. いま来たところです。", "3. はじめて来ました。"]
+    },
+    "94": {
+      "snippet": "うん、今度は海がいいな (Ừ, lần tới đi biển thì tuyệt nhỉ)",
+      "explanation": "🎯 Đáp án đúng: [3] うん、今度は海がいいな。\n\n💬 Phân tích câu nói phản xạ:\n• Câu nói: 「今日は楽しかった。またどこか遊びに行こうよ (Hôm nay vui quá. Hôm nào lại cùng đi đâu chơi tiếp nhé!)」 là lời rủ rê đi chơi lần sau.\n• 1. まだ遊びに行っていないよ: Vẫn chưa đi chơi (mâu thuẫn vì hôm nay vừa đi chơi về).\n• 2. 気をつけていってらっしゃい: Đi cẩn thận nhé (lời chào tiễn người ra ngoài).\n• 3. うん、今度は海がいいな: Ừ, lần tới đi biển thì hay nhỉ (ĐÚNG - Đồng tình và hào hứng đề xuất điểm đến tiếp theo) ➔ Đáp án [3].\n\n📄 Trích PDF gốc (听力原文 Trang 23):\n今日は楽しかった。またどこか遊びに行こうよ。3. うん、今度は海がいいな。",
+      "audioScriptJa": "今日は楽しかった。またどこか遊びに行こうよ。\n1. まだ遊びに行っていないよ。\n2. 気をつけていってらっしゃい。\n3. うん、今度は海がいいな。",
+      "audioScriptVi": "Câu nói: Hôm nay vui quá. Hôm nào chúng mình lại cùng đi đâu chơi tiếp nhé!\n1. Tớ vẫn chưa đi chơi đâu.\n2. Cậu đi cẩn thận nhé.\n3. Ừ, lần tới đi biển thì thích nhỉ!",
+      "correctOption": 3,
+      "text": "今日は楽しかった。またどこか遊びに行こうよ。",
+      "options": ["1. まだ遊びに行っていないよ。", "2. 気をつけていってらっしゃい。", "3. うん、今度は海がいいな。"]
+    },
+    "95": {
+      "snippet": "たくさん書いて覚えています (Viết thật nhiều để nhớ)",
+      "explanation": "🎯 Đáp án đúng: [1] たくさん書いて覚えています。\n\n💬 Phân tích câu hỏi phản xạ:\n• Câu hỏi: 「どうやって漢字を覚えるんですか (Cậu học nhớ chữ Hán bằng cách nào thế?)」 hỏi về phương pháp/cách thức ghi nhớ.\n• 1. たくさん書いて覚えています: Tôi viết nhiều lần để nhớ (ĐÚNG - Trả lời phương pháp học).\n• 2. 多分 300 字ぐらいだと思います: Chắc khoảng 300 chữ (trả lời cho số lượng chữ Hán biết được).\n• 3. 新聞を読む時必要ですから: Vì đọc báo cần thiết (trả lời cho lý do học).\n\n📄 Trích PDF gốc (听力原文 Trang 23):\nマリアさんはいつもどうやって漢字を覚えるんですか。1. たくさん書いて覚えています。",
+      "audioScriptJa": "マリアさんはいつもどうやって漢字を覚えるんですか。\n1. たくさん書いて覚えています。\n2. 多分 300 字ぐらいだと思います。\n3. 新聞を読む時必要ですから。",
+      "audioScriptVi": "Câu hỏi: Maria này, cậu thường làm cách nào để nhớ chữ Hán vậy?\n1. Tớ viết thật nhiều lần để nhớ.\n2. Chắc là khoảng 300 chữ.\n3. Vì khi đọc báo rất cần thiết.",
+      "correctOption": 1,
+      "text": "マリアさんはいつもどうやって漢字を覚えるんですか。",
+      "options": ["1. たくさん書いて覚えています。", "2. 多分 300 字ぐらいだと思います。", "3. 新聞を読む時必要ですから。"]
+    },
+    "96": {
+      "snippet": "ジョギングはどうですか (Chạy bộ thì thế nào?)",
+      "explanation": "🎯 Đáp án đúng: [1] ジョギングはどうですか。\n\n💬 Phân tích câu hỏi phản xạ:\n• Câu hỏi: 「何か運動を始めたいんですが、なにがいいと思いますか (Tôi muốn bắt đầu tập thể thao, cậu thấy môn nào thì được?)」 xin gợi ý môn thể thao phù hợp.\n• 1. ジョギングはどうですか: Chạy bộ thì thế nào? (ĐÚNG - Đưa ra gợi ý môn thể thao cụ thể: [Danh từ] + はどうですか).\n• 2. 運動がいいと思います: Tớ nghĩ thể thao là tốt (lặp từ, không gợi ý môn nào).\n• 3. 何を始めたんですか: Đã bắt đầu môn gì rồi thế? (Người nói chưa tập gì cả).\n\n📄 Trích PDF gốc (听力原文 Trang 23):\n何か運動を始めたいんですが、なにがいいと思いますか。1. ジョギングはどうですか。",
+      "audioScriptJa": "何か運動を始めたいんですが、なにがいいと思いますか。\n1. ジョギングはどうですか。\n2. 運動がいいと思います。\n3. 何を始めたんですか。",
+      "audioScriptVi": "Câu hỏi: Tớ muốn bắt đầu tập một môn thể thao, cậu thấy môn nào thì tốt?\n1. Chạy bộ thì thế nào?\n2. Tớ nghĩ thể thao là tốt.\n3. Cậu đã bắt đầu tập cái gì thế?",
+      "correctOption": 1,
+      "text": "何か運動を始めたいんですが、なにがいいと思いますか。",
+      "options": ["1. ジョギングはどうですか。", "2. 運動がいいと思います。", "3. 何を始めたんですか。"]
+    },
+    "97": {
+      "snippet": "じゃあ、ちょっと行ってきます (Vậy tôi đi một lát rồi về)",
+      "explanation": "🎯 Đáp án đúng: [3] じゃあ、ちょっと行ってきます。\n\n💬 Phân tích câu giao việc phản xạ:\n• Lời nhờ vả: 「悪いんだけど、事務所の山田さんにこの書類を届けてきて (Phiền cậu mang tài liệu này chuyển cho anh Yamada ở văn phòng giúp tôi với)」.\n• 1. それはいつ届くんですか: Bao giờ hàng tới (sai nghĩa ngữ cảnh chuyển phát).\n• 2. すぐに書類をもらってきます: Tôi đi lấy tài liệu về ngay (nhầm lẫn giữa chuyển đi [届ける] và nhận về [もらう]).\n• 3. じゃあ、ちょっと行ってきます: Vậy tôi đi một lát rồi về đây ạ (ĐÚNG - Tiếp nhận việc đi giao tài liệu và rời đi làm ngay) ➔ Đáp án [3].\n\n📄 Trích PDF gốc (听力原文 Trang 23):\n悪いんだけど、事務所の山田さんにこの書類を届けてきて。3. じゃあ、ちょっと行ってきます。",
+      "audioScriptJa": "悪いんだけど、事務所の山田さんにこの書類を届けてきて。\n1. それはいつ届くんですか。\n2. すぐに書類をもらってきます。\n3. じゃあ、ちょっと行ってきます。",
+      "audioScriptVi": "Câu yêu cầu: Phiền cậu một chút, mang tài liệu này chuyển cho anh Yamada ở văn phòng giúp tôi nhé.\n1. Cái đó bao giờ thì tới nơi ạ?\n2. Tôi sẽ đi lấy tài liệu ngay.\n3. Vậy tôi xin phép đi một lát đây.",
+      "correctOption": 3,
+      "text": "悪いんだけど、事務所の山田さんにこの書類を届けてきて。",
+      "options": ["1. それはいつ届くんですか。", "2. すぐに書類をもらってきます。", "3. じゃあ、ちょっと行ってきます。"]
+    },
+    "98": {
+      "snippet": "16 人ですね、分かりました (Dạ 16 người, tôi hiểu rồi ạ)",
+      "explanation": "🎯 Đáp án đúng: [2] 16 人ですね、分かりました。\n\n💬 Phân tích câu giao việc phản xạ:\n• Câu chỉ thị: 「月曜日の会議、16 人入れる部屋を予約しておいて (Cuộc họp thứ Hai, cậu đặt sẵn phòng đủ chỗ cho 16 người nhé)」.\n• 1. 会議室においておきますね: Để trong phòng họp nhé (nhầm cấu trúc đặt phòng [予約しておく] thành để đồ [置いておく]).\n• 2. 16 人ですね、分かりました: 16 người đúng không ạ, tôi hiểu rồi (ĐÚNG - Xác nhận lại số lượng người tham dự và nhận việc).\n• 3. 部屋を 16 も予約するんですか: Đặt tận 16 phòng cơ à? (nghe nhầm 16 người thành 16 phòng).\n\n📄 Trích PDF gốc (听力原文 Trang 23):\n月曜日の会議、16 人入れる部屋を予約しておいて。2. 16 人ですね、分かりました。",
+      "audioScriptJa": "月曜日の会議、16 人入れる部屋を予約しておいて。\n1. 会議室においておきますね。\n2. 16 人ですね、分かりました。\n3. 部屋を 16 も予約するんですか。",
+      "audioScriptVi": "Câu chỉ thị: Cuộc họp thứ Hai, cậu đặt trước phòng chứa được 16 người nhé.\n1. Tôi sẽ để lại trong phòng họp nhé.\n2. Dạ 16 người đúng không ạ, tôi hiểu rồi.\n3. Đặt tận 16 phòng cơ ạ?",
+      "correctOption": 2,
+      "text": "月曜日の会議、16 人入れる部屋を予約しておいて。",
+      "options": ["1. 会議室においておきますね。", "2. 16 人ですね、分かりました。", "3. 部屋を 16 も予約するんですか。"]
+    }
+  },
+  "n4-2026-8242": {
+    "1": {
+      "snippet": "指 (ゆび)",
+      "explanation": "🎯 Đáp án đúng: [3] ゆび (指)\n\n💬 Dịch nghĩa câu:\n\"Tôi đã bị thương ở ngón tay.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「指」 (Chỉ - ngón tay), âm Kun thuần Nhật chuẩn xác là 「ゆび」.\n• Cụm từ thông dụng: 指にけがをする (bị thương ở ngón tay).\n\n🔍 Phân tích các lựa chọn:\n- 1. はな (鼻): Mũi\n- 2. あたま (頭): Đầu, não bộ\n- 3. ゆび (指): Ngón tay (ĐÚNG)\n- 4. うで (腕): Cánh tay, bắp tay\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(1) 3 句意: 手指受伤了。1. はな(鼻): 鼻子; 2. あたま(頭): 脑袋; 3. ゆび(指): 手指; 4. うで(腕): 胳膊",
+      "correctOption": 3,
+      "text": "指 に けがを しました。",
+      "options": ["1. はな", "2. あたま", "3. ゆび", "4. うで"]
+    },
+    "2": {
+      "snippet": "旅行 (りょこう)",
+      "explanation": "🎯 Đáp án đúng: [2] りょこう (旅行)\n\n💬 Dịch nghĩa câu:\n\"Tháng trước tôi đã đi du lịch cùng bạn bè.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「旅行」 (Lữ hành):\n  - Chữ 「旅」 (lữ) có âm On là 「りょ」 (âm ngắn, không có trường âm).\n  - Chữ 「行」 (hành) có âm On là 「こう」 (có trường âm う).\n  - Kết hợp chuẩn xác: 「りょこう」 (du lịch).\n\n🔍 Phân tích các lựa chọn:\n- 1. りょこ: Thiếu trường âm [う] ở chữ 行\n- 2. りょこう (旅行): ĐÚNG - Du lịch\n- 3. りょうこ: Thừa trường âm ở chữ 旅, thiếu ở chữ 行\n- 4. りょうこう (良好): Thừa trường âm ở chữ 旅 (mang nghĩa là tốt đẹp)\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(2) 2 句意: 上个月和朋友一起去旅行了。考察汉字词，“旅”音读为“りょ”，“行”音读为“こう・ぎょう・あん”。",
+      "correctOption": 2,
+      "text": "先月 友だちと 旅行 しました。",
+      "options": ["1. りょこ", "2. りょこう", "3. りょうこ", "4. りょうこう"]
+    },
+    "3": {
+      "snippet": "急ぐ (いそぐ)",
+      "explanation": "🎯 Đáp án đúng: [2] いそがなくても (急ぐ)\n\n💬 Dịch nghĩa câu:\n\"Không cần phải vội vàng / gấp gáp đâu nhé.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「急ぐ (いそぐ)」 (Cấp - vội vã, khẩn trương).\n• Chia thể phủ định điều kiện: 急ぐ → 急がない → 急がなくてもいい (không cần phải vội cũng được).\n\n🔍 Phân tích các lựa chọn:\n- 1. さわがなくても (騒ぐ - さわぐ): Không cần làm ồn ào, huyên náo\n- 2. いそがなくても (急ぐ - いそぐ): ĐÚNG - Không cần vội vã, gấp gáp\n- 3. およがなくても (泳ぐ - およぐ): Không cần bơi lội\n- 4. ぬがなくても (脱ぐ - ぬぐ): Không cần cởi bỏ (áo quần, giày dép)\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(3) 2 句意: 可以不用那么赶时间。1. さわぐ(騒ぐ): 吵, 吵闹; 2. いそぐ(急ぐ): 赶紧, 赶快; 3. およぐ(泳ぐ): 游泳; 4. ぬぐ(脱ぐ): 脱; 摘掉",
+      "correctOption": 2,
+      "text": "急がなくても いいですよ。",
+      "options": ["1. さわがなくても", "2. いそがなくても", "3. およがなくても", "4. ぬがなくても"]
+    },
+    "4": {
+      "snippet": "工場 (こうじょう)",
+      "explanation": "🎯 Đáp án đúng: [4] こうじょう (工場)\n\n💬 Dịch nghĩa câu:\n\"Trong nhà máy / phân xưởng không có một ai cả.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「工場」 (Công trường):\n  - Chữ 「工」 (công) có âm On là 「こう」.\n  - Chữ 「場」 (trường) có âm On là 「じょう」.\n  - Kết hợp tạo thành: 「こうじょう」 (nhà máy, phân xưởng, xí nghiệp).\n\n🔍 Phân tích các lựa chọn:\n- 1. おくじょ: Sai âm và thiếu trường âm\n- 2. おくじょう (屋上): Sân thượng của tòa nhà\n- 3. こうじょ: Thiếu trường âm [う] ở chữ 場\n- 4. こうじょう (工場): ĐÚNG - Nhà máy, phân xưởng\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(4) 4 句意: 工厂里一个人都没有。考察汉字词，“工”音读为“こう・く”，“場”音读为“じょう”。",
+      "correctOption": 4,
+      "text": "工場 には だれも いません。",
+      "options": ["1. おくじょ", "2. おくじょう", "3. こうじょ", "4. こうじょう"]
+    },
+    "5": {
+      "snippet": "妹 (いもうと)",
+      "explanation": "🎯 Đáp án đúng: [1] いもうと (妹)\n\n💬 Dịch nghĩa câu:\n\"Em gái của tôi đang sinh sống tại Nhật Bản.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「妹」 (Muội) có âm Kun thuần Nhật chuẩn xác là 「いもうと」 (em gái).\n\n🔍 Phân tích các lựa chọn:\n- 1. いもうと (妹): ĐÚNG - Em gái\n- 2. あね (姉): Chị gái\n- 3. おとうと (弟): Em trai\n- 4. あに (兄): Anh trai\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(5) 1 句意: 我妹妹住在日本。考察日语固有词汇的读音，“妹”训读为“いもうと”。1. いもうと(妹): 妹妹; 2. あね(姉): 姐姐; 3. おとうと(弟): 弟弟; 4. あに(兄): 哥哥",
+      "correctOption": 1,
+      "text": "わたしの 妹 は 日本に すんで います。",
+      "options": ["1. いもうと", "2. あね", "3. おとうと", "4. あに"]
+    },
+    "6": {
+      "snippet": "待つ (まつ)",
+      "explanation": "🎯 Đáp án đúng: [1] まって (待って)\n\n💬 Dịch nghĩa câu:\n\"Xin vui lòng đợi một chút.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「待つ (まつ)」 (Đãi - chờ đợi).\n• Chia thể て (âm ngắt): 待つ → 待って (まって).\n• Cụm từ giao tiếp quen thuộc: ちょっと待ってください (Xin đợi một chút).\n\n🔍 Phân tích các lựa chọn:\n- 1. まって (待つ): ĐÚNG - Chờ đợi\n- 2. もって (持つ): Cầm, mang, nắm giữ\n- 3. とって (取る): Lấy, cầm lấy\n- 4. たって (経つ / 立つ): Trôi qua (thời gian) / Đứng\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(6) 1 句意: 请稍等一下。1. まつ(待つ): 等待; 2. もつ(持つ): 拿着; 3. とる(取る): 拿, 取; 4. たつ(経つ): 经, 过",
+      "correctOption": 1,
+      "text": "ちょっと 待って ください。",
+      "options": ["1. まって", "2. もって", "3. とって", "4. たって"]
+    },
+    "7": {
+      "snippet": "強い (つよい)",
+      "explanation": "🎯 Đáp án đúng: [3] つよく (強く)\n\n💬 Dịch nghĩa câu:\n\"Gió đã trở nên mạnh hơn một chút rồi.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ đuôi い: 「強い (つよい)」 (Cường - mạnh, mạnh mẽ).\n• Chuyển sang phó từ bổ nghĩa cho động từ なる: 強い → 強く (つよく) + なりました.\n\n🔍 Phân tích các lựa chọn:\n- 1. あたたかく (暖かい): Ấm áp\n- 2. よわく (弱い): Yếu, nhẹ\n- 3. つよく (強い): ĐÚNG - Mạnh mẽ\n- 4. つめたく (冷たい): Lạnh lẽo\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(7) 3 句意: 风变大了点。1. あたたかい(暖かい): 温暖; 2. よわい(弱い): 弱; 3. つよい(強い): 强; 4. つめたい(冷たい): 冷",
+      "correctOption": 3,
+      "text": "かぜが 少し 強く なりました。",
+      "options": ["1. あたたかく", "2. よわく", "3. つよく", "4. つめたく"]
+    },
+    "8": {
+      "snippet": "駅員 (えきいん)",
+      "explanation": "🎯 Đáp án đúng: [4] えきいん (駅員)\n\n💬 Dịch nghĩa câu:\n\"Tôi đã hỏi đường nhân viên nhà ga.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「駅員」 (Dịch viên):\n  - Chữ 「駅」 (dịch - ga tàu) âm On là 「えき」.\n  - Chữ 「員」 (viên - nhân viên) âm On là 「いん」.\n  - Ghép lại thành: 「えきいん」 (nhân viên nhà ga tàu điện).\n\n🔍 Phân tích các lựa chọn:\n- 1. てんにん: Sai cả hai âm\n- 2. えきにん: Sai âm của chữ 員 (phải là いん)\n- 3. てんいん (店員): Nhân viên cửa hàng\n- 4. えきいん (駅員): ĐÚNG - Nhân viên nhà ga\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(8) 4 句意: 向车站工作人员问了路。考察汉字词，“駅”音读为“えき”，“員”音读为“いん”。",
+      "correctOption": 4,
+      "text": "駅員 に みちを 聞きました。",
+      "options": ["1. てんにん", "2. えきにん", "3. てんいん", "4. えきいん"]
+    },
+    "9": {
+      "snippet": "医者 (いしゃ)",
+      "explanation": "🎯 Đáp án đúng: [2] いしゃ (医者)\n\n💬 Dịch nghĩa câu:\n\"Tương lai tôi muốn trở thành bác sĩ.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「医者」 (Y giả):\n  - Chữ 「医」 (y) âm On là 「い」.\n  - Chữ 「者」 (giả) âm On là 「しゃ」 (không có âm đục).\n  - Ghép lại thành: 「いしゃ」 (bác sĩ, thầy thuốc).\n\n🔍 Phân tích các lựa chọn:\n- 1. いじゃ: Sai biến âm đục\n- 2. いしゃ (医者): ĐÚNG - Bác sĩ\n- 3. いいじゃ: Thừa trường âm và sai âm đục\n- 4. いいしゃ: Thừa trường âm\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(9) 2 句意: 我将来想做一名医生。考察汉字词，“医”音读为“い”，“者”音读为“しゃ”。",
+      "correctOption": 2,
+      "text": "わたしは しょうらい 医者 に なりたいです。",
+      "options": ["1. いじゃ", "2. いしゃ", "3. いいじゃ", "4. いいしゃ"]
+    },
+    "10": {
+      "snippet": "反対 (はんたい)",
+      "explanation": "🎯 Đáp án đúng: [1] 反対 (はんたい)\n\n💬 Dịch nghĩa câu:\n\"Tôi phản đối ý kiến đó.\"\n\n💡 Phân tích & Giải thích:\n• Từ Hiragana 「はんたい」 mang nghĩa phản đối, không tán thành.\n• Chữ Hán chuẩn xác là 「反対」 (Phản đối), gồm chữ 「反」 (phản) và chữ 「対」 (đối).\n\n🔍 Phân tích các lựa chọn:\n- 1. 反対: ĐÚNG - Phản đối\n- 2. 半対: Sai chữ 半 (bán - một nửa)\n- 3. 反体: Sai chữ 体 (thể - thân thể)\n- 4. 半体: Sai cả hai chữ Hán\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(10) 1 句意: 我反对那个意见。1. 反対(はんたい): 反对。其他选项为干扰项。",
+      "correctOption": 1,
+      "text": "その いけんには はんたい です。",
+      "options": ["1. 反対", "2. 半対", "3. 反体", "4. 半体"]
+    },
+    "11": {
+      "snippet": "開く (ひらく)",
+      "explanation": "🎯 Đáp án đúng: [4] 開いて (開く)\n\n💬 Dịch nghĩa câu:\n\"Xin vui lòng mở trang 10 của sách giáo trình ra.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「ひらく」 mang nghĩa mở sách, mở trang giấy, mở dù, khai mạc.\n• Chữ Hán chuẩn xác là 「開く」 (Khai - mở ra).\n• Thể て: 開いて (ひらいて).\n\n🔍 Phân tích các lựa chọn:\n- 1. 関いて: Sai chữ 関 (quan trong quan hệ, liên quan)\n- 2. 閉いて: Chữ 閉 (bế - đóng lại), động từ là 閉じる (とじる)\n- 3. 閑いて: Sai chữ 閑 (nhàn trong an nhàn)\n- 4. 開いて (開く): ĐÚNG - Mở (sách, hội nghị, khai mạc)\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(11) 4 句意: 请翻开课本第十页。2. 閉じる(とじる): 关闭, 合上; 4. 開く(ひらく): 开放; 开门",
+      "correctOption": 4,
+      "text": "テキストの 10 ページを ひらいて ください。",
+      "options": ["1. 関いて", "2. 閉いて", "3. 閑いて", "4. 開いて"]
+    },
+    "12": {
+      "snippet": "赤い (あかい)",
+      "explanation": "🎯 Đáp án đúng: [3] 赤い (あかい)\n\n💬 Dịch nghĩa câu:\n\"Chiếc xe đạp màu đỏ này là của ai vậy?\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「あかい」 chỉ màu đỏ, chữ Hán tương ứng là 「赤い」 (Xích).\n\n🔍 Phân tích các lựa chọn:\n- 1. 黒い (くろい): Màu đen\n- 2. 青い (あおい): Màu xanh da trời / xanh lam\n- 3. 赤い (あかい): ĐÚNG - Màu đỏ\n- 4. 白い (しろい): Màu trắng\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(12) 3 句意: 这辆红色的自行车是谁的？1. 黒い(くろい): 黑色的; 2. 青い(あおい): 蓝色的; 3. 赤い(あかい): 红色的; 4. 白い(しろい): 白色的",
+      "correctOption": 3,
+      "text": "この あかい じてんしゃは だれのですか。",
+      "options": ["1. 黒い", "2. 青い", "3. 赤い", "4. 白い"]
+    },
+    "13": {
+      "snippet": "走る (はしる)",
+      "explanation": "🎯 Đáp án đúng: [2] 走って (走る)\n\n💬 Dịch nghĩa câu:\n\"Mỗi ngày tôi đều chạy bộ 30 phút.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「はしる」 (chạy) có chữ Hán chuẩn là 「走る」 (Tẩu).\n• Thể て: 走る → 走って (はしって).\n\n🔍 Phân tích các lựa chọn:\n- 1. 足って: Chữ 足 (túc - chân/đầy đủ: 足る - たる)\n- 2. 走って (走る): ĐÚNG - Chạy bộ\n- 3. 是って: Chữ 是 (thị)\n- 4. 定って: Chữ 定 (định: 定まる - さだまる)\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(13) 2 句意: 每天跑 30 分钟步。1. 足る(たる): 足, 够; 2. 走る(はしる): 跑; 4. 定まる(さだまる): 稳定; 决定。其他选项为干扰项。",
+      "correctOption": 2,
+      "text": "毎日 30 ぷん はしって います。",
+      "options": ["1. 足って", "2. 走って", "3. 是って", "4. 定って"]
+    },
+    "14": {
+      "snippet": "暗い (くらい)",
+      "explanation": "🎯 Đáp án đúng: [1] 暗い (くらい)\n\n💬 Dịch nghĩa câu:\n\"Căn phòng này tối tăm thật nhỉ.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「くらい」 chỉ tình trạng thiếu ánh sáng, tối tăm.\n• Chữ Hán chuẩn xác là 「暗い」 (Ám).\n\n🔍 Phân tích các lựa chọn:\n- 1. 暗い (くらい): ĐÚNG - Tối, u tối\n- 2. 明い: Chữ viết sai (sáng là 明るい)\n- 3. 暑い (あつい): Nóng nực (thời tiết)\n- 4. 寒い (さむい): Lạnh giá (thời tiết)\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(14) 1 句意: 这间房间真暗啊。1. 暗い(くらい): 暗, 黑暗; 2. 明るい(あかるい): 明亮, 亮堂; 3. 暑い(あつい): 热, 炎热; 4. 寒い(さむい): 冷, 寒冷",
+      "correctOption": 1,
+      "text": "この へやは くらい ですね。",
+      "options": ["1. 暗い", "2. 明い", "3. 暑い", "4. 寒い"]
+    },
+    "15": {
+      "snippet": "野菜 (やさい)",
+      "explanation": "🎯 Đáp án đúng: [4] 野菜 (やさい)\n\n💬 Dịch nghĩa câu:\n\"Tôi luôn mua rau củ quả ở siêu thị đằng kia.\"\n\n💡 Phân tích & Giải thích:\n• Từ vựng 「やさい」 (rau củ) có chữ Hán chuẩn là 「野菜」 (Dã thái).\n• Chữ 「野」 (dã) ghép với chữ 「菜」 (thái - rau cỏ).\n\n🔍 Phân tích các lựa chọn:\n- 1. 理薬: Chữ ghép không có nghĩa\n- 2. 野薬: Sai chữ 薬 (thuốc)\n- 3. 理菜: Sai chữ 理\n- 4. 野菜 (やさい): ĐÚNG - Rau củ\n\n📄 Trích PDF gốc (试题解析 Trang 15):\n(15) 4 句意: 我一直在那家超市买菜。4. 野菜(やさい): 蔬菜。其他选项为干扰项。",
+      "correctOption": 4,
+      "text": "いつも あの スーパーで やさい を 買います。",
+      "options": ["1. 理薬", "2. 野薬", "3. 理菜", "4. 野菜"]
+    },
+    "16": {
+      "snippet": "慣れる (なれる)",
+      "explanation": "🎯 Đáp án đúng: [1] なれましたか (慣れる)\n\n💬 Dịch nghĩa câu:\n\"Bạn đã quen với công việc mới chưa?\"\n\n💡 Phân tích & Giải thích:\n• Đi với trợ từ に: cấu trúc 「～に慣れる (なれる)」 (quen thuộc, thích nghi với điều gì/môi trường nào).\n• Cụm câu giao tiếp thường gặp: 仕事に慣れましたか.\n\n🔍 Phân tích các lựa chọn:\n- 1. なれましたか (慣れる): ĐÚNG - Đã quen chưa\n- 2. がんばりましたか (頑張る): Đã cố gắng hết sức chưa\n- 3. つとめましたか (勤める): Đi làm tại (thường dùng 会社に勤める)\n- 4. かよいましたか (通う): Đi lại thường xuyên (学校/会社に通う)\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(16) 1 句意: 新工作习惯了吗？1. なれる(慣れる): 习惯; 2. がんばる(頑張る): 坚持; 努力; 3. つとめる(勤める): 工作; 4. かよう(通う): 上(班)",
+      "correctOption": 1,
+      "text": "新しい しごとには もう (　　)。",
+      "options": ["1. なれましたか", "2. がんばりましたか", "3. つとめましたか", "4. かよいましたか"]
+    },
+    "17": {
+      "snippet": "止む (やむ)",
+      "explanation": "🎯 Đáp án đúng: [3] やんで (止む)\n\n💬 Dịch nghĩa câu:\n\"Mưa tạnh rồi, thời tiết đã trở nên đẹp hơn.\"\n\n💡 Phân tích & Giải thích:\n• Đối với hiện tượng tự nhiên mưa (雨) hoặc tuyết (雪) ngừng rơi, tiếng Nhật dùng động từ chuyên biệt 「止む (やむ)」.\n• Cụm cố định: 「雨がやむ」 (mưa tạnh). Chia thể て là 「やんで」.\n\n🔍 Phân tích các lựa chọn:\n- 1. おわって (終わる): Kết thúc (giờ học, công việc, bộ phim)\n- 2. とまって (止まる): Dừng lại (xe cộ, đồng hồ chạy)\n- 3. やんで (止む): ĐÚNG - Mưa tạnh (雨がやむ)\n- 4. きえて (消える): Biến mất, tắt đi (đèn, lửa)\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(17) 3 句意: 雨停了, 天气变好了。1. おわる(終わる): 完, 结束; 2. とまる(止まる): 停, 停止; 3. やむ(止む): (雨)停; 4. きえる(消える): 消失",
+      "correctOption": 3,
+      "text": "雨が (　　)、いい天気に なりました。",
+      "options": ["1. おわって", "2. とまって", "3. やんで", "4. きえて"]
+    },
+    "18": {
+      "snippet": "おとなしい (大人しい)",
+      "explanation": "🎯 Đáp án đúng: [2] おとなしい (大人しい)\n\n💬 Dịch nghĩa câu:\n\"Đứa bé này rất trầm tính / hiền lành, nên ít khi trò chuyện với mọi người.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「おとなしい (大人しい)」 miêu tả tính cách trầm lặng, ngoan ngoãn, ít nói, điềm đạm.\n• Vế sau: 「あまりひとと話をしません」 (không mấy khi nói chuyện với ai) làm rõ nét tính cách trầm tính này.\n\n🔍 Phân tích các lựa chọn:\n- 1. かわいい (可愛い): Đáng yêu, dễ thương\n- 2. おとなしい (大人しい): ĐÚNG - Trầm tính, ngoan ngoãn, ít nói\n- 3. わかい (若い): Trẻ trung\n- 4. うつくしい (美しい): Xinh đẹp, mỹ lệ\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(18) 2 句意: 那个孩子沉稳安静, 不怎么和人说话。1. かわいい(可愛い): 可爱; 2. おとなしい(大人しい): 温顺, 稳静; 3. わかい(若い): 年轻; 4. うつくしい(美しい): 美丽, 漂亮",
+      "correctOption": 2,
+      "text": "この 子は (　　)ので、あまり ひとと話を しません。",
+      "options": ["1. かわいい", "2. おとなしい", "3. わかい", "4. うつくしい"]
+    },
+    "19": {
+      "snippet": "お見舞い (おみまい)",
+      "explanation": "🎯 Đáp án đúng: [1] おみまい (お見舞い)\n\n💬 Dịch nghĩa câu:\n\"Khi tôi nhập viện, bạn bè đã đến thăm hỏi động viên tôi.\"\n\n💡 Phân tích & Giải thích:\n• Hành động đến bệnh viện hoặc nhà riêng thăm hỏi người bị ốm đau/tai nạn trong văn hóa Nhật gọi là 「お見舞い (おみまい)」.\n• Cụm từ: 「お見舞いに来る」 (đến thăm bệnh).\n\n🔍 Phân tích các lựa chọn:\n- 1. おみまい (お見舞い): ĐÚNG - Thăm hỏi người ốm/nhập viện\n- 2. おねがい (お願い): Lời nhờ vả, yêu cầu giúp đỡ\n- 3. けんがく (見学): Đi tham quan học hỏi thực tế (nhà máy, bảo tàng)\n- 4. けんぶつ (見物): Tham quan ngắm cảnh du lịch\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(19) 1 句意: 我住院的时候, 我的朋友都来看望我了。1. おみまい(お見舞い): 探望, 慰问; 2. おねがい(お願い): 希望, 请求; 3. けんがく(見学): 参观, 考察; 4. けんぶつ(见物): 观赏, 游览",
+      "correctOption": 1,
+      "text": "わたしが にゅういんした とき、友だちが (　　)に来てくれました。",
+      "options": ["1. おみまい", "2. おねがい", "3. けんがく", "4. けんぶつ"]
+    },
+    "20": {
+      "snippet": "予約 (よやく)",
+      "explanation": "🎯 Đáp án đúng: [2] よやく (予約)\n\n💬 Dịch nghĩa câu:\n\"Vì tháng sau sẽ về nước nên tôi đã đặt vé máy bay rồi.\"\n\n💡 Phân tích & Giải thích:\n• Việc đặt trước vé máy bay, phòng khách sạn, chỗ ngồi dùng từ 「予約 (よやく)」 (dự ước - đặt trước).\n• Cụm kết hợp: 「チケットを予約する」 (đặt vé).\n\n🔍 Phân tích các lựa chọn:\n- 1. けいかく (計画): Lập kế hoạch, đề án\n- 2. よやく (予約): ĐÚNG - Đặt trước vé/chỗ\n- 3. うけつけ (受付): Quầy lễ tân, tiếp nhận\n- 4. やくそく (約束): Hứa hẹn, ước hẹn với ai đó\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(20) 2 句意: 下个月要回国, 所以预定了机票。1. けいかく(計画): 规划, 计划; 2. よやく(予約): 预约; 3. うけつけ(受付): 受理; 接待; 4. やくそく(約束): 约定",
+      "correctOption": 2,
+      "text": "来月 きこくするので、ひこうきの チケットを (　　)しました。",
+      "options": ["1. けいかく", "2. よやく", "3. うけつけ", "4. やくそく"]
+    },
+    "21": {
+      "snippet": "真面目 (まじめ)",
+      "explanation": "🎯 Đáp án đúng: [3] まじめに (真面目)\n\n💬 Dịch nghĩa câu:\n\"Vì tuần sau có bài kiểm tra nên tuần này tôi sẽ học hành thật chăm chỉ / nghiêm túc.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ đuôi な: 「真面目 (まじめ)」 (chăm chỉ, đứng đắn, nghiêm túc).\n• Biến đổi thành phó từ bổ nghĩa cho động từ: 「まじめに勉強する」 (chăm chỉ, nghiêm túc học bài).\n\n🔍 Phân tích các lựa chọn:\n- 1. じょうぶに (丈夫に): Bền vững, chắc chắn, khỏe mạnh\n- 2. しんせつに (親切に): Thân thiện, tốt bụng, chu đáo\n- 3. まじめに (真面目に): ĐÚNG - Chăm chỉ, nghiêm túc\n- 4. だいじに (大事に): Cẩn thận, trân trọng, giữ gìn\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(21) 3 句意: 下周有考试, 所以这周要认真地学习。1. じょうぶ(丈夫): 坚固地, 结实地; 2. しんせつ(親切): 亲切地; 3. まじめ(真面目): 认真; 踏实; 4. だいじ(大事): 珍惜; 小心",
+      "correctOption": 3,
+      "text": "来週 テストが あるので、今週は (　　)べんきょうします。",
+      "options": ["1. じょうぶに", "2. しんせつに", "3. まじめに", "4. だいじに"]
+    },
+    "22": {
+      "snippet": "落とす (おとす)",
+      "explanation": "🎯 Đáp án đúng: [4] おとして (落とす)\n\n💬 Dịch nghĩa câu:\n\"Tôi đã làm rơi chiếc cốc từ trên bàn xuống và làm vỡ mất rồi.\"\n\n💡 Phân tích & Giải thích:\n• Tha động từ 「落とす (おとす)」: làm rơi, thả rơi một vật từ trên cao xuống.\n• Chuỗi hành động: テーブルからコップを落とす (làm rơi cốc từ bàn) → 割ってしまう (làm vỡ toang).\n\n🔍 Phân tích các lựa chọn:\n- 1. わたして (渡す): Trao tay, đưa cho ai\n- 2. なくして (無くす): Làm mất, đánh mất đồ\n- 3. こわして (壊す): Phá hỏng (máy móc, đồ dùng)\n- 4. おとして (落とす): ĐÚNG - Làm rơi từ trên xuống\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(22) 4 句意: 把桌上的杯子摔到了地上, 摔碎了。1. わたす(渡す): 递, 交; 2. なくす(無くす): 丢, 丢掉; 3. こわす(壊す): 毁坏, 损害; 4. おとす(落とす): 使落下",
+      "correctOption": 4,
+      "text": "テーブルから コップを (　　)、わって しまいました。",
+      "options": ["1. わたして", "2. なくして", "3. こわして", "4. おとして"]
+    },
+    "23": {
+      "snippet": "習慣 (しゅうかん)",
+      "explanation": "🎯 Đáp án đúng: [2] しゅうかん (習慣)\n\n💬 Dịch nghĩa câu:\n\"Ở quốc gia này có phong tục / tập quán ăn món đặc biệt vào ngày sinh nhật.\"\n\n💡 Phân tích & Giải thích:\n• Từ vựng 「習慣 (しゅうかん)」 chỉ tập quán văn hóa, phong tục, thói quen lâu đời của một cộng đồng hay quốc gia.\n• Cụm diễn đạt: 「～習慣がある」 (có phong tục/tập quán làm gì).\n\n🔍 Phân tích các lựa chọn:\n- 1. よてい (予定): Kế hoạch, dự định cá nhân\n- 2. しゅうかん (習慣): ĐÚNG - Phong tục, tập quán, thói quen\n- 3. けいけん (経験): Kinh nghiệm, sự trải nghiệm cá nhân\n- 4. きょうみ (興味): Sự hứng thú, sở thích quan tâm\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(23) 2 句意: 这个国家有在生日时吃某种特殊东西的习俗。1. よてい(予定): 预订, 计划; 2. しゅうかん(習慣): 习惯, 风俗; 3. けいけん(経験): 经验; 4. きょうみ(興味): 兴趣",
+      "correctOption": 2,
+      "text": "この 国には、たんじょうびに とくべつな ものを 食べる (　　)があります。",
+      "options": ["1. よてい", "2. しゅうかん", "3. けいけん", "4. きょうみ"]
+    },
+    "24": {
+      "snippet": "スイッチ (switch)",
+      "explanation": "🎯 Đáp án đúng: [4] スイッチ (switch)\n\n💬 Dịch nghĩa câu:\n\"Nếu bạn ấn công tắc cạnh cửa ra vào thì đèn trong phòng sẽ bật sáng.\"\n\n💡 Phân tích & Giải thích:\n• Từ mượn Katakana 「スイッチ (switch)」: công tắc đóng/ngắt mạch điện.\n• Cụm từ cố định: 「スイッチを押す」 (ấn công tắc, bật/tắt công tắc điện).\n\n🔍 Phân tích các lựa chọn:\n- 1. チェック (check): Kiểm tra, rà soát\n- 2. スタート (start): Bắt đầu, khởi động\n- 3. チャンス (chance): Cơ hội, thời cơ\n- 4. スイッチ (switch): ĐÚNG - Công tắc điện\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(24) 4 句意: 按下门边的开关, 房间里的灯就会打开。1. チェック: 检查, 核对; 2. スタート: 出发, 启动; 3. チャンス: 机会, 时机; 4. スイッチ: 开关",
+      "correctOption": 4,
+      "text": "ドアの よこの (　　)を おすと、へやの 電気が つきます。",
+      "options": ["1. チェック", "2. スタート", "3. チャンス", "4. スイッチ"]
+    },
+    "25": {
+      "snippet": "決める (きめる)",
+      "explanation": "🎯 Đáp án đúng: [1] きめましょう (決める)\n\n💬 Dịch nghĩa câu:\n\"Chúng ta cùng quyết định xem tối nay sẽ ăn cơm ở đâu nhé.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc câu hỏi lồng: 「nghi vấn từ + か + 決める (きめる)」: quyết định điều gì đó.\n• Thể rủ rê / đề nghị 「～ましょう」: 決めましょう (chúng ta hãy cùng quyết định nào).\n\n🔍 Phân tích các lựa chọn:\n- 1. きめましょう (決める): ĐÚNG - Cùng quyết định nào\n- 2. はいりましょう (入る): Cùng đi vào trong nào\n- 3. はらいましょう (払う): Cùng thanh toán tiền nào\n- 4. さそいましょう (誘う): Cùng rủ/mời ai đó nào\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(25) 1 句意: 决定一下今晚去哪里吃饭吧。1. きめる(決める): 决定; 2. はいる(入る): 进, 入; 3. はらう(払う): 付款; 4. さそう(誘う): 邀请",
+      "correctOption": 1,
+      "text": "こんばん どこで しょくじを するか (　　)。",
+      "options": ["1. きめましょう", "2. はいりましょう", "3. はらいましょう", "4. さそいましょう"]
+    },
+    "26": {
+      "snippet": "うそ (嘘)",
+      "explanation": "🎯 Đáp án đúng: [2] きのうの 話は ほんとうじゃありませんよ。\n\n💬 Dịch nghĩa câu:\n\"Câu chuyện ngày hôm qua là nói dối đấy.\"\n\n💡 Phân tích & Giải thích:\n• Từ vựng 「うそ (嘘)」: lời nói dối, điều bịa đặt không có thật.\n• Do đó, đồng nghĩa với: 「ほんとうじゃありません (本当ではありません)」 (không phải là sự thật).\n\n🔍 Phân tích các lựa chọn:\n- 1. ほんとうですよ: Là thật đấy (trái nghĩa hoàn toàn)\n- 2. ほんとうじゃありませんよ: ĐÚNG - Không phải là thật đâu\n- 3. ゆうめいですよ: Nổi tiếng đấy\n- 4. ゆうめいじゃありませんよ: Không nổi tiếng đâu\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(26) 2 句意: 昨天的话是骗你的。(うそ: 谎言, 假话)。1. 昨天的话是真的; 2. 昨天的话不是真的; 3. 昨天的话很有名; 4. 昨天的话不怎么有名。",
+      "correctOption": 2,
+      "text": "きのうの 話は うそですよ。",
+      "options": ["1. きのうの 話は ほんとうですよ。", "2. きのうの 話は ほんとうじゃありませんよ。", "3. きのうの 話は ゆうめいですよ。", "4. きのうの 話は ゆうめいじゃありませんよ。"]
+    },
+    "27": {
+      "snippet": "戻る (もどる)",
+      "explanation": "🎯 Đáp án đúng: [1] やまださんは 何時ごろ かえって きますか。\n\n💬 Dịch nghĩa câu:\n\"Anh Yamada khoảng mấy giờ thì quay trở lại?\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「戻る (もどる)」 nghĩa là trở lại vị trí cũ, quay về.\n• Từ đồng nghĩa trực tiếp: 「帰って来る (かえってくる)」 (quay trở về lại đây).\n\n🔍 Phân tích các lựa chọn:\n- 1. かえって きますか: ĐÚNG - Trở về, quay lại\n- 2. でかけますか (出かける): Đi ra ngoài\n- 3. ねますか (寝る): Đi ngủ\n- 4. おきますか (起きる): Thức dậy\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(27) 1 句意: 山田先生大概几点回来？(もどる: 回, 回来)。1. 山田先生大概几点回来？; 2. 山田先生大概几点出门？; 3. 山田先生大概几点睡觉？; 4. 山田先生大概几点起床？",
+      "correctOption": 1,
+      "text": "やまださんは 何時ごろ もどりますか。",
+      "options": ["1. やまださんは 何時ごろ かえって きますか。", "2. やまださんは 何時ごろ でかけますか。", "3. やまださんは 何時ごろ ねますか。", "4. やまださんは 何時ごろ おきますか。"]
+    },
+    "28": {
+      "snippet": "輸出する (ゆしゅつする)",
+      "explanation": "🎯 Đáp án đúng: [4] この 国は こめを ほかの 国に うって いますか。\n\n💬 Dịch nghĩa câu:\n\"Đất nước này có đang xuất khẩu gạo không?\"\n\n💡 Phân tích & Giải thích:\n• 「輸出する (ゆしゅつする)」 (xuất khẩu): bán hàng hóa sản phẩm của nước mình cho nước khác.\n• Đồng nghĩa với: 「ほかの国に売っている (うっている)」 (bán cho quốc gia khác).\n\n🔍 Phân tích các lựa chọn:\n- 1. ほかの国からもらっていますか: Nhận từ nước khác\n- 2. ほかの国からかっていますか: Mua từ nước khác (nhập khẩu - 輸入)\n- 3. ほかの国にあげていますか: Tặng/cho nước khác\n- 4. ほかの国にうっていますか: ĐÚNG - Bán cho nước khác (xuất khẩu)\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(28) 4 句意: 这个国家出口大米吗？(ゆしゅつ: 出口)。1. 这个国家从别的国家获得大米吗？; 2. 这个国家从别的国家买大米吗？; 3. 这个国家给别的国家大米吗？; 4. 这个国家向别的国家出售大米吗？",
+      "correctOption": 4,
+      "text": "この 国は こめを ゆしゅつして いますか。",
+      "options": ["1. この 国は こめを ほかの 国から もらって いますか。", "2. この 国は こめを ほかの 国から かって いますか。", "3. この 国は こめを ほかの 国に あげて いますか。", "4. この 国は こめを ほかの 国に うって いますか。"]
+    },
+    "29": {
+      "snippet": "にこにこ",
+      "explanation": "🎯 Đáp án đúng: [3] たなかさんは わらって いました。\n\n💬 Dịch nghĩa câu:\n\"Anh Tanaka lúc đó đang mỉm cười tươi tắn.\"\n\n💡 Phân tích & Giải thích:\n• Từ tượng thái 「にこにこ」: mỉm cười, nét mặt vui tươi rạng rỡ.\n• Đồng nghĩa với: 「笑っている (わらっている)」 (đang cười).\n\n🔍 Phân tích các lựa chọn:\n- 1. こまって いました (困る): Bối rối, gặp khó khăn phiền toái\n- 2. やすんで いました (休む): Đang nghỉ ngơi\n- 3. わらって いました (笑う): ĐÚNG - Đang cười\n- 4. あそんで いました (遊ぶ): Đang vui chơi\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(29) 3 句意: 田中先生那时笑嘻嘻的。(にこにこ: 笑嘻嘻)。1. 田中先生那时很困扰; 2. 田中先生那时在休息; 3. 田中先生那时在笑; 4. 田中先生那时在玩。",
+      "correctOption": 3,
+      "text": "たなかさんは にこにこして いました。",
+      "options": ["1. たなかさんは こまって いました。", "2. たなかさんは やすんで いました。", "3. たなかさんは わらって いました。", "4. たなかさんは あそんで いました。"]
+    },
+    "30": {
+      "snippet": "家具 (かぐ)",
+      "explanation": "🎯 Đáp án đúng: [2] 新しい つくえや ベッドが ほしいです。\n\n💬 Dịch nghĩa câu:\n\"Tôi muốn có đồ nội thất mới.\"\n\n💡 Phân tích & Giải thích:\n• Từ vựng 「家具 (かぐ)」: đồ đạc trong nhà, đồ nội thất phục vụ sinh hoạt.\n• Trong các phương án, 「つくえ (bàn làm việc/bàn học)」 và 「ベッド (giường ngủ)」 chính là các đồ nội thất tiêu biểu (家具).\n\n🔍 Phân tích các lựa chọn:\n- 1. かばんや さいふ: Túi xách và ví tiền (phụ kiện cá nhân)\n- 2. つくえや ベッド: ĐÚNG - Bàn học và giường ngủ (đồ nội thất - 家具)\n- 3. カメラや ビデオ: Máy ảnh và máy quay video (thiết bị điện tử)\n- 4. ノートや ペン: Sổ ghi chép và bút viết (văn phòng phẩm - 文房具)\n\n📄 Trích PDF gốc (试题解析 Trang 16):\n(30) 2 句意: 想要新的家具。(かぐ: 家具)。1. 想要新的包和钱包; 2. 想要新的书桌和床; 3. 想要新的相机和录像机; 4. 想要新的笔记本和钢笔。",
+      "correctOption": 2,
+      "text": "新しい かぐが ほしいです。",
+      "options": ["1. 新しい かばんや さいふが ほしいです。", "2. 新しい つくえや ベッドが ほしいです。", "3. 新しい カメラや ビデオが ほしいです。", "4. 新しい ノートや ペンが ほしいです。"]
+    },
+    "31": {
+      "snippet": "せんたく (洗濯)",
+      "explanation": "🎯 Đáp án đúng: [4] シャツと パンツを せんたく しました。\n\n💬 Dịch nghĩa câu đúng:\n\"Tôi đã giặt áo sơ mi và quần đùi.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ / động từ 「洗濯 (せんたく) / 洗濯する」 mang nghĩa giặt quần áo, giặt đồ vải vóc bằng xà phòng và nước.\n• Lựa chọn 4 dùng chính xác tân ngữ vải vóc quần áo: 「シャツ (áo sơ mi)」 và 「パンツ (quần đùi / quần lót)」.\n\n🔍 Phân tích các lựa chọn khác:\n- 1. Gội đầu bằng dầu gội dùng động từ 「洗う (あらう)」: 髪を洗いました.\n- 2. Dọn dẹp phòng ốc dùng 「掃除する (そうじする)」: 部屋を掃除します.\n- 3. Đánh răng sau bữa ăn dùng 「磨く (みがく)」: 歯を磨きます.\n- 4. シャツと パンツを せんたく しました: ĐÚNG - Giặt áo và quần.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(31) 4 せんたく 意思是“洗”, 选项4为正确应用。1. 洗う 用洗发水洗了头; 2. 掃除する 周日打扫房间; 3. 磨く 吃饭后刷牙; 4. 我把衬衫和内裤洗了。",
+      "correctOption": 4,
+      "text": "せんたく",
+      "options": ["1. シャンプーで かみを せんたくしました。", "2. にちようびに へやを せんたくします。", "3. しょくじの あとで、はを せんたくします。", "4. シャツと パンツを せんたく しました。"]
+    },
+    "32": {
+      "snippet": "こむ (混む)",
+      "explanation": "🎯 Đáp án đúng: [4] あさの 電車は こんで いて、すわれません。\n\n💬 Dịch nghĩa câu đúng:\n\"Chuyến tàu điện buổi sáng rất đông đúc chen chúc, không thể ngồi được.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「混む (こむ)」 chỉ tình trạng đông đúc, chật ních, tắc nghẽn người hoặc phương tiện giao thông (電車が混む, 道が混む).\n\n🔍 Phân tích các lựa chọn khác:\n- 1. Ăn quá no bụng căng lên dùng 「お腹がいっぱい」 hoặc 「膨れる (ふくれる)」.\n- 2. Chữ viết trong từ điển san sát dày đặc dùng 「ぎっしり書かれている」 hoặc 「字が細かい」.\n- 3. Vali nhét đầy ắp quần áo dùng 「詰まっている (つまっている)」.\n- 4. あさの 電車は こんで いて、すわれません: ĐÚNG - Tàu điện buổi sáng đông đúc.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(32) 4 こむ 意思是“拥挤”, 选项4为正确应用。1. 膨れる 饭吃多了, 吃撑了; 2. ぎっしりと書かれる 那本字典的字很密, 读起来很困难; 3. 詰まる 森先生的行李箱里塞满了西服; 4. 早上的电车十分拥挤, 没地方坐。",
+      "correctOption": 4,
+      "text": "こむ",
+      "options": ["1. ごはんを 食べすぎて、おなかが こんで います。", "2. この じしょは じが こんで いて、読みにくいです。", "3. もりさんの スーツケースは ようふくで こんで います。", "4. あさの 電車は こんで いて、すわれません。"]
+    },
+    "33": {
+      "snippet": "にあう (似合う)",
+      "explanation": "🎯 Đáp án đúng: [2] その みどりの ぼうしは よく にあって いますよ。\n\n💬 Dịch nghĩa câu đúng:\n\"Chiếc mũ màu xanh lá cây đó trông rất hợp với bạn đấy.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「似合う (にあう)」 dùng khi trang phục, phụ kiện hoặc màu sắc rất hài hòa, vừa vặn, tôn vẻ đẹp của một người nào đó (帽子/服/色がよく似合う).\n\n🔍 Phân tích các lựa chọn khác:\n- 1. Hai anh em khuôn mặt giống nhau dùng 「似ている (にている)」 (似る).\n- 2. その みどりの ぼうしは よく にあって いますよ: ĐÚNG - Chiếc mũ rất hợp với bạn.\n- 3. Cùng chung sở thích hoặc hợp nhau dùng 「趣味が合う (しゅみがあう)」.\n- 4. Phù hợp tính chất công việc dùng 「仕事が合っている」 hoặc 「向いている」.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(33) 2 にあう 意思是“相称; 合适”, 选项2为正确应用。1. 似る 那对兄弟长得好像啊; 2. 那顶绿色的帽子很适合你; 3. 合う 我和田先生兴趣相投; 4. 合う 这家公司的工作很适合我。",
+      "correctOption": 2,
+      "text": "にあう",
+      "options": ["1. あの きょうだいは かおが よく にあって いますね。", "2. その みどりの ぼうしは よく にあって いますよ。", "3. わたしと たなかさんは しゅみが にあって います。", "4. この 会社の しごとは わたしに にあって います。"]
+    },
+    "34": {
+      "snippet": "そだてる (育てる)",
+      "explanation": "🎯 Đáp án đúng: [1] みんなで さくらの 木を たいせつに そだてて います。\n\n💬 Dịch nghĩa câu đúng:\n\"Mọi người đang cùng nhau chăm sóc, vun trồng cây hoa anh đào một cách cẩn thận.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「育てる (そだてる)」: nuôi dạy (con cái), nuôi nấng (thú cưng) hoặc chăm sóc vun trồng, bồi dưỡng cho lớn lên (cây cối, thực vật, nhân tài).\n• Cụm kết hợp chuẩn: 「木を育てる / 植物を育てる」 (chăm sóc nuôi dưỡng cây cối).\n\n🔍 Phân tích các lựa chọn khác:\n- 1. みんなで さくらの 木を たいせつに そだてて います: ĐÚNG - Chăm sóc vun trồng cây hoa anh đào.\n- 2. Soạn và hoàn thành bài báo cáo dùng 「レポートをまとめる / 書く / 完成する」.\n- 3. Xây dựng tòa nhà cao tầng dùng 「ビルを建てる (たてる)」.\n- 4. Nấu nướng chế biến món ăn ngon dùng 「料理を作る / 調理する」.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(34) 1 そだてる 意思是“养; 培育”, 选项1为正确应用。1. 大家在精心培育樱花树; 2. 完成する 查了很多资料, 完成了报告; 3. 建てる 这里从上个月起就在建新大楼; 4. 調理する 耐心地烹调, 做出好吃的菜。",
+      "correctOption": 1,
+      "text": "そだてる",
+      "options": ["1. みんなで さくらの 木を たいせつに そだてて います。", "2. いろいろな しりょうを しらべて、レポートを そだてました。", "3. 先月から ここで 新しい ビルを そだてて います。", "4. おいしく なるまで、ゆっくりと りょうりを そだてます。"]
+    },
+    "35": {
+      "snippet": "ぜひ (是非)",
+      "explanation": "🎯 Đáp án đúng: [1] ぜひ いちど 読んで みて ください。\n\n💬 Dịch nghĩa câu đúng:\n\"Xin bạn nhất định hãy thử đọc nó một lần nhé.\"\n\n💡 Phân tích & Giải thích:\n• Phó từ 「ぜひ (是非)」 thể hiện nguyện vọng thiết tha của người nói, thường đi kèm với câu cầu khiến, đề nghị, rủ rê tha thiết: 「ぜひ～てください / ～たい / ～ましょう」 (nhất định hãy...).\n\n🔍 Phân tích các lựa chọn khác:\n- 1. ぜひ いちど 読んで みて ください: ĐÚNG - Nhất định hãy thử đọc nhé.\n- 2. Phỏng đoán chắc chắn về thời tiết ngày mai dùng 「きっと」: きっと晴れるでしょう.\n- 3. Cấm đoán vì nguy hiểm tuyệt đối không chạm vào dùng 「絶対に」: 絶対にさわらないでください.\n- 4. Lời hứa danh dự nhất định trả nợ dùng 「必ず (かならず)」: 必ず返します.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(35) 1 ぜひ 意思是“一定”, 选项1为正确应用。1. 请一定要读一读; 2. きっと 明天也一定会是晴天吧？; 3. 絶対に 很危险, 请勿触碰; 4. 必ず 找你借的钱我一定会还的。",
+      "correctOption": 1,
+      "text": "ぜひ",
+      "options": ["1. ぜひ いちど 読んで みて ください。", "2. あしたも ぜひ はれるでしょう。", "3. あぶないので、ぜひ さわらないで ください。", "4. かりた お金は ぜひ かえします。"]
+    },
+    "36": {
+      "snippet": "10分で行けます (Trợ từ で chỉ giới hạn thời gian)",
+      "explanation": "🎯 Đáp án đúng: [3] で\n\n💬 Dịch nghĩa câu:\n\"Từ đây đến nhà ga, nếu đi bằng ô tô thì trong vòng 10 phút là tới nơi.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Trợ từ 「で」 dùng để biểu thị phạm vi, giới hạn về mặt thời gian, tiền bạc hoặc số lượng cần thiết để hoàn thành một hành động / sự việc.\n• Mẫu câu: 「[Khoảng thời gian / tiền bạc] + で + Động từ khả năng」: 10分で行けます (trong vòng 10 phút có thể đi tới nơi).\n\n🔍 Phân tích các lựa chọn:\n- 1. が: Trợ từ chủ ngữ, không đứng sau lượng từ chỉ thời gian trong ngữ cảnh này.\n- 2. に: Trợ từ chỉ thời điểm cụ thể (ví dụ 10時に) hoặc tần suất (1日に3回), không dùng để chỉ hạn mức thời gian hoàn thành.\n- 3. で: ĐÚNG - Biểu thị giới hạn khoảng thời gian cần thiết (10分で行けます).\n- 4. を: Trợ từ tân ngữ trực tiếp, không phù hợp.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(1) 3 句意: 从这里开车去车站, 10分钟就能到。考察で表示限定的用法, で常用于限定一个地点或时间范围, 表示在此范围内。",
+      "correctOption": 3,
+      "text": "ここから 駅まで、車なら 10分 ( ) 行けます。",
+      "options": ["1. が", "2. に", "3. で", "4. を"]
+    },
+    "37": {
+      "snippet": "電話すると伝えてください (Trợ từ と trích dẫn nội dung truyền đạt)",
+      "explanation": "🎯 Đáp án đúng: [1] と\n\n💬 Dịch nghĩa câu:\n\"(Nói qua điện thoại) 'Vậy thì nhờ anh/chị nhắn lại giúp tôi rằng lát nữa tôi sẽ gọi lại nhé.'\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Mẫu câu truyền đạt nội dung gián tiếp: 「[Mệnh đề / Nội dung nhắn nhủ] + と + 伝えてください」 (Xin hãy truyền đạt / nhắn lại rằng...).\n• Trợ từ 「と」 đóng vai trò trích dẫn nội dung lời nói, thông điệp truyền đạt.\n\n🔍 Phân tích các lựa chọn:\n- 1. と: ĐÚNG - Trợ từ trích dẫn nội dung đi với 伝える.\n- 2. は: Trợ từ chủ đề, không thể đi trực tiếp sau thể thông thường (V-ru) để làm lời dẫn.\n- 3. を: Trợ từ tân ngữ, chỉ đi trực tiếp sau danh từ (伝言を伝えてください), không đứng ngay sau thể ngắn của động từ mà không danh từ hóa.\n- 4. に: Trợ từ chỉ đối tượng tiếp nhận (山田さんに伝えてください), không dùng cho nội dung.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(2) 1 句意: (电话中)“那么请帮忙转告他我之后还会打电话过来。” 说话者希望听话者向另一个人传达某些内容, 考察と表示引出具体转达内容的用法。",
+      "correctOption": 1,
+      "text": "(電話で)「では、また 後で 電話する ( ) 伝えて ください。」",
+      "options": ["1. と", "2. は", "3. を", "4. に"]
+    },
+    "38": {
+      "snippet": "さとうも ミルクも 入れないで (Cấu trúc Aも Bも ～ない)",
+      "explanation": "🎯 Đáp án đúng: [4] も／も\n\n💬 Dịch nghĩa câu:\n\"Tôi uống cà phê mà không cho cả đường lẫn sữa.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc ngữ pháp: 「Aも Bも ～ない」 (Cả A lẫn B đều không...). Dùng để phủ định toàn bộ cả hai sự vật, hiện tượng.\n• Vế sau dùng thể phủ định 「入れないで」 (không cho vào), kết hợp với 「さとうも ミルクも」 tạo nghĩa: không cho đường cũng không cho sữa.\n\n🔍 Phân tích các lựa chọn:\n- 1. は／は: Dùng đối chiếu tương phản hai vế, không dùng dạng cặp phủ định đồng thời kiểu này.\n- 2. に／に: Sai chức năng trợ từ tân ngữ khi cho vào cà phê (chỉ có コーヒーに, không thểさとうに và ミルクに).\n- 3. で／で: Trợ từ で không dùng cặp đôi để liệt kê tân ngữ hành động.\n- 4. も／も: ĐÚNG - Cấu trúc 「Aも Bも ～ない」 phủ định song song cả hai yếu tố.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(3) 4 句意: 我喝咖啡不加糖也不加奶。考察～も～も～ない表示“两者都不”的用法。",
+      "correctOption": 4,
+      "text": "私は、さとう ( ) ミルク ( ) 入れないで コーヒーを 飲みます。",
+      "options": ["1. は／は", "2. に／に", "3. で／で", "4. も／も"]
+    },
+    "39": {
+      "snippet": "ともだちを 待たせている (Thể sai khiến 使役形)",
+      "explanation": "🎯 Đáp án đúng: [1] を\n\n💬 Dịch nghĩa hội thoại:\nA: \"Bây giờ đi đá bóng với bọn tớ không?\"\nB: \"Xin lỗi cậu, tớ đang để bạn tớ phải đứng đợi rồi, nên lần tới lại rủ tớ nhé.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Động từ chia ở thể sai khiến: 「待たせる (またせる)」 (bắt / để cho ai đó phải chờ).\n• Trong thể sai khiến, khi đối tượng bị sai khiến là người làm hành động tự thân (được xem như tự động từ khi không nêu rõ tân ngữ chờ cái gì), trợ từ chỉ đối tượng này là 「を」: 「[Người] + を + 待たせる」 (bắt ai đó chờ đợi).\n\n🔍 Phân tích các lựa chọn:\n- 1. を: ĐÚNG - Chỉ đối tượng chịu sự tác động trong thể sai khiến (ともだちを待たせている).\n- 2. の: Trợ từ sở hữu, làm câu vô nghĩa.\n- 3. へ: Chỉ phương hướng di chuyển.\n- 4. で: Chỉ phương tiện, địa điểm hành động.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(4) 1 句意: A:“我们现在去踢球吧?” B:“不好意思, 我让我朋友等着我了, 我们下次再约吧。” 考察使役句的基本句型, 一般他动词的使役态需用助词に, 但待つ比较特殊, 在忽略等待的内容的时候, 也可以当做中性态自动词来看待, 使役态一般用助词を。",
+      "correctOption": 1,
+      "text": "A「今から サッカーを しませんか。」\nB「すみません、ともだち ( ) 待たせて いるので、また 今度 さそって ください。」",
+      "options": ["1. を", "2. の", "3. へ", "4. で"]
+    },
+    "40": {
+      "snippet": "月曜日だけです (Phân biệt だけ và しか)",
+      "explanation": "🎯 Đáp án đúng: [4] だけ\n\n💬 Dịch nghĩa hội thoại:\nA: \"Bạn có đi làm thêm mỗi ngày không?\"\nB: \"Không, tôi chỉ làm vào thứ Hai thôi.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Để biểu thị sự giới hạn \"chỉ\", tiếng Nhật có hai phó từ quan trọng là 「だけ」 và 「しか」:\n  - 「だけ」: Đi với đuôi câu khẳng định: 「Danh từ + だけ + です / ます」 (Chỉ có...).\n  - 「しか」: Bắt buộc phải đi với đuôi câu phủ định: 「Danh từ + しか + ません / ない」 (Chỉ... mà thôi).\n• Vì đuôi câu là khẳng định 「です」 nên bắt buộc phải chọn 「だけ」: 「月曜日だけです」.\n\n🔍 Phân tích các lựa chọn:\n- 1. も: Nghĩa là \"cũng\" (trái nghĩa với câu trả lời いいえ).\n- 2. しか: Chỉ đi với phủ định (phải là 月曜日しかしていません), không đi với です.\n- 3. の: Trợ từ sở hữu hoặc danh từ hóa, không hợp ngữ cảnh.\n- 4. だけ: ĐÚNG - Giới hạn khẳng định: 月曜日だけです (chỉ vào thứ Hai).\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(5) 4 句意: A:“你每天都在打工吗?” B:“不, 我只在星期一打工。” 句意要表达“只在周一”之意。だけ和しか都可表示限定, 但后者需与否定表达呼应使用, 故选择前者。",
+      "correctOption": 4,
+      "text": "A「アルバイトは、毎日 して いますか。」\nB「いいえ、月曜日 ( ) です。」",
+      "options": ["1. も", "2. しか", "3. の", "4. だけ"]
+    },
+    "41": {
+      "snippet": "大阪に来たのは (Danh từ hóa mệnh đề bằng のは)",
+      "explanation": "🎯 Đáp án đúng: [4] のは\n\n💬 Dịch nghĩa câu:\n\"Đây là lần đầu tiên tôi đến Osaka.\" (Việc đến Osaka thì hôm nay là lần đầu).\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc danh từ hóa mệnh đề làm chủ đề: 「V (thể thông thường) + のは + Danh từ + です」.\n• Vế trước 「大阪に来た」 là một cụm động từ, muốn đưa lên làm chủ ngữ/chủ đề đứng trước trợ từ 「は」 thì cần phải danh từ hóa bằng trợ từ hình thức 「の」 (kết hợp thành 「のは」).\n• Dạng câu quen thuộc: 「[Hành động] + のは + 初めてです」 (Làm việc gì đó là lần đầu tiên).\n\n🔍 Phân tích các lựa chọn:\n- 1. を: Không thể đứng trước 今日が初めて.\n- 2. は: Không thể nối trực tiếp sau động từ 来た mà thiếu trợ từ danh từ hóa の/こと.\n- 3. のを: Trợ từ tân ngữ, không dùng làm chủ đề cho vị ngữ tính từ/danh từ ở sau.\n- 4. のは: ĐÚNG - Danh từ hóa mệnh đề làm chủ ngữ/chủ đề trong câu nhận định.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(6) 4 句意: 今天是我第一次来大阪。は用于提示句子主题, 当主题内容为用言或句子时, 需要在它们后面加上形式体言の或こと。のは前多为具体内容, ことは前多为抽象内容。",
+      "correctOption": 4,
+      "text": "大阪に 来た ( ) 今日が 初めてです。",
+      "options": ["1. を", "2. は", "3. のを", "4. のは"]
+    },
+    "42": {
+      "snippet": "今週中に (Phạm vi thời hạn ～中に)",
+      "explanation": "🎯 Đáp án đúng: [2] 中に\n\n💬 Dịch nghĩa câu:\n\"Báo cáo thì xin hãy nộp trong tuần này nhé.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc: 「Khoảng thời gian (tuần, tháng, năm, hôm nay) + 中に (ちゅうに)」: Biểu thị một hành động có tính dứt điểm phải được hoàn thành trong khoảng thời hạn đó (trước khi thời hạn đó kết thúc).\n• 「今週中に (こんしゅうちゅうに)」: Trong tuần này.\n\n🔍 Phân tích các lựa chọn:\n- 1. の間 (のあいだ): Thường đi với hành động kéo dài liên tục suốt khoảng thời gian, không dùng cho hành động nộp mang tính dứt điểm (出してください).\n- 2. 中に: ĐÚNG - 「今週中に」 chỉ hạn chót nộp nội trong tuần này.\n- 3. とき: Đi sau danh từ phải có の (今週のとき), nhưng về nghĩa cũng không đúng.\n- 4. の前に: \"Trước tuần này\" (nghĩa là tuần trước), trái ngược với ngữ cảnh yêu cầu nộp.\n\n📄 Trích PDF gốc (试题解析 Trang 17):\n(7) 2 句意: 请在本周内提交报告。1. 間の: 表示在某时候, 后通常接某种持续性动作或状态; 2. 中に: 表示在某一时间段内; 3. とき: 表示在某时候, 接名词时前面需加の; 4. の前に: 表示在某时间前。",
+      "correctOption": 2,
+      "text": "レポートは、今週 ( ) 出して ください。",
+      "options": ["1. の間", "2. 中に", "3. とき", "4. の前に"]
+    },
+    "43": {
+      "snippet": "歴史について調べています (Mẫu câu ～について)",
+      "explanation": "🎯 Đáp án đúng: [4] について\n\n💬 Dịch nghĩa câu:\n\"Hiện tại, trong giờ học chúng tôi đang tìm hiểu về lịch sử của thị trấn.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Mẫu câu ngữ pháp N4: 「Danh từ + について + Động từ (調べる / 勉強する / 書く / 話す...)」: biểu thị nội dung, chủ đề mà hành động hướng tới (nghĩa là \"về...\", \"liên quan đến...\").\n• Cụm từ: 「町の歴史について調べています」 (đang tìm hiểu/nghiên cứu về lịch sử thị trấn).\n\n🔍 Phân tích các lựa chọn:\n- 1. のことが: Nếu muốn dùng phải là のことを調べる, ở đây dùng が là sai trợ từ.\n- 2. によって: Tùy thuộc vào... / Do bởi... (không đi với 調べる để chỉ đối tượng tìm hiểu).\n- 3. のほうが: Dùng trong câu so sánh hơn, không phù hợp.\n- 4. について: ĐÚNG - Biểu thị chủ đề tìm hiểu, nghiên cứu (～について調べる).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(8) 4 句意: 现在, 请大家在课上查一查关于城市历史的内容。1. のことが: 此处应用のことを; 2. によって: 根据……, 通过……; 3. のほうが: ……更……; 4. について: 关于……, 就……",
+      "correctOption": 4,
+      "text": "今、じゅぎょうで 町の れきし ( ) 調べて います。",
+      "options": ["1. のことが", "2. によって", "3. のほうが", "4. について"]
+    },
+    "44": {
+      "snippet": "ずっと待っていた (Phó từ ずっと biểu thị liên tục)",
+      "explanation": "🎯 Đáp án đúng: [2] ずっと\n\n💬 Dịch nghĩa hội thoại:\nA: \"Hôm qua tại sao cậu lại không đến thế? Tớ đã đứng chờ cậu suốt đấy.\"\nB: \"Tớ xin lỗi cậu.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Phó từ 「ずっと」 khi đi với động từ thể tiếp diễn (V-ていた) diễn tả một hành động hoặc trạng thái diễn ra liên tục, không ngắt quãng trong suốt một khoảng thời gian dài: 「ずっと待っていた」 (đã chờ suốt/chờ mãi).\n\n🔍 Phân tích các lựa chọn:\n- 1. よく: Thường xuyên (chỉ tần suất) hoặc rõ ràng, không dùng cho sự việc đứng đợi liên tục ngày hôm qua.\n- 2. ずっと: ĐÚNG - Diễn tả trạng thái tiếp diễn liên tục suốt thời gian (chờ suốt).\n- 3. いつか: Một ngày nào đó trong tương lai / lúc nào đó trong quá khứ xa.\n- 4. かならず: Nhất định (biểu thị sự chắc chắn hoặc mệnh lệnh).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(9) 2 句意: A:“你昨天为什么没有来? 我一直在等你。” B:“对不起。” 1. よく: 屡次, 经常; 2. ずっと: 一直, 始终; 3. いつか: 以前, 曾经; 4. かならず: 一定, 肯定",
+      "correctOption": 2,
+      "text": "A「きのうは どうして 来なかったんですか。( ) 待っていたんですよ。」\nB「すみません」",
+      "options": ["1. よく", "2. ずっと", "3. いつか", "4. かならず"]
+    },
+    "45": {
+      "snippet": "駅前の あの店 (Chỉ thị từ あの cho thông tin cả hai cùng biết)",
+      "explanation": "🎯 Đáp án đúng: [2] あの\n\n💬 Dịch nghĩa hội thoại:\nA: \"Tối nay chúng mình đi ăn ở nhà hàng mà tuần trước hai đứa mình đã cùng đi nhé?\"\nB: \"Có phải cái quán ở trước nhà ga ấy không? Tuyệt quá, đi thôi.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Quy tắc sử dụng đại từ chỉ thị ko-so-a-do trong văn cảnh giao tiếp:\n  - 「あ (あの / あれ...)」: Dùng khi sự vật, địa điểm, sự việc mà **cả người nói lẫn người nghe đều đã biết rõ** hoặc đã cùng nhau trải nghiệm trong quá khứ.\n  - Tuần trước cả hai người đã cùng nhau đến nhà hàng đó (先週 いっしょに行った), nên nhà hàng này là tri thức chung của cả hai -> bắt buộc dùng 「あの店」 (cái quán ấy).\n\n🔍 Phân tích các lựa chọn:\n- 1. こんな: Dùng khi sự vật đang ở gần người nói hoặc mang tính minh họa cụ thể.\n- 2. あの: ĐÚNG - Chỉ sự vật/địa điểm mà cả hai bên đều đã biết rõ.\n- 3. そんな: Dùng khi chỉ có đối phương biết, hoặc mang hàm ý mỉa mai, ngạc nhiên.\n- 4. どの: Từ nghi vấn (quán nào?).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(10) 2 句意: A:“我们今晚去上周一起去过的那家餐厅如何?” B:“车站前的那家店吗? 好啊。” 1. こんな: 这样的; 2. あの: 那个, 指代都知道的内容; 3. そんな: 那样的; 4. どの: 哪个",
+      "correctOption": 2,
+      "text": "A「先週 いっしょに 行った レストランに 今夜 行きませんか。」\nB「駅前の ( ) 店ですか。いいですね。」",
+      "options": ["1. こんな", "2. あの", "3. そんな", "4. どの"]
+    },
+    "46": {
+      "snippet": "ひくことが できる (Mẫu câu khả năng V-る ことができる)",
+      "explanation": "🎯 Đáp án đúng: [3] ひくこと\n\n💬 Dịch nghĩa câu:\n\"Tôi có thể chơi đàn piano và đàn guitar.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc ngữ pháp chỉ khả năng cơ bản: 「Động từ thể từ điển (V-る) + ことができる」 (Có thể làm việc gì).\n• Động từ chơi nhạc cụ phím/dây (piano, guitar) là 「弾く (ひく)」.\n• Động từ chia ở thể từ điển là 「ひく」, kết hợp với danh từ hóa 「こと」 tạo thành: 「ひくことが できる」.\n\n🔍 Phân tích các lựa chọn:\n- 1. ひく: Thiếu danh từ hóa 「こと」, không thể đi trực tiếp trước ができる.\n- 2. ひける: Đã là động từ thể khả năng, nếu dùng thể khả năng thì đi trực tiếp: ピアノとギターがひける (không đi với ことができる).\n- 3. ひくこと: ĐÚNG - Cấu trúc chuẩn: V-る + ことができる.\n- 4. ひけること: Sai ngữ pháp do lặp hai lần khả năng (thể khả năng ひける lại đi với ことができる).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(11) 3 句意: 我会弹钢琴和吉他。考察句型～ことができる, 前接动词基本形, 表示“会, 能, 可以”之意。",
+      "correctOption": 3,
+      "text": "私は、ピアノと ギターを ( ) が できる。",
+      "options": ["1. ひく", "2. ひける", "3. ひくこと", "4. ひけること"]
+    },
+    "47": {
+      "snippet": "5分ぐらいです (Phân biệt ごろ và ぐらい)",
+      "explanation": "🎯 Đáp án đúng: [2] ぐらいです\n\n💬 Dịch nghĩa hội thoại:\nA: \"Ga tàu điện ngầm có cách xa đây không?\"\nB: \"Không, gần lắm bạn ơi. Mất khoảng tầm 5 phút thôi.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Phân biệt lượng từ ước chừng trong tiếng Nhật:\n  - 「ぐらい (くらい)」: Đi sau **khoảng thời gian** (khoảng lượng) để biểu thị \"khoảng, tầm bao lâu\": 「5分ぐらい」 (khoảng 5 phút).\n  - 「ごろ」: Chỉ đi sau **mốc thời điểm** cụ thể trên đồng hồ hoặc lịch: 「5時ごろ」 (khoảng lúc 5 giờ), không bao giờ đi sau lượng thời gian (5分ごろ là SAI).\n\n🔍 Phân tích các lựa chọn:\n- 1. ごろです: Sai ngữ pháp vì ごろ chỉ đi với mốc thời điểm, không đi với khoảng thời gian 5分.\n- 2. ぐらいです: ĐÚNG - Đi với khoảng lượng thời gian để chỉ ước lượng: 5分ぐらいです (khoảng 5 phút).\n- 3. 遠いです: Xa (trái ngược hoàn toàn với câu trả lời いいえ、近いですよ ở trước).\n- 4. 着きます: Động từ đến nơi, đứng sau lượng từ thiếu trợ từ và sai cấu trúc vị ngữ.\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(12) 2 句意: A:“地铁站离这里远吗?” B:“不, 离这里很近, 过去差不多只要 5 分钟。” ごろ和ぐらい都可表示概数, 但ごろ只能接在时间点后, 而ぐらい的用法更为广泛, 可接在时间段后。",
+      "correctOption": 2,
+      "text": "A「地下鉄の 駅は ここから 遠いですか。」\nB「いいえ、近いですよ。だいたい 5分 ( )。」",
+      "options": ["1. ごろです", "2. ぐらいです", "3. 遠いです", "4. 着きます"]
+    },
+    "48": {
+      "snippet": "生まれたら (Thể điều kiện ～たら giả định tương lai)",
+      "explanation": "🎯 Đáp án đúng: [1] 生まれたら／生まれたら\n\n💬 Dịch nghĩa hội thoại:\nVợ: \"Tên của em bé thì nếu là con gái sinh ra thì đặt là 'Eri', còn nếu sinh con trai thì đặt là 'Ken', anh thấy thế nào?\"\nChồng: \"Được đấy em. Anh thì thích sinh con gái hơn cơ.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Mẫu câu giả định điều kiện trong tương lai: 「V-た + ら」 (Nếu... thì...).\n• Ở đây em bé vẫn chưa chào đời, hai vợ chồng đang bàn luận đưa ra giả định cho trường hợp tương lai chưa xảy ra: 「女の子が 生まれたら」 (nếu sinh con gái) và 「男の子が 生まれたら」 (nếu sinh con trai).\n\n🔍 Phân tích các lựa chọn:\n- 1. 生まれたら／生まれたら: ĐÚNG - Dùng thể たら giả định điều kiện tương lai cho sự việc chưa xảy ra.\n- 2. 生まれても／生まれても: Cho dù có sinh ra (thể ても nghịch tiếp nhượng bộ, không hợp nghĩa).\n- 3. 生まれるけど／生まれるけど: Sinh ra nhưng mà (liên từ nhưng).\n- 4. 生まれたから／生まれたから: Vì đã sinh ra (chỉ nguyên nhân thực tế đã xảy ra rồi, mâu thuẫn vì đứa bé chưa sinh).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(13) 1 句意: 妻子:“孩子的名字, 如果是女孩就叫‘绘里’, 如果是男孩就叫‘健’, 行吗?” 丈夫:“好啊。我希望如果是个女孩就好了。” 根据丈夫的答语可知, 此处妻子在对未实现的事情进行假设, 考察たら表示假定条件的用法。",
+      "correctOption": 1,
+      "text": "妻「こどもの 名前は、女の子が ( )『えり』で、男の子が ( )『けん』は どう？」\n夫「いいね。ぼくは 女の子が いいなあ。」",
+      "options": ["1. 生まれたら／生まれたら", "2. 生まれても／生まれても", "3. 生まれるけど／生まれるけど", "4. 生まれたから／生まれたから"]
+    },
+    "49": {
+      "snippet": "もう時間がありません (Ngữ cảnh thúc giục 急いでください)",
+      "explanation": "🎯 Đáp án đúng: [3] が ありません\n\n💬 Dịch nghĩa câu:\n\"(Ở trên xe taxi) 'Cho đến giờ tàu Shinkansen xuất phát chẳng còn bao nhiêu thời gian nữa đâu. Bác tài xế ơi, xin bác hãy đi nhanh lên giúp cháu với ạ.'\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cụm từ: 「時間がある」 (còn thời gian) ↔ 「時間がない / 時間がありません」 (không còn thời gian).\n• Phó từ 「もう」 kết hợp với đuôi phủ định: 「もう～ない」 mang nghĩa \"không còn... nữa\".\n• Do người nói đang hối thúc bác tài 「運転手さん、急いでください」 (bác tài đi gấp giúp cháu), nên tình huống bắt buộc là \"không còn thời gian\": 「もう 時間が ありません」.\n\n🔍 Phân tích các lựa chọn:\n- 1. が あります: Còn thời gian (mâu thuẫn với câu hối thúc bác tài đi gấp).\n- 2. に なります: Đến giờ (chỉ dùng 時間になります khi thông báo đến giờ làm gì, không hợp với nghĩa thúc giục tài xế).\n- 3. が ありません: ĐÚNG - Không còn thời gian nữa (もう時間がありません).\n- 4. に なりません: Không đến giờ (sai nghĩa ngữ cảnh).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(14) 3 句意: (出租车上)“新干线马上就要发车了, 麻烦司机你开快一点。” 時間がある表示“还有时间”, 時間になる表示“到了某一时间”, 选择前者。根据后半句内容可知说话者在催促司机, 可推测时间快来不及了, 需用否定表达。",
+      "correctOption": 3,
+      "text": "(タクシーで)「新幹線の 出発まで もう 時間 ( )。運転手さん、急いで ください。」",
+      "options": ["1. が あります", "2. に なります", "3. が ありません", "4. に なりません"]
+    },
+    "50": {
+      "snippet": "何も書いてはいけません (Cấm đoán ～てはいけません)",
+      "explanation": "🎯 Đáp án đúng: [1] 書いては いけません\n\n💬 Dịch nghĩa câu:\n\"Ở trang này tuyệt đối không được viết bất cứ thứ gì vào.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc: 「Nghi vấn từ + も + Động từ phủ định / cấm đoán」 biểu thị sự phủ định hoàn toàn: 「何も～ない / てはいけない」 (Không một cái gì / Tuyệt đối không được làm gì...).\n• Cấu trúc cấm đoán: 「V-て + は いけません」 (Không được làm V / Cấm làm V).\n• Vì có 「何も (bất cứ thứ gì)」 nên vị ngữ phải mang nghĩa phủ định / cấm đoán -> 「何も書いてはいけません」 (Không được viết bất cứ thứ gì).\n\n🔍 Phân tích các lựa chọn:\n- 1. 書いては いけません: ĐÚNG - Mẫu câu cấm đoán phù hợp với đại từ phủ định 何も.\n- 2. 書いたほうが いいです: Nên viết (khẳng định khuyên nhủ, mâu thuẫn với 何も).\n- 3. 書かなければ なりません: Phải viết (mâu thuẫn với 何も).\n- 4. 書いて ください: Hãy viết (câu cầu khiến khẳng định, mâu thuẫn với 何も).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(15) 1 句意: 这一页上什么都不能写。考察疑问词+も+否定表达, 表示全面否定的用法。1. てはいけない: 不能……, 不准……; 2. ほうがいい: 还是……更好; 3. なければならない: 必须……; 4. てください: 请……",
+      "correctOption": 1,
+      "text": "この ページには 何も ( )。",
+      "options": ["1. 書いては いけません", "2. 書いたほうが いいです", "3. 書かなければ なりません", "4. 書いて ください"]
+    },
+    "51": {
+      "snippet": "ABC 大学の 図書館と 食堂は どなた ★でも 利用 できます",
+      "explanation": "🎯 Đáp án đúng: [2] でも\n\n💬 Dịch nghĩa câu hoàn chỉnh:\n\"Cả thư viện và căng-tin của trường Đại học ABC thì bất kỳ ai cũng đều có thể sử dụng được.\"\n\n💡 Phân tích & Cấu trúc sắp xếp:\n• Câu đề bài: 「ABC 大学の 図書館と [ 1 ] [ 4 ] [ ★ 2 ] [ 3 ] できます。」\n• Thứ tự sắp xếp chính xác: 【1. 食堂は】 ➔ 【4. どなた】 ➔ 【★ 2. でも】 ➔ 【3. 利用】\n• Cụm hoàn chỉnh: 「ABC 大学の 図書館と 食堂は どなたでも 利用 できます。」\n• Vị trí dấu sao ★ rơi vào vị trí thứ 3, chính là lựa chọn **[2] でも**.\n• Ngữ pháp trọng tâm:\n  - 「どなたでも」: Từ để hỏi lịch sự どなた (vị nào/ai) + でも mang nghĩa \"bất kỳ ai, ai cũng...\".\n  - 「利用できます」: Có thể sử dụng (Danh từ suru: 利用 + できます).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(16) 2 正确语序: ABC 大学の 図書館と 1 食堂は 4 どなた 2 でも 3 利用 できます。(任何人都能使用 ABC 大学的图书馆和食堂) ～でも 和疑问词连用时, 表示无论什么条件下都成立。",
+      "correctOption": 2,
+      "text": "ABC 大学の 図書館と _____ _____ ★ _____ できます。",
+      "options": ["1. 食堂は", "2. でも", "3. 利用", "4. どなた"]
+    },
+    "52": {
+      "snippet": "日本の 生活 に ★なれた ところ です",
+      "explanation": "🎯 Đáp án đúng: [1] なれた\n\n💬 Dịch nghĩa hội thoại hoàn chỉnh:\nTanaka: \"Ken này, cậu sang Nhật Bản được 1 tháng rồi nhỉ.\"\nKen: \"Vâng. Cuối cùng thì tôi cũng vừa mới quen dần với cuộc sống ở Nhật Bản.\"\n\n💡 Phân tích & Cấu trúc sắp xếp:\n• Câu đề bài: 「はい。やっと 日本の [ 4 ] [ 3 ] [ ★ 1 ] [ 2 ] です。」\n• Thứ tự sắp xếp chính xác: 【4. 生活】 ➔ 【3. に】 ➔ 【★ 1. なれた】 ➔ 【2. ところ】\n• Cụm hoàn chỉnh: 「日本の 生活 に なれた ところ です。」\n• Vị trí dấu sao ★ rơi vào vị trí thứ 3, chính là lựa chọn **[1] なれた**.\n• Ngữ pháp trọng tâm:\n  - Cấu trúc quen với cái gì: 「[Danh từ] + に慣れる (なれる)」 (日本の生活に慣れる: quen với cuộc sống ở Nhật).\n  - Cấu trúc vừa mới hoàn thành hành động: 「V-た + ところです」: なれたところです (vừa mới làm quen được).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(17) 1 正确语序: はい。やっと 日本の 4 生活 3 に 1 なれた 2 ところ です。(是的, 我现在才刚适应在日本的生活。) ～になれる 表示习惯……, 适应……",
+      "correctOption": 1,
+      "text": "田中「ケンさん、日本に 来て 1か月ですね。」\nケン「はい。やっと 日本の _____ _____ ★ _____ です。」",
+      "options": ["1. なれた", "2. ところ", "3. に", "4. 生活"]
+    },
+    "53": {
+      "snippet": "しゅくだいを やった のに ★家に 忘れて きてしまいました",
+      "explanation": "🎯 Đáp án đúng: [3] 家に\n\n💬 Dịch nghĩa hội thoại hoàn chỉnh:\n(Ở trường học)\nA: \"Ôi thôi, bài tập về nhà không có ở đây rồi.\"\nB: \"Hả, cậu quên ở đâu rồi à?\"\nA: \"Vâng. Em đã rất cố gắng làm xong bài tập về nhà thế mà lại để quên ở nhà mang đi mất rồi.\"\n\n💡 Phân tích & Cấu trúc sắp xếp:\n• Câu đề bài: 「がんばって しゅくだいを [ 4 ] [ 1 ] [ ★ 3 ] [ 2 ] きて しまいました。」\n• Thứ tự sắp xếp chính xác: 【4. やった】 ➔ 【1. のに】 ➔ 【★ 3. 家に】 ➔ 【2. 忘れて】\n• Cụm hoàn chỉnh: 「がんばって しゅくだいを やった のに 家に 忘れて きて しまいました。」\n• Vị trí dấu sao ★ rơi vào vị trí thứ 3, chính là lựa chọn **[3] 家に**.\n• Ngữ pháp trọng tâm:\n  - Mẫu câu nghịch tiếp: 「V-た + のに」 (Đã làm xong vậy mà...).\n  - Cụm từ để quên ở đâu: 「[Địa điểm] + に 忘れてくる」 (家に忘れてきてしまいました: trót để quên ở nhà mất rồi).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(18) 3 正确语序: はい。がんばって しゅくだいを 4 やった 1 のに 3 家に 2 忘れて きて しまいました。(是的。好不容易把作业做完了, 却把它忘在家里了。) ～のに 表示发生了意料之外的事情, 意为“……却……”",
+      "correctOption": 3,
+      "text": "(学校で)\nA「あ、しゅくだいが ない。」\nB「え、忘れたんですか。」\nA「はい。がんばって しゅくだいを _____ _____ ★ _____ きて しまいました。」",
+      "options": ["1. のに", "2. 忘れて", "3. 家に", "4. やった"]
+    },
+    "54": {
+      "snippet": "すべり やすくて あぶないから ★気を つけて通って ください",
+      "explanation": "🎯 Đáp án đúng: [3] 気を\n\n💬 Dịch nghĩa câu hoàn chỉnh:\n\"Con đường này vào những ngày trời mưa rất dễ trượt té và nguy hiểm, vì vậy xin hãy cẩn thận chú ý khi đi qua đây nhé.\"\n\n💡 Phân tích & Cấu trúc sắp xếp:\n• Đề bài gốc: 「この 道は、雨の 日は すべり [ 2 ] [ 4 ] [ ★ 3 ] [ 1 ] ください。」\n• Thứ tự sắp xếp chính xác: 【2. やすくて】 ➔ 【4. あぶないから】 ➔ 【★ 3. 気を】 ➔ 【1. 通って】\n• Cụm hoàn chỉnh: 「この 道は、雨の 日は すべりやすくて あぶないから 気を つけて 通って ください。」\n• Vị trí dấu sao ★ rơi vào vị trí thứ 3, chính là lựa chọn **[3] 気を**.\n• Ngữ pháp trọng tâm:\n  - Cấu trúc dễ làm gì: 「V-bỏます + やすい」: すべりやすい → chuyển thể て nối vế: すべりやすくて.\n  - Cụm từ cẩn thận: 「気をつける」 (chú ý cẩn thận) kết hợp với động từ 通る: 気をつけて通ってください (hãy cẩn thận khi đi qua).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(19) 3 正确语序: この 道は、雨の 日は すべり 2 やすくて 4 あぶないから 3 気を つけて 1 通って ください。(下雨的时候走这条路很容易滑倒, 很危险, 请一定要注意。) 気をつける 表示注意自己的某种行为举止。",
+      "correctOption": 3,
+      "text": "この 道は、雨の 日は すべり _____ _____ ★ _____ ください。",
+      "options": ["1. 通って", "2. やすくて", "3. 気を", "4. あぶないから"]
+    },
+    "55": {
+      "snippet": "一年で 夜 が ★最も 長い 日 です",
+      "explanation": "🎯 Đáp án đúng: [4] 最も 長い\n\n💬 Dịch nghĩa câu hoàn chỉnh:\n\"Hôm nay là ngày có thời gian ban đêm dài nhất trong một năm (ngày đông chí).\"\n\n💡 Phân tích & Cấu trúc sắp xếp:\n• Câu đề bài: 「今日は、一年で [ 3 ] [ 2 ] [ ★ 4 ] [ 1 ] です。」\n• Thứ tự sắp xếp chính xác: 【3. 夜】 ➔ 【2. が】 ➔ 【★ 4. 最も 長い】 ➔ 【1. 日】\n• Cụm hoàn chỉnh: 「今日は、一年で 夜が 最も 長い 日 です。」\n• Vị trí dấu sao ★ rơi vào vị trí thứ 3, chính là lựa chọn **[4] 最も 長い**.\n• Ngữ pháp trọng tâm:\n  - So sánh nhất trong một phạm vi: 「[Phạm vi] + で + [Chủ ngữ] + が + 最も (もっとも) + Tính từ + Danh từ + です」.\n  - Phó từ 「最も (もっとも)」 mang nghĩa cao nhất, nhất (tương đương 一番).\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(20) 4 正确语序: 今日は、一年で 3 夜 2 が 4 最も 長い 1 日 です。(今天是一年之中夜晚最长的一天。) 最も 表示最高级, 意为“最……”。",
+      "correctOption": 4,
+      "text": "今日は、一年で _____ _____ ★ _____ です。",
+      "options": ["1. 日", "2. が", "3. 夜", "4. 最も 長い"]
+    },
+    "56": {
+      "snippet": "かざられることに なりました (Bị động kết hợp ～ことになる)",
+      "explanation": "🎯 Đáp án đúng: [4] かざられることに なりました\n\n💬 Dịch nghĩa câu:\n\"Từ thứ Sáu ngày 3 tháng 5 trong vòng 3 ngày, bức ảnh của tôi đã được quyết định sẽ được trưng bày tại trung tâm thương mại G.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Động từ 「飾る (かざる - trang trí, trưng bày)」 được chia ở thể bị động: 「飾られる (かざられる)」 vì chủ ngữ là bức ảnh của tôi (私の写真が).\n• Sự kiện trưng bày diễn ra trong tương lai (từ ngày 3/5, hiện tại mới là cuối tháng 4 \"もうすぐ5月\"), và đây là kết quả của việc tuyển chọn từ câu lạc bộ nhiếp ảnh được ban tổ chức ấn định/quyết định: cấu trúc 「V (thể từ điển) + ことになる / ことになりました」 (được quyết định là sẽ...).\n• Kết hợp lại thành: 「かざられることに なりました」.\n\n🔍 Phân tích các lựa chọn:\n- 1. かざられました: Đã được trưng bày (thì quá khứ, sai vì thời điểm 3/5 vẫn chưa tới).\n- 2. かざられたでしょう: Chắc là đã được trưng bày rồi nhỉ (suy đoán việc quá khứ, sai ngữ cảnh).\n- 3. かざられることでした: Định là sẽ trưng bày (dùng quá khứ chỉ việc dự định trước đây mà không thực hiện được, sai ngữ nghĩa).\n- 4. かざられることに なりました: ĐÚNG - Đã được ấn định/quyết định sẽ được trưng bày.\n\n📄 Trích PDF gốc (试题解析 Trang 18):\n(21) 4 从邮件第一句可知现在还没有到5月, 此处汤姆告知对方自己的画要被展出了, 展出时间是5月3日至6日, 画还未被展出, 只是已经确定要被展出了。",
+      "correctOption": 4,
+      "text": "【Đoạn văn Thư điện tử】\n5月3日金曜日から 三日間、Gデパートに 私の 写真が ( 21 )。\n冬に とった 空の 写真です。",
+      "options": ["1. かざられました", "2. かざられたでしょう", "3. かざられることでした", "4. かざられることに なりました"]
+    },
+    "57": {
+      "snippet": "それで (Liên từ nối nguyên nhân - kết quả)",
+      "explanation": "🎯 Đáp án đúng: [1] それで\n\n💬 Dịch nghĩa câu:\n\"Năm nay tác phẩm của tôi đã được chọn. Vì thế, tôi rất mong anh Mori cũng nhất định đến xem, không biết anh có tiện sắp xếp thời gian không?\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Liên từ liên kết mệnh đề:\n  - Vế trước là nguyên nhân/tiền đề: Bức ảnh của Tom đã được chọn đem triển lãm.\n  - Vế sau là kết quả/hành động phát sinh từ nguyên nhân đó: Tom muốn mời bạn Mori đến xem triển lãm.\n  - Do đó, từ nối phù hợp nhất biểu thị quan hệ nhân quả \"vì thế, do vậy, chính vì thế mà...\" là 「それで」.\n\n🔍 Phân tích các lựa chọn:\n- 1. それで: ĐÚNG - Vì thế, do đó (nối quan hệ nguyên nhân - kết quả).\n- 2. しかし: Tuy nhiên, nhưng mà (nghịch tiếp, không phù hợp).\n- 3. それから: Sau đó, hơn nữa (liệt kê thời gian hoặc bổ sung sự việc).\n- 4. たとえば: Ví dụ như (đưa ra ví dụ minh họa).\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(22) 1 前文讲述自己的画要被展出, 后文邀请对方来看展览, 前后存在因果关系。1. それで: 因此, 所以; 2. しかし: 但是, 然而; 3. それから: 然后; 4. たとえば: 例如。",
+      "correctOption": 1,
+      "text": "【Đoạn văn Thư điện tử】\n今年は 私のが 選ばれたのです。( 22 )、森さんにも ぜひ 見て もらいたいのですが、ご都合は いかがですか。",
+      "options": ["1. それで", "2. しかし", "3. それから", "4. たとえば"]
+    },
+    "58": {
+      "snippet": "選ばれたんですか (Mẫu câu xác nhận cảm xúc ngạc nhiên, khen ngợi)",
+      "explanation": "🎯 Đáp án đúng: [1] 選ばれたんですか\n\n💬 Dịch nghĩa câu:\n\"Cảm ơn bạn vì bức thư nhé. Ảnh của bạn Tom đã được chọn đem triển lãm rồi đó à? Tuyệt vời quá! Chúc mừng bạn nhé!\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc: 「V (thể thông thường) + んですか」 dùng khi người nghe tiếp nhận thông tin từ đối phương và nhắc lại thông tin đó với thái độ ngạc nhiên, hào hứng, thể hiện sự quan tâm sâu sắc để mở đầu cho lời tán thưởng/chúc mừng: 「選ばれたんですか。すごいですね。おめでとうございます。」\n\n🔍 Phân tích các lựa chọn:\n- 1. 選ばれたんですか: ĐÚNG - Thể hiện sự bất ngờ, xác nhận hào hứng trước tin vui của bạn.\n- 2. 選ばれたからですか: Là vì được chọn sao? (Hỏi lý do, không phù hợp ngữ cảnh).\n- 3. 選ばれたそうですよ: Nghe nói là được chọn đấy (Dùng cung cấp tin đồn cho Tom, trong khi chính Tom vừa kể cho Mori nghe).\n- 4. 選ばれたようですよ: Dường như là được chọn đấy (Phỏng đoán thông tin của Tom, vô lý).\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(23) 1 作者此处在复述对方的话, 表示出自己的赞赏。1. のですか: ……吗?; 2. からだ: 是因为……; 3. そうだ: 听说……; 4. ようだ: 好像……",
+      "correctOption": 1,
+      "text": "【Đoạn văn Thư điện tử - Thư trả lời của Mori】\nメールを ありがとうございます。トムさんの 写真が ( 23 )。すごいですね。おめでとうございます。",
+      "options": ["1. 選ばれたんですか", "2. 選ばれたからですか", "3. 選ばれたそうですよ", "4. 選ばれたようですよ"]
+    },
+    "59": {
+      "snippet": "トムさんが とった 写真 (Trợ từ が trong mệnh đề định ngữ)",
+      "explanation": "🎯 Đáp án đúng: [3] が\n\n💬 Dịch nghĩa câu:\n\"Vì tôi vẫn chưa từng được xem những bức ảnh mà anh Tom chụp bao giờ, nên tôi rất muốn đi xem.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Quy tắc ngữ pháp mệnh đề bổ ngữ cho danh từ (mệnh đề định ngữ):\n  - Cụm định ngữ: 「トムさんが とった」 bổ nghĩa cho danh từ 「写真」 đứng sau (bức ảnh mà anh Tom chụp).\n  - Trong mệnh đề định ngữ tiếng Nhật, chủ ngữ của mệnh đề phụ **bắt buộc phải đi với trợ từ 「が」** (hoặc chuyển thành 「の」), tuyệt đối **không dùng trợ từ 「は」**.\n  - Động từ 「撮る (とる)」 là hành động chủ động do anh Tom thực hiện, nên chủ thể thực hiện hành động này là Tom đi với 「が」: 「トムさんが とった 写真」.\n\n🔍 Phân tích các lựa chọn:\n- 1. に: Trợ từ に không dùng làm chủ ngữ của hành động chụp ảnh chủ động.\n- 2. を: Trợ từ tân ngữ, trong khi tân ngữ là bức ảnh (写真を撮る) đã được đưa ra làm danh từ trung tâm.\n- 3. が: ĐÚNG - Đánh dấu chủ ngữ trong mệnh đề định ngữ bổ nghĩa cho danh từ.\n- 4. は: Không dùng trợ từ は để đánh dấu chủ ngữ bên trong mệnh đề định ngữ.\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(24) 3 此处指的是汤姆拍的照片, 空后的动词撮る提示此句使用了主动语态, 考察が提示主语的用法。",
+      "correctOption": 3,
+      "text": "【Đoạn văn Thư điện tử - Thư trả lời của Mori】\nトムさん ( 24 ) とった 写真は まだ 見たことが ないので、見て みたいです。",
+      "options": ["1. に", "2. を", "3. が", "4. は"]
+    },
+    "60": {
+      "snippet": "見に行こうと 思います (Thể ý chí + と思います)",
+      "explanation": "🎯 Đáp án đúng: [2] 行こうと 思います\n\n💬 Dịch nghĩa câu:\n\"Chiều ngày 4 tháng 5, tôi định sẽ đến trung tâm thương mại G để xem triển lãm. Tôi rất mong đợi buổi triển lãm này.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Người viết thư là anh Mori, đang nói về quyết định và kế hoạch của chính bản thân mình (tôi định sẽ đi...).\n• Cấu trúc ngữ pháp biểu thị ý định của bản thân: 「Động từ thể ý chí (V-よう) + と思います」:\n  - Động từ di chuyển từ nơi khác đến trung tâm thương mại G là 「行く (đi)」 ➔ thể ý chí là 「行こう」.\n  - Kết hợp: 「見に行こうと思います」 (Tôi định sẽ đi đến đó xem).\n\n🔍 Phân tích các lựa chọn:\n- 1. 行ってください: Xin hãy đi (câu sai khiến/yêu cầu người khác đi, mâu thuẫn vì Mori tự mình đi).\n- 2. 行こうと 思います: ĐÚNG - Thể hiện ý định của người nói sẽ đi đến xem (見に行こうと思います).\n- 3. 来てください: Xin hãy đến đây (yêu cầu đối phương đến nơi của mình, sai nghĩa).\n- 4. 来ようと思います: Dùng 来る (đến) không phù hợp vì trung tâm thương mại G không phải là nơi Mori đang ở lúc viết thư.\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(25) 2 此处为小森做的决定, 他准备5月4日下午去看展览, 此处应用意志形。表示去看展览应用“行く”, 故此处填入“行こうと 思います”最为合适。",
+      "correctOption": 2,
+      "text": "【Đoạn văn Thư điện tử - Thư trả lời của Mori】\n5月4日の 午後、Gデパートに 見に ( 25 )。楽しみに して います。\n森",
+      "options": ["1. 行って ください", "2. 行こうと 思います", "3. 来て ください", "4. 来ようと 思います"]
+    },
+    "61": {
+      "snippet": "使った机といすを初めにあった場所に並べます (Xếp bàn ghế về vị trí ban đầu)",
+      "explanation": "🎯 Đáp án đúng: [2] 使った机といすを初めにあった場所に並べます。\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Bài đọc: Bảng thông báo dán trong phòng họp tòa nhà Satsuki (さつきビル):\n  「会議室を使う皆様へ」 (Kính gửi quý khách sử dụng phòng họp)\n  1. Hãy rời khỏi phòng trước khi kết thúc thời gian đặt 3 phút.\n  2. Bàn và ghế đã sử dụng, hãy đặt lại nơi đã được xếp ban đầu.\n  3. Rác không được để lại, hãy mang về.\n  4. Hãy tắt điều hòa và đèn điện.\n  5. Hãy khóa cửa và trả chìa khóa cho quầy lễ tân.\n• Câu hỏi: 会議室を使う人は、使った後にどうしなければなりませんか。\n  (Người sử dụng phòng họp, sau khi dùng xong thì phải làm gì?)\n\n💡 Câu then chốt (Key Sentence - Dòng 2 quy định):\n「２ 使った机といすは、最初に並べられていた所に置いてください。」\n(2. Bàn và ghế đã sử dụng, hãy đặt lại nơi đã được xếp ban đầu.)\n\n🔍 Phân tích các lựa chọn:\n- 1. 予約の終わりの時間になったら、3分以内に部屋を出ます: SAI. Điều 1 yêu cầu rời phòng \"3 phút trước khi hết giờ\" (3分前までに), chứ không phải \"trong vòng 3 phút sau khi hết giờ\".\n- 2. 使った机といすを初めにあった場所に並べます: ĐÚNG. Khớp hoàn toàn với điều 2 (最初に並べられていた所 = 初めにあった場所).\n- 3. ごみを集めて、部屋に置いてあるごみ箱に捨てます: SAI. Điều 3 yêu cầu mang rác về (持って帰ってください), không vứt tại phòng.\n- 4. 受付に行って、部屋の鍵をかけてもらいます: SAI. Điều 5 yêu cầu người dùng tự khóa cửa rồi mang chìa khóa trả lại quầy lễ tân (鍵をかけて、受付に鍵を返してください)。\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(26) 2 该告示提醒使用者需提前三分钟离开会议室；走的时候需将桌椅归还原位；带走自己的垃圾；关上灯和空调；锁好会议室的门后需归还钥匙。",
+      "correctOption": 2,
+      "text": "【問題 4 (1) - Bảng thông báo phòng họp】\nこのポスターが 会議室に はって あります。\n\n会議室を使う皆様へ\n１ 予約時間が終わる3分前までに部屋を出てください。\n２ 使った机といすは、最初に並べられていた所に置いてください。\n３ ごみは置いたままにしないで、持って帰ってください。\n４ エアコンと電気を消してください。\n５ 鍵をかけて、受付に鍵を返してください。\nさつきビル\n\n質問：会議室を使う人は、使った後にどうしなければなりませんか。",
+      "options": ["1. 予約の終わりの時間になったら、3分以内に部屋を出ます。", "2. 使った机といすを初めにあった場所に並べます。", "3. ごみを集めて、部屋に置いてあるごみ箱に捨てます。", "4. 受付に行って、部屋の鍵をかけてもらいます。"]
+    },
+    "62": {
+      "snippet": "昨日から階段が狭くなっていたから (Do thi công thang cuốn nên từ hôm qua cầu thang bộ bị hẹp lại)",
+      "explanation": "🎯 Đáp án đúng: [1] 昨日から階段が狭くなっていたから\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Bài đọc: \"Mỗi sáng tôi đều đi tàu đến trường. Tôi thường đến ga lúc 7:00 và đi chuyến tàu 7:05. Nhưng hôm qua, thời gian lên tàu mất nhiều hơn bình thường nên tôi phải đi chuyến 7:15 và bị trễ học. Ở cửa nam của ga không có thang cuốn. Từ hôm qua, công trình xây thang cuốn bên phải cầu thang bộ bắt đầu, nên cầu thang bộ bị hẹp lại. Buổi sáng người đi tàu đông đúc trên cầu thang nên đã mất nhiều thời gian. Tuy nhiên hôm nay tôi đã ra khỏi nhà sớm, đến ga lúc 6:55 nên đã lên được chuyến tàu như thường lệ.\"\n• Câu hỏi: いつもより時間がかかってとありますが、どうしてですか。\n  (Trong bài có đoạn 'mất nhiều thời gian hơn bình thường', tại sao lại như vậy?)\n\n💡 Câu then chốt (Key Sentence - Đoạn 2):\n「昨日から南口の階段の右側にエスカレーターを作る工事が始まって、階段が狭くなっていました。朝は電車に乗る人で階段が込んでいて、時間がかかってしまったのです。」\n(Từ hôm qua, công trình làm thang cuốn ở bên phải cầu thang bộ cửa nam bắt đầu, cầu thang bộ bị hẹp lại. Buổi sáng người đông đúc trên cầu thang nên đã mất nhiều thời gian.)\n\n🔍 Phân tích các lựa chọn:\n- 1. 昨日から階段が狭くなっていたから: ĐÚNG. Nguyên nhân trực tiếp khiến mất nhiều thời gian là vì từ hôm qua cầu thang bộ đã bị hẹp lại do công trường thi công.\n- 2. 南口にはエスカレーターがないから: SAI. Trước giờ vốn dĩ không có thang cuốn, nhưng hôm qua mới bị mất thời gian vì công trình thi công làm hẹp cầu thang.\n- 3. エスカレーターを使う人が多かったから: SAI. Thang cuốn đang thi công chứ chưa hoàn thành để sử dụng.\n- 4. いつも乗る電車に乗れなかったから: SAI. Đây là kết quả chứ không phải nguyên nhân khiến mất nhiều thời gian.\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(27) 1 关键内容在文章的第二段。由于站台的南出口开始修电梯，楼梯变窄了，早上坐车的人又很多，所以花了很多时间。",
+      "correctOption": 1,
+      "text": "【問題 4 (2) - Đi tàu đến trường】\nわたしは毎朝電車で学校へ行きます。7時に駅に着いて、7時5分の電車に乗ります。でも、昨日は電車に乗るまでにいつもより時間がかかって、7時15分の電車に乗ったので、遅刻してしまいました。\n駅の南口にはエスカレーターがありません。昨日から南口の階段の右側にエスカレーターを作る工事が始まって、階段が狭くなっていました。朝は電車に乗る人で階段が込んでいて、時間がかかってしまったのです。\nでも、今日は早く家を出て、6時55分に駅に着いたので、いつもの電車に乗れました。\n\n質問：いつもより時間がかかってとありますが、どうしてですか。",
+      "options": ["1. 昨日から階段が狭くなっていたから", "2. 南口にはエスカレーターがないから", "3. エスカレーターを使う人が多かったから", "4. いつも乗る電車に乗れなかったから"]
+    },
+    "63": {
+      "snippet": "7時5分 (Chuyến tàu như thường lệ 7:05)",
+      "explanation": "🎯 Đáp án đúng: [3] 7時5分\n\n💬 Dịch nghĩa câu hỏi:\n• Câu hỏi: 「わたし」は、今日、何時の電車に乗りましたか。\n  (Hôm nay, 'tôi' đã lên chuyến tàu lúc mấy giờ?)\n\n💡 Câu then chốt (Key Sentence):\n• Đoạn 1 nêu rõ chuyến tàu như thường lệ:\n  「7時に駅に着いて、7時5分の電車に乗ります。」(Đến ga lúc 7:00 và lên chuyến tàu 7:05).\n• Đoạn cuối nêu rõ kết quả ngày hôm nay:\n  「でも、今日は早く家を出て、6時55分に駅に着いたので、いつもの電車に乗れました。」(Nhưng hôm nay tôi ra khỏi nhà sớm, đến ga lúc 6:55 nên đã lên được chuyến tàu như thường lệ).\n• \"Chuyến tàu như thường lệ\" (いつもの電車) chính là chuyến tàu 7 giờ 5 phút (7時5分).\n\n🔍 Phân tích các lựa chọn:\n- 1. 6時55分: SAI. Đây là thời gian nhân vật \"tôi\" đến nhà ga (駅に着いた時間), không phải giờ tàu chạy.\n- 2. 7時: SAI. Đây là giờ bình thường đến ga.\n- 3. 7時5分: ĐÚNG. Đây là giờ chuyến tàu thường lệ khởi hành mà hôm nay \"tôi\" đã kịp lên.\n- 4. 7時15分: SAI. Đây là chuyến tàu ngày hôm qua phải đi vì bị trễ.\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(28) 3 关键内容在文章的第三段。作者提到今天他提早出门，坐上了平常一直坐的那班车。即文章第一句中提到的七点过五分的那趟车。",
+      "correctOption": 3,
+      "text": "【問題 4 (2) - Giờ lên tàu hôm nay】\n（前文参照）\nわたしは毎朝電車で学校へ行きます。7時に駅に着いて、7時5分の電車に乗ります。でも、昨日は電車に乗るまでにいつもより時間がかかって、7時15分の電車に乗ったので、遅刻してしまいました。\n...\nでも、今日は早く家を出て、6時55分に駅に着いたので、いつもの電車に乗れました。\n\n質問：「わたし」は、今日、何時の電車に乗りましたか。",
+      "options": ["1. 6時55分", "2. 7時", "3. 7時5分", "4. 7時15分"]
+    },
+    "64": {
+      "snippet": "手帳が見つかりました。手帳をどうするか返事をください (Đã tìm thấy sổ tay, xin hãy phản hồi xem muốn nhận lại bằng cách nào)",
+      "explanation": "🎯 Đáp án đúng: [4] 手帳が見つかりました。手帳をどうするか返事をください。\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Bài đọc: Email của anh Hayashi (Phụ trách đồ thất lạc, Trung tâm Văn hóa Công dân) gửi John Mauer:\n  \"Gửi anh John Mauer, Tôi là Hayashi ở Trung tâm Văn hóa Công dân, người đã nhận cuộc gọi hôm qua. Đã tìm thấy cuốn sổ tay của anh rồi. Anh có thể đến tận nơi lấy được không? Hay là chúng tôi nên gửi bưu điện cho anh? (Trường hợp gửi từ đây, anh sẽ phải thanh toán các khoản phí cần thiết). Rất mong nhận được phản hồi từ anh.\"\n• Câu hỏi: このメールで、林さんが言いたいことは何ですか。\n  (Trong email này, điều anh Hayashi muốn nói nhất là gì?)\n\n💡 Câu then chốt (Key Sentence):\n「こちらまで取りに来ることができますか。それとも、送ったほうがいいでしょうか... お返事、よろしくお願いします。」\n(Anh có thể đến lấy được không? Hay là chúng tôi gửi cho anh? ... Mong anh hồi âm.)\n\n🔍 Phân tích các lựa chọn:\n- 1. 手帳が見つかりました。手帳を取りに来てください: SAI. Anh Hayashi không bắt buộc anh Mauer phải đến lấy mà cho phép lựa chọn gửi bưu điện.\n- 2. 手帳が見つかりました。手帳を送ります: SAI. Chưa quyết định gửi mà đang hỏi ý kiến anh Mauer.\n- 3. 手帳が見つかりました。手帳を送るので、料金を払ってください: SAI. Chỉ trả phí nếu chọn phương án gửi, hiện tại chưa quyết định gửi.\n- 4. 手帳が見つかりました。手帳をどうするか返事をください: ĐÚNG. Báo đã tìm thấy sổ và yêu cầu phản hồi xem sẽ xử lý nhận lại sổ như thế nào (tự đến lấy hay nhờ gửi).\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(29) 4 林先生表示找到了对方丢失的记事本，并询问对方选择自己来拿还是由文化教室送去，也提醒了对方如果由这边送的话对方需要支付一定的费用，希望对方能做出选择，进行回复。",
+      "correctOption": 4,
+      "text": "【問題 4 (3) - Email thông báo tìm thấy sổ tay】\nこれは市民文化教室の林さんからマウアーさんに届いたメールです。\n\nジョン・マウアーさん\n昨日お電話をもらった市民文化教室の林です。マウアーさんの手帳が見つかりました。\nこちらまで取りに来ることができますか。それとも、送ったほうがいいでしょうか（こちらから送るときは、必要な料金を払ってもらわなければなりません）。\nお返事、よろしくお願いします。\n市民文化教室　忘れ物係　林\n\n質問：このメールで、林さんが言いたいことは何ですか。",
+      "options": ["1. 手帳が見つかりました。手帳を取りに来てください。", "2. 手帳が見つかりました。手帳を送ります。", "3. 手帳が見つかりました。手帳を送るので、料金を払ってください。", "4. 手帳が見つかりました。手帳をどうするか返事をください。"]
+    },
+    "65": {
+      "snippet": "南小学校の子どもたちが、秋山さんの家を一か月後に訪ねること (Học sinh sẽ đến thăm nhà bà Akiyama sau 1 tháng nữa)",
+      "explanation": "🎯 Đáp án đúng: [2] 南小学校の子どもたちが、秋山さんの家を一か月後に訪ねること\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Bài đọc: Lá thư bà Akiyama Shizuko gửi các em học sinh lớp 6 trường tiểu học Minami để cảm ơn vì đã đến thăm bà vào thứ Sáu tuần trước.\n• Câu hỏi: ①お知らせのお手紙には、どんなことが書いてありましたか。\n  (Trong ① lá thư thông báo, đã viết nội dung gì?)\n\n💡 Câu then chốt (Key Sentence - Đoạn 2):\n「私は、①お知らせのお手紙をもらってから、みなさんが来るのを一か月間ずっと楽しみにしていました。」\n(Kể từ khi nhận được lá thư thông báo, tôi đã mong chờ các cháu đến trong suốt một tháng trời.)\nĐiều này cho thấy lá thư thông báo báo trước 1 tháng về việc: các em học sinh trường tiểu học Minami sẽ đến thăm nhà bà Akiyama sau đó 1 tháng (一か月後に訪ねること).\n\n🔍 Phân tích các lựa chọn:\n- 1. 南小学校の子どもたちが、秋山さんの家を一か月前に訪ねたこと: SAI. \"Đã đến thăm cách đây 1 tháng\" là sai mốc thời gian.\n- 2. 南小学校の子どもたちが、秋山さんの家を一か月後に訪ねること: ĐÚNG. Thư thông báo rằng 1 tháng sau các em học sinh sẽ đến thăm.\n- 3. 75歳以上の人が南小学校を訪ねることが、一か月前に決まったこと: SAI. Không phải người già đến thăm trường tiểu học.\n- 4. 75歳以上の人が、南小学校を一か月後に訪ねることが決まったこと: SAI. Ngược đối tượng thăm viếng.\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(30) 2 关键内容在信件内容的第二段，根据“南小学校では、75歳以上の人が一人で住んでいる家を訪ねて、話をしたり、掃除をしたりすることを、もう5年も続けているそうですね。”可知是学校学生去秋山家探望她，根据“みなさんが来るのを一か月間ずっと楽しみにしていました”可知通知信息是在去之前的一个月前发送给她的。",
+      "correctOption": 2,
+      "text": "【問題 5 - Thư cảm ơn của bà Akiyama gửi học sinh lớp 6 trường tiểu học Minami】\nこれは秋山さんが南小学校の子どもたちに書いた手紙です。\n\n南小学校6年のみなさんへ\n　先週の金曜日は家に来てくれて、ありがとうございました。\n　南小学校では、75歳以上の人が一人で住んでいる家を訪ねて、話をしたり、掃除をしたりすることを、もう5年も続けているそうですね。私は、①お知らせのお手紙をもらってから、みなさんが来るのを一か月間ずっと楽しみにしていました。\n　私の家には、若い人たちが来ることがあまりありません。ですから、用意したお菓子や料理を、みなさんが食べてくれるかどうか、ちょっと②心配でした。でも、喜んでたくさん食べてくれましたね。\n　楽しい話もいろいろ聞けました。今川くんが犬にお菓子を取られた話は、思い出すと、今でも笑ってしまいます。大きい声を出して笑ったことは、最近はほとんどありませんでした。それから、掃除もしてくれました。高い所の窓は、汚れたままになっていたのですが、山下さんたちがいすに上がってきれいにしてくれたので、とても明るくなりました。\n　私には娘がいて、娘には男の子が二人いますが、今は外国に住んでいるので、あまり会えません。みなさんが帰るときは、泣きそうになってしまってごめんなさいね。でも、本当に③うれしかったのです。\n　また、いつか遊びに来てください。\n2013年10月23日　秋山静子\n\n質問：①お知らせのお手紙には、どんなことが書いてありましたか。",
+      "options": ["1. 南小学校の子どもたちが、秋山さんの家を一か月前に訪ねたこと", "2. 南小学校の子どもたちが、秋山さんの家を一か月後に訪ねること", "3. 75歳以上の人が南小学校を訪ねることが、一か月前に決まったこと", "4. 75歳以上の人が、南小学校を一か月後に訪ねることが決まったこと"]
+    },
+    "66": {
+      "snippet": "自分が用意したお菓子や料理を小学生が喜んでくれるかどうか (Học sinh có vui lòng thưởng thức bánh kẹo và đồ ăn do mình chuẩn bị không)",
+      "explanation": "🎯 Đáp án đúng: [1] 自分が用意したお菓子や料理を小学生が喜んでくれるかどうか\n\n💬 Dịch nghĩa câu hỏi:\n• Câu hỏi: ②心配でしたとありますが、心配だったのはどんなことですか。\n  (Trong bài có đoạn '② đã cảm thấy lo lắng', điều khiến bà lo lắng là việc gì?)\n\n💡 Câu then chốt (Key Sentence - Đoạn 3):\n「ですから、用意したお菓子や料理を、みなさんが食べてくれるかどうか、ちょっと②心配でした。でも、喜んでたくさん食べてくれましたね。」\n(Do đó, tôi đã có chút lo lắng không biết các cháu có ăn bánh kẹo và món ăn tôi chuẩn bị hay không. Nhưng các cháu đã vui mừng ăn thật nhiều.)\n\n🔍 Phân tích các lựa chọn:\n- 1. 自分が用意したお菓子や料理を小学生が喜んでくれるかどうか: ĐÚNG. Khớp trọn vẹn với nội dung: bà lo liệu các em học sinh có thích và vui vẻ ăn đồ bà chuẩn bị hay không.\n- 2. 若い人たちが用意したお菓子や料理を小学生が食べてくれるかどうか: SAI. Đồ ăn do chính bà Akiyama chuẩn bị (自分が用意した), không phải người trẻ chuẩn bị.\n- 3. 子どもの好きなお菓子や料理を自分が食べられるかどうか: SAI. Sai đối tượng ăn (bà lo các em ăn, chứ không phải bản thân bà ăn).\n- 4. お菓子や料理を自分がたくさん用意できるかどうか: SAI. Không phải lo về số lượng chuẩn bị được nhiều hay ít.\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(31) 1 关键句是“ですから、用意したお菓子や料理を、みなさんが食べてくれるかどうか、ちょっと心配でした。”, 秋山不知道他们吃不吃得惯她准备的点心和菜，因此感到担心。",
+      "correctOption": 1,
+      "text": "【問題 5 - Điều bà Akiyama lo lắng】\n（前文参照）\n私の家には、若い人たちが来ることがあまりありません。ですから、用意したお菓子や料理を、みなさんが食べてくれるかどうか、ちょっと②心配でした。でも、喜んでたくさん食べてくれましたね。\n\n質問：②心配でしたとありますが、心配だったのはどんなことですか。",
+      "options": ["1. 自分が用意したお菓子や料理を小学生が喜んでくれるかどうか", "2. 若い人たちが用意したお菓子や料理を小学生が食べてくれるかどうか", "3. 子どもの好きなお菓子や料理を自分が食べられるかどうか", "4. お菓子や料理を自分がたくさん用意できるかどうか"]
+    },
+    "67": {
+      "snippet": "子どもたちと話ができたり、子どもたちが掃除をしてくれたりしたこと (Được trò chuyện và các em đã giúp dọn dẹp nhà cửa)",
+      "explanation": "🎯 Đáp án đúng: [2] 子どもたちと話ができたり、子どもたちが掃除をしてくれたりしたこと\n\n💬 Dịch nghĩa câu hỏi:\n• Câu hỏi: ③うれしかったのですとありますが、うれしかったのはどんなことですか。\n  (Trong bài có đoạn '③ thực sự đã rất vui mừng', điều khiến bà vui mừng là việc gì?)\n\n💡 Câu then chốt (Key Sentence - Đoạn 4):\n「楽しい話もいろいろ聞けました。...それから、掃除もしてくれました。高い所の窓は、汚れたままになっていたのですが、山下さんたちがいすに上がってきれいにしてくれたので、とても明るくなりました。」\n(Tôi đã nghe được nhiều câu chuyện vui... Hơn nữa các cháu còn dọn dẹp giúp tôi. Cửa sổ trên cao... các cháu trèo lên ghế lau chùi sạch sẽ nên nhà sáng sủa hẳn lên.)\n\n🔍 Phân tích các lựa chọn:\n- 1. 子どもたちと料理を作ったり...: SAI. Bà không cùng nấu ăn với các em mà bà chuẩn bị trước đồ ăn cho các em.\n- 2. 子どもたちと話ができたり、子どもたちが掃除をしてくれたりしたこと: ĐÚNG. Hai hoạt động chính mang lại niềm vui lớn cho bà là được trò chuyện vui vẻ với các em và các em dọn dẹp, lau chùi cửa sổ giúp bà.\n- 3. 外国に住んでいる娘と二人の男の子が、家に遊びに来てくれたこと: SAI. Con gái và hai cháu trai đang ở nước ngoài, ít khi được gặp.\n- 4. 子どもたちが帰るとき、泣かないで「さようなら。」と言えたこと: SAI. Trong bài bà viết bà suýt khóc (泣きそうになってしまってごめんなさいね).\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(32) 2 最后一段是总结段，解题的关键内容在文章第四段，根据“楽しい話もいろいろ聞けました。”“それから、掃除もしてくれました。”可知，因为有人陪着聊天，帮忙打扫，所以秋山感到很开心。",
+      "correctOption": 2,
+      "text": "【問題 5 - Điều khiến bà Akiyama vui mừng】\n（前文参照）\n楽しい話もいろいろ聞けました。今川くんが犬にお菓子を取られた話は、思い出すと、今でも笑ってしまいます。大きい声を出して笑ったことは、最近はほとんどありませんでした。それから、掃除もしてくれました。高い所の窓は、汚れたままになっていたのですが、山下さんたちがいすに上がってきれいにしてくれたので、とても明るくなりました。\n...でも、本当に③うれしかったのです。\n\n質問：③うれしかったのですとありますが、うれしかったのはどんなことですか。",
+      "options": ["1. 子どもたちと料理を作ったり、子どもたちから楽しい話を聞いたりしたこと", "2. 子どもたちと話ができたり、子どもたちが掃除をしてくれたりしたこと", "3. 外国に住んでいる娘と二人の男の子が、家に遊びに来てくれたこと", "4. 子どもたちが帰るとき、泣かないで「さようなら。」と言えたこと"]
+    },
+    "68": {
+      "snippet": "家に来てくれて、本当にありがとうございました (Chân thành cảm ơn các em vì đã đến thăm nhà)",
+      "explanation": "🎯 Đáp án đúng: [4] 家に来てくれて、本当にありがとうございました。\n\n💬 Dịch nghĩa câu hỏi:\n• Câu hỏi: 秋山さんがこの手紙で一番言いたいことは何ですか。\n  (Điều bà Akiyama muốn nói nhất qua bức thư này là gì?)\n\n💡 Câu then chốt (Key Sentence):\n• Câu mở đầu thư: 「先週の金曜日は家に来てくれて、ありがとうございました。」(Cảm ơn các cháu vì thứ Sáu tuần trước đã đến nhà bà).\n• Câu kết thư: 「でも、本当にうれしかったのです。また、いつか遊びに来てください。」(Nhưng bà thực sự đã rất vui. Khi nào đó các cháu lại đến chơi nhé).\n• Toàn bộ bức thư là một lá thư cảm ơn (お礼の手紙) nhằm bày tỏ lòng biết ơn chân thành sâu sắc đối với các em học sinh vì đã đến thăm và mang lại niềm vui cho bà.\n\n🔍 Phân tích các lựa chọn:\n- 1. みんなが帰るとき、泣きそうになってしまってごめんなさい: SAI. Lời xin lỗi vì suýt khóc chỉ là cảm xúc bộc lộ nhất thời ở cuối thư, không phải mục đích chính của bức thư.\n- 2. 家族が近くにいないので、ぜひまた手伝いに来てください: SAI. Bà không viết thư để nhờ vả các em đến giúp việc nhà.\n- 3. ぜひ一度、みんなで私の家へ遊びに来てみてください: SAI. \"Nhất định hãy thử đến một lần\" chỉ dùng khi chưa từng đến, trong khi các em vừa đến vào thứ Sáu tuần trước.\n- 4. 家に来てくれて、本当にありがとうございました: ĐÚNG. Thể hiện trọn vẹn chủ đề và mục đích chính của bức thư: Cảm ơn các em học sinh vì đã ghé thăm nhà bà.\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(33) 4 关键句是文章的第一句“先週の金曜日は家に来てくれて、ありがとうございました。”, 秋山写这封信主要是为了表达自己的感谢之情。",
+      "correctOption": 4,
+      "text": "【問題 5 - Điều bà Akiyama muốn nói nhất qua bức thư】\n（前文参照）\n南小学校6年のみなさんへ\n　先週の金曜日は家に来てくれて、ありがとうございました。\n...\n　みなさんが帰るときは、泣きそうになってしまってごめんなさいね。でも、本当にうれしかったのです。\n　また、いつか遊びに来てください。\n2013年10月23日　秋山静子\n\n質問：秋山さんがこの手紙で一番言いたいことは何ですか。",
+      "options": ["1. みんなが帰るとき、泣きそうになってしまってごめんなさい。", "2. 家族が近くにいないので、ぜひまた手伝いに来てください。", "3. ぜひ一度、みんなで私の家へ遊びに来てみてください。", "4. 家に来てくれて、本当にありがとうございました。"]
+    },
+    "69": {
+      "snippet": "10,000 円 (Giá phòng đơn thứ Sáu đặt qua mạng)",
+      "explanation": "🎯 Đáp án đúng: [3] 10,000 円\n\n💬 Dịch nghĩa câu hỏi:\n• Câu hỏi: マイさんは今週の金曜日に、山の森ホテルに一人で泊まろうと思います。インターネットでシングルの部屋を予約したら、いくらですか。\n  (Mai định ở khách sạn Yamanomori một mình vào thứ Sáu tuần này. Nếu đặt phòng đơn (single) qua internet thì giá là bao nhiêu?)\n\n💡 Tra cứu bảng thông tin (Bảng 1: インターネットで予約するとき):\n1. Phương thức đặt:「インターネットで予約するとき」 (Bảng đầu tiên - Đặt qua Internet).\n2. Loại phòng: Ở một mình nên chọn phòng đơn:「シングル」.\n3. Ngày lưu trú: Thứ Sáu: Cột「金曜日〜土曜日」.\n➔ Gióng hàng `シングル` và cột `金曜日〜土曜日`, ta thu được mức giá chính xác là: **10,000 円**.\n\n🔍 Phân tích các lựa chọn:\n- 1. 8,000 円: Sai (Giá phòng đơn đặt mạng vào các ngày thường Chủ Nhật đến Thứ Năm).\n- 2. 8,500 円: Sai (Giá phòng đơn đặt qua điện thoại vào Chủ Nhật đến Thứ Năm).\n- 3. 10,000 円: ĐÚNG (Giá phòng đơn đặt qua Internet vào Thứ Sáu - Thứ Bảy).\n- 4. 10,500 円: Sai (Giá phòng đơn đặt qua điện thoại vào Thứ Sáu - Thứ Bảy).\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(34) 3 根据题干可知，她要进行网上预订，对应第一个表格可知，周五的单人房房价为1万日元。",
+      "correctOption": 3,
+      "text": "【問題 6 - Bảng thông tin khách sạn Yamanomori (山の森ホテルの案内)】\n右のページの「山の森ホテルの案内」を見て、下の質問に答えてください。\n\n【山の森ホテル】\n土田市前田町1-23 (前田駅から歩いて2分)\n電話: 012-345-6789 FAX: 012-345-6790\nホームページ: http://www.yamanomori-hotel.com/\n\n[インターネットで予約するとき]\n部屋の種類 / 泊まる曜日:\n・シングル: 日曜日〜木曜日: 8,000円 | 金曜日〜土曜日: 10,000円\n・ツイン: 日曜日〜木曜日: 14,000円 | 金曜日〜土曜日: 16,000円\n\n[電話で予約するとき]\n部屋の種類 / 泊まる曜日:\n・シングル: 日曜日〜木曜日: 8,500円 | 金曜日〜土曜日: 10,500円\n・ツイン: 日曜日〜木曜日: 14,500円 | 金曜日〜土曜日: 16,500円\n\n●ツインの部屋にもう1台ベッドを入れて、3人で泊まれます。ベッド1台の料金は1晩3,000円です。\n●ホテルの食堂で朝ご飯が食べられます。1人1,000円で、和食と洋食が選べます。\n●全部の部屋で、インターネットをただで利用できます。パソコンは受付で借りられます。12時間1,000円です。\n●ホテルにはプールがあります。ホテルに泊まっている人は、ただで利用できます。泊まっていない人も1日2,000円で利用できます。\n\n質問：マイさんは今週の金曜日に、山の森ホテルに一人で泊まろうと思います。インターネットでシングルの部屋を予約したら、いくらですか。",
+      "options": ["1. 8,000 円", "2. 8,500 円", "3. 10,000 円", "4. 10,500 円"]
+    },
+    "70": {
+      "snippet": "ホテルのプールで泳ぐこと (Bơi ở hồ bơi khách sạn miễn phí)",
+      "explanation": "🎯 Đáp án đúng: [4] ホテルのプールで泳ぐこと\n\n💬 Dịch nghĩa câu hỏi:\n• Câu hỏi: 山の森ホテルに泊まる人が、お金を払わないでできることは、どれですか。\n  (Người lưu trú tại khách sạn Yamanomori có thể làm việc gì mà không phải trả tiền - miễn phí?)\n\n💡 Câu then chốt (Key Sentence - Dòng ghi chú thứ 3 & 4):\n•「全部の部屋で、インターネットをただで利用できます。」(Tất cả các phòng đều dùng được Internet miễn phí).\n•「ホテルにはプールがあります。ホテルに泊まっている人は、ただで利用できます。」(Khách sạn có bể bơi. Khách lưu trú tại khách sạn được sử dụng miễn phí).\nTừ「ただで」trong tiếng Nhật đồng nghĩa với「お金を払わないで」(không mất tiền / miễn phí).\nKhách nghỉ tại khách sạn được miễn phí 2 dịch vụ: Internet và Bể bơi. Trong 4 phương án, chỉ có Bơi ở bể bơi khách sạn là xuất hiện.\n\n🔍 Phân tích các lựa chọn:\n- 1. ツインの部屋でもう一つベッドを借りること: SAI. Thêm 1 giường phụ giá 3,000 yên / đêm (ベッド1台の料金は1晩3,000円).\n- 2. ホテルの食堂で朝ご飯を食べること: SAI. Ăn sáng giá 1,000 yên / người (1人1,000円).\n- 3. ホテルでパソコンを借りること: SAI. Thuê máy tính tại quầy lễ tân mất phí 1,000 yên / 12 tiếng (12時間1,000円).\n- 4. ホテルのプールで泳ぐこと: ĐÚNG. Khách lưu trú được bơi miễn phí (ホテルに泊まっている人は、ただで利用できます).\n\n📄 Trích PDF gốc (试题解析 Trang 19):\n(35) 4 关键句是“全部の部屋で、インターネットをただで利用できます。”和“ホテルにはプールがあります。ホテルに泊まっている人は、ただで利用できます。”。住在酒店里的人能免费享受的只有网络和泳池。",
+      "correctOption": 4,
+      "text": "【問題 6 - Dịch vụ miễn phí cho khách lưu trú】\n（前文の「山の森ホテルの案内」参照）\n●ツインの部屋にもう1台ベッドを入れて、3人で泊まれます。ベッド1台の料金は1晩3,000円です。\n●ホテルの食堂で朝ご飯が食べられます。1人1,000円で、和食と洋食が選べます。\n●全部の部屋で、インターネットをただで利用できます。パソコンは受付で借りられます。12時間1,000円です。\n●ホテルにはプールがあります。ホテルに泊まっている人は、ただで利用できます。泊まっていない人も1日2,000円で利用できます。\n\n質問：山の森ホテルに泊まる人が、お金を払わないでできることは、どれですか。",
+      "options": ["1. ツインの部屋でもう一つベッドを借りること", "2. ホテルの食堂で朝ご飯を食べること", "3. ホテルでパソコンを借りること", "4. ホテルのプールで泳ぐこと"]
+    },
+    "71": {
+      "snippet": "しりょうを コピーする (Photo tài liệu trước tiên)",
+      "explanation": "🎯 Đáp án đúng: [3] しりょうを コピーする (Photo tài liệu)\n\n💬 Dịch nghĩa bài nghe & Phân tích trình tự hành động:\n• Bàn ghế (椅子や机): Đã xếp xong rồi (もう並べてあります).\n• Trà (お茶): Chị Kato sẽ mang đi (加藤さんが持って行ってくれます).\n• Máy tính (パソコン): Photo xong mới chuẩn bị (コピーが済んだら準備します).\n• Người phụ nữ yêu cầu: 「この資料、会議で使うんだけど、コピーしておいて」 (Photo tài liệu này trước nhé). Người nam đồng ý: 「はい」.\n➔ Hành động người nam phải làm TRƯỚC TIÊN (まず) chính là photo tài liệu (しりょうを コピーする).\n\n📄 Trích PDF gốc (听力原文 Trang 20):\n女: そう？それから、この資料、会議で使うんだけど、コピーしておいて。男: はい。",
+      "audioScriptJa": "会社で女の人と男の人が会議の準備をしています。男の人はまず何をしますか。\n女：村上さん、二時から会議が始まるけど、椅子や机は並べてある？\n男：ええ、必要な数、もう並べてあります。\n女：お茶は？\n男：お茶は加藤さんが持って行ってくれます。\n女：そう？それから、この資料、会議で使うんだけど、コピーしておいて。\n男：はい。\n女：パソコンは準備した？\n男：コピーが済んだら準備します。\n男の人はまず何をしますか。",
+      "audioScriptVi": "Nữ: Murakami này, cuộc họp bắt đầu từ lúc 2 giờ đấy, bàn ghế đã xếp xong chưa?\nNam: Vâng, số lượng cần thiết thì tôi đã xếp sẵn xong hết rồi ạ.\nNữ: Còn trà thì sao?\nNam: Trà thì chị Kato sẽ mang đến giúp ạ.\nNữ: Thế à? Vậy thì tài liệu này dùng trong cuộc họp, anh đi photo trước giúp tôi nhé.\nNam: Vâng.\nNữ: Máy tính xách tay đã chuẩn bị chưa?\nNam: Photo xong thì tôi sẽ chuẩn bị ngay ạ.\nHỏi: Người đàn ông sẽ làm gì trước tiên?",
+      "correctOption": 3,
+      "text": "会社で女の人と男の人が会議の準備をしています。男の人はまず何をしますか。",
+      "options": ["1. いすや つくえを ならべる", "2. おちゃを もっていく", "3. しりょうを コピーする", "4. パソコンを じゅんびする"]
+    },
+    "72": {
+      "snippet": "きゅうり: 薄切り / じゃがいも: 細切り / にんじん: 星の形 (Hình 2)",
+      "explanation": "🎯 Đáp án đúng: [2] (Hình 2: きゅうりは薄く、じゃがいもは細く、にんじんは星の形)\n\n💬 Dịch nghĩa bài nghe & Phân tích hình dạng rau củ:\n• Dưa leo (きゅうり): Cắt lát mỏng (薄く切る) ➔ dạng lát mỏng tròn.\n• Khoai tây (じゃがいも): Cắt sợi mảnh dài (細く切る) ➔ dạng que thái sợi.\n• Cà rốt (にんじん): Cắt mỏng rồi tạo hình ngôi sao (薄く切ってから、星の形にする) ➔ hình ngôi sao.\n➔ Đối chiếu 4 hình vẽ trong đề thi, Hình 2 thể hiện chính xác cả 3 yêu cầu trên.\n\n📄 Trích PDF gốc (听力原文 Trang 20):\nきゅうりは薄く切ってください。じゃがいもは細く切ってください。それから、にんじんは薄く切ってから、星の形にしてください。",
+      "audioScriptJa": "料理のクラスで男の人と女の人が話しています。女の人は野菜をどう切りますか。\n男：伊藤さん、きゅうりとじゃがいもとにんじんを切ってくれませんか？\n女：ええ、いいですよ。どうきりますか？\n男：きゅうりは薄く切ってください。じゃがいもは細く切ってください。それから、にんじんは薄く切ってから、星の形にしてください。\n女：星の形ですか？\n男：はい。\n女：分かりました。\n女の人は野菜をどう切りますか。",
+      "audioScriptVi": "Nam: Ito ơi, cô cắt giúp tôi dưa leo, khoai tây và cà rốt được không?\nNữ: Vâng, được chứ ạ. Cắt như thế nào vậy anh?\nNam: Dưa leo thì cô cắt lát mỏng nhé. Khoai tây thì cắt sợi dài mảnh. Sau đó, cà rốt thì cắt lát mỏng rồi tỉa thành hình ngôi sao nhé.\nNữ: Hình ngôi sao ạ?\nNam: Vâng.\nNữ: Tôi hiểu rồi ạ.\nHỏi: Người phụ nữ sẽ cắt các loại rau củ như thế nào?",
+      "correctOption": 2,
+      "text": "料理のクラスで男の人と女の人が話しています。女の人は野菜をどう切りますか。",
+      "options": ["1. きゅうり: 薄切り / じゃがいも: 丸切り / にんじん: 千切り", "2. きゅうり: 薄切り / じゃがいも: 細切り / にんじん: 星の形", "3. きゅうり: 星の形 / じゃがいも: 細切り / にんじん: 千切り", "4. きゅうり: 星の形 / じゃがいも: 丸切り / にんじん: 星の形"]
+    },
+    "73": {
+      "snippet": "プレゼント 10個 (5 nam + 4 nữ + 1 du học sinh Kim)",
+      "explanation": "🎯 Đáp án đúng: [4] 10こ (10 phần quà)\n\n💬 Dịch nghĩa bài nghe & Phép tính số lượng:\n• Tiền bối nam tốt nghiệp: 5 người (男の先輩が五人).\n• Tiền bối nữ tốt nghiệp: 4 người (女の先輩が四人).\n➔ Ban đầu dự tính: 5 + 4 = 9 phần quà (9つ).\n• Sau đó người nam nhớ ra du học sinh Kim sắp về nước cũng tặng quà: thêm 1 phần nữa (キムさんにもあげよう ➔ もう一つ).\n➔ Tổng số quà cần chuẩn bị: 9 + 1 = 10 phần quà (10こ).\n\n📄 Trích PDF gốc (听力原文 Trang 20):\n男の先輩が五人、女の先輩が四人だね。じゃあ、プレゼントは9つだね。留学生のキムさんにもあげよう。うん、もう一つだね。",
+      "audioScriptJa": "大学で同じクラブの男の学生と女の学生が話しています。女の学生はプレゼントを何個用意しますか。\n男：あっ、ちょっとお願いがあるんだけど、いい？\n女：うん、なに？\n男：来月、卒業するクラブの先輩にプレゼントをあげたいんだけど、用意してくれる？僕は花を用意するから。\n女：分かった。\n男：ええと、男の先輩が五人、女の先輩が四人だね。\n女：じゃあ、プレゼントは9つだね。\n男：うん、あっ、留学生のキムさんが国に帰るから、キムさんにもあげよう。\n女：うん、もう一つだね。分かった。\n女の学生はプレゼント何個を用意しますか。",
+      "audioScriptVi": "Nam: À, tớ có việc này muốn nhờ cậu một chút được không?\nNữ: Ừ, việc gì thế?\nNam: Tháng sau tớ muốn tặng quà cho các tiền bối trong câu lạc bộ sắp tốt nghiệp, cậu chuẩn bị giúp tớ được không? Tớ sẽ lo phần hoa.\nNữ: Được rồi.\nNam: Để xem nào, tiền bối nam có 5 người, tiền bối nữ có 4 người nhỉ.\nNữ: Vậy thì quà là 9 phần nhỉ.\nNam: Ừ... À, bạn Kim là du học sinh sắp về nước nữa, hay là tặng cho cả Kim nữa đi.\nNữ: Ừ, thêm một phần nữa nhỉ. Tớ hiểu rồi.\nHỏi: Nữ sinh sẽ chuẩn bị bao nhiêu phần quà?",
+      "correctOption": 4,
+      "text": "大学で同じクラブの男の学生と女の学生が話しています。女の学生はプレゼントを何個用意しますか。",
+      "options": ["1. 4こ", "2. 5こ", "3. 9こ", "4. 10こ"]
+    },
+    "74": {
+      "snippet": "新幹線 (Đi suối nước nóng bằng tàu Shinkansen - Hình 2)",
+      "explanation": "🎯 Đáp án đúng: [2] 新幹線 (Tàu Shinkansen - Hình 2)\n\n💬 Dịch nghĩa bài nghe & Phân tích lựa chọn phương tiện:\n• Máy bay (飛行機): Đắt và suối nước nóng xa sân bay.\n• Xe buýt (バス) & Ô tô (車): Đi mất thời gian và lái xe thì mệt.\n• Tàu Shinkansen (新幹線): Tiện lợi, ga tàu gần suối nước nóng và đi nhanh nhất (新幹線のほうが便利ですよ。駅も近いですし。新幹線が早いと思いますよ).\n➔ Người nam chốt quyết định: 「じゃあ、そうします」 (Vậy tôi sẽ đi tàu Shinkansen) ➔ Chọn Hình 2 (新幹線).\n\n📄 Trích PDF gốc (听力原文 Trang 20):\n新幹線のほうが便利ですよ。駅も近いですし。新幹線が早いと思いますよ。男: じゃあ、そうします。",
+      "audioScriptJa": "男の人と女の人が話しています。男の人は何で温泉に行きますか。\n男：今度の夏休みに友達四人で北原温泉に旅行に行こうと思っているんです。\n女：それはいいですね。私も去年行きましたが、とてもよかったですよ。\n男：そうですか、北原温泉には何で行くのがいいでしょうか。\n女：そうですね。飛行機は高いし、温泉は空港から遠いんですよ。新幹線のほうが便利ですよ。駅も近いですし。\n男：バスや車で行ったら、時間がかかりますか？\n女：ええ、かかるでしょうね。新幹線が早いと思いますよ。\n男：じゃあ、そうします。\n女：車も荷物が多い時は便利ですけど、疲れますからね。\n男：そうですね。\n男の人は何で温泉に行きますか。",
+      "audioScriptVi": "Nam: Kỳ nghỉ hè tới tớ định cùng 4 người bạn đi du lịch ở suối nước nóng Kitahara.\nNữ: Thích thế! Năm ngoái tớ cũng đi rồi, tuyệt vời lắm đấy.\nNam: Thế à, đi suối nước nóng Kitahara bằng phương tiện gì thì tiện nhất nhỉ?\nNữ: À... Máy bay thì đắt, mà suối nước nóng lại xa sân bay lắm. Đi tàu Shinkansen tiện hơn đấy. Ga tàu cũng gần suối nước nóng nữa.\nNam: Đi bằng xe buýt hoặc ô tô thì có mất thời gian không?\nNữ: Có chứ, chắc chắn mất thời gian rồi. Tớ nghĩ Shinkansen là nhanh nhất đấy.\nNam: Vậy thì tớ sẽ đi bằng cách đó (Shinkansen).\nHỏi: Người đàn ông sẽ đi suối nước nóng bằng phương tiện gì?",
+      "correctOption": 2,
+      "text": "男の人と女の人が話しています。男の人は何で温泉に行きますか。",
+      "options": ["1. 飛行機", "2. 新幹線", "3. バス", "4. 車"]
+    },
+    "75": {
+      "snippet": "おちゃと はし (Trà và đũa Nhật Bản)",
+      "explanation": "🎯 Đáp án đúng: [4] おちゃと はし (Trà và đũa Nhật Bản)\n\n💬 Dịch nghĩa bài nghe & Phân tích lựa chọn:\n• Bánh kẹo / Socola (お菓子 / チョコレート): Gia đình không thích ăn bánh kẹo ➔ Loại.\n• Búp bê (人形): Dễ vỡ, mang đi xa nguy hiểm ➔ Loại.\n• Trà Nhật (お茶): Nữ sinh đồng ý chọn (そうですね、いいですね).\n• Đũa Nhật (箸): Nhẹ, không sợ vỡ, nữ sinh chốt: 「じゃあ、それも買って帰ります」 (Vậy tớ sẽ mua cả đũa nữa).\n➔ Kết hợp: Mua Trà và Đũa (おちゃと はし) ➔ Đáp án [4].\n\n📄 Trích PDF gốc (听力原文 Trang 20-21):\n日本のお茶も人気がありますよ。そうですね、いいですね。箸のほうがいいかもしれませんね。じゃあ、それも買って帰ります。",
+      "audioScriptJa": "女の留学生と男の学生が話しています。女の留学生はどんなお土産を買いますか。\n男：マリアさん、来週帰国しますね。はじめての日本はどうでしたか。\n女：短い間でしたが、とても楽しかったです。あのう、日本のお土産を探しているんですが、いいお土産ありませんか？\n男：そうですね。チョコレートは？日本のチョコレートは美味しいですよ。\n女：ううん、私の家族はあまりお菓子を食べないので……\n男：日本のお茶も人気がありますよ。\n女：そうですね、いいですね。あのう、他になにかありますか？\n男：えっと、日本の人形や箸もきれいだし、みんな喜ぶと思いますよ。でも、人形が壊れるのが心配ですね。\n女：そうですね。\n男：お土産は軽くて壊れにくいのがいいですね。箸のほうがいいかもしれませんね。\n女：じゃあ、それも買って帰ります。\n女の留学生はどんなお土産を買いますか。",
+      "audioScriptVi": "Nam: Maria này, tuần tới cậu về nước rồi nhỉ. Lần đầu tiên đến Nhật Bản cậu thấy thế nào?\nNữ: Thời gian tuy ngắn nhưng vui lắm cậu ạ. À này, tớ đang tìm mua quà lưu niệm Nhật Bản, cậu có gợi ý món nào hay không?\nNam: Xem nào... Socola thì sao? Socola Nhật ngon lắm đấy.\nNữ: Không, gia đình tớ không thích ăn bánh kẹo lắm...\nNam: Trà Nhật Bản (お茶) cũng rất được ưa chuộng đấy.\nNữ: Ừ nhỉ, món đó hay đấy! À, còn món nào khác nữa không cậu?\nNam: Búp bê Nhật hay đũa (箸) cũng rất đẹp, tớ nghĩ mọi người sẽ thích. Nhưng mà búp bê thì sợ dễ vỡ/hỏng.\nNữ: Đúng thế thật.\nNam: Quà lưu niệm thì nhẹ và khó vỡ là tốt nhất. Có khi đũa (箸) sẽ hợp hơn đấy.\nNữ: Vậy thì tớ cũng sẽ mua cả món đó (đũa) mang về nữa!\nHỏi: Nữ du học sinh sẽ mua quà lưu niệm gì?",
+      "correctOption": 4,
+      "text": "女の留学生と男の学生が話しています。女の留学生はどんなお土産を買いますか。",
+      "options": ["1. おかしと にんぎょう", "2. おかしと はし", "3. おちゃと にんぎょう", "4. おちゃと はし"]
+    },
+    "76": {
+      "snippet": "「まつり」の さくぶん (Bài văn giới thiệu lễ hội)",
+      "explanation": "🎯 Đáp án đúng: [3] 「まつり」の さくぶん (Bài văn giới thiệu lễ hội)\n\n💬 Dịch nghĩa bài nghe & Phân loại chuẩn bị:\n• Bản đồ (地図): Thầy giáo sẽ chuẩn bị sẵn (地図は私が準備します) ➔ Không mang.\n• Ảnh (写真): Thầy giáo sẽ chụp trên lớp (来週の授業の時私が取ります) ➔ Không mang.\n• Bài văn về đồ ăn (「食べもの」の作文): Sẽ viết tại lớp trong buổi học tới (来週の授業の時作文を書きましょう) ➔ Không chuẩn bị mang đi.\n• Bài văn về lễ hội: Thầy dặn rõ viết ở nhà mang đến lớp: 「祭りについては、祭りを紹介する作文を書いて、来週の授業の時に持ってきてください」.\n➔ Đáp án chính xác là [3].\n\n📄 Trích PDF gốc (听力原文 Trang 21):\n祭りについては、祭りを紹介する作文を書いて、来週の授業の時に持ってきてください。",
+      "audioScriptJa": "授業で男の先生が話しています。学生は来週の授業の時、何を持ってこなければなりませんか。\n男：来週から皆さんの国を紹介するポスターを作ります。例えば、これは日本を紹介するポスターです。日本の地図があります。そして作った人の写真と名前があります。それから日本の祭りというところに、祭りの説明がありますね。その下は日本の食べ物が紹介されています。皆さんは自分の国を紹介します。祭りについては、祭りを紹介する作文を書いて、来週の授業の時に持ってきてください。皆さんの国の食べ物については、来週の授業の時作文を書きましょう。\n女：来週、地図も持ってきますか？\n男：地図は私が準備します。それから皆さんの写真は来週の授業の時私が取ります。\n学生は来週の授業の時、何を持ってこなければなりませんか。",
+      "audioScriptVi": "Thầy giáo: Từ tuần sau chúng ta sẽ làm áp phích giới thiệu về đất nước của các em. Ví dụ, đây là áp phích giới thiệu Nhật Bản: có bản đồ Nhật Bản, có ảnh và tên người làm, mục lễ hội Nhật Bản có bài giải thích về lễ hội, phía dưới là giới thiệu món ăn Nhật Bản. Các em sẽ giới thiệu về đất nước mình. Về phần lễ hội, các em hãy viết bài văn giới thiệu lễ hội ở nhà và mang đến vào buổi học tuần sau nhé. Còn bài văn về món ăn thì tuần sau trên lớp chúng ta sẽ cùng viết.\nHọc sinh nữ: Thưa thầy, tuần sau có phải mang bản đồ đi không ạ?\nThầy giáo: Bản đồ thì thầy sẽ chuẩn bị. Ảnh của các em thì tuần sau trên lớp thầy sẽ chụp cho.\nHỏi: Học sinh phải mang theo thứ gì đến buổi học tuần sau?",
+      "correctOption": 3,
+      "text": "授業で男の先生が話しています。学生は来週の授業の時、何を持ってこなければなりませんか。",
+      "options": ["1. ちず", "2. しゃしん", "3. 「まつり」の さくぶん", "4. 「食べもの」の さくぶん"]
+    },
+    "77": {
+      "snippet": "トマトと りんご (Cà chua và táo)",
+      "explanation": "🎯 Đáp án đúng: [4] トマトと りんご (Cà chua và táo)\n\n💬 Dịch nghĩa bài nghe & Kiểm tra tủ lạnh:\n• Thịt gà (鶏肉): Nhà đã có sẵn (鶏肉もある) ➔ Không mua.\n• Cà tím (ナス): Nhà đã có sẵn (ナスもある) ➔ Không mua.\n• Cà chua (トマト): Nhà chưa có (あっ、トマトがない) ➔ Cần mua.\n• Táo (リンゴ): Mẹ nhắc thêm, nhà cũng hết (それもないから一緒に買ってこよう) ➔ Cần mua.\n➔ Người con trai sẽ mua cà chua và táo: トマトと りんご ➔ Đáp án [4].\n\n📄 Trích PDF gốc (听力原文 Trang 21):\nあっ、トマトがない。それは忘れないでね。ほかには、あっ、リンゴも入れるよ。そう、それもないから一緒に買ってこよう。",
+      "audioScriptJa": "電話で息子とお母さんが話しています。息子は何を買いますか。\n男：あ、もしもし、お母さん、元気？\n女：あっ、一郎？元気よ。\n男：あのう、ちょっと、教えてくれない？\n女：なに？\n男：明日友達が来るから、カレーを作ろうと思っているんだけど、お母さんはカレーにいつも何を入れている？今から買いに行こうと思っているんだ。\n女：カレーね、まず鶏肉ね、野菜はナスとトマト。\n男：うんうん、鶏肉もあるし、ナスもある、あっ、トマトがない。\n女：そう？それは忘れないでね。ほかには、あっ、リンゴも入れるよ。\n男：そう、それもないから一緒に買ってこよう。ありがとう。\n息子は何を買いますか。",
+      "audioScriptVi": "Con trai: Alo mẹ ạ, mẹ có khỏe không?\nMẹ: Ichiro đấy à? Mẹ khỏe.\nCon trai: Mẹ ơi mẹ chỉ cho con chút được không?\nMẹ: Chuyện gì thế con?\nCon trai: Ngày mai bạn con đến chơi nên con định nấu món cà ri. Mẹ nấu cà ri thì thường cho những nguyên liệu gì vậy mẹ? Con đang chuẩn bị đi siêu thị mua đây.\nMẹ: Cà ri à, đầu tiên là thịt gà này, rau củ thì có cà tím và cà chua.\nCon trai: Dạ vâng, thịt gà nhà con có rồi, cà tím cũng có rồi... À, cà chua (トマト) thì chưa có!\nMẹ: Thế à? Nhớ đừng quên mua cà chua nhé. Ngoài ra thì à, mẹ còn cho cả táo (リンゴ) nữa đấy.\nCon trai: Vâng, táo nhà con cũng hết rồi nên con sẽ mua cùng luôn. Con cảm ơn mẹ nhé!\nHỏi: Người con trai sẽ đi mua những thứ gì?",
+      "correctOption": 4,
+      "text": "電話で息子とお母さんが話しています。息子は何を買いますか。",
+      "options": ["1. とりにくと なす", "2. とりにくと りんご", "3. トマトと なす", "4. トマトと りんご"]
+    },
+    "78": {
+      "snippet": "ア ウ エ (Máy ảnh: ア, Ô: ウ, Áo khoác ấm: エ)",
+      "explanation": "🎯 Đáp án đúng: [3] ア ウ エ (Máy ảnh: ア, Ô: ウ, Áo khoác ấm: エ)\n\n💬 Dịch nghĩa bài nghe & Kiểm tra đồ dùng:\n• Máy ảnh (カメラ - ア): Đồng ý mượn anh mang đi (うん、ありがとう).\n• Thuốc (薬 - イ): Đã khỏi ốm nên không mang theo (もう治ったから大丈夫).\n• Chiếc ô (傘 - ウ): Anh trai nhắc núi hay mưa nên mang theo.\n• Áo ấm (上着 - エ): Anh trai nhắc mai trời rét nên phải mang theo.\n• Em gái chốt: 「じゃあ、両方持っていこう」 (mang cả ô lẫn áo khoác).\n➔ Tổng hợp các món đồ mang theo: Máy ảnh (ア) + Ô (ウ) + Áo khoác (エ) = ア ウ エ ➔ Đáp án [3].\n\n📄 Trích PDF gốc (听力原文 Trang 21):\n僕のカメラを持っていく？うん、ありがとう。傘は入れた？上着は必要だよ。じゃあ、両方持っていこう。",
+      "audioScriptJa": "うちで女の人とお兄さんが話しています。女の人は明日何を持っていきますか。\n女：お兄ちゃん、私ね、明日友達と山へ行くんだ。\n男：じゃあ、僕のカメラを持っていく？\n女：うん、ありがとう。\n男：風邪を引いていたけど、大丈夫？薬は持った？\n女：あっ、もう治ったから大丈夫。\n男：そう？傘は入れた？山ではよく雨が降るから、それに明日は寒くなるから、上着は必要だよ。\n女：えっ？そうなんだ。じゃあ、両方持っていこう。\n女の人は明日何を持っていきますか。",
+      "audioScriptVi": "Em gái: Anh ơi, ngày mai em đi leo núi với bạn đấy.\nAnh trai: Thế em có mang máy ảnh (カメラ) của anh đi chụp không?\nEm gái: Dạ có, em cảm ơn anh nhé.\nAnh trai: Mấy hôm trước em bị cảm cúm, đỡ chưa? Đã mang thuốc (薬) theo chưa đấy?\nEm gái: À, em khỏi hẳn rồi nên không cần thuốc đâu ạ.\nAnh trai: Thế à? Thế đã bỏ ô (傘) vào balo chưa? Ở trên núi hay mưa lắm đấy. Với lại ngày mai trời trở lạnh nên áo khoác ấm (上着) là rất cần thiết đấy nhé.\nEm gái: Ơ thế ạ? Vậy thì em sẽ mang theo cả hai thứ đó (両方持っていこう - ô và áo khoác)!\nHỏi: Ngày mai cô gái sẽ mang theo những đồ vật nào?",
+      "correctOption": 3,
+      "text": "うちで女の人とお兄さんが話しています。女の人は明日何を持っていきますか。",
+      "options": ["1. ア イ", "2. イ エ", "3. ア ウ エ", "4. イ ウ エ"]
+    },
+    "79": {
+      "snippet": "来週の 木ようび (Sáng thứ Năm tuần sau)",
+      "explanation": "🎯 Đáp án đúng: [3] 来週の 木ようび (Thứ Năm tuần sau)\n\n💬 Dịch nghĩa bài nghe & Đối chiếu mốc thời gian:\n• Nữ đi du lịch: Thứ Sáu tuần này đến tối thứ Tư tuần sau (8/10) mới về.\n• Nam xuất phát chuyến đi: Thứ Sáu tuần sau (来週の金曜日).\n• Nam đề nghị thời gian nhận lại vali: 「じゃあ、木曜日の朝に持ってこられる？」 (Vậy sáng thứ Năm cậu mang qua cho tớ được không?).\n• Nữ đồng ý: 「うん、大丈夫」.\n➔ Thời điểm trả vali là: Sáng thứ Năm tuần sau (来週の木曜日) ➔ Đáp án [3].\n\n📄 Trích PDF gốc (听力原文 Trang 21):\n男: 分かった。じゃあ、木曜日の朝に持ってこられる？ 女: うん、大丈夫。ありがとう。",
+      "audioScriptJa": "女の人と男の人が話しています。女の人はいつ男の人にスーツケースを返しますか。\n女：松本くん、ちょっといい？\n男：うん、なに？\n女：私、今週の金曜日から旅行に行くんだけど、スーツケースが壊れてしまったんで、かしてくれない？\n男：僕も来週使うんだよ。いつ旅行から帰ってくる？\n女：ええと、来週の水曜日、8月10日の晩。\n男：僕は金曜日出発なんだ、間に合う？\n女：帰ってきたらすぐに返すから。お願い！\n男：分かった。じゃあ、木曜日の朝に持ってこられる？\n女：うん、大丈夫。ありがとう。\n女の人はいつ男の人にスーツケースを返しますか。",
+      "audioScriptVi": "Nữ: Matsumoto ơi, tớ nhờ chút được không?\nNam: Ừ, có chuyện gì thế?\nNữ: Thứ Sáu tuần này tớ đi du lịch, nhưng vali của tớ bị hỏng mất rồi, cậu cho tớ mượn vali được không?\nNam: Tuần sau tớ cũng phải dùng đấy. Bao giờ thì cậu đi du lịch về?\nNữ: Để xem nào, tối thứ Tư tuần sau, ngày 10 tháng 8 tớ về đến nơi.\nNam: Thứ Sáu là tớ xuất phát rồi, liệu có kịp không?\nNữ: Tớ về đến nơi là sẽ trả cậu ngay lập tức. Giúp tớ với nhé!\nNam: Được rồi. Vậy sáng thứ Năm (木曜日の朝) cậu mang trả cho tớ được không?\nNữ: Ừ, được chứ. Cảm ơn cậu nhiều nhé!\nHỏi: Người phụ nữ sẽ trả vali cho người đàn ông vào thời điểm nào?",
+      "correctOption": 3,
+      "text": "女の人と男の人が話しています。女の人はいつ男の人にスーツケースを返しますか。",
+      "options": ["1. 今週の 木ようび", "2. 今週の 金ようび", "3. 来週の 木ようび", "4. 来週の 金ようび"]
+    },
+    "80": {
+      "snippet": "としょかんに 本を かえすこと (Trả sách cho thư viện)",
+      "explanation": "🎯 Đáp án đúng: [2] としょかんに 本を かえすこと (Trả sách cho thư viện)\n\n💬 Dịch nghĩa bài nghe & Phân tích lời nhờ vả:\n• Đi bệnh viện (びょういん): Nam đã tự đi khám xong rồi.\n• Mua đồ ăn / Nấu cơm (買いもの / ごはん): Nam từ chối vì ở nhà có sẵn nhiều thức ăn rồi.\n• Việc nam sinh chính thức nhờ vả: 「明日までに図書館に本を返さないといけないんだけど、お願いしてもいい？」 (Trước ngày mai phải trả sách cho thư viện, tớ nhờ cậu việc đó được không?).\n➔ Việc được nhờ là: Trả sách thư viện (としょかんに 本を かえすこと) ➔ Đáp án [2].\n\n📄 Trích PDF gốc (听力原文 Trang 21):\nじゃあ、明日までに図書館に本を返さないといけないんだけど、お願いしてもいい？うん、いいよ。",
+      "audioScriptJa": "電話で女の学生と男の学生が話しています。男の学生は女の学生に何を頼みましたか。\n女：もしもし、足の怪我は大丈夫？\n男：え、病院に行って診てもらったから大丈夫。でも歩けないから困っているんだ。\n女：私にできることがあったら何でも言って。\n男：じゃあ、明日までに図書館に本を返さないといけないんだけど、お願いしてもいい？\n女：うん、いいよ。食べるものはある？何か買って行こうか？\n男：食べ物はうちにたくさんあるから、いいよ。\n女：じゃあ、本は、今日授業の後で取りに行くね。\n男の学生は女の学生に何を頼みましたか。",
+      "audioScriptVi": "Nữ: Alo, chân cậu bị thương đã đỡ chưa?\nNam: Ừ, tớ đi bệnh viện khám rồi nên không sao. Nhưng vì không đi lại được nên đang gặp rắc rối đây.\nNữ: Có việc gì tớ giúp được thì cậu cứ nói nhé.\nNam: Thế thì, trước ngày mai tớ phải trả sách cho thư viện (図書館に本を返す), tớ nhờ cậu việc đó được không?\nNữ: Ừ, được chứ. Cậu có đồ ăn chưa? Có cần tớ mua gì mang qua không?\nNam: Đồ ăn ở nhà tớ có nhiều rồi, không cần đâu.\nNữ: Vậy thì sách, lát nữa tan học tớ sẽ qua lấy giúp cậu nhé.\nHỏi: Nam sinh đã nhờ nữ sinh giúp việc gì?",
+      "correctOption": 2,
+      "text": "電話で女の学生と男の学生が話しています。男の学生は女の学生に何を頼みましたか。",
+      "options": ["1. びょういんに つれて いくこと", "2. としょかんに 本を かえすこと", "3. 買いものを すること", "4. ごはんを つくること"]
+    },
+    "81": {
+      "snippet": "1か月に 1かい (Mỗi tháng một lần)",
+      "explanation": "🎯 Đáp án đúng: [4] 1か月に 1かい (Một tháng một lần)\n\n💬 Dịch nghĩa bài nghe & Bẫy thông tin tần suất:\n• Chạy bộ hàng ngày (毎日): Đó là chuyện của năm ngoái (去年まで).\n• Mỗi tuần 1 lần (1週間に1回): Đó chỉ là mong muốn chưa làm được của người nam (本当は一週間に一回は運動したいんだけど).\n• Mỗi tuần 2 lần (1週間に2回): Đó là tần suất tập của người NỮ (私は一週間に二回は運動をしているよ).\n• Thực tế hiện tại của người NAM: 「月に一回友達とテニスをしている」 (Mỗi tháng 1 lần chơi tennis cùng bạn).\n➔ Tần suất tập của người nam: 1か月に 1かい ➔ Đáp án [4].\n\n📄 Trích PDF gốc (听力原文 Trang 21-22):\n月に一回友達とテニスをしているけど、ほかには何もしていないよ。",
+      "audioScriptJa": "女の人と男の人が話しています。男の人は最近どのくらい運動をしていますか。男の人です。\n女：最近運動している？\n男：去年までは毎日走っていたんだけど、最近忙しいから全然走っていないよ。\n女：でも一週間に一回ぐらいはなにかしている？\n男：ううん。月に一回友達とテニスをしているけど、ほかには何もしていないよ。本当は一週間に一回は運動したいんだけど。なかなか。\n女：そう。忙しくても、もう少し何かしたほうがいいと思うよ。私は一週間に二回は運動をしているよ。\n男の人は最近どのくらい運動をしていますか。",
+      "audioScriptVi": "Nữ: Dạo này cậu có tập thể dục thể thao gì không?\nNam: Đến tận năm ngoái thì ngày nào tớ cũng chạy bộ, nhưng dạo này bận quá nên hoàn toàn không chạy bộ nữa rồi.\nNữ: Nhưng mỗi tuần 1 lần cậu có tập gì không?\nNam: Không. Mỗi tháng 1 lần (月に一回) tớ đi đánh tennis với bạn bè, ngoài ra thì chẳng tập gì khác cả. Thực ra tớ cũng muốn mỗi tuần tập 1 lần đấy, nhưng khó thu xếp quá.\nNữ: Thế à. Dù bận nhưng tớ nghĩ cậu nên vận động thêm một chút thì hơn. Tớ thì một tuần tập thể dục 2 lần đấy.\nHỏi: Dạo gần đây người đàn ông tập thể dục với tần suất như thế nào? (Chú ý hỏi người đàn ông).",
+      "correctOption": 4,
+      "text": "女の人と男の人が話しています。男の人は最近どのくらい運動をしていますか。男の人です。",
+      "options": ["1. 毎日", "2. 1週間に 2かい", "3. 1週間に 1かい", "4. 1か月に 1かい"]
+    },
+    "82": {
+      "snippet": "レポートを 出しに 行くから (Đi nộp báo cáo cho thầy giáo)",
+      "explanation": "🎯 Đáp án đúng: [3] レポートを 出しに 行くから (Vì phải đi nộp báo cáo)\n\n💬 Dịch nghĩa bài nghe & Phân biệt lý do bận việc:\n• Giúp thầy giáo làm việc (先生のしごとを手つだう): Nam sinh phủ định ngay: 「いいえ」.\n• Photo tài liệu (コピーをする): Đó là việc của nữ sinh, nam sinh chưa làm.\n• Đến văn phòng (じむしょ): Nữ sinh đi đến văn phòng để photo.\n• Lý do nam sinh bận ngay lúc này: 「先生の部屋にレポートを出しに行くんですね」 (Đang đi đến phòng thầy để nộp bài báo cáo).\n➔ Lý do chính xác: レポートを 出しに 行くから ➔ Đáp án [3].\n\n📄 Trích PDF gốc (听力原文 Trang 22):\nいいえ、先生の部屋にレポートを出しに行くんですね。だからすぐ終わると思います。",
+      "audioScriptJa": "大学で女の学生と男の学生が話しています。男の学生はどうして、いますぐ女の学生を手伝うことができませんか。\n女：中山くん、今から研究会の資料をコピーするんですけど、手伝ってもらえませんか？\n男：あっ、今先生の部屋に行くところなんです。ちょっと待っていてください。\n女：ああ、先生が手伝ってもらいたい仕事があると言っていましたね。その仕事ですか？\n男：いいえ、先生の部屋にレポートを出しに行くんですね。だからすぐ終わると思います。\n女：じゃあ、私これから事務所へ行ってコピーを始めますから、終わったら来てください。\n男：はい。\n男の学生はどうして、いますぐ女の学生を手伝うことができませんか。",
+      "audioScriptVi": "Nữ: Nakayama ơi, bây giờ tớ chuẩn bị đi photo tài liệu cho buổi nghiên cứu, cậu giúp tớ một tay được không?\nNam: À, bây giờ tớ đang trên đường đến phòng thầy giáo. Cậu đợi tớ một chút nhé.\nNữ: À, thầy có bảo có việc muốn nhờ giúp, có phải công việc đó không?\nNam: Không phải, tớ đến phòng thầy để nộp báo cáo thôi (レポートを出しに行くんですね). Nên chắc sẽ xong ngay thôi mà.\nNữ: Vậy tớ đi đến văn phòng bắt đầu photo trước đây, xong việc thì cậu qua nhé.\nNam: Vâng.\nHỏi: Tại sao nam sinh không thể giúp nữ sinh ngay bây giờ?",
+      "correctOption": 3,
+      "text": "大学で女の学生と男の学生が話しています。男の学生はどうして、いますぐ女の学生を手伝うことができませんか。",
+      "options": ["1. しりょうの コピーを するから", "2. 先生の しごとを てつだうから", "3. レポートを 出しに 行くから", "4. じむしょに 行くから"]
+    },
+    "83": {
+      "snippet": "れいぞうこだけ (Chỉ cho chiếc tủ lạnh)",
+      "explanation": "🎯 Đáp án đúng: [2] れいぞうこだけ (Chỉ cho chiếc tủ lạnh)\n\n💬 Dịch nghĩa bài nghe & Phân loại từng món đồ:\n• Lò vi sóng (電子レンジ): Nhà nữ đã có lò mới rồi ➔ Từ chối không lấy (レンジはうちに新しいのがあるんです).\n• Bàn (テーブル): Phòng của nữ cũng chật không kê được ➔ Từ chối không lấy (私の部屋も狭いんです).\n• Tủ lạnh (冷蔵庫): Tủ lạnh nhà nữ đã cũ nên đồng ý nhận (それなら、私にください。うちの冷蔵庫もう古いから).\n➔ Người nam chỉ cho người nữ duy nhất chiếc tủ lạnh: れいぞうこだけ ➔ Đáp án [2].\n\n📄 Trích PDF gốc (听力原文 Trang 22):\nそれなら、私にください。うちの冷蔵庫もう古いから。電子レンジもどう？ううん、レンジはうちに新しいのがあるんです。",
+      "audioScriptJa": "男の人と女の人が話しています。男の人は女の人に何をあげますか。\n男：ねえ、山田さん、冷蔵庫と電子レンジいらない？\n女：えっ、どうしたんですか。\n男：今度姉が結婚して引っ越すんだ。それでいろいろな物が要らなくなるから、僕にくれるんだよ。\n女：ああ。\n男：それで、今僕が使っているのを誰かにあげようと思っているんだ。\n女：それなら、私にください。うちの冷蔵庫もう古いから。\n男：いいよ、電子レンジもどう？\n女：ううん、レンジはうちに新しいのがあるんです。\n男：そっか、あっ、それからテーブルもあげると言われたんだけど、僕の部屋は狭くて置けないと思うんだ、いる？\n女：テーブルは、私の部屋も狭いんです。\n男：そっか、分かった。\n男の人は女の人に何をあげますか。",
+      "audioScriptVi": "Nam: Này Yamada, cậu có cần tủ lạnh và lò vi sóng không?\nNữ: Ơ, có chuyện gì thế anh?\nNam: Chị gái tôi sắp kết hôn chuyển nhà đi, thừa ra nhiều đồ nên cho tôi. Vì thế tôi định đem đồ tôi đang dùng cho ai đó.\nNữ: Thế thì cho tôi xin tủ lạnh nhé. Tủ lạnh nhà tôi cũng cũ rồi.\nNam: Được chứ, lò vi sóng (電子レンジ) thì sao?\nNữ: Dạ không, lò vi sóng nhà tôi có cái mới rồi.\nNam: Thế à... À, chị tôi còn bảo cho cái bàn (テーブル) nữa, nhưng phòng tôi chật không kê được, cô có lấy không?\nNữ: Bàn thì phòng tôi cũng chật lắm ạ.\nNam: Thế à, tôi hiểu rồi.\nHỏi: Người đàn ông sẽ cho người phụ nữ đồ vật gì?",
+      "correctOption": 2,
+      "text": "男の人と女の人が話しています。男の人は女の人に何をあげますか。",
+      "options": ["1. れいぞうこと 電子レンジ", "2. れいぞうこだけ", "3. 電子レンジと テーブル", "4. テーブルだけ"]
+    },
+    "84": {
+      "snippet": "ぎんこうの たてもの (Tòa nhà ngân hàng vẫn không thay đổi)",
+      "explanation": "🎯 Đáp án đúng: [1] ぎんこうの たてもの (Tòa nhà ngân hàng)\n\n💬 Dịch nghĩa bài nghe & Phân tích các địa điểm:\n• Rạp chiếu phim (映画館): Đã bị phá để biến thành bãi đỗ xe (映画館は駐車場になった) ➔ Đã thay đổi.\n• Công viên (公園): Dự kiến sang năm mới xây (来年公園ができる) ➔ Hiện tại chưa có.\n• Tòa nhà ngân hàng (銀行の建物): Người nữ khẳng định bản thân tòa nhà vẫn y hệt như xưa: 「昔と同じなのに、今は小さく見えます」 (Dù sang năm sẽ bị phá, nhưng hiện tại vẫn y như thời thơ ấu).\n➔ Thứ không thay đổi từ thời thơ ấu đến nay là: Tòa nhà ngân hàng (ぎんこうの たてもの) ➔ Đáp án [1].\n\n📄 Trích PDF gốc (听力原文 Trang 22):\nあそこに見える銀行、昔と同じなのに、今は小さく見えます。周りに高いマンションが立ったから。",
+      "audioScriptJa": "街で男の人と女の人が話しています。二人が子供の時から変わらないものは何だと言っていますか。変わらないものです。\n男：僕、今日久しぶりにこの街に来たんですけど。僕達が小学生の頃とは、街がすっかり変わってしまいましたね。マンションが増えていて、びっくりしました。\n女：ええ、この十年ぐらいの間に、どんどん変わっているんです。あそこに見える銀行、前はこの辺で一番高い建物だったんだけど。\n男：ええ。\n女：昔と同じなのに、今は小さく見えます。周りに高いマンションが立ったから。\n男：本当ですね。あのう、この辺りに小さい映画館がありませんでしたか。子供の頃家族でよく見に来たんですょ。\n女：ああ、映画館。映画館は駐車場になったんですよ。\n男：そうですか。\n女：あ、それにあそこの銀行の建物も来年には壊されて、公園ができるそうです。\n男：思い出の場所がなくなってしまうのは寂しいですね。\n二人が子供の時から変わらないものは何だと言っていますか。",
+      "audioScriptVi": "Nam: Hôm nay lâu lắm rồi tôi mới trở lại khu phố này. So với hồi chúng mình còn là học sinh tiểu học thì phố xá đã thay đổi hoàn toàn rồi nhỉ. Chung cư mọc lên nhiều làm tôi ngạc nhiên quá.\nNữ: Vâng, trong khoảng 10 năm trở lại đây thay đổi nhanh lắm. Ngân hàng nhìn thấy đằng kia kìa, trước đây từng là tòa nhà cao nhất khu này đấy.\nNam: Đúng vậy.\nNữ: Bản thân tòa nhà ngân hàng vẫn y nguyên như xưa (昔と同じなのに), nhưng bây giờ trông bé lại hẳn, vì xung quanh toàn mọc lên chung cư cao tầng.\nNam: Chuẩn thật đấy. À này, khu này trước đây có rạp chiếu phim nhỏ đúng không? Hồi bé tôi hay cùng gia đình đến xem lắm.\nNữ: À, rạp chiếu phim thì đã biến thành bãi đỗ xe (駐車場) mất rồi. Tòa nhà ngân hàng kia nghe nói sang năm cũng sẽ bị phá dỡ để xây công viên (公園).\nHỏi: Vật gì từ thời thơ ấu của hai người đến nay vẫn KHÔNG THAY ĐỔI (変わらないもの)?",
+      "correctOption": 1,
+      "text": "街で男の人と女の人が話しています。二人が子供の時から変わらないものは何だと言っていますか。変わらないものです。",
+      "options": ["1. ぎんこうの たてもの", "2. えいがかんの たてもの", "3. ちゅうしゃじょう", "4. こうえん"]
+    },
+    "85": {
+      "snippet": "べんきょう (Được Takashi dạy học)",
+      "explanation": "🎯 Đáp án đúng: [1] べんきょう (Việc học tập)\n\n💬 Dịch nghĩa bài nghe & Phân biệt hướng hành động (ai dạy cho ai):\n• Đàn guitar (ギター): Người nói dạy cho Takashi (僕はギターの弾き方を教えた).\n• Nấu ăn (料理): Takashi nấu ăn giỏi, người nói chúc Takashi nấu cho vợ ăn.\n• Học tập (勉強): Takashi dạy cho người nói ➔ Người nói ĐƯỢC Takashi dạy học: 「隆くんは... よく僕に勉強を教えてくれました」 (Takashi thường dạy học cho tôi).\n➔ Thứ người nam được Takashi dạy là: Việc học tập (べんきょう) ➔ Đáp án [1].\n\n📄 Trích PDF gốc (听力原文 Trang 22):\n隆くんはクラスで一番頭がよくて、よく僕に勉強を教えてくれました。",
+      "audioScriptJa": "男の人が友達の隆くんの結婚式で話しています。男の人は隆くんに何を教えてもらいましたか。\n男：隆くん、陽子さん、ご結婚おめでとうございます。僕と隆くんは高校の時からの友達です。隆くんはクラスで一番頭がよくて、よく僕に勉強を教えてくれました。僕はギターの弾き方を教えたんですが、隆くんはすぐ僕より上手になって、ギターを引きながら、歌も歌っていました。それだけじゃなくて、料理も上手です。隆くん、陽子さんにぜひ料理を教えて、いいえ、美味しい料理を作ってあげてください。\n男の人は隆くんに何を教えてもらいましたか。",
+      "audioScriptVi": "Nam: Chúc mừng hạnh phúc Takashi và Yoko nhé! Tôi và Takashi là bạn thân từ hồi cấp ba. Takashi thông minh nhất lớp, và cậu ấy thường xuyên dạy học cho tôi (よく僕に勉強を教えてくれました). Tôi thì có dạy Takashi cách chơi đàn guitar, nhưng Takashi học nhanh còn chơi giỏi hơn cả tôi, vừa gảy đàn vừa hát. Không chỉ vậy, Takashi còn nấu ăn rất ngon nữa. Takashi này, cậu hãy dạy Yoko nấu ăn... à không, hãy nấu những món thật ngon cho Yoko ăn nhé!\nHỏi: Người đàn ông ĐƯỢC Takashi dạy cho điều gì (教えてもらいましたか)?",
+      "correctOption": 1,
+      "text": "男の人が友達の隆くんの結婚式で話しています。男の人は隆くんに何を教えてもらいましたか。",
+      "options": ["1. べんきょう", "2. ギター", "3. うた", "4. りょうり"]
+    },
+    "86": {
+      "snippet": "ここでとめてください (Xin dừng xe ở đây)",
+      "explanation": "🎯 Đáp án đúng: [2] ここでとめてください。\n\n💬 Ngữ cảnh tình huống: Đang đi taxi và muốn xuống xe tại chỗ này.\n💡 Phân tích các câu phát ngôn:\n• 1. ここでとまっています: Xe đang đỗ ở đây (chỉ miêu tả trạng thái, không phải câu yêu cầu dừng xe).\n• 2. ここでとめてください: Xin hãy dừng xe ở đây (Tha động từ 止める chia thể てください là mẫu câu lịch sự chuẩn mực để yêu cầu tài xế dừng xe cho mình xuống).\n• 3. ここで降りてもらいますね: Nhận được việc tài xế xuống xe (sai chủ thể hành động).\n\n📄 Trích PDF gốc (听力原文 Trang 22):\nタクシーに乗っています。ここで降りたいです。なんと言いますか。2. ここでとめてください。",
+      "audioScriptJa": "タクシーに乗っています。ここで降りたいです。なんと言いますか。\n1. ここでとまっています。\n2. ここでとめてください。\n3. ここで降りてもらいますね。",
+      "audioScriptVi": "Ngữ cảnh: Đang ngồi trên xe taxi và muốn xuống xe ở chỗ này. Bạn sẽ nói thế nào?\n1. Xe đang dừng ở đây.\n2. Xin hãy dừng xe ở đây giúp tôi.\n3. Nhận được việc tài xế xuống xe ở đây.",
+      "correctOption": 2,
+      "text": "タクシーに乗っています。ここで降りたいです。なんと言いますか。",
+      "options": ["1. ここでとまっています。", "2. ここでとめてください。", "3. ここで降りてもらいますね。"]
+    },
+    "87": {
+      "snippet": "手伝おうか (Để tớ giúp một tay nhé)",
+      "explanation": "🎯 Đáp án đúng: [2] 手伝おうか。\n\n💬 Ngữ cảnh tình huống: Thấy bạn bè đang vất vả bê đồ nặng, mình muốn chủ động giúp bạn.\n💡 Phân tích các câu phát ngôn:\n• 1. 手伝ってくるよ: Đi giúp người khác rồi quay lại (sai ngữ nghĩa).\n• 2. 手伝おうか: Thể ý chí + か (V-ようか) dùng để chủ động đề nghị giúp đỡ đối phương một cách thân thiện: \"Để tớ giúp một tay nhé?\" (ĐÚNG).\n• 3. 手伝ってもらえる？: Cậu giúp tớ được không? (Mẫu câu nhờ đối phương giúp mình, ngược ngữ cảnh).\n\n📄 Trích PDF gốc (听力原文 Trang 22):\n友達が重そうな荷物を運んでいます。手伝いたいです。なんと言いますか。2. 手伝おうか。",
+      "audioScriptJa": "友達が重そうな荷物を運んでいます。手伝いたいです。なんと言いますか。\n1. 手伝ってくるよ。\n2. 手伝おうか。\n3. 手伝ってもらえる？",
+      "audioScriptVi": "Ngữ cảnh: Bạn bè đang bê đồ có vẻ rất nặng. Bạn muốn giúp đỡ bạn mình thì sẽ nói thế nào?\n1. Tớ đi giúp ai đó rồi về nhé.\n2. Để tớ giúp một tay nhé?\n3. Cậu giúp tớ được không?",
+      "correctOption": 2,
+      "text": "友達が重そうな荷物を運んでいます。手伝いたいです。なんと言いますか。",
+      "options": ["1. 手伝ってくるよ。", "2. 手伝おうか。", "3. 手伝ってもらえる？"]
+    },
+    "88": {
+      "snippet": "資料ができました (Em đã làm xong tài liệu rồi ạ)",
+      "explanation": "🎯 Đáp án đúng: [3] 資料ができました。\n\n💬 Ngữ cảnh tình huống: Đã hoàn thành tài liệu được trưởng phòng (課長) giao, cần báo cáo công việc hoàn thành.\n💡 Phân tích các câu phát ngôn:\n• 1. 資料をみせてくださいませんか: Xin trưởng phòng cho xem tài liệu (sai ngữ cảnh).\n• 2. すぐに資料を作ります: Em sẽ làm ngay tài liệu (nói khi vừa nhận việc, chưa làm xong).\n• 3. 資料ができました: Tài liệu đã làm xong rồi ạ (Động từ できる ở quá khứ biểu thị việc đã hoàn thành xong xuôi) ➔ Đáp án [3].\n\n📄 Trích PDF gốc (听力原文 Trang 22-23):\n課長に頼まれた資料を作りました。課長になんと言いますか。3. 資料ができました。",
+      "audioScriptJa": "課長に頼まれた資料を作りました。課長になんと言いますか。\n1. 資料をみせてくださいませんか。\n2. すぐに資料を作ります。\n3. 資料ができました。",
+      "audioScriptVi": "Ngữ cảnh: Bạn đã làm xong tài liệu mà trưởng phòng giao cho. Bạn sẽ nói gì với trưởng phòng?\n1. Trưởng phòng cho em xem tài liệu được không ạ?\n2. Em sẽ làm tài liệu ngay bây giờ ạ.\n3. Em đã hoàn thành tài liệu rồi ạ.",
+      "correctOption": 3,
+      "text": "課長に頼まれた資料を作りました。課長になんと言いますか。",
+      "options": ["1. 資料をみせてくださいませんか。", "2. すぐに資料を作ります。", "3. 資料ができました。"]
+    },
+    "89": {
+      "snippet": "あのう、部屋はあいていますか (Khách sạn còn phòng trống không ạ?)",
+      "explanation": "🎯 Đáp án đúng: [1] あのう、部屋はあいていますか。\n\n💬 Ngữ cảnh tình huống: Đến khách sạn trực tiếp không qua đặt phòng trước và muốn nghỉ trọ.\n💡 Phân tích các câu phát ngôn:\n• 1. あのう、部屋はあいていますか: Xin hỏi ở đây có còn phòng trống không ạ? (Mẫu câu hỏi phòng trống chuẩn mực khi đến khách sạn: 部屋があいている).\n• 2. こちらに泊まっていますか: Anh/chị đang nghỉ ở đây à? (Hỏi khách khác, không phải nói với lễ tân).\n• 3. これから予約してみましょうか: Chúng ta thử đặt phòng xem sao nhé (Rủ người đồng hành, không dùng nói với lễ tân).\n\n📄 Trích PDF gốc (听力原文 Trang 23):\n予約をしていませんが、このホテルに泊まりたいです。なんと言いますか。1. あのう、部屋はあいていますか。",
+      "audioScriptJa": "予約をしていませんが、このホテルに泊まりたいです。なんと言いますか。\n1. あのう、部屋はあいていますか。\n2. こちらに泊まっていますか。\n3. これから予約してみましょうか。",
+      "audioScriptVi": "Ngữ cảnh: Bạn chưa đặt phòng trước nhưng muốn nghỉ tại khách sạn này. Bạn sẽ nói với lễ tân thế nào?\n1. Xin lỗi, khách sạn còn phòng trống không ạ?\n2. Anh/chị đang trọ ở đây à?\n3. Từ bây giờ chúng ta thử đặt phòng xem sao nhé.",
+      "correctOption": 1,
+      "text": "予約をしていませんが、このホテルに泊まりたいです。なんと言いますか。",
+      "options": ["1. あのう、部屋はあいていますか。", "2. こちらに泊まっていますか。", "3. これから予約してみましょうか。"]
+    },
+    "90": {
+      "snippet": "先生、辞書を見てもいいでしょうか (Thưa cô, em có được tra từ điển không ạ?)",
+      "explanation": "🎯 Đáp án đúng: [2] 先生、辞書を見てもいいでしょうか。\n\n💬 Ngữ cảnh tình huống: Muốn xin phép giáo viên xem có được tra từ điển trong bài thi hay không.\n💡 Phân tích các câu phát ngôn:\n• 1. すみません、辞書で調べてもらえますか: Nhờ thầy tra từ điển hộ em (vô lý và thiếu lễ độ trong phòng thi).\n• 2. 先生、辞書を見てもいいでしょうか: Thưa cô, em có thể tra từ điển được không ạ? (Mẫu xin phép lịch sự: V-てもいいでしょうか) ➔ Đáp án [2].\n• 3. あのう、辞書の使い方を教えてください: Hãy chỉ cho em cách dùng từ điển (hỏi cách tra từ, sai mục đích).\n\n📄 Trích PDF gốc (听力原文 Trang 23):\nテストが始まります。辞書が使えるかどうか知りたいです、先生になんと言いますか。2. 先生、辞書を見てもいいでしょうか。",
+      "audioScriptJa": "テストが始まります。辞書が使えるかどうか知りたいです、先生になんと言いますか。\n1. すみません、辞書で調べてもらえますか。\n2. 先生、辞書を見てもいいでしょうか。\n3. あのう、辞書の使い方を教えてください。",
+      "audioScriptVi": "Ngữ cảnh: Giờ kiểm tra sắp bắt đầu. Bạn muốn biết có được dùng từ điển hay không. Bạn sẽ hỏi giáo viên thế nào?\n1. Xin lỗi, thầy tra từ điển giúp em được không ạ?\n2. Thưa thầy/cô, em có thể xem/tra từ điển được không ạ?\n3. Xin thầy chỉ cho em cách tra từ điển với ạ.",
+      "correctOption": 2,
+      "text": "テストが始まります。辞書が使えるかどうか知りたいです、先生になんと言いますか。",
+      "options": ["1. すみません、辞書で調べてもらえますか。", "2. 先生、辞書を見てもいいでしょうか。", "3. あのう、辞書の使い方を教えてください。"]
+    },
+    "91": {
+      "snippet": "十五分です (Mất 15 phút)",
+      "explanation": "🎯 Đáp án đúng: [1] 十五分です。\n\n💬 Phân tích câu hỏi phản xạ:\n• Câu hỏi: 「どのぐらいかかりますか (Mất bao lâu?)」 hỏi về khoảng thời gian cần thiết khi đi bộ từ nhà đến trường.\n• 1. 十五分です: Mất 15 phút (ĐÚNG - Trả lời cho lượng thời gian).\n• 2. 五百メートルです: 500 mét (Trả lời cho câu hỏi khoảng cách: どのくらいありますか).\n• 3. 五百円です: 500 yên (Trả lời cho câu hỏi chi phí: いくらかかりますか).\n\n📄 Trích PDF gốc (听力原文 Trang 23):\n家から学校まで歩いてどのぐらいかかりますか。1. 十五分です。",
+      "audioScriptJa": "家から学校まで歩いてどのぐらいかかりますか。\n1. 十五分です。\n2. 五百メートルです。\n3. 五百円です。",
+      "audioScriptVi": "Câu hỏi: Đi bộ từ nhà đến trường mất khoảng bao lâu?\n1. Mất 15 phút.\n2. Khoảng 500 mét.\n3. Mất 500 yên.",
+      "correctOption": 1,
+      "text": "家から学校まで歩いてどのぐらいかかりますか。",
+      "options": ["1. 十五分です。", "2. 五百メートルです。", "3. 五百円です。"]
+    },
+    "92": {
+      "snippet": "最近はちょっと忙しいです (Dạo này tôi hơi bận một chút)",
+      "explanation": "🎯 Đáp án đúng: [2] 最近はちょっと忙しいです。\n\n💬 Phân tích câu hỏi phản xạ:\n• Lời chào hỏi: 「最近お仕事はいかがですか (Dạo này công việc thế nào rồi?)」 hỏi thăm tình trạng công việc.\n• 1. あんまり上手じゃないんですよ: Tôi không giỏi lắm (dùng đáp lại lời khen ngợi kỹ năng, không khớp câu hỏi).\n• 2. 最近はちょっと忙しいです: Dạo này tôi hơi bận một chút (ĐÚNG - Trả lời tình hình công việc).\n• 3. とても元気だと思います: Tôi nghĩ là rất khỏe (nói phỏng đoán người thứ ba, không phù hợp).\n\n📄 Trích PDF gốc (听力原文 Trang 23):\nあ、田中さん久しぶり、最近お仕事はいかがですか。2. 最近はちょっと忙しいです。",
+      "audioScriptJa": "あ、田中さん久しぶり、最近お仕事はいかがですか。\n1. あんまり上手じゃないんですよ。\n2. 最近はちょっと忙しいです。\n3. とても元気だと思います。",
+      "audioScriptVi": "Câu hỏi: A, anh Tanaka lâu ngày quá, dạo này công việc thế nào rồi anh?\n1. Tôi làm không giỏi lắm đâu.\n2. Dạo này tôi hơi bận một chút.\n3. Tôi nghĩ là rất khỏe.",
+      "correctOption": 2,
+      "text": "あ、田中さん久しぶり、最近お仕事はいかがですか。",
+      "options": ["1. あんまり上手じゃないんですよ。", "2. 最近はちょっと忙しいです。", "3. とても元気だと思います。"]
+    },
+    "93": {
+      "snippet": "はじめて来ました (Lần đầu tiên tôi đến đây)",
+      "explanation": "🎯 Đáp án đúng: [3] はじめて来ました。\n\n💬 Phân tích câu hỏi phản xạ:\n• Câu hỏi: 「前にこの店に来たことがある？ (Trước đây cậu từng đến quán này lần nào chưa?)」 hỏi về trải nghiệm quá khứ (V-たことがある).\n• 1. 店の前にあったんです: Nhầm chữ 前に (trước đây) thành phía trước cửa tiệm.\n• 2. いま来たところです: Tớ vừa mới tới nơi (chỉ thời điểm hành động vừa xảy ra, không trả lời cho trải nghiệm).\n• 3. はじめて来ました: Đây là lần đầu tiên tôi đến (ĐÚNG - Trả lời phủ định kinh nghiệm trước đó: chưa từng đến, đây là lần đầu) ➔ Đáp án [3].\n\n📄 Trích PDF gốc (听力原文 Trang 23):\n前にこの店に来たことがある？ 3. はじめて来ました。",
+      "audioScriptJa": "前にこの店に来たことがある？\n1. 店の前にあったんです。\n2. いま来たところです。\n3. はじめて来ました。",
+      "audioScriptVi": "Câu hỏi: Trước đây cậu đã từng đến quán này bao giờ chưa?\n1. Nó ở đằng trước cửa hàng.\n2. Tớ vừa mới tới nơi đây.\n3. Đây là lần đầu tiên tớ đến.",
+      "correctOption": 3,
+      "text": "前にこの店に来たことがある？",
+      "options": ["1. 店の前にあったんです。", "2. いま来たところです。", "3. はじめて来ました。"]
+    },
+    "94": {
+      "snippet": "うん、今度は海がいいな (Ừ, lần tới đi biển thì tuyệt nhỉ)",
+      "explanation": "🎯 Đáp án đúng: [3] うん、今度は海がいいな。\n\n💬 Phân tích câu nói phản xạ:\n• Câu nói: 「今日は楽しかった。またどこか遊びに行こうよ (Hôm nay vui quá. Hôm nào lại cùng đi đâu chơi tiếp nhé!)」 là lời rủ rê đi chơi lần sau.\n• 1. まだ遊びに行っていないよ: Vẫn chưa đi chơi (mâu thuẫn vì hôm nay vừa đi chơi về).\n• 2. 気をつけていってらっしゃい: Đi cẩn thận nhé (lời chào tiễn người ra ngoài).\n• 3. うん、今度は海がいいな: Ừ, lần tới đi biển thì hay nhỉ (ĐÚNG - Đồng tình và hào hứng đề xuất điểm đến tiếp theo) ➔ Đáp án [3].\n\n📄 Trích PDF gốc (听力原文 Trang 23):\n今日は楽しかった。またどこか遊びに行こうよ。3. うん、今度は海がいいな。",
+      "audioScriptJa": "今日は楽しかった。またどこか遊びに行こうよ。\n1. まだ遊びに行っていないよ。\n2. 気をつけていってらっしゃい。\n3. うん、今度は海がいいな。",
+      "audioScriptVi": "Câu nói: Hôm nay vui quá. Hôm nào chúng mình lại cùng đi đâu chơi tiếp nhé!\n1. Tớ vẫn chưa đi chơi đâu.\n2. Cậu đi cẩn thận nhé.\n3. Ừ, lần tới đi biển thì thích nhỉ!",
+      "correctOption": 3,
+      "text": "今日は楽しかった。またどこか遊びに行こうよ。",
+      "options": ["1. まだ遊びに行っていないよ。", "2. 気をつけていってらっしゃい。", "3. うん、今度は海がいいな。"]
+    },
+    "95": {
+      "snippet": "たくさん書いて覚えています (Viết thật nhiều để nhớ)",
+      "explanation": "🎯 Đáp án đúng: [1] たくさん書いて覚えています。\n\n💬 Phân tích câu hỏi phản xạ:\n• Câu hỏi: 「どうやって漢字を覚えるんですか (Cậu học nhớ chữ Hán bằng cách nào thế?)」 hỏi về phương pháp/cách thức ghi nhớ.\n• 1. たくさん書いて覚えています: Tôi viết nhiều lần để nhớ (ĐÚNG - Trả lời phương pháp học).\n• 2. 多分 300 字ぐらいだと思います: Chắc khoảng 300 chữ (trả lời cho số lượng chữ Hán biết được).\n• 3. 新聞を読む時必要ですから: Vì đọc báo cần thiết (trả lời cho lý do học).\n\n📄 Trích PDF gốc (听力原文 Trang 23):\nマリアさんはいつもどうやって漢字を覚えるんですか。1. たくさん書いて覚えています。",
+      "audioScriptJa": "マリアさんはいつもどうやって漢字を覚えるんですか。\n1. たくさん書いて覚えています。\n2. 多分 300 字ぐらいだと思います。\n3. 新聞を読む時必要ですから。",
+      "audioScriptVi": "Câu hỏi: Maria này, cậu thường làm cách nào để nhớ chữ Hán vậy?\n1. Tớ viết thật nhiều lần để nhớ.\n2. Chắc là khoảng 300 chữ.\n3. Vì khi đọc báo rất cần thiết.",
+      "correctOption": 1,
+      "text": "マリアさんはいつもどうやって漢字を覚えるんですか。",
+      "options": ["1. たくさん書いて覚えています。", "2. 多分 300 字ぐらいだと思います。", "3. 新聞を読む時必要ですから。"]
+    },
+    "96": {
+      "snippet": "ジョギングはどうですか (Chạy bộ thì thế nào?)",
+      "explanation": "🎯 Đáp án đúng: [1] ジョギングはどうですか。\n\n💬 Phân tích câu hỏi phản xạ:\n• Câu hỏi: 「何か運動を始めたいんですが、なにがいいと思いますか (Tôi muốn bắt đầu tập thể thao, cậu thấy môn nào thì được?)」 xin gợi ý môn thể thao phù hợp.\n• 1. ジョギングはどうですか: Chạy bộ thì thế nào? (ĐÚNG - Đưa ra gợi ý môn thể thao cụ thể: [Danh từ] + はどうですか).\n• 2. 運動がいいと思います: Tớ nghĩ thể thao là tốt (lặp từ, không gợi ý môn nào).\n• 3. 何を始めたんですか: Đã bắt đầu môn gì rồi thế? (Người nói chưa tập gì cả).\n\n📄 Trích PDF gốc (听力原文 Trang 23):\n何か運動を始めたいんですが、なにがいいと思いますか。1. ジョギングはどうですか。",
+      "audioScriptJa": "何か運動を始めたいんですが、なにがいいと思いますか。\n1. ジョギングはどうですか。\n2. 運動がいいと思います。\n3. 何を始めたんですか。",
+      "audioScriptVi": "Câu hỏi: Tớ muốn bắt đầu tập một môn thể thao, cậu thấy môn nào thì tốt?\n1. Chạy bộ thì thế nào?\n2. Tớ nghĩ thể thao là tốt.\n3. Cậu đã bắt đầu tập cái gì thế?",
+      "correctOption": 1,
+      "text": "何か運動を始めたいんですが、なにがいいと思いますか。",
+      "options": ["1. ジョギングはどうですか。", "2. 運動がいいと思います。", "3. 何を始めたんですか。"]
+    },
+    "97": {
+      "snippet": "じゃあ、ちょっと行ってきます (Vậy tôi đi một lát rồi về)",
+      "explanation": "🎯 Đáp án đúng: [3] じゃあ、ちょっと行ってきます。\n\n💬 Phân tích câu giao việc phản xạ:\n• Lời nhờ vả: 「悪いんだけど、事務所の山田さんにこの書類を届けてきて (Phiền cậu mang tài liệu này chuyển cho anh Yamada ở văn phòng giúp tôi với)」.\n• 1. それはいつ届くんですか: Bao giờ hàng tới (sai nghĩa ngữ cảnh chuyển phát).\n• 2. すぐに書類をもらってきます: Tôi đi lấy tài liệu về ngay (nhầm lẫn giữa chuyển đi [届ける] và nhận về [もらう]).\n• 3. じゃあ、ちょっと行ってきます: Vậy tôi đi một lát rồi về đây ạ (ĐÚNG - Tiếp nhận việc đi giao tài liệu và rời đi làm ngay) ➔ Đáp án [3].\n\n📄 Trích PDF gốc (听力原文 Trang 23):\n悪いんだけど、事務所の山田さんにこの書類を届けてきて。3. じゃあ、ちょっと行ってきます。",
+      "audioScriptJa": "悪いんだけど、事務所の山田さんにこの書類を届けてきて。\n1. それはいつ届くんですか。\n2. すぐに書類をもらってきます。\n3. じゃあ、ちょっと行ってきます。",
+      "audioScriptVi": "Câu yêu cầu: Phiền cậu một chút, mang tài liệu này chuyển cho anh Yamada ở văn phòng giúp tôi nhé.\n1. Cái đó bao giờ thì tới nơi ạ?\n2. Tôi sẽ đi lấy tài liệu ngay.\n3. Vậy tôi xin phép đi một lát đây.",
+      "correctOption": 3,
+      "text": "悪いんだけど、事務所の山田さんにこの書類を届けてきて。",
+      "options": ["1. それはいつ届くんですか。", "2. すぐに書類をもらってきます。", "3. じゃあ、ちょっと行ってきます。"]
+    },
+    "98": {
+      "snippet": "16 人ですね、分かりました (Dạ 16 người, tôi hiểu rồi ạ)",
+      "explanation": "🎯 Đáp án đúng: [2] 16 人ですね、分かりました。\n\n💬 Phân tích câu giao việc phản xạ:\n• Câu chỉ thị: 「月曜日の会議、16 人入れる部屋を予約しておいて (Cuộc họp thứ Hai, cậu đặt sẵn phòng đủ chỗ cho 16 người nhé)」.\n• 1. 会議室においておきますね: Để trong phòng họp nhé (nhầm cấu trúc đặt phòng [予約しておく] thành để đồ [置いておく]).\n• 2. 16 人ですね、分かりました: 16 người đúng không ạ, tôi hiểu rồi (ĐÚNG - Xác nhận lại số lượng người tham dự và nhận việc).\n• 3. 部屋を 16 も予約するんですか: Đặt tận 16 phòng cơ à? (nghe nhầm 16 người thành 16 phòng).\n\n📄 Trích PDF gốc (听力原文 Trang 23):\n月曜日の会議、16 人入れる部屋を予約しておいて。2. 16 人ですね、分かりました。",
+      "audioScriptJa": "月曜日の会議、16 人入れる部屋を予約しておいて。\n1. 会議室においておきますね。\n2. 16 人ですね、分かりました。\n3. 部屋を 16 も予約するんですか。",
+      "audioScriptVi": "Câu chỉ thị: Cuộc họp thứ Hai, cậu đặt trước phòng chứa được 16 người nhé.\n1. Tôi sẽ để lại trong phòng họp nhé.\n2. Dạ 16 người đúng không ạ, tôi hiểu rồi.\n3. Đặt tận 16 phòng cơ ạ?",
+      "correctOption": 2,
+      "text": "月曜日の会議、16 人入れる部屋を予約しておいて。",
+      "options": ["1. 会議室においておきますね。", "2. 16 人ですね、分かりました。", "3. 部屋を 16 も予約するんですか。"]
+    }
+  },
   "n4-2010-2011": {
     "1": {
       "snippet": "自分 (じぶん)",
@@ -1646,1098 +3136,6528 @@ export const EXAM_DETAILED_EXPLANATION_MAP: Record<string, Record<number, Detail
   },
   "n4-2014-07": {
     "1": {
-      "snippet": "案内 (あんない)",
-      "explanation": "🎯 Đáp án đúng: [4] 案内 (あんない)\n\n💬 Dịch nghĩa câu:\n\"Tôi đã được anh ấy nhiệt tình dẫn đi tham quan thành phố.\"\n\n💡 Phân tích & Giải thích:\n• Chữ 「案」 (án) có âm On là 「あん」, chữ 「内」 (nội) có âm On là 「ない」 -> 案内 (あんない: hướng dẫn, dẫn đường).\n\n🔍 Phân tích các lựa chọn:\n- 1. あんねい: Sai âm On của 内\n- 2. あんない (案内): Hướng dẫn, dẫn đường\n- 3. あない: Thiếu âm ん\n- 4. あねい: Sai cả hai âm (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(1) 2 句意: 他热情地带我参观了城市。2. あんない(案内): 引导, 导游",
-      "correctOption": 4
-    },
+      "snippet": "楽しかった (たのしかった)",
+      "text": "きょうは とても 楽しかったです。",
+      "options": [
+            "うれしかった",
+            "いそがしかった",
+            "はずかしかった",
+            "たのしかった"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] たのしかった (楽しかった)\n\n💬 Dịch nghĩa câu:\n\"Hôm nay đã rất là vui vẻ.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ đuôi い 「たのしい (楽しい - Lạc)」: vui vẻ, thích thú, mang lại niềm vui (dùng cho sự kiện, buổi đi chơi, ngày tháng vui vẻ).\n• Dạng quá khứ: 「たのしかったです (楽しかったです)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. うれしかった (嬉しかった): Vui mừng, hạnh phúc (khi nhận được điều may mắn, tin vui)\n- 2. いそがしかった (忙しかった): Bận rộn\n- 3. はずかしかった (恥ずかしかった): Xấu hổ, ngượng ngùng\n- 4. たのしかった (楽しかった): Vui vẻ, hào hứng (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 15 & 16 - 试题解析):\n(1) 4 句意: 今天非常开心。\n1. うれしい(嬉しい): 高兴, 喜悦\n2. いそがしい(忙しい): 忙碌, 繁忙\n3. はずかしい(恥ずかしい): 羞耻, 害羞\n4. たのしい(楽しい): 快乐, 愉快"
+},
     "2": {
-      "snippet": "習い (ならい)",
-      "explanation": "🎯 Đáp án đúng: [3] 習い (ならい)\n\n💬 Dịch nghĩa câu:\n\"Thầy Kuninaka ơi, thầy đã bắt đầu học kiếm đạo từ khi nào thế ạ?\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「ならう (習う - tập)」: học tập một kỹ năng. Dạng danh từ / liên dụng: 「ならい」.\n\n🔍 Phân tích các lựa chọn:\n- 1. すまい (住まい): Nơi ở\n- 2. つかい (使い): Cách dùng\n- 3. ならい (習い): Việc học tập, rèn luyện (ĐÚNG)\n- 4. てつだい (手伝い): Giúp đỡ\n\n📄 Trích PDF gốc (试题解析):\n(2) 3 句意: 国中老师你是从什么时候开始学的? 3. ならう(習う): 学习",
-      "correctOption": 3
-    },
+      "snippet": "習っている (ならっている)",
+      "text": "たなかさんは いつから 習っているんですか。",
+      "options": [
+            "かよって",
+            "まって",
+            "ならって",
+            "のこって"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] ならって (習っている)\n\n💬 Dịch nghĩa câu:\n\"Anh Tanaka học (môn này) từ khi nào thế ạ?\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「ならう (習う - Tập)」: học tập, rèn luyện kỹ năng (từ thầy cô, người hướng dẫn).\n• Dạng tiếp diễn: 「習っている (ならっている)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. かよって (通う - 通って): Đi lại, lui tới (trường học, công ty)\n- 2. まって (待つ - 待って): Chờ đợi\n- 3. ならって (習う - 習って): Học tập, rèn luyện (ĐÚNG)\n- 4. のこって (残る - 残って): Ở lại, còn lại\n\n📄 Trích PDF gốc (Trang 15 & 16 - 试题解析):\n(2) 3 句意: 田中先生你是从什么时候开始学的?\n1. かよう(通う): 来往, 通行\n2. まつ(待つ): 等待\n3. ならう(習う): 学习\n4. のこる(残る): 留下; 剩余"
+},
     "3": {
       "snippet": "軽い (かるい)",
-      "explanation": "🎯 Đáp án đúng: [1] 軽い (かるい)\n\n💬 Dịch nghĩa câu:\n\"Chiếc máy tính xách tay đời mới này cầm rất là nhẹ nhàng.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「かるい」 viết bằng chữ Hán là 「軽い」 (khinh - nhẹ, đối lập với nặng 重い).\n\n🔍 Phân tích các lựa chọn:\n- 1. かるい (軽い): Nhẹ nhàng (ĐÚNG)\n- 2. おもい (重い): Nặng nề\n- 3. あかるい (明るい): Sáng sủa\n- 4. くらい (暗い): Tối tăm\n\n📄 Trích PDF gốc (试题解析):\n(3) 1 句意: 这台电脑很轻。1. かるい(軽い): 轻",
-      "correctOption": 1
-    },
+      "text": "この パソコンは 軽いですね。",
+      "options": [
+            "かるい",
+            "おもい",
+            "はやい",
+            "おそい"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] かるい (軽い)\n\n💬 Dịch nghĩa câu:\n\"Chiếc máy tính xách tay này nhẹ thật đấy nhỉ.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「かるい」 viết bằng Hán tự là 「軽い」 (Khinh - nhẹ, đối lập với nặng 「重い - おもい」).\n\n🔍 Phân tích các lựa chọn:\n- 1. かるい (軽い): Nhẹ (trọng lượng) (ĐÚNG)\n- 2. おもい (重い): Nặng nề\n- 3. はやい (早い / 速い): Sớm / nhanh\n- 4. おそい (遅い): Muộn / chậm chạp\n\n📄 Trích PDF gốc (Trang 15 & 16 - 试题解析):\n(3) 1 句意: 这台电脑很轻。\n1. かるい(軽い): 轻\n2. おもい(重い): 重\n3. はやい(早い): 快\n4. おそい(遅い): 慢"
+},
     "4": {
-      "snippet": "安い (やすい)",
-      "explanation": "🎯 Đáp án đúng: [2] 安い (やすい)\n\n💬 Dịch nghĩa câu:\n\"Thực phẩm và rau củ quả ở siêu thị này giá cả rất là rẻ.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「やすい」 viết bằng chữ Hán là 「安い」 (an - rẻ, giá cả bình dân).\n\n🔍 Phân tích các lựa chọn:\n- 1. たかい (高い): Đắt đỏ\n- 2. やすい (安い): Rẻ, bình dân (ĐÚNG)\n- 3. ひくい (低い): Thấp\n- 4. あまい (甘い): Ngọt ngào\n\n📄 Trích PDF gốc (试题解析):\n(4) 2 句意: 这家超市的食品很便宜。2. やすい(安い): 便宜",
-      "correctOption": 2
-    },
+      "snippet": "食料品 (しょくりょうひん)",
+      "text": "この スーパーは 食料品が 安いです。",
+      "options": [
+            "しょくりゅうひん",
+            "しょくりょうひん",
+            "しゅくりょうひん",
+            "しゅくりゅうひん"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] しょくりょうひん (食料品)\n\n💬 Dịch nghĩa câu:\n\"Siêu thị này thực phẩm rất là rẻ.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán: 「食」 có âm On là 「しょく」, 「料」 có âm On là 「りょう」, 「品」 có âm On là 「ひん」.\n• Ghép lại thành danh từ: 「食料品 (しょくりょうひん: thực phẩm, đồ ăn thức uống)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. しょくりゅうひん: Sai âm của 料 (đọc thành りゅう)\n- 2. しょくりょうひん (食料品): Thực phẩm, đồ ăn (ĐÚNG)\n- 3. しゅくりょうひん: Sai âm của 食 (đọc thành しゅ)\n- 4. しゅくりゅうひん: Sai cả hai âm\n\n📄 Trích PDF gốc (Trang 15 & 16 - 试题解析):\n(4) 2 句意: 这家超市的食品很便宜。\n考察汉字词, “食”音读为“しょく・じき”, “料”音读为“りょう”, “品”音读为“ひん・ほん”。"
+},
     "5": {
       "snippet": "顔 (かお)",
-      "explanation": "🎯 Đáp án đúng: [4] 顔 (かお)\n\n💬 Dịch nghĩa câu:\n\"Trên khuôn mặt của bạn đang bị dính vết bẩn kìa.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ 「かお」 viết bằng chữ Hán chuẩn xác là 「顔」 (nhan - khuôn mặt).\n\n🔍 Phân tích các lựa chọn:\n- 1. あたま (頭): Cái đầu\n- 2. こころ (心): Trái tim\n- 3. からだ (体): Cơ thể\n- 4. かお (顔): Khuôn mặt (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(5) 4 句意: 你的脸上沾上了点东西哦。4. かお(顔): 脸",
-      "correctOption": 4
-    },
+      "text": "顔に 何か ついていますよ。",
+      "options": [
+            "くつ",
+            "あたま",
+            "ふく",
+            "かお"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] かお (顔)\n\n💬 Dịch nghĩa câu:\n\"Trên mặt bạn đang dính cái gì kìa.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「顔」 (Nhan) có cách đọc Kunyomi là 「かお」 (khuôn mặt).\n\n🔍 Phân tích các lựa chọn:\n- 1. くつ (靴): Đôi giày\n- 2. あたま (頭): Cái đầu\n- 3. ふく (服): Quần áo\n- 4. かお (顔): Khuôn mặt (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 15 & 16 - 试题解析):\n(5) 4 句意: 你的脸上沾上了点东西哦。\n1. くつ(靴): 鞋子\n2. あたま(頭): 头\n3. ふく(服): 衣服\n4. かお(顔): 脸"
+},
     "6": {
-      "snippet": "天気予報 (てんきよほう)",
-      "explanation": "🎯 Đáp án đúng: [1] 天気予報 (てんきよほう)\n\n💬 Dịch nghĩa câu:\n\"Sáng nay vội đi làm nên tôi đã không kịp xem bản tin dự báo thời tiết.\"\n\n💡 Phân tích & Giải thích:\n• Chữ 「天気」 (てんき) ghép với 「予報」 (よほう) tạo thành cụm từ 「天気予報 (てんきよほう: dự báo thời tiết)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. てんきよほう (天気予報): Dự báo thời tiết (ĐÚNG)\n- 2. でんきよほう: Nhầm sang điện khí 電気\n- 3. てんきよぼう: Sai âm đục\n- 4. でんきよぼう: Sai cả hai âm\n\n📄 Trích PDF gốc (试题解析):\n(6) 1 句意: 今天早上没有看天气预报。1. 天気予報(てんきよほう): 天气预报",
-      "correctOption": 1
-    },
+      "snippet": "予報 (よほう)",
+      "text": "けさは 天気予報を 見ませんでした。",
+      "options": [
+            "よほう",
+            "ようほう",
+            "ようぼう",
+            "よぼう"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] よほう (予報)\n\n💬 Dịch nghĩa câu:\n\"Sáng nay tôi đã không xem bản tin dự báo thời tiết.\"\n\n💡 Phân tích & Giải thích:\n• Chữ 「予」 (Dự) có âm On là 「よ」 (không có trường âm).\n• Chữ 「報」 (Báo) có âm On là 「ほう」.\n• Ghép lại thành 「予報 (よほう: dự báo)」 -> 「天気予報 (てんきよほう: dự báo thời tiết)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. よほう (予報): Dự báo (ĐÚNG)\n- 2. ようほう: Thừa trường âm う\n- 3. ようぼう: Thừa trường âm và sai âm đục\n- 4. よぼう (予防): Sai sang từ phòng ngừa\n\n📄 Trích PDF gốc (Trang 15 & 16 - 试题解析):\n(6) 1 句意: 今天早上没有看天气预报。\n考察汉字词, “予”音读为“よ”, “報”音读为“ほう”。"
+},
     "7": {
       "snippet": "動かないで (うごかないで)",
-      "explanation": "🎯 Đáp án đúng: [2] 動かないで (うごかないで)\n\n💬 Dịch nghĩa câu:\n\"Anh Yamamoto ơi, xin anh hãy giữ nguyên tư thế và đừng cử động nhé.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「うごく (動く - động)」: chuyển động, cử động. Cấm đoán lịch sự: 「動かないでください」.\n\n🔍 Phân tích các lựa chọn:\n- 1. はたらかないで (働く): Xin đừng làm việc\n- 2. うごかないで (動く): Xin đừng cử động, nhúc nhích (ĐÚNG)\n- 3. ならわないで (習う): Xin đừng học\n- 4. あるかないで (歩く): Xin đừng đi bộ\n\n📄 Trích PDF gốc (试题解析):\n(7) 2 句意: 山本先生, 请不要动。2. うごく(動く): 动, 移动",
-      "correctOption": 2
-    },
+      "text": "やまもとさん、動かないで ください。",
+      "options": [
+            "あるかないで",
+            "うごかないで",
+            "なかないで",
+            "はたらかないで"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] うごかないで (動かないで)\n\n💬 Dịch nghĩa câu:\n\"Anh Yamamoto ơi, xin anh đừng cử động nhé.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「うごく (動く - Động)」: di chuyển, nhúc nhích, cử động.\n• Thể phủ định ngắn: 「動かない (うごかない)」 -> Mẫu câu yêu cầu đừng làm gì: 「動かないでください」.\n\n🔍 Phân tích các lựa chọn:\n- 1. あるかないで (歩く): Đừng đi bộ\n- 2. うごかないで (動く): Đừng cử động, nhúc nhích (ĐÚNG)\n- 3. なかないで (泣く): Đừng khóc\n- 4. はたらかないで (働く): Đừng làm việc\n\n📄 Trích PDF gốc (Trang 15 & 16 - 试题解析):\n(7) 2 句意: 山本先生, 请不要动。\n1. あるく(歩く): 走, 步行\n2. うごく(動く): 动; 活动\n3. なく(泣く): 哭, 哭泣\n4. はたらく(働く): 工作"
+},
     "8": {
-      "snippet": "運んで (はこんで)",
-      "explanation": "🎯 Đáp án đúng: [2] 運んで (はこんで)\n\n💬 Dịch nghĩa câu:\n\"Xin hãy giúp tôi một tay khuân vác chiếc hòm hành lý này sang phòng bên cạnh.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「はこぶ (運ぶ - vận)」: vận chuyển, khuân vác dời đồ đạc.\n\n🔍 Phân tích các lựa chọn:\n- 1. たのんで (頼む): Nhờ vả\n- 2. ふんで (踏む): Giẫm đạp (ĐÚNG)\n- 3. かんで (噛む): Cắn nhai\n- 4. はこんで (運ぶ): Khuân vác, chuyển dời\n\n📄 Trích PDF gốc (试题解析):\n(8) 4 句意: 请帮我把这件行李搬到隔壁。4. はこぶ(運ぶ): 搬运",
-      "correctOption": 2
-    },
+      "snippet": "世話 (せわ)",
+      "text": "うちでは 子どもが 犬の 世話をします。",
+      "options": [
+            "せいわ",
+            "せわ",
+            "せはなし",
+            "せいはなし"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] せわ (世話)\n\n💬 Dịch nghĩa câu:\n\"Ở nhà tôi, con tôi là người chăm sóc chú chó.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「世」 (Thế) có âm On là 「せ」, chữ 「話」 (Thoại) có âm On là 「わ」.\n• Ghép lại thành 「世話 (せわ)」 mang nghĩa chăm sóc, trông nom. Cụm từ thông dụng: 「～の世話をする」.\n\n🔍 Phân tích các lựa chọn:\n- 1. せいわ: Sai do thêm trường âm い\n- 2. せわ (世話): Chăm sóc, trông nom (ĐÚNG)\n- 3. せはなし: Đọc nhầm âm Kun của 話\n- 4. せいはなし: Sai cả hai âm\n\n📄 Trích PDF gốc (Trang 15 & 16 - 试题解析):\n(8) 2 句意: 在我家, 由孩子负责照顾小狗。\n考察汉字词, “世”音读为“せ・せい”, “話”音读为“わ”。\n1. せいわ(清和): 安定\n2. せわ(世話): 照顾, 照料"
+},
     "9": {
       "snippet": "特急 (とっきゅう)",
-      "explanation": "🎯 Đáp án đúng: [3] 特急 (とっきゅう)\n\n💬 Dịch nghĩa câu:\n\"Chuyến tàu tốc hành đặc biệt (đặc cấp) sắp sửa tiến vào sân ga rồi.\"\n\n💡 Phân tích & Giải thích:\n• Chữ 「特」 biến âm ngắt 「とっ」 ghép với chữ 「急」 (きゅう) -> 特急 (とっきゅう: tàu tốc hành đặc biệt).\n\n🔍 Phân tích các lựa chọn:\n- 1. とくきゅう: Chưa biến âm ngắt\n- 2. とっきゅ: Thiếu trường âm う\n- 3. とっきゅう (特急): Tàu đặc cấp, tốc hành (ĐÚNG)\n- 4. どっきゅう: Sai âm đầu\n\n📄 Trích PDF gốc (试题解析):\n(9) 3 句意: 特快列车马上就要来了。3. とっきゅう(特急): 特快列车",
-      "correctOption": 3
-    },
+      "text": "もうすぐ 特急電車が 来ます。",
+      "options": [
+            "とっきゅ",
+            "ときゅう",
+            "とっきゅう",
+            "ときゅ"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] とっきゅう (特急)\n\n💬 Dịch nghĩa câu:\n\"Tàu tốc hành đặc biệt sắp sửa tới nơi rồi.\"\n\n💡 Phân tích & Giải thích:\n• Chữ 「特」 (Đặc) có âm On là 「とく」, chữ 「急」 (Cấp) có âm On là 「きゅう」.\n• Quy tắc âm ngắt: Âm tận cùng là 「く」 đứng trước phụ âm hàng 「か/き/く/け/こ」 sẽ biến âm ngắt thành 「っ」 -> 「とっきゅう (特急: tàu đặc cấp, tốc hành)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. とっきゅ: Thiếu trường âm う\n- 2. ときゅう: Thiếu âm ngắt っ\n- 3. とっきゅう (特急): Tàu tốc hành đặc biệt (ĐÚNG)\n- 4. ときゅ: Thiếu cả âm ngắt lẫn trường âm\n\n📄 Trích PDF gốc (Trang 15 & 16 - 试题解析):\n(9) 3 句意: 特快列车马上就要来了。\n考察汉字词, “特”音读为“とく”, “急”音读为“きゅう”。\n前面汉字读音最后是“く”, 后面汉字第一个假名为“か行”清音假名时发生促音变。故为“とっきゅう”。"
+},
     "10": {
-      "snippet": "面白い (おもしろい)",
-      "explanation": "🎯 Đáp án đúng: [3] 面白い (おもしろい)\n\n💬 Dịch nghĩa câu:\n\"Bộ phim điện ảnh chiếu rạp cuối tuần vừa rồi vô cùng thú vị và lôi cuốn.\"\n\n💡 Phân tích & Giải thích:\n• Từ 「おもしろい」 viết bằng chữ Hán chuẩn xác là 「面白い」 (diện bạch - thú vị, hay ho).\n\n🔍 Phân tích các lựa chọn:\n- 1. 面白: Thiếu Okurigana い\n- 2. 面自い: Sai chữ Hán tự\n- 3. 面白い (おもしろい): Thú vị, hấp dẫn (ĐÚNG)\n- 4. 面白り: Sai đuôi\n\n📄 Trích PDF gốc (试题解析):\n(10) 3 句意: 那部电影很有趣。3. 面白い（おもしろい）: 有趣",
-      "correctOption": 3
-    },
+      "snippet": "映画 (えいが)",
+      "text": "その えいがは おもしろかったですよ。",
+      "options": [
+            "映面",
+            "央画",
+            "映画",
+            "央面"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] 映画\n\n💬 Dịch nghĩa câu:\n\"Bộ phim đó đã rất thú vị và hay ho đấy.\"\n\n💡 Phân tích & Giải thích:\n• Từ 「えいが」 trong tiếng Nhật viết bằng Hán tự chuẩn xác là 「映画」 (Ánh Họa - phim ảnh, điện ảnh).\n• Chữ 「映」 (bên trái có bộ Nhật 日) mang nghĩa chiếu rọi; chữ 「画」 mang nghĩa hình vẽ, bức họa.\n\n🔍 Phân tích các lựa chọn:\n- 1. 映面: Sai chữ 面 (diện/mặt)\n- 2. 央画: Nhầm chữ 映 thành chữ 央 (ương trong trung ương)\n- 3. 映画 (えいが): Phim ảnh, điện ảnh (ĐÚNG)\n- 4. 央面: Sai cả hai chữ Hán\n\n📄 Trích PDF gốc (Trang 15 & 16 - 试题解析):\n(10) 3 句意: 那部电影很有趣。\n3. 映画(えいが): 电影\n其他选项为干扰项。"
+},
     "11": {
-      "snippet": "昼 (ひる)",
-      "explanation": "🎯 Đáp án đúng: [2] 昼 (ひる)\n\n💬 Dịch nghĩa câu:\n\"Buổi trưa nay tôi đã cùng đồng nghiệp đi ăn cơm ở nhà hàng trước cổng công ty.\"\n\n💡 Phân tích & Giải thích:\n• Từ 「ひる」 viết bằng chữ Hán chuẩn xác là 「昼」 (trú - buổi trưa, ban ngày).\n\n🔍 Phân tích các lựa chọn:\n- 1. 朝 (あさ): Buổi sáng\n- 2. 昼 (ひる): Buổi trưa, ban ngày (ĐÚNG)\n- 3. 夕 (ゆう): Chiều tối\n- 4. 夜 (よる): Ban đêm\n\n📄 Trích PDF gốc (试题解析):\n(11) 2 句意: 中午和同事一起吃了午饭。2. 昼（ひる）: 中午, 白天",
-      "correctOption": 2
-    },
+      "snippet": "泳いで (およいで)",
+      "text": "魚が たくさん およいでいます。",
+      "options": [
+            "海いで",
+            "泳いで",
+            "港いで",
+            "注いで"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] 泳いで\n\n💬 Dịch nghĩa câu:\n\"Có rất nhiều cá đang bơi lội.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「およぐ」 viết bằng Hán tự là 「泳ぐ」 (Vịnh - bơi lội). Thể Te biến âm hàng ぐ -> いで: 「泳いで (およいで)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 海いで: Nhầm với chữ Hải 海 (biển - うみ)\n- 2. 泳いで (泳ぐ): Đang bơi lội (ĐÚNG)\n- 3. 港いで: Nhầm với chữ Cảng 港 (bến cảng - みなと)\n- 4. 注いで (注ぐ): Rót, đổ vào (そそいで / ついで)\n\n📄 Trích PDF gốc (Trang 15 & 16 - 试题解析):\n(11) 2 句意: 有很多鱼在游来游去。\n2. 泳ぐ(およぐ): 游, 游泳\n4. 注ぐ(そそぐ): 注入, 流入\n其他选项为干扰项。"
+},
     "12": {
       "snippet": "売り場 (うりば)",
-      "explanation": "🎯 Đáp án đúng: [1] 売り場 (うりば)\n\n💬 Dịch nghĩa câu:\n\"Xin lỗi cho tôi hỏi, quầy bán đồ chơi trẻ em nằm ở tầng mấy vậy ạ?\"\n\n💡 Phân tích & Giải thích:\n• Từ ghép: Động từ 「売る」 dạng liên dụng 「売り」 ghép với danh từ 「場」 -> 「売り場」 (quầy bán hàng).\n\n🔍 Phân tích các lựa chọn:\n- 1. 売り場 (うりば): Quầy bán hàng (ĐÚNG)\n- 2. 買場: Quầy mua (sai)\n- 3. 売所: Sai chữ\n- 4. 買所: Sai chữ\n\n📄 Trích PDF gốc (试题解析):\n(12) 1 句意: 玩具卖场在哪里? 1. 売り場（うりば）: 柜台, 售货处",
-      "correctOption": 1
-    },
+      "text": "おもちゃ うりばは どこですか。",
+      "options": [
+            "売り場",
+            "売り所",
+            "完り場",
+            "完り所"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] 売り場\n\n💬 Dịch nghĩa câu:\n\"Quầy bán đồ chơi trẻ em nằm ở đâu vậy ạ?\"\n\n💡 Phân tích & Giải thích:\n• Từ ghép: Động từ 「売る (うる - Mại)」 thể liên dụng 「売り」 ghép với danh từ 「場 (ば - Trường)」 tạo thành danh từ 「売り場 (うりば: quầy bán hàng, điểm bán)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 売り場 (うりば): Quầy bán hàng, điểm bán (ĐÚNG)\n- 2. 売り所: Sai từ ghép\n- 3. 完り場: Nhầm chữ 売 (bán) thành 完 (hoàn trong hoàn thành)\n- 4. 完り所: Sai cả hai chữ Hán\n\n📄 Trích PDF gốc (Trang 15 & 16 - 试题解析):\n(12) 1 句意: 玩具卖场在哪里?\n1. 売り場(うりば): 出售处, 柜台\n其他选项为干扰项。"
+},
     "13": {
-      "snippet": "終わる (おわる)",
-      "explanation": "🎯 Đáp án đúng: [4] 終わる (おわる)\n\n💬 Dịch nghĩa câu:\n\"Buổi biểu diễn hòa nhạc thính phòng dự kiến sẽ kết thúc vào lúc 4 giờ chiều.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「おわる」 được viết bằng chữ Hán chuẩn xác là 「終わる」 (chung - kết thúc, chấm dứt).\n\n🔍 Phân tích các lựa chọn:\n- 1. 始る (はじまる): Bắt đầu (sai nghĩa)\n- 2. 止る (とまる): Dừng lại\n- 3. 休る (やすむ): Nghỉ ngơi\n- 4. 終わる (おわる): Kết thúc, hoàn tất (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(13) 4 句意: 演奏会四点结束。4. 終わる（おわる）: 结束",
-      "correctOption": 4
-    },
+      "snippet": "終わります (おわります)",
+      "text": "コンサートは 4 時に おわります。",
+      "options": [
+            "関わります",
+            "始わります",
+            "閉わります",
+            "終わります"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] 終わります\n\n💬 Dịch nghĩa câu:\n\"Buổi hòa nhạc sẽ kết thúc vào lúc 4 giờ.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「おわる」 viết bằng chữ Hán chuẩn xác là 「終わる」 (Chung - kết thúc, hoàn tất) -> Lịch sự: 「終わります」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 関わります (関わる - かかわる): Liên quan, dính líu\n- 2. 始わります: Sai (chữ 始 đọc là はじまる, không có đuôi わります)\n- 3. 閉わります: Sai (chữ 閉 đọc là しまる)\n- 4. 終わります (終わる): Kết thúc, hoàn tất (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 15 & 16 - 试题解析):\n(13) 4 句意: 演奏会四点结束。\n1. 関わる(かかわる): 有关, 关系到\n2. 始まる(はじまる): 开始\n3. 閉まる(しまる): 关闭, 紧闭\n4. 終わる(おわる): 完毕, 结束"
+},
     "14": {
       "snippet": "本屋 (ほんや)",
-      "explanation": "🎯 Đáp án đúng: [3] 本屋 (ほんや)\n\n💬 Dịch nghĩa câu:\n\"Khu vực lân cận quanh đây có tiệm bán sách nào không ạ?\"\n\n💡 Phân tích & Giải thích:\n• Chữ 「本」 (sách) ghép với chữ 「屋」 (tiệm, quán) tạo thành danh từ 「本屋」 (tiệm sách).\n\n🔍 Phân tích các lựa chọn:\n- 1. 本家: Nhà gốc, dòng chính\n- 2. 本室: Phòng đọc\n- 3. 本屋 (ほんや): Hiệu sách, tiệm sách (ĐÚNG)\n- 4. 本所: Trụ sở chính\n\n📄 Trích PDF gốc (试题解析):\n(14) 3 句意: 这附近有书店吗? 3. 本屋（ほんや）: 书店",
-      "correctOption": 3
-    },
+      "text": "この あたりに ほんやは ありますか。",
+      "options": [
+            "本室",
+            "本店",
+            "本屋",
+            "本家"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] 本屋\n\n💬 Dịch nghĩa câu:\n\"Ở quanh khu vực này có hiệu sách nào không ạ?\"\n\n💡 Phân tích & Giải thích:\n• Từ ghép: 「本」 (Bản - sách) ghép với 「屋」 (Ốc - tiệm, cửa hàng) -> 「本屋 (ほんや: hiệu sách, tiệm sách)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 本室: Không có từ này\n- 2. 本店 (ほんてん): Trụ sở chính, tiệm chính\n- 3. 本屋 (ほんや): Hiệu sách (ĐÚNG)\n- 4. 本家 (ほんけ): Nhà gốc, dòng họ chính\n\n📄 Trích PDF gốc (Trang 15 & 16 - 试题解析):\n(14) 3 句意: 这附近有书店吗?\n3. 本屋(ほんや): 书店\n4. 本家(ほんけ): 本家, 嫡系\n其他选项为干扰项。"
+},
     "15": {
-      "snippet": "係の人 (かかりのひと)",
-      "explanation": "🎯 Đáp án đúng: [2] 係の人 (かかりのひと)\n\n💬 Dịch nghĩa câu:\n\"Nếu bạn không rõ quy định, hãy đến hỏi trực tiếp người phụ trách nhé.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán chuẩn xác cho 「かかり」 trong người phụ trách công việc là 「係」 (hệ - người phụ trách).\n\n🔍 Phân tích các lựa chọn:\n- 1. 任の人: Nhầm chữ\n- 2. 係の人 (かかりのひと): Người phụ trách, nhân viên trực (ĐÚNG)\n- 3. 役の人: Nhầm chữ\n- 4. 関の人: Nhầm chữ\n\n📄 Trích PDF gốc (试题解析):\n(15) 2 句意: 问问负责人吧? 2. 係（かかり）: 负责人, 经办人",
-      "correctOption": 2
-    },
+      "snippet": "係り (かかり)",
+      "text": "かかりの 人に 聞いてみましょう。",
+      "options": [
+            "糸り",
+            "係り",
+            "員り",
+            "損り"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] 係り\n\n💬 Dịch nghĩa câu:\n\"Chúng ta hãy thử hỏi người phụ trách xem sao nhé.\"\n\n💡 Phân tích & Giải thích:\n• Từ 「かかり」 trong nghĩa người chịu trách nhiệm, phụ trách được viết bằng Hán tự là 「係」 (Hệ) -> 「係り / 係 (かかり)」. Cụm từ: 「係の人 (かかりのひと: người phụ trách)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 糸り: Chữ 糸 (Mịch - sợi chỉ)\n- 2. 係り (かかり): Người phụ trách, đảm nhiệm công việc (ĐÚNG)\n- 3. 員り: Chữ 員 (Viên trong thành viên)\n- 4. 損り: Chữ 損 (Tổn trong tổn thất, thua lỗ)\n\n📄 Trích PDF gốc (Trang 15 & 16 - 试题解析):\n(15) 2 句意: 问问负责人吧?\n2. 係(かかり): 担任者, 责任人\n其他选项为干扰项。"
+},
     "16": {
-      "snippet": "乗り換え (のりかえ)",
-      "explanation": "🎯 Đáp án đúng: [2] 乗り換え (のりかえ)\n\n💬 Dịch nghĩa câu:\n\"Xin hành khách hãy xuống tàu ở nhà ga thứ hai, sau đó đổi sang chuyến xe buýt số 5.\"\n\n💡 Phân tích & Giải thích:\n• Cụm từ: 「乗り換える / 乗り換え」 mang nghĩa chuyển đổi từ phương tiện này sang phương tiện khác.\n\n🔍 Phân tích các lựa chọn:\n- 1. 乗り降り (lên xuống xe)\n- 2. 乗り換え (chuyển tuyến, đổi xe) (ĐÚNG)\n- 3. 乗り越し (đi quá ga)\n- 4. 乗り止め (ngừng xe)\n\n📄 Trích PDF gốc (试题解析):\n(16) 2 句意: 请在第二站下电车, 换乘公交车。2. のりかえ(乗り換え): 换乘",
-      "correctOption": 2
-    },
+      "snippet": "乗り換えて (のりかえて)",
+      "text": "二つめの えきで 電車から バスに (　) ください。",
+      "options": [
+            "おりて",
+            "のりかえて",
+            "ひっこして",
+            "でて"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] のりかえて (乗り換えて)\n\n💬 Dịch nghĩa câu:\n\"Xin hãy xuống ở ga thứ hai và chuyển từ tàu điện sang xe buýt.\"\n\n💡 Phân tích & Giải thích:\n• Cụm từ: 「Aから Bに 乗り換える (のりかえる)」: đổi từ phương tiện A sang phương tiện B.\n\n🔍 Phân tích các lựa chọn:\n- 1. おりて (降りる): Xuống xe (nếu chỉ xuống tàu thì dùng 電車を降りて, ở đây có バスに)\n- 2. のりかえて (乗り換える): Chuyển tuyến, đổi xe (ĐÚNG)\n- 3. ひっこして (引っ越す): Chuyển nhà\n- 4. でて (出る): Đi ra ngoài\n\n📄 Trích PDF gốc (Trang 15 & 17 - 试题解析):\n(16) 2 句意: 请在第二站下电车, 换乘公交车。\n1. おりる(降りる): 下(交通工具)\n2. のりかえる(乗り換える): 换乘\n3. ひっこす(引っ越す): 搬家\n4. でる(出る): 出去, 出发"
+},
     "17": {
-      "snippet": "英語 (えいご)",
-      "explanation": "🎯 Đáp án đúng: [4] 英語 (えいご)\n\n💬 Dịch nghĩa câu:\n\"Trên thực đơn của nhà hàng đó có ghi cả phần giải thích chú thích bằng tiếng Anh.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ 「英語 (えいご)」: tiếng Anh. Dùng trong giải thích thực đơn cho khách ngoại quốc.\n\n🔍 Phân tích các lựa chọn:\n- 1. 日本語: Tiếng Nhật\n- 2. 中国語: Tiếng Trung\n- 3. フランス語: Tiếng Pháp\n- 4. 英語 (えいご): Tiếng Anh (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(17) 4 句意: 那家餐厅的菜单上还写有英文说明。4. えいご(英語): 英语",
-      "correctOption": 4
-    },
+      "snippet": "メニュー (Menu)",
+      "text": "あの レストランの (　) には、英語の せつめいも 書いてあります。",
+      "options": [
+            "サービス",
+            "チップ",
+            "アルバイト",
+            "メニュー"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] メニュー (Menu)\n\n💬 Dịch nghĩa câu:\n\"Trên thực đơn của nhà hàng kia có ghi cả phần giải thích bằng tiếng Anh.\"\n\n💡 Phân tích & Giải thích:\n• Từ Katakana 「メニュー (Menu)」: thực đơn của nhà hàng, quán ăn.\n\n🔍 Phân tích các lựa chọn:\n- 1. サービス (Service): Dịch vụ, ưu đãi miễn phí\n- 2. チップ (Tip): Tiền boa, tiền boa thêm\n- 3. アルバイト (Arbeit): Công việc làm thêm\n- 4. メニュー (Menu): Thực đơn (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 15 & 17 - 试题解析):\n(17) 4 句意: 那家餐厅的菜单上还写有英文说明。\n1. サービス: 服务\n2. チップ: 小费\n3. アルバイト: 兼职\n4. メニュー: 菜单"
+},
     "18": {
       "snippet": "卒業 (そつぎょう)",
-      "explanation": "🎯 Đáp án đúng: [4] 卒業 (そつぎょう)\n\n💬 Dịch nghĩa câu:\n\"Tháng trước tôi vừa tốt nghiệp trường đại học, hiện tại tôi đang đi làm tại một công ty ở Nhật.\"\n\n💡 Phân tích & Giải thích:\n• Cụm từ: 「大学を卒業する」 (tốt nghiệp ra trường đại học).\n\n🔍 Phân tích các lựa chọn:\n- 1. 入学 (nhập học)\n- 2. 退学 (thôi học)\n- 3. 休学 (nghỉ học tạm thời)\n- 4. 卒業 (そつぎょう: tốt nghiệp) (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(18) 4 句意: 上个月从大学毕业了, 现在在日本工作。4. そつぎょう(卒業): 毕业",
-      "correctOption": 4
-    },
+      "text": "先月 大学を (　) して、今は 日本で しごとをしています。",
+      "options": [
+            "ふくしゅう",
+            "きょういく",
+            "けんきゅう",
+            "そつぎょう"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] そつぎょう (卒業)\n\n💬 Dịch nghĩa câu:\n\"Tháng trước tôi đã tốt nghiệp đại học, hiện tại tôi đang làm việc ở Nhật Bản.\"\n\n💡 Phân tích & Giải thích:\n• Cụm từ cố định: 「大学を卒業する (そつぎょうする)」: tốt nghiệp trường đại học.\n\n🔍 Phân tích các lựa chọn:\n- 1. ふくしゅう (復習): Ôn tập bài\n- 2. きょういく (教育): Giáo dục\n- 3. けんきゅう (研究): Nghiên cứu khoa học\n- 4. そつぎょう (卒業): Tốt nghiệp (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 15 & 17 - 试题解析):\n(18) 4 句意: 上个月从大学毕业了, 现在在日本工作。\n1. ふくしゅう(復習): 复习\n2. きょういく(教育): 教育\n3. けんきゅう(研究): 研究\n4. そつぎょう(卒業): 毕业"
+},
     "19": {
       "snippet": "工事 (こうじ)",
-      "explanation": "🎯 Đáp án đúng: [2] 工事 (こうじ)\n\n💬 Dịch nghĩa câu:\n\"Đoạn đường này hiện đang trong quá trình thi công sửa chữa nên tạm thời không thể lưu thông.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ 「工事 (こうじ)」 nghĩa là công trình xây dựng, sửa chữa cầu đường.\n\n🔍 Phân tích các lựa chọn:\n- 1. 事故 (tai nạn giao thông)\n- 2. 工事 (công trình xây dựng, thi công) (ĐÚNG)\n- 3. 故障 (sự cố hỏng hóc)\n- 4. 混雑 (tắc nghẽn đông đúc)\n\n📄 Trích PDF gốc (试题解析):\n(19) 2 句意: 这条路正在施工, 所以无法通过。2. こうじ(工事): 施工, 工程",
-      "correctOption": 2
-    },
+      "text": "この みちは (　) をしている ので、とおれません。",
+      "options": [
+            "こしょう",
+            "こうじ",
+            "はんたい",
+            "しっぱい"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] こうじ (工事)\n\n💬 Dịch nghĩa câu:\n\"Con đường này đang thi công sửa chữa nên không thể đi qua được.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ 「工事 (こうじ - Công Sự)」: công trình thi công, sửa chữa đường xá hoặc xây dựng.\n\n🔍 Phân tích các lựa chọn:\n- 1. こしょう (故障): Sự cố hỏng hóc (dành cho máy móc, thiết bị)\n- 2. こうじ (工事): Thi công công trình, sửa đường (ĐÚNG)\n- 3. はんたい (反対): Phản đối, đối diện\n- 4. しっぱい (失敗): Thất bại\n\n📄 Trích PDF gốc (Trang 15 & 17 - 试题解析):\n(19) 2 句意: 这条路正在施工, 所以无法通过。\n1. こしょう(故障): 故障\n2. こうじ(工事): 工程, 施工\n3. はんたい(反対): 反对\n4. しっぱい(失敗): 失败"
+},
     "20": {
-      "snippet": "割ってしまった (わってしまった)",
-      "explanation": "🎯 Đáp án đúng: [3] 割ってしまった (わってしまった)\n\n💬 Dịch nghĩa câu:\n\"Hôm nay trong lúc dọn dẹp bát đĩa, tôi đã vô ý làm rơi và đánh vỡ mất một chiếc đĩa.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「わる (割る)」: làm vỡ đồ gốm sứ, thủy tinh. Cấu trúc lỡ làm vỡ: 「割ってしまった」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 折ってしまった (làm gãy cành)\n- 2. 切ってしまった (cắt đứt)\n- 3. 割ってしまった (làm vỡ đồ sứ, đĩa) (ĐÚNG)\n- 4. 破ってしまった (làm rách giấy)\n\n📄 Trích PDF gốc (试题解析):\n(20) 3 句意: 我今天打碎了一个盘子。3. 割る(わる): 打碎, 弄碎",
-      "correctOption": 3
-    },
+      "snippet": "皿 (さら)",
+      "text": "きょう、(　) を 1まい わって しまいました。",
+      "options": [
+            "タオル",
+            "ふくろ",
+            "さら",
+            "ポスター"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] さら (皿)\n\n💬 Dịch nghĩa câu:\n\"Hôm nay tôi đã vô ý làm vỡ mất một chiếc đĩa.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「割る (わる)」 nghĩa là làm vỡ đồ sứ, đồ thủy tinh.\n• Lượng từ 「まい (枚)」 dùng đếm vật mỏng, phẳng -> 「皿 (さら: đĩa ăn)」 là đồ sứ phẳng mỏng có thể làm vỡ.\n\n🔍 Phân tích các lựa chọn:\n- 1. タオル (Towel): Khăn tắm (không thể làm vỡ わって)\n- 2. ふくろ (袋): Túi đựng (rách dùng 破れる)\n- 3. さら (皿): Cái đĩa (làm vỡ đĩa: 皿を割る) (ĐÚNG)\n- 4. ポスター (Poster): Tờ áp phích (rách dùng 破れる)\n\n📄 Trích PDF gốc (Trang 15 & 17 - 试题解析):\n(20) 3 句意: 我今天打碎了一个盘子。\n1. タオル: 毛巾\n2. ふくろ(袋): 袋, 口袋\n3. さら(皿): 盘子, 碟子\n4. ポスター: 海报"
+},
     "21": {
-      "snippet": "すっかり",
-      "explanation": "🎯 Đáp án đúng: [1] すっかり\n\n💬 Dịch nghĩa câu:\n\"Sau một tuần uống thuốc và nghỉ ngơi điều độ, bệnh cảm cúm của tôi đã khỏi hẳn hoàn toàn.\"\n\n💡 Phân tích & Giải thích:\n• Phó từ 「すっかり」 kết hợp với động từ hồi phục 「治る」 mang nghĩa: hoàn toàn khỏi hẳn.\n\n🔍 Phân tích các lựa chọn:\n- 1. すっかり (hoàn toàn, khỏi hẳn) (ĐÚNG)\n- 2. ぴったり (vừa vặn khít khao)\n- 3. しっかり (chắc chắn, chăm chỉ)\n- 4. びっくり (giật mình sửng sốt)\n\n📄 Trích PDF gốc (试题解析):\n(21) 1 句意: 感冒彻底痊愈了。1. すっかり: 彻底, 完全",
-      "correctOption": 1
-    },
+      "snippet": "チェック (Check)",
+      "text": "日本語が ただしい かどうか、もういちど (　) して ください。",
+      "options": [
+            "チェック",
+            "コピー",
+            "スタート",
+            "サイン"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] チェック (Check)\n\n💬 Dịch nghĩa câu:\n\"Xin hãy kiểm tra lại một lần nữa xem tiếng Nhật đã chuẩn xác hay chưa nhé.\"\n\n💡 Phân tích & Giải thích:\n• Từ Katakana 「チェック (Check)」 đi với する: kiểm tra, soát lại, rà soát đối chiếu.\n\n🔍 Phân tích các lựa chọn:\n- 1. チェック (Check): Rà soát, kiểm tra (ĐÚNG)\n- 2. コピー (Copy): Sao chép, photo\n- 3. スタート (Start): Xuất phát, khởi đầu\n- 4. サイン (Sign): Chữ ký, ký tên\n\n📄 Trích PDF gốc (Trang 15 & 17 - 试题解析):\n(21) 1 句意: 请再检查一遍, 看看这里的日语用得是否正确。\n1. チェック: 检验, 核对\n2. コピー: 复制\n3. スタート: 出发, 开始\n4. サイン: 签字"
+},
     "22": {
-      "snippet": "相談 (そうだん)",
-      "explanation": "🎯 Đáp án đúng: [4] 相談 (そうだん)\n\n💬 Dịch nghĩa câu:\n\"Điểm đến cho chuyến du lịch dã ngoại đã được quyết định sau khi tôi bàn bạc kỹ lưỡng với bạn bè.\"\n\n💡 Phân tích & Giải thích:\n• Cụm từ: 「～と相談する」 (bàn bạc, thảo luận, trao đổi ý kiến cùng với ai đó).\n\n🔍 Phân tích các lựa chọn:\n- 1. 挨拶 (chào hỏi)\n- 2. 約束 (hẹn ước)\n- 3. 連絡 (liên lạc)\n- 4. 相談 (そうだん: bàn bạc, thảo luận) (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(22) 4 句意: 要去哪里旅行, 是在问了班上同学的意见后决定的。4. 相談(そうだん): 商量, 讨论",
-      "correctOption": 4
-    },
+      "snippet": "意見 (いけん)",
+      "text": "どこに りょこうに 行くか、クラスの みんなに (　) を聞いて、きめました。",
+      "options": [
+            "そうだん",
+            "さんせい",
+            "しつもん",
+            "いけん"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] いけん (意見)\n\n💬 Dịch nghĩa câu:\n\"Sẽ đi du lịch ở đâu thì tôi đã hỏi ý kiến của tất cả các bạn trong lớp rồi mới quyết định.\"\n\n💡 Phân tích & Giải thích:\n• Cụm từ thông dụng: 「～に意見を聞く (いけんをきく)」: hỏi ý kiến, lắng nghe quan điểm của ai đó.\n\n🔍 Phân tích các lựa chọn:\n- 1. そうだん (相談): Thảo luận, bàn bạc (thường đi với từ ghép 「～と相談する」, không nói 相談を聞いて)\n- 2. さんせい (賛成): Tán thành, đồng ý\n- 3. しつもん (質問): Câu hỏi, chất vấn\n- 4. いけん (意見): Ý kiến, quan điểm đóng góp (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 15 & 17 - 试题解析):\n(22) 4 句意: 要去哪里旅行, 是在问了班上同学的意见后决定的。\n1. そうだん(相談): 商量, 商议\n2. さんせい(賛成): 赞成\n3. しつもん(質問): 询问, 提问\n4. いけん(意見): 意见, 见解"
+},
     "23": {
-      "snippet": "迎える (むかえる)",
-      "explanation": "🎯 Đáp án đúng: [1] 迎える (むかえる)\n\n💬 Dịch nghĩa câu:\n\"Bố mẹ tôi từ quê nhà chuẩn bị bay lên thăm, nên chiều nay tôi sẽ ra sân bay đón bố mẹ.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「むかえる (迎える)」: nghênh đón, đi đón người thân ở sân bay, nhà ga.\n\n🔍 Phân tích các lựa chọn:\n- 1. 迎える (むかえる: nghênh đón) (ĐÚNG)\n- 2. 送る (おくる: tiễn đưa)\n- 3. 送別する (chia tay)\n- 4. 訪ねる (ghé thăm)\n\n📄 Trích PDF gốc (试题解析):\n(23) 1 句意: 父母要从故乡过来, 所以我要去机场接他们。1. 迎える(むかえる): 迎接",
-      "correctOption": 1
-    },
+      "snippet": "迎え (むかえ)",
+      "text": "国から りょうしんが 来るので、くうこうへ (　) に行きます。",
+      "options": [
+            "むかえ",
+            "さそい",
+            "あんない",
+            "じゅんび"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] むかえ (迎え)\n\n💬 Dịch nghĩa câu:\n\"Bố mẹ từ trong nước sang nên tôi sẽ ra sân bay để đón bố mẹ.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc mục đích di chuyển: 「V(bỏ masu) + に行く」 hoặc 「N + に行く」.\n• Động từ 「むかえる (迎える)」 dạng liên dụng: 「迎えに行く (むかえにいく: đi đón ai đó)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. むかえ (迎え): Đón tiếp, đi đón người thân (ĐÚNG)\n- 2. さそい (誘い): Rủ rê, mời mọc\n- 3. あんない (案内): Hướng dẫn, dẫn đường\n- 4. じゅんび (準備): Chuẩn bị\n\n📄 Trích PDF gốc (Trang 15 & 17 - 试题解析):\n(23) 1 句意: 父母要从故乡过来, 所以我要去机场接他们。\n1. むかえ(迎え): 迎接\n2. さそい(誘い): 邀请\n3. あんない(案内): 引导, 向导\n4. じゅんび(準備): 准备, 预备"
+},
     "24": {
-      "snippet": "固い (かたい)",
-      "explanation": "🎯 Đáp án đúng: [1] 固い (かたい)\n\n💬 Dịch nghĩa câu:\n\"Khúc thịt nướng này dai và cứng quá, trước khi nuốt bạn nhớ phải nhai thật kỹ nhé.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「かたい (固い / 硬い)」: cứng, dai (đối lập với mềm やわらかい).\n\n🔍 Phân tích các lựa chọn:\n- 1. 固い (かたい: cứng, dai) (ĐÚNG)\n- 2. 柔らかい (やわらかい: mềm)\n- 3. 甘い (ngọt)\n- 4. 辛い (cay nồng)\n\n📄 Trích PDF gốc (试题解析):\n(24) 1 句意: 这块肉很硬, 吃之前请好好嚼一下。1. かたい(固い): 硬, 坚硬",
-      "correctOption": 1
-    },
+      "snippet": "噛んで (かんで)",
+      "text": "この にくは かたいので、よく (　) たべて ください。",
+      "options": [
+            "かんで",
+            "こわして",
+            "ふんで",
+            "おして"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] かんで (噛んで)\n\n💬 Dịch nghĩa câu:\n\"Miếng thịt này cứng/dai đấy, nên hãy nhai thật kỹ rồi hãy ăn nhé.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「かむ (噛む - Giảo)」: nhai, cắn. Dạng thể Te biến âm: 「噛んで (かんで)」. Cụm từ: 「よく噛んで食べる」 (nhai kỹ rồi ăn).\n\n🔍 Phân tích các lựa chọn:\n- 1. かんで (噛む): Nhai kỹ (ĐÚNG)\n- 2. こわして (壊す): Phá hỏng, làm vỡ\n- 3. ふんで (踏む): Giẫm đạp lên\n- 4. おして (押す): Ấn, đẩy\n\n📄 Trích PDF gốc (Trang 15 & 17 - 试题解析):\n(24) 1 句意: 这块肉很硬, 吃之前请好好嚼一下。\n1. かむ(噛む): 咀嚼\n2. こわす(壊す): 损坏\n3. ふむ(踏む): 踩, 踏\n4. おす(押す): 按, 压"
+},
     "25": {
-      "snippet": "飾る (かざる)",
-      "explanation": "🎯 Đáp án đúng: [3] 飾る (かざる)\n\n💬 Dịch nghĩa câu:\n\"Hôm nay nhà tôi có tổ chức tiệc chiêu đãi bạn bè, nên tôi đã cắm hoa tươi trang trí trên bàn ăn.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「かざる (飾る)」: trang trí, bài trí không gian cho thêm phần đẹp đẽ, trang trọng.\n\n🔍 Phân tích các lựa chọn:\n- 1. 片付ける (thu dọn ngăn nắp)\n- 2. 捨てる (vứt bỏ đồ)\n- 3. 飾る (かざる: bài trí, trang trí hoa tươi) (ĐÚNG)\n- 4. 運ぶ (khuân vác vận chuyển)\n\n📄 Trích PDF gốc (试题解析):\n(25) 3 句意: 今天有个聚会, 所以在桌上装饰了些花。3. 飾る(かざる): 装饰",
-      "correctOption": 3
-    },
+      "snippet": "飾りました (かざりました)",
+      "text": "きょうは パーティーが あるので、テーブルに 花を (　)。",
+      "options": [
+            "かけました",
+            "おくりました",
+            "かざりました",
+            "たてました"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] かざりました (飾りました)\n\n💬 Dịch nghĩa câu:\n\"Hôm nay có bữa tiệc nên tôi đã cắm/trang trí hoa trên bàn ăn.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「かざる (飾る - Sức)」: trang trí, bài trí cho đẹp mắt. Cụm từ: 「テーブルに花を飾る」 (trang trí hoa trên bàn ăn).\n\n🔍 Phân tích các lựa chọn:\n- 1. かけました (掛ける): Treo (tranh, đồng hồ lên tường)\n- 2. おくりました (送る): Gửi đi\n- 3. かざりました (飾る): Trang trí, cắm hoa tô điểm (ĐÚNG)\n- 4. たてました (立てる): Dựng đứng lên\n\n📄 Trích PDF gốc (Trang 15 & 17 - 试题解析):\n(25) 3 句意: 今天有个聚会, 所以在桌上装饰了些花。\n1. かける(掛ける): 悬, 挂\n2. おくる(送る): 送, 寄\n3. かざる(飾る): 装饰, 修饰\n4. たてる(立てる): 竖起, 立起"
+},
     "26": {
-      "snippet": "大切 ≒ 大事",
-      "explanation": "🎯 Đáp án đúng: [2] 大切 ≒ 大事\n\n💬 Dịch nghĩa câu:\n\"Văn kiện này là tài liệu quan trọng tuyệt đối không được làm thất lạc.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ đuôi な 「たいせつ (大切: quan trọng, quý giá)」 hoàn toàn đồng nghĩa với 「だいじ (大事: hệ trọng, quan trọng)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. Dễ dàng, đơn giản (簡単)\n- 2. Quan trọng, hệ trọng (大事) (ĐÚNG)\n- 3. Đẹp mắt (綺麗)\n- 4. Rẻ tiền (安い)\n\n📄 Trích PDF gốc (试题解析):\n(26) 2 句意: 这个非常重要。(大切 ≒ 大事)",
-      "correctOption": 2
-    },
+      "snippet": "だいじ ≒ たいせつ",
+      "text": "これは とても だいじです。",
+      "options": [
+            "これは とても ゆうめいです。",
+            "これは とても たいせつです。",
+            "これは とても べんりです。",
+            "これは とても じょうぶです。"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] これは とても たいせつです。\n\n💬 Dịch nghĩa câu gốc:\n\"Cái này rất là quan trọng (大事 - だいじ).\"\n\n💡 Phân tích từ đồng nghĩa:\n• Tính từ đuôi な 「だいじ (大事: quan trọng, trọng đại)」 đồng nghĩa hoàn toàn với 「たいせつ (大切: quan trọng, quý giá)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. ゆうめい (有名): Nổi tiếng\n- 2. たいせつ (大切): Quan trọng (Đồng nghĩa với だいじ) (ĐÚNG)\n- 3. べんり (便利): Tiện lợi\n- 4. じょうぶ (丈夫): Bền chắc, khỏe mạnh\n\n📄 Trích PDF gốc (Trang 15 & 17 - 试题解析):\n(26) 2 句意: 这个非常重要。(だいじ: 重要, 要紧)\n1. 这个非常有名。\n2. 这个非常重要。(たいせつ ≒ だいじ)\n3. 这个非常方便。\n4. 这个非常结实。"
+},
     "27": {
-      "snippet": "禁煙 ≒ タバコを吸ってはいけない",
-      "explanation": "🎯 Đáp án đúng: [4] 禁煙 ≒ タバコを吸ってはいけない\n\n💬 Dịch nghĩa câu:\n\"Khu vực sảnh chờ nhà ga này là khu vực cấm hút thuốc lá tuyệt đối.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ 「禁煙 (きんえん: cấm hút thuốc)」 có ý nghĩa tương đương là: không được phép hút thuốc lá ở đây.\n\n🔍 Phân tích các lựa chọn:\n- 1. Có thể hút thuốc thoải mái\n- 2. Nơi bán thuốc lá\n- 3. Chỉ hút thuốc sau giờ làm\n- 4. Tuyệt đối không được hút thuốc lá ở đây (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(27) 4 句意: 这里禁烟。(禁煙 ≒ タバコを吸ってはいけない)",
-      "correctOption": 4
-    },
+      "snippet": "きんえん ≒ たばこを すっては いけません",
+      "text": "ここは きんえんです。",
+      "options": [
+            "ここで 右に まがってはいけません。",
+            "ここで しゃしんを とってはいけません。",
+            "ここで のみものを 飲んではいけません。",
+            "ここで たばこを すっては いけません。"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] ここで たばこを すっては いけません。\n\n💬 Dịch nghĩa câu gốc:\n\"Ở đây là khu vực cấm hút thuốc (禁煙 - きんえん).\"\n\n💡 Phân tích từ đồng nghĩa:\n• Danh từ 「きんえん (禁煙: cấm hút thuốc lá)」 mang ý nghĩa tương đương với mẫu câu cấm chỉ: 「たばこを吸ってはいけません (không được hút thuốc lá)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. Không được rẽ phải ở đây\n- 2. Không được chụp ảnh ở đây\n- 3. Không được uống đồ uống ở đây\n- 4. Không được hút thuốc lá ở đây (Đồng nghĩa với 禁煙) (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 15 & 17 - 试题解析):\n(27) 4 句意: 这里禁烟。(きんえん: 禁止吸烟)\n1. 不能在这里右转。\n2. 不能在这里拍照。\n3. 不能在这里喝饮料。\n4. 不能在这里抽烟。(たばこをすってはいけない ≒ 禁煙)"
+},
     "28": {
-      "snippet": "叱られた ≒ 怒られた",
-      "explanation": "🎯 Đáp án đúng: [4] 叱られた ≒ 怒られた\n\n💬 Dịch nghĩa câu:\n\"Hôm qua do đi chơi về muộn không xin phép nên tôi đã bị bố lớn tiếng trách mắng.\"\n\n💡 Phân tích & Giải thích:\n• Động từ bị động 「しかられた (叱られた: bị quở mắng)」 đồng nghĩa với 「怒られた (おこられた: bị nổi giận, mắng mỏ)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. Được khen ngợi (褒められた)\n- 2. Được tặng quà\n- 3. Được tha thứ\n- 4. Bị bố nổi giận trách mắng (怒られた) (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(28) 4 句意: 昨天被爸爸骂了。(叱られた ≒ 怒られた)",
-      "correctOption": 4
-    },
+      "snippet": "しかられました ≒ おこられました",
+      "text": "きのう 父に しかられました。",
+      "options": [
+            "きのう 父に わらわれました。",
+            "きのう 父に ほめられました。",
+            "きのう 父に たのまれました。",
+            "きのう 父に おこられました。"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] きのう 父に おこられました。\n\n💬 Dịch nghĩa câu gốc:\n\"Hôm qua tôi đã bị bố mắng mỏ (叱られました - しかられました).\"\n\n💡 Phân tích từ đồng nghĩa:\n• Động từ 「しかる (叱る: la mắng, quở trách)」 dạng bị động là 「しかられる」, tương đương nghĩa với 「おこる (怒る: tức giận, mắng mỏ)」 dạng bị động là 「おこられる」.\n\n🔍 Phân tích các lựa chọn:\n- 1. わらわれました (笑う): Bị cười nhạo\n- 2. ほめられました (褒める): Được khen ngợi\n- 3. たのまれました (頼む): Được nhờ vả\n- 4. おこられました (怒る): Bị nổi giận, mắng mỏ (Đồng nghĩa với しかられました) (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 15 & 17 - 试题解析):\n(28) 4 句意: 昨天被爸爸骂了。(しかる: 责备, 斥责)\n1. 爸爸昨天嘲笑我。\n2. 爸爸昨天表扬了我。\n3. 爸爸昨天拜托了我一点事。\n4. 爸爸昨天对我发脾气了。(おこられた ≒ しかられた)"
+},
     "29": {
-      "snippet": "届く ≒ 着く",
-      "explanation": "🎯 Đáp án đúng: [1] 届く ≒ 着く\n\n💬 Dịch nghĩa câu:\n\"Kiện hàng bưu điện dự kiến sẽ được giao tới địa chỉ của bạn vào lúc 9 giờ sáng mai.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「とどく (届く: được chuyển tới nơi)」 có ý nghĩa tương đương với 「つく (着く: tới nơi, đến tay người nhận)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. Giao tới nơi, đến nơi (着く) (ĐÚNG)\n- 2. Bị hoàn trả lại\n- 3. Bị hư hỏng\n- 4. Gửi đi xa\n\n📄 Trích PDF gốc (试题解析):\n(29) 1 句意: 明天9点送达那边。(届く ≒ 着く)",
-      "correctOption": 1
-    },
+      "snippet": "とどけます ≒ もっていきます",
+      "text": "あしたの 9 時に そちらに とどけます。",
+      "options": [
+            "あしたの 9 時に そちらに もっていきます。",
+            "あしたの 9 時に そちらに かえします。",
+            "あしたの 9 時に そちらに つきます。",
+            "あしたの 9 時に そちらに かえります。"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] あしたの 9 時に そちらに もっていきます。\n\n💬 Dịch nghĩa câu gốc:\n\"9 giờ ngày mai tôi sẽ mang/chuyển đồ tới chỗ bạn (届けます - とどけます).\"\n\n💡 Phân tích từ đồng nghĩa:\n• Động từ tha động từ 「とどける (届ける: mang đến, giao đến nơi)」 đồng nghĩa với 「持っていく (もっていく: mang đi đến chỗ người nghe)」.\n• Chú ý: 「とどける」 là tha động từ (= もっていく), khác với tự động từ 「とどく (届く) = つく (着く: tới nơi)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. もっていきます (持っていく): Mang đồ đến đó (Đồng nghĩa với とどけます) (ĐÚNG)\n- 2. かえします (返す): Trả lại\n- 3. つきます (着く): Đến nơi (chỉ người tới nơi)\n- 4. かえります (帰る): Về lại\n\n📄 Trích PDF gốc (Trang 15 & 17 - 试题解析):\n(29) 1 句意: 明天9点送到那边。(とどける: 送到)\n1. 明天9点拿去那边。(もっていく ≒ とどける)\n2. 明天9点还给那边。\n3. 明天9点到达那边。\n4. 明天9点回到那边。"
+},
     "30": {
-      "snippet": "生産 ≒ 作る",
-      "explanation": "🎯 Đáp án đúng: [3] 生産 ≒ 作る\n\n💬 Dịch nghĩa câu:\n\"Khu công nghiệp ngoại thành này là nơi chuyên sản xuất các dòng xe ô tô xuất khẩu.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ 「生産 (せいさん: sản xuất)」 đồng nghĩa với động từ chế tạo, tạo ra sản phẩm: 「作る (つくる)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. Sửa chữa xe hơi\n- 2. Mua bán xe ô tô\n- 3. Sản xuất, chế tạo xe ô tô (作る) (ĐÚNG)\n- 4. Lái thử xe ô tô\n\n📄 Trích PDF gốc (试题解析):\n(30) 3 句意: 这里是生产车的地方。(生産 ≒ 作る)",
-      "correctOption": 3
-    },
+      "snippet": "せいさんする ≒ つくる",
+      "text": "ここは 車を せいさんする ところです。",
+      "options": [
+            "ここは 車をかりる ところです。",
+            "ここは 車をとめる ところです。",
+            "ここは 車をつくる ところです。",
+            "ここは 車をあらう ところです。"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] ここは 車をつくる ところです。\n\n💬 Dịch nghĩa câu gốc:\n\"Đây là nơi sản xuất ô tô (生産する - せいさんする).\"\n\n💡 Phân tích từ đồng nghĩa:\n• Danh từ kiêm động từ 「せいさんする (生産する: sản xuất, chế tạo)」 tương đương với động từ thuần Nhật 「つくる (作る / 造る: tạo ra, chế tạo)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. かりる (借りる): Thuê xe, mượn xe\n- 2. とめる (止める): Đỗ xe\n- 3. つくる (作る): Chế tạo, làm ra ô tô (Đồng nghĩa với 生産する) (ĐÚNG)\n- 4. あらう (洗う): Rửa xe\n\n📄 Trích PDF gốc (Trang 15 & 17 - 试题解析):\n(30) 3 句意: 这里是生产车的地方。(せいさん: 生产)\n1. 这里是借车的地方。\n2. 这里是停车的地方。\n3. 这里是造车的地方。(つくる ≒ せいさんする)\n4. 这里是洗车的地方。"
+},
     "31": {
-      "snippet": "計画 (けいかく)",
-      "explanation": "🎯 Đáp án đúng: [2] 計画 (けいかく)\n\n💬 Dịch nghĩa câu:\n\"Chúng tôi đang lên kế hoạch cụ thể cho chuyến du lịch Hokkaido vào kỳ nghỉ đông tới.\"\n\n💡 Phân tích & Giải thích:\n• Từ 「計画 (けいかく)」 dùng để chỉ kế hoạch, dự định sắp xếp các hoạt động trong tương lai.\n\n🔍 Phân tích các lựa chọn:\n- 1. Kế hoạch cho chuyến đi du lịch mùa đông\n- 2. Kế hoạch bài tập (dùng sai) (ĐÚNG)\n- 3. Kế hoạch bữa sáng (dùng sai)\n- 4. Kế hoạch thời tiết (dùng sai)\n\n📄 Trích PDF gốc (试题解析):\n(31) 2 けいかく 意思是“计划, 规划”, 选项 2 为正确应用。",
-      "correctOption": 2
-    },
+      "snippet": "やくそく (Lời hứa, cuộc hẹn)",
+      "text": "やくそく",
+      "options": [
+            "この ひこうきは 10 時に 日本に つく やくそくです。",
+            "あしたは、母と かいものに 行く やくそくが あります。",
+            "電車の きっぷの やくそくは インターネットで できますか。",
+            "今から、きょうの 見学の やくそくを せつめいします。"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] あしたは、母と かいものに 行く やくそくが あります。\n\n💬 Dịch nghĩa câu đúng:\n\"Ngày mai tôi có hẹn đi mua sắm cùng với mẹ.\"\n\n💡 Phân tích & Giải thích cách dùng từ 「やくそく (約束)」:\n• 「やくそく (約束)」 mang nghĩa lời hứa, cuộc hẹn ước giữa người với người (thường dùng: 「～と約束がある / 約束をする」).\n\n🔍 Phân tích các lựa chọn:\n- 1. Sai: Máy bay đáp cánh lúc 10h là lịch trình/kế hoạch, phải dùng 「予定 (よてい)」.\n- 2. ĐÚNG: Hẹn đi mua sắm cùng mẹ dùng 「約束がある」 hoàn toàn chính xác.\n- 3. Sai: Đặt mua vé tàu qua mạng phải dùng 「予約 (よやく)」.\n- 4. Sai: Lịch trình tham quan giải thích cho đoàn phải dùng 「日程 (にってい)」 hoặc 「予定」.\n\n📄 Trích PDF gốc (Trang 15 & 18 - 试题解析):\n(31) 2 やくそく 意思是“约定”, 选项 2 为正确应用。\n1. 予定 这趟飞机定于10点到达日本。\n2. 明天和妈妈约好了一起去买东西。(正确)\n3. 予約 可以在网上订车票吗。\n4. 日程 现在向大家说明今天的参观日程。"
+},
     "32": {
-      "snippet": "お礼 (おれい)",
-      "explanation": "🎯 Đáp án đúng: [1] お礼 (おれい)\n\n💬 Dịch nghĩa câu:\n\"Tôi đã mua một món quà lưu niệm nhỏ để bày tỏ lời cảm ơn sâu sắc tới người đã giúp đỡ mình.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ 「お礼 (おれい)」 dùng để biểu thị sự cảm ơn, đền đáp ơn nghĩa đối với người đã giúp đỡ mình.\n\n🔍 Phân tích các lựa chọn:\n- 1. Tặng quà để nói lời cảm ơn người đã giúp đỡ (ĐÚNG)\n- 2. Nói lời cảm ơn vì đi muộn (phải dùng お詫び/謝罪)\n- 3. Xin lỗi khi làm rơi vỡ đồ\n- 4. Chào tạm biệt\n\n📄 Trích PDF gốc (试题解析):\n(32) 1 お礼 意思是“感谢, 谢礼”, 选项 1 为正确应用。",
-      "correctOption": 1
-    },
+      "snippet": "おれい (Lời cảm ơn, sự tạ ơn)",
+      "text": "おれい",
+      "options": [
+            "おみやげを もらったので、おれいを 言いました。",
+            "にゅういんした とき、友だちが おれいに 来て くれました。",
+            "きょうは 父の たんじょうびの おれいを 買いに 行きます。",
+            "「しつれいします」と 言って、おれいを してから へやに 入ります。"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] おみやげを もらったので、おれいを 言いました。\n\n💬 Dịch nghĩa câu đúng:\n\"Vì được nhận quà lưu niệm nên tôi đã nói lời cảm ơn.\"\n\n💡 Phân tích & Giải thích cách dùng từ 「おれい (お礼)」:\n• 「おれい (お礼)」 mang nghĩa lời cảm ơn, sự tạ ơn hoặc quà tạ ơn sau khi được ai đó giúp đỡ/tặng đồ. Cụm từ thông dụng: 「お礼を言う」 (nói lời cảm ơn).\n\n🔍 Phân tích các lựa chọn:\n- 1. ĐÚNG: Được nhận quà nên nói lời cảm ơn (お礼を言いました).\n- 2. Sai: Đến thăm người ốm nằm viện phải dùng 「お見舞い (おみまい)」.\n- 3. Sai: Mua quà tặng nhân dịp sinh nhật của bố phải dùng 「プレゼント」.\n- 4. Sai: Nói 'thất lễ' rồi cúi chào trước khi vào phòng là 「おじぎ」 hoặc 「挨拶 (あいさつ)」.\n\n📄 Trích PDF gốc (Trang 15 & 18 - 试题解析):\n(32) 1 お礼 意思是“感谢”, 选项 1 为正确应用。\n1. 收到了礼物, 所以道了谢。(正确)\n2. お見舞い 住院的时候, 朋友来看望了我。\n3. プレゼント 今天要去给父亲买生日礼物。\n4. 挨拶 打招呼说“不好意思”后, 再进房间。"
+},
     "33": {
-      "snippet": "丁寧 (ていねい)",
-      "explanation": "🎯 Đáp án đúng: [1] 丁寧 (ていねい)\n\n💬 Dịch nghĩa câu:\n\"Khi nói chuyện giao tiếp với thầy cô giáo, việc dùng lời lẽ lịch sự và lễ phép là vô cùng quan trọng.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ đuôi な 「丁寧 (ていねい)」 mang nghĩa là lịch thiệp, lễ phép, cẩn thận chỉn chu.\n\n🔍 Phân tích các lựa chọn:\n- 1. Sử dụng ngôn ngữ lịch sự, lễ phép với thầy giáo (ĐÚNG)\n- 2. Thời tiết lịch sự (dùng sai)\n- 3. Đồ ăn lịch sự (dùng sai)\n- 4. Con đường lịch sự (dùng sai)\n\n📄 Trích PDF gốc (试题解析):\n(33) 1 ていねい 意思是“有礼貌, 恭敬”, 选项 1 为正确应用。",
-      "correctOption": 1
-    },
+      "snippet": "ていねい (Lịch sự, lễ phép, chỉn chu)",
+      "text": "ていねい",
+      "options": [
+            "デパートや ホテルの 人は ていねいな ことばを つかいます。",
+            "父の たんじょうびに ていねいな レストランに 行きました。",
+            "女の人に 年を 聞くのは ていねいでは ありません。",
+            "この おかしは あじが とても ていねいですね。"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] デパートや ホテルの 人は ていねいな ことばを つかいます。\n\n💬 Dịch nghĩa câu đúng:\n\"Nhân viên tại trung tâm thương mại và khách sạn sử dụng ngôn từ rất lịch sự và nhã nhặn.\"\n\n💡 Phân tích & Giải thích cách dùng từ 「ていねい (丁寧)」:\n• Tính từ đuôi な 「ていねい (丁寧)」 mô tả thái độ, ngôn ngữ lịch sự, lễ phép hoặc cách làm việc tỉ mỉ, cẩn thận. Cụm từ: 「丁寧な言葉 (ngôn từ lịch sự)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. ĐÚNG: Nhân viên khách sạn dùng lời lẽ lịch sự (丁寧な言葉).\n- 2. Sai: Nhà hàng sang trọng phải dùng 「高級な (こうきゅうな)」 hoặc 「素敵な」.\n- 3. Sai: Hỏi tuổi phụ nữ là hành vi khiếm nhã, thất lễ, phải dùng 「失礼 (しつれい)」.\n- 4. Sai: Vị của bánh ngon phải dùng 「上品な (nhã nhặn)」 hoặc 「美味しい」.\n\n📄 Trích PDF gốc (Trang 15 & 18 - 试题解析):\n(33) 1 ていねい 意思是“有礼貌, 恭敬”, 选项 1 为正确应用。\n1. 商场和酒店的人员说话时都会使用比较恭敬的言辞。(正确)\n2. 豪華 父亲生日的时候, 我们去了一家豪华酒店。\n3. 失礼 询问女性的年龄是很不礼貌的。\n4. 美味しい 这种点心非常好吃。"
+},
     "34": {
-      "snippet": "濡れる (ぬれる)",
-      "explanation": "🎯 Đáp án đúng: [3] 濡れる (ぬれる)\n\n💬 Dịch nghĩa câu:\n\"Trời bất chợt đổ mưa to mà tôi lại không mang theo ô nên quần áo đã bị ướt sũng hết cả.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「ぬれる (濡れる)」: bị dính nước, bị ướt sũng do trời mưa hay đổ nước.\n\n🔍 Phân tích các lựa chọn:\n- 1. Bị rách áo\n- 2. Bị bẩn áo\n- 3. Áo quần bị dính nước mưa ướt sũng (ĐÚNG)\n- 4. Bị khô quần áo\n\n📄 Trích PDF gốc (试题解析):\n(34) 3 ぬれる 意思是“淋湿, 湿透”, 选项 3 为正确应用。",
-      "correctOption": 3
-    },
+      "snippet": "ぬれる (Ướt, bị dính nước)",
+      "text": "ぬれる",
+      "options": [
+            "チョコレートで 手が ぬれて しまいました。",
+            "もりの 中の 空気は いつも ぬれて います。",
+            "雨で せんたくものが ぬれて しまいました。",
+            "この メロンは ぬれて いて、おいしいですね。"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] 雨で せんたくものが ぬれて しまいました。\n\n💬 Dịch nghĩa câu đúng:\n\"Vì trời mưa nên quần áo phơi đã bị ướt sũng mất rồi.\"\n\n💡 Phân tích & Giải thích cách dùng từ 「ぬれる (濡れる)」:\n• Động từ 「ぬれる (濡れる)」 nghĩa là bị dính nước, bị ướt (do mưa, nước hắt vào). Cụm từ: 「雨でぬれる」 (bị ướt vì mưa).\n\n🔍 Phân tích các lựa chọn:\n- 1. Sai: Tay dính bẩn do socola phải dùng 「汚れて (よごれて)」.\n- 2. Sai: Không khí ẩm ướt trong rừng phải dùng 「湿って (しめって)」 hoặc 「潤って」.\n- 3. ĐÚNG: Đồ giặt phơi bị dính nước mưa ướt sũng (雨で洗濯物が濡れる).\n- 4. Sai: Dưa lưới mọng nước ngon lành phải dùng 「みずみずしい」.\n\n📄 Trích PDF gốc (Trang 15 & 18 - 试题解析):\n(34) 3 ぬれる 意思是“淋湿”, 选项 3 为正确应用。\n1. 汚れる 巧克力把手弄脏了。\n2. 潤う 森林里的空气总是很湿润。\n3. 下雨了, 洗好的衣服又都湿透了。(正确)\n4. みずみずしい 这个蜜瓜水灵灵的, 非常好吃。"
+},
     "35": {
-      "snippet": "沸かす (わかす)",
-      "explanation": "🎯 Đáp án đúng: [4] 沸かす (わかす)\n\n💬 Dịch nghĩa câu:\n\"Tôi đang đun sôi nước nóng trong ấm đun để pha một tách trà nóng ấm.\"\n\n💡 Phân tích & Giải thích:\n• Động từ tha động từ 「わかす (沸かす)」: đun sôi nước (お湯を沸かす).\n\n🔍 Phân tích các lựa chọn:\n- 1. Đun sôi thức ăn (phải dùng 煮る/炊く)\n- 2. Nấu cơm (phải dùng ご飯を炊く)\n- 3. Nướng bánh (phải dùng 焼く)\n- 4. Đun sôi nước để pha trà (お湯を沸かす) (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(35) 4 わかす 意思是“烧开, 煮沸”, 选项 4 为正确应用。",
-      "correctOption": 4
-    },
-    "36": {
-      "snippet": "料理に使う (Dùng vào mục đích nấu ăn)",
-      "explanation": "🎯 Đáp án đúng: [2] 料理に使う (Dùng vào mục đích nấu ăn)\n\n💬 Dịch nghĩa câu:\n\"Nhà hàng này tự trồng các loại rau củ sạch ngay trong vườn nhà để dùng vào việc nấu nướng.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc 「Danh từ + に使う」 biểu thị mục đích sử dụng của một sự vật: rau sạch dùng cho việc nấu nướng món ăn.\n\n🔍 Phân tích các lựa chọn:\n- 1. 料理を使う: Sai trợ từ bổ ngữ\n- 2. 料理に使う: ĐÚNG - Dùng vào mục đích nấu nướng món ăn (ĐÚNG)\n- 3. 料理で使う: Bằng món ăn\n- 4. 料理を使うに: Sai cấu trúc\n\n📄 Trích PDF gốc (试题解析):\n(1) 2 句意: 这家餐馆在院子里种植做菜时要用的蔬菜。考察に表示目的用途。",
-      "correctOption": 2
-    },
+      "snippet": "わかす (Đun sôi nước)",
+      "text": "わかす",
+      "options": [
+            "はしる前に、少し うんどうを して、からだを わかしました。",
+            "わかした たまごを 半分にして、サラダに 入れました。",
+            "さむいので、ストーブで へやを わかしましょう。",
+            "お茶を 入れるから、おゆを わかして ください。"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] お茶を 入れるから、おゆを わかして ください。\n\n💬 Dịch nghĩa câu đúng:\n\"Tôi chuẩn bị pha trà nên bạn hãy đun sôi nước giúp tôi nhé.\"\n\n💡 Phân tích & Giải thích cách dùng từ 「わかす (沸かす)」:\n• Động từ tha động từ 「わかす (沸かす)」 đặc thù dùng cho việc đun sôi nước hoặc làm nóng nước tắm: 「お湯を沸かす (đun sôi nước)」, 「お風呂を沸かす (nấu nước tắm)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. Sai: Làm nóng/khởi động làm ấm cơ thể phải dùng 「暖かくする / 温める」.\n- 2. Sai: Trứng luộc chín phải dùng 「茹でた (ゆでた)」.\n- 3. Sai: Sưởi ấm phòng bằng lò sưởi phải dùng 「暖める (あたためる)」.\n- 4. ĐÚNG: Đun sôi nước để pha trà (お湯を沸かす).\n\n📄 Trích PDF gốc (Trang 15 & 18 - 试题解析):\n(35) 4 わかす 意思是“烧开”, 选项 4 为正确应用。\n1. 暖かくする 在跑步前先做运动热身。\n2. 茹でる 把煮好的鸡蛋一分为二, 放进沙拉里。\n3. 暖める 天气很冷, 把房间里的火炉打开取暖吧。\n4. 因为要泡茶, 所以请烧点开水。(正确)"
+},
+        "36": {
+      "snippet": "に (Chỉ mục đích/công dụng: 料理に使う)",
+      "text": "この レストランでは、料理 (　) 使う野菜を 庭で 育てています。",
+      "options": [
+            "は",
+            "に",
+            "や",
+            "の"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] に\n\n💬 Dịch nghĩa câu:\n\"Tại nhà hàng này, các loại rau củ dùng cho việc nấu nướng (料理に使う) đều được tự trồng ngay trong vườn nhà.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Trợ từ 「に」 đi sau danh từ biểu thị mục đích sử dụng hoặc công dụng của một sự vật: 「N + に使う」 (dùng vào việc N, dùng cho mục đích N).\n• Ở đây: 「料理に使う野菜」 là rau củ dùng cho việc nấu nướng.\n\n🔍 Phân tích các lựa chọn:\n- 1. は: Trợ từ chủ đề, không kết hợp với 使う theo nghĩa này\n- 2. に: Biểu thị mục đích/công dụng sử dụng (ĐÚNG)\n- 3. や: Trợ từ liệt kê không đầy đủ\n- 4. の: Sở hữu cách, không diễn tả đúng mục đích hành động dùng\n\n📄 Trích PDF gốc (Trang 15 & 18 - 试题解析):\n(1) 2 句意: 这家餐馆在院子里种植做菜时要用的蔬菜。\n考察に表示某物品用于特定目的或用途的用法。"
+},
     "37": {
-      "snippet": "2個ずつ (Mỗi thứ 2 cái)",
-      "explanation": "🎯 Đáp án đúng: [3] 2個ずつ (Mỗi thứ 2 cái)\n\n💬 Dịch nghĩa câu:\n\"Khách hàng trong tiệm bánh ngọt: 'Xin lỗi, bánh dâu tây và bánh sô-cô-la cho tôi mỗi loại 2 chiếc nhé.'\"\n\n💡 Phân tích & Giải thích:\n• Hậu tố 「～ずつ」 đứng sau lượng từ mang ý nghĩa 'mỗi... / từng... đều đặn một phần bằng nhau'.\n\n🔍 Phân tích các lựa chọn:\n- 1. 2個まで: Tối đa 2 cái\n- 2. 2個ほど: Khoảng chừng 2 cái\n- 3. 2個ずつ: ĐÚNG - Mỗi loại 2 chiếc đều nhau (ĐÚNG)\n- 4. 2個ばかり: Khoảng tầm 2 cái\n\n📄 Trích PDF gốc (试题解析):\n(2) 3 句意: 草莓蛋糕和巧克力蛋糕请各给我两个。考察ずつ表示等量分配。",
-      "correctOption": 3
-    },
+      "snippet": "ずつ (Mỗi loại đều đặn: 二つずつ)",
+      "text": "(ケーキ屋で) 客「すみません。いちごの ケーキと、チョコレートの ケーキを 二つ (　) ください。」",
+      "options": [
+            "と",
+            "が",
+            "ずつ",
+            "など"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] ずつ\n\n💬 Dịch nghĩa câu:\n\"(Tại tiệm bánh) Khách: 'Xin lỗi, cho tôi xin bánh dâu tây và bánh sô-cô-la mỗi loại 2 chiếc nhé.'\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Hậu tố 「ずつ」 đứng sau lượng từ biểu thị sự phân chia số lượng đồng đều cho từng đối tượng: 「二つずつ」 (mỗi loại 2 chiếc).\n\n🔍 Phân tích các lựa chọn:\n- 1. と: Trợ từ nối và (không đứng sau số từ 二つ theo ngữ cảnh này)\n- 2. が: Trợ từ chủ ngữ\n- 3. ずつ: Biểu thị mỗi thứ/từng phần đều nhau (ĐÚNG)\n- 4. など: Vân vân\n\n📄 Trích PDF gốc (Trang 15 & 18 - 试题解析):\n(2) 3 句意: (蛋糕店) 客人: “不好意思, 草莓蛋糕和巧克力蛋糕请各给我两个。”\n考察ずつ跟在数量词后表示等量分配或重复的用法, 意为“每……, 各……”。"
+},
     "38": {
-      "snippet": "きのうと (Khác biệt so với hôm qua)",
-      "explanation": "🎯 Đáp án đúng: [1] きのうと (Khác biệt so với hôm qua)\n\n💬 Dịch nghĩa câu:\n\"Trái ngược hoàn toàn so với ngày hôm qua mưa gió, thời tiết ngày hôm nay vô cùng đẹp và nắng ráo.\"\n\n💡 Phân tích & Giải thích:\n• Mẫu câu so sánh đối chiếu: 「A は B と 違う」 (A thì khác biệt so với B). Cụm từ: きのうと違って.\n\n🔍 Phân tích các lựa chọn:\n- 1. きのうと: ĐÚNG - Khác với ngày hôm qua (ĐÚNG)\n- 2. きのうに: Sai trợ từ đối chiếu\n- 3. きのうを: Sai trợ từ bổ ngữ\n- 4. きのうで: Sai trợ từ phương tiện\n\n📄 Trích PDF gốc (试题解析):\n(3) 1 句意: 和昨天不同, 今天天气很好。考察～と違って表示对比不同。",
-      "correctOption": 1
-    },
+      "snippet": "と (So sánh đối chiếu: きのうと違って)",
+      "text": "きのう (　) 違って、今日は いい天気です。",
+      "options": [
+            "と",
+            "の",
+            "に",
+            "まで"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] と\n\n💬 Dịch nghĩa câu:\n\"Khác với ngày hôm qua, hôm nay thời tiết rất đẹp.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Mẫu câu so sánh đối chiếu sự khác biệt: 「A は B と 違う / と 違って」 (A khác với B).\n• Cụm từ cố định: 「きのうと違って」 (khác với hôm qua).\n\n🔍 Phân tích các lựa chọn:\n- 1. と: Đi với 違って biểu thị đối tượng so sánh sự khác biệt (ĐÚNG)\n- 2. の: Trợ từ sở hữu\n- 3. に: Sai trợ từ đối chiếu\n- 4. まで: Cho đến khi\n\n📄 Trích PDF gốc (Trang 15 & 18 - 试题解析):\n(3) 1 句意: 和昨天不同, 今天天气很好。\n考察と表示比较对象的用法。"
+},
     "39": {
-      "snippet": "からいですね (Cảm thán khen/chê hương vị)",
-      "explanation": "🎯 Đáp án đúng: [2] からいですね (Cảm thán khen/chê hương vị)\n\n💬 Dịch nghĩa câu:\n\"A: 'Món cà ri kiểu Ấn Độ này cay nồng thật đấy nhỉ!' - B: 'Vâng, cay nhưng mà hương vị rất tuyệt.'\"\n\n💡 Phân tích & Giải thích:\n• Trợ từ cuối câu 「ね」 dùng để tìm kiếm sự đồng cảm của đối phương trước một thực tế hiển nhiên đang cùng trải nghiệm.\n\n🔍 Phân tích các lựa chọn:\n- 1. からいです: Câu trần thuật đơn thuần\n- 2. からいですね: ĐÚNG - Cay thật đấy nhỉ (đồng cảm) (ĐÚNG)\n- 3. からいですよ: Nhấn mạnh thông tin đối phương chưa biết\n- 4. からいのか: Nghi vấn tự hỏi\n\n📄 Trích PDF gốc (试题解析):\n(4) 2 句意: 这种咖喱好辣呀。考察终助词ね表示寻求认同。",
-      "correctOption": 2
-    },
+      "snippet": "には (Đối với tôi: 私には)",
+      "text": "A「この カレーは からいですね。」\nB「えっ？そうですか。私 (　) からくないですよ。」",
+      "options": [
+            "では",
+            "には",
+            "と",
+            "へ"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] には\n\n💬 Dịch nghĩa câu:\n\"A: 'Món cà ri này cay thật đấy nhỉ.'\nB: 'Ơ? Thế ạ? Đối với tôi thì không cay đâu nhé.'\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc 「N + に(は)」 đứng trước tính từ để biểu thị lập trường, điểm nhìn hoặc tiêu chuẩn đánh giá của một đối tượng cụ thể: 「私には～」 (đối với bản thân tôi thì...).\n• Trợ từ 「は」 thêm vào sau 「に」 nhằm nhấn mạnh sự tương phản với cảm nhận của người A.\n\n🔍 Phân tích các lựa chọn:\n- 1. では: Ở tại / bằng (không dùng cho cảm nhận cá nhân)\n- 2. には: Đối với... (biểu thị góc nhìn, cảm nhận cá nhân) (ĐÚNG)\n- 3. と: Với, cùng\n- 4. へ: Hướng về phía\n\n📄 Trích PDF gốc (Trang 15 & 18 - 试题解析):\n(4) 2 句意: A: “这种咖喱好辣呀。” B: “啊, 是么? 我觉得不辣呀。”\n考察に在形容词作谓语时表示比较基准或对象的用法, 后面的は起强调作用。"
+},
     "40": {
-      "snippet": "いいにおい (Mùi hương thơm bay ra)",
-      "explanation": "🎯 Đáp án đúng: [4] いいにおい (Mùi hương thơm bay ra)\n\n💬 Dịch nghĩa câu:\n\"Từ phía gian bếp đang tỏa ra một mùi hương thơm phức ngào ngạt của đồ ăn chín tới.\"\n\n💡 Phân tích & Giải thích:\n• Cụm từ cố định: 「においがする / 味がする / 声がする」 (có mùi hương tỏa ra / có vị / có tiếng phát ra).\n\n🔍 Phân tích các lựa chọn:\n- 1. いい味: Vị ngon (không dùng với tỏa mùi từ bếp)\n- 2. いい声: Giọng nói hay\n- 3. いい音: Âm thanh hay\n- 4. いいにおい: ĐÚNG - Mùi thơm phức tỏa ra (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(5) 4 句意: 厨房飘出了一阵香味。考察においがする表示散发气味。",
-      "correctOption": 4
-    },
+      "snippet": "が (Cảm nhận mùi hương: いいにおいがする)",
+      "text": "A「台所から いいにおい (　) しますね。」\nB「クッキーを 焼いているんです。」",
+      "options": [
+            "で",
+            "に",
+            "を",
+            "が"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] が\n\n💬 Dịch nghĩa câu:\n\"A: 'Từ dưới bếp đang tỏa ra mùi thơm phức nhỉ.'\nB: 'Tôi đang nướng bánh quy đấy.'\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Mẫu câu biểu thị tri giác giác quan (mùi, vị, âm thanh): 「N + がする」.\n• Ví dụ: 「においがする」 (có mùi thơm/lạ), 「味がする」 (có vị), 「声がする」 (có tiếng nói), 「音がする」 (có tiếng động).\n\n🔍 Phân tích các lựa chọn:\n- 1. で: Bằng, tại\n- 2. に: Vào lúc, đối với\n- 3. を: Bổ ngữ tân ngữ (không dùng *においをする)\n- 4. が: Đi với します tạo thành cụm cảm nhận tri giác giác quan (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 15 & 18 - 试题解析):\n(5) 4 句意: A: “厨房飘出了一阵香味。” B: “是在烤饼干。”\n考察句型～がする接在表示气味、香味、声音和感觉等名词后, 表示有这种感觉等意思。"
+},
     "41": {
-      "snippet": "～ように (Để có thể - chỉ mục đích)",
-      "explanation": "🎯 Đáp án đúng: [1] ～ように (Để có thể - chỉ mục đích)\n\n💬 Dịch nghĩa câu:\n\"Mỗi ngày tôi đều kiên trì luyện nghe và nói tiếng Nhật để có thể giao tiếp trôi chảy tự nhiên.\"\n\n💡 Phân tích & Giải thích:\n• Mẫu câu 「Động từ thể khả năng + ように」 diễn tả mục đích hướng tới một trạng thái hoặc năng lực mong muốn.\n\n🔍 Phân tích các lựa chọn:\n- 1. 話せるように: ĐÚNG - Để có thể nói được trôi chảy (ĐÚNG)\n- 2. 話すために: Để nói (thiếu khả năng)\n- 3. 話すように: Sai dạng\n- 4. 話せるために: Sai ngữ pháp\n\n📄 Trích PDF gốc (试题解析):\n(6) 1 句意: 为了能流利地用日语交流而每天练习。考察ように前接可能态表示目的。",
-      "correctOption": 1
-    },
+      "snippet": "いつでも (Bất cứ khi nào: いつでも買い物ができて)",
+      "text": "インターネットを 使えば、(　) 買い物が できて、便利です。",
+      "options": [
+            "いつでも",
+            "いつまで",
+            "どこから",
+            "どこにも"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] いつでも\n\n💬 Dịch nghĩa câu:\n\"Nếu dùng mạng Internet thì bất cứ lúc nào cũng có thể mua sắm được, rất tiện lợi.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Từ để hỏi 「いつ」 kết hợp với 「でも」 tạo thành phó từ: 「いつでも」 mang nghĩa 'bất kỳ lúc nào, lúc nào cũng được' (24/7).\n\n🔍 Phân tích các lựa chọn:\n- 1. いつでも: Bất cứ lúc nào (ĐÚNG)\n- 2. いつまで: Đến khi nào\n- 3. どこから: Từ đâu\n- 4. どこにも: Không ở bất kỳ đâu (đi với phủ định)\n\n📄 Trích PDF gốc (Trang 15 & 18 - 试题解析):\n(6) 1 句意: 在网上随时都能买东西, 十分方便。\n1. いつでも: 随时  2. いつまで: 到什么时候  3. どこから: 从哪里开始  4. どこにも: 任何地方"
+},
     "42": {
-      "snippet": "落としてしまった (Lỡ tay đánh rơi)",
-      "explanation": "🎯 Đáp án đúng: [2] 落としてしまった (Lỡ tay đánh rơi)\n\n💬 Dịch nghĩa câu:\n\"Ở nhà ga, hành khách hớt hải báo nhân viên: 'Xin lỗi, hình như có ai đó vừa lỡ tay đánh rơi chiếc ví này.'\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc 「V-て + しまう」 diễn tả một hành động xảy ra ngoài ý muốn, sơ ý gây ra sự việc đáng tiếc.\n\n🔍 Phân tích các lựa chọn:\n- 1. 落としかけた: Suýt nữa đánh rơi\n- 2. 落としてしまった: ĐÚNG - Lỡ đánh rơi mất (ĐÚNG)\n- 3. 落としそうだ: Trông có vẻ sắp rơi\n- 4. 落とすはずだ: Chắc chắn rơi\n\n📄 Trích PDF gốc (试题解析):\n(7) 2 句意: 不好意思, 有人掉了钱包。考察～てしまう表示意外发生的事情。",
-      "correctOption": 2
-    },
+      "snippet": "まだ (Vẫn chưa: まだ決まっていない)",
+      "text": "明日から 三日間 京都へ 行く 予定だが、泊まる ホテルが (　) 決まって いない。",
+      "options": [
+            "もう",
+            "まだ",
+            "そろそろ",
+            "もうすぐ"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] まだ\n\n💬 Dịch nghĩa câu:\n\"Dự định từ ngày mai tôi sẽ đi Kyoto 3 ngày, thế nhưng khách sạn ở lại thì vẫn chưa quyết định xong.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc: 「まだ + V-ていない」 diễn tả một hành động hoặc sự việc dự kiến nhưng 'vẫn chưa' được thực hiện hay hoàn thành.\n\n🔍 Phân tích các lựa chọn:\n- 1. もう: Đã... rồi (thường đi với khẳng định)\n- 2. まだ: Vẫn chưa (đi với ていない) (ĐÚNG)\n- 3. そろそろ: Sắp sửa, chuẩn bị\n- 4. もうすぐ: Sắp sửa ngay\n\n📄 Trích PDF gốc (Trang 15 & 18 - 试题解析):\n(7) 2 句意: 计划从明天起去京都三天, 但住的酒店还没决定。\n考察句型まだ～ない, 表示预订的事还未进行或还未完成之意, 意为“还没……”。"
+},
     "43": {
-      "snippet": "～だけ (Chỉ duy nhất)",
-      "explanation": "🎯 Đáp án đúng: [3] ～だけ (Chỉ duy nhất)\n\n💬 Dịch nghĩa câu:\n\"Buổi sáng tôi thường rất bận rộn nên bữa sáng tôi chỉ ăn duy nhất một quả chuối là đi làm ngay.\"\n\n💡 Phân tích & Giải thích:\n• Trợ từ 「だけ」 biểu thị sự giới hạn duy nhất: chỉ ăn chuối chứ không ăn gì khác.\n\n🔍 Phân tích các lựa chọn:\n- 1. バナナしか: Đi với phủ định (phải là 食べない)\n- 2. バナナだけ: ĐÚNG - Chỉ ăn chuối (đi với khẳng định 食べる)\n- 3. バナナでも: Cho dù là chuối (ĐÚNG)\n- 4. バナナほど: Cỡ chừng chuối\n\n📄 Trích PDF gốc (试题解析):\n(8) 2 句意: 我早上一般都只吃香蕉。考察だけ接肯定句表示唯一限定。",
-      "correctOption": 3
-    },
+      "snippet": "すっかり (Hoàn toàn khỏi bệnh: すっかり元気に)",
+      "text": "田中「森さん、先週は かぜで お休みでしたね。具合は どうですか。」\n森「はい、(　) 元気に なりました。」",
+      "options": [
+            "よく",
+            "あまり",
+            "すっかり",
+            "かならず"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] すっかり\n\n💬 Dịch nghĩa câu:\n\"Tanaka: 'Mori ơi, tuần trước bạn bị cảm nên nghỉ học/làm nhỉ. Tình hình sức khỏe thế nào rồi?'\nMori: 'Vâng, tôi đã khỏe hẳn hoàn toàn rồi ạ.'\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Phó từ 「すっかり」 mang nghĩa 'hoàn toàn, triệt để'. Thường đi kèm với các từ chỉ sự hồi phục hoặc thay đổi toàn diện: 「すっかり元気になる」 (khỏe hẳn hoàn toàn), 「すっかり忘れた」 (quên sạch).\n\n🔍 Phân tích các lựa chọn:\n- 1. よく: Thường xuyên, rõ ràng\n- 2. あまり: Không... lắm (phải đi với phủ định)\n- 3. すっかり: Hoàn toàn, khỏi hẳn (ĐÚNG)\n- 4. かならず: Nhất định\n\n📄 Trích PDF gốc (Trang 15 & 18 - 试题解析):\n(8) 3 句意: 田中: “小森, 你上周因为感冒请假了吧。现在身体情况如何?” 森: “嗯, 已经完全恢复了。”\n1. よく: 经常  2. あまり: (不)太……  3. すっかり: 完全  4. かならず: 一定, 肯定"
+},
     "44": {
-      "snippet": "～たらいい (Lời khuyên nên làm gì)",
-      "explanation": "🎯 Đáp án đúng: [3] ～たらいい (Lời khuyên nên làm gì)\n\n💬 Dịch nghĩa câu:\n\"Sắp đến ngày sinh nhật bạn Komori rồi, tôi nên tặng món quà gì cho bạn ấy thì tốt bây giờ nhỉ?\"\n\n💡 Phân tích & Giải thích:\n• Mẫu câu hỏi xin ý kiến hoặc gợi ý: 「Từ để hỏi + V-たらいいですか」 (Nên làm thế nào thì tốt?).\n\n🔍 Phân tích các lựa chọn:\n- 1. あげるといい: Nếu tặng\n- 2. あげてもいい: Tặng cũng được\n- 3. あげたらいい: ĐÚNG - Nên tặng quà gì thì được (ĐÚNG)\n- 4. あげるならいい: Nếu là tặng thì được\n\n📄 Trích PDF gốc (试题解析):\n(9) 3 句意: 小森的生日送她什么好呢? 考察～たらいいですか征求建议。",
-      "correctOption": 3
-    },
+      "snippet": "によって (Bởi ai đó - Bị động: 村の人たちによって)",
+      "text": "この 神社の 祭りは、長い間 村の人たち (　) 続けられている。",
+      "options": [
+            "から",
+            "より",
+            "によって",
+            "について"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] によって\n\n💬 Dịch nghĩa câu:\n\"Lễ hội của ngôi đền này đã được duy trì từ bao đời nay bởi những người dân trong làng.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Trong câu bị động (ở đây là động từ 「続けられている - được tiếp tục duy trì」), chủ thể thực hiện hành động tạo ra, sáng tạo hoặc duy trì sự vật mang tính tập thể/xã hội được biểu thị bằng: 「N + によって」 (bởi N).\n\n🔍 Phân tích các lựa chọn:\n- 1. から: Từ\n- 2. より: Hơn so với\n- 3. によって: Được làm/duy trì bởi (trong câu bị động) (ĐÚNG)\n- 4. について: Về vấn đề\n\n📄 Trích PDF gốc (Trang 15 & 18 - 试题解析):\n(9) 3 句意: 这间神社的祭祀典礼, 在很长一段时间内都是由村里的人延续下来的。\n根据句尾动词的形态可知本句是一个被动句, 考察によって在被动句中表示实施动作的主体的用法。"
+},
     "45": {
-      "snippet": "～てくる (Làm gì rồi quay lại)",
-      "explanation": "🎯 Đáp án đúng: [4] ～てくる (Làm gì rồi quay lại)\n\n💬 Dịch nghĩa câu:\n\"Tôi cảm thấy khát nước quá, để tôi chạy qua máy bán hàng tự động đằng kia mua lon nước rồi quay lại ngay nhé.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc 「V-て + くる」 biểu thị việc đi đến một nơi khác thực hiện hành động V rồi quay trở về vị trí hiện tại.\n\n🔍 Phân tích các lựa chọn:\n- 1. 買いに行く: Đi mua (chưa thể hiện quay về)\n- 2. 買っていく: Mua rồi mang đi nơi khác\n- 3. 買ったところだ: Vừa mới mua xong\n- 4. 買ってくる: ĐÚNG - Mua xong rồi quay lại ngay (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(10) 4 句意: 我想喝点东西, 马上买完过来。考察～てくる表示去去就回。",
-      "correctOption": 4
-    },
+      "snippet": "熱心に (Chăm chú/Nhiệt tình: 熱心に聞いて)",
+      "text": "入学式の 間、子どもたちは 先生の 話を (　) 聞いて いました。",
+      "options": [
+            "熱心",
+            "熱心な",
+            "熱心で",
+            "熱心に"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] 熱心に\n\n💬 Dịch nghĩa câu:\n\"Trong suốt buổi lễ khai giảng, các em học sinh đã chăm chú lắng nghe câu chuyện của thầy cô giáo.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• 「熱心 (ねっしん)」 là tính từ đuôi な. Khi làm phó từ bổ nghĩa cho động từ 「聞く (nghe)」, đuôi な biến đổi thành に: 「熱心に + V」 (làm việc gì một cách nhiệt tình, chăm chú).\n\n🔍 Phân tích các lựa chọn:\n- 1. 熱心: Danh từ/tính từ nguyên thể\n- 2. 熱心な: Đứng trước danh từ (熱心な先生)\n- 3. 熱心で: Thể Te nối câu\n- 4. 熱心に: Phó từ bổ nghĩa cho động từ 聞いていました (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 15 & 18 - 试题解析):\n(10) 4 句意: 在开学仪式上, 孩子们都专心地听着老师的发言。\n形容词修饰动词时, 需将词尾だ变为に后再接动词。"
+},
     "46": {
-      "snippet": "～のに (Mặc dù... mà)",
-      "explanation": "🎯 Đáp án đúng: [1] ～のに (Mặc dù... mà)\n\n💬 Dịch nghĩa câu:\n\"Mặc dù hôm nay tôi đã hẹn trước rất cẩn thận với anh ấy, thế nhưng mãi mà anh ấy chẳng thấy xuất hiện.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc 「Thể thông thường + のに」 biểu thị sự tương phản mang sắc thái bất ngờ, tiếc nuối hoặc trách móc.\n\n🔍 Phân tích các lựa chọn:\n- 1. 約束したのに: ĐÚNG - Mặc dù đã hẹn trước vậy mà (ĐÚNG)\n- 2. 約束するのに: Dùng cho mục đích\n- 3. 約束したから: Vì đã hẹn\n- 4. 約束すれば: Nếu hẹn\n\n📄 Trích PDF gốc (试题解析):\n(11) 1 句意: 明明已经约好了, 他却没有来。考察句型～のに表示逆接。",
-      "correctOption": 1
-    },
+      "snippet": "のぼる (Dự định leo núi: のぼるつもり)",
+      "text": "私は 来年の 夏、富士山に (　) つもりです。",
+      "options": [
+            "のぼる",
+            "のぼった",
+            "のぼろう",
+            "のぼりたい"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] のぼる\n\n💬 Dịch nghĩa câu:\n\"Tôi dự định mùa hè năm sau sẽ leo núi Phú Sĩ.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc diễn tả ý định, dự tính của người nói: 「V-る (thể từ điển) + つもりです」 (dự định làm gì) hoặc 「V-ない + つもりです」 (dự định không làm gì).\n• Vì vậy phải dùng thể từ điển 「のぼる (登る: leo)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. のぼる: Thể từ điển kết hợp với つもり (ĐÚNG)\n- 2. のぼった: Thể quá khứ (không dùng *のぼったつもり cho dự định tương lai)\n- 3. のぼろう: Thể ý chí\n- 4. のぼりたい: Thể muốn (không ghép *のぼりたいつもり)\n\n📄 Trích PDF gốc (Trang 15 & 19 - 试题解析):\n(11) 1 句意: 我明天夏天准备去爬富士山。\n考察句型～つもり, 常用用于表示意志或意图, 前接动词的基本形或否定形。"
+},
     "47": {
-      "snippet": "～なければならない (Bắt buộc phải làm)",
-      "explanation": "🎯 Đáp án đúng: [1] ～なければならない (Bắt buộc phải làm)\n\n💬 Dịch nghĩa câu:\n\"Bản báo cáo tiến độ công việc quan trọng này bắt buộc phải nộp cho cấp trên trước 5 giờ chiều mai.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc thể hiện nghĩa vụ, quy định bắt buộc phải thi hành: 「V-なければならない」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 出してもいい: Nộp cũng được (cho phép) (ĐÚNG)\n- 2. 出さなくてもいい: Không cần nộp\n- 3. 出さなければならない: ĐÚNG - Bắt buộc phải nộp\n- 4. 出すはずがない: Không thể nào nộp\n\n📄 Trích PDF gốc (试题解析):\n(12) 3 句意: 必须在明天下午5点前提交报告。考察～なければならない表示义务。",
-      "correctOption": 1
-    },
+      "snippet": "いました (Trạng thái rơi sẵn: 落ちていました)",
+      "text": "(駅で)\n客「あのう、この さいふが 落ちて (　)。」\n駅員「ありがとうございます。どこに ありましたか。」\n客「トイレの 前です。」",
+      "options": [
+            "いました",
+            "しました",
+            "みました",
+            "おきました"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] いました\n\n💬 Dịch nghĩa câu:\n\"(Tại nhà ga)\nKhách: 'Xin lỗi, chiếc ví này đang bị rơi (ở đằng kia).' \nNhân viên ga: 'Cảm ơn anh. Chiếc ví đã ở đâu vậy ạ?'\nKhách: 'Ở ngay trước nhà vệ sinh ạ.'\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Động từ 「落ちる (おちる - rơi, rớt)」 là tự động từ. Khi kết hợp 「V-て + いる (quá khứ: いました)」 biểu thị kết quả của một hành động đã diễn ra và trạng thái đó vẫn đang tồn tại: chiếc ví đang nằm rơi ở đó.\n\n🔍 Phân tích các lựa chọn:\n- 1. いました: Biểu thị trạng thái kết quả tồn tại (ĐÚNG)\n- 2. しました: Đã làm\n- 3. みました (V-てみる): Thử làm\n- 4. おきました (V-ておく): Làm sẵn trước\n\n📄 Trích PDF gốc (Trang 15 & 19 - 试题解析):\n(12) 1 句意: (车站内) 乘客: “不好意思, 有人掉了钱包。” 站员: “谢谢您, 请问是在哪儿看到它的?” 乘客: “在厕所的前面。”\n1. ている: 表示状态的存续  2. しました: 表示做了某事  3. てみる: 表示尝试做某事  4. ておく: 表示事先做好某种准备"
+},
     "48": {
-      "snippet": "～かどうか (Liệu có... hay không)",
-      "explanation": "🎯 Đáp án đúng: [2] ～かどうか (Liệu có... hay không)\n\n💬 Dịch nghĩa câu:\n\"Tôi vẫn đang rất phân vân không biết ngày mai thời tiết có mưa hay không để còn chuẩn bị mang ô.\"\n\n💡 Phân tích & Giải thích:\n• Mẫu câu lồng câu hỏi không có từ để hỏi: 「Động từ thể thông thường + かどうか」 (liệu có hay không).\n\n🔍 Phân tích các lựa chọn:\n- 1. 降るかを: Sai trợ từ\n- 2. 降るから: Vì mưa (ĐÚNG)\n- 3. 降るかどうか: ĐÚNG - Liệu trời có mưa hay không\n- 4. 降るのに: Mặc dù mưa\n\n📄 Trích PDF gốc (试题解析):\n(13) 3 句意: 还不知道明天会不会下雨。考察句型～かどうか表示是否。",
-      "correctOption": 2
-    },
+      "snippet": "食べません (Chỉ ăn chuối: バナナしか食べません)",
+      "text": "朝、私は いつも バナナしか (　)。",
+      "options": [
+            "食べます",
+            "食べません",
+            "食べることが できます",
+            "食べる かもしれません"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] 食べません\n\n💬 Dịch nghĩa câu:\n\"Buổi sáng tôi lúc nào cũng chỉ ăn mỗi chuối (không ăn gì khác).\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc nhấn mạnh giới hạn duy nhất: 「N + しか + V-phủ định (ない / ません)」 mang ý nghĩa 'chỉ... ngoài ra không có cái khác'.\n• Do có 「しか」 nên động từ bắt buộc phải ở thể phủ định: 「食べません」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 食べます: Thể khẳng định (nếu dùng khẳng định phải dùng だけ食べます)\n- 2. 食べません: Thể phủ định đi với しか tạo thành cấu trúc 'chỉ ăn mỗi' (ĐÚNG)\n- 3. 食べることができます: Thể khả năng khẳng định\n- 4. 食べるかもしれません: Có lẽ sẽ ăn\n\n📄 Trích PDF gốc (Trang 15 & 19 - 试题解析):\n(13) 2 句意: 我早上一般都只吃香蕉。\n考察句型～しか～ない, 表示“只, 只有……”之意。"
+},
     "49": {
-      "snippet": "～てある (Trạng thái được bố trí sẵn)",
-      "explanation": "🎯 Đáp án đúng: [3] ～てある (Trạng thái được bố trí sẵn)\n\n💬 Dịch nghĩa câu:\n\"Bản đồ hướng dẫn sơ tán khi có động đất đã được dán sẵn ngay trên bức tường trước hành lang.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc 「Tha động từ thể て + ある」 diễn tả trạng thái của sự vật là kết quả của một hành động đã được ai đó làm sẵn có chủ ý.\n\n🔍 Phân tích các lựa chọn:\n- 1. 貼ってある: ĐÚNG - Được dán sẵn trên tường\n- 2. 貼っている: Đang dán (hành động đang xảy ra)\n- 3. 貼っておく: Sẽ dán sẵn (chưa làm) (ĐÚNG)\n- 4. 貼られた: Bị dán\n\n📄 Trích PDF gốc (试题解析):\n(14) 1 句意: 避难指南已经贴在走廊的墙上了。考察～てある表示动作存续状态。",
-      "correctOption": 3
-    },
+      "snippet": "よろこぶでしょう (Phỏng đoán chắc hẳn: きっとよろこぶでしょう)",
+      "text": "山下「森さんの たんじょうびに 何を あげましょうか。」\n田中「花は どうですか。」\n山下「いいですね。森さんは 花が 好きだから、きっと (　)。」",
+      "options": [
+            "よろこぶそうです",
+            "よろこんだんです",
+            "よろこぶでしょう",
+            "よろこんだようです"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] よろこぶでしょう\n\n💬 Dịch nghĩa câu:\n\"Yamashita: 'Sinh nhật Mori chúng ta nên tặng gì nhỉ?'\nTanaka: 'Tặng hoa thì sao?'\nYamashita: 'Hay đấy. Mori thích hoa lắm nên chắc hẳn là cô ấy sẽ rất vui.'\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc phỏng đoán: Phó từ 「きっと (chắc chắn, chắc hẳn)」 thường đi với đuôi phỏng đoán 「～でしょう / だろう」 để biểu thị sự dự đoán có căn cứ xác đáng của người nói.\n\n🔍 Phân tích các lựa chọn:\n- 1. よろこぶそうです: Nghe nói là (nghe người khác truyền lại)\n- 2. よろこんだんです: Đã vui (giải thích sự việc quá khứ)\n- 3. よろこぶでしょう: Chắc hẳn sẽ vui (đi với きっと) (ĐÚNG)\n- 4. よろこんだようです: Hình như đã vui\n\n📄 Trích PDF gốc (Trang 15 & 19 - 试题解析):\n(14) 3 句意: (车站内) 山下: “小森的生日送她什么好呢?” 田中: “送花怎么样?” 山下: “不错啊。小森很喜欢花, 一定会很高兴吧。”\n1. そうだ: 表示传闻  2. のだ: 表示说明  3. でしょう: 表示推量  4. ようだ: 表示样态"
+},
     "50": {
-      "snippet": "～てはいけない (Cấm đoán không được làm)",
-      "explanation": "🎯 Đáp án đúng: [4] ～てはいけない (Cấm đoán không được làm)\n\n💬 Dịch nghĩa câu:\n\"Bên trong khu vực phòng trưng bày hiện vật quý của bảo tàng, du khách tuyệt đối không được chụp ảnh.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc cấm đoán mang tính quy tắc, nội quy nghiêm ngặt: 「V-てはいけない / てはなりません」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 撮ってもいい: Được phép chụp\n- 2. 撮らなくてもいい: Không chụp cũng được\n- 3. 撮らなければならない: Bắt buộc phải chụp\n- 4. 撮ってはいけない: ĐÚNG - Cấm không được chụp ảnh (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(15) 4 句意: 博物馆展厅内严禁拍照。考察～てはいけない表示禁止。",
-      "correctOption": 4
-    },
+      "snippet": "急がなくてもいいです (Không cần vội: 急がなくてもいいですよ)",
+      "text": "(駅で)\nA「飲み物が ほしいので、急いで 買ってきますね。」\nB「わかりました。出発まで 時間は ありますから、(　) よ。」",
+      "options": [
+            "急がなくなります",
+            "急がなければなりません",
+            "急いだほうが いいです",
+            "急がなくてもいいです"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] 急がなくてもいいです\n\n💬 Dịch nghĩa câu:\n\"(Tại nhà ga)\nA: 'Tôi muốn mua đồ uống nên sẽ vội chạy đi mua một lát nhé.'\nB: 'Tôi hiểu rồi. Cho đến giờ tàu chạy vẫn còn nhiều thời gian nên bạn không cần phải vội đâu nhé.'\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc biểu thị sự cho phép không cần thiết phải làm gì: 「V-なくてもいいです」 (không làm... cũng được, không cần phải làm).\n• Vì còn nhiều thời gian (時間はありますから) nên 'không cần phải vội vã'.\n\n🔍 Phân tích các lựa chọn:\n- 1. 急がなくなります: Trở nên không vội\n- 2. 急がなければなりません: Bắt buộc phải vội (trái ngược logic còn nhiều thời gian)\n- 3. 急いだほうがいいです: Nên vội vã (trái ngược logic)\n- 4. 急がなくてもいいです: Không cần phải vội đâu (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 15 & 19 - 试题解析):\n(15) 4 句意: A: “我想喝点东西, 我马上买完过来。” B: “好, 离出发还有一段时间, 不用太着急。”\n1. なくなる: 变得不……  2. なければなりません: 必须……  3. ほうがいい: 最好……  4. なくてもいい: 不……也行"
+},
     "51": {
-      "snippet": "Dấu sao: だれ (Vị trí 3)",
-      "explanation": "🎯 Đáp án đúng: [2] Dấu sao: だれ (Vị trí 3)\n\n💬 Dịch nghĩa câu:\n\"Không, tôi không biết đường. Hãy cùng ra nhà ga rồi hỏi thử một ai đó xem sao nhé.\"\n\n💡 Phân tích & Giải thích:\n• Trật tự câu hoàn chỉnh: いいえ、わかりません。 【3 駅で】 【1 だれ】 ★【2 か に】 【4 聞きましょう】。 Dấu sao ở vị trí thứ 3 là phương án 2 (だれかに).\n\n🔍 Phân tích các lựa chọn:\n- 1. だれ\n- 2. か に (ĐÚNG vị trí dấu sao ★) (ĐÚNG)\n- 3. 駅で\n- 4. 聞きましよう\n\n📄 Trích PDF gốc (试题解析):\n(16) 2 正确语序: いいえ、わかりません。 3 駅で 1 だれ ★2 か に 4 聞きましょう。",
-      "correctOption": 2
-    },
+      "snippet": "Dấu sao ★: だれ (Vị trí 3)",
+      "text": "中川「山下さん、駅から ホテルまで 行き方が わかりますか。」\n山下「いいえ、わかりません。 _____ _____ __★__ _____ に 聞きましょう。」\n1. で  2. だれ  3. 駅  4. か",
+      "options": [
+            "で",
+            "だれ",
+            "駅",
+            "か"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] だれ (Vị trí dấu sao ★ là số 2)\n\n💬 Dịch nghĩa câu:\n\"Nakagawa: 'Yamashita ơi, bạn có biết đường đi từ ga về khách sạn không?'\nYamashita: 'Không, tôi không biết. Chúng ta hãy ra ga rồi hỏi ai đó nhé.'\"\n\n💡 Phân tích & Trật tự sắp xếp câu hoàn chỉnh:\n• Cụm từ: Địa điểm diễn ra hành động hỏi: 「駅で (ở ga)」.\n• Đại từ nghi vấn đi với か tạo thành đại từ bất định: 「だれか (ai đó)」 kết hợp với trợ từ hỏi đối tượng: 「だれかに (hỏi ai đó)」.\n• Câu hoàn chỉnh: 「いいえ、わかりません。 [3. 駅] [1. で] [★ 2. だれ] [4. か] に 聞きましょう。」\n• Trật tự số thứ tự: 3 -> 1 -> 2 -> 4.\n• Từ nằm ở vị trí ngôi sao ★ thứ 3 chính là: [2] だれ.\n\n📄 Trích PDF gốc (Trang 15 & 19 - 试题解析):\n(16) 2 正确语序: いいえ、わかりません。3 駅 1 で 2 だれ 4 か に 聞きましょう。(不, 我不知道。在车站找个人问问吧。)\nか接在疑问词后, 常表示不确定。"
+},
     "52": {
-      "snippet": "Dấu sao: 遅く (Vị trí 3)",
-      "explanation": "🎯 Đáp án đúng: [3] Dấu sao: 遅く (Vị trí 3)\n\n💬 Dịch nghĩa câu:\n\"Dạo gần đây công việc ở công ty bận quá nên có rất nhiều ngày tôi phải về nhà muộn màng.\"\n\n💡 Phân tích & Giải thích:\n• Trật tự câu hoàn chỉnh: 最近、仕事が いそがしくて、 【1 帰る】 【4 のが】 ★【3 遅く】 【2 なる】 日が 多い。 Dấu sao ở vị trí thứ 3 là phương án 3 (遅く).\n\n🔍 Phân tích các lựa chọn:\n- 1. 帰る\n- 2. なる\n- 3. 遅く (ĐÚNG vị trí dấu sao ★) (ĐÚNG)\n- 4. のが\n\n📄 Trích PDF gốc (试题解析):\n(17) 3 正确语序: 最近、仕事が いそがしくて、 1 帰る 4 のが ★3 遅く 2 なる 日が 多い。",
-      "correctOption": 3
-    },
+      "snippet": "Dấu sao ★: 遅く (Vị trí 3)",
+      "text": "最近、仕事が いそがしくて、 _____ _____ __★__ _____ 日が 多い。\n1. 帰る  2. なる  3. 遅く  4. のが",
+      "options": [
+            "帰る",
+            "なる",
+            "遅く",
+            "のが"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] 遅く (Vị trí dấu sao ★ là số 3)\n\n💬 Dịch nghĩa câu:\n\"Dạo gần đây công việc bận rộn quá, nên nhiều ngày tôi về nhà bị muộn.\"\n\n💡 Phân tích & Trật tự sắp xếp câu hoàn chỉnh:\n• Danh từ hóa động từ: 「帰るの (việc về nhà)」 đi với trợ từ 「が」 -> 「帰るのが」.\n• Biểu thị sự biến đổi trạng thái: Tính từ 「おそい (遅い)」 chuyển sang liên dụng 「遅く」 + 「なる」 (trở nên muộn/về muộn).\n• Định ngữ bổ nghĩa cho danh từ 「日 (ngày)」: 「遅くなる日」 (những ngày về muộn).\n• Câu hoàn chỉnh: 「最近、仕事がいそがしくて、 [1. 帰る] [4. のが] [★ 3. 遅く] [2. なる] 日が 多い。」\n• Trật tự số thứ tự: 1 -> 4 -> 3 -> 2.\n• Từ nằm ở vị trí ngôi sao ★ thứ 3 chính là: [3] 遅く.\n\n📄 Trích PDF gốc (Trang 15 & 19 - 试题解析):\n(17) 3 正确语序: 最近、仕事が いそがしくて、1 帰る 4 のが 3 遅く 2 なる 日が 多い。(最近工作很忙, 总是很晚回家。)\n～なる 表示事物的变化, 前接形容词时, 形容词词尾い需变为く。"
+},
     "53": {
-      "snippet": "Dấu sao: 建てる (Vị trí 3)",
-      "explanation": "🎯 Đáp án đúng: [4] Dấu sao: 建てる (Vị trí 3)\n\n💬 Dịch nghĩa câu:\n\"Để dành dụm tiền xây dựng một ngôi nhà lớn có thể sống chung cùng với bố mẹ, tôi đang rất nỗ lực tiết kiệm.\"\n\n💡 Phân tích & Giải thích:\n• Trật tự câu hoàn chỉnh: 両親と いっしょに 【3 住める】 【2 家を】 ★【4 建てる】 【1 ために】 貯金しています。 Dấu sao ở vị trí thứ 3 là phương án 4 (建てる).\n\n🔍 Phân tích các lựa chọn:\n- 1. ために\n- 2. 家を\n- 3. 住める\n- 4. 建てる (ĐÚNG vị trí dấu sao ★) (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(18) 4 正确语序: 両親と いっしょに 3 住める 2 家を ★4 建てる 1 ために 貯金しています。",
-      "correctOption": 4
-    },
+      "snippet": "Dấu sao ★: 建てる (Vị trí 3)",
+      "text": "両親と いっしょに _____ _____ __★__ _____ 貯金しています。\n1. ために  2. 家を  3. 住める  4. 建てる",
+      "options": [
+            "ために",
+            "家を",
+            "住める",
+            "建てる"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] 建てる (Vị trí dấu sao ★ là số 4)\n\n💬 Dịch nghĩa câu:\n\"Tôi đang tiết kiệm tiền để xây một ngôi nhà có thể cùng chung sống với bố mẹ.\"\n\n💡 Phân tích & Trật tự sắp xếp câu hoàn chỉnh:\n• Thể khả năng làm định ngữ: 「住める家 (ngôi nhà có thể sống được)」.\n• Cụm động từ: 「家を建てる (xây nhà)」.\n• Mẫu câu chỉ mục đích: 「V-る + ために」 (để xây nhà).\n• Câu hoàn chỉnh: 「両親と いっしょに [3. 住める] [2. 家を] [★ 4. 建てる] [1. ために] 貯金しています。」\n• Trật tự số thứ tự: 3 -> 2 -> 4 -> 1.\n• Từ nằm ở vị trí ngôi sao ★ thứ 3 chính là: [4] 建てる.\n\n📄 Trích PDF gốc (Trang 15 & 19 - 试题解析):\n(18) 4 正确语序: 両親と いっしょに 3 住める 2 家を 4 建てる 1 ために 貯金しています。(为了建一间能和父母一起住的房子, 我在存钱。)\n～ために 表示目的, 意为“为了”, 前接动词时接其基本形。"
+},
     "54": {
-      "snippet": "Dấu sao: が (Vị trí 3)",
-      "explanation": "🎯 Đáp án đúng: [1] Dấu sao: が (Vị trí 3)\n\n💬 Dịch nghĩa câu:\n\"Ngày mai tôi bắt buộc phải ra khỏi nhà từ sáng sớm, thế nhưng tôi đang rất lo lắng không biết liệu mình có dậy sớm nổi không.\"\n\n💡 Phân tích & Giải thích:\n• Trật tự câu hoàn chỉnh: 明日は 朝早く 出かけない 【2 と】 【4 いけないのです】 ★【1 が】 【3 早起きできる】 かどうか 心配です。 Dấu sao ở vị trí thứ 3 là phương án 1 (が).\n\n🔍 Phân tích các lựa chọn:\n- 1. が (ĐÚNG vị trí dấu sao ★) (ĐÚNG)\n- 2. と\n- 3. 早起きできる\n- 4. いけないのです\n\n📄 Trích PDF gốc (试题解析):\n(19) 1 正确语序: 明日は 朝早く 出かけない 2 と 4 いけないのです ★1 が 3 早起きできる かどうか 心配です。",
-      "correctOption": 1
-    },
+      "snippet": "Dấu sao ★: が (Vị trí 3)",
+      "text": "明日は 朝早く 出かけない _____ _____ __★__ _____ かどうか 心配です。\n1. が  2. と  3. 早起きできる  4. いけないのです",
+      "options": [
+            "が",
+            "と",
+            "早起きできる",
+            "いけないのです"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] が (Vị trí dấu sao ★ là số 1)\n\n💬 Dịch nghĩa câu:\n\"Ngày mai tôi bắt buộc phải ra ngoài từ sáng sớm, thế nhưng tôi rất lo lắng không biết mình có thể dậy sớm được hay không.\"\n\n💡 Phân tích & Trật tự sắp xếp câu hoàn chỉnh:\n• Mẫu câu bắt buộc: 「出かけない + といけないのです (phải đi ra ngoài)」.\n• Trợ từ liên kết đối lập: 「が (thế nhưng)」.\n• Mẫu câu nghi vấn tự hỏi: 「早起きできる + かどうか心配です (lo lắng liệu có dậy sớm được hay không)」.\n• Câu hoàn chỉnh: 「明日は 朝早く 出かけない [2. と] [4. いけないのです] [★ 1. が] [3. 早起きできる] かどうか 心配です。」\n• Trật tự số thứ tự: 2 -> 4 -> 1 -> 3.\n• Từ nằm ở vị trí ngôi sao ★ thứ 3 chính là: [1] が.\n\n📄 Trích PDF gốc (Trang 15 & 19 - 试题解析):\n(19) 1 正确语序: 明日は 朝早く 出かけない 2 と 4 いけないのです 1 が 3 早起きできる かどうか 心配です。(明天必须早点出门, 担心自己明天能不能做到早起。)\n～ないといけない 表示必须……, 非……不可。"
+},
     "55": {
-      "snippet": "Dấu sao: 赤くて (Vị trí 3)",
-      "explanation": "🎯 Đáp án đúng: [3] Dấu sao: 赤くて (Vị trí 3)\n\n💬 Dịch nghĩa câu:\n\"Trong bữa tiệc hôm qua, tôi đã được thưởng thức một loại trái cây hình tròn, màu đỏ tươi và có vị rất ngọt ngào.\"\n\n💡 Phân tích & Giải thích:\n• Trật tự câu hoàn chỉnh: 昨日の パーティーで 丸い 【4 形】 【2 の】 ★【3 赤くて】 【1 あまい】 くだものを 食べました。 Dấu sao ở vị trí thứ 3 là phương án 3 (赤くて).\n\n🔍 Phân tích các lựa chọn:\n- 1. あまい\n- 2. の\n- 3. 赤くて (ĐÚNG vị trí dấu sao ★) (ĐÚNG)\n- 4. 形\n\n📄 Trích PDF gốc (试题解析):\n(20) 3 正确语序: 昨日の パーティーで 丸い 4 形 2 の ★3 赤くて 1 あまい くだものを 食べました。",
-      "correctOption": 3
-    },
+      "snippet": "Dấu sao ★: 赤くて (Vị trí 3)",
+      "text": "きのう パーティーで 丸い _____ _____ __★__ _____ くだものを 食べました。\n1. あまい  2. の  3. 赤くて  4. 形",
+      "options": [
+            "あまい",
+            "の",
+            "赤くて",
+            "形"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] 赤くて (Vị trí dấu sao ★ là số 3)\n\n💬 Dịch nghĩa câu:\n\"Hôm qua ở bữa tiệc tôi đã được ăn một loại hoa quả có hình tròn, màu đỏ và rất ngọt.\"\n\n💡 Phân tích & Trật tự sắp xếp câu hoàn chỉnh:\n• Cụm định ngữ: 「丸い形 (hình tròn)」 + trợ từ sở hữu 「の」 -> 「丸い形の (loại có hình tròn)」.\n• Nối tính từ đuôi い: 「赤くて (đỏ và...)」 + 「あまいくだもの (hoa quả ngọt)」.\n• Câu hoàn chỉnh: 「きのう パーティーで 丸い [4. 形] [2. の] [★ 3. 赤くて] [1. あまい] くだものを 食べました。」\n• Trật tự số thứ tự: 4 -> 2 -> 3 -> 1.\n• Từ nằm ở vị trí ngôi sao ★ thứ 3 chính là: [3] 赤くて.\n\n📄 Trích PDF gốc (Trang 15 & 19 - 试题解析):\n(20) 3 正确语序: きのう パーティーで 丸い 4 形 2 の 3 赤くて 1 あまい くだものを 食べました。(在昨天的聚会上, 吃了--种很甜的圆形红色水果。)\n形容词连用时, 需将前一个形容词的词尾い变为く后再加て。"
+},
     "56": {
-      "snippet": "くれる (Hành động người khác tặng mình)",
-      "explanation": "🎯 Đáp án đúng: [2] くれる (Hành động người khác tặng mình)\n\n💬 Dịch nghĩa câu:\n\"Bức bưu thiếp này là do anh Tanaka đã gửi tặng cho tôi nhân dịp năm mới.\"\n\n💡 Phân tích & Giải thích:\n• Khi người khác làm cho tôi (hoặc phía người nói) một điều gì đó, ta dùng động từ cho nhận 「～てくれる」.\n\n🔍 Phân tích các lựa chọn:\n- 1. あげた: Tôi tặng bạn\n- 2. くれた: ĐÚNG - Bạn Tanaka gửi tặng cho tôi (ĐÚNG)\n- 3. もらった: Cần trợ từ に\n- 4. やった: Tặng cấp dưới\n\n📄 Trích PDF gốc (试题解析):\n(21) 2 根据前后文卡片是由田中送给作者的, 需使用くれる表示他人主动给予我方。",
-      "correctOption": 2
-    },
+      "snippet": "送ってくれた (Tanaka đã gửi tặng cho tôi)",
+      "text": "田中さんが 21 日本の カードは とても きれいですね。",
+      "options": [
+            "送ってあげた",
+            "送ってくれた",
+            "送ってやった",
+            "送ってもらった"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] 送ってくれた\n\n💬 Dịch nghĩa câu:\n\"Chiếc thiệp Nhật Bản mà anh Tanaka đã gửi tặng tôi (田中さんが送ってくれた) rất là đẹp.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Trong câu có chủ ngữ hành động là 「田中さんが」 làm hành động mang lại lợi ích cho người nói (người nhận thiệp) -> Phải dùng động từ cho/nhận: 「V-て + くれた (ai đó làm gì cho tôi)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 送ってあげた: Tôi gửi tặng ai đó (sai chủ ngữ)\n- 2. 送ってくれた: Anh Tanaka gửi tặng cho tôi (ĐÚNG)\n- 3. 送ってやった: Gửi cho người dưới (bất lịch sự)\n- 4. 送ってもらった: Phải đi với trợ từ 「田中さんに」 chứ không đi với 「田中さんが」\n\n📄 Trích PDF gốc (Trang 15 & 19 - 试题解析):\n(21) 2 根据前后文可推测出卡片是由田中送给作者的, 此处用が提示授予者, 可知此处应使用くれる表示他人主动为我(方)做某事。(田中さんが送ってくれた)"
+},
     "57": {
-      "snippet": "Chủ ngữ は",
-      "explanation": "🎯 Đáp án đúng: [4] Chủ ngữ は\n\n💬 Dịch nghĩa câu:\n\"Trợ từ 「は」 đóng vai trò đưa danh từ lên làm chủ đề chính của câu văn thuyết minh.\"\n\n💡 Phân tích & Giải thích:\n• Vị trí này cần trợ từ 「は」 để nhấn mạnh chủ đề thông tin cần được miêu tả ở vế tiếp theo.\n\n🔍 Phân tích các lựa chọn:\n- 1. Trợ từ を\n- 2. Trợ từ に\n- 3. Trợ từ で\n- 4. Trợ từ は (ĐÚNG - Nhấn mạnh chủ đề) (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(22) 4 说明句的主题通常使用は提示, 引导后文的阐述。",
-      "correctOption": 4
-    },
+      "snippet": "は (Chủ đề bức thư: 私は)",
+      "text": "私 22 先月大学を 卒業して、今は 貿易会社に 勤めています。",
+      "options": [
+            "なら",
+            "と",
+            "が",
+            "は"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] は\n\n💬 Dịch nghĩa câu:\n\"Tôi thì tháng trước đã tốt nghiệp đại học, hiện nay đang công tác tại một công ty thương mại.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Trong câu trần thuật thông báo về hoàn cảnh, công việc hiện tại của bản thân người viết, dùng trợ từ 「は」 để thiết lập chủ đề của câu văn: 「私は～」 (Về phần tôi thì...).\n\n🔍 Phân tích các lựa chọn:\n- 1. なら: Nếu là\n- 2. と: Và / cùng với\n- 3. が: Biểu thị chủ ngữ nhấn mạnh đối tượng\n- 4. は: Trợ từ nêu chủ đề câu trần thuật (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 15 & 19 - 试题解析):\n(22) 4 说明句的主题通常使用は提示, 提示的主题属于已知事物, 后面对该事物进行阐述说明, 句子的重点落在说明部分。(私は)"
+},
     "58": {
-      "snippet": "Thì quá khứ 働いた",
-      "explanation": "🎯 Đáp án đúng: [3] Thì quá khứ 働いた\n\n💬 Dịch nghĩa câu:\n\"Việc tôi vào làm việc tại công ty thương mại đã là một sự kiện diễn ra trọn vẹn trong quá khứ.\"\n\n💡 Phân tích & Giải thích:\n• Mô tả sự kiện đã hoàn tất trong quá khứ nên bắt buộc động từ phải chia về thì quá khứ 「～た」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 働く: Hiện tại tương lai\n- 2. 働いている: Hiện tại tiếp diễn\n- 3. 働いた: ĐÚNG - Đã làm việc (quá khứ) (ĐÚNG)\n- 4. 働くだろう: Phỏng đoán\n\n📄 Trích PDF gốc (试题解析):\n(23) 3 进入贸易公司工作发生在过去的既定事实, 需用过去时。",
-      "correctOption": 3
-    },
+      "snippet": "入りました (Quá khứ: 貿易会社に入りました)",
+      "text": "それで、貿易会社に 23 。仕事は いそがしいですが、楽しいです。",
+      "options": [
+            "入りそうです",
+            "入るところです",
+            "入りました",
+            "入ったことがあります"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] 入りました\n\n💬 Dịch nghĩa câu:\n\"Vì vậy tôi đã vào làm việc tại công ty thương mại. Công việc tuy bận rộn nhưng rất vui.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Việc gia nhập công ty thương mại đã diễn ra trong quá khứ và hiện tại người viết đang làm việc ở đó (今は勤めています) -> Sự việc đã hoàn tất, phải dùng thì quá khứ: 「入りました」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 入りそうです: Có vẻ sắp vào\n- 2. 入るところです: Chuẩn bị vào\n- 3. 入りました: Đã vào công ty làm việc (ĐÚNG)\n- 4. 入ったことがあります: Đã từng có kinh nghiệm vào\n\n📄 Trích PDF gốc (Trang 15 & 19 - 试题解析):\n(23) 3 作者进入贸易公司工作是发生在过去的既定事实, 此处需用过去时。(貿易会社に入りました)"
+},
     "59": {
-      "snippet": "ぜひ (Nhất định thiết tha)",
-      "explanation": "🎯 Đáp án đúng: [1] ぜひ (Nhất định thiết tha)\n\n💬 Dịch nghĩa câu:\n\"Nếu trong khoảng thời gian từ ngày 27 đến 31 tháng 8 bạn rảnh rỗi, tôi nhất định rất muốn được gặp bạn.\"\n\n💡 Phân tích & Giải thích:\n• Phó từ 「ぜひ」 đi với động từ mong muốn 「～たい」 biểu thị sự tha thiết, khát khao muốn gặp mặt.\n\n🔍 Phân tích các lựa chọn:\n- 1. ぜひ: ĐÚNG - Nhất định mong được gặp bạn (ĐÚNG)\n- 2. たぶん: Có lẽ\n- 3. きっと: Chắc chắn\n- 4. なかなか: Mãi mà\n\n📄 Trích PDF gốc (试题解析):\n(24) 1 询问对方是否有空想要见面, 选项只有表示“一定”的ぜひ能表达热情期待。",
-      "correctOption": 1
-    },
+      "snippet": "ぜひ (Thiết tha mong muốn: ぜひ会いたいです)",
+      "text": "31日まで 東京に いるのですが、会えませんか。 24 田中さんに 会いたいです。",
+      "options": [
+            "ぜひ",
+            "では",
+            "例えば",
+            "そして"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] ぜひ\n\n💬 Dịch nghĩa câu:\n\"Tôi sẽ ở Tokyo cho đến ngày 31, chúng ta có thể gặp nhau không? Nhất định tôi rất muốn được gặp anh Tanaka đấy ạ.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Phó từ 「ぜひ (nhất định)」 đi kèm với mong muốn 「～たい / てください」 để biểu thị nguyện vọng, khao khát tha thiết của người nói: 「ぜひ会いたいです」.\n\n🔍 Phân tích các lựa chọn:\n- 1. ぜひ: Nhất định (đi với たい) (ĐÚNG)\n- 2. では: Vậy thì\n- 3. 例えば: Ví dụ như\n- 4. そして: Và rồi\n\n📄 Trích PDF gốc (Trang 15 & 19 - 试题解析):\n(24) 1 作者询问田中在8月27日至31日间是否有空, 想要和他见一面。选项只有表示“一定”的ぜひ能表达作者这种强烈主观意愿。(ぜひ 田中さんに会いたいです)"
+},
     "60": {
-      "snippet": "Gửi kèm quà tặng mời thưởng thức",
-      "explanation": "🎯 Đáp án đúng: [2] Gửi kèm quà tặng mời thưởng thức\n\n💬 Dịch nghĩa câu:\n\"Cùng với bức thư này, tôi có gửi kèm theo một hộp trà đặc sản của công ty, xin mời bạn thưởng thức thử nhé.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc mời mọc lịch sự: 「飲んでみてください」 (xin bạn hãy uống thử xem sao).\n\n🔍 Phân tích các lựa chọn:\n- 1. 飲まないでください: Xin đừng uống\n- 2. 飲んでみてください: ĐÚNG - Xin hãy uống thử xem sao (ĐÚNG)\n- 3. 飲むはずです: Chắc là sẽ uống\n- 4. 飲んだことがあります: Đã từng uống\n\n📄 Trích PDF gốc (试题解析):\n(25) 2 随信寄去自己公司的茶叶, 邀请对方品尝尝试。",
-      "correctOption": 2
-    },
+      "snippet": "飲んでみてください (Mời nếm thử trà gửi kèm)",
+      "text": "手紙と いっしょに お茶を 送ります。私は 会社で お茶の 輸出の 仕事をしています。 25 。おいしいですよ。",
+      "options": [
+            "飲んでみてもいいですか",
+            "飲んでみてください",
+            "飲んでみましょうか",
+            "飲んでみようと思います"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] 飲んでみてください\n\n💬 Dịch nghĩa câu:\n\"Tôi gửi tặng anh chút trà kèm theo bức thư này. Ở công ty tôi làm công việc xuất khẩu trà. Xin mời anh hãy uống thử nhé (飲んでみてください). Ngon lắm đấy ạ.\"\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Người viết gửi kèm trà tặng đối phương và câu tiếp theo khen trà ngon (おいしいですよ) -> Đây là lời mời, đề nghị đối phương hãy dùng thử: cấu trúc 「V-て + みてください」 (xin hãy thử làm V).\n\n🔍 Phân tích các lựa chọn:\n- 1. 飲んでみてもいいですか: Tôi uống thử có được không (xin phép)\n- 2. 飲んでみてください: Xin mời anh uống thử nhé (lời mời) (ĐÚNG)\n- 3. 飲んでみましょうか: Cùng nhau uống nhé / tôi uống hộ nhé\n- 4. 飲んでみようと思います: Bản thân tôi dự định sẽ uống thử\n\n📄 Trích PDF gốc (Trang 15 & 19 - 试题解析):\n(25) 2 作者随信件一起寄去了自己公司的茶叶, 邀请对方尝试一下。\n1. てもいいか: ……也可以吗  2. てください: 请…… (飲んでみてください)  3. ましょうか: (我们)……吧  4. ようと思う: (我)想要……"
+},
     "61": {
-      "snippet": "Thang máy sử dụng ngày 8/7 lúc 15:30",
-      "explanation": "🎯 Đáp án đúng: [1] Thang máy sử dụng ngày 8/7 lúc 15:30\n\n💬 Dịch nghĩa câu:\n\"Theo lịch bảo trì thang máy, vào lúc 15:30 chiều ngày 8/7, thang máy số 1 là thang máy duy nhất được phép sử dụng để chuyển đồ.\"\n\n💡 Phân tích & Giải thích:\n• Đối chiếu bảng phân công lịch bảo trì: thang máy số 2 đang kiểm tra kỹ thuật lúc 15h30, chỉ có thang máy số 1 hoạt động bình thường.\n\n🔍 Phân tích các lựa chọn:\n- 1. Thang máy số 1 (ĐÚNG) (ĐÚNG)\n- 2. Thang máy số 2\n- 3. Cả hai thang máy đều dùng được\n- 4. Cả hai thang máy đều tạm dừng\n\n📄 Trích PDF gốc (试题解析):\n(26) 1 查阅电梯检修日程表, 7月8日下午3点半只有1号电梯可以搬运行李。",
-      "correctOption": 1
-    },
+      "snippet": "Thang máy sử dụng lúc 15:30 ngày 8/7",
+      "text": "7月8日の 15時半に 荷物を 運ばなければなりません。どのエレベーターが 使えますか。",
+      "options": [
+            "北側エレベーターだけ",
+            "南側エレベーターだけ",
+            "南側エレベーターと北側エレベーター",
+            "どちらも使えない"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] 北側エレベーターだけ\n\n💬 Dịch nghĩa câu hỏi:\n\"Lúc 15:30 ngày 8/7 cần phải chuyển hành lý. Có thể sử dụng được thang máy nào?\"\n\n💡 Phân tích chi tiết bài đọc thông báo:\n• Thang máy phía Bắc (北側エレベーター): Dừng hoạt động từ 14:00 đến 15:15.\n• Thang máy phía Nam (南側エレベーター): Dừng hoạt động từ 14:45 đến 16:00.\n• Vào thời điểm 15:30:\n  - Thang máy phía Bắc đã kết thúc bảo trì lúc 15:15 -> HOẠT ĐỘNG BÌNH THƯỜNG.\n  - Thang máy phía Nam vẫn đang dừng hoạt động đến 16:00 -> KHÔNG DÙNG ĐƯỢC.\n• Do đó, chỉ có thể sử dụng thang máy phía Bắc: 「北側エレベーターだけ」.\n\n📄 Trích PDF gốc (Trang 15 & 20 - 试题解析):\n(26) 在7月8日的下午三点半必须搬运行李, 能使用哪部电梯?\n1 根据通知正文可知, 北侧电梯的停运时间为下午2点至3点15分, 南侧电梯的停运时间为下午2点45分至4点, 故下午3点30分只有北侧的电梯可用。(1. 北側エレベーターだけ)"
+},
     "62": {
-      "snippet": "Đặc điểm trứng gà quán Genki",
-      "explanation": "🎯 Đáp án đúng: [1] Đặc điểm trứng gà quán Genki\n\n💬 Dịch nghĩa câu:\n\"Trứng gà của trang trại quán Genki nổi tiếng là trứng tươi mới thu hoạch trong ngày và có giá trị dinh dưỡng rất cao.\"\n\n💡 Phân tích & Giải thích:\n• Chi tiết trong bài nêu rõ: trứng được vận chuyển trực tiếp từ trang trại vào mỗi sáng sớm nên luôn đảm bảo độ tươi mới tuyệt đối.\n\n🔍 Phân tích các lựa chọn:\n- 1. Trứng nhập khẩu từ nước ngoài (ĐÚNG)\n- 2. Trứng bảo quản đông lạnh lâu ngày\n- 3. Trứng tươi mới thu hoạch từ trang trại mỗi ngày (ĐÚNG)\n- 4. Trứng đã luộc chín sẵn\n\n📄 Trích PDF gốc (试题解析):\n(27) 3 对元气蛋店的鸡蛋描述: 每天早晨直接从农场采摘送达, 保证绝对新鲜。",
-      "correctOption": 1
-    },
+      "snippet": "Đặc điểm trứng quán Genki: Kích thước siêu thị không bán",
+      "text": "「元気たまご」で 売っている卵について、合っているものはどれですか。",
+      "options": [
+            "スーパーでは、売っていない大きさです。",
+            "1個10円で、どれもだいたい同じ大きさです。",
+            "スーパーでも人気があって、おいしいです。",
+            "味はあまりよくありませんが、とても安いです。"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] スーパーでは、売っていない大きさです。\n\n💬 Dịch nghĩa câu hỏi:\n\"Về những quả trứng bán ở quán 'Genki Tamago', điều nào sau đây là đúng?\"\n\n💡 Phân tích chi tiết bài đọc:\n• Trong bài viết nêu rõ: 「日本のスーパーでは大きすぎたり小さすぎたりする卵は売られていません。しかし、「元気たまご」では売っています。」\n(Ở các siêu thị Nhật Bản không bán những quả trứng quá to hoặc quá nhỏ. Thế nhưng ở quán Genki Tamago thì lại có bán những loại này).\n• Điều này chứng minh trứng ở quán Genki Tamago có kích thước mà siêu thị thông thường không bán: 「スーパーでは、売っていない大きさです」.\n\n📄 Trích PDF gốc (Trang 15 & 20 - 试题解析):\n(27) 下列对“元気たまご”这家店卖的鸡蛋的描述, 符合文章内容的是哪一项?\n1 关键内容在文章的三、四两句和倒数第二句。日本的超市不卖那些过大或者过小的鸡蛋, 但是这家店有这类鸡蛋卖。店里的鸡蛋很新鲜, 所以很好吃, 这家店也很受欢迎。(1. スーパーでは、売っていない大きさです。)"
+},
     "63": {
-      "snippet": "Cách thức bán trứng gà của quán",
-      "explanation": "🎯 Đáp án đúng: [1] Cách thức bán trứng gà của quán\n\n💬 Dịch nghĩa câu:\n\"Cửa hàng đóng gói trứng theo các hộp tiêu chuẩn gồm loại 6 quả và loại 10 quả để khách hàng tiện lựa chọn.\"\n\n💡 Phân tích & Giải thích:\n• Thông tin đóng gói trong bài: khách có thể chọn vỉ 6 quả (6個入り) hoặc vỉ 10 quả (10個入り).\n\n🔍 Phân tích các lựa chọn:\n- 1. Bán lẻ từng quả một (ĐÚNG)\n- 2. Đóng gói theo hộp 6 quả và 10 quả (ĐÚNG)\n- 3. Chỉ bán theo thùng 50 quả\n- 4. Bán theo cân nặng kilogram\n\n📄 Trích PDF gốc (试题解析):\n(28) 2 店铺按6枚装和10枚装的规格进行包装销售。",
-      "correctOption": 1
-    },
+      "snippet": "Cách mua trứng tại Genki Tamago",
+      "text": "「元気たまご」では、どうやって卵を買いますか。",
+      "options": [
+            "客が箱に卵を入れて、レジに持っていきます。",
+            "客が卵の入っている箱を選んで、レジに持っていきます。",
+            "客が店の人にお金を払って、箱に卵を入れてもらいます。",
+            "客が店に置いてある箱にお金を入れて、好きな卵を持っていきます。"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] 客が箱に卵を入れて、レジに持っていきます。\n\n💬 Dịch nghĩa câu hỏi:\n\"Tại quán 'Genki Tamago', khách mua trứng bằng cách nào?\"\n\n💡 Phân tích chi tiết bài đọc:\n• Trong bài nêu rõ quy trình: 「客は店で売っている紙の箱に卵を入れて、レジに持っていきます。」\n(Khách tự bỏ trứng vào hộp giấy bán ở cửa hàng rồi mang đến quầy thu ngân thanh toán).\n• Phương án [1] phản ánh chính xác 100% câu văn trong bài đọc.\n\n📄 Trích PDF gốc (Trang 15 & 20 - 试题解析):\n(28) “元気たまご”这家店怎样贩卖鸡蛋?\n1 关键内容在文章的倒数三、四两句。客人需要把鸡蛋装入店内卖的盒子中, 一起拿去柜台付款, 盒子的价格为10日元。(1. 客が箱に卵を入れて、レジに持っていきます。)"
+},
     "64": {
-      "snippet": "Nhiệm vụ của ông Yamaguchi",
-      "explanation": "🎯 Đáp án đúng: [2] Nhiệm vụ của ông Yamaguchi\n\n💬 Dịch nghĩa câu:\n\"Sau khi đọc xong mẩu giấy nhắn của đối tác, ông Yamaguchi cần phải liên hệ lại để xác nhận số lượng đơn đặt hàng.\"\n\n💡 Phân tích & Giải thích:\n• Nội dung lời nhắn để lại trên bàn: xin anh Yamaguchi gọi điện lại cho phía nhà cung cấp để chốt số lượng trước 17:00.\n\n🔍 Phân tích các lựa chọn:\n- 1. Hủy bỏ hợp đồng\n- 2. Gửi tiền thanh toán ngay (ĐÚNG)\n- 3. Đi gặp trực tiếp khách hàng\n- 4. Gọi điện thoại xác nhận số lượng đơn hàng trước 5h chiều (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(29) 4 山口先生读完便签后必须电话联系对方确认订单数量。",
-      "correctOption": 2
-    },
+      "snippet": "Nhiệm vụ của anh Yamaguchi",
+      "text": "このメモを読んで、山口さんは何をしなければなりませんか。",
+      "options": [
+            "資料を会議に持っていって、東山さんが来るまで待ちます。",
+            "資料をみんなに渡して、予定の時間になったら会議を始めます。",
+            "会議を30分遅く始めることをみんなに伝えて、資料を渡します。",
+            "30分待って東山さんが来なかったら、資料を持っていって、会議を始めます。"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] 資料をみんなに渡して、予定の時間になったら会議を始めます。\n\n💬 Dịch nghĩa câu hỏi:\n\"Đọc mảnh giấy ghi chú này, anh Yamaguchi phải làm những việc gì?\"\n\n💡 Phân tích chi tiết bài đọc mẩu nhắn:\n• Mẩu giấy ghi rõ lời dặn của anh Higashiyama: \n  1. 「30分ぐらい遅れますが、予定の時間になったら、会議を始めてくださいと言っていました。」 (Bảo là đến đúng giờ dự định thì hãy bắt đầu cuộc họp trước, anh ấy bị trễ tầm 30 phút).\n  2. 「東山さんの作った会議の資料を持っていって、みなさんに渡しておいてもらいたいそうです。」 (Nhờ anh Yamaguchi mang tài liệu cuộc họp anh ấy đã chuẩn bị phát cho mọi người trước).\n• Do đó việc anh Yamaguchi phải làm là: Phát tài liệu cho mọi người và khi đến giờ dự định thì bắt đầu cuộc họp: 「資料をみんなに渡して、予定の時間になったら会議を始めます」.\n\n📄 Trích PDF gốc (Trang 15 & 20 - 试题解析):\n(29) 读了这则留言后, 山口先生必须做些什么?\n2 根据留言内容可知, 由于电车停运, 东山先生会迟到半小时左右, 但会议仍将在原定时间开始。希望山口先生能帮忙, 把东山先生做好的资料带去会上分发给大家。(2. 資料をみんなに渡して、予定の時間になったら会議を始めます。)"
+},
     "65": {
-      "snippet": "Thể loại sách trong phong trào đọc sách",
-      "explanation": "🎯 Đáp án đúng: [4] Thể loại sách trong phong trào đọc sách\n\n💬 Dịch nghĩa câu:\n\"Các cuốn sách được giới thiệu trong phong trào đọc sách mùa hè chủ yếu là sách thiếu nhi và tác phẩm văn học nhẹ nhàng.\"\n\n💡 Phân tích & Giải thích:\n• Bài viết nêu rõ: đối tượng tham gia phong trào hướng tới việc đọc các cuốn sách văn học và truyện dành cho lứa tuổi thanh thiếu niên.\n\n🔍 Phân tích các lựa chọn:\n- 1. Sách chuyên ngành kinh tế\n- 2. Sách truyện văn học và sách thiếu nhi (ĐÚNG)\n- 3. Sách khoa học tự nhiên phức tạp\n- 4. Từ điển ngoại ngữ (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(30) 2 提到的读书活动, 读的是文学故事和少儿读物。",
-      "correctOption": 4
-    },
+      "snippet": "Loại sách đọc: Ngoài tạp chí, truyện tranh và giáo trình",
+      "text": "①本を読んでとありますが、どんな本を読みますか。",
+      "options": [
+            "大学の本売り場で買った本なら、何でもいい",
+            "大学の本売り場で売られている、決められた本",
+            "雑誌とマンガと授業のテキスト以外の、決められた本",
+            "雑誌、マンガ、授業のテキスト以外の本なら、何でもいい"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] 雑誌、マンガ、授業のテキスト以外の本なら、何でもいい\n\n💬 Dịch nghĩa câu hỏi:\n\"Ở chỗ ① có ghi 'đọc sách', vậy đó là những cuốn sách như thế nào?\"\n\n💡 Phân tích chi tiết bài đọc trung văn:\n• Đoạn 2 nêu rõ điều kiện về sách: 「本は、雑誌とマンガと授業のテキスト以外なら何でも良くて、大学の本売り場で買った本でなくてもいいそうです。」\n(Sách thì miễn không phải tạp chí, truyện tranh và giáo trình trên lớp thì bất kể sách gì cũng được, và không nhất thiết phải mua ở quầy sách đại học).\n• Vì vậy đáp án chính xác là: Bất cứ cuốn sách nào ngoại trừ tạp chí, truyện tranh và sách giáo trình: 「雑誌、マンガ、授業のテキスト以外の本なら、何でもいい」.\n\n📄 Trích PDF gốc (Trang 15 & 20 - 试题解析):\n(30) 文章①处提到“读书”, 读的是什么书?\n4 关键句是第二段中的“本は、雑誌とマンガと授業のテキスト以外なら何でも良くて、大学の本売り場で買った本でなくてもいいそうです。”杂志、漫画和课本以外的书籍都符合要求, 也未规定必须是在该处买的书。(4. 雑誌、マンガ、授業のテキスト以外の本なら、何でもいい)"
+},
     "66": {
-      "snippet": "Điều kiện nhận phiếu ưu đãi 500 yên",
-      "explanation": "🎯 Đáp án đúng: [3] Điều kiện nhận phiếu ưu đãi 500 yên\n\n💬 Dịch nghĩa câu:\n\"Để được nhận phiếu mua sắm ưu đãi trị giá 500 yên, người tham gia bắt buộc phải đọc đủ 5 cuốn sách và viết nộp 5 bài cảm nhận.\"\n\n💡 Phân tích & Giải thích:\n• Quy định chương trình ghi rất rõ ràng: cứ đọc 5 cuốn và nộp phiếu giới thiệu tóm tắt 5 cuốn thì sẽ nhận được 1 phiếu coupon 500 yên.\n\n🔍 Phân tích các lựa chọn:\n- 1. Đọc 1 cuốn sách\n- 2. Đọc 3 cuốn sách và nộp 1 bài\n- 3. Đọc 5 cuốn sách và nộp 5 bản cảm nhận (ĐÚNG) (ĐÚNG)\n- 4. Đọc 10 cuốn sách\n\n📄 Trích PDF gốc (试题解析):\n(31) 3 获得500日元优惠券的条件: 读满5本书并提交5份读后推荐卡。",
-      "correctOption": 3
-    },
+      "snippet": "Điều kiện nhận vé 500 yên: 10 cuốn sách, 10 bài giới thiệu",
+      "text": "500円のチケットを1枚もらうために、読まなければならない本は何冊で、出さなければならない紹介文は何枚ですか。",
+      "options": [
+            "1冊、1枚",
+            "10冊、1枚",
+            "10冊、10枚",
+            "100冊、10枚"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] 10冊、10枚\n\n💬 Dịch nghĩa câu hỏi:\n\"Để nhận được 1 phiếu ưu đãi 500 yên, số sách phải đọc là bao nhiêu cuốn và số bài giới thiệu phải nộp là bao nhiêu bản?\"\n\n💡 Phân tích chi tiết bài đọc trung văn:\n• Đoạn 2 quy định: 「本を1冊読んで紹介文を1枚出すと、売り場の人がカードにはんこを1個押してくれます。」 (Mỗi 1 cuốn sách đọc xong nộp 1 bài giới thiệu thì được đóng 1 con dấu).\n• Và: 「はんこを10個集めたら500円のチケットが1枚もらえます。」 (Thu thập đủ 10 con dấu thì nhận được 1 vé 500 yên).\n• Suy ra: 10 con dấu = 10 cuốn sách đọc xong và 10 bài giới thiệu nộp lại: 「10冊、10枚」.\n\n📄 Trích PDF gốc (Trang 15 & 20 - 试题解析):\n(31) 想要得到一张500日元的优惠券, 必须读多少本书, 并提交多少份书本介绍?\n3 关键句是第二段中的“そして、本を1冊読んで紹介文を1枚出すと、売り場の人がカードにはんこを1個押してくれます。”和“そして、はんこを10個集めたら500円のチケットが1枚もらえます。”, 读完一本书并提交书本介绍后就能获得一个印章, 集齐十个印章后就能兑换500日元的优惠券。所以想要获得500日元的优惠券需要读10本书, 并提交10份书本介绍。(3. 10冊、10枚)"
+},
     "67": {
-      "snippet": "Lý do xem đây là một phương pháp hay",
-      "explanation": "🎯 Đáp án đúng: [2] Lý do xem đây là một phương pháp hay\n\n💬 Dịch nghĩa câu:\n\"Tác giả đánh giá cao hoạt động này vì nó tạo được động lực mạnh mẽ thúc đẩy các bạn trẻ hình thành thói quen say mê đọc sách.\"\n\n💡 Phân tích & Giải thích:\n• Bài viết phân tích: việc nhận được phần thưởng khích lệ sẽ giúp mọi người hào hứng hơn với việc mở sách ra đọc mỗi ngày.\n\n🔍 Phân tích các lựa chọn:\n- 1. Tạo động lực hứng thú giúp duy trì thói quen đọc sách (ĐÚNG)\n- 2. Giúp hiệu sách bán được nhiều sách ế (ĐÚNG)\n- 3. Tiết kiệm tiền bạc\n- 4. Không phải làm bài tập hè\n\n📄 Trích PDF gốc (试题解析):\n(32) 1 认为是个好方法的原因: 能有效激发和培养长期阅读的兴趣。",
-      "correctOption": 2
-    },
+      "snippet": "Lý do xem là phương pháp hay: Đọc sách nhiều hơn và được vé mua sách",
+      "text": "②いいやり方だと思いましたとありますが、どうしてですか。",
+      "options": [
+            "本をよく読むようになったし、いろいろなプレゼントがもらえたから",
+            "本をよく読むようになったし、本売り場で使えるチケットももらえたから",
+            "本が速く読めるようになったし、文章を書くのも上手になったから",
+            "本が速く読めるようになったし、本売り場に紹介文をはってもらえたから"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] 本をよく読むようになったし、本売り場で使えるチケットももらえたから\n\n💬 Dịch nghĩa câu hỏi:\n\"Ở chỗ ② có câu 'tôi đã nghĩ đây là một cách rất hay', tại sao lại như vậy?\"\n\n💡 Phân tích chi tiết bài đọc trung văn:\n• Ở đoạn cuối tác giả chia sẻ: \n  - 「今ではいつも本を持って歩くようになりました (Bây giờ tôi đã có thói quen luôn mang sách bên mình để đọc = 本をよく読むようになった)」.\n  - 「もらったチケットで新しい本を買うこともできたし、とても②いいやり方だと思いました (Lại còn có thể dùng vé được tặng để mua thêm sách mới = 本売り場で使えるチケットももらえた)」.\n• Do đó, lý do tác giả thấy phương pháp này hay là vì bản thân đã chăm đọc sách hơn và còn nhận được vé giảm giá để mua sách.\n\n📄 Trích PDF gốc (Trang 15 & 20 - 试题解析):\n(32) 文章②处提到“认为是个好方法”, 是为什么?\n2 作者在文章最后一段提到, 自己原本不喜欢读书, 觉得读书、写介绍很费功夫, 但是在尝试过后, 读书的速度变快了, 还用得到的优惠券买了新书, 现在常会读书。这就是作者认为这个方法“好”的原因。(2. 本をよく読むようになったし、本売り場で使えるチケットももらえたから)"
+},
     "68": {
-      "snippet": "Ý nghĩa của cụm từ 'có thể làm được'",
-      "explanation": "🎯 Đáp án đúng: [4] Ý nghĩa của cụm từ 'có thể làm được'\n\n💬 Dịch nghĩa câu:\n\"Cụm từ trong bài ám chỉ việc mọi người thông qua các bài viết giới thiệu có thể chia sẻ niềm vui đọc sách cho nhiều bạn bè khác.\"\n\n💡 Phân tích & Giải thích:\n• Liên hệ ngữ cảnh câu: từ những mẩu cảm nhận dán trên bảng tin, độc giả khác có thể tìm thấy những cuốn sách hay phù hợp với mình.\n\n🔍 Phân tích các lựa chọn:\n- 1. Có thể kiếm được nhiều tiền\n- 2. Có thể đi du lịch miễn phí\n- 3. Có thể trở thành nhà văn\n- 4. Có thể chia sẻ và lan tỏa niềm vui đọc sách tới mọi người (ĐÚNG) (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(33) 4 指通过读后感能够向更多人传递分享阅读的乐趣。",
-      "correctOption": 4
-    },
+      "snippet": "Mục tiêu ③できる: Đọc 100 cuốn sách trong 4 năm",
+      "text": "③できるとありますが、何ができますか。",
+      "options": [
+            "上手な紹介文が書けるようになること",
+            "もらったチケットを全部使うこと",
+            "本が速く読めるようになること",
+            "100冊の本を読むこと"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] 100冊の本を読むこと\n\n💬 Dịch nghĩa câu hỏi:\n\"Ở chỗ ③ có từ 'có thể làm được', vậy có thể làm được điều gì?\"\n\n💡 Phân tích chi tiết bài đọc trung văn:\n• Ngay câu mở đầu đoạn 1, phong trào đọc sách có khẩu hiệu: 「読んでみよう。4年で100冊！」 (Hãy cùng đọc sách nào. 100 cuốn trong 4 năm!).\n• Ở cuối bài, tác giả viết: 「まだ卒業まで2年ありますから、頑張れば③できると思っています。」 (Cho đến khi tốt nghiệp vẫn còn 2 năm nữa, nếu cố gắng thì tôi nghĩ mình có thể làm được).\n• Điều 'có thể làm được' đó chính là hoàn thành mục tiêu đọc đủ 100 cuốn sách trong 4 năm đại học: 「100冊の本を読むこと」.\n\n📄 Trích PDF gốc (Trang 15 & 20 - 试题解析):\n(33) 文章③处提到“能够”, 指的是能做什么?\n4 此处的“能够”指的是文章第一段中提到的“読んでみよう。4年で100冊!”, 作者认为这样下去自己应该能完成在大学四年内读100本书的目标。(4. 100冊の本を読むこと)"
+},
     "69": {
-      "snippet": "Lựa chọn thực đơn của Emi (Set C)",
-      "explanation": "🎯 Đáp án đúng: [3] Lựa chọn thực đơn của Emi (Set C)\n\n💬 Dịch nghĩa câu:\n\"Emi muốn ăn món cà ri kèm salad rau tươi và sau bữa ăn có thêm cà phê tráng miệng, nên Set C là set ăn phù hợp nhất.\"\n\n💡 Phân tích & Giải thích:\n• Tra cứu bảng thực đơn nhà hàng: Set C bao gồm trọn gói: Cà ri (カレー), Salad (サラダ) và Cà phê (コーヒー).\n\n🔍 Phân tích các lựa chọn:\n- 1. Set A (Thiếu cà phê)\n- 2. Set B (Thiếu salad)\n- 3. Set C (ĐÚNG - Đầy đủ cà ri, salad và cà phê) (ĐÚNG)\n- 4. Set D (Không có món cà ri)\n\n📄 Trích PDF gốc (试题解析):\n(34) 3 惠美想吃咖喱和沙拉并喝咖啡, 符合要求的套餐是C套餐。",
-      "correctOption": 3
-    },
+      "snippet": "Menu của Elena: C và D",
+      "text": "エレナさんはカレーと一緒にサラダを食べて、あとでコーヒーを飲みたいと思っています。エレナさんが選ぶことのできるメニューはどれですか。",
+      "options": [
+            "AとBとCとD",
+            "AとBとC",
+            "CとD",
+            "Cだけ"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] CとD\n\n💬 Dịch nghĩa câu hỏi:\n\"Elena muốn ăn cà ri cùng với salad, và sau đó muốn uống cà phê. Thực đơn mà Elena có thể lựa chọn là những set nào?\"\n\n💡 Phân tích chi tiết bảng thực đơn:\n• Nhu cầu của Elena gồm 3 món: Cà ri (カレー) + Salad (サラダ) + Cà phê (コーヒー/飲み物).\n• Xét từng set thực đơn:\n  - Set A (850 yên): カレー + サラダ か 飲み物 (Chỉ được chọn HOẶC salad HOẶC đồ uống -> Không đủ cả hai).\n  - Set B (950 yên): カレー + サラダ か 飲み物 (Chỉ được chọn HOẶC salad HOẶC đồ uống -> Không đủ cả hai).\n  - Set C (1.100 yên): カレー + スープ + サラダ + 飲み物 (Có cả salad và đồ uống cà phê -> THỎA MÃN).\n  - Set D (1.300 yên): カレー + スープ + サラダ + 飲み物 + アイスクリーム (Có cả salad và đồ uống cà phê -> THỎA MÃN).\n• Như vậy, Elena có thể lựa chọn set C và set D: 「CとD」.\n\n📄 Trích PDF gốc (Trang 15 & 20 - 试题解析):\n(34) エレナ想吃咖喱和沙拉, 再在吃完后喝咖啡。符合她选择的菜单有哪些?\n3 A、B两份菜单中只能选择沙拉和饮品中的一项, 不满足她的要求; 而C、D两份菜单中包含所有她想要的食物和饮品, 故只有C和D两份菜单符合她的要求。(3. CとD)"
+},
     "70": {
-      "snippet": "Lựa chọn cho người muốn ăn cà ri gà",
-      "explanation": "🎯 Đáp án đúng: [3] Lựa chọn cho người muốn ăn cà ri gà\n\n💬 Dịch nghĩa câu:\n\"Đối với khách hàng có mong muốn thưởng thức món cà ri gà (チキンカレー), có tổng cộng 2 set thực đơn có món này.\"\n\n💡 Phân tích & Giải thích:\n• Dò tìm trong bảng thực đơn: món gà (チキン) chỉ xuất hiện trong 2 lựa chọn là Cà ri gà tiêu chuẩn và Cà ri gà đặc biệt.\n\n🔍 Phân tích các lựa chọn:\n- 1. Có 1 set\n- 2. Có 2 set thực đơn phù hợp (ĐÚNG)\n- 3. Có 3 set (ĐÚNG)\n- 4. Có 4 set\n\n📄 Trích PDF gốc (试题解析):\n(35) 2 想吃鸡肉咖喱的人共有2种菜单可选。",
-      "correctOption": 3
-    },
-    "71": {
-      "snippet": "Nhiệm vụ chuẩn bị phòng họp",
-      "explanation": "🎯 Đáp án đúng: [3] Nhiệm vụ chuẩn bị phòng họp\n\n💬 Dịch nghĩa câu:\n\"Người nam trước tiên sẽ đi photo in ấn 10 bộ tài liệu họp trước khi kê lại bàn ghế.\"\n\n💡 Phân tích & Giải thích:\n• Trưởng nhóm nhắc nhở tài liệu quan trọng cần in trước để phát tay, sau đó mới dọn dẹp phòng.\n\n🔍 Phân tích các lựa chọn:\n- 1. Kê bàn ghế trước\n- 2. Pha trà phục vụ\n- 3. Đi photo in 10 bộ tài liệu phát tay trước (ĐÚNG) (ĐÚNG)\n- 4. Bật máy chiếu\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (1): 男の人はまず何をしますか。 正解: [3]",
-      "audioScriptJa": "女：会議室の準備だけど、まず資料を10部コピーしてきてくれる？そのあと机を並べよう。\n男：はい、わかりました。",
-      "audioScriptVi": "Nữ: Chuẩn bị phòng họp nhé, trước tiên em đi photo giúp chị 10 bộ tài liệu được không? Sau đó tụi mình kê bàn ghế nhé.\nNam: Vâng, em đi làm ngay ạ.",
-      "correctOption": 3
+      "snippet": "Số menu có món Cà ri gà: 3 menu (A, C, D)",
+      "text": "チキンカレーを食べたい人が選ぶことのできるメニューはいくつありますか。",
+      "options": [
+            "1つ",
+            "2つ",
+            "3つ",
+            "4つ"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] 3つ\n\n💬 Dịch nghĩa câu hỏi:\n\"Người muốn ăn món cà ri gà (チキンカレー) có thể lựa chọn bao nhiêu set thực đơn?\"\n\n💡 Phân tích chi tiết bảng thực đơn:\n• Mục phân loại cà ri: 「①グループ: たまごカレー、野菜カレー、チキンカレー」. Cà ri gà thuộc nhóm ①.\n• Kiểm tra các set menu:\n  - Set A: Cho phép chọn cà ri nhóm ① -> CÓ THỂ CHỌN cà ri gà.\n  - Set B: Chỉ cho phép chọn cà ri nhóm ② -> KHÔNG CÓ cà ri gà.\n  - Set C: Cho phép chọn cà ri nhóm ① hoặc ② -> CÓ THỂ CHỌN cà ri gà.\n  - Set D: Cho phép chọn cà ri nhóm ① hoặc ② -> CÓ THỂ CHỌN cà ri gà.\n• Như vậy, có tổng cộng 3 set menu có thể chọn (A, C, D): 「3つ」.\n\n📄 Trích PDF gốc (Trang 15 & 20 - 试题解析):\n(35) 想吃鸡肉咖喱的人有几份菜单可选?\n3 根据“カレーの種類”中的对应内容可知, 鸡肉咖喱属于“①グループ”。回到四份菜单中, 可看到只有A、C、D三份菜单可选“①グループ”中的咖喱, 故想吃鸡肉咖喱的人可从这三份菜单中做出选择。(3. 3つ)"
+},
+        "71": {
+      "snippet": "Nơi hẹn gặp giữa người phụ nữ và người đàn ông",
+      "text": "携帯電話で、女の人と男の人が話しています。女の人はこれから、男の人とどこで会いますか。",
+      "options": [
+        "バス停",
+        "本屋",
+        "映画館の近くの喫茶店",
+        "映画館"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] 映画館の近くの喫茶店 (Quán cà phê gần rạp chiếu phim)\n\n💬 Phân tích hội thoại:\n• Người phụ nữ vừa đến trạm xe buýt và hỏi người đàn ông đang ở đâu (今どこにいますか).\n• Người đàn ông trả lời: 「僕は映画館の近くの喫茶店でコーヒーを飲んでいます。隣に本屋があるから、すぐ分かりますよ」 (Tôi đang uống cà phê ở quán cà phê gần rạp chiếu phim. Bên cạnh có hiệu sách nên rất dễ tìm).\n• Người phụ nữ bảo sẽ đến ngay (すぐ行きます).\n⇒ Địa điểm hai người sẽ gặp nhau là quán cà phê gần rạp chiếu phim.\n\n📄 Trích PDF gốc (Trang 15 & 21 - もんだい1 1ばん): Đáp án [3]",
+      "audioScriptJa": "女：もしもし、今バス停に着きました。遅くなってすみません。山田さん、今どこにいますか。\n男：僕は映画館の近くの喫茶店でコーヒーを飲んでいます。隣に本屋があるから、すぐ分かりますよ。\n女：分かりました。すぐ行きます。\n質問：女の人はこれから、男の人とどこで会いますか。",
+      "audioScriptVi": "Nữ: Alo, tôi vừa tới trạm xe buýt rồi. Xin lỗi vì tôi đến muộn nhé. Anh Yamada, bây giờ anh đang ở đâu vậy?\nNam: Tôi đang uống cà phê ở một quán cà phê gần rạp chiếu phim. Bên cạnh có hiệu sách nên nhìn là thấy ngay thôi.\nNữ: Tôi hiểu rồi. Tôi sẽ đến ngay đây.\nCâu hỏi: Người phụ nữ từ bây giờ sẽ gặp người đàn ông ở đâu?"
     },
     "72": {
-      "snippet": "Địa điểm tập trung chuyến dã ngoại",
-      "explanation": "🎯 Đáp án đúng: [3] Địa điểm tập trung chuyến dã ngoại\n\n💬 Dịch nghĩa câu:\n\"Cả lớp thống nhất địa điểm tập trung vào sáng chủ nhật là trước cổng soát vé phía Bắc nhà ga.\"\n\n💡 Phân tích & Giải thích:\n• Bạn nữ lưu ý cổng Nam đang sửa chữa đông đúc, nên đổi địa điểm hẹn sang cổng Bắc (北口改札前).\n\n🔍 Phân tích các lựa chọn:\n- 1. Trước cổng soát vé phía Bắc (北口) (ĐÚNG)\n- 2. Trước cổng phía Nam\n- 3. Tại sân ga số 2 (ĐÚNG)\n- 4. Tại quán cà phê đối diện ga\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (2): 二人はどこで待ち合わせをしますか。 正解: [1]",
-      "audioScriptJa": "女：南口は混んでいるから、北口の改札の前にしない？\n男：いいね、そうしよう。",
-      "audioScriptVi": "Nữ: Cổng Nam đông lắm, mình hẹn nhau ở trước cổng soát vé phía Bắc nhé?\nNam: Được đấy, hẹn ở đó nhé.",
-      "correctOption": 3
+      "snippet": "Đồ vật học sinh phải mang đến trường vào ngày mai",
+      "text": "日本語学校で、先生が話しています。学生は明日、何を持ってこなければなりませんか。",
+      "options": [
+        "テキスト",
+        "箸やお皿",
+        "タオル",
+        "料理の肉や魚"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] タオル (Khăn lau tay/khăn mặt)\n\n💬 Phân tích lời dặn của thầy giáo:\n• Thịt, cá, trà: nhà trường chuẩn bị (学校で用意します).\n• Đũa, bát đĩa: dùng đồ của trường (学校のものを使います).\n• Sách giáo khoa (テキスト): không cần mang (持ってこなくてもいい).\n• Khăn lau (タオル): do phải rửa tay nhiều nên dặn đừng quên mang theo 「手を洗うことが多いので、タオルを忘れないでください」.\n⇒ Thứ bắt buộc phải mang là khăn (タオル).\n\n📄 Trích PDF gốc (Trang 15 & 21 - もんだい1 2ばん): Đáp án [3]",
+      "audioScriptJa": "男：明日のクラスで日本の料理を作ります。料理に使う肉や魚などは、学校で用意します。お茶も用意します。箸やお皿などは学校のものを使います。手を洗うことが多いので、タオルを忘れないでください。明日は日本語の授業はないので、テキストは持ってこなくてもいいですよ。\n質問：学生は明日、何を持ってこなければなりませんか。",
+      "audioScriptVi": "Thầy giáo: Tiết học ngày mai chúng ta sẽ nấu món ăn Nhật Bản. Thịt và cá dùng để nấu ăn thì nhà trường sẽ chuẩn bị. Trà cũng do trường chuẩn bị. Đũa và bát đĩa sẽ dùng đồ của trường. Vì sẽ phải rửa tay nhiều lần nên các em đừng quên mang khăn mặt/khăn lau nhé. Ngày mai không có giờ học tiếng Nhật nên không cần mang sách giáo khoa cũng được.\nCâu hỏi: Học sinh ngày mai phải mang theo thứ gì?"
     },
     "73": {
-      "snippet": "Món đồ cần nộp vào ngày mai",
-      "explanation": "🎯 Đáp án đúng: [1] Món đồ cần nộp vào ngày mai\n\n💬 Dịch nghĩa câu:\n\"Học sinh ngày mai bắt buộc phải nộp bản đăng ký tham gia hoạt động dã ngoại có chữ ký phụ huynh.\"\n\n💡 Phân tích & Giải thích:\n• Thầy giáo dặn tiền dã ngoại tuần sau mới thu, bài thu hoạch nộp sau, ngày mai hạn chót nộp phiếu đăng ký có chữ ký bố mẹ.\n\n🔍 Phân tích các lựa chọn:\n- 1. Tiền kinh phí dã ngoại (ĐÚNG)\n- 2. Ảnh chụp kỷ yếu\n- 3. Bài tập hè\n- 4. Phiếu đăng ký tham gia có chữ ký của phụ huynh (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (3): 学生は明日何を出さなければなりませんか。 正解: [4]",
-      "audioScriptJa": "先生：お金は来週でいいですが、保護者のサインをもらった申込書は明日必ず出してください。",
-      "audioScriptVi": "Thầy giáo: Tiền tuần sau nộp cũng được, nhưng đơn đăng ký có chữ ký của phụ huynh thì ngày mai các em nhất định phải nộp nhé.",
-      "correctOption": 1
+      "snippet": "Nơi người đàn ông sẽ đi mua đồ sau đó",
+      "text": "うちで女の人と男の人が話しています。男の人はこのあとどこへ行きますか。",
+      "options": [
+        "コンビニ",
+        "スーパー",
+        "八百屋",
+        "デパート"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] コンビニ (Cửa hàng tiện lợi)\n\n💬 Phân tích hội thoại:\n• Người nữ nhờ đi cửa hàng tiện lợi (コンビニ) mua cà rốt.\n• Siêu thị (スーパー): hôm nay nghỉ (今日は休み).\n• Tiệm bán rau quả (八百屋): đã đóng cửa nghỉ bán tháng trước (先月店をやめた).\n• Trung tâm thương mại (デパート): hàng tốt nhưng xa quá nên thôi (ちょっと遠いから、今日はいいよ).\n⇒ Người đàn ông sẽ đi đến cửa hàng tiện lợi (コンビニ).\n\n📄 Trích PDF gốc (Trang 15 & 21 - もんだい1 3ばん): Đáp án [1]",
+      "audioScriptJa": "女：ちょっとコンビニに行って、人参を買ってきてくれない？\n男：うん、いいよ。でも、コンビニよりスーパーの方が近くない？\n女：ああ、スーパーは今日は休み。\n男：そうか。あ、近所の八百屋はどう？\n女：あそこは先月店をやめたんだよ。便利だったのに、残念。本当はコンビニよりデパートの方が品物がいいけど、ちょっと遠いから、今日はいいよ。\n男：そうか。じゃ、行ってくる。\n質問：男の人はこのあとどこへ行きますか。",
+      "audioScriptVi": "Nữ: Anh ra cửa hàng tiện lợi mua giúp em củ cà rốt được không?\nNam: Ừ được chứ. Nhưng mà siêu thị chẳng phải gần hơn cửa hàng tiện lợi sao?\nNữ: À, hôm nay siêu thị nghỉ bán rồi.\nNam: Thế à. Thế tiệm bán rau quả gần nhà thì sao?\nNữ: Tiệm đó từ tháng trước đã đóng cửa nghỉ bán rồi. Tiện lợi thế mà nghỉ thì tiếc thật. Thật ra hàng ở trung tâm thương mại tốt hơn cửa hàng tiện lợi, nhưng mà hơi xa nên thôi hôm nay không cần.\nNam: Vậy à. Thế anh đi đây nhé.\nCâu hỏi: Người đàn ông sau cuộc nói chuyện sẽ đi đâu?"
     },
     "74": {
-      "snippet": "Hành động tiếp theo của bạn nữ",
-      "explanation": "🎯 Đáp án đúng: [1] Hành động tiếp theo của bạn nữ\n\n💬 Dịch nghĩa câu:\n\"Bạn nữ sẽ trực tiếp gọi điện thoại cho giáo viên chủ nhiệm để xin phép nghỉ học do ốm.\"\n\n💡 Phân tích & Giải thích:\n• Bạn nam khuyên không nên nhờ bạn nhắn miệng mà hãy gọi điện thoại trực tiếp thông báo cho cô giáo an tâm.\n\n🔍 Phân tích các lựa chọn:\n- 1. Nhờ bạn vào lớp xin phép hộ (ĐÚNG)\n- 2. Tự mình gọi điện thoại trực tiếp báo cô giáo (ĐÚNG)\n- 3. Gửi email cho trường\n- 4. Đến phòng y tế trường\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (4): 女の学生はこれから何をしますか。 正解: [2]",
-      "audioScriptJa": "男：先生には自分で電話したほうがいいよ。\n女：そうだね、今すぐ電話してみる。",
-      "audioScriptVi": "Nam: Em nên tự mình gọi điện cho cô giáo thì tốt hơn đấy.\nNữ: Ừ đúng rồi, để mình gọi điện cho cô ngay.",
-      "correctOption": 1
+      "snippet": "Thời gian học sinh phải có mặt tại phòng học",
+      "text": "教室で先生が話しています。学生は何時までに教室に来なければなりませんか。",
+      "options": [
+        "12時55分 (1時5分前)",
+        "1時",
+        "1時5分",
+        "1時10分"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] 12時55分 (1時5分前 - 1 giờ kém 5 phút)\n\n💬 Phân tích thông báo của cô giáo:\n• 1 giờ là giờ xuất phát rời khỏi lớp (1時にここを出る予定).\n• Cô yêu cầu học sinh tập trung trước đó 5 phút: 「5分前にこの教室に集まってください」.\n• 1 giờ trước 5 phút chính là 12 giờ 55 phút (12時55分 / 1時5分前).\n⇒ Học sinh phải có mặt ở lớp trước 12:55.\n\n📄 Trích PDF gốc (Trang 15 & 21 - もんだい1 4ばん): Đáp án [1]",
+      "audioScriptJa": "女：皆さん、今日は午後美術館へ行って、日本の古い絵を見ます。1時にここを出る予定ですから、5分前にこの教室に集まってください。皆集まったらすぐ出ます。ええ、ここから美術館まで歩いて十分ぐらいです。じゃ、今から昼休みです。\n質問：学生は何時までに教室に来なければなりませんか。",
+      "audioScriptVi": "Cô giáo: Các em, chiều nay chúng ta sẽ đến bảo tàng mỹ thuật xem tranh cổ Nhật Bản. Dự định 1 giờ sẽ xuất phát từ đây, vì vậy trước 1 giờ 5 phút các em hãy tập trung tại lớp học này nhé. Mọi người tập hợp đủ là chúng ta đi ngay. Từ đây đi bộ đến bảo tàng mỹ thuật mất khoảng 10 phút. Giờ là giờ nghỉ trưa.\nCâu hỏi: Học sinh phải đến lớp học trước mấy giờ?"
     },
     "75": {
-      "snippet": "Món quà bạn nam chọn mua",
-      "explanation": "🎯 Đáp án đúng: [4] Món quà bạn nam chọn mua\n\n💬 Dịch nghĩa câu:\n\"Bạn nam quyết định chọn mua chiếc khăn quàng cổ màu xanh ấm áp làm quà tặng sinh nhật mẹ.\"\n\n💡 Phân tích & Giải thích:\n• Sau khi cân nhắc giữa găng tay và khăn quàng cổ, bạn nam thấy mùa đông lạnh nên mua khăn quàng cổ xanh mẹ rất thích.\n\n🔍 Phân tích các lựa chọn:\n- 1. Đôi găng tay da\n- 2. Chiếc khăn quàng cổ màu xanh (ĐÚNG)\n- 3. Chiếc áo len mùa đông\n- 4. Bó hoa tươi (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (5): 男の人はお母さんに何を買いますか。 正解: [2]",
-      "audioScriptJa": "男：母は青色が好きだから、この青いマフラーにするよ。\n女：お母さん、きっと喜ぶね。",
-      "audioScriptVi": "Nam: Mẹ mình thích màu xanh da trời, nên mình sẽ chọn chiếc khăn quàng cổ màu xanh này.\nNữ: Mẹ cậu chắc chắn sẽ vui lắm đấy.",
-      "correctOption": 4
+      "snippet": "Số chai nước nữ sinh cần chuẩn bị cho buổi thi đấu",
+      "text": "大学のクラブで女の学生と男の学生が話しています。女の学生は水を何本準備しなければなりませんか。",
+      "options": [
+        "5本",
+        "10本",
+        "15本",
+        "20本"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] 20本 (20 chai nước)\n\n💬 Phân tích phép tính số lượng nước:\n1. Nước cho đội nhà (câu lạc bộ + giáo viên + người hỗ trợ): 10 chai (十本).\n2. Nước cho đội bạn trường Sakura: thêm 10 chai nữa (桜大学の人の水も十本).\n⇒ Tổng cộng nữ sinh cần mua: 10 + 10 = 20 chai (二十本).\n\n📄 Trích PDF gốc (Trang 15 & 21 - もんだい1 5ばん): Đáp án [4]",
+      "audioScriptJa": "女：先輩、明日桜大学と試合ですね。準備を手伝います。\n男：ありがとう。じゃ、水を買っておいてくれる？\n女：はい。ええと、私たちのクラブは五人ですから、水も五本ですね。\n男：ううん、先生と手伝いに来る人もいるから、十本だね。\n女：はい。\n男：あ、そうだ、明日の会場は僕たちの大学だから、桜大学の人たちの水も僕たちが準備するんだよ。\n女：そうですか。\n男：じゃ、桜大学の人の水も十本買っておいてくれる？\n女：はい。\n質問：女の学生は水を何本準備しなければなりませんか。",
+      "audioScriptVi": "Nữ sinh: Tiền bối, ngày mai thi đấu với trường đại học Sakura rồi nhỉ. Em sẽ phụ giúp chuẩn bị ạ.\nNam sinh: Cảm ơn em. Vậy em mua sẵn nước giúp anh nhé?\nNữ sinh: Vâng. Để xem nào, câu lạc bộ mình có 5 người nên mua 5 chai đúng không ạ?\nNam sinh: Không, có cả thầy giáo và người đến hỗ trợ nữa nên là 10 chai đấy.\nNữ sinh: Vâng ạ.\nNam sinh: À đúng rồi, địa điểm thi đấu ngày mai là trường mình nên mình cũng phải chuẩn bị nước cho cả bên trường đại học Sakura nữa.\nNữ sinh: Thế ạ?\nNam sinh: Vậy em mua giúp thêm 10 chai nước cho người của trường Sakura nữa nhé?\nNữ sinh: Vâng ạ.\nCâu hỏi: Nữ sinh cần phải chuẩn bị bao nhiêu chai nước?"
     },
     "76": {
-      "snippet": "Cách đi đến bảo tàng mỹ thuật",
-      "explanation": "🎯 Đáp án đúng: [3] Cách đi đến bảo tàng mỹ thuật\n\n💬 Dịch nghĩa câu:\n\"Hai người quyết định sẽ đi bộ ra bến xe buýt trước ga và bắt chuyến xe buýt số 3 đi thẳng tới cổng bảo tàng.\"\n\n💡 Phân tích & Giải thích:\n• Đi taxi quá đắt, đi tàu điện ngầm phải đi bộ xa, xe buýt số 3 đỗ ngay trước cổng nên hai người chọn đi xe buýt.\n\n🔍 Phân tích các lựa chọn:\n- 1. Đi taxi\n- 2. Đi tàu điện ngầm\n- 3. Bắt chuyến xe buýt số 3 đi thẳng (ĐÚNG) (ĐÚNG)\n- 4. Mượn xe đạp đi\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (6): 二人は美術館へどうやって行きますか。 正解: [3]",
-      "audioScriptJa": "女：バスなら美術館の真ん前で止まるから便利だよ。\n男：じゃあ、バスで行こう。",
-      "audioScriptVi": "Nữ: Đi xe buýt thì xe dừng đỗ ngay trước cổng bảo tàng luôn, tiện lắm.\nNam: Vậy tụi mình đi xe buýt nhé.",
-      "correctOption": 3
+      "snippet": "Công việc nam sinh sẽ làm tiếp theo sau cuộc trao đổi",
+      "text": "大学で、女の先生と男の学生が話しています。男の学生はこのあと何をしますか。",
+      "options": [
+        "案内を貼る",
+        "ピアノを運ぶ",
+        "椅子を運ぶ",
+        "ビデオを用意する"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] 椅子を運ぶ (Chuyển thêm ghế / Chuyển 10 cái ghế)\n\n💬 Phân tích tiến độ công việc:\n• Dán thông báo chỉ dẫn (案内): đã dán xong 6 tờ.\n• Đàn piano: đã chuyển xong rồi.\n• Máy quay (ビデオ): đã chuẩn bị xong từ trước (それはもう準備してあります).\n• Ghế (椅子): đã chuyển 30 cái, cô giáo yêu cầu chuyển thêm 10 cái nữa 「椅子はもう十個運んでおいてください」 và nam sinh nhận lời ngay.\n⇒ Việc nam sinh cần làm tiếp theo là chuyển thêm ghế (椅子を運ぶ).\n\n📄 Trích PDF gốc (Trang 15, 21 & 22 - もんだい1 6ばん): Đáp án [3]",
+      "audioScriptJa": "女：明日の音楽会、会場の案内は貼ってきてくれましたか。\n男：はい。大学の入口から会場まで六枚ぐらい貼りました。\n女：ありがとう。会場の準備はどうですか。\n男：ピアノはもう運んであります。椅子も三十個運びました。\n女：そうですか。そうね、椅子はもう十個運んでおいてください。\n男：はい。\n女：それから、ビデオの用意も忘れないでくださいね。\n男：はい。それはもう準備してあります。\n質問：男の学生はこのあと何をしますか。",
+      "audioScriptVi": "Cô giáo: Buổi hòa nhạc ngày mai, em đã đi dán bảng chỉ dẫn hội trường chưa?\nNam sinh: Dạ rồi. Em đã dán khoảng 6 tờ từ cổng trường đại học đến hội trường rồi ạ.\nCô giáo: Cảm ơn em. Còn việc chuẩn bị hội trường thì sao?\nNam sinh: Đàn piano thì đã chuyển vào rồi ạ. Ghế thì em cũng đã chuyển 30 cái rồi ạ.\nCô giáo: Thế à. Vậy thì em chuyển thêm 10 cái ghế nữa giúp cô nhé.\nNam sinh: Vâng ạ.\nCô giáo: Ngoài ra đừng quên chuẩn bị máy quay video nhé.\nNam sinh: Dạ, cái đó em đã chuẩn bị xong rồi ạ.\nCâu hỏi: Nam sinh sau đây sẽ làm gì?"
     },
     "77": {
-      "snippet": "Công việc người phụ nữ làm ngay bây giờ",
-      "explanation": "🎯 Đáp án đúng: [3] Công việc người phụ nữ làm ngay bây giờ\n\n💬 Dịch nghĩa câu:\n\"Người phụ nữ sẽ lập tức gọi điện thoại xác nhận lại giờ hạ cánh của đoàn khách đối tác.\"\n\n💡 Phân tích & Giải thích:\n• Để chuẩn bị xe đón đúng giờ, việc cấp bách trước mắt là gọi điện kiểm tra giờ chuyến bay đáp xuống sân bay.\n\n🔍 Phân tích các lựa chọn:\n- 1. Gọi điện thoại kiểm tra giờ hạ cánh chuyến bay (ĐÚNG)\n- 2. Lái xe ra sân bay ngay\n- 3. In bảng tên đón khách (ĐÚNG)\n- 4. Đặt phòng khách sạn\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (7): 女の人はまず何をしますか。 正解: [1]",
-      "audioScriptJa": "男：飛行機が遅れているかもしれないから、まず空港に電話して確認してくれる？\n女：はい、すぐ確認します。",
-      "audioScriptVi": "Nam: Có thể máy bay đang bị trễ chuyến, em gọi điện kiểm tra trước với sân bay được không?\nNữ: Vâng, em kiểm tra ngay ạ.",
-      "correctOption": 3
+      "snippet": "Thời điểm nam sinh sẽ đến phòng cô giáo",
+      "text": "教室で男の学生と先生が話しています。男の学生はいつ先生の部屋に行きますか。",
+      "options": [
+        "今日の授業のあと",
+        "今日の昼休み",
+        "明日の昼休み",
+        "明日の六時"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] 明日の昼休み (Giờ nghỉ trưa ngày mai)\n\n💬 Phân tích các mốc thời gian thương lượng:\n• Bây giờ: cô sắp có tiết dạy tiếp theo.\n• Sau 6 giờ hôm nay: nam sinh bận đi làm thêm (アルバイト).\n• Nghỉ trưa hôm nay: cô giáo bận họp (会議がある).\n• Nghỉ trưa ngày mai: cô không có họp (明日の昼休みなら会議はありませんよ) ⇒ Hai người thống nhất hẹn trưa mai đến phòng cô.\n\n📄 Trích PDF gốc (Trang 15 & 22 - もんだい1 7ばん): Đáp án [3]",
+      "audioScriptJa": "男：先生、すみません。テキストで分からないところがあります。今質問してもいいですか。\n女：今から次の授業があるんです。今日の授業が全部終わるのは六時です。そのあとはどうですか。\n男：すみません。私毎日六時からアルバイトがあるんです。今日の昼休みはいかがですか。\n女：ああ、今日の昼休みは会議があるんです。明日の昼休みなら会議はありませんよ。\n男：じゃ、明日お願いします。\n女：では、私の部屋に来てくださいね。\n男：はい。\n質問：男の学生はいつ先生の部屋に行きますか。",
+      "audioScriptVi": "Nam sinh: Thưa cô, em xin lỗi. Trong sách có chỗ em chưa hiểu. Bây giờ em hỏi có được không ạ?\nCô giáo: Giờ cô lại có tiết học tiếp theo mất rồi. Các tiết học hôm nay kết thúc lúc 6 giờ. Sau đó thì sao em?\nNam sinh: Em xin lỗi, ngày nào từ 6 giờ em cũng phải đi làm thêm mất rồi ạ. Giờ nghỉ trưa hôm nay có được không cô?\nCô giáo: À, trưa hôm nay cô lại có cuộc họp rồi. Nhưng trưa mai thì cô không có họp đâu.\nNam sinh: Vậy trưa mai nhờ cô ạ.\nCô giáo: Vậy thì trưa mai em qua phòng cô nhé.\nNam sinh: Vâng ạ.\nCâu hỏi: Nam sinh sẽ đến phòng cô giáo vào lúc nào?"
     },
     "78": {
-      "snippet": "Địa điểm kiểm tra thông tin thời khóa biểu",
-      "explanation": "🎯 Đáp án đúng: [1] Địa điểm kiểm tra thông tin thời khóa biểu\n\n💬 Dịch nghĩa câu:\n\"Bạn sinh viên cần lên trang web của trường đại học để xem bảng thời khóa biểu lớp học mới cập nhật.\"\n\n💡 Phân tích & Giải thích:\n• Bảng thông báo ở sảnh đã gỡ xuống để sửa đổi, cô văn phòng bảo học sinh tra cứu bản chuẩn nhất trên trang web khoa.\n\n🔍 Phân tích các lựa chọn:\n- 1. Hỏi trực tiếp thầy cô giảng đường (ĐÚNG)\n- 2. Đến phòng giáo vụ trường\n- 3. Xem bảng tin dán ở hành lang\n- 4. Tra cứu trên trang web chính thức của trường (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (8): 学生はどこで時間割を見ますか。 正解: [4]",
-      "audioScriptJa": "女：最新の時間割は学校のホームページに載っていますから、そちらを見てくださいね。\n男：はい、わかりました。",
-      "audioScriptVi": "Nữ: Thời khóa biểu mới nhất đã đăng tải trên trang chủ của trường, em vào đó xem nhé.\nNam: Vâng, em hiểu rồi ạ.",
-      "correctOption": 1
+      "snippet": "Hành động đầu tiên nam sinh làm để dọn dẹp sau bữa tiệc",
+      "text": "大学で女の学生と男の学生が話しています。男の学生はこのあとまず何をしますか。",
+      "options": [
+        "テーブルを片付ける",
+        "果物を片付ける (果物を皿に入れる)",
+        "下に落ちているごみを拾う",
+        "ゴミ袋を用意する"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] 果物を片付ける (Dọn dẹp gom hoa quả trên bàn vào một đĩa)\n\n💬 Phân tích trình tự công việc:\n• Bàn: người của văn phòng trường sẽ đến dọn.\n• Hoa quả trên bàn: nữ sinh bảo dọn gom hoa quả vào một đĩa trước khi người văn phòng tới 「事務所の人が来る前にやってね」.\n• Nhặt rác dưới sàn: nữ sinh bảo sau khi dọn xong hoa quả mới nhặt rác 「果物を片付けたら、下に落ちているごみを拾ってくれる？」.\n⇒ Việc nam sinh làm ĐẦU TIÊN (まず何をしますか) là gom hoa quả vào đĩa.\n\n📄 Trích PDF gốc (Trang 15 & 22 - もんだい1 8ばん): Đáp án [2]",
+      "audioScriptJa": "女：楽しいパーティーだったね。さあ、片付けよう。\n男：うん、テーブルはどこへ持っていく？\n女：テーブルはもうすぐ大学の事務所の人が片付けに来てくれるよ。\n男：そう。あ、でもテーブルの上には果物が残っているよ。\n女：そうだね。じゃあ、あとで皆で食べよう。一つの皿に入る？\n男：うん、入りそう。\n女：じゃ、お願い。事務所の人が来る前にやってね。それから、ゴミだね。\n男：うん。ゴミ袋はここにあるよ。\n女：私はテーブルの上の食べ物のゴミを捨てるから、果物を片付けたら、下に落ちているごみを拾ってくれる？\n男：分かった。\n質問：男の学生はこのあとまず何をしますか。",
+      "audioScriptVi": "Nữ sinh: Bữa tiệc vui thật đấy. Nào, chúng mình dọn dẹp thôi.\nNam sinh: Ừ, bàn thì mang đi đâu đây?\nNữ sinh: Bàn thì lát nữa người của văn phòng trường sẽ đến dọn giúp mình đấy.\nNam sinh: Thế à. A, nhưng trên bàn vẫn còn hoa quả thừa này.\nNữ sinh: Đúng rồi. Vậy để lát nữa mọi người cùng ăn nhé. Cho vào chung một đĩa được không?\nNam sinh: Ừ, chắc vừa đấy.\nNữ sinh: Thế nhờ bạn nhé. Hãy làm trước khi người của văn phòng tới nha. Sau đó là rác nữa.\nNam sinh: Ừ. Túi rác ở đây này.\nNữ sinh: Mình sẽ vứt rác thức ăn trên bàn, sau khi bạn dọn xong hoa quả thì nhặt giúp mình rác rơi dưới sàn nhé?\nNam sinh: Mình hiểu rồi.\nCâu hỏi: Nam sinh sau đây trước hết sẽ làm gì?"
     },
     "79": {
-      "snippet": "Lý do bạn nữ thích công việc làm thêm ở tiệm bánh",
-      "explanation": "🎯 Đáp án đúng: [2] Lý do bạn nữ thích công việc làm thêm ở tiệm bánh\n\n💬 Dịch nghĩa câu:\n\"Bạn nữ thích làm việc ở đây vì được học hỏi rất nhiều công thức làm bánh ngọt từ những người thợ làm bánh chuyên nghiệp.\"\n\n💡 Phân tích & Giải thích:\n• Dù lương không quá cao nhưng bạn nữ rất hào hứng vì được học nghề làm bánh từ các tiền bối tay nghề giỏi.\n\n🔍 Phân tích các lựa chọn:\n- 1. Được học nghề làm bánh từ thợ chuyên nghiệp (ĐÚNG)\n- 2. Mức lương làm thêm rất cao (ĐÚNG)\n- 3. Cửa hàng rất gần nhà\n- 4. Được ăn bánh miễn phí thoải mái\n\n📄 Trích PDF gốc (试题解析):\n聴解 2 (1): 女の人はどうしてこのアルバイトが好きだと言っていますか。 正解: [1]",
-      "audioScriptJa": "女：プロのケーキ職人さんから直接いろんな作り方を教えてもらえるのが一番楽しいの。",
-      "audioScriptVi": "Nữ: Được các nghệ nhân làm bánh ngọt chuyên nghiệp trực tiếp chỉ dạy cho đủ mọi công thức là điều mình thấy vui nhất.",
-      "correctOption": 2
+      "snippet": "Nguyện vọng nghề nghiệp tương lai của bạn nữ sinh",
+      "text": "大学で男の学生と女の学生が話しています。女の学生は将来何になりたいと言っていますか。",
+      "options": [
+        "医者",
+        "大学の先生 (大学で教える人)",
+        "エンジニア",
+        "銀行員"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] 大学の先生 (Giảng viên đại học / Dạy học ở trường đại học)\n\n💬 Phân tích mong muốn của bạn nữ sinh (Suzuki):\n• Hồi bé: từng muốn làm bác sĩ (子供の時は医者になりたいと思っていました) ⇒ Quá khứ, không phải nguyện vọng hiện tại.\n• Hiện tại: muốn học cao học nghiên cứu và đi dạy ở trường đại học 「今は大学院で研究をして、大学で教えたいと思っています」 ⇒ Giảng viên đại học (大学の先生).\n\n📄 Trích PDF gốc (Trang 15 & 22 - もんだい2 1ばん): Đáp án [2]",
+      "audioScriptJa": "男：鈴木さんは大学を卒業したあと、どうしますか。\n女：子供の時は医者になりたいと思っていましたが、今は大学院で研究をして、大学で教えたいと思っています。\n男：そうですか。\n女：田中くんはコンピューターが専門だから、エンジニアですか。\n男：いいえ。銀行で働きたいと思っています。\n質問：女の学生は将来何になりたいと言っていますか。",
+      "audioScriptVi": "Nam sinh: Bạn Suzuki sau khi tốt nghiệp đại học sẽ làm gì thế?\nNữ sinh: Hồi bé thì mình muốn trở thành bác sĩ, nhưng bây giờ mình muốn học lên cao học nghiên cứu và giảng dạy ở trường đại học.\nNam sinh: Thế à.\nNữ sinh: Tanaka chuyên ngành máy tính thì chắc muốn làm kỹ sư nhỉ?\nNam sinh: Không. Mình muốn làm việc ở ngân hàng cơ.\nCâu hỏi: Nữ sinh nói tương lai muốn trở thành người như thế nào?"
     },
     "80": {
-      "snippet": "Điểm nổi bật của chiếc máy ảnh mới mua",
-      "explanation": "🎯 Đáp án đúng: [2] Điểm nổi bật của chiếc máy ảnh mới mua\n\n💬 Dịch nghĩa câu:\n\"Chiếc máy ảnh có khả năng chụp ảnh vô cùng sắc nét ngay cả trong điều kiện đêm tối thiếu ánh sáng.\"\n\n💡 Phân tích & Giải thích:\n• Bạn nam giải thích điểm ưng ý nhất là máy có cảm biến cao cấp, chụp cảnh đêm không hề bị nhòe hay nhiễu hạt.\n\n🔍 Phân tích các lựa chọn:\n- 1. Máy ảnh có màu sắc bắt mắt\n- 2. Máy ảnh giá rẻ bất ngờ (ĐÚNG)\n- 3. Máy ảnh có trọng lượng rất nhẹ\n- 4. Chụp ảnh ban đêm cực kỳ rõ nét và đẹp mắt (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n聴解 2 (2): 新しいカメラのどこが一番いいと言っていますか。 正解: [4]",
-      "audioScriptJa": "男：夜の暗いところでも、フラッシュなしですごく綺麗に撮れるところが気に入っているんだ。",
-      "audioScriptVi": "Nam: Dù ở nơi tối tăm vào ban đêm, không cần đèn flash mà máy vẫn chụp được cực kỳ đẹp và sắc nét, đó là điểm tớ thích nhất.",
-      "correctOption": 2
+      "snippet": "Dự định chiều ngày mai của bạn nữ sinh",
+      "text": "男の学生と女の学生が話しています。女の学生は明日の午後何をすると言っていますか。",
+      "options": [
+        "映画を見に行く",
+        "部屋を掃除して絵を飾る",
+        "友達の部屋に遊びに行く",
+        "花を買いに行く"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] 部屋を掃除して絵を飾る (Dọn dẹp phòng và treo tranh)\n\n💬 Phân tích kế hoạch của bạn nữ (Yamamoto):\n• Bạn nam rủ đi xem phim chiều mai (映画を見に行きませんか).\n• Bạn nữ từ chối vì đã có kế hoạch: 「明日の午後は部屋を掃除して、先週買ってきた絵を飾りたいんです」 (Chiều mai mình muốn dọn phòng rồi treo bức tranh mua tuần trước lên).\n\n📄 Trích PDF gốc (Trang 15 & 22 - もんだい2 2ばん): Đáp án [2]",
+      "audioScriptJa": "男：山本さん、明日の土曜日の午後は忙しいですか。映画を見に行きませんか。\n女：ああ、明日の午後は部屋を掃除して、先週買ってきた絵を飾りたいんです。\n男：ああ、絵を買ったんですか。\n女：ええ。先週、友達の部屋に遊びに行ったんですけど、絵や花が飾ってあって、とても綺麗でした。それで、私もやってみることにしたんです。今度遊びに来てください。\n男：ありがとう。じゃ、花を持って行きますね。\n質問：女の学生は明日の午後何をすると言っていますか。",
+      "audioScriptVi": "Nam sinh: Bạn Yamamoto, chiều thứ bảy mai bạn có bận không? Đi xem phim cùng mình không?\nNữ sinh: À, chiều mai mình muốn dọn dẹp phòng rồi treo bức tranh tuần trước vừa mua lên.\nNam sinh: Ồ, bạn mới mua tranh à?\nNữ sinh: Ừ. Tuần trước mình sang phòng bạn chơi, thấy trong phòng trang trí tranh và hoa đẹp lắm. Thế nên mình cũng quyết định thử làm xem sao. Hôm nào qua phòng mình chơi nhé.\nNam sinh: Cảm ơn bạn. Thế hôm đó mình sẽ mang hoa đến nhé.\nCâu hỏi: Nữ sinh nói chiều mai sẽ làm gì?"
     },
     "81": {
-      "snippet": "Lý do bạn nam đến muộn buổi hẹn",
-      "explanation": "🎯 Đáp án đúng: [2] Lý do bạn nam đến muộn buổi hẹn\n\n💬 Dịch nghĩa câu:\n\"Bạn nam đến trễ là vì tuyến tàu điện ngầm gặp sự cố mất điện đột ngột nên đoàn tàu phải dừng giữa đường.\"\n\n💡 Phân tích & Giải thích:\n• Bạn nam xin lỗi rối rít và giải thích tàu bị dừng khẩn cấp do sự cố mất điện ở nhà ga trước.\n\n🔍 Phân tích các lựa chọn:\n- 1. Ngủ quên không nghe chuông báo thức\n- 2. Tàu điện gặp sự cố mất điện phải dừng giữa chừng (ĐÚNG) (ĐÚNG)\n- 3. Bị kẹt xe buýt\n- 4. Quên mất giờ hẹn\n\n📄 Trích PDF gốc (试题解析):\n聴解 2 (3): 男の人はどうして遅刻しましたか。 正解: [2]",
-      "audioScriptJa": "男：ごめん！乗っていた電車が停電で途中で20分も止まっちゃって…",
-      "audioScriptVi": "Nam: Xin lỗi cậu nhé! Chuyến tàu tớ đi bị mất điện đột ngột nên phải dừng khựng giữa đường tận 20 phút...",
-      "correctOption": 2
+      "snippet": "Dự báo thời tiết cho ngày mai (thứ Sáu)",
+      "text": "天気予報を聞いています。明日はどんな天気ですか。",
+      "options": [
+        "暖かくて気持ちがいい天気",
+        "晴れるが風が冷たい",
+        "午後から曇りになる",
+        "一日中強い雨が降る"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] 晴れるが風が冷たい (Trời nắng nhưng gió lạnh)\n\n💬 Phân tích dự báo từng ngày:\n• Hôm nay: ấm áp, dễ chịu (暖かくて気持ちがいい).\n• Ngày mai (thứ Sáu): trời nắng nhưng gió lạnh 「明日、金曜日も晴れますが、風が冷たい一日になるでしょう」.\n• Thứ Bảy: chiều nhiều mây (午後から曇).\n• Chủ Nhật: mưa to cả ngày (一日中強い雨).\n⇒ Câu hỏi hỏi thời tiết ngày mai (明日): Nắng nhưng gió lạnh.\n\n📄 Trích PDF gốc (Trang 15 & 22 - もんだい2 3ばん): Đáp án [2]",
+      "audioScriptJa": "女：今日はとても暖かくて、気持ちがいいお天気でしたね。明日、金曜日も晴れますが、風が冷たい一日になるでしょう。明後日土曜日は午後から曇になって、日曜日は一日中強い雨が降りそうです。\n質問：明日はどんな天気ですか。",
+      "audioScriptVi": "Phát thanh viên: Hôm nay trời rất ấm áp và dễ chịu nhỉ. Ngày mai, thứ Sáu trời cũng nắng ráo, nhưng sẽ là một ngày gió lạnh. Ngày kia thứ Bảy từ chiều trời chuyển nhiều mây, còn Chủ Nhật có vẻ sẽ mưa to suốt cả ngày.\nCâu hỏi: Thời tiết ngày mai như thế nào?"
     },
     "82": {
-      "snippet": "Kế hoạch kỳ nghỉ hè của cô giáo",
-      "explanation": "🎯 Đáp án đúng: [1] Kế hoạch kỳ nghỉ hè của cô giáo\n\n💬 Dịch nghĩa câu:\n\"Kỳ nghỉ hè này cô giáo dự định sẽ về thăm quê hương thăm ông bà và dành thời gian nghỉ ngơi thư giãn ở suối nước nóng.\"\n\n💡 Phân tích & Giải thích:\n• Cô chia sẻ lâu rồi không về quê nên sẽ về thăm quê nhà và cùng cả gia đình đi tắm Onsen thư giãn.\n\n🔍 Phân tích các lựa chọn:\n- 1. Đi du lịch nước ngoài (ĐÚNG)\n- 2. Tham gia khóa học nâng cao\n- 3. Về quê thăm ông bà và đi suối nước nóng nghỉ dưỡng (ĐÚNG)\n- 4. Ở lại trường nghiên cứu sách\n\n📄 Trích PDF gốc (试题解析):\n聴解 2 (4): 先生は夏休みに何をしますか。 正解: [3]",
-      "audioScriptJa": "女：田舎に帰って祖父母に会って、久しぶりに温泉にでも行こうと思っているのよ。",
-      "audioScriptVi": "Nữ: Cô định về quê thăm ông bà, rồi nhân tiện cả nhà cùng đi tắm suối nước nóng nghỉ dưỡng một chuyến.",
-      "correctOption": 1
+      "snippet": "Món quà/hoạt động có nhiều sinh viên làm nhất vào sinh nhật mẹ",
+      "text": "ラジオでアナウンサーが話しています。お母さんの誕生日に何をする人が一番多いと言っていますか。",
+      "options": [
+        "一緒に食事する",
+        "花や洋服をプレゼントする",
+        "手紙やカードを送る",
+        "ケーキを作る"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] 一緒に食事する (Cùng nhau đi ăn uống)\n\n💬 Số liệu thống kê từ 60 sinh viên:\n• Cùng ăn uống (一緒に食事する): 30 người (nhiều nhất - 最も多かったのは三十人).\n• Tặng hoa/quần áo (花や洋服): 15 người.\n• Gửi thư/thiệp (手紙やカード): 10 người.\n• Tự làm bánh kem (ケーキを作る): 5 người.\n⇒ Việc nhiều người làm nhất là cùng nhau đi ăn uống (30/60 người).\n\n📄 Trích PDF gốc (Trang 15 & 23 - もんだい2 4ばん): Đáp án [1]",
+      "audioScriptJa": "男：皆さんはお母さんの誕生日、何をしますか。大学生六十人にお母さんの誕生日に何をするか聞いてみました。最も多かったのは一緒に食事するという人で三十人、花や洋服をプレゼントすると答えた人が十五人、手紙やカードを送る人が十人でした。ケーキを作ると答えた人も五人いました。\n質問：お母さんの誕生日に何をする人が一番多いと言っていますか。",
+      "audioScriptVi": "Phát thanh viên: Các bạn làm gì vào ngày sinh nhật của mẹ mình? Chúng tôi đã thử hỏi 60 bạn sinh viên xem họ làm gì vào sinh nhật mẹ. Nhiều nhất là cùng đi ăn uống với 30 người, người trả lời tặng hoa hoặc quần áo là 15 người, người gửi thư hoặc thiệp là 10 người. Cũng có 5 người trả lời là tự làm bánh kem.\nCâu hỏi: Người ta nói hành động nào có nhiều người làm nhất vào ngày sinh nhật mẹ?"
     },
     "83": {
-      "snippet": "Món ăn nổi tiếng nhất của nhà hàng",
-      "explanation": "🎯 Đáp án đúng: [3] Món ăn nổi tiếng nhất của nhà hàng\n\n💬 Dịch nghĩa câu:\n\"Món ăn được đông đảo thực khách ưa chuộng và nổi tiếng nhất của quán là món mì Ramen nước hầm xương đậm đà.\"\n\n💡 Phân tích & Giải thích:\n• Nhân viên phục vụ giới thiệu món mì Ramen truyền thống hầm xương heo suốt 12 tiếng là món 'cháy hàng' nhất quán.\n\n🔍 Phân tích các lựa chọn:\n- 1. Mì Ramen truyền thống nước hầm xương đậm đà (ĐÚNG)\n- 2. Món cơm chiên hải sản\n- 3. Món sủi cảo gyoza nướng (ĐÚNG)\n- 4. Món lẩu bò\n\n📄 Trích PDF gốc (试题解析):\n聴解 2 (5): この店の人気メニューは何ですか。 正解: [1]",
-      "audioScriptJa": "店員：当店で一番人気があるのは、12時間煮込んだこちらの特製豚骨ラーメンです。",
-      "audioScriptVi": "Nhân viên: Món được khách hàng yêu thích và gọi nhiều nhất tại quán em là món mì Ramen Tonkotsu đặc chế hầm suốt 12 tiếng này ạ.",
-      "correctOption": 3
+      "snippet": "Điều người phụ nữ đã nhờ người đàn ông giúp đỡ",
+      "text": "会社で女の人と男の人が話しています。女の人は男の人に何を頼みましたか。",
+      "options": [
+        "会議の資料を作ること",
+        "会議に出ること",
+        "パソコンを見ること (パソコンを直すこと)",
+        "机と椅子を並べること"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] パソコンを見ること (Kiểm tra/sửa máy vi tính)\n\n💬 Phân tích chi tiết:\n• Người đàn ông đề nghị họp thay (僕が会議に出てもいいよ) nhưng người nữ bảo chuyện đó không sao (それは大丈夫).\n• Việc thực sự người nữ đang gặp khó khăn và cần giúp là máy tính dùng trong cuộc họp không hoạt động được 「会議で使うパソコンが動かなくて、困っているんです」.\n• Người nam bảo: 「すぐ見てみるよ。直せると思うよ」 (Để anh xem ngay cho, sửa được đấy).\n⇒ Người phụ nữ nhờ người nam kiểm tra sửa máy tính giúp.\n\n📄 Trích PDF gốc (Trang 15 & 23 - もんだい2 5ばん): Đáp án [3]",
+      "audioScriptJa": "女：山田さん、あの、会議の準備をしているんですけど、ちょっといいですか。\n男：あれ、元気がないね。\n女：ちょっと熱があるんです。\n男：あ、具合が悪かったら、一緒に資料を作ったし、僕が会議に出てもいいよ。\n女：それは大丈夫なんですが。あの、今会議で使うパソコンが動かなくて、困っているんです。\n男：あ、そう。すぐ見てみるよ。直せると思うよ。\n女：ありがとうございます。椅子と机は並べてあるので、パソコンが動けば大丈夫です。\n男：分かった。会議に出るのが難しかったら、言ってね。\n質問：女の人は男の人に何を頼みましたか。",
+      "audioScriptVi": "Nữ: Anh Yamada, em đang chuẩn bị cho cuộc họp nhưng mà, anh có rảnh chút không ạ?\nNam: Kìa, trông em không được khỏe nhỉ.\nNữ: Em hơi bị sốt một chút ạ.\nNam: À, nếu mệt thì tài liệu hai đứa mình cùng làm rồi, anh đi họp thay cho cũng được.\nNữ: Dạ chuyện đó thì em vẫn lo được ạ. Nhưng mà, chiếc máy tính dùng cho cuộc họp giờ không chạy được, em đang rất bối rối.\nNam: À thế à. Để anh xem ngay cho. Anh nghĩ là sửa được đấy.\nNữ: Em cảm ơn anh ạ. Bàn ghế thì đã kê xong rồi, chỉ cần máy tính chạy được là ổn ạ.\nNam: Được rồi. Nếu khó đi họp được thì cứ bảo anh nhé.\nCâu hỏi: Người phụ nữ đã nhờ người đàn ông điều gì?"
     },
     "84": {
-      "snippet": "Điều bạn nữ khuyên bạn nam khi học Kanji",
-      "explanation": "🎯 Đáp án đúng: [3] Điều bạn nữ khuyên bạn nam khi học Kanji\n\n💬 Dịch nghĩa câu:\n\"Bạn nữ khuyên bạn nam thay vì chỉ viết lặp lại hãy cố gắng vừa viết vừa phát âm và đặt câu thực tế.\"\n\n💡 Phân tích & Giải thích:\n• Bí quyết học Kanji được chia sẻ: hãy liên tưởng chữ Hán vào trong câu văn cụ thể có ý nghĩa để nhớ được lâu bền.\n\n🔍 Phân tích các lựa chọn:\n- 1. Học thuộc lòng cả cuốn từ điển\n- 2. Liên tưởng chữ Hán vào văn cảnh và đặt câu thực tế (ĐÚNG)\n- 3. Chỉ học qua ứng dụng trên điện thoại (ĐÚNG)\n- 4. Mỗi ngày chép phạt 100 lần\n\n📄 Trích PDF gốc (试题解析):\n聴解 2 (6): 女の人は漢字をどうやって覚えるのがいいと言っていますか。 正解: [2]",
-      "audioScriptJa": "女：単語だけで覚えるより、例文を作って声に出しながら書くのが一番身につくよ。",
-      "audioScriptVi": "Nữ: Thay vì chỉ học từ vựng riêng lẻ, cậu vừa đặt câu ví dụ vừa đọc to lên rồi viết thì sẽ nhớ sâu nhất đấy.",
-      "correctOption": 3
+      "snippet": "Lý do khiến nam sinh buồn ngủ",
+      "text": "大学で、女の学生と男の学生が話しています。男の学生はどうして眠いと言っていますか。",
+      "options": [
+        "遅くまでアルバイトをしたから",
+        "朝早く起きて勉強したから",
+        "試験のことが気になって眠れなかったから",
+        "夜遅くまで勉強したから"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] 試験のことが気になって眠れなかったから (Băn khoăn lo nghĩ về bài thi nên không ngủ được)\n\n💬 Phân tích lý do buồn ngủ của nam sinh:\n• Không phải làm thêm (バイト休んだ).\n• Không phải dậy sớm học buổi sáng (chưa dậy sớm được).\n• Nguyên nhân chính: Định ngủ sớm nhưng do cứ lo lắng bài thi ra đề gì nên trằn trọc mất ngủ cả đêm 「どんな問題が試験に出るか気になって、眠れなくなってしまったんだよ」.\n\n📄 Trích PDF gốc (Trang 15 & 23 - もんだい2 6ばん): Đáp án [3]",
+      "audioScriptJa": "女：眠そうね。昨日は遅くまでアルバイト？\n男：今日は試験だから、昨日はバイト休んだんだ。でも疲れていたから、はやく寝て、朝勉強しようと思ったんだ。\n女：ああ。今朝は早く起きたんだ。\n男：ううん。はやく寝ようと思ったんだけど、どんな問題が試験に出るか気になって、眠れなくなってしまったんだよ。\n女：朝までずっと。\n男：うん。だから全然勉強できなかったんだ。\n女：それなら、次の試験の時は夜に勉強した方がいいよ。\n男：そうするよ。\n質問：男の学生はどうして眠いと言っていますか。",
+      "audioScriptVi": "Nữ sinh: Trông cậu buồn ngủ thế. Hôm qua làm thêm đến khuya à?\nNam sinh: Hôm nay thi nên hôm qua tớ xin nghỉ làm thêm rồi. Nhưng vì mệt nên tớ định đi ngủ sớm rồi sáng dậy sớm học bài.\nNữ sinh: À. Thế sáng nay dậy sớm à?\nNam sinh: Không. Tớ định ngủ sớm thật nhưng cứ băn khoăn lo nghĩ không biết đề thi sẽ ra câu gì, thành ra mất ngủ không chợp mắt được luôn đấy.\nNữ sinh: Mất ngủ suốt tới sáng luôn à?\nNam sinh: Ừ. Thế nên chẳng học được tí nào cả.\nNữ sinh: Thế thì lần thi sau cậu nên học vào buổi tối đi thì hơn.\nNam sinh: Ừ tớ sẽ làm thế.\nCâu hỏi: Nam sinh nói tại sao mình lại buồn ngủ?"
     },
     "85": {
-      "snippet": "Tại sao thư viện lại thông báo tạm dừng hoạt động cuối tuần",
-      "explanation": "🎯 Đáp án đúng: [4] Tại sao thư viện lại thông báo tạm dừng hoạt động cuối tuần\n\n💬 Dịch nghĩa câu:\n\"Thư viện tạm đóng cửa cuối tuần để tiến hành kiểm kê tổng thể toàn bộ đầu sách và nâng cấp hệ thống phần mềm tra cứu.\"\n\n💡 Phân tích & Giải thích:\n• Loa phát thanh thư viện thông báo đóng cửa 2 ngày cuối tuần phục vụ công tác kiểm kê định kỳ hàng năm và bảo trì máy chủ.\n\n🔍 Phân tích các lựa chọn:\n- 1. Thư viện bị ngập nước\n- 2. Tổ chức ngày hội đọc sách\n- 3. Thầy cô giáo đi vắng\n- 4. Kiểm kê định kỳ toàn bộ sách và bảo trì hệ thống phần mềm (ĐÚNG) (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n聴解 2 (7): 図書館はなぜ今週末休みですか。 正解: [4]",
-      "audioScriptJa": "アナウンス：蔵書の一斉点検とシステム更新のため、今週末は休館とさせていただきます。",
-      "audioScriptVi": "Phát thanh: Do công tác kiểm kê đồng loạt các đầu sách và nâng cấp hệ thống dữ liệu, thư viện xin phép tạm ngừng phục vụ vào cuối tuần này.",
-      "correctOption": 4
+      "snippet": "Phạm vi bài tập về nhà hôm nay",
+      "text": "大学で先生が話しています。今日の宿題は何ページから何ページまでですか。",
+      "options": [
+        "四ページから六ページまで",
+        "四ページから九ページまで",
+        "七ページから八ページまで",
+        "七ページから九ページまで"
+      ],
+      "correctOption": 4,
+      "explanation": "🎯 Đáp án đúng: [4] 七ページから九ページまで (Từ trang 7 đến trang 9)\n\n💬 Phân tích số trang bài tập:\n• Quy tắc: mỗi ngày làm 3 trang (毎日三ページずつ).\n• Hôm qua: từ trang 4 đến trang 6 (4, 5, 6 = 3 trang).\n• Hôm nay: bắt đầu từ trang 7 (今日の宿題は七ページからですよ) ⇒ làm 3 trang tiếp theo là 7, 8, 9.\n⇒ Bài tập hôm nay là từ trang 7 đến trang 9 (七ページから九ページまで).\n(Lưu ý: từ trang 4 đến trang 9 là phạm vi bài thi tuần tới).\n\n📄 Trích PDF gốc (Trang 15 & 23 - もんだい2 7ばん): Đáp án [4]",
+      "audioScriptJa": "男：皆さん、今日の宿題について話します。宿題は毎日三ページずつですね。ええと、昨日の宿題は四ページから六ページまででしたから、今日の宿題は七ページからですよ。いいですか。それから、来週のテストは四ページから九ページまでですから、勉強しておいてください。\n質問：今日の宿題は何ページから何ページまでですか。",
+      "audioScriptVi": "Thầy giáo: Các em, thầy nói về bài tập về nhà hôm nay nhé. Bài tập mỗi ngày đều là 3 trang đúng không. Ừm, bài tập hôm qua là từ trang 4 đến trang 6, nên bài tập hôm nay sẽ từ trang 7 nhé. Các em rõ chưa? Thêm nữa, bài kiểm tra tuần sau sẽ từ trang 4 đến trang 9, nên các em hãy ôn tập sẵn nhé.\nCâu hỏi: Bài tập hôm nay là từ trang nào đến trang nào?"
     },
     "86": {
-      "snippet": "Xin phép mượn chiếc kéo",
-      "explanation": "🎯 Đáp án đúng: [2] Xin phép mượn chiếc kéo\n\n💬 Dịch nghĩa câu:\n\"Muốn mượn cây kéo của bạn cùng bàn để cắt giấy thủ công: 'Xin lỗi, bạn cho mình mượn cây kéo một lát được không?'\"\n\n💡 Phân tích & Giải thích:\n• Mẫu câu chuẩn nhờ mượn đồ dùng: 「ちょっとハサミを貸してもらえますか。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Kéo của bạn bén ghê nhỉ\n- 2. Bạn cho mình mượn cây kéo một chút được không? (ĐÚNG) (ĐÚNG)\n- 3. Mình đưa kéo cho bạn nhé\n- 4. Kéo này cắt được giấy không?\n\n📄 Trích PDF gốc (试题解析):\n聴解 3 (1): ハサミを借りたいです。何と言いますか。 正解: [2]",
-      "audioScriptJa": "「ちょっとハサミを貸してもらえますか。」",
-      "audioScriptVi": "Bạn cho mình mượn cây kéo một chút được không ạ?",
-      "correctOption": 2
+      "snippet": "Chào tạm biệt thầy giáo khi đến thăm ốm",
+      "text": "先生のお見舞いに来ました。これから帰ります。先生に何と言いますか。",
+      "options": [
+        "先生、どうぞお大事に。",
+        "先生、お先に失礼します。",
+        "先生、お久しぶりです。"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] 先生、お先に失礼します。\n\n💬 Phân tích tình huống giao tiếp:\n• Tình huống: Học sinh đến thăm bệnh thầy giáo và chuẩn bị ra về (これから帰ります).\n• Lựa chọn 2 「お先に失礼します」 là lời chào lễ phép chuẩn mực khi xin phép ra về trước người trên.\n\n📄 Trích PDF gốc (Trang 15 & 23 - もんだい3 1ばん): Đáp án [2]",
+      "audioScriptJa": "先生のお見舞いに来ました。これから帰ります。先生に何と言いますか。\n1. 先生、どうぞお大事に。\n2. 先生、お先に失礼します。\n3. 先生、お久しぶりです。",
+      "audioScriptVi": "Bạn đến thăm thầy giáo bị ốm. Giờ bạn chuẩn bị ra về. Bạn sẽ nói gì với thầy?\n1. Thưa thầy, xin thầy giữ gìn sức khỏe ạ.\n2. Thưa thầy, em xin phép về trước ạ.\n3. Thưa thầy, lâu quá rồi không gặp thầy ạ."
     },
     "87": {
-      "snippet": "Chào khi khách bước vào cửa hàng",
-      "explanation": "🎯 Đáp án đúng: [2] Chào khi khách bước vào cửa hàng\n\n💬 Dịch nghĩa câu:\n\"Khách bước chân vào quán ăn, nhân viên đon đả cất lời chào đón khách nồng hậu: 'Kính chào quý khách!'\"\n\n💡 Phân tích & Giải thích:\n• Lời chào tiêu chuẩn ngành dịch vụ Nhật: 「いらっしゃいませ！」\n\n🔍 Phân tích các lựa chọn:\n- 1. Kính chào quý khách! (ĐÚNG)\n- 2. Cảm ơn quý khách đã ghé thăm (ĐÚNG)\n- 3. Quý khách đi thong thả nhé\n- 4. Xin mời quý khách ngồi đằng kia\n\n📄 Trích PDF gốc (试题解析):\n聴解 3 (2): 店に客が入ってきました。何と言いますか。 正解: [1]",
-      "audioScriptJa": "「いらっしゃいませ！」",
-      "audioScriptVi": "Kính chào quý khách ạ!",
-      "correctOption": 2
+      "snippet": "Hỏi đường đến bưu điện tại bốt cảnh sát",
+      "text": "交番です。郵便局をさがしています。何と言いますか。",
+      "options": [
+        "あのう、郵便局までの地図を見ますか。",
+        "あのう、郵便局に行きたいんですが。",
+        "あのう、郵便局はまっすぐ行ってください。"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] あのう、郵便局に行きたいんですが。\n\n💬 Phân tích cách diễn đạt hỏi đường:\n• Mẫu câu 「～たいんですが」 dùng để nêu nguyện vọng hoặc mở đầu câu hỏi đường một cách lịch sự, tế nhị trong tiếng Nhật.\n• 1 sai vì dùng 「見ますか」 hỏi cảnh sát có xem bản đồ không.\n• 3 sai vì dùng câu sai khiến chỉ đường cho cảnh sát 「まっすぐ行ってください」.\n\n📄 Trích PDF gốc (Trang 15 & 23 - もんだい3 2ばん): Đáp án [2]",
+      "audioScriptJa": "交番です。郵便局をさがしています。何と言いますか。\n1. あのう、郵便局までの地図を見ますか。\n2. あのう、郵便局に行きたいんですが。\n3. あのう、郵便局はまっすぐ行ってください。",
+      "audioScriptVi": "Bạn đang ở bốt cảnh sát. Bạn đang tìm bưu điện. Bạn sẽ nói gì?\n1. Xin lỗi, chú có xem bản đồ đến bưu điện không?\n2. Dạ xin lỗi, cháu muốn đi đến bưu điện ạ...\n3. Dạ xin lỗi, bưu điện thì chú hãy đi thẳng nhé."
     },
     "88": {
-      "snippet": "Hỏi đường đến bưu điện gần nhất",
-      "explanation": "🎯 Đáp án đúng: [1] Hỏi đường đến bưu điện gần nhất\n\n💬 Dịch nghĩa câu:\n\"Muốn hỏi người đi đường đường tới bưu điện: 'Xin lỗi, cho tôi hỏi đường đi đến bưu điện đi như thế nào ạ?'\"\n\n💡 Phân tích & Giải thích:\n• Câu hỏi đường lịch sự: 「すみません、郵便局へはどう行けばいいですか。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Bưu điện nằm ở đâu thế bạn? (ĐÚNG)\n- 2. Bưu điện mở cửa lúc mấy giờ?\n- 3. Xin lỗi, cho tôi hỏi đường đi đến bưu điện đi như thế nào ạ? (ĐÚNG)\n- 4. Bưu điện có xa không?\n\n📄 Trích PDF gốc (试题解析):\n聴解 3 (3): 郵便局への行き方が知りたいです。何と言いますか。 正解: [3]",
-      "audioScriptJa": "「すみません、郵便局へはどう行けばいいですか。」",
-      "audioScriptVi": "Xin lỗi, cho tôi hỏi đến bưu điện thì đi đường nào ạ?",
-      "correctOption": 1
+      "snippet": "Hỏi nhân viên cửa hàng cách ăn một loại hoa quả",
+      "text": "果物の食べ方が分かりません。店の人に何と言いますか。",
+      "options": [
+        "どうやって食べるんですか。",
+        "これ、食べた方がいいですか。",
+        "一つ食べてみませんか。"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] どうやって食べるんですか。\n\n💬 Phân tích câu hỏi cách làm / cách ăn:\n• 「どうやって～」 là mẫu hỏi phương thức, cách thức thực hiện hành động: 「どうやって食べるんですか」 (Ăn như thế nào thế ạ?).\n• 2 là hỏi có nên ăn không (không phải hỏi cách ăn).\n• 3 là rủ rê nhân viên ăn thử.\n\n📄 Trích PDF gốc (Trang 15 & 23 - もんだい3 3ばん): Đáp án [1]",
+      "audioScriptJa": "果物の食べ方が分かりません。店の人に何と言いますか。\n1. どうやって食べるんですか。\n2. これ、食べた方がいいですか。\n3. 一つ食べてみませんか。",
+      "audioScriptVi": "Bạn không biết cách ăn loại hoa quả này. Bạn sẽ nói gì với nhân viên cửa hàng?\n1. Quả này ăn như thế nào thế ạ?\n2. Quả này có nên ăn không ạ?\n3. Bạn có muốn ăn thử một quả không?"
     },
     "89": {
-      "snippet": "Đề nghị giúp đỡ người đang mang vác đồ nặng",
-      "explanation": "🎯 Đáp án đúng: [3] Đề nghị giúp đỡ người đang mang vác đồ nặng\n\n💬 Dịch nghĩa câu:\n\"Thấy cụ già mang túi đồ rất nặng đi lên bậc thang bộ: 'Bác ơi, để cháu xách giúp bác một tay nhé?'\"\n\n💡 Phân tích & Giải thích:\n• Đề nghị giúp đỡ lịch sự: 「荷物を持ちましょうか。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Đồ nặng thế hả bác?\n- 2. Bác để cháu xách giúp một tay nhé? (ĐÚNG)\n- 3. Bác đừng mang đồ nặng nhé (ĐÚNG)\n- 4. Bác có cần xe đẩy không?\n\n📄 Trích PDF gốc (试题解析):\n聴解 3 (4): 重い荷物を持っている人を手伝いたいです。何と言いますか。 正解: [2]",
-      "audioScriptJa": "「荷物を持ちましょうか。」",
-      "audioScriptVi": "Để cháu xách giúp bác chiếc túi nhé ạ?",
-      "correctOption": 3
+      "snippet": "Báo cho bạn biết xe buýt chuẩn bị đi sắp đến",
+      "text": "これから乗るバスがバス停に着きます。友達に知らせます。何と言いますか。",
+      "options": [
+        "バスが行ったよ。",
+        "バスに乗ったよ。",
+        "バスが来たよ。"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] バスが来たよ。\n\n💬 Phân tích tình huống thông báo xe buýt tới:\n• Xe buýt chuẩn bị đi đang tới trạm đón (バス停に着きます) ⇒ Thông báo cho bạn: 「バスが来たよ」 (Xe buýt tới rồi kìa!).\n• 1 「行ったよ」: xe đã đi mất.\n• 2 「乗ったよ」: đã lên xe rồi.\n\n📄 Trích PDF gốc (Trang 15 & 23-24 - もんだい3 4ばん): Đáp án [3]",
+      "audioScriptJa": "これから乗るバスがバス停に着きます。友達に知らせます。何と言いますか。\n1. バスが行ったよ。\n2. バスに乗ったよ。\n3. バスが来たよ。",
+      "audioScriptVi": "Chuyến xe buýt mà hai bạn chuẩn bị lên sắp tới trạm. Bạn báo cho bạn mình biết. Bạn sẽ nói gì?\n1. Xe buýt đi mất rồi kìa.\n2. Lên xe buýt rồi nhé.\n3. Xe buýt đến rồi kìa!"
     },
     "90": {
-      "snippet": "Rời khỏi chỗ ngồi trước trong bữa tiệc",
-      "explanation": "🎯 Đáp án đúng: [2] Rời khỏi chỗ ngồi trước trong bữa tiệc\n\n💬 Dịch nghĩa câu:\n\"Có việc bận đột xuất phải rời khỏi buổi tiệc sớm hơn mọi người: 'Tôi xin lỗi, tôi xin phép về trước ạ.'\"\n\n💡 Phân tích & Giải thích:\n• Lời xin phép rời tiệc lịch sự: 「お先に失礼します。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Tôi xin phép về trước ạ (ĐÚNG)\n- 2. Mọi người về vui vẻ nhé (ĐÚNG)\n- 3. Tôi no rồi cảm ơn\n- 4. Hẹn gặp lại tuần sau\n\n📄 Trích PDF gốc (试题解析):\n聴解 3 (5): パーティーの途中で先に帰ります。何と言いますか。 正解: [1]",
-      "audioScriptJa": "「お先に失礼します。」",
-      "audioScriptVi": "Tôi xin phép ra về trước mọi người ạ.",
-      "correctOption": 2
+      "snippet": "Rủ bạn cùng chơi game",
+      "text": "友達をゲームに誘います。何と言いますか。",
+      "options": [
+        "ゲームをしてもいい？\n1. ゲームをしてもいい？",
+        "一緒にやらない？",
+        "僕もしたいんだ。"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] 一緒にやらない？\n\n💬 Phân tích mẫu câu rủ rê (誘い):\n• Mẫu phủ định thể ngắn 「～ない？ / 一緒にやらない？」 dùng để rủ bạn bè cùng tham gia một hoạt động một cách thân mật, tự nhiên.\n• 1 là xin phép làm gì đó (許可).\n• 3 là bày tỏ mong muốn của bản thân (希望).\n\n📄 Trích PDF gốc (Trang 15 & 24 - もんだい3 5ばん): Đáp án [2]",
+      "audioScriptJa": "友達をゲームに誘います。何と言いますか。\n1. ゲームをしてもいい？\n2. 一緒にやらない？\n3. 僕もしたいんだ。",
+      "audioScriptVi": "Bạn rủ bạn bè cùng chơi game. Bạn sẽ nói gì?\n1. Mình chơi game có được không?\n2. Cùng chơi không?\n3. Mình cũng muốn chơi."
     },
     "91": {
-      "snippet": "Rủ rê: 'Cuối tuần này cùng đi xem phim điện ảnh nhé?'",
-      "explanation": "🎯 Đáp án đúng: [3] Rủ rê: 'Cuối tuần này cùng đi xem phim điện ảnh nhé?'\n\n💬 Dịch nghĩa câu:\n\"Hào hứng nhận lời rủ đi chơi: 'Hay quá, nhất định mình cùng đi nhé!'\"\n\n💡 Phân tích & Giải thích:\n• Nhận lời rủ rê nhiệt tình: 「いいですね、ぜひ行きましょう！」\n\n🔍 Phân tích các lựa chọn:\n- 1. Phim đó không hay đâu\n- 2. Tôi không thích xem phim rạp\n- 3. Hay quá, nhất định chúng mình cùng đi nhé! (ĐÚNG) (ĐÚNG)\n- 4. Tôi xem tuần trước rồi\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (1): 今週末、一緒に映画を見に行きませんか。 正解: [3]",
-      "audioScriptJa": "男：今週末、一緒に映画を見に行きませんか。\n女：いいですね、ぜひ行きましょう！",
-      "audioScriptVi": "Nam: Cuối tuần này cậu có muốn cùng tớ đi xem phim điện ảnh không?\nNữ: Ý hay quá, nhất định tụi mình cùng đi nhé!",
-      "correctOption": 3
+      "snippet": "Phản hồi khi được hỏi: 'Cậu đang đi đâu đấy à?'",
+      "text": "あ、鈴木さん。どこかへ行くんですか。",
+      "options": [
+        "駅前のスーパーにあります。",
+        "明日三時に会うつもりです。",
+        "ちょっと買い物に行ってきます。"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] ちょっと買い物に行ってきます。\n\n💬 Phân tích câu đối thoại phản hồi nhanh:\n• Khi gặp nhau trên đường và được hỏi đang đi đâu đấy à 「どこかへ行くんですか」.\n• Câu trả lời phù hợp nêu mục đích đi: 「ちょっと買い物に行ってきます」 (Tôi đi mua ít đồ đây).\n\n📄 Trích PDF gốc (Trang 15 & 24 - もんだい4 1ばん): Đáp án [3]",
+      "audioScriptJa": "あ、鈴木さん。どこかへ行くんですか。\n1. 駅前のスーパーにあります。\n2. 明日三時に会うつもりです。\n3. ちょっと買い物に行ってきます。",
+      "audioScriptVi": "A, bạn Suzuki. Bạn đang đi đâu đấy à?\n1. Có ở siêu thị trước ga.\n2. Tôi định ngày mai gặp lúc 3 giờ.\n3. Tôi đi mua sắm một chút rồi về đây."
     },
     "92": {
-      "snippet": "Hỏi mượn tài liệu: 'Cho mình xem tập ghi chép bài học này một lát nhé?'",
-      "explanation": "🎯 Đáp án đúng: [3] Hỏi mượn tài liệu: 'Cho mình xem tập ghi chép bài học này một lát nhé?'\n\n💬 Dịch nghĩa câu:\n\"Sẵn lòng cho bạn mượn tập vở ghi: 'Được chứ, đây bạn cầm lấy này.'\"\n\n💡 Phân tích & Giải thích:\n• Đồng ý cho mượn đồ: 「ええ、どうぞ。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Được chứ, xin mời bạn (ĐÚNG)\n- 2. Tôi không có ở đây\n- 3. Cái này đắt tiền lắm đấy (ĐÚNG)\n- 4. Bạn trả lại cho tôi rồi mà\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (2): このノート、ちょっと見せてもらってもいい？ 正解: [1]",
-      "audioScriptJa": "女：このノート、ちょっと見せてもらってもいい？\n男：ええ、どうぞ。",
-      "audioScriptVi": "Nữ: Cậu cho tớ xem nhờ quyển vở ghi này một chút được không?\nNam: Ừ được chứ, cậu cứ xem đi.",
-      "correctOption": 3
+      "snippet": "Phản hồi khi được nhắc: 'Trời lạnh nên nhớ đừng để bị cảm nhé'",
+      "text": "ヤンさん、寒いから風邪をひかないようにしてくださいね。",
+      "options": [
+        "病院に行くそうです。",
+        "どういたしまして。",
+        "はい、気をつけます。"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] はい、気をつけます。\n\n💬 Phân tích câu đối thoại phản hồi nhanh:\n• Khi nhận được lời dặn dò, quan tâm giữ gìn sức khỏe: 「風邪をひかないようにしてくださいね」.\n• Đáp lại nhận lời và cảm ơn một cách lễ phép: 「はい、気をつけます」 (Vâng, tôi sẽ chú ý/giữ gìn cẩn thận ạ).\n\n📄 Trích PDF gốc (Trang 15 & 24 - もんだい4 2ばん): Đáp án [3]",
+      "audioScriptJa": "ヤンさん、寒いから風邪をひかないようにしてくださいね。\n1. 病院に行くそうです。\n2. どういたしまして。\n3. はい、気をつけます。",
+      "audioScriptVi": "Bạn Yan, trời lạnh nên chú ý đừng để bị cảm nhé.\n1. Nghe nói là sẽ đi bệnh viện.\n2. Không có chi.\n3. Vâng, tôi sẽ cẩn thận/chú ý ạ."
     },
     "93": {
-      "snippet": "Hỏi thăm: 'Hôm nay trời lạnh thật đấy nhỉ!'",
-      "explanation": "🎯 Đáp án đúng: [2] Hỏi thăm: 'Hôm nay trời lạnh thật đấy nhỉ!'\n\n💬 Dịch nghĩa câu:\n\"Đồng tình chia sẻ cảm nhận thời tiết: 'Đúng thế thật, lạnh buốt thấu xương luôn ấy.'\"\n\n💡 Phân tích & Giải thích:\n• Đồng thuận cảm nhận: 「ええ、本当に寒いですね。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Không hề lạnh chút nào\n- 2. Vâng đúng thế thật, rét quá bạn nhỉ (ĐÚNG) (ĐÚNG)\n- 3. Ngày mai trời sẽ nắng\n- 4. Tôi thích mùa đông\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (3): 今日は本当に寒いですね。 正解: [2]",
-      "audioScriptJa": "男：今日は本当に寒いですね。\n女：ええ、本当に寒いですね。",
-      "audioScriptVi": "Nam: Hôm nay trời rét buốt thật đấy cậu nhỉ!\nNữ: Vâng đúng thế thật, lạnh cóng luôn ấy cậu.",
-      "correctOption": 2
+      "snippet": "Phản hồi khi được hỏi: 'Sáng nay đi muộn tận 1 tiếng, có chuyện gì thế?'",
+      "text": "山田さん、今朝一時間も遅刻したけど、何かあった？",
+      "options": [
+        "十分なら時間があるよ。",
+        "朝起きられなかったんだ。",
+        "来るまで待っているね。"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] 朝起きられなかったんだ。\n\n💬 Phân tích câu đối thoại phản hồi nhanh:\n• Câu hỏi nguyên nhân đi muộn: 「何かあった？」 (Có chuyện gì xảy ra thế?).\n• Câu trả lời giải thích lý do dậy muộn: 「朝起きられなかったんだ」 (Sáng nay tớ không dậy nổi / ngủ quên mất).\n\n📄 Trích PDF gốc (Trang 15 & 24 - もんだい4 3ばん): Đáp án [2]",
+      "audioScriptJa": "山田さん、今朝一時間も遅刻したけど、何かあった？\n1. 十分なら時間があるよ。\n2. 朝起きられなかったんだ。\n3. 来るまで待っているね。",
+      "audioScriptVi": "Yamada này, sáng nay cậu đi muộn tận một tiếng đồng hồ, có chuyện gì xảy ra thế?\n1. Nếu 10 phút thì có thời gian đấy.\n2. Sáng nay tớ không dậy nổi.\n3. Tớ sẽ đợi cho tới khi cậu đến nhé."
     },
     "94": {
-      "snippet": "Hỏi han: 'Bạn đã ăn thử món bánh này lần nào chưa?'",
-      "explanation": "🎯 Đáp án đúng: [3] Hỏi han: 'Bạn đã ăn thử món bánh này lần nào chưa?'\n\n💬 Dịch nghĩa câu:\n\"Trả lời trải nghiệm ẩm thực: 'Chưa, đây là lần đầu tiên tôi được ăn thử món này đấy.'\"\n\n💡 Phân tích & Giải thích:\n• Diễn đạt trải nghiệm lần đầu: 「いいえ、食べるのは初めてです。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Tôi ăn no rồi\n- 2. Món này nấu khó lắm\n- 3. Chưa ạ, đây là lần đầu tiên tôi được thưởng thức món này đấy (ĐÚNG) (ĐÚNG)\n- 4. Tôi không biết ai làm\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (4): このお菓子、もう食べたことがありますか。 正解: [3]",
-      "audioScriptJa": "女：このお菓子、もう食べたことがありますか。\n男：いいえ、食べるのは初めてです。",
-      "audioScriptVi": "Nữ: Món bánh này cậu đã từng được ăn thử lần nào chưa?\nNam: Dạ chưa, đây là lần đầu tiên tớ được ăn thử đấy.",
-      "correctOption": 3
+      "snippet": "Phản hồi khi người khác góp ý: 'Âm thanh tivi hơi to quá không nhỉ?'",
+      "text": "テレビの音がちょっと大きすぎませんか。",
+      "options": [
+        "小さいテレビにしましょうか。",
+        "ちょっと大きくしましょうか。",
+        "もう少し小さくしましょうか。"
+      ],
+      "correctOption": 3,
+      "explanation": "🎯 Đáp án đúng: [3] もう少し小さくしましょうか。\n\n💬 Phân tích câu đối thoại phản hồi nhanh:\n• Khi đối phương góp ý âm thanh tivi quá to 「音がちょっと大きすぎませんか」.\n• Cách xử lý phù hợp và lịch sự: Đề nghị vặn nhỏ âm lượng lại một chút: 「もう少し小さくしましょうか」.\n\n📄 Trích PDF gốc (Trang 15 & 24 - もんだい4 4ばん): Đáp án [3]",
+      "audioScriptJa": "テレビの音がちょっと大きすぎませんか。\n1. 小さいテレビにしましょうか。\n2. ちょっと大きくしましょうか。\n3. もう少し小さくしましょうか。",
+      "audioScriptVi": "Tiếng tivi có hơi to quá không nhỉ?\n1. Hay là đổi sang chiếc tivi nhỏ nhé?\n2. Hay là vặn to lên một chút nhé?\n3. Hay là mình vặn nhỏ lại một chút nhé?"
     },
     "95": {
-      "snippet": "Cảm ơn: 'Hôm nay cảm ơn bạn rất nhiều vì đã giúp đỡ mình nhé!'",
-      "explanation": "🎯 Đáp án đúng: [1] Cảm ơn: 'Hôm nay cảm ơn bạn rất nhiều vì đã giúp đỡ mình nhé!'\n\n💬 Dịch nghĩa câu:\n\"Đáp lại lời cảm ơn nhã nhặn: 'Không có chi đâu, bạn đừng bận tâm nhé.'\"\n\n💡 Phân tích & Giải thích:\n• Đáp từ khi được cảm ơn: 「いいえ、どういたしまして。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Không có gì đâu bạn ơi, đừng khách sáo nhé (ĐÚNG) (ĐÚNG)\n- 2. Cảm ơn bạn rất nhiều\n- 3. Lần sau nhớ trả ơn nhé\n- 4. Tôi không giúp được gì nhiều\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (5): 今日はいろいろ手伝ってくれて、ありがとう。 正解: [1]",
-      "audioScriptJa": "男：今日はいろいろ手伝ってくれて、ありがとう。\n女：いいえ、どういたしまして。",
-      "audioScriptVi": "Nam: Hôm nay cậu giúp đỡ tớ nhiều việc quá, cảm ơn cậu nhiều nhé!\nNữ: Không có gì đâu cậu ơi, có chi đâu mà khách sáo.",
-      "correctOption": 1
+      "snippet": "Phản hồi khi được nhờ: 'Photo giúp mình tài liệu cuộc họp này được không?'",
+      "text": "佐藤さん、この会議の資料をコピーしておいてくれない？",
+      "options": [
+        "何枚必要ですか。",
+        "会議室に持っていってください。",
+        "まだコピーしていません。"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] 何枚必要ですか。\n\n💬 Phân tích câu đối thoại phản hồi nhanh:\n• Khi được nhờ photo tài liệu 「コピーしておいてくれない？」.\n• Phản hồi tiếp nhận việc và hỏi số lượng cần photo: 「何枚必要ですか」 (Cần bao nhiêu bản/tờ vậy ạ?).\n\n📄 Trích PDF gốc (Trang 15 & 24 - もんだい4 5ばん): Đáp án [1]",
+      "audioScriptJa": "佐藤さん、この会議の資料をコピーしておいてくれない？\n1. 何枚必要ですか。\n2. 会議室に持っていってください。\n3. まだコピーしていません。",
+      "audioScriptVi": "Sato ơi, photo sẵn giúp mình tài liệu cuộc họp này được không?\n1. Cần bao nhiêu bản/tờ vậy ạ?\n2. Hãy mang tới phòng họp đi nhé.\n3. Tôi vẫn chưa photo đâu."
     },
     "96": {
-      "snippet": "Hỏi ý kiến: 'Chiếc cà vạt này trông có hợp với tớ không?'",
-      "explanation": "🎯 Đáp án đúng: [1] Hỏi ý kiến: 'Chiếc cà vạt này trông có hợp với tớ không?'\n\n💬 Dịch nghĩa câu:\n\"Khen ngợi chân thành: 'Hợp lắm luôn, màu sắc trông rất nhã nhặn và đẹp mắt!'\"\n\n💡 Phân tích & Giải thích:\n• Khen ngợi vẻ ngoài: 「とてもよく似合っていますよ。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Cái đó dài quá (ĐÚNG)\n- 2. Rất là hợp với cậu luôn đấy, đẹp lắm! (ĐÚNG)\n- 3. Cậu mua bao nhiêu tiền thế?\n- 4. Đừng đeo cái đó\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (6): このネクタイ、私に似合いますか。 正解: [2]",
-      "audioScriptJa": "男：このネクタイ、私に似合いますか。\n女：ええ、とてもよく似合っていますよ。",
-      "audioScriptVi": "Nam: Chiếc cà vạt này cậu thấy có hợp với tớ không?\nNữ: Vâng, trông rất hợp với anh luôn đấy ạ, đẹp lắm!",
-      "correctOption": 1
+      "snippet": "Phản hồi khi người khác đề nghị: 'Nếu giờ về thì mình chở xe về cho'",
+      "text": "あ、今から帰るなら、車で送りますよ。",
+      "options": [
+        "ありがとう、いいんですか。",
+        "もう送ってありますよ。",
+        "えっ、もう帰ったんですか。"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] ありがとう、いいんですか。\n\n💬 Phân tích câu đối thoại phản hồi nhanh:\n• Khi được người khác có nhã ý đề nghị chở xe đưa về 「車で送りますよ」.\n• Câu cảm ơn và xác nhận nhận sự giúp đỡ: 「ありがとう、いいんですか」 (Cảm ơn bạn, có thật là tiện cho bạn không?).\n\n📄 Trích PDF gốc (Trang 15 & 24 - もんだい4 6ばん): Đáp án [1]",
+      "audioScriptJa": "あ、今から帰るなら、車で送りますよ。\n1. ありがとう、いいんですか。\n2. もう送ってありますよ。\n3. えっ、もう帰ったんですか。",
+      "audioScriptVi": "A, nếu cậu về bây giờ thì tớ chở xe đưa về cho nhé.\n1. Cảm ơn cậu nhé, có thật là được không đấy?\n2. Tớ đã gửi đi rồi đấy.\n3. Hả, cậu đã về rồi đấy à?"
     },
     "97": {
-      "snippet": "Mời trà: 'Bạn uống thêm một tách cà phê nữa nhé?'",
-      "explanation": "🎯 Đáp án đúng: [2] Mời trà: 'Bạn uống thêm một tách cà phê nữa nhé?'\n\n💬 Dịch nghĩa câu:\n\"Từ chối lịch sự khi đã dùng đủ: 'Cảm ơn bạn, mình đã uống đủ rồi ạ.'\"\n\n💡 Phân tích & Giải thích:\n• Từ chối lời mời lịch thiệp: 「あ、もう十分いただきました。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Cà phê đắng quá\n- 2. Tôi không thích đồ ngọt (ĐÚNG)\n- 3. A cảm ơn bạn, mình đã uống no và đủ rồi nhé (ĐÚNG)\n- 4. Pha cho tôi ly to nhé\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (7): コーヒーのおかわりはいかがですか。 正解: [3]",
-      "audioScriptJa": "女：コーヒーのおかわりはいかがですか。\n男：あ、もう十分いただきました。ありがとうございます。",
-      "audioScriptVi": "Nữ: Cậu có muốn dùng thêm một tách cà phê nữa không?\nNam: A cảm ơn cậu nhiều nhé, tớ đã uống đủ rồi ạ.",
-      "correctOption": 2
+      "snippet": "Phản hồi khi được hỏi: 'Năm nay được nghỉ hè khoảng bao lâu?'",
+      "text": "そろそろ夏休みですね。今年はどれぐらい休めますか。",
+      "options": [
+        "一週間ぐらいかかります。",
+        "三日しか休めません。",
+        "もうすぐ取れます。"
+      ],
+      "correctOption": 2,
+      "explanation": "🎯 Đáp án đúng: [2] 三日しか休めません。\n\n💬 Phân tích câu đối thoại phản hồi nhanh:\n• Hỏi thời gian có thể nghỉ: 「どれぐらい休めますか」.\n• Câu trả lời nêu khoảng thời gian được nghỉ kết hợp ngữ pháp 「しか～ない」 (chỉ có...): 「三日しか休めません」 (Chỉ được nghỉ có 3 ngày thôi).\n\n📄 Trích PDF gốc (Trang 15 & 24 - もんだい4 7ばん): Đáp án [2]",
+      "audioScriptJa": "そろそろ夏休みですね。今年はどれぐらい休めますか。\n1. 一週間ぐらいかかります。\n2. 三日しか休めません。\n3. もうすぐ取れます。",
+      "audioScriptVi": "Sắp nghỉ hè rồi nhỉ. Năm nay cậu được nghỉ khoảng bao lâu thế?\n1. Mất khoảng một tuần.\n2. Tớ chỉ được nghỉ có 3 ngày thôi.\n3. Sắp lấy được rồi."
     },
     "98": {
-      "snippet": "Hỏi thăm tiến độ: 'Bản thảo bài báo cáo của bạn đã viết xong xuôi chưa?'",
-      "explanation": "🎯 Đáp án đúng: [1] Hỏi thăm tiến độ: 'Bản thảo bài báo cáo của bạn đã viết xong xuôi chưa?'\n\n💬 Dịch nghĩa câu:\n\"Báo cáo tiến độ chuẩn bị: 'Gần xong rồi ạ, chỉ còn đọc soát lại một chút nữa thôi.'\"\n\n💡 Phân tích & Giải thích:\n• Cập nhật trạng thái sắp xong: 「あと少しで書き終わります。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Còn một chút xíu nữa là mình viết xong xuôi rồi (ĐÚNG) (ĐÚNG)\n- 2. Tôi chưa viết chữ nào\n- 3. Báo cáo nộp tuần trước rồi mà\n- 4. Thầy giáo chưa chấm bài\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (8): レポートはもう書き終わりましたか。 正解: [1]",
-      "audioScriptJa": "男：レポートはもう書き終わりましたか。\n女：あと少しで書き終わります。",
-      "audioScriptVi": "Nam: Bài báo cáo của cậu đã viết xong xuôi hết chưa?\nNữ: Còn một chút xíu nữa là xong rồi cậu ạ.",
-      "correctOption": 1
+      "snippet": "Phản hồi khi được hỏi: 'Đã thông báo giờ họp ngày mai cho mọi người chưa?'",
+      "text": "田中さん、明日の会議の時間を皆に連絡してくれた？",
+      "options": [
+        "もう知らせてあります。",
+        "十時の会議です。",
+        "あまり知りません。"
+      ],
+      "correctOption": 1,
+      "explanation": "🎯 Đáp án đúng: [1] もう知らせてあります。\n\n💬 Phân tích câu đối thoại phản hồi nhanh:\n• Hỏi xem đã hoàn thành việc liên lạc/thông báo chưa: 「皆に連絡してくれた？」.\n• Trả lời xác nhận công việc đã được hoàn tất trước đó với mẫu 「～てあります」: 「もう知らせてあります」 (Tôi đã thông báo xong xuôi rồi ạ).\n\n📄 Trích PDF gốc (Trang 15 & 24 - もんだい4 8ばん): Đáp án [1]",
+      "audioScriptJa": "田中さん、明日の会議の時間を皆に連絡してくれた？\n1. もう知らせてあります。\n2. 十時の会議です。\n3. あまり知りません。",
+      "audioScriptVi": "Tanaka này, cậu đã thông báo giờ họp ngày mai cho mọi người chưa thế?\n1. Tôi đã thông báo cho mọi người rồi ạ.\n2. Cuộc họp lúc 10 giờ.\n3. Tôi không rõ lắm."
+    }
+  },
+  "n4-2017-07": {
+    "1": {
+          "snippet": "石 (いし)",
+          "text": "くつに 石が 入って いました。",
+          "options": [
+                "いし",
+                "すな",
+                "くさ",
+                "えだ"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] いし (石 - Hòn đá)\n\n💬 Dịch nghĩa câu:\n\"Có một hòn đá lọt vào trong giày của tôi.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「石」 (âm Hán Việt: THẠCH) có cách đọc Kun'yomi là 「いし」 nghĩa là hòn đá.\n• Các phương án còn lại:\n  1. いし (石): Hòn đá (ĐÚNG)\n  2. すな (砂): Cát\n  3. くさ (草): Cỏ\n  4. えだ (枝): Cành cây\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (1) 1"
     },
+    "2": {
+          "snippet": "経験 (けいけん)",
+          "text": "にほんで いろいろな 経験を しました。",
+          "options": [
+                "けいけん",
+                "けいげん",
+                "けけん",
+                "けげん"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] けいけん (経験 - Kinh nghiệm / Trải nghiệm)\n\n💬 Dịch nghĩa câu:\n\"Tôi đã có nhiều trải nghiệm/kinh nghiệm khác nhau ở Nhật Bản.\"\n\n💡 Phân tích & Giải thích:\n• Từ ghép 「経験」 (KINH NGHIỆM) được đọc là 「けいけん」. Chữ 経 đọc là けい, chữ 験 đọc là けん (không bị biến âm thành げん).\n• Cụm từ thông dụng: 「経験をする」 (trải nghiệm, tích lũy kinh nghiệm).\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (2) 1"
+    },
+    "3": {
+          "snippet": "店員 (てんいん)",
+          "text": "店員に トイレが どこに あるか 聞きました。",
+          "options": [
+                "てにん",
+                "てんにん",
+                "ていん",
+                "てんいん"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] てんいん (店員 - Nhân viên cửa hàng)\n\n💬 Dịch nghĩa câu:\n\"Tôi đã hỏi nhân viên cửa hàng xem nhà vệ sinh ở đâu.\"\n\n💡 Phân tích & Giải thích:\n• Từ ghép 「店員」 (ĐIẾM VIÊN): chữ 店 đọc là 「てん」, chữ 員 đọc là 「いん」 -> ghép lại là 「てんいん」.\n• Các lựa chọn 1, 2, 3 đều phát âm sai âm On'yomi của hai chữ Hán này.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (3) 4"
+    },
+    "4": {
+          "snippet": "食堂 (しょくどう)",
+          "text": "きょうは 食堂が こんで いました。",
+          "options": [
+                "しゅくど",
+                "しょくどう",
+                "しょくど",
+                "しゅくどう"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] しょくどう (食堂 - Nhà ăn / Quán ăn)\n\n💬 Dịch nghĩa câu:\n\"Hôm nay nhà ăn rất đông đúc.\"\n\n💡 Phân tích & Giải thích:\n• Từ ghép 「食堂」 (THỰC ĐƯỜNG): chữ 食 đọc là 「しょく」, chữ 堂 đọc là 「どう」 (có trường âm う) -> 「しょくどう」.\n• Phân biệt: phương án 3 thiếu trường âm 「しょくど」 là sai; 1 và 4 đọc sai âm chữ 食 thành しゅく.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (4) 2"
+    },
+    "5": {
+          "snippet": "港 (みなと)",
+          "text": "この まどから 港が 見えます。",
+          "options": [
+                "うみ",
+                "みなと",
+                "みずうみ",
+                "いけ"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] みなと (港 - Bến cảng)\n\n💬 Dịch nghĩa câu:\n\"Từ chiếc cửa sổ này có thể nhìn thấy bến cảng.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「港」 (CẢNG) có cách đọc Kun'yomi là 「みなと」 mang nghĩa bến cảng, cảng biển.\n• Các phương án còn lại chỉ nguồn nước:\n  1. うみ (海): Biển\n  2. みなと (港): Bến cảng (ĐÚNG)\n  3. みずうみ (湖): Hồ nước\n  4. いけ (池): Cái ao\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (5) 2"
+    },
+    "6": {
+          "snippet": "小説 (しょうせつ)",
+          "text": "この 小説は おもしろかったです。",
+          "options": [
+                "しょせつ",
+                "しょぜつ",
+                "しょうせつ",
+                "しょうぜつ"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] しょうせつ (小説 - Tiểu thuyết)\n\n💬 Dịch nghĩa câu:\n\"Cuốn tiểu thuyết này đã rất thú vị.\"\n\n💡 Phân tích & Giải thích:\n• Từ ghép 「小説」 (TIỂU THUYẾT): chữ 小 đọc là 「しょう」 (có trường âm う), chữ 説 đọc là 「せつ」 (không bị biến âm đục thành ぜつ) -> 「しょうせつ」.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (6) 3"
+    },
+    "7": {
+          "snippet": "日記 (にっき)",
+          "text": "まいばん 日記を 書いて います。",
+          "options": [
+                "にっき",
+                "にちき",
+                "にっきい",
+                "にちきい"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] にっき (日記 - Nhật ký)\n\n💬 Dịch nghĩa câu:\n\"Mỗi buổi tối tôi đều viết nhật ký.\"\n\n💡 Phân tích & Giải thích:\n• Từ ghép 「日記」 (NHẬT KÝ): chữ 日 đọc là 「にち」 biến âm ngắt khi đứng trước âm k- thành 「にっ」, chữ 記 đọc là 「き」 -> ghép thành 「にっき」 (âm ngắt っ).\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (7) 1"
+    },
+    "8": {
+          "snippet": "夕方 (ゆうがた)",
+          "text": "夕方、雨が ふりました。",
+          "options": [
+                "ゆうほう",
+                "ゆうがた",
+                "ゆほう",
+                "ゆがた"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] ゆうがた (夕方 - Chiều tối / Hoàng hôn)\n\n💬 Dịch nghĩa câu:\n\"Chiều tối, trời đã đổ mưa.\"\n\n💡 Phân tích & Giải thích:\n• Từ 「夕方」 (TỊCH PHƯƠNG): chữ 夕 có trường âm đọc là 「ゆう」, chữ 方 bị biến âm đục thành 「がた」 -> 「ゆうがた」.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (8) 2"
+    },
+    "9": {
+          "snippet": "秋 (あき)",
+          "text": "もうすぐ 秋ですね。",
+          "options": [
+                "ふゆ",
+                "なつ",
+                "はる",
+                "あき"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] あき (秋 - Mùa thu)\n\n💬 Dịch nghĩa câu:\n\"Sắp sửa sang mùa thu rồi nhỉ.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「秋」 (THU) đọc là 「あき」 (mùa thu).\n• Các mùa trong năm:\n  1. ふゆ (冬): Mùa đông\n  2. なつ (夏): Mùa hè\n  3. はる (春): Mùa xuân\n  4. あき (秋): Mùa thu (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (9) 4"
+    },
+    "10": {
+          "snippet": "あおい -> 青い",
+          "text": "すずきさんは あおい シャツを きて います。",
+          "options": [
+                "青い",
+                "黒い",
+                "赤い",
+                "白い"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] 青い (Màu xanh lam / Xanh da trời)\n\n💬 Dịch nghĩa câu:\n\"Anh Suzuki đang mặc chiếc áo sơ mi màu xanh lam.\"\n\n💡 Phân tích & Giải thích:\n• 「あおい」 là tính từ 「青い」 (THANH - màu xanh da trời, xanh lam).\n• Các màu sắc khác:\n  1. 青い: Màu xanh (ĐÚNG)\n  2. 黒い: Màu đen\n  3. 赤い: Màu đỏ\n  4. 白い: Màu trắng\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (10) 1"
+    },
+    "11": {
+          "snippet": "ばしょ -> 場所",
+          "text": "かいぎの ばしょを おしえて ください。",
+          "options": [
+                "揚庁",
+                "場庁",
+                "揚所",
+                "場所"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] 場所 (TRƯỜNG SỞ - Địa điểm / Nơi chốn)\n\n💬 Dịch nghĩa câu:\n\"Xin vui lòng cho tôi biết địa điểm tổ chức cuộc họp.\"\n\n💡 Phân tích & Giải thích:\n• Từ 「ばしょ」 được viết bằng chữ Hán là 「場所」:\n  - Chữ 「場」 (TRƯỜNG) có bộ Thổ (土) ở bên trái (khác chữ 揚 có bộ Thủ 扌).\n  - Chữ 「所」 (SỞ) có bộ Hộ (戶) và bộ Cân (斤) (khác chữ 庁 có nghĩa là cơ quan/sở).\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (11) 4"
+    },
+    "12": {
+          "snippet": "あるいて -> 歩いて",
+          "text": "わたしの いえは えきから あるいて 5分です。",
+          "options": [
+                "走いて",
+                "走いて",
+                "歩いて",
+                "歩いて"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] 歩いて (Đi bộ)\n\n💬 Dịch nghĩa câu:\n\"Nhà của tôi đi bộ từ nhà ga mất 5 phút.\"\n\n💡 Phân tích & Giải thích:\n• 「あるいて」 là thể te của động từ 「歩く (あるく)」 (BỘ - đi bộ). Chữ Hán chuẩn xác là 「歩いて」.\n• Chữ 「走」 trong phương án 1, 2 đọc là 「はしる」 (TẨU - chạy).\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (12) 3"
+    },
+    "13": {
+          "snippet": "べんり -> 便利",
+          "text": "ちかてつが できて べんりに なりました。",
+          "options": [
+                "復利",
+                "便理",
+                "便理",
+                "便利"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] 便利 (TIỆN LỢI - Tiện lợi / Thuận tiện)\n\n💬 Dịch nghĩa câu:\n\"Nhờ có tàu điện ngầm được xây dựng nên đã trở nên tiện lợi hơn nhiều.\"\n\n💡 Phân tích & Giải thích:\n• 「べんり」 viết đúng Kanji là 「便利」:\n  - Chữ 「便」 (TIỆN) mang nghĩa thuận tiện, bộ Nhân đứng 亻.\n  - Chữ 「利」 (LỢI) mang nghĩa có lợi, gồm bộ Hòa 禾 và Đao 刂.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (13) 4"
+    },
+    "14": {
+          "snippet": "ねむかった -> 眠かった",
+          "text": "とても ねむかったので、コーヒーを 飲みました。",
+          "options": [
+                "眠むかった",
+                "眠かった",
+                "眠むかった",
+                "眠かった"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] 眠かった (Buồn ngủ)\n\n💬 Dịch nghĩa câu:\n\"Vì rất buồn ngủ nên tôi đã uống cà phê.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ đuôi い 「ねむい」 viết Kanji là 「眠い」 (MIÊN). Chia thì quá khứ bỏ い thêm かった thành 「眠かった」.\n• Chú ý Okurigana đi kèm: sau chữ Hán 「眠」 chỉ có 「かった」, các phương án thừa chữ む thành 眠むかった là sai ngữ pháp chính tả tiếng Nhật.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (14) 4"
+    },
+    "15": {
+          "snippet": "ゆき -> 雪",
+          "text": "きょうは ゆきが ふって います。",
+          "options": [
+                "雪",
+                "電",
+                "雷",
+                "雲"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] 雪 (TUYẾT - Tuyết)\n\n💬 Dịch nghĩa câu:\n\"Hôm nay tuyết đang rơi.\"\n\n💡 Phân tích & Giải thích:\n• 「ゆき」 là chữ Hán 「雪」 (TUYẾT) gồm bộ Vũ (雨) và chữ Ký (彐).\n• Các chữ Hán liên quan đến thời tiết:\n  1. 雪 (ゆき): Tuyết (ĐÚNG)\n  2. 電 (でん): Điện\n  3. 雷 (かみなり): Sấm sét\n  4. 雲 (くも): Mây\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (15) 1"
+    },
+    "16": {
+          "snippet": "かわいて (乾いて - Khô ráo)",
+          "text": "けさ せんたくした ふくが まだ（　　）いません。",
+          "options": [
+                "ひえて",
+                "なおって",
+                "ぬれて",
+                "かわいて"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] かわいて (乾いて - Khô ráo)\n\n💬 Dịch nghĩa câu:\n\"Quần áo giặt sáng nay vẫn chưa khô.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「乾く (かわく)」 nghĩa là khô, ráo nước. Khi giặt quần áo (洗濯した服), dùng cấu trúc 「まだ乾いていません」 biểu thị quần áo vẫn còn ẩm, chưa khô hẳn.\n• Các phương án khác:\n  1. 冷える (ひえる): Lạnh đi, nguội đi\n  2. 直る / 治る (なおる): Được sửa / khỏi bệnh\n  3. 濡れる (ぬれる): Bị ướt (nếu dùng まだ濡れています thì được, nhưng đề bài là 濡れていません - không ướt - thì mâu thuẫn ngữ cảnh)\n  4. 乾く (かわく): Khô (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (16) 4"
+    },
+    "17": {
+          "snippet": "ねっしんに (熱心に - Chăm chỉ / Say sưa)",
+          "text": "スミスさんは いつも（　　）べんきょうして います。",
+          "options": [
+                "だいじに",
+                "たいせつに",
+                "ねっしんに",
+                "まっすぐに"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] ねっしんに (熱心に - Chăm chỉ / Nhiệt tình)\n\n💬 Dịch nghĩa câu:\n\"Anh Smith lúc nào cũng học tập rất chăm chỉ, say sưa.\"\n\n💡 Phân tích & Giải thích:\n• Phó từ 「熱心に (ねっしんに)」 dùng để bổ nghĩa cho các động từ học tập, làm việc, nghiên cứu: 「熱心に勉強する」 = chăm chỉ, miệt mài học tập.\n• Các từ còn lại:\n  1. 大事に (だいじに): Cẩn thận, giữ gìn (thường đi với 使う, 育てる)\n  2. 大切に (たいせつに): Trân trọng (thường đi với 扱う, 守る)\n  4. まっすぐに: Thẳng tắp (đi thẳng)\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (17) 3"
+    },
+    "18": {
+          "snippet": "きょうみ (興味 - Hứng thú / Quan tâm)",
+          "text": "わたしは にほんの まんがに（　　）が あります。",
+          "options": [
+                "きぶん",
+                "きょうみ",
+                "こころ",
+                "しゅみ"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] きょうみ (興味 - Hứng thú / Quan tâm)\n\n💬 Dịch nghĩa câu:\n\"Tôi rất có hứng thú / quan tâm đến truyện tranh Nhật Bản.\"\n\n💡 Phân tích & Giải thích:\n• Cụm từ cố định trong tiếng Nhật: 「～に 興味（きょうみ）がある」 = Có niềm yêu thích, quan tâm, hứng thú đối với lĩnh vực gì.\n• Các từ khác:\n  1. 気分 (きぶん): Tâm trạng (気分がいい / 悪い)\n  3. 心 (こころ): Trái tim, tấm lòng\n  4. 趣味 (しゅみ): Sở thích (cấu trúc là: 趣味は～です chứ không đi với に趣味がある)\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (18) 2"
+    },
+    "19": {
+          "snippet": "ルール (Rule - Quy tắc / Luật chơi)",
+          "text": "わたしは テニスの（　　）を よく しりません。",
+          "options": [
+                "アイディア",
+                "ルール",
+                "あんない",
+                "せつめい"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] ルール (Quy tắc / Luật chơi thể thao)\n\n💬 Dịch nghĩa câu:\n\"Tôi không biết rõ luật chơi quần vợt.\"\n\n💡 Phân tích & Giải thích:\n• Đối với các môn thể thao (テニス, サッカー, 野球...), từ chuẩn xác chỉ điều luật, quy tắc thi đấu là 「ルール」 (rule).\n• Các phương án khác:\n  1. アイディア (idea): Ý tưởng\n  3. 案内 (あんない): Hướng dẫn, chỉ dẫn đường đi\n  4. 説明 (せつめい): Giải thích, thuyết minh\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (19) 2"
+    },
+    "20": {
+          "snippet": "ようい (用意 - Chuẩn bị)",
+          "text": "りょこうの にもつは もう（　　）できましたか。",
+          "options": [
+                "やくそく",
+                "りよう",
+                "せわ",
+                "ようい"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] ようい (用意 - Chuẩn bị)\n\n💬 Dịch nghĩa câu:\n\"Hành lý cho chuyến du lịch bạn đã chuẩn bị xong chưa?\"\n\n💡 Phân tích & Giải thích:\n• Cụm từ cố định: 「用意ができる (よういができる)」 = Chuẩn bị xong, sẵn sàng. Đi với 「旅行の荷物の用意」 = chuẩn bị hành lý du lịch.\n• Các từ khác:\n  1. 約束 (やくそく): Hẹn ước, lời hứa\n  2. 利用 (りよう): Sử dụng, tận dụng\n  3. 世話 (せわ): Chăm sóc (chăm nom)\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (20) 4"
+    },
+    "21": {
+          "snippet": "そうだん (相談 - Bàn bạc / Thảo luận)",
+          "text": "おとうとと（　　）して 母に あげる プレゼントを えらびました。",
+          "options": [
+                "さんせい",
+                "あいさつ",
+                "そうだん",
+                "へんじ"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] そうだん (相談 - Bàn bạc / Thảo luận)\n\n💬 Dịch nghĩa câu:\n\"Tôi đã bàn bạc với em trai rồi cùng nhau chọn món quà tặng mẹ.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc: 「(Người) と 相談する (そうだんする)」 = trao đổi, bàn bạc với ai để đưa ra quyết định.\n• Các từ còn lại:\n  1. 賛成 (さんせい): Tán thành (đi với に賛成する)\n  2. 挨拶 (あいさつ): Chào hỏi\n  4. 返事 (へんじ): Hồi âm, trả lời\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (21) 3"
+    },
+    "22": {
+          "snippet": "はこんで (運んで - Vận chuyển / Khiêng)",
+          "text": "この にもつを あそこに（　　）ください。",
+          "options": [
+                "はこんで",
+                "つたえて",
+                "ひろって",
+                "むかえて"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] はこんで (運んで - Vận chuyển / Khiêng vác)\n\n💬 Dịch nghĩa câu:\n\"Xin vui lòng chuyển / khiêng giúp tôi hành lý này đến đằng kia.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「運ぶ (はこぶ)」 mang nghĩa vận chuyển, mang vác đồ vật từ vị trí này sang vị trí khác: 「荷物をあそこに運ぶ」.\n• Các động từ khác:\n  2. 伝える (つたえる): Truyền đạt, nhắn lại (lời nhắn)\n  3. 拾う (ひろう): Nhặt lên\n  4. 迎える (むかえる): Đón tiếp\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (22) 1"
+    },
+    "23": {
+          "snippet": "きけん (危険 - Nguy hiểm)",
+          "text": "この きかいは つかいかたを まちがえると とても（　　）です。",
+          "options": [
+                "けっこう",
+                "きけん",
+                "じゆう",
+                "あんぜん"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] きけん (危険 - Nguy hiểm)\n\n💬 Dịch nghĩa câu:\n\"Cỗ máy này nếu dùng sai cách thì sẽ rất nguy hiểm.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ đuôi な 「危険 (きけん)」 = nguy hiểm. Vế trước nêu điều kiện cảnh báo: 「使い方を間違えると」 (nếu sử dụng sai cách) thì dẫn tới hậu quả nguy hiểm (危険です).\n• Các phương án khác:\n  1. 結構 (けっこう): Đủ rồi / được rồi\n  3. 自由 (じゆう): Tự do\n  4. 安全 (あんぜん): An toàn (trái nghĩa)\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (23) 2"
+    },
+    "24": {
+          "snippet": "とめないで (止めないで - Đừng đỗ xe)",
+          "text": "入口の 前には 車を（　　）ください。",
+          "options": [
+                "やめないで",
+                "しめないで",
+                "とめないで",
+                "きめないで"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] とめないで (止めないで - Đừng đỗ / Đừng dừng)\n\n💬 Dịch nghĩa câu:\n\"Xin vui lòng đừng đỗ ô tô ở phía trước lối vào.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「止める (とめる)」 = dừng lại, đỗ xe (車を止める). Ở dạng xin đừng làm gì: 「V-ないでください」 -> 「車をとめないでください」.\n• Các động từ khác:\n  1. やめる: Bỏ, từ bỏ\n  2. 閉める (しめる): Đóng (cửa)\n  4. 決める (きめる): Quyết định\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (24) 3"
+    },
+    "25": {
+          "snippet": "出発する = 出る (Khởi hành / Rời bến)",
+          "text": "バスが しゅっぱつしました。",
+          "options": [
+                "バスが とまりました。",
+                "バスが つきました。",
+                "バスが でました。",
+                "バスが まがりました。"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] バスが でました。 (Xe buýt đã rời bến / xuất phát)\n\n💬 Dịch nghĩa câu gốc:\n\"Xe buýt đã xuất phát / khởi hành.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「出発する (しゅっぱつする)」 có nghĩa là khởi hành, rời bến, đồng nghĩa với 「出る (でる)」 (xuất phát, rời đi).\n• Các phương án khác:\n  1. 止まる (とまる): Dừng lại\n  2. 着く (つく): Đến nơi (ngược nghĩa)\n  4. 曲がる (まがる): Rẽ, quẹo\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (25) 3"
+    },
+    "26": {
+          "snippet": "丁寧に書く = きれいに書く (Nắn nót / Đẹp đẽ)",
+          "text": "もっと ていねいに かいて ください。",
+          "options": [
+                "もっと おおきく かいて ください。",
+                "もっと きれいに かいて ください。",
+                "もっと ふとく かいて ください。",
+                "もっと かんたんに かいて ください。"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] もっと きれいに かいて ください。 (Hãy viết đẹp / sạch sẽ hơn)\n\n💬 Dịch nghĩa câu gốc:\n\"Hãy viết nắn nót / cẩn thận hơn nữa.\"\n\n💡 Phân tích & Giải thích:\n• Khi dùng cho việc viết chữ, 「丁寧に書く (ていねいにかく)」 mang nghĩa viết cẩn thận, nắn nót, trau chuốt từng nét chữ, tương đương ý nghĩa với 「きれいに書く」 (viết đẹp, sạch sẽ).\n• Các phương án khác: 1. 크게 (to hơn), 3. 太く (đậm hơn), 4. 簡単に (đơn giản hơn).\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (26) 2"
+    },
+    "27": {
+          "snippet": "うまい = じょうずだ (Giỏi / Khéo tay)",
+          "text": "あには えが うまいです。",
+          "options": [
+                "あには えが じょうずです。",
+                "あには えが きらいです。",
+                "あには えが へたです。",
+                "あには えが すきです。"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] あには えが じょうずです。 (Anh trai vẽ tranh rất giỏi)\n\n💬 Dịch nghĩa câu gốc:\n\"Anh trai tôi vẽ tranh rất cừ / giỏi.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「うまい」 khi diễn tả kỹ năng, tài nghệ của một người tương đương với 「上手だ (じょうずだ)」 = giỏi giang, thành thạo, khéo léo.\n• Các phương án khác:\n  2. 嫌いだ (きらいだ): Ghét\n  3. 下手だ (へただ): Kém, vụng (trái nghĩa)\n  4. 好きだ (すきだ): Thích\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (27) 1"
+    },
+    "28": {
+          "snippet": "寝坊する = 起きるのが遅くなる (Ngủ quên / Dậy muộn)",
+          "text": "きのうは ねぼうしました。",
+          "options": [
+                "きのうは ねるのが おそく なって しまいました。",
+                "きのうは はやく ねて しまいました。",
+                "きのうは おきるのが おそく なって しまいました。",
+                "きのうは はやく おきて しまいました。"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] きのうは おきるのが おそく なって しまいました。 (Hôm qua tôi đã thức dậy muộn)\n\n💬 Dịch nghĩa câu gốc:\n\"Hôm qua tôi đã ngủ quên / dậy trễ giờ.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「寝坊する (ねぼうする)」 nghĩa là ngủ quá giờ dự định dẫn đến thức dậy muộn, tương đương hoàn toàn với 「起きるのが遅くなってしまいました」.\n• Chú ý phương án 1: 「寝るのが遅くなる」 là đi ngủ muộn (thức khuya), không phải là ngủ nướng/dậy muộn.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (28) 3"
+    },
+    "29": {
+          "snippet": "褒められる -> 「とてもよかったですよ」",
+          "text": "たなかさんは 先生に ほめられました。",
+          "options": [
+                "先生は たなかさんに 「気を つけてね」と 言いました。",
+                "先生は たなかさんに 「とても よかったですよ」と 言いました。",
+                "先生は たなかさんに 「ちょっと 休みましょう」と 言いました。",
+                "先生は たなかさんに 「たいへんですね」と 言いました。"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] 先生は たなかさんに 「とても よかったですよ」と 言いました。 (Thầy giáo nói với Tanaka: 'Em làm rất tốt đấy!')\n\n💬 Dịch nghĩa câu gốc:\n\"Tanaka đã được thầy giáo khen ngợi.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「褒める (ほめられる)」 là khen ngợi. Câu biểu thị lời khen phù hợp nhất chính là: 「とてもよかったですよ」 (Em đã làm rất tốt / Rất cừ đấy).\n• Các phương án khác:\n  1. 「気をつけてね」: Lời nhắc nhở cẩn thận\n  3. 「ちょっと休みましょう」: Lời khuyên nghỉ ngơi\n  4. 「たいへんですね」: Lời đồng cảm, chia sẻ vất vả\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (29) 2"
+    },
+    "30": {
+          "snippet": "るす (留守 - Vắng nhà)",
+          "text": "るす",
+          "options": [
+                "さいきん いそがしくて、しごとが るすに なりません。",
+                "あの デパートは きょうは るすです。",
+                "この ひこうきには るすの せきが ありません。",
+                "ともだちの いえに 行ったら るすでした。"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] ともだちの いえに 行ったら るすでした。 (Khi đến nhà bạn thì bạn vắng nhà)\n\n💬 Dịch nghĩa câu đúng:\n\"Tôi đến nhà bạn chơi nhưng bạn ấy không có nhà / vắng nhà.\"\n\n💡 Phân tích & Giải thích:\n• 「留守 (るす)」 dùng để chỉ tình trạng một người đi vắng, không có ai ở nhà.\n• Các câu sai:\n  - Câu 1: Công việc bận rộn không dứt, không dùng るす.\n  - Câu 2: Trung tâm thương mại đóng cửa nghỉ định kỳ phải dùng 「定休日 (ていきゅうび)」 hoặc 「休み」.\n  - Câu 3: Ghế trống trên máy bay phải dùng 「空席 (くうせき)」 hoặc 「空いている席」.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (30) 4"
+    },
+    "31": {
+          "snippet": "しんせつ (親切 - Tốt bụng / Nhiệt tình)",
+          "text": "しんせつ",
+          "options": [
+                "この りょうりは からだに とても しんせつですよ。",
+                "コンビニは 何でも 買えるので とても しんせつです。",
+                "この びょういんの おいしゃさんは とても しんせつですよ。",
+                "わたしの 母は にわの 花に とても しんせつです。"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] この びょういんの おいしゃさんは とても しんせつですよ。 (Bác sĩ bệnh viện này rất tận tình, tốt bụng)\n\n💬 Dịch nghĩa câu đúng:\n\"Bác sĩ của bệnh viện này rất tận tình, tốt bụng đấy.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ đuôi な 「親切 (しんせつ)」 dùng để mô tả tính cách đối xử ân cần, chu đáo, nhiệt tình của con người đối với người khác.\n• Các câu sai:\n  - Câu 1: Tốt cho sức khỏe phải dùng 「体にいい」.\n  - Câu 2: Mua gì cũng có ở cửa hàng tiện lợi là sự tiện lợi, phải dùng 「便利 (べんり)」.\n  - Câu 4: Chăm sóc hoa trong vườn chu đáo dùng 「大切にしている」 chứ không dùng 親切.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (31) 3"
+    },
+    "32": {
+          "snippet": "にがい (苦い - Đắng)",
+          "text": "にがい",
+          "options": [
+                "かぜを ひいたので、こえが にがいです。",
+                "くらい みちを 一人で あるくのは にがいです。",
+                "にもつが おもかったので、うでが にがいです。",
+                "この くすりは とても にがいです。"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] この くすりは とても にがいです。 (Thuốc này rất đắng)\n\n💬 Dịch nghĩa câu đúng:\n\"Loại thuốc này rất đắng.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ đuôi い 「苦い (にがい)」 chỉ vị đắng trong vị giác, thường kết hợp với thuốc (薬が苦い) hoặc trà, cà phê.\n• Các câu sai:\n  - Câu 1: Giọng bị khản do cảm cúm dùng 「声がかれている」.\n  - Câu 2: Đường tối đi một mình thấy sợ hãi dùng 「こわい」.\n  - Câu 3: Xách nặng bị mỏi/đau cánh tay dùng 「痛い (いたい)」 hoặc 「だるい」.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (32) 4"
+    },
+    "33": {
+          "snippet": "わる (割る - Làm vỡ / Làm bể)",
+          "text": "わる",
+          "options": [
+                "おさらを おとして、わって しまいました。",
+                "しんぶんを わって、かばんに 入れました。",
+                "ようふくを わって、母に おこられました。",
+                "この ジャムを 三本の びんに わって ください。"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] おさらを おとして、わって しまいました。 (Đánh rơi đĩa làm vỡ mất)\n\n💬 Dịch nghĩa câu đúng:\n\"Tôi lỡ đánh rơi chiếc đĩa và làm nó vỡ tan mất rồi.\"\n\n💡 Phân tích & Giải thích:\n• Ngoại động từ 「割る (わる)」 dùng cho các đồ vật giòn, dễ vỡ như bát đĩa, gương kính, cốc chén (皿を割る, コップを割る).\n• Các câu sai:\n  - Câu 2: Gấp báo lại cất vào cặp dùng 「折る (おる)」 hoặc 「たたむ」.\n  - Câu 3: Làm rách quần áo dùng 「破る (やぶる)」.\n  - Câu 4: Chia mứt ra 3 lọ dùng 「分ける (わける)」.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (33) 1"
+    },
+    "34": {
+          "snippet": "ちこく (遅刻 - Đi muộn / Đến trễ)",
+          "text": "ちこく",
+          "options": [
+                "あの とけいは ちょっと ちこくして います。",
+                "じゅぎょうに ちこくして すみません。",
+                "10時の でんしゃに ちこくして しまいました。",
+                "れんらくが ちこくして すみません。"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] じゅぎょうに ちこくして すみません。 (Em xin lỗi vì đã đến muộn giờ học)\n\n💬 Dịch nghĩa câu đúng:\n\"Em xin lỗi thầy/cô vì đã đến muộn giờ học ạ.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ/Động từ 「遅刻する (ちこくする)」 dùng cho con người khi đến muộn so với giờ quy định của buổi học, cuộc họp, buổi làm việc: 「授業に遅刻する」.\n• Các câu sai:\n  - Câu 1: Đồng hồ chạy chậm dùng 「遅れている (お服务れている)」.\n  - Câu 3: Bị lỡ chuyến tàu 10 giờ dùng 「乗り遅れる (のりおくれる)」.\n  - Câu 4: Liên lạc muộn trễ dùng 「連絡が遅くなって」.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): (34) 2"
+    },
+    "35": {
+          "snippet": "Trợ từ も (Cả A lẫn B)",
+          "text": "わたしの 父は 中国語も 英語（　　）話せます。",
+          "options": [
+                "を",
+                "で",
+                "も",
+                "が"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] も (Trợ từ đồng đẳng: Cả... lẫn...)\n\n💬 Dịch nghĩa câu:\n\"Bố tôi cả tiếng Trung lẫn tiếng Anh đều nói được.\"\n\n💡 Phân tích & Giải thích:\n• Mẫu câu liệt kê đồng đẳng: 「A も B も」 = Cả A lẫn B đều...\n• Vế trước đã có 「中国語も」, do đó vế sau dùng 「英語も」 để tạo cấu trúc song hành biểu thị bố có thể nói cả hai thứ tiếng.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題１ (1) 3"
+    },
+    "36": {
+          "snippet": "Trợ từ で (Nguyên liệu chế biến)",
+          "text": "これは わたしが 米（　　）作った パンです。",
+          "options": [
+                "に",
+                "の",
+                "や",
+                "で"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] で (Trợ từ chỉ nguyên liệu / chất liệu)\n\n💬 Dịch nghĩa câu:\n\"Đây là chiếc bánh mì do chính tôi làm từ gạo / bột gạo.\"\n\n💡 Phân tích & Giải thích:\n• Trợ từ 「で」 đứng sau danh từ chỉ nguyên liệu, chất liệu dùng để chế biến/sản xuất ra thành phẩm: 「米で作ったパン」 (bánh mì làm bằng gạo).\n• Phân biệt: Trợ từ 「に」, 「の」, 「や」 không dùng để chỉ chất liệu chế biến trong ngữ cảnh này.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題１ (2) 4"
+    },
+    "37": {
+          "snippet": "～に似る (Giống với ai)",
+          "text": "男の子の 顔は 父親より 母親（　　）にる という 話を 聞いた。",
+          "options": [
+                "に",
+                "へ",
+                "も",
+                "を"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] に (Cụm từ cố định: ～に似る)\n\n💬 Dịch nghĩa câu:\n\"Tôi nghe người ta nói rằng gương mặt của bé trai thường giống mẹ hơn là giống bố.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc cố định: 「N に似る (にる)」 = Giống với ai / cái gì.\n• Câu so sánh: 「A より B に似る」 = Giống B hơn là A.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題１ (3) 1"
+    },
+    "38": {
+          "snippet": "Trợ từ だけ (Chỉ / Giới hạn khẳng định)",
+          "text": "妹は おしゃべりだ。静かなのは、食事の とき（　　）だ。",
+          "options": [
+                "しか",
+                "だけ",
+                "は",
+                "の"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] だけ (Trợ từ chỉ sự giới hạn duy nhất khẳng định)\n\n💬 Dịch nghĩa câu:\n\"Em gái tôi là đứa nói rất nhiều. Lúc nó yên lặng chỉ là khi đang ăn cơm mà thôi.\"\n\n💡 Phân tích & Giải thích:\n• 「だけ」 biểu thị giới hạn duy nhất trong câu khẳng định đuôi だ/です: 「食事のときだけだ」 (chỉ vào lúc ăn cơm).\n• Lưu ý: Nếu dùng 「しか」 thì đuôi câu bắt buộc phải chia ở thể phủ định (～しか...ない), trong khi câu đề bài đuôi là khẳng định 「～だ」 nên chỉ có 「だけ」 là chính xác.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題１ (4) 2"
+    },
+    "39": {
+          "snippet": "からは (Nhận từ ai + nhấn mạnh chủ đề)",
+          "text": "A「誕生日に 田中さんから 何を もらったんですか。」\nB「田中さん（　　）腕時計を もらいました。」",
+          "options": [
+                "からが",
+                "からに",
+                "からで",
+                "からは"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] からは (Trợ từ から chỉ xuất xứ + は nhấn mạnh chủ đề)\n\n💬 Dịch nghĩa câu:\n\"A: 'Vào ngày sinh nhật bạn đã nhận được món quà gì từ anh Tanaka vậy?'\nB: 'Từ anh Tanaka thì tôi đã nhận được một chiếc đồng hồ đeo tay.'\"\n\n💡 Phân tích & Giải thích:\n• Nhận từ ai đó dùng 「(Người) からもらう」. Khi trả lời nhắc lại đối tượng để nhấn mạnh chủ đề, người Nhật kết hợp thêm trợ từ 「は」 thành 「からは」.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題１ (5) 4"
+    },
+    "40": {
+          "snippet": "までには (Hạn chót hoàn thành + は)",
+          "text": "(会社で)\nA「すみません、山田さんは どこですか。」\nB「山田さんは 会議中ですが、会議は 11時半（　　）終わると 思いますよ。」",
+          "options": [
+                "までは",
+                "までには",
+                "までも",
+                "までにも"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] までには (Thời hạn muộn nhất hoàn thành hành động)\n\n💬 Dịch nghĩa câu:\n\"(Tại công ty)\nA: 'Xin lỗi, anh Yamada đang ở đâu vậy ạ?'\nB: 'Anh Yamada đang họp, nhưng tôi nghĩ cuộc họp muộn nhất trước 11 giờ rưỡi là sẽ xong đấy ạ.'\"\n\n💡 Phân tích & Giải thích:\n• Phân biệt 「まで」 và 「までに」:\n  - 「まで」: Diễn tả hành động trạng thái kéo dài liên tục đến mốc thời gian đó.\n  - 「までに」: Diễn tả một hành động dứt điểm sẽ hoàn tất trước thời điểm đó. Động từ 「終わる」 (kết thúc) là hành động dứt điểm nên dùng 「までに」.\n  - Thêm 「は」 thành 「までには」 để nhấn mạnh ước tính phỏng đoán hạn định.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題１ (6) 2"
+    },
+    "41": {
+          "snippet": "どういう (Loại nào / Có nghĩa gì)",
+          "text": "学生「先生、この 言葉は（　　）意味ですか。」\n先生「『やさしい』という 意味です。」",
+          "options": [
+                "どうやって",
+                "どのぐらい",
+                "どういう",
+                "どう"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] どういう (Cụm từ hỏi nghĩa: どういう意味ですか)\n\n💬 Dịch nghĩa câu:\n\"Học sinh: 'Thưa thầy, từ ngữ này có nghĩa là gì ạ?'\nThầy giáo: 'Nó có nghĩa là \"hiền lành/dễ dãi\" em nhé.'\"\n\n💡 Phân tích & Giải thích:\n• Cụm câu hỏi chuẩn mực để hỏi ý nghĩa từ vựng trong tiếng Nhật là: 「どういう意味ですか」 (Nó có nghĩa như thế nào / mang ý nghĩa gì?). Khi giải thích trả lời sẽ dùng mẫu: 「～という意味です」.\n• Các từ hỏi khác:\n  1. どうやって: Bằng cách nào (hỏi cách thức)\n  2. どのぐらい: Bao lâu / bao nhiêu (hỏi số lượng, mức độ)\n  4. どう: Như thế nào (chỉ trạng thái, cảm nhận)\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題１ (7) 3"
+    },
+    "42": {
+          "snippet": "やっと (Cuối cùng thì cũng xong)",
+          "text": "チャン「古川さん、この じゅぎょうの レポート、終わりましたか。」\n古川「はい、一週間 かかりましたが、きのうの 夜、（　　）終わりました。」",
+          "options": [
+                "やっと",
+                "ずっと",
+                "もっと",
+                "きっと"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] やっと (Cuối cùng thì cũng...)\n\n💬 Dịch nghĩa câu:\n\"Chang: 'Anh Furukawa ơi, báo cáo của môn học này anh đã làm xong chưa?'\nFurukawa: 'Vâng, tôi đã mất 1 tuần lễ nhưng tối hôm qua cuối cùng thì cũng đã xong rồi.'\"\n\n💡 Phân tích & Giải thích:\n• Phó từ 「やっと」 diễn tả sự việc đạt được sau một quá trình dài nỗ lực, gian nan hoặc chờ đợi lâu dài (cuối cùng cũng đã hoàn thành).\n• Các phó từ khác:\n  2. ずっと: Suốt / hơn hẳn\n  3. もっと: Hơn nữa\n  4. きっと: Chắc chắn (dùng cho phỏng đoán tương lai)\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題１ (8) 1"
+    },
+    "43": {
+          "snippet": "行きたいけれど (Rất muốn đi nhưng...)",
+          "text": "A「あした いっしょに ドライブに 行きませんか。」\nB「（　　）、ごめんなさい、あしたは アルバイトが あるんです。」",
+          "options": [
+                "行きたいから",
+                "行きたいけれど",
+                "行きたいし",
+                "行きたくて"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] 行きたいけれど (Rất muốn đi nhưng mà...)\n\n💬 Dịch nghĩa câu:\n\"A: 'Ngày mai đi lái xe dạo mát cùng tôi không?'\nB: 'Tôi rất muốn đi nhưng mà xin lỗi nhé, ngày mai tôi có việc làm thêm mất rồi.'\"\n\n💡 Phân tích & Giải thích:\n• Trong giao tiếp tiếng Nhật, khi từ chối lời rủ rê của đối phương một cách lịch sự, người ta dùng mẫu: 「V-たいけれど / たいんですが、…」 (Rất muốn tham gia nhưng có lý do khác nên không thể).\n• Các liên từ khác không dùng để từ chối đối lập vế câu như vậy.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題１ (9) 2"
+    },
+    "44": {
+          "snippet": "V-たあとで (Sau khi làm xong V)",
+          "text": "子ども「ねえ、ゲームを しても いい？」\n母親「しゅくだいを（　　）あとでね。」",
+          "options": [
+                "していた",
+                "している",
+                "する",
+                "した"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] した (Ngữ pháp: V-た + あとで)\n\n💬 Dịch nghĩa câu:\n\"Con: 'Mẹ ơi, con chơi điện tử được không?'\nMẹ: 'Sau khi làm xong bài tập về nhà đã nhé!'\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc ngữ pháp N4: 「Động từ thể quá khứ (V-た) + あとで」 biểu thị trình tự thời gian: sau khi hoàn tất hành động thứ nhất thì mới được làm hành động tiếp theo.\n• Do đó chia: 「宿題をしたあとでね」.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題１ (10) 4"
+    },
+    "45": {
+          "snippet": "大きすぎて (To quá mức)",
+          "text": "この すいかは（　　）すぎて、れいぞうこに 入らない。",
+          "options": [
+                "大き",
+                "大きい",
+                "大きく",
+                "大きくて"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] 大き (Ngữ pháp: A-い bỏ い + すぎる)\n\n💬 Dịch nghĩa câu:\n\"Quả dưa hấu này to quá nên không nhét vừa vào tủ lạnh.\"\n\n💡 Phân tích & Giải thích:\n• Mẫu câu biểu thị hành động hoặc tính chất vượt quá mức bình thường: 「Tính từ đuôi い bỏ い + すぎる」.\n• Tính từ 「大きい」 bỏ い còn 「大き」 ghép với すぎて tạo thành 「大きすぎて」.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題１ (11) 1"
+    },
+    "46": {
+          "snippet": "大切にします (Tôi sẽ giữ gìn cẩn thận)",
+          "text": "A「誕生日 おめでとうございます。これ、プレゼントです。どうぞ。」\nB「ありがとうございます。大切に（　　）。」",
+          "options": [
+                "します",
+                "います",
+                "なります",
+                "あります"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] します (Cụm giao tiếp: 大切にします)\n\n💬 Dịch nghĩa câu:\n\"A: 'Chúc mừng sinh nhật bạn! Đây là món quà nhỏ, xin mời bạn nhận lấy.'\nB: 'Cảm ơn bạn rất nhiều! Tôi sẽ trân trọng và giữ gìn nó thật cẩn thận ạ.'\"\n\n💡 Phân tích & Giải thích:\n• Cụm từ cố định trong giao tiếp văn hóa Nhật Bản khi nhận quà: 「大切にします (たいせつにします)」 biểu thị người nhận sẽ trân quý và sử dụng, giữ gìn món quà một cách chu đáo, cẩn thận.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題１ (12) 1"
+    },
+    "47": {
+          "snippet": "手伝って くれて (Cảm ơn vì đã giúp đỡ)",
+          "text": "A「きのうは ひっこしを（　　）、どうも ありがとうございました。」\nB「いいえ、どういたしまして。」",
+          "options": [
+                "手伝って",
+                "手伝ったので",
+                "手伝って くれて",
+                "手伝ったから"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] 手伝って くれて (Ngữ pháp cảm ơn: V-てくれてありがとう)\n\n💬 Dịch nghĩa câu:\n\"A: 'Hôm qua cảm ơn bạn rất nhiều vì đã giúp tôi chuyển nhà nhé!'\nB: 'Không có gì đâu ạ.'\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc ngữ pháp cảm ơn hành động đối phương đã làm giúp cho mình: 「V-て + くれて、ありがとうございます / ありがとうございました」.\n• Đối phương đã giúp đỡ (手伝ってくれた), do đó đáp án chuẩn xác là 「手伝ってくれて」.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題１ (13) 3"
+    },
+    "48": {
+          "snippet": "貸してもらいました (Được người khác cho mượn)",
+          "text": "今日、わたしは えんぴつと 消しゴムを 忘れたので、となりの 人に 貸して（　　）。",
+          "options": [
+                "やりました",
+                "あげました",
+                "くれました",
+                "もらいました"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] もらいました (Ngữ pháp cho nhận: V-てもらう)\n\n💬 Dịch nghĩa câu:\n\"Hôm nay vì quên bút chì và cục tẩy nên tôi đã được người ngồi bên cạnh cho mượn.\"\n\n💡 Phân tích & Giải thích:\n• Ngữ pháp hành động cho - nhận:\n  - 「(Người khác) に V-て もらう」: Chủ ngữ (tôi) nhận được ân huệ/hành động từ người khác. Trợ từ chỉ người thực hiện là 「人に」 nên đi cùng 「もらいました」.\n  - Nếu dùng 「くれました」 thì người cho mượn phải là chủ ngữ (人が...貸してくれました).\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題１ (14) 4"
+    },
+    "49": {
+          "snippet": "買ったまま (V-たまま: Mua về để nguyên chưa đọc)",
+          "text": "わたしの 本だなには（　　）読破(読)んで いない まんがが たくさん あります。",
+          "options": [
+                "買うあいだ",
+                "買ったまま",
+                "買いそうで",
+                "買って いる"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] 買ったまま (Ngữ pháp: V-た + まま: Giữ nguyên trạng thái)\n\n💬 Dịch nghĩa câu:\n\"Trên giá sách của tôi có rất nhiều cuốn truyện tranh mua về rồi cứ để nguyên đấy chưa hề đọc.\"\n\n💡 Phân tích & Giải thích:\n• Mẫu câu ngữ pháp N4: 「Động từ thể V-た + まま」 biểu thị giữ nguyên trạng thái sau khi thực hiện hành động đó mà không làm gì tiếp theo: 「買ったまま読んでいない」 = Mua về rồi cứ để y nguyên như vậy mà chưa đọc.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題１ (15) 2"
+    },
+    "50": {
+          "snippet": "Dấu sao ★: 間に合うかもしれないから (Vị trí 3)",
+          "text": "A「コンサートには もう 間に合わないですね。」\nB「今すぐ _____ _____ __★__ _____ 行こう。」",
+          "options": [
+                "タクシーに",
+                "タクシーで",
+                "間に合うかもしれないから",
+                "乗れば"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] 間に合うかもしれないから (Vị trí dấu sao ★ là số 3)\n\n💬 Dịch nghĩa câu:\n\"A: 'Chắc chúng ta không kịp buổi hòa nhạc nữa rồi nhỉ.'\nB: 'Nếu bây giờ lên xe taxi ngay thì có thể vẫn kịp đấy, nên chúng ta hãy đi bằng taxi đi!'\"\n\n💡 Phân tích & Trật tự câu hoàn chỉnh:\n• Cụm câu hoàn chỉnh: 今すぐ 【1 タクシーに】 【4 乗れば】 ★【3 間に合うかもしれないから】 【2 タクシーで】 行こう。\n• Phân tích cấu trúc: 「タクシーに乗れば」 (Nếu bắt taxi ngay) + 「間に合うかもしれないから」 (vì có khả năng sẽ kịp) + 「タクシーで行こう」 (chúng ta hãy đi bằng taxi).\n• Vị trí thứ 3 (ngôi sao ★) là phương án [3].\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題２ (16) 3"
+    },
+    "51": {
+          "snippet": "Dấu sao ★: ところ (Vị trí 3)",
+          "text": "山田「田中さん、これから 食事でも どうですか。」\n田中「すみません。ちょうど _____ _____ __★__ _____ です。」",
+          "options": [
+                "なん",
+                "ところ",
+                "食べた",
+                "今"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] ところ (Vị trí dấu sao ★ là số 2)\n\n💬 Dịch nghĩa câu:\n\"Yamada: 'Anh Tanaka ơi, lát nữa đi dùng bữa cùng tôi không?'\nTanaka: 'Xin lỗi anh. Em vừa mới ăn xong lúc này ạ.'\"\n\n💡 Phân tích & Trật tự câu hoàn chỉnh:\n• Cụm câu hoàn chỉnh: ちょうど 【4 今】 【3 食べた】 ★【2 ところ】 【1 なん】 です。\n• Ngữ pháp: 「V-た + ところだ / なんです」 diễn tả hành động vừa mới xảy ra trong tích tắc. Kết hợp phó từ 「ちょうど今」 (vừa mới đúng lúc này).\n• Vị trí thứ 3 (ngôi sao ★) là phương án [2].\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題２ (17) 2"
+    },
+    "52": {
+          "snippet": "Dấu sao ★: で (Vị trí 3)",
+          "text": "A「あしたは 大事な おきゃくさまに 会うから、_____ _____ __★__ _____ いけませんよ。」\nB「わかりました。あしたは 新しい くつを はいて 来ます。」",
+          "options": [
+                "くつ",
+                "は",
+                "そんな",
+                "で"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] で (Vị trí dấu sao ★ là số 4)\n\n💬 Dịch nghĩa câu:\n\"A: 'Ngày mai chúng ta sẽ gặp khách hàng quan trọng, nên đi đôi giày như thế là không được đâu đấy nhé!'\nB: 'Em hiểu rồi ạ. Ngày mai em sẽ đi đôi giày mới đến.'\"\n\n💡 Phân tích & Trật tự câu hoàn chỉnh:\n• Cụm câu hoàn chỉnh: 大事なおきゃくさまに会うから、 【3 そんな】 【1 くつ】 ★【4 で】 【2 は】 いけませんよ。\n• Cấu trúc: 「そんな靴ではいけない」 (Đi bằng đôi giày như vậy là không được). Mẫu cấm đoán / khuyên nhủ: 「～ては / ではいけない」.\n• Vị trí thứ 3 (ngôi sao ★) là phương án [4].\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題２ (18) 4"
+    },
+    "53": {
+          "snippet": "Dấu sao ★: 寒そう (Vị trí 3)",
+          "text": "今日は、風が _____ _____ __★__ _____ 出かけたくない。",
+          "options": [
+                "し",
+                "だから",
+                "寒そう",
+                "強い"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] 寒そう (Vị trí dấu sao ★ là số 3)\n\n💬 Dịch nghĩa câu:\n\"Hôm nay gió vừa mạnh lại trông có vẻ lạnh giá nên tôi chẳng muốn ra ngoài chút nào.\"\n\n💡 Phân tích & Trật tự câu hoàn chỉnh:\n• Cụm câu hoàn chỉnh: 今日は、風が 【4 強い】 【1 し】 ★【3 寒そう】 【2 だから】 出かけたくない。\n• Ngữ pháp liệt kê lý do: 「～し、～だから」. Tính từ 強い + し; tính từ 寒い bỏ い + そうだ (寒そう) + だから.\n• Vị trí thứ 3 (ngôi sao ★) là phương án [3].\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題２ (19) 3"
+    },
+    "54": {
+          "snippet": "Dấu sao ★: 東京で 勉強 (Vị trí 3)",
+          "text": "田中「山田さん。東京の 大学に 行く ことを、もう ご両親に 話しましたか。」\n山田「いいえ。でも、もし 両親に _____ _____ __★__ _____ つもりです。」",
+          "options": [
+                "反対",
+                "する",
+                "東京で 勉強",
+                "されても"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] 東京で 勉強 (Vị trí dấu sao ★ là số 3)\n\n💬 Dịch nghĩa câu:\n\"Tanaka: 'Yamada này, cậu đã nói với bố mẹ chuyện muốn lên đại học ở Tokyo chưa?'\nYamada: 'Chưa. Nhưng dù bố mẹ có phản đối đi chăng nữa thì tớ vẫn dự định sẽ học tập ở Tokyo.'\"\n\n💡 Phân tích & Trật tự câu hoàn chỉnh:\n• Cụm câu hoàn chỉnh: もし 両親に 【1 反対】 【4 されても】 ★【3 東京で 勉強】 【2 する】 つもりです。\n• Ngữ pháp: Thể bị động của 反対する là 反対される. Cấu trúc nhượng bộ: 「V-ても」: 「反対されても」 (dù có bị phản đối). Động từ danh từ hóa đi với する: 「勉強するつもりです」.\n• Vị trí thứ 3 (ngôi sao ★) là phương án [3].\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題２ (20) 3"
+    },
+    "55": {
+          "snippet": "かって います (Đang nuôi dưỡng)",
+          "text": "【Đoạn văn đọc hiểu】\n「ポチ」 林 明 (リン メイ)\nわたしの 家（うち）には 「ポチ」と いう 名前の 犬が います。一か月前に 父が もらって きました。わたしたちは ポチを 家の 中で [ 21 ]。\nポチが 好きな ところは テレビの 前の ソファーです。ポチは とても かわいいのですが、何でも かむので 少し こまって います。先週は 本当に こまりました。ポチが 父の けいたいでんわを [ 22 ] からです。\nわたしは 兄弟が いないので、ずっと さびしかったです。しかし、ポチを かってからは、[ 23 ]。わたしたちは いつも いっしょです。ポチは わたしが 家を 出る とき、いつも げんかんまで 出て きます。[ 24 ]、元気が ない ときは、そばに 来て くれます。ポチ [ 25 ] わたしたちの 大切な 家族の 一員です。\n\n[ 21 ] に 何を 入れますか。",
+          "options": [
+                "かうでしょう",
+                "かって います",
+                "かって いますか",
+                "かって いました"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] かって います (Đang nuôi chó trong nhà)\n\n💬 Dịch nghĩa câu chứa chỗ trống:\n\"Chúng tôi đang nuôi chú chó Pochi ở trong nhà.\"\n\n💡 Phân tích & Giải thích:\n• Gia đình tác giả bắt đầu đem chú chó về từ 1 tháng trước và hiện tại vẫn đang tiếp tục nuôi trong nhà, do đó dùng thì hiện tại tiếp diễn / trạng thái tiếp diễn: 「飼っています (かっています)」.\n• Các phương án khác:\n  1. かうでしょう: Chắc sẽ nuôi (phỏng đoán tương lai - sai)\n  3. かっていますか: Câu hỏi - sai\n  4. かっていました: Quá khứ (đã từng nuôi nhưng giờ không nuôi nữa - mâu thuẫn với toàn bài)\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題３ (21) 2"
+    },
+    "56": {
+          "snippet": "こわして しまった (Lỡ cắn hỏng mất)",
+          "text": "【Đoạn văn đọc hiểu】\n「ポチ」 林 明 (リン メイ)\nわたしの 家（うち）には 「ポチ」と いう 名前の 犬が います。一か月前に 父が もらって きました。わたしたちは ポチを 家の 中で [ 21 ]。\nポチが 好きな ところは テレビの 前の ソファーです。ポチは とても かわいいのですが、何でも かむので 少し こまって います。先週は 本当に こまりました。ポチが 父の けいたいでんわを [ 22 ] からです。\nわたしは 兄弟が いないので、ずっと さびしかったです。しかし、ポチを かってからは、[ 23 ]。わたしたちは いつも いっしょです。ポチは わたしが 家を 出る とき、いつも げんかんまで 出て きます。[ 24 ]、元気が ない ときは、そばに 来て くれます。ポチ [ 25 ] わたしたちの 大切な 家族の 一員です。\n\n[ 22 ] に 何を 入れますか。",
+          "options": [
+                "こわした ところだ",
+                "こわされて いる",
+                "こわして しまった",
+                "こわされた"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] こわして しまった (Lỡ làm hỏng mất)\n\n💬 Dịch nghĩa câu chứa chỗ trống:\n\"Tuần trước chúng tôi thực sự đã gặp rắc rối lớn. Đó là vì Pochi đã lỡ cắn hỏng mất chiếc điện thoại di động của bố tôi.\"\n\n💡 Phân tích & Giải thích:\n• Mẫu câu 「V-て + しまった」 diễn tả hành động lỡ xảy ra mang lại cảm xúc tiếc nuối, rắc rối, phiền toái. Chủ ngữ là chú chó Pochi (ポチが...壊してしまった).\n• Các phương án khác: 2, 4 chia thể bị động (壊された) là sai vì chủ ngữ chú chó là kẻ chủ động cắn phá.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題３ (22) 3"
+    },
+    "57": {
+          "snippet": "さびしく なくなりました (Không còn cô đơn nữa)",
+          "text": "【Đoạn văn đọc hiểu】\n「ポチ」 林 明 (リン メイ)\nわたしの 家（うち）には 「ポチ」と いう 名前の 犬が います。一か月前に 父が もらって きました。わたしたちは ポチを 家の 中で [ 21 ]。\nポチが 好きな ところは テレビの 前の ソファーです。ポチは とても かわいいのですが、何でも かむので 少し こまって います。先週は 本当に こまりました。ポチが 父の けいたいでんわを [ 22 ] からです。\nわたしは 兄弟が いないので、ずっと さびしかったです。しかし、ポチを かってからは、[ 23 ]。わたしたちは いつも いっしょです。ポチは わたしが 家を 出る とき、いつも げんかんまで 出て きます。[ 24 ]、元気が ない ときは、そばに 来て くれます。ポチ [ 25 ] わたしたちの 大切な 家族の 一員です。\n\n[ 23 ] に 何を 入れますか。",
+          "options": [
+                "さびしく なります",
+                "さびしく なくなりました",
+                "さびしく なるかもしれません",
+                "さびしく なくなったそうです"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] さびしく なくなりました (Đã không còn cảm thấy cô đơn nữa)\n\n💬 Dịch nghĩa câu chứa chỗ trống:\n\"Tôi không có anh chị em nên trước đây luôn cảm thấy buồn và cô đơn. Nhưng từ sau khi nuôi Pochi thì tôi đã không còn cô đơn nữa.\"\n\n💡 Phân tích & Giải thích:\n• Vế trước dùng liên từ 「しかし」 (Tuy nhiên) thể hiện sự tương phản đối lập với trạng thái trước đây (ずっとさびしかった). Cấu trúc biểu thị sự thay đổi trạng thái trong quá khứ: 「さびしくなくなりました」 (đã trở nên không còn cô đơn).\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題３ (23) 2"
+    },
+    "58": {
+          "snippet": "それに (Hơn nữa / Thêm vào đó)",
+          "text": "【Đoạn văn đọc hiểu】\n「ポチ」 林 明 (リン メイ)\nわたしの 家（うち）には 「ポチ」と いう 名前の 犬が います。一か月前に 父が もらって きました。わたしたちは ポチを 家の 中で [ 21 ]。\nポチが 好きな ところは テレビの 前の ソファーです。ポチは とても かわいいのですが、何でも かむので 少し こまって います。先週は 本当に こまりました。ポチが 父の けいたいでんわを [ 22 ] からです。\nわたしは 兄弟が いないので、ずっと さびしかったです。しかし、ポチを かってからは、[ 23 ]。わたしたちは いつも いっしょです。ポチは わたしが 家を 出る とき、いつも げんかんまで 出て きます。[ 24 ]、元気が ない ときは、そばに 来て くれます。ポチ [ 25 ] わたしたちの 大切な 家族の 一員です。\n\n[ 24 ] に 何を 入れますか。",
+          "options": [
+                "それに",
+                "たとえば",
+                "だから",
+                "それなら"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] それに (Hơn nữa / Thêm vào đó)\n\n💬 Dịch nghĩa câu chứa chỗ trống:\n\"Pochi mỗi khi tôi ra khỏi nhà đều ra tận cửa tiễn tôi. Hơn nữa, những khi tôi không được khỏe/mệt mỏi, chú lại đến bên cạnh tôi.\"\n\n💡 Phân tích & Giải thích:\n• Liên từ 「それに」 dùng để bổ sung thêm một hành động/đặc điểm đáng yêu tiếp theo của chú chó Pochi.\n• Các liên từ khác:\n  2. たとえば: Ví dụ như (dùng nêu ví dụ minh họa)\n  3. だから: Vì vậy nên (chỉ kết quả)\n  4. それなら: Nếu thế thì (đưa ra giải pháp dựa trên tiền đề)\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題３ (24) 1"
+    },
+    "59": {
+          "snippet": "Trợ từ は (Chủ đề kết luận)",
+          "text": "【Đoạn văn đọc hiểu】\n「ポチ」 林 明 (リン メイ)\nわたしの 家（うち）には 「ポチ」と いう 名前の 犬が います。一か月前に 父が もらって きました。わたしたちは ポチを 家の 中で [ 21 ]。\nポチが 好きな ところは テレビの 前の ソファーです。ポチは とても かわいいのですが、何でも かむので 少し こまって います。先週は 本当に こまりました。ポチが 父の けいたいでんわを [ 22 ] からです。\nわたしは 兄弟が いないので、ずっと さびしかったです。しかし、ポチを かってからは、[ 23 ]。わたしたちは いつも いっしょです。ポチは わたしが 家を 出る とき、いつも げんかんまで 出て きます。[ 24 ]、元気が ない ときは、そばに 来て くれます。ポチ [ 25 ] わたしたちの 大切な 家族の 一員です。\n\n[ 25 ] に 何を 入れますか。",
+          "options": [
+                "が",
+                "で",
+                "と",
+                "は"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] は (Trợ từ đưa đối tượng làm chủ đề chính)\n\n💬 Dịch nghĩa câu chứa chỗ trống:\n\"Pochi chính là một thành viên gia đình quan trọng của chúng tôi.\"\n\n💡 Phân tích & Giải thích:\n• Câu kết bài nêu bật chủ đề tổng kết cảm xúc: 「ポチは わたしたちの 大切な 家族の 一員です」. Trợ từ 「は」 đứng sau ポチ đóng vai trò đưa đối tượng lên làm chủ đề của câu định nghĩa, phán đoán.\n\n📄 Trích PDF gốc (Trang 43 - 正答表): 問題３ (25) 4"
+    },
+    "60": {
+          "snippet": "Đoản văn 1: 石川さんは、来週、何をすると言っていますか。",
+          "text": "【Đoản văn 1 - Lời nhắn gửi Ali】\nアリさんの机の上に、このメモと本が置いてあります。\n\nアリさん\nアリさんから借りた本を置いておきます。ありがとうございました。\nアリさんが借りたいと言っていた本も、一緒に置きます。重いので、今日は2冊しか持ってきませんでした。来週、ほかの3冊を持ってきます。\n石川\n\n質問：石川さんは、来週、何をすると言っていますか。",
+          "options": [
+                "アリさんに本を2冊返します。",
+                "アリさんに本を3冊返します。",
+                "アリさんに本を2冊貸します。",
+                "アリさんに本を3冊貸します。"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] アリさんに本を3冊貸します。 (Cho Ali mượn 3 cuốn sách)\n\n💬 Dịch nghĩa bài đọc:\n\"Gửi bạn Ali,\nTôi xin đặt lại đây cuốn sách đã mượn của bạn Ali. Xin cảm ơn bạn rất nhiều.\nCuốn sách mà bạn Ali nói muốn mượn thì tôi cũng đặt chung ở đây nhé. Vì nặng nên hôm nay tôi chỉ mang được 2 cuốn thôi. Sang tuần sau, tôi sẽ mang nốt 3 cuốn khác đến.\nIshikawa\"\n\n💡 Phân tích & Giải thích:\n• Câu hỏi: Ishikawa nói tuần sau sẽ làm gì?\n• Trong thư Ishikawa nêu rõ: bạn Ali muốn mượn sách của Ishikawa (アリさんが借りたいと言っていた本), hôm nay mới mang 2 cuốn, tuần sau sẽ mang nốt 3 cuốn còn lại đến (来週、ほかの3冊を持ってきます). Điều này nghĩa là Ishikawa cho Ali mượn tiếp 3 cuốn sách nữa (本を3冊貸します).\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題４ (26) 4"
+    },
+    "61": {
+          "snippet": "Đoản văn 2: 公園についてわかることは何ですか。",
+          "text": "【Đoản văn 2 - Thông báo công viên】\n(2) 公園の入り口に、このお知らせがあります。\n\n公園で遊ぶときの注意\n◆ 公園が開いている時間は、午前6時から午後9時です。これ以外の時間は入れません。\n◆ 自転車やオートバイは、公園の入り口にとめてください。中に入れてはいけません。\n◆ 公園の中で、次のことをしてはいけません。\n・ボールを使って遊ぶこと\n・たばこを吸うこと\n\n質問：このお知らせから、公園についてわかることは何ですか。",
+          "options": [
+                "午後10時に公園に入ってもいいです。",
+                "入り口にオートバイをとめてはいけません。",
+                "サッカーの練習をしてはいけません。",
+                "たばこを吸ってもいいです。"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] サッカーの練習をしてはいけません。 (Không được luyện tập đá bóng)\n\n💬 Dịch nghĩa bài đọc:\n\"Lưu ý khi vui chơi tại công viên:\n◆ Giờ mở cửa công viên là từ 6:00 sáng đến 9:00 tối. Ngoài khung giờ này không được vào.\n◆ Xe đạp và xe máy xin hãy đỗ ở cổng vào công viên. Không được dắt/chạy vào bên trong.\n◆ Trong công viên, nghiêm cấm thực hiện các hành vi sau:\n・Dùng bóng để chơi đùa\n・Hút thuốc lá\"\n\n💡 Phân tích & Giải thích:\n• Quy định nêu rõ điều cấm: 「ボールを使って遊ぶこと」 (Dùng bóng để chơi đùa). Môn bóng đá (サッカー) bắt buộc phải dùng bóng, nên việc tập đá bóng trong công viên là bị cấm.\n• Các phương án khác:\n  1. Sai vì 10 giờ đêm đã đóng cửa (sau 9 giờ tối không được vào).\n  2. Sai vì quy định yêu cầu phải đỗ xe ở cổng vào (入り口にとめてください).\n  4. Sai vì hút thuốc bị cấm tuyệt đối (たばこを吸うことしてはいけない).\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題４ (27) 3"
+    },
+    "62": {
+          "snippet": "Đoản văn 3: トムさんは、山田先生に何を知らせなければなりませんか。",
+          "text": "【Đoản văn 3 - Email thầy Yamada gửi Tom】\n(3) これは、山田先生からトムさんに届いたメールです。\n\nトムさん\n明日(30日)の約束ですが、会議に出なければならなくなりました。\nそれで、すみませんが、約束を31日の午後3時に変えられませんか。\nトムさんの都合がよければ、オフィスで待っています。\nこのメールを読んだら、返事をください。\n山田\n\n質問：トムさんは、山田先生に何を知らせなければなりませんか。",
+          "options": [
+                "約束を明日に変えられるかどうか",
+                "約束をあさってに変えられるかどうか",
+                "トムさんの明日の午後の都合",
+                "トムさんのあさっての午前の都合"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] 約束をあさってに変えられるかどうか (Liệu có đổi lịch hẹn sang ngày kia được không)\n\n💬 Dịch nghĩa bài đọc:\n\"Gửi bạn Tom,\nVề cuộc hẹn ngày mai (ngày 30), thầy có cuộc họp bắt buộc phải tham dự.\nVì vậy, thầy rất xin lỗi, nhưng liệu có thể đổi lịch hẹn sang 3 giờ chiều ngày 31 được không?\nNếu thời gian của Tom thuận tiện thì thầy sẽ đợi ở văn phòng.\nĐọc xong email này hãy hồi âm cho thầy nhé.\nYamada\"\n\n💡 Phân tích & Giải thích:\n• Trong thư viết ngày mai là ngày 30 (明日(30日)), và thầy đề nghị đổi sang ngày 31. Ngày 31 so với ngày viết thư chính là ngày kia (あさって).\n• Thầy bảo Tom trả lời xem có đổi sang lúc 3 giờ chiều ngày 31 được không, tức là Tom phải thông báo liệu có thể đổi hẹn sang ngày kia (あさって) được hay không.\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題４ (28) 2"
+    },
+    "63": {
+          "snippet": "Đoản văn 4: 石田さんの仕事ではないものはどれですか。",
+          "text": "【Đoản văn 4 - Công việc của Ishida tại thư viện Kawashita】\n(4) 石田さんは、川下図書館で働いています。本についての相談を受けたり、どこにどの本を置くのがいいか考えたりします。それから、図書館の新聞によい本の紹介文を書いたり、小さな子どもたちに絵本を読んだりします。\n\n質問：石田さんの仕事ではないものはどれですか。",
+          "options": [
+                "相談に来た人に本について紹介します。",
+                "本を置く場所はどこがいいか、考えます。",
+                "新聞にのっている、よい本の紹介文をさがします。",
+                "小さな子どもたちに、いろいろな絵本を読みます。"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] 新聞にのっている、よい本の紹介文をさがします。 (Tìm bài giới thiệu sách trên báo)\n\n💬 Dịch nghĩa bài đọc:\n\"Cô Ishida làm việc tại thư viện Kawashita. Cô tiếp nhận tư vấn về sách của mọi người, suy nghĩ xem nên sắp xếp đặt cuốn sách nào ở đâu là hợp lý. Thêm vào đó, cô còn viết bài giới thiệu những cuốn sách hay lên tờ báo nội bộ của thư viện, và đọc truyện tranh cho các em nhỏ nghe.\"\n\n💡 Phân tích & Giải thích:\n• Câu hỏi hỏi việc KHÔNG PHẢI là công việc của Ishida (仕事ではないもの).\n• Đoạn văn nêu cô Ishida tự viết bài giới thiệu sách hay lên báo thư viện (図書館の新聞によい本の紹介文を書いたり), chứ cô KHÔNG hề đi \"tìm kiếm bài giới thiệu đăng trên báo\" như phương án 3 nêu ra.\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題４ (29) 3"
+    },
+    "64": {
+          "snippet": "Trung văn 30: どんな①ホテルに泊まりましたか。",
+          "text": "【Trung văn - Chuyến nghỉ dưỡng tại khách sạn trong núi】\n今年の夏、わたしは 家族で 山の中にある①ホテルに泊まりました。\n駅からホテルの近くのバス停まで、バスで2時間以上かかりました。バス停からホテルまでは、細い道を30分近く歩きました。ホテルは小さくて古かったですが、中はとてもきれいでした。ホテルに着くと、息子は「テレビが見たい。」「ゲームがしたい。」と言いました。しかし、このホテルにはどちらもありません。それから、冷蔵庫もエアコンもありません。このホテルは便利ではありませんでしたが、山や湖でいろいろなことができました。\n部屋に荷物を置いて窓を開けると、湖から涼しい風が入ってきました。少し休んでから、まだ明るかったので、散歩に出かけました。空気がおいしくて、景色も美しかったです。夜は、星がとてもきれいでした。ホテルにいる間は毎日、みんなで散歩をしたり、湖で泳いだり、虫をとったり、昼寝をしたりしました。\nホテルには1週間いました。わたしたちは「楽しかったね。②こんな生活もたまにはいいね。」と話しながら、家に帰りました。\n\n質問30：どんな①ホテルに泊まりましたか。",
+          "options": [
+                "山の中の大きなホテル",
+                "古いが、中はきれいなホテル",
+                "テレビやゲームが楽しめるホテル",
+                "いろいろなものがあって、便利なホテル"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] 古いが、中はきれいなホテル (Khách sạn cũ nhưng bên trong rất sạch đẹp)\n\n💬 Phân tích & Giải thích:\n• Trong đoạn 1 nêu rõ: 「ホテルは小さくて古かったですが、中はとてもきれいでした」 (Khách sạn tuy nhỏ và cũ nhưng bên trong rất sạch sẽ, tinh tươm).\n• Khớp hoàn toàn với phương án 2.\n• Các phương án khác sai: không phải khách sạn lớn (phương án 1 sai), không có tivi hay game (phương án 3 sai), thiếu thốn tiện nghi chứ không hề tiện lợi (phương án 4 sai).\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題５ (30) 2"
+    },
+    "65": {
+          "snippet": "Trung văn 31: 駅からホテルまでどうやって行きましたか。",
+          "text": "【Trung văn - Chuyến nghỉ dưỡng tại khách sạn trong núi】\n今年の夏、わたしは 家族で 山の中にある①ホテルに泊まりました。\n駅からホテルの近くのバス停まで、バスで2時間以上かかりました。バス停からホテルまでは、細い道を30分近く歩きました。ホテルは小さくて古かったですが、中はとてもきれいでした。ホテルに着くと、息子は「テレビが見たい。」「ゲームがしたい。」と言いました。しかし、このホテルにはどちらもありません。それから、冷蔵庫もエアコンもありません。このホテルは便利ではありませんでしたが、山や湖でいろいろなことができました。\n部屋に荷物を置いて窓を開けると、湖から涼しい風が入ってきました。少し休んでから、まだ明るかったので、散歩に出かけました。空気がおいしくて、景色も美しかったです。夜は、星がとてもきれいでした。ホテルにいる間は毎日、みんなで散歩をしたり、湖で泳いだり、虫をとったり、昼寝をしたりしました。\nホテルには1週間いました。わたしたちは「楽しかったね。②こんな生活もたまにはいいね。」と話しながら、家に帰りました。\n\n質問31：駅からホテルまでどうやって行きましたか。",
+          "options": [
+                "駅から30分バスに乗って、バス停から2時間以上歩きました。",
+                "駅から30分バス停まで歩いて、バスに2時間以上乗りました。",
+                "駅から2時間近くバスに乗って、バス停から30分以上歩きました。",
+                "駅から2時間以上バスに乗って、バス停から30分近く歩きました。"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] 駅から2時間以上バスに乗って、バス停から30分近く歩きました。\n\n💬 Phân tích & Giải thích:\n• Đoạn văn ghi cụ thể: 「駅からホテルの近くのバス停まで、バスで2時間以上かかりました。バス停からホテルまでは、細い道を30分近く歩きました」 (Từ ga đến trạm xe buýt gần khách sạn đi xe buýt mất hơn 2 tiếng. Từ trạm xe buýt đi bộ trên con đường hẹp mất gần 30 phút).\n• Khớp chính xác 100% với phương án 4.\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題５ (31) 4"
+    },
+    "66": {
+          "snippet": "Trung văn 32: ホテルに着いてから、何をしましたか。",
+          "text": "【Trung văn - Chuyến nghỉ dưỡng tại khách sạn trong núi】\n今年の夏、わたしは 家族で 山の中にある①ホテルに泊まりました。\n駅からホテルの近くのバス停まで、バスで2時間以上かかりました。バス停からホテルまでは、細い道を30分近く歩きました。ホテルは小さくて古かったですが、中はとてもきれいでした。ホテルに着くと、息子は「テレビが見たい。」「ゲームがしたい。」と言いました。しかし、このホテルにはどちらもありません。それから、冷蔵庫もエアコンもありません。このホテルは便利ではありませんでしたが、山や湖でいろいろなことができました。\n部屋に荷物を置いて窓を開けると、湖から涼しい風が入ってきました。少し休んでから、まだ明るかったので、散歩に出かけました。空気がおいしくて、景色も美しかったです。夜は、星がとてもきれいでした。ホテルにいる間は毎日、みんなで散歩をしたり、湖で泳いだり、虫をとったり、昼寝をしたりしました。\nホテルには1週間いました。わたしたちは「楽しかったね。②こんな生活もたまにはいいね。」と話しながら、家に帰りました。\n\n質問32：ホテルに着いてから、何をしましたか。",
+          "options": [
+                "部屋に行かないで、すぐに湖に行きました。",
+                "部屋に行って、夜までずっと休みました。",
+                "部屋でテレビを見てから、星を見に外へ出ました。",
+                "部屋で少し休んでから、散歩に行きました。"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] 部屋で少し休んでから、散歩に行きました。 (Nghỉ ngơi ở phòng một lát rồi đi dạo)\n\n💬 Phân tích & Giải thích:\n• Đoạn 2 ghi: 「部屋に荷物を置いて窓を開けると、湖から涼しい風が入ってきました。少し休んでから、まだ明るかったので、散歩に出かけました」 (Để hành lý trong phòng mở cửa sổ đón gió mát... Sau khi nghỉ ngơi một chút, vì trời vẫn còn sáng nên đã ra ngoài đi dạo).\n• Hoàn toàn trùng khớp với phương án 4.\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題５ (32) 4"
+    },
+    "67": {
+          "snippet": "Trung văn 33: ②こんな生活とありますが、どんな生活ですか。",
+          "text": "【Trung văn - Chuyến nghỉ dưỡng tại khách sạn trong núi】\n今年の夏、わたしは 家族で 山の中にある①ホテルに泊まりました。\n駅からホテルの近くのバス停まで、バスで2時間以上かかりました。バス停からホテルまでは、細い道を30分近く歩きました。ホテルは小さくて古かったですが、中はとてもきれいでした。ホテルに着くと、息子は「テレビが見たい。」「ゲームがしたい。」と言いました。しかし、このホテルにはどちらもありません。それから、冷蔵庫もエアコンもありません。このホテルは便利ではありませんでしたが、山や湖でいろいろなことができました。\n部屋に荷物を置いて窓を開けると、湖から涼しい風が入ってきました。少し休んでから、まだ明るかったので、散歩に出かけました。空気がおいしくて、景色も美しかったです。夜は、星がとてもきれいでした。ホテルにいる間は毎日、みんなで散歩をしたり、湖で泳いだり、虫をとったり、昼寝をしたりしました。\nホテルには1週間いました。わたしたちは「楽しかったね。②こんな生活もたまにはいいね。」と話しながら、家に帰りました。\n\n質問33：②こんな生活とありますが、どんな生活ですか。",
+          "options": [
+                "山で遊んだり、昼寝をしたりする生活",
+                "ゲームをしたり、虫をとったりする生活",
+                "散歩をしたり、テレビを見たりする生活",
+                "おいしいものを食べて、何もしない生活"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] 山で遊んだり、昼寝をしたりする生活 (Cuộc sống vui chơi ở vùng núi non, ngủ trưa...)\n\n💬 Phân tích & Giải thích:\n• Cuối đoạn 2 tác giả miêu tả sinh hoạt trong 1 tuần ở khách sạn: 「ホテルにいる間は毎日、みんなで散歩をしたり、湖で泳いだり、虫をとったり、昼寝をしたりしました」 (Mọi người cùng nhau đi dạo, bơi ở hồ, bắt côn trùng, ngủ trưa).\n• Vì vậy 「こんな生活」 (cuộc sống như thế này) là cuộc sống hòa mình vào thiên nhiên vùng núi, nghỉ ngơi ngủ trưa thư thái (phương án 1).\n• Các phương án 2, 3 sai vì ở khách sạn hoàn toàn không có tivi hay trò chơi điện tử.\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題５ (33) 1"
+    },
+    "68": {
+          "snippet": "Thông tin 34: 自転車を借りて乗りたい人は、いくら払わなければなりませんか。",
+          "text": "【Thông tin tờ rơi: あおぞら一日スポーツ教室】\nあおぞら一日スポーツ教室\n5月29日 (日) 10:00〜17:00\n場所 あおぞら運動場\n\n「あおぞら一日スポーツ教室」では、いろいろなスポーツのルールや、やり方を先生が教えます。みんなでスポーツを楽しみましょう。\n\n【Bảng hoạt động】\n① ジョギング: 10:00〜12:00 | 第1運動場 | ただ (miễn phí)\n① 自転車: 13:30〜17:00 | 第1運動場 | ただ※\n① 水泳: 10:00〜17:00 | プール | 300円\n② サッカー: 10:00〜17:00 | 第2運動場 | 100円\n② バスケットボール: 10:00〜17:00 | 体育館 | 100円\n\n※注意 自転車を借りる人は200円かかります。\n\n(1) ジョギング、自転車、水泳\n好きな時間に始めることができます。\n(2) サッカー、バスケットボール\n午前：ルールや、やり方を先生が教えます。サッカーは第2運動場、バスケットボールは体育館に、10:00までに来てください。\n午後：グループで試合をします。受付に13:00までに来てください。初めてサッカーやバスケットボールをする人は、ぜひ午前の教室から来てください。\n\n質問34：自転車を借りて乗りたい人は、いくら払わなければなりませんか。",
+          "options": [
+                "ただ",
+                "100円",
+                "200円",
+                "300円"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] 200円 (200 Yên)\n\n💬 Phân tích & Giải thích:\n• Trong bảng mục 自転車 có ghi 「ただ※」 (miễn phí), nhưng ngay dưới bảng có dòng chú ý đặc biệt:\n  「※注意 自転車を借りる人は200円かかります」 (Lưu ý: Người mượn/thuê xe đạp sẽ tốn phí 200 yên).\n• Câu hỏi hỏi: Người muốn thuê xe đạp để chạy (自転車を借りて乗りたい人) thì phải trả bao nhiêu tiền -> Phải trả 200 yên.\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題６ (34) 3"
+    },
+    "69": {
+          "snippet": "Thông tin 35: バスケットボールのルールを習ってから試合に出たい人は、まずどうしなければなりませんか。",
+          "text": "【Thông tin tờ rơi: あおぞら一日スポーツ教室】\nあおぞら一日スポーツ教室\n5月29日 (日) 10:00〜17:00\n場所 あおぞら運動場\n\n「あおぞら一日スポーツ教室」では、いろいろなスポーツのルールや、やり方を先生が教えます。みんなでスポーツを楽しみましょう。\n\n【Bảng hoạt động】\n① ジョギング: 10:00〜12:00 | 第1運動場 | ただ (miễn phí)\n① 自転車: 13:30〜17:00 | 第1運動場 | ただ※\n① 水泳: 10:00〜17:00 | プール | 300円\n② サッカー: 10:00〜17:00 | 第2運動場 | 100円\n② バスケットボール: 10:00〜17:00 | 体育館 | 100円\n\n※注意 自転車を借りる人は200円かかります。\n\n(1) ジョギング、自転車、水泳\n好きな時間に始めることができます。\n(2) サッカー、バスケットボール\n午前：ルールや、やり方を先生が教えます。サッカーは第2運動場、バスケットボールは体育館に、10:00までに来てください。\n午後：グループで試合をします。受付に13:00までに来てください。初めてサッカーやバスケットボールをする人は、ぜひ午前の教室から来てください。\n\n質問35：バスケットボールのルールや、やり方を習ってから試合に出たい人は、まずどうしなければなりませんか。",
+          "options": [
+                "10:00までに受付に行きます。",
+                "10:00までに体育館に行きます。",
+                "13:00までに受付に行きます。",
+                "13:00までに体育館に行きます。"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] 10:00までに体育館に行きます。 (Đến nhà thi đấu trước 10:00)\n\n💬 Phân tích & Giải thích:\n• Câu hỏi: Người muốn học luật và cách chơi bóng rổ trước rồi mới tham gia thi đấu thì trước tiên (まず) phải làm gì?\n• Mục (2) hướng dẫn rõ: Học luật và cách chơi diễn ra vào buổi sáng (午前：ルールや、やり方を先生が教えます).\n  Đối với môn bóng rổ: 「バスケットボールは体育館に、10:00までに来てください」 (Bóng rổ thì hãy đến nhà thi đấu thể thao trước 10:00).\n• Buổi chiều mới thi đấu (13:00). Vì vậy trước tiên (まず) người đó phải có mặt tại nhà thể thao trước 10:00 sáng.\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題６ (35) 2"
+    },
+    "70": {
+          "snippet": "Nghe M1-1: 男の人は、何で美術館へ行きますか。",
+          "text": "男の人と女の人が話しています。男の人は、何で美術館へ行きますか。",
+          "options": [
+                "自転車",
+                "電車",
+                "バス",
+                "車"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] 自転車 (Xe đạp)\n\n💬 Dịch nghĩa bài nghe:\nNam: \"Tôi muốn đi bảo tàng mỹ thuật, đi bằng gì thì tiện nhỉ?\"\nNữ: \"Nếu đi bằng ô tô thì mất 10 phút đấy.\"\nNam: \"Thế à. Đi bằng tàu điện hoặc xe buýt có được không?\"\nNữ: \"Ừm, đi thì được nhưng mất thời gian lắm. Anh có xe đạp không?\"\nNam: \"Có chứ.\"\nNữ: \"Thế thì đi xe đạp tiện hơn đấy.\"\nNam: \"Vậy à. Tôi hiểu rồi. Tôi sẽ làm thế.\"\n\n💡 Phân tích: Người nữ khuyên đi xe đạp tiện hơn và người nam đồng ý đi xe đạp.\n📄 Trích PDF gốc: (1) 1",
+          "audioScriptJa": "Ｍ：美術館に行きたいんですけど、何で行くのが便利ですか。\nＦ：車で行けば10 分ですよ。\nＭ：そうですか。電車かバスでも行けますか。\nＦ：うーん、行けますけど、時間がかかりますよ。自転車は持っていますか。\nＭ：はい。\nＦ：じゃあ、自転車のほうが便利ですよ。\nＭ：そうですか。分かりました。じゃ、そうします。\n質問：男の人は、何で美術館へ行きますか。",
+          "audioScriptVi": "Nam: Tôi muốn đến bảo tàng mỹ thuật, đi bằng phương tiện gì thì tiện lợi ạ?\nNữ: Nếu đi bằng ô tô thì mất 10 phút thôi.\nNam: Thế à. Đi bằng tàu điện hoặc xe buýt được không?\nNữ: Ừm, đi được nhưng tốn thời gian lắm. Anh có xe đạp không?\nNam: Tôi có.\nNữ: Vậy thì đi xe đạp tiện hơn đấy.\nNam: Thế à. Tôi hiểu rồi. Vậy tôi sẽ đi xe đạp.\nCâu hỏi: Người đàn ông đi đến bảo tàng bằng gì?"
+    },
+    "71": {
+          "snippet": "Nghe M1-2: 男の学生は、何を買いますか。",
+          "text": "男の学生と女の学生が話しています。男の学生は、何を買いますか。",
+          "options": [
+                "かばん",
+                "カップ",
+                "コーヒー",
+                "ハンカチ"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] ハンカチ / タオル (Khăn tay)\n\n💬 Dịch nghĩa bài nghe:\nNam: \"Tuần sau sinh nhật Sato rồi. Bạn đã mua quà chưa?\"\nNữ: \"Tớ mua rồi, mua túi xách.\"\nNam: \"Thế à, tớ chưa chọn được nên đang đau đầu.\"\nNữ: \"Vậy chiếc cốc thì sao? Bạn ấy thích cà phê nên hay uống lắm.\"\nNam: \"Nhưng chắc bạn ấy có nhiều cốc rồi.\"\nNữ: \"Thế thì tặng cà phê loại ngon thì sao?\"\nNam: \"Nhưng tớ không biết bạn ấy thích loại cà phê nào. Khăn tay thì sao nhỉ?\"\nNữ: \"Khăn tay dùng mỗi ngày nên được đấy!\"\nNam: \"Ừ, vậy tớ sẽ mua khăn tay.\"\n\n💡 Phân tích: Nam sinh chốt mua khăn tay (ハンカチ).\n📄 Trích PDF gốc: (2) 4",
+          "audioScriptJa": "Ｍ：来週、佐藤さんの誕生日だね。もうプレゼント、買った？\nＦ：うん。かばん、買った。\nＭ：そうか。僕はまだ決められなくて困っているんだ。\nＦ：そう。じゃあ、カップはどう？佐藤さん、コーヒーが好きで、よく飲んでいるよ。\nＭ：うーん、でも、カップはもうたくさん持っているかもしれないな。\nＦ：じゃあ、おいしいコーヒーにする？\nＭ：でも、どんなコーヒーが好きか、よく分からないし…。ハンカチはどうかな。\nＦ：いいと思う。毎日使うものだし。\nＭ：うん、そうしよう。\n質問：男の学生は、何を買いますか。",
+          "audioScriptVi": "Nam: Tuần sau sinh nhật Sato rồi nhỉ. Bạn đã mua quà chưa?\nNữ: Ừ, tớ mua túi xách rồi.\nNam: Vậy à, tớ vẫn chưa quyết định được nên đang băn khoăn.\nNữ: Thế tặng cái cốc thì sao? Sato thích cà phê, hay uống lắm đấy.\nNam: Ừm, nhưng có khi bạn ấy có nhiều cốc rồi.\nNữ: Thế tặng cà phê ngon thì sao?\nNam: Nhưng tớ không rõ bạn ấy thích loại cà phê nào... Khăn tay thì sao nhỉ?\nNữ: Tớ nghĩ được đấy, là thứ dùng hàng ngày mà.\nNam: Ừ, quyết định thế đi.\nCâu hỏi: Nam sinh sẽ mua gì?"
+    },
+    "72": {
+          "snippet": "Nghe M1-3: チケットを何枚予約しますか。",
+          "text": "男の人と女の人が話しています。女の人は、チケットを何枚予約しますか。",
+          "options": [
+                "1枚",
+                "2枚",
+                "3枚",
+                "4枚"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] 3枚 (3 vé)\n\n💬 Dịch nghĩa bài nghe:\nNữ: \"Thứ Bảy tuần sau tôi định đi nghe hòa nhạc, anh đi cùng không?\"\nNam: \"Thứ Bảy à? Tiếc quá, tôi phải đi công tác.\"\nNữ: \"Vậy à. Còn anh Yamada và anh Tanaka thì sao nhỉ?\"\nNam: \"À, hai người đó nói là muốn đi đấy.\"\nNữ: \"Vậy tôi sẽ rủ hai người họ và đặt vé luôn.\"\n\n💡 Phân tích: Nữ đi cùng Yamada và Tanaka -> tổng cộng là 3 người -> đặt 3 vé (3枚).\n📄 Trích PDF gốc: (3) 3",
+          "audioScriptJa": "Ｆ：来週の土曜日のコンサート、一緒に行きませんか。\nＭ：土曜日ですか。すみません、出張なんです。\nＦ：そうですか。山田さんと田中さんはどうかしら。\nＭ：あ、二人とも行きたいって言っていましたよ。\nＦ：じゃあ、二人を誘って、チケットを予約しますね。\n質問：女の人は、チケットを何枚予約しますか。",
+          "audioScriptVi": "Nữ: Buổi hòa nhạc thứ Bảy tuần sau, bạn đi cùng tôi không?\nNam: Thứ Bảy à? Tiếc quá, tôi lại đi công tác mất rồi.\nNữ: Thế à. Không biết Yamada và Tanaka thì sao nhỉ?\nNam: À, cả hai người đó đều bảo là muốn đi đấy.\nNữ: Vậy tôi sẽ rủ hai người họ rồi đặt vé nhé.\nCâu hỏi: Người phụ nữ sẽ đặt bao nhiêu vé?"
+    },
+    "73": {
+          "snippet": "Nghe M1-4: どの写真を送りますか。",
+          "text": "女の人と男の人が写真について話しています。女の人は、どの写真を送りますか。",
+          "options": [
+                "Ảnh 1",
+                "Ảnh 2",
+                "Ảnh 3",
+                "Ảnh 4"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] 2 tấm ảnh (Chụp trước trường đại học và ảnh ở câu lạc bộ)\n\n💬 Dịch nghĩa bài nghe:\nNữ muốn chọn 2 tấm ảnh gửi cho bố mẹ. Bức ảnh ở phòng không đẹp nên bỏ qua. Người nam gợi ý chọn ảnh chụp trước trường đại học và ảnh ở câu lạc bộ. Người nữ đồng ý chọn 2 bức này.\n\n💡 Phân tích: Người nữ chọn bức ảnh chụp trước trường đại học và bức ảnh cùng các bạn câu lạc bộ (Ảnh 4).\n📄 Trích PDF gốc: (4) 4",
+          "audioScriptJa": "Ｆ：国の両親に送る写真、どれがいいか見てくれる？２枚送りたいんだけど。\nＭ：どれどれ。あ、この部屋の中で撮った写真は？\nＦ：部屋があまりきれいじゃないからやめたほうがいいよ。それより、大学の前でとった写真がいいよ。\nＦ：そうだね。あと、このサークルの友達と撮ったのは？\nＭ：あ、いいね、楽しそうだ。この２枚にしよう。\n質問：女の人は、どの写真を送りますか。",
+          "audioScriptVi": "Nữ: Xem hộ tớ xem ảnh gửi về cho bố mẹ ở quê tấm nào được nhé? Tớ muốn gửi 2 tấm.\nNam: Đâu để xem nào. À, tấm chụp trong phòng này thì sao?\nNữ: Phòng không được gọn gàng lắm nên thôi. Tấm chụp trước cổng trường đại học đẹp hơn đấy.\nNam: Ừ đúng rồi. Còn tấm chụp với bạn bè trong câu lạc bộ này thì sao?\nNữ: A, được đấy, trông vui ghê. Chốt 2 tấm này nhé!\nCâu hỏi: Người phụ nữ gửi những tấm ảnh nào?"
+    },
+    "74": {
+          "snippet": "Nghe M1-5: 何を持っていきますか。",
+          "text": "男の留学生と女の人が話しています。男の留学生は、何を持っていきますか。",
+          "options": [
+                "花",
+                "果物",
+                "本",
+                "お菓子"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] 本 (Sách)\n\n💬 Dịch nghĩa bài nghe:\nNam sinh đi thăm bạn bị ốm nằm viện, hỏi nên mang gì. Nữ bảo mang hoa thì có bệnh viện không cho mang hoa. Đồ ăn hoa quả thì có khi bạn bị đau bụng không ăn được. Nằm viện rất rảnh rỗi nên mang sách hoặc truyện tranh là tốt nhất. Nam sinh quyết định mang sách.\n\n💡 Phân tích: Nam sinh chọn mang sách (本).\n📄 Trích PDF gốc: (5) 3",
+          "audioScriptJa": "Ｍ：友達がけがをして入院しているんです。お見舞いに何を持っていったらいいでしょうか。\nＦ：そうですね。花は病院によってだめなところもありますよ。\nＭ：果物やお菓子はどうですか。\nＦ：お腹の病気だったら食べられないかもしれませんね。病院では暇だから、本や雑誌がいいんじゃないですか。\nＭ：なるほど、じゃあ、本を持っていきます。\n質問：男の留学生は、何を持っていきますか。",
+          "audioScriptVi": "Nam: Bạn em bị thương phải nhập viện. Em nên mang gì đi thăm bạn ạ?\nNữ: Để xem nào. Hoa thì tùy bệnh viện có nơi không cho mang vào đâu.\nNam: Trái cây hay bánh kẹo thì sao ạ?\nNữ: Nếu bạn ấy bị bệnh về dạ dày thì có thể không ăn được. Ở viện rảnh rỗi lắm, mang sách báo tạp chí là hợp nhất đấy.\nNam: Ra là vậy, thế em sẽ mang sách đi.\nCâu hỏi: Nam lưu học sinh sẽ mang gì đi?"
+    },
+    "75": {
+          "snippet": "Nghe M1-6: 女の人は今日、このあと何をしますか。",
+          "text": "会社で男の人と女の人が話しています。女の人は今日、このあと何をしますか。",
+          "options": [
+                "資料をコピーする",
+                "手紙を出す",
+                "会議室を予約する",
+                "電話をかける"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] 手紙を出す (Đi gửi thư)\n\n💬 Dịch nghĩa bài nghe:\nNữ chuẩn bị về thì nam nhờ: \"Hôm nay cô có thể đi gửi bức thư này ở bưu điện trước khi về không?\" Nữ đồng ý đi gửi thư ngay.\n\n💡 Phân tích: Nữ đi gửi thư (手紙を出す).\n📄 Trích PDF gốc: (6) 2",
+          "audioScriptJa": "Ｍ：佐藤さん、もう帰りますか。\nＦ：はい、今日の仕事は終わりましたので。\nＭ：あ、すみません、この手紙をポストに出してきてくれませんか。急ぎなんです。\nＦ：分かりました。今から出してきます。\nＭ：ありがとう、助かります。\n質問：女の人は今日、このあと何をしますか。",
+          "audioScriptVi": "Nam: Sato, cô sắp về rồi à?\nNữ: Vâng, công việc hôm nay của tôi xong rồi ạ.\nNam: À, xin lỗi cô, cô mang giúp tôi bức thư này ra hòm thư gửi được không? Đang cần gấp đấy.\nNữ: Vâng, tôi sẽ đi gửi ngay bây giờ ạ.\nNam: Cảm ơn cô, may quá.\nCâu hỏi: Người phụ nữ hôm nay sau đây sẽ làm gì?"
+    },
+    "76": {
+          "snippet": "Nghe M1-7: 何時にどこに集まらなければなりませんか。",
+          "text": "教室で、先生が話しています。学生は明日、何時にどこに集まらなければなりませんか。",
+          "options": [
+                "8:30に教室",
+                "8:30に体育館の前",
+                "9:00に教室",
+                "9:00に体育館の前"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] 8:30に体育館の前 (8:30 trước nhà thể chất)\n\n💬 Dịch nghĩa bài nghe:\nThầy giáo thông báo về chuyến đi xe buýt ngày mai: \"Ngày mai các em phải tập trung trước 8:30 sáng. Sớm hơn bình thường 30 phút. Tập trung ở trước nhà thể chất (体育館の前) của trường, không phải ở lớp học nhé.\"\n\n💡 Phân tích: Giờ là 8:30, địa điểm là trước nhà thể chất.\n📄 Trích PDF gốc: (7) 2",
+          "audioScriptJa": "Ｍ：明日のバス旅行について連絡します。明日は、朝８時半までに来てください。いつもは９時からですが、30分早いので、間違えないでくださいね。学校の体育館の前に集まってください。いいですか。教室じゃなくて、体育館の前ですよ。\n質問：学生は明日、何時にどこに集まらなければなりませんか。",
+          "audioScriptVi": "Thầy giáo: Thầy xin thông báo về chuyến dã ngoại bằng xe buýt ngày mai. Ngày mai các em hãy đến trước 8 giờ rưỡi sáng nhé. Bình thường là từ 9 giờ, nhưng ngày mai sớm hơn 30 phút nên đừng nhầm nhé. Hãy tập trung ở trước nhà thể chất của trường. Nhớ nhé, không phải ở phòng học mà là trước nhà thể chất đấy.\nCâu hỏi: Học sinh ngày mai phải tập trung lúc mấy giờ, ở đâu?"
+    },
+    "77": {
+          "snippet": "Nghe M1-8: どの本棚へ行きますか。",
+          "text": "図書館で男の人と係りの人が話しています。男の人はこのあとどの本棚へ行きますか。",
+          "options": [
+                "Aの本棚",
+                "Bの本棚",
+                "Cの本棚",
+                "Dの本棚"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] Giá sách A (Aの本棚)\n\n💬 Dịch nghĩa bài nghe:\nNam hỏi tìm sách về lịch sử Nhật Bản. Nhân viên chỉ: \"Sách lịch sử ở dãy A và B. Nhưng lịch sử Nhật Bản thì ở dãy A, còn B là lịch sử thế giới.\"\n\n💡 Phân tích: Sách lịch sử Nhật Bản nằm ở dãy A (Aの本棚).\n📄 Trích PDF gốc: (8) 1",
+          "audioScriptJa": "Ｍ：すみません、日本の歴史についての本を探しているんですが。\nＦ：歴史の本ですね。あちらのAとBの本棚にあります。\nＭ：どちらですか。\nＦ：日本の歴史はAの本棚です。Bは世界の歴史の本です。\nＭ：分かりました。ありがとうございます。\n質問：男の人はこのあとどの本棚へ行きますか。",
+          "audioScriptVi": "Nam: Xin lỗi, tôi đang tìm sách về lịch sử Nhật Bản ạ.\nNữ: Sách lịch sử đúng không ạ. Ở giá sách A và B đằng kia ạ.\nNam: Dãy nào vậy ạ?\nNữ: Lịch sử Nhật Bản là ở giá sách A ạ. Dãy B là lịch sử thế giới.\nNam: Tôi hiểu rồi, cảm ơn cô.\nCâu hỏi: Người đàn ông sau đây sẽ đến giá sách nào?"
+    },
+    "78": {
+          "snippet": "Nghe M2-1: だれと住んでいますか。",
+          "text": "男の学生と女の学生が話しています。女の学生は、だれと住んでいますか。",
+          "options": [
+                "一人で",
+                "両親と",
+                "姉と",
+                "弟と"
+          ],
+          "correctOption": 4,
+          "explanation": "🎯 Đáp án đúng: [4] 弟と (Sống cùng em trai)\n\n💬 Dịch nghĩa bài nghe:\nNam hỏi cuộc sống mới thế nào, không ở cùng bố mẹ có buồn không. Nữ bảo: \"Có hơi buồn một chút nhưng tớ sống cùng em trai (弟と一緒に住んでいる) nên không sao. Bố mẹ và chị gái sống cùng nhau.\"\n\n💡 Phân tích: Nữ sống cùng em trai (弟).\n📄 Trích PDF gốc: (1) 4",
+          "audioScriptJa": "Ｍ：山田さん、新しい生活はどう？\nＦ：はい、毎日楽しいです。\nＭ：ご両親と一緒じゃなくて、寂しくない？\nＦ：ええ、少し。でも、弟と一緒に住んでいるので、大丈夫です。\nＭ：そうなんだ。兄弟は弟さん一人？\nＦ：姉もいます。姉は両親と一緒に住んでいます。\n質問：女の学生は、だれと住んでいますか。",
+          "audioScriptVi": "Nam: Yamada ơi, cuộc sống mới thế nào rồi?\nNữ: Dạ, mỗi ngày đều rất vui ạ.\nNam: Không sống cùng bố mẹ, em không thấy buồn à?\nNữ: Dạ cũng có một chút. Nhưng em sống cùng em trai nên cũng ổn ạ.\nNam: Vậy à. Em có mỗi một người em trai thôi à?\nNữ: Dạ có cả chị gái nữa ạ. Chị gái em thì sống cùng bố mẹ.\nCâu hỏi: Nữ sinh viên sống cùng với ai?"
+    },
+    "79": {
+          "snippet": "Nghe M2-2: いつ、どこへ行きますか。",
+          "text": "大学で、女の学生が男の学生と話しています。女の学生は、いつ、どこへ行きますか。",
+          "options": [
+                "金曜日の夜に京都",
+                "土曜日の朝に京都",
+                "金曜日の夜に奈良",
+                "土曜日の朝に奈良"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] 土曜日の朝に京都 (Sáng thứ Bảy đến Kyoto)\n\n💬 Dịch nghĩa bài nghe:\nNữ đi du lịch Kyoto và Nara. Ban đầu định tối thứ Sáu đi nhưng bận nên đổi thành sáng thứ Bảy đi tàu đến Kyoto trước (土曜日の朝に京都へ行く). Sau đó chủ nhật mới sang Nara.\n\n💡 Phân tích: Đi Kyoto vào sáng thứ Bảy.\n📄 Trích PDF gốc: (2) 2",
+          "audioScriptJa": "Ｆ：今週末、旅行に行くんだ。\nＭ：へえ、どこ？\nＦ：京都と奈良。金曜日の夜に出発しようと思ったんだけど、用事ができちゃって。土曜日の朝早く新幹線で京都に行って、日曜日に奈良に行くことにしたの。\nＭ：いいね、楽しんできてね。\n質問：女の学生は、いつ、どこへ行きますか。",
+          "audioScriptVi": "Nữ: Cuối tuần này tớ đi du lịch đấy.\nNam: Ồ, đi đâu thế?\nNữ: Kyoto và Nara. Tớ định đi từ tối thứ Sáu nhưng lại có việc bận. Nên tớ quyết định sáng sớm thứ Bảy đi shinkansen đến Kyoto, rồi Chủ nhật sang Nara.\nNam: Thích thế, đi vui vẻ nhé!\nCâu hỏi: Nữ sinh viên khi nào sẽ đi đâu?"
+    },
+    "80": {
+          "snippet": "Nghe M2-3: どうしてアルバイトがしたいですか。",
+          "text": "学校で、男の先生と女の留学生が話しています。女の留学生は、どうしてアルバイトがしたいですか。",
+          "options": [
+                "生活費のため",
+                "学費のため",
+                "日本語を話す機会のため",
+                "旅行のため"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] 日本語を話す機会のため (Muốn có cơ hội luyện nói tiếng Nhật)\n\n💬 Dịch nghĩa bài nghe:\nThầy giáo hỏi sao muốn đi làm thêm, có thiếu tiền sinh hoạt không. Nữ bảo tiền thì bố mẹ gửi đủ, nhưng ở trường ít có cơ hội nói chuyện với người Nhật nên muốn đi làm ở quán ăn để được nói tiếng Nhật nhiều hơn.\n\n💡 Phân tích: Mục đích là muốn có cơ hội nói tiếng Nhật.\n📄 Trích PDF gốc: (3) 3",
+          "audioScriptJa": "Ｍ：アンさん、アルバイトを探しているそうですね。生活費が足りないんですか。\nＦ：いいえ、生活費は両親から送ってもらっています。学校では日本人と話す機会があまりないので、アルバイト先でたくさん日本語を話したいんです。\nＭ：なるほど、そういう理由ならいいですね。\n質問：女の留学生は、どうしてアルバイトがしたいですか。",
+          "audioScriptVi": "Thầy: An này, nghe nói em đang tìm việc làm thêm à? Tiền sinh hoạt không đủ à em?\nNữ: Dạ không, tiền sinh hoạt thì bố mẹ gửi cho em rồi ạ. Nhưng ở trường em ít có cơ hội nói chuyện với người Nhật, nên em muốn đi làm thêm để nói tiếng Nhật nhiều hơn ạ.\nThầy: Ra là vậy, lý do như thế thì tốt quá.\nCâu hỏi: Nữ lưu học sinh tại sao lại muốn đi làm thêm?"
+    },
+    "81": {
+          "snippet": "Nghe M2-4: 何曜日に、一日中雨が降ると言っていますか。",
+          "text": "天気予報を聞いています。何曜日に、一日中雨が降ると言っていますか。",
+          "options": [
+                "水曜日",
+                "木曜日",
+                "金曜日",
+                "土曜日"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] 金曜日 (Thứ Sáu)\n\n💬 Dịch nghĩa bài nghe:\nDự báo thời tiết: Thứ Hai và thứ Ba trời nắng. Thứ Tư sáng nắng chiều có mây, đêm có mưa. Thứ Năm mưa tạnh, có mây. Thứ Sáu thì trời sẽ mưa cả ngày (金曜日は一日中雨が降るでしょう).\n\n💡 Phân tích: Thứ Sáu mưa cả ngày.\n📄 Trích PDF gốc: (4) 3",
+          "audioScriptJa": "Ｍ：東京の月曜日から１週間の天気予報です。月曜日と火曜日は晴れるでしょう。水曜日は、午前中は晴れますが、午後から曇って、夜には雨になるでしょう。木曜日は朝には雨がやんで、曇りでしょう。金曜日は一日中雨が降るでしょう。土曜日と日曜日はいい天気になるでしょう。\n質問：何曜日に、一日中雨が降ると言っていますか。",
+          "audioScriptVi": "Người dẫn: Dự báo thời tiết 1 tuần từ thứ Hai tại Tokyo. Thứ Hai và thứ Ba trời nắng. Thứ Tư buổi sáng nắng nhưng chiều nhiều mây, đêm có mưa. Thứ Năm buổi sáng mưa tạnh, trời nhiều mây. Thứ Sáu trời sẽ mưa suốt cả ngày. Thứ Bảy và Chủ nhật thời tiết sẽ đẹp trở lại.\nCâu hỏi: Dự báo thời tiết nói ngày thứ mấy trời sẽ mưa suốt cả ngày?"
+    },
+    "82": {
+          "snippet": "Nghe M2-5: 最近、どのぐらい本を読みますか。",
+          "text": "女の人と男の人が話しています。男の人は、最近、どのぐらい本を読みますか。",
+          "options": [
+                "月に1冊",
+                "月に2〜3冊",
+                "週に1冊",
+                "全然読まない"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] 1月に1冊 (Mỗi tháng 1 cuốn)\n\n💬 Dịch nghĩa bài nghe:\nNữ hỏi nam dạo này đọc bao nhiêu sách. Nam bảo ngày xưa còn là sinh viên thì mỗi tuần đọc 1 cuốn, nhưng dạo này đi làm bận nên mỗi tháng chỉ đọc được khoảng 1 cuốn thôi (最近は忙しくて、月に1冊ぐらいですね).\n\n💡 Phân tích: Dạo này đọc 1 tháng 1 cuốn.\n📄 Trích PDF gốc: (5) 1",
+          "audioScriptJa": "Ｆ：田中さんはよく本を読みますか。\nＭ：学生のときは毎週１冊は読んでいたんですが、働き始めてからは忙しくて。最近は１か月に１冊ぐらいですね。\nＦ：そうですか。私も最近あまり読めていなくて。\n質問：男の人は、最近、どのぐらい本を読みますか。",
+          "audioScriptVi": "Nữ: Anh Tanaka có hay đọc sách không?\nNam: Hồi sinh viên thì mỗi tuần tôi đều đọc 1 cuốn, nhưng từ khi đi làm bận quá. Dạo gần đây mỗi tháng tôi chỉ đọc khoảng 1 cuốn thôi.\nNữ: Vậy ạ. Dạo này tôi cũng chẳng đọc được mấy.\nCâu hỏi: Người đàn ông dạo này đọc khoảng bao nhiêu sách?"
+    },
+    "83": {
+          "snippet": "Nghe M2-6: 何になりたかったですか。",
+          "text": "男の学生と女の学生が話しています。女の学生は、子供のとき、何になりたかったですか。",
+          "options": [
+                "歌手",
+                "医者",
+                "先生",
+                "看護師"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] 医者 (Bác sĩ)\n\n💬 Dịch nghĩa bài nghe:\nNam hỏi hồi nhỏ nữ muốn làm nghề gì. Nữ nói hồi tiểu học xem phim truyền hình ngưỡng mộ bác sĩ nên rất muốn làm bác sĩ (お医者さんになりたかった). Lên cấp 2 thì thích âm nhạc nhưng ước mơ hồi nhỏ chính là bác sĩ.\n\n💡 Phân tích: Ước mơ hồi nhỏ là bác sĩ (医者).\n📄 Trích PDF gốc: (6) 2",
+          "audioScriptJa": "Ｍ：山田さんは、子供のとき将来何になりたかった？\nＦ：小学生のときはね、テレビドラマを見てお医者さんに憧れて、医者になりたかったの。中学生になってからは歌手になりたかったけどね。\nＭ：へえ、そうなんだ。\n質問：女の学生は、子供のとき、何になりたかったですか。",
+          "audioScriptVi": "Nam: Yamada ơi, hồi bé cậu ước mơ lớn lên làm nghề gì?\nNữ: Hồi tiểu học tớ xem phim truyền hình hâm mộ bác sĩ lắm, nên muốn trở thành bác sĩ. Lên cấp 2 thì tớ lại muốn làm ca sĩ cơ.\nNam: Ồ, ra là thế à.\nCâu hỏi: Nữ sinh viên khi còn nhỏ đã muốn trở thành gì?"
+    },
+    "84": {
+          "snippet": "Nghe M2-7: 次の船は、何時に出発しますか。",
+          "text": "港で、船の案内を聞いています。次の船は、何時に出発しますか。",
+          "options": [
+                "10:00",
+                "10:10",
+                "10:20",
+                "10:30"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] 10:20 (10 giờ 20 phút)\n\n💬 Dịch nghĩa bài nghe:\nPhát thanh tại bến cảng: \"Thưa quý khách, chuyến tàu tiếp theo sắp khởi hành. Chuyến tàu đi quanh hòn đảo gần đây mất 30 phút. Giờ khởi hành dự kiến là 10 giờ 20 phút (出発は10時20分の予定です).\"\n\n💡 Phân tích: Giờ khởi hành tiếp theo là 10:20.\n📄 Trích PDF gốc: (7) 3",
+          "audioScriptJa": "Ｆ：皆様、もうすぐ次の船が出発します。船は、近くの島を30分で回ります。海からの美しい景色を楽しむことができます。出発は10時20分の予定です。切符売り場でお待ちください。\n質問：次の船は、何時に出発しますか。",
+          "audioScriptVi": "Nữ: Kính thưa quý khách, chuyến tàu tiếp theo sắp sửa khởi hành. Tàu sẽ đi quanh hòn đảo gần đây trong 30 phút. Quý khách có thể thưởng ngoạn cảnh đẹp từ biển. Giờ xuất phát dự kiến là 10 giờ 20 phút. Xin mời quý khách đợi tại quầy bán vé.\nCâu hỏi: Chuyến tàu tiếp theo sẽ xuất phát lúc mấy giờ?"
+    },
+    "85": {
+          "snippet": "Nghe M3-1: お土産を先輩にあげる",
+          "text": "お土産を買いました。先輩にあげます。何と言いますか。",
+          "options": [
+                "これ、お土産です。どうぞ。",
+                "お土産をもらってくださいませんか。",
+                "お土産をいただきましょうか。"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] これ、お土産です。どうぞ。 (Đây là quà đặc sản, xin mời tiền bối ạ!)\n\n💬 Phân tích & Giải thích:\n• Khi tặng quà cho người khác hoặc tiền bối trong công ty, câu nói tự nhiên, lịch sự là: 「これ、お土産です。どうぞ」 (Em có chút quà đặc sản, xin mời anh/chị nhận ạ).\n• Câu 2 dùng sai kính ngữ ngữ cảnh tặng quà, câu 3 「いただきましょうか」 là mình nhận quà của người khác.\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題３ (1) 1",
+          "audioScriptJa": "お土産を買いました。先輩にあげます。何と言いますか。\n１．これ、お土産です。どうぞ。\n２．お土産をもらってくださいませんか。\n３．お土産をいただきましょうか。",
+          "audioScriptVi": "Bạn mua quà lưu niệm. Bạn tặng cho tiền bối. Bạn sẽ nói thế nào?\n1. Đây là chút quà lưu niệm ạ, xin mời anh nhận.\n2. Anh nhận quà lưu niệm cho tôi không?\n3. Tôi nhận quà nhé?"
+    },
+    "86": {
+          "snippet": "Nghe M3-2: 二人で映画に行きたい",
+          "text": "明日、二人で映画に行きたいです。何と言いますか。",
+          "options": [
+                "明日、映画を見に行きましょう。",
+                "明日、映画を見に行きませんか。",
+                "明日、映画に行きたいそうですよ。"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] 明日、映画を見に行きませんか。 (Ngày mai đi xem phim cùng tôi không?)\n\n💬 Phân tích & Giải thích:\n• Khi rủ rê đối phương cùng đi xem phim với mình, cấu trúc rủ rê lịch sự là: 「V-ませんか」 -> 「明日、映画を見に行きませんか」.\n• Câu 1 「行きましょう」 là rủ rê mang tính ép buộc/đã thống nhất từ trước; câu 3 「行きたいそうですよ」 là nghe nói ai đó muốn đi.\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題３ (2) 2",
+          "audioScriptJa": "明日、二人で映画に行きたいです。何と言いますか。\n１．明日、映画を見に行きましょう。\n２．明日、映画を見に行きませんか。\n３．明日、映画に行きたいそうですよ。",
+          "audioScriptVi": "Ngày mai bạn muốn hai người cùng đi xem phim. Bạn sẽ nói gì?\n1. Ngày mai chúng ta đi xem phim đi.\n2. Ngày mai bạn đi xem phim cùng tôi không?\n3. Nghe nói ngày mai muốn đi xem phim đấy."
+    },
+    "87": {
+          "snippet": "Nghe M3-3: 黒板の字が小さくて読めない",
+          "text": "黒板の字が小さくて、読めません。先生に何と言いますか。",
+          "options": [
+                "すいません、よく見えません。",
+                "すいません、読んでもいいですか。",
+                "すいません、書きましょうか。"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] すいません、よく見えません。 (Xin lỗi thầy, em nhìn không rõ ạ)\n\n💬 Phân tích & Giải thích:\n• Chữ trên bảng nhỏ không đọc được, học sinh cần báo với giáo viên: 「すいません、よく見えません」 (Em xin lỗi, em nhìn không rõ ạ).\n• Câu 2 xin phép đọc, câu 3 đề nghị viết hộ giáo viên là sai ngữ cảnh.\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題３ (3) 1",
+          "audioScriptJa": "黒板の字が小さくて、読めません。先生に何と言いますか。\n１．すいません、よく見えません。\n２．すいません、読んでもいいですか。\n３．すいません、書きましょうか。",
+          "audioScriptVi": "Chữ trên bảng nhỏ quá không đọc được. Bạn sẽ nói gì với giáo viên?\n1. Thưa thầy em xin lỗi, em nhìn không rõ ạ.\n2. Xin lỗi em đọc có được không ạ?\n3. Xin lỗi em viết hộ thầy nhé?"
+    },
+    "88": {
+          "snippet": "Nghe M3-4: 先生に今相談したい",
+          "text": "先生に今、相談したいです。何と言いますか。",
+          "options": [
+                "あのう、いつでしょうか。",
+                "ちょっとよろしいでしょうか。",
+                "相談してくださいませんか。"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] ちょっとよろしいでしょうか。 (Bây giờ thầy có thể cho em xin ít phút được không ạ?)\n\n💬 Phân tích & Giải thích:\n• Khi muốn xin phép người trên hoặc giáo viên để trao đổi, câu mở lời lịch sự kinh điển là: 「あのう、今ちょっとよろしいでしょうか」 (Xin lỗi thầy, bây giờ thầy có tiện cho em xin ít phút không ạ?).\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題３ (4) 2",
+          "audioScriptJa": "先生に今、相談したいです。何と言いますか。\n１．あのう、いつでしょうか。\n２．ちょっとよろしいでしょうか。\n３．相談してくださいませんか。",
+          "audioScriptVi": "Bây giờ bạn muốn thảo luận/hỏi ý kiến giáo viên. Bạn sẽ nói gì?\n1. Dạ, khi nào vậy ạ?\n2. Dạ thưa thầy bây giờ thầy có tiện một chút không ạ?\n3. Thầy hãy thảo luận giúp em được không?"
+    },
+    "89": {
+          "snippet": "Nghe M3-5: 友達のペンを借りたい",
+          "text": "友達のペンを借りたいです。何と言いますか。",
+          "options": [
+                "そのペン、ちょっと使ってもいい？",
+                "そのペン、貸してくれる？",
+                "そのペン、あげようか？"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] そのペン、ちょっと使ってもいい？ (Bút đó cho tớ mượn dùng một chút được không?)\n\n💬 Phân tích & Giải thích:\n• Muốn mượn bút của bạn dùng thử, cách hỏi thân mật xin phép là: 「そのペン、ちょっと使ってもいい？」 (Cây bút đó tớ dùng chút được không?).\n• (Đáp án chính thức trang 44 là phương án 1).\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題３ (5) 1",
+          "audioScriptJa": "友達のペンを借りたいです。何と言いますか。\n１．そのペン、ちょっと使ってもいい？\n２．そのペン、貸してくれる？\n３．そのペン、あげようか？",
+          "audioScriptVi": "Bạn muốn mượn bút của bạn bè. Bạn sẽ nói gì?\n1. Cây bút đó cho tớ dùng một chút được không?\n2. Cây bút đó bạn cho tớ mượn không?\n3. Tớ cho bạn cây bút đó nhé?"
+    },
+    "90": {
+          "snippet": "Nghe M4-1: どこに行くんですか。",
+          "text": "どこに行くんですか。",
+          "options": [
+                "いってらっしゃい。",
+                "ちょっと食事に行ってきます。",
+                "気をつけてください。"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] ちょっと食事に行ってきます。 (Tôi đi ăn một chút rồi về ạ)\n\n💬 Phân tích & Giải thích:\n• Câu hỏi: \"Bạn đi đâu thế?\" -> Trả lời câu hỏi địa điểm/mục đích đi: 「ちょっと食事に行ってきます」 (Tôi đi ra ngoài ăn một chút rồi về).\n• 1: いってらっしゃい (Chúc đi may mắn) là người ở lại chào người đi; 3: 気をつけてください (Hãy cẩn thận nhé).\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題４ (1) 2",
+          "audioScriptJa": "Ｆ：どこに行くんですか。\n１．いってらっしゃい。\n２．ちょっと食事に行ってきます。\n３．気をつけてください。",
+          "audioScriptVi": "Nữ: Bạn đi đâu đấy?\n1. Đi cẩn thận nhé.\n2. Tớ đi ra ngoài ăn cơm một chút rồi về.\n3. Hãy cẩn thận nhé."
+    },
+    "91": {
+          "snippet": "Nghe M4-2: 京都、行ったことある？",
+          "text": "ねえ、京都、行ったことある？",
+          "options": [
+                "行かなかったよ。",
+                "そう、行ったんだ。",
+                "うん、１回あるよ。"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] うん、１回あるよ。 (Ừ, tớ từng đi một lần rồi)\n\n💬 Phân tích & Giải thích:\n• Câu hỏi về kinh nghiệm: 「～たことがある？」 (Cậu đã từng đến Kyoto chưa?) -> Trả lời xác nhận: 「うん、１回あるよ」 (Ừ, tớ từng đến 1 lần rồi).\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題４ (2) 3",
+          "audioScriptJa": "Ｆ：ねえ、京都、行ったことある？\n１．行かなかったよ。\n２．そう、行ったんだ。\n３．うん、１回あるよ。",
+          "audioScriptVi": "Nữ: Này, cậu đã từng đến Kyoto chưa?\n1. Tớ đã không đi đâu.\n2. Thế à, đã đi rồi cơ à.\n3. Ừ, tớ từng đi 1 lần rồi."
+    },
+    "92": {
+          "snippet": "Nghe M4-3: どうして昨日、授業を休んだんですか。",
+          "text": "どうして昨日、授業を休んだんですか。",
+          "options": [
+                "休むかもしれません。",
+                "風邪をひいてしまいました。",
+                "ゆっくり休んでください。"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] 風邪をひいてしまいました。 (Em bị cảm cúm mất ạ)\n\n💬 Phân tích & Giải thích:\n• Câu hỏi hỏi lý do trong quá khứ: \"Tại sao hôm qua em lại nghỉ học?\" -> Trả lời nêu nguyên nhân: 「風邪をひいてしまいました」 (Dạ vì em bị cảm lạnh mất ạ).\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題４ (3) 2",
+          "audioScriptJa": "Ｍ：どうして昨日、授業を休んだんですか。\n１．休むかもしれません。\n２．風邪をひいてしまいました。\n３．ゆっくり休んでください。",
+          "audioScriptVi": "Nam: Tại sao hôm qua em lại nghỉ học thế?\n1. Có lẽ em sẽ nghỉ.\n2. Dạ em bị cảm cúm mất rồi ạ.\n3. Em hãy nghỉ ngơi thong thả nhé."
+    },
+    "93": {
+          "snippet": "Nghe M4-4: 国へ帰ったら、何をしますか。",
+          "text": "夏休みに国へ帰ったら、何をしますか。",
+          "options": [
+                "家族と旅行するつもりです。",
+                "飛行機で帰ります。",
+                "８月に帰ります。"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] 家族と旅行するつもりです。 (Tôi dự định đi du lịch cùng gia đình)\n\n💬 Phân tích & Giải thích:\n• Câu hỏi: \"Nghỉ hè về nước thì bạn sẽ làm gì (何をしますか)?\" -> Trả lời dự định việc sẽ làm: 「家族と旅行するつもりです」 (Tôi định sẽ đi du lịch với gia đình).\n• 2 trả lời bằng phương tiện gì, 3 trả lời vào tháng mấy.\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題４ (4) 1",
+          "audioScriptJa": "Ｍ：夏休みに国へ帰ったら、何をしますか。\n１．家族と旅行するつもりです。\n２．飛行機で帰ります。\n３．８月に帰ります。",
+          "audioScriptVi": "Nam: Nghỉ hè về nước thì bạn sẽ làm gì?\n1. Tớ dự định sẽ đi du lịch cùng gia đình.\n2. Tớ về bằng máy bay.\n3. Tớ về vào tháng 8."
+    },
+    "94": {
+          "snippet": "Nghe M4-5: 学校を休むときは電話してください。",
+          "text": "学校を休むときは電話してください。",
+          "options": [
+                "はい、電話です。",
+                "はい、分かりました。",
+                "いいえ、しません。"
+          ],
+          "correctOption": 2,
+          "explanation": "🎯 Đáp án đúng: [2] はい、分かりました。 (Vâng, em hiểu rồi ạ)\n\n💬 Phân tích & Giải thích:\n• Lời dặn dò, yêu cầu: \"Khi nghỉ học hãy gọi điện thoại nhé!\" -> Học sinh đáp lại lịch sự: 「はい、分かりました」 (Vâng, em hiểu rồi ạ / Em nhớ rồi ạ).\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題４ (5) 2",
+          "audioScriptJa": "Ｆ：学校を休むときは電話してください。\n１．はい、電話です。\n２．はい、分かりました。\n３．いいえ、しません。",
+          "audioScriptVi": "Nữ: Khi nghỉ học thì hãy gọi điện thoại nhé.\n1. Vâng, là điện thoại ạ.\n2. Vâng, em hiểu rồi ạ.\n3. Không, em không làm đâu."
+    },
+    "95": {
+          "snippet": "Nghe M4-6: その本を取ってくれませんか。",
+          "text": "あのう、その本を取ってくれませんか。",
+          "options": [
+                "ありがとう。",
+                "もらいましたよ。",
+                "え、どれですか。"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] え、どれですか。 (Hả, cuốn nào vậy ạ?)\n\n💬 Phân tích & Giải thích:\n• Câu nhờ vả: \"Bạn có thể lấy giúp tôi cuốn sách đó được không?\" -> Đáp lại để xác nhận cuốn sách cần lấy: 「え、どれですか」 (Hả, cuốn nào cơ ạ?).\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題４ (6) 3",
+          "audioScriptJa": "Ｍ：あのう、その本を取ってくれませんか。\n１．ありがとう。\n２．もらいましたよ。\n３．え、どれですか。",
+          "audioScriptVi": "Nam: Xin lỗi, bạn lấy giúp tôi cuốn sách đó được không?\n1. Cảm ơn nhé.\n2. Tớ nhận rồi đấy.\n3. Hả, cuốn nào vậy?"
+    },
+    "96": {
+          "snippet": "Nghe M4-7: 日本語が話せますか。",
+          "text": "ジョンさん、日本語が話せますか。",
+          "options": [
+                "勉強してください。",
+                "分かりました。",
+                "少しならできます。"
+          ],
+          "correctOption": 3,
+          "explanation": "🎯 Đáp án đúng: [3] 少しならできます。 (Nếu một chút thì tôi có thể nói được)\n\n💬 Phân tích & Giải thích:\n• Câu hỏi về khả năng ngoại ngữ: \"John ơi, cậu có nói được tiếng Nhật không?\" -> Trả lời khiêm tốn: 「少しならできます」 (Nếu nói một chút/đơn giản thì tôi làm được ạ).\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題４ (7) 3",
+          "audioScriptJa": "Ｆ：ジョンさん、日本語が話せますか。\n１．勉強してください。\n２．分かりました。\n３．少しならできます。",
+          "audioScriptVi": "Nữ: John ơi, bạn có nói được tiếng Nhật không?\n1. Hãy học đi nhé.\n2. Tôi hiểu rồi.\n3. Nếu một chút thì tôi có thể."
+    },
+    "97": {
+          "snippet": "Nghe M4-8: 黒板を消しておいてくれませんか。",
+          "text": "あ、田中さん、黒板を消しておいてくれませんか。",
+          "options": [
+                "はい、すぐにやります。",
+                "きれいになりましたね。",
+                "ここに置きましょう。"
+          ],
+          "correctOption": 1,
+          "explanation": "🎯 Đáp án đúng: [1] はい、すぐにやります。 (Vâng, em sẽ làm ngay ạ)\n\n💬 Phân tích & Giải thích:\n• Câu nhờ vả hành động: \"A, Tanaka này, em xóa bảng giúp thầy trước được không?\" -> Đồng ý nhận lời làm ngay: 「はい、すぐにやります」 (Vâng, em sẽ làm ngay bây giờ ạ).\n\n📄 Trích PDF gốc (Trang 44 - 正答表): 問題４ (8) 1",
+          "audioScriptJa": "Ｍ：あ、田中さん、黒板を消しておいてくれませんか。\n１．はい、すぐにやります。\n２．きれいになりましたね。\n３．ここに置きましょう。",
+          "audioScriptVi": "Nam: A, Tanaka này, em xóa bảng giúp thầy trước được không?\n1. Vâng, em sẽ làm ngay ạ.\n2. Đã sạch đẹp rồi nhỉ.\n3. Hãy đặt ở đây nhé."
+    }
   },
   "n4-2018": {
     "1": {
-      "snippet": "楽しい (たのしい)",
-      "explanation": "🎯 Đáp án đúng: [3] 楽しい (たのしい)\n\n💬 Dịch nghĩa câu:\n\"Hôm nay trôi qua thật là vui vẻ và thoải mái.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「楽」 (lạc) trong tính từ 「たのしい」 mang ý nghĩa vui vẻ, hứng khởi.\n\n🔍 Phân tích các lựa chọn:\n- 1. いそがしい (忙しい): Bận rộn\n- 2. すずしい (涼しい): Mát mẻ\n- 3. たのしい (楽しい): Vui vẻ, hào hứng (ĐÚNG)\n- 4. かなしい (悲しい): Buồn bã\n\n📄 Trích PDF gốc (试题解析):\n(1) 3 句意: 今天非常开心啊。3. たのしい(楽しい): 愉快",
-      "correctOption": 3
+          "snippet": "楽しかった (たのしかった)",
+          "explanation": "🎯 Đáp án đúng: [3] たのしかった (楽しい - Vui vẻ)\n\n💬 Dịch nghĩa câu:\n\"Hôm nay đã rất là vui vẻ nhỉ.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「楽」 (LẠC) trong tính từ đuôi い 「楽しい (たのしい)」 mang nghĩa vui vẻ, thích thú. Chia quá khứ bỏ い thêm かった thành 「楽しかった」.\n\n🔍 Phân tích các lựa chọn:\n- 1. いそがしかった (忙しかった): Bận rộn\n- 2. すずしかった (涼しかった): Mát mẻ\n- 3. たのしかった (楽しい): Vui vẻ, hứng khởi (ĐÚNG)\n- 4. かなしかった (悲しい): Đau buồn\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 15: (1) 3 句意: 今天非常开心啊。3. たのしい(楽しい): 愉快)",
+          "correctOption": 3,
+          "text": "今日は とても 楽しかったですね。",
+          "options": [
+                "いそがしかった",
+                "すずしかった",
+                "たのしかった",
+                "かなしかった"
+          ]
     },
     "2": {
-      "snippet": "味 (あじ)",
-      "explanation": "🎯 Đáp án đúng: [4] 味 (あじ)\n\n💬 Dịch nghĩa câu:\n\"Tôi rất thích hương vị đậm đà của món ăn này.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「味」 (vị) có âm Kun thuần Nhật là 「あじ」 (mùi vị đồ ăn).\n\n🔍 Phân tích các lựa chọn:\n- 1. かたち (形): Hình dáng, phom dáng\n- 2. いろ (色): Màu sắc\n- 3. におい (匂い): Mùi hương\n- 4. あじ (味): Hương vị, vị giác (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(2) 4 句意: 我喜欢这种味道。4. あじ(味): 味道",
-      "correctOption": 4
+          "snippet": "味 (あじ)",
+          "explanation": "🎯 Đáp án đúng: [4] あじ (味 - Hương vị)\n\n💬 Dịch nghĩa câu:\n\"Tôi rất thích hương vị này.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「味」 (âm Hán Việt: VỊ) có cách đọc Kun'yomi là 「あじ」 mang nghĩa mùi vị, hương vị món ăn.\n\n🔍 Phân tích các lựa chọn:\n- 1. かたち (形): Hình dáng\n- 2. いろ (色): Màu sắc\n- 3. におい (匂い): Mùi hương\n- 4. あじ (味): Mùi vị, hương vị (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 15: (2) 4 句意: 我喜欢这种味道。4. あじ(味): 味道)",
+          "correctOption": 4,
+          "text": "わたしは この 味が すきです。",
+          "options": [
+                "かたち",
+                "いろ",
+                "におい",
+                "あじ"
+          ]
     },
     "3": {
-      "snippet": "不便 (ふべん)",
-      "explanation": "🎯 Đáp án đúng: [1] 不便 (ふべん)\n\n💬 Dịch nghĩa câu:\n\"Khu vực lân cận quanh đây cuộc sống có đôi chút bất tiện.\"\n\n💡 Phân tích & Giải thích:\n• Chữ 「不」 (bất) ghép với 「便」 (tiện) đọc âm On là 「ふべん」 (bất tiện, thiếu tiện ích).\n\n🔍 Phân tích các lựa chọn:\n- 1. ふべん (不便): Bất tiện, không thuận tiện (ĐÚNG)\n- 2. ふびん: Sai âm đọc\n- 3. ふへん (不変): Bất biến\n- 4. ぶべん: Sai âm đầu\n\n📄 Trích PDF gốc (试题解析):\n(3) 1 句意: 这附近有些不大方便。1. ふべん(不便): 不方便",
-      "correctOption": 1
+          "snippet": "不便 (ふべん)",
+          "explanation": "🎯 Đáp án đúng: [1] ふべん (不便 - Bất tiện)\n\n💬 Dịch nghĩa câu:\n\"Khu vực quanh đây hơi bất tiện một chút nhỉ.\"\n\n💡 Phân tích & Giải thích:\n• Từ ghép 「不便」 (BẤT TIỆN) đọc là 「ふべん」:\n  - Chữ 「不」 đọc âm On là 「ふ」.\n  - Chữ 「便」 đọc âm On là 「べん」.\n• Các phương án 2, 3, 4 đều phát âm sai âm On'yomi tiêu chuẩn.\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 15: (3) 1 句意: 这附近有些不太方便。1. ふべん(不便): 不方便)",
+          "correctOption": 1,
+          "text": "この あたりは ちょっと 不便 ですね。",
+          "options": [
+                "ふべん",
+                "ぶべん",
+                "ふへん",
+                "ぶへん"
+          ]
     },
     "4": {
-      "snippet": "切る (きる)",
-      "explanation": "🎯 Đáp án đúng: [2] 切る (きる)\n\n💬 Dịch nghĩa câu:\n\"Xin vui lòng thái / cắt nhỏ phần rau củ này giúp tôi.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「切」 (thiết) có cách đọc Kun là 「きる」 (cắt, thái đồ ăn). Thể て là 「切ってください」.\n\n🔍 Phân tích các lựa chọn:\n- 1. とる (撮る/取る): Chụp ảnh / Cầm lấy\n- 2. きる (切る): Cắt, thái lát (ĐÚNG)\n- 3. あらう (洗う): Rửa sạch\n- 4. もつ (持つ): Cầm, mang theo\n\n📄 Trích PDF gốc (试题解析):\n(4) 2 句意: 请把蔬菜切一下。2. きる(切る): 切, 割",
+          "snippet": "切って (きって)",
+          "explanation": "🎯 Đáp án đúng: [2] きって (切る - Cắt, thái)\n\n💬 Dịch nghĩa câu:\n\"Xin vui lòng cắt / thái rau giúp tôi.\"\n\n💡 Phân tích & Giải thích:\n• Động từ nhóm 1 「切る (きる)」 (THIẾT - cắt, thái). Chia thể te là âm ngắt: 「切って (きって)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. とって (取って / 撮って): Lấy / Chụp ảnh\n- 2. きって (切って): Cắt, thái (ĐÚNG)\n- 3. あらって (洗って): Rửa\n- 4. もって (持って): Cầm, mang\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 15: (4) 2 句意: 请把蔬菜切一下。2. きる(切る): 切, 割)",
+          "correctOption": 2,
+          "text": "やさいを 切って ください。",
+          "options": [
+                "とって",
+                "きって",
+                "あらって",
+                "もって"
+          ]
+    },
+    "5": {
+          "snippet": "以外 (いがい)",
+          "explanation": "🎯 Đáp án đúng: [4] いがい (以外 - Ngoại trừ)\n\n💬 Dịch nghĩa câu:\n\"Ngoại trừ anh Hayashi ra thì mọi người đều đã đến.\"\n\n💡 Phân tích & Giải thích:\n• Từ ghép 「以外」 (DĨ NGOẠI): chữ 以 đọc là 「い」, chữ 外 đọc là 「がい」 -> 「いがい」.\n• Mẫu câu: 「Danh từ + 以外」 = ngoại trừ N ra.\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 15: (5) 4 句意: 除了小林以外, 其他人都来了。考察汉字词: 以外读为「いがい」)",
+          "correctOption": 4,
+          "text": "はやしさん以外は みんな 来ました。",
+          "options": [
+                "にそと",
+                "にがい",
+                "いそと",
+                "いがい"
+          ]
+    },
+    "6": {
+          "snippet": "雲 (くも)",
+          "explanation": "🎯 Đáp án đúng: [3] くも (雲 - Đám mây)\n\n💬 Dịch nghĩa câu:\n\"Tôi đã ngắm nhìn những đám mây qua cửa sổ suốt.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「雲」 (âm Hán Việt: VÂN) đọc Kun'yomi là 「くも」 nghĩa là đám mây.\n\n🔍 Phân tích các lựa chọn:\n- 1. ほし (星): Ngôi sao\n- 2. ゆき (雪): Tuyết\n- 3. くも (雲): Mây (ĐÚNG)\n- 4. そら (空): Bầu trời\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 15: (6) 3 句意: 我一直看着窗外的云。3. くも(雲): 云)",
+          "correctOption": 3,
+          "text": "まどから ずっと 雲を 見て いました。",
+          "options": [
+                "ほし",
+                "ゆき",
+                "くも",
+                "そら"
+          ]
+    },
+    "7": {
+          "snippet": "急行 (きゅうこう)",
+          "explanation": "🎯 Đáp án đúng: [4] きゅうこう (急行 - Tàu tốc hành)\n\n💬 Dịch nghĩa câu:\n\"Chuyến tàu điện đó là tàu tốc hành đấy nhé.\"\n\n💡 Phân tích & Giải thích:\n• Từ ghép 「急行」 (CẤP HÀNH): chữ 急 đọc là 「きゅう」 (trường âm ゅう), chữ 行 đọc là 「こう」 (trường âm ょう) -> 「きゅうこう」.\n• Các phương án 1, 2, 3 thiếu trường âm đều phát âm sai quy tắc.\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 15: (7) 4 句意: 那趟电车是快车。考察汉字词: 急行读为「きゅうこう」)",
+          "correctOption": 4,
+          "text": "その 電車は 急行ですよ。",
+          "options": [
+                "きゅこ",
+                "きゅこう",
+                "きゅうこ",
+                "きゅうこう"
+          ]
+    },
+    "8": {
+          "snippet": "写さないで (うつさないで)",
+          "explanation": "🎯 Đáp án đúng: [2] うつさないで (写す - Chụp ảnh / Sao chép)\n\n💬 Dịch nghĩa câu:\n\"Xin đừng chụp ảnh / chép lại cái này.\"\n\n💡 Phân tích & Giải thích:\n• Động từ nhóm 1 「写す (うつす)」 (TẢ - chụp ảnh, chép lại). Chia thể phủ định: 「写さないでください」.\n\n🔍 Phân tích các lựa chọn:\n- 1. おさないで (押す): Nhấn, ấn nút\n- 2. うつさないで (写す): Chụp ảnh, chép lại (ĐÚNG)\n- 3. けさないで (消す): Xóa, tắt\n- 4. おとさないで (落とす): Đánh rơi\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 15: (8) 2 句意: 请不要拍这个。2. うつす(写す): 摄影, 抄写)",
+          "correctOption": 2,
+          "text": "これは 写さないで ください。",
+          "options": [
+                "おさないで",
+                "うつさないで",
+                "けさないで",
+                "おとさないで"
+          ]
+    },
+    "9": {
+          "snippet": "反対 (はんたい)",
+          "explanation": "🎯 Đáp án đúng: [1] はんたい (反対 - Phản đối)\n\n💬 Dịch nghĩa câu:\n\"Tôi phản đối ý kiến đó.\"\n\n💡 Phân tích & Giải thích:\n• Từ ghép 「反対」 (PHẢN ĐỐI): chữ 反 đọc là 「はん」, chữ 対 đọc là 「たい」 (âm trong, không đục) -> 「はんたい」.\n• Cấu trúc: 「Danh từ + に反対だ」 = phản đối điều gì.\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 15: (9) 1 句意: 我反对那个意见。考察汉字词: 反对读为「はんたい」)",
+          "correctOption": 1,
+          "text": "その いけんには 反対です。",
+          "options": [
+                "はんたい",
+                "ほんたい",
+                "はんだい",
+                "ほんだい"
+          ]
+    },
+    "10": {
+          "snippet": "くろい -> 黒い",
+          "explanation": "🎯 Đáp án đúng: [2] 黒い (Màu đen)\n\n💬 Dịch nghĩa câu:\n\"Tôi muốn có một đôi tất màu đen.\"\n\n💡 Phân tích & Giải thích:\n• 「くろい」 là tính từ chỉ màu sắc 「黒い」 (HẮC - màu đen).\n\n🔍 Phân tích các lựa chọn:\n- 1. 白い (しろい): Màu trắng\n- 2. 黒い (くろい): Màu đen (ĐÚNG)\n- 3. 赤い (あかい): Màu đỏ\n- 4. 青い (あおい): Màu xanh lam\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 15: (10) 2 句意: 我想要双黑色的袜子。2. 黒い(くろい): 黑色的)",
+          "correctOption": 2,
+          "text": "くろい くつしたが ほしいです。",
+          "options": [
+                "白い",
+                "黒い",
+                "赤い",
+                "青い"
+          ]
+    },
+    "11": {
+          "snippet": "けいかく -> 計画",
+          "explanation": "🎯 Đáp án đúng: [3] 計画 (Kế hoạch)\n\n💬 Dịch nghĩa câu:\n\"Kế hoạch nghỉ hè của tôi vẫn chưa được quyết định.\"\n\n💡 Phân tích & Giải thích:\n• Từ 「けいかく」 (kế hoạch) viết Hán tự chuẩn xác là 「計画」 (KẾ HOẠCH):\n  - Chữ 「計」 có bộ Ngôn 言 và chữ Thập 十.\n  - Chữ 「画」 có bộ Điền 田 ở giữa.\n• Các chữ gây nhiễu: 訂 (Đính), 書 (Thư).\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 15: (11) 3 句意: 暑假的计划还没确定下来。3. 計画(けいかく): 计划, 规划)",
+          "correctOption": 3,
+          "text": "なつやすみの けいかくは まだ きまって いません。",
+          "options": [
+                "計書",
+                "訂画",
+                "計画",
+                "訂書"
+          ]
+    },
+    "12": {
+          "snippet": "いしゃ -> 医者",
+          "explanation": "🎯 Đáp án đúng: [4] 医者 (Bác sĩ)\n\n💬 Dịch nghĩa câu:\n\"Tôi muốn trở thành một bác sĩ.\"\n\n💡 Phân tích & Giải thích:\n• 「いしゃ」 (bác sĩ) viết Hán tự là 「医者」 (Y GIẢ):\n  - Chữ 「医」 có bộ Phương 匚 bao quanh mũi tên 矢.\n  - Chữ 「者」 có bộ Lão 耂 và chữ Nhật 日 bên dưới.\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 15: (12) 4 句意: 我想成为一名医生。4. 医者(いしゃ): 医生)",
+          "correctOption": 4,
+          "text": "わたしは いしゃに なりたいです。",
+          "options": [
+                "匠員",
+                "医員",
+                "匠者",
+                "医者"
+          ]
+    },
+    "13": {
+          "snippet": "よる -> 夜",
+          "explanation": "🎯 Đáp án đúng: [1] 夜 (Buổi tối / Đêm)\n\n💬 Dịch nghĩa câu:\n\"Tối mai tôi sẽ ra ngoài cùng gia đình.\"\n\n💡 Phân tích & Giải thích:\n• 「よる」 là chữ Hán 「夜」 (DẠ - buổi tối, ban đêm).\n\n🔍 Phân tích các lựa chọn:\n- 1. 夜 (よる): Buổi tối (ĐÚNG)\n- 2. 昼 (ひる): Ban ngày / buổi trưa\n- 3. 夕 (ゆう): Chiều tà, hoàng hôn\n- 4. 朝 (あさ): Buổi sáng\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 15: (13) 1 句意: 我明晚会和家人一起出门。1. 夜(よる): 晚上)",
+          "correctOption": 1,
+          "text": "あしたの よる かぞくと 出かけます。",
+          "options": [
+                "夜",
+                "昼",
+                "夕",
+                "朝"
+          ]
+    },
+    "14": {
+          "snippet": "かして -> 貸して",
+          "explanation": "🎯 Đáp án đúng: [3] 貸して (Cho mượn)\n\n💬 Dịch nghĩa câu:\n\"Xin hãy cho tôi mượn chiếc ô với ạ.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「かす」 (cho mượn) viết là 「貸す」 (THẢI). Chữ 「貸」 có chữ Hóa 化 ở trên và bộ Bối 貝 ở dưới.\n• Chữ gây nhiễu: 貨 (Hàng hóa), 資 (Tư bản), 質 (Chất vấn).\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 15: (14) 3 句意: 请把伞借给我。3. 貸す(かす): 借)",
+          "correctOption": 3,
+          "text": "かさを かして ください。",
+          "options": [
+                "貨して",
+                "資して",
+                "貸して",
+                "質して"
+          ]
+    },
+    "15": {
+          "snippet": "しあい -> 試合",
+          "explanation": "🎯 Đáp án đúng: [4] 試合 (Trận đấu)\n\n💬 Dịch nghĩa câu:\n\"Ngày mai có trận thi đấu bóng đá.\"\n\n💡 Phân tích & Giải thích:\n• 「しあい」 (trận đấu) viết Hán tự là 「試合」 (THÍ HỢP) gồm chữ 試 (THÍ) và chữ 合 (HỢP).\n• Các phương án 1, 2, 3 dùng sai chữ Hán (誡, 誠, 会).\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 16: (15) 4 句意: 明天有足球赛。4. 試合(しあい): 比赛)",
+          "correctOption": 4,
+          "text": "あしたは サッカーの しあいが あります。",
+          "options": [
+                "誡会",
+                "誠合",
+                "試会",
+                "試合"
+          ]
+    },
+    "16": {
+          "snippet": "心配 (しんぱい)",
+          "explanation": "🎯 Đáp án đúng: [1] しんぱい (心配 - Lo lắng)\n\n💬 Dịch nghĩa câu:\n\"Nghe tin Sato bị thương, mọi người ai nấy đều rất lo lắng.\"\n\n💡 Phân tích & Giải thích:\n• Cụm từ: 「心配する (しんぱいする)」 = lo lắng, bận tâm. Khi nghe tin bạn bị thương (けがをしたと聞いて) thì phản ứng tâm lý phù hợp nhất là lo lắng.\n\n🔍 Phân tích các lựa chọn:\n- 1. 心配 (しんぱい): Lo lắng (ĐÚNG)\n- 2. 経験 (けいけん): Trải nghiệm\n- 3. 失礼 (しつれい): Thất lễ\n- 4. お辞儀 (おじぎ): Cúi chào\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 16: (16) 1 句意: 听说佐藤先生受伤了, 大家都非常担心。1. しんぱい(心配): 担心)",
+          "correctOption": 1,
+          "text": "さとうさんが けがを したと 聞いて、みんな（　　）しました。",
+          "options": [
+                "しんぱい",
+                "けいけん",
+                "しつれい",
+                "おじぎ"
+          ]
+    },
+    "17": {
+          "snippet": "夢 (ゆめ)",
+          "explanation": "🎯 Đáp án đúng: [2] ゆめ (夢 - Ước mơ)\n\n💬 Dịch nghĩa câu:\n\"Tôi có một ước mơ là tương lai sẽ trở thành ca sĩ.\"\n\n💡 Phân tích & Giải thích:\n• Cụm từ: 「夢がある (ゆめがある)」 = có ước mơ, hoài bão. Nguyện vọng tương lai muốn làm ca sĩ (将来歌手になる) là ước mơ.\n\n🔍 Phân tích các lựa chọn:\n- 1. 景色 (けしき): Phong cảnh\n- 2. 夢 (ゆめ): Ước mơ (ĐÚNG)\n- 3. 思い出 (おもいで): Kỷ niệm\n- 4. 世話 (せわ): Chăm sóc\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 16: (17) 2 句意: 我梦想将来成为一名歌手。2. ゆめ(夢): 梦想)",
+          "correctOption": 2,
+          "text": "わたしには しょうらい かしゅに なる という（　　）が あります。",
+          "options": [
+                "けしき",
+                "ゆめ",
+                "おもいで",
+                "せわ"
+          ]
+    },
+    "18": {
+          "snippet": "ぜひ (是非 - Nhất định)",
+          "explanation": "🎯 Đáp án đúng: [2] ぜひ (是非 - Nhất định)\n\n💬 Dịch nghĩa câu:\n\"Anh Lee ơi, bữa tiệc lần tới anh nhất định phải đến nhé.\"\n\n💡 Phân tích & Giải thích:\n• Phó từ 「ぜひ」 đi với câu cầu khiến 「～てください」 hoặc mong muốn 「～たい」 biểu thị sự tha thiết mong đợi (nhất định hãy làm).\n\n🔍 Phân tích các lựa chọn:\n- 1. 非常に (ひじょうに): Cực kỳ, rất\n- 2. ぜひ: Nhất định (ĐÚNG)\n- 3. 十分 (じゅうぶん): Đầy đủ\n- 4. いつも: Luôn luôn\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 16: (18) 2 句意: 小李, 这次的聚会请一定要来哦。2. ぜひ(是非): 一定, 务必)",
+          "correctOption": 2,
+          "text": "リーさんも こんどの パーティーに（　　）来て くださいね。",
+          "options": [
+                "ひじょうに",
+                "ぜひ",
+                "じゅうぶん",
+                "いつも"
+          ]
+    },
+    "19": {
+          "snippet": "説明 (せつめい)",
+          "explanation": "🎯 Đáp án đúng: [3] せつめい (説明 - Giải thích / Hướng dẫn)\n\n💬 Dịch nghĩa câu:\n\"Sau đây tôi sẽ giải thích / hướng dẫn cách sử dụng cỗ máy, xin hãy chú ý lắng nghe.\"\n\n💡 Phân tích & Giải thích:\n• Cụm từ: 「使い方を説明する (せつめいする)」 = giải thích cách sử dụng. Vế sau có 「よく聞いてください」 (hãy chú ý lắng nghe) khẳng định hành động nói là giải thích.\n\n🔍 Phân tích các lựa chọn:\n- 1. 準備 (じゅんび): Chuẩn bị\n- 2. 利用 (りよう): Sử dụng, tận dụng\n- 3. 説明 (せつめい): Giải thích, thuyết minh (ĐÚNG)\n- 4. 生産 (せいさん): Sản xuất\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 16: (19) 3 句意: 接下来我将说明机器的使用方法, 请认真听我说。3. せつめい(説明): 说明)",
+          "correctOption": 3,
+          "text": "これから きかいの つかいかたを（　　）しますから、よく 聞いて ください。",
+          "options": [
+                "じゅんび",
+                "りよう",
+                "せつめい",
+                "せいさん"
+          ]
+    },
+    "20": {
+          "snippet": "かたい (硬い / 固い - Đồ cứng)",
+          "explanation": "🎯 Đáp án đúng: [2] かたい (硬い / 固い - Cứng)\n\n💬 Dịch nghĩa câu:\n\"Vì răng tôi yếu nên không thể ăn những món đồ cứng được.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「硬い (かたい)」 = cứng, dai. Khi đau răng hoặc răng yếu (歯が悪い) thì không ăn được đồ cứng (かたいもの).\n\n🔍 Phân tích các lựa chọn:\n- 1. 厳しい (きびしい): Nghiêm khắc\n- 2. 固い / 硬い (かたい): Cứng (ĐÚNG)\n- 3. 早い (はやい): Nhanh, sớm\n- 4. 深い (ふかい): Sâu\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 16: (20) 2 句意: 我的牙不好, 所以不能吃硬东西。2. かたい(固い): 坚硬的)",
+          "correctOption": 2,
+          "text": "はが わるいので、（　　）ものは 食べられません。",
+          "options": [
+                "きびしい",
+                "かたい",
+                "はやい",
+                "ふかい"
+          ]
+    },
+    "21": {
+          "snippet": "誘いました (さそいました)",
+          "explanation": "🎯 Đáp án đúng: [1] さそいました (誘う - Rủ rê, mời mọc)\n\n💬 Dịch nghĩa câu:\n\"Tôi đã rủ Mori đi hẹn hò nhưng cô ấy bảo là không đi được.\"\n\n💡 Phân tích & Giải thích:\n• Cụm từ cố định: 「デートに誘う (さそう)」 = rủ ai đi hẹn hò.\n\n🔍 Phân tích các lựa chọn:\n- 1. 誘う (さそう): Rủ rê, mời đi (ĐÚNG)\n- 2. 伝える (つたえる): Truyền đạt, nhắn lại\n- 3. 案内する (あんないする): Dẫn đường, hướng dẫn\n- 4. 紹介する (しょうかいする): Giới thiệu\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 16: (21) 1 句意: 我邀请小森去约会, 但她说去不了。1. さそう(誘う): 邀请)",
+          "correctOption": 1,
+          "text": "もりさんを デートに（　　）が、行けないと 言われました。",
+          "options": [
+                "さそいました",
+                "つたえました",
+                "あんないしました",
+                "しょうかいしました"
+          ]
+    },
+    "22": {
+          "snippet": "センチ (Centimet - cm)",
+          "explanation": "🎯 Đáp án đúng: [4] センチ (Centimet - cm)\n\n💬 Dịch nghĩa câu:\n\"Con trai tôi trong 1 năm đã cao thêm khoảng 5 cm.\"\n\n💡 Phân tích & Giải thích:\n• Đơn vị đo chiều cao cơ thể (背が高い) là 「センチ (cm)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. グラム: Gram (đo khối lượng)\n- 2. 番 (ばん): Số thứ tự\n- 3. 軒 (けん): Căn nhà\n- 4. センチ: Centimet (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 16: (22) 4 句意: 我儿子1年里长高了5厘米。4. センチ: 厘米)",
+          "correctOption": 4,
+          "text": "わたしの むすこは 1年で 5（　　）くらい せが 高く なりました。",
+          "options": [
+                "グラム",
+                "ばん",
+                "けん",
+                "センチ"
+          ]
+    },
+    "23": {
+          "snippet": "比べて (くらべて)",
+          "explanation": "🎯 Đáp án đúng: [3] くらべて (比べる - So sánh)\n\n💬 Dịch nghĩa câu:\n\"Tôi đã so sánh 3 chiếc máy tính ở cửa hàng rồi chọn chiếc nhẹ nhất.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「比べる (くらべる)」 (TỶ - so sánh). So sánh các máy tính với nhau để tìm ra chiếc nhẹ nhất.\n\n🔍 Phân tích các lựa chọn:\n- 1. 片付ける (かたづける): Dọn dẹp\n- 2. 数える (かぞえる): Đếm\n- 3. 比べる (くらべる): So sánh (ĐÚNG)\n- 4. 払う (はらう): Thanh toán tiền\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 16: (23) 3 句意: 比较了店里的三台电脑, 选择了最轻便的那台。3. くらべる(比べる): 相比)",
+          "correctOption": 3,
+          "text": "お店で 3だいの パソコンを（　　）、いちばん かるい パソコンを えらびました。",
+          "options": [
+                "かたづけて",
+                "かぞえて",
+                "くらべて",
+                "はらって"
+          ]
+    },
+    "24": {
+          "snippet": "留守 (るす)",
+          "explanation": "🎯 Đáp án đúng: [4] るす (留守 - Vắng nhà)\n\n💬 Dịch nghĩa câu:\n\"Đèn nhà anh Tanaka không bật nhỉ. Có vẻ như anh Tanaka vắng nhà rồi.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ 「留守 (るす)」 mang nghĩa vắng nhà, đi vắng. Cụm 「留守のようです」 = có vẻ như vắng nhà.\n\n🔍 Phân tích các lựa chọn:\n- 1. 嘘 (うそ): Lời nói dối\n- 2. 自由 (じゆう): Tự do\n- 3. 中止 (ちゅうし): Hủy bỏ\n- 4. 留守 (るす): Vắng nhà (ĐÚNG)\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 16: (24) 4 句意: 田中先生家的灯没开, 他好像不在家。4. るす(留守): 不在家)",
+          "correctOption": 4,
+          "text": "たなかさんの いえの 電気が ついて いませんね。たなかさんは（　　）の ようです",
+          "options": [
+                "うそ",
+                "じゆう",
+                "ちゅうし",
+                "るす"
+          ]
+    },
+    "25": {
+          "snippet": "見つかりません (みつかりません)",
+          "explanation": "🎯 Đáp án đúng: [1] みつかりません (見つかる - Được tìm thấy)\n\n💬 Dịch nghĩa câu:\n\"Tôi đang tìm chìa khóa phòng nhưng vẫn chưa thấy.\"\n\n💡 Phân tích & Giải thích:\n• Tự động từ 「見つかる (みつかる)」 = được tìm thấy. Mẫu câu thường gặp: 「探しているが、まだ見つからない」 (đang tìm nhưng chưa thấy đâu).\n\n🔍 Phân tích các lựa chọn:\n- 1. 見つかる (みつかる): Được tìm thấy (ĐÚNG)\n- 2. 捕まえる (つかまえる): Bắt giữ\n- 3. 知る (しる): Biết\n- 4. 触る (さわる): Sờ, chạm vào\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 16: (25) 1 句意: 我在找房间的钥匙, 但还没找到。1. みつかる(見つかる): 找到)",
+          "correctOption": 1,
+          "text": "へやの かぎを さがして いますが、まだ（　　）。",
+          "options": [
+                "みつかりません",
+                "つかまえません",
+                "しりません",
+                "さわりません"
+          ]
+    },
+    "26": {
+          "snippet": "アルバイトをしている ≒ 働いている",
+          "explanation": "🎯 Đáp án đúng: [2] おとうとは あの きっさてんで はたらいて います。 (Em trai tôi đang làm việc ở quán cà phê đó)\n\n💬 Dịch nghĩa câu gốc:\n\"Em trai tôi đang làm thêm ở quán cà phê đó.\"\n\n💡 Phân tích & Giải thích:\n• 「アルバイトをする」 (làm thêm) đồng nghĩa với động từ 「働く (はたらく)」 (làm việc, lao động).\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 16: (26) 2 句意: 我的弟弟在那家咖啡厅打工。(アルバイト: 打工) 2. 我的弟弟在那家咖啡厅工作。)",
+          "correctOption": 2,
+          "text": "おとうとは あの きっさてんで アルバイトを して います。",
+          "options": [
+                "おとうとは あの きっさてんで まって います。",
+                "おとうとは あの きっさてんで はたらいて います。",
+                "おとうとは あの きっさてんで コーヒーを 飲んで います。",
+                "おとうとは あの きっさてんで 友だちと 話して います。"
+          ]
+    },
+    "27": {
+          "snippet": "水泳 (すいえい) ≒ 泳ぐこと",
+          "explanation": "🎯 Đáp án đúng: [2] わたしは およぐのが すきです。 (Tôi thích bơi lội)\n\n💬 Dịch nghĩa câu gốc:\n\"Tôi thích môn bơi lội.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ 「水泳 (すいえい)」 mang nghĩa bơi lội, đồng nghĩa với động từ 「泳ぐ (およぐ)」 danh từ hóa thành 「泳ぐのが好きです」.\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 16: (27) 2 句意: 我喜欢游泳。(すいえい: 游泳) 2. 我喜欢游泳。)",
+          "correctOption": 2,
+          "text": "わたしは すいえいが すきです。",
+          "options": [
+                "わたしは はしるのが すきです。",
+                "わたしは およぐのが すきです。",
+                "わたしは ごはんを 食べるのが すきです。",
+                "わたしは 本を 読むのが すきです。"
+          ]
+    },
+    "28": {
+          "snippet": "びっくりした ≒ 驚いた",
+          "explanation": "🎯 Đáp án đúng: [4] それを 聞いて おどろきました。 (Nghe chuyện đó tôi đã rất ngạc nhiên / giật mình)\n\n💬 Dịch nghĩa câu gốc:\n\"Nghe chuyện đó tôi đã giật mình / sửng sốt.\"\n\n💡 Phân tích & Giải thích:\n• Từ tượng hình/động từ 「びっくりする」 = giật mình, sửng sốt, kinh ngạc, đồng nghĩa hoàn toàn với 「驚く (おどろく)」.\n• Các từ khác: 1. 笑う (cười), 2. 困る (khó xử), 3. 怒る (tức giận).\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 16: (28) 4 句意: 听了那件事我吓了一跳。(びっくり: 吃惊) 4. 听了那件事我很吃惊。)",
+          "correctOption": 4,
+          "text": "それを 聞いて びっくりしました。",
+          "options": [
+                "それを 聞いて わらいました。",
+                "それを 聞いて こまりました。",
+                "それを 聞いて おこりました。",
+                "それを 聞いて おどろきました。"
+          ]
+    },
+    "29": {
+          "snippet": "美しい (うつくしい) ≒ きれい",
+          "explanation": "🎯 Đáp án đúng: [1] あの 人は きれいですね。 (Người đó thật xinh đẹp nhỉ)\n\n💬 Dịch nghĩa câu gốc:\n\"Người đó thật là xinh đẹp / kiều diễm nhỉ.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「美しい (うつくしい)」 mang nghĩa xinh đẹp, tuyệt sắc, tương đương với tính từ 「綺麗 (きれい)」.\n• Các từ khác: 2. 元気 (khỏe khoắn), 3. おもしろい (thú vị), 4. 若い (trẻ trung).\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 16: (29) 1 句意: 那个人很漂亮啊。(うつくしい: 美丽的) 1. 那个人很好看啊。)",
+          "correctOption": 1,
+          "text": "あの 人は うつくしいですね。",
+          "options": [
+                "あの 人は きれいですね。",
+                "あの 人は 元気ですね。",
+                "あの 人は おもしろいですね。",
+                "あの 人は わかいですね。"
+          ]
+    },
+    "30": {
+          "snippet": "輸入する ≒ ほかの国から買う",
+          "explanation": "🎯 Đáp án đúng: [3] この 国は こめを ほかの 国から 買って います。 (Quốc gia này mua gạo từ các nước khác)\n\n💬 Dịch nghĩa câu gốc:\n\"Đất nước này đang nhập khẩu gạo.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「輸入する (ゆにゅうする)」 = nhập khẩu (mua hàng hóa từ nước khác về nước mình), tương đương ý nghĩa với 「ほかの国から買う」.\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 17: (30) 3 句意: 这个国家一直进口大米。(ゆにゅうする: 进口) 3. 这个国家向别的国家购买大米。)",
+          "correctOption": 3,
+          "text": "この 国は こめを ゆにゅうして います。",
+          "options": [
+                "この 国は こめを ほかの 国に うって います。",
+                "この 国は こめを ほかの 国から もらって います。",
+                "この 国は こめを ほかの 国から 買って います。",
+                "この 国は こめを ほかの 国に あげて います。"
+          ]
+    },
+    "31": {
+          "snippet": "最近 (さいきん - Dạo gần đây)",
+          "explanation": "🎯 Đáp án đúng: [3] きむらさんは さいきん けっこんした そうです。 (Nghe nói anh Kimura dạo gần đây đã kết hôn)\n\n💬 Dịch nghĩa câu đúng:\n\"Nghe nói anh Kimura dạo gần đây đã kết hôn.\"\n\n💡 Phân tích & Giải thích:\n• 「最近 (さいきん)」 chỉ khoảng thời gian dạo gần đây (vài ngày, vài tuần đến vài tháng qua).\n• Các câu sai:\n  - Câu 1: Vừa mới nấu xong phải dùng 「さっき」 hoặc 「今」.\n  - Câu 2: Nộp bài tập ngay lúc này phải dùng 「今」 hoặc 「すぐに」.\n  - Câu 4: Tàu sắp sửa tới nơi phải dùng 「もうすぐ」.\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 17: (31) 3 さいきん 意思是“最近, 近来”, 选项3为正确应用。3. 木村先生最近好像结婚了。)",
+          "correctOption": 3,
+          "text": "さいきん",
+          "options": [
+                "さいきん りょうりが できたので、いっしょに 食べましょう。",
+                "さいきん しゅくだいを 出して ください。",
+                "きむらさんは さいきん けっこんした そうです。",
+                "さいきん 電車が 来ますから、いそいで えきに 行きましょう。"
+          ]
+    },
+    "32": {
+          "snippet": "音 (おと - Âm thanh máy móc / vật thể)",
+          "explanation": "🎯 Đáp án đúng: [1] ラジオの おとが 大きいので、もう 少し 小さく して ください。 (Âm thanh radio to quá, xin hãy vặn nhỏ lại một chút)\n\n💬 Dịch nghĩa câu đúng:\n\"Âm thanh của đài radio to quá, xin bạn hãy vặn nhỏ bớt lại một chút.\"\n\n💡 Phân tích & Giải thích:\n• 「音 (おと)」 là âm thanh phát ra từ đồ vật, máy móc, thiên nhiên (tiếng đài radio, tiếng sóng, tiếng mưa...).\n• Các câu sai:\n  - Câu 2: Phát âm tiếng Nhật phải dùng 「発音 (はつおん)」.\n  - Câu 3: Tiếng gọi tên của người phải dùng 「声 (こえ)」 (大きな声で).\n  - Câu 4: Khúc nhạc/bài hát ghi-ta phải dùng 「曲 (きょく)」.\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 17: (32) 1 おと 意思是“声音”, 选项1为正确应用。1. 收音机声音太大了, 请稍微调小一点吧。)",
+          "correctOption": 1,
+          "text": "おと",
+          "options": [
+                "ラジオの おとが 大きいので、もう 少し 小さく して ください。",
+                "日本語の おとが じょうずに なりたいので、毎日 たくさん 話します。",
+                "店の 人に 大きな おとで 名前を よばれました。",
+                "すずきさんが ギターで ゆうめいな おとを ひいて くれました。"
+          ]
+    },
+    "33": {
+          "snippet": "見学 (けんがく - Tham quan học hỏi thực tế)",
+          "explanation": "🎯 Đáp án đúng: [3] 先生や 友だちと こうじょうを けんがくしました。 (Tôi đã cùng thầy giáo và bạn bè đi tham quan học tập tại nhà máy)\n\n💬 Dịch nghĩa câu đúng:\n\"Tôi đã cùng thầy giáo và các bạn đi tham quan kiến tập tại nhà máy.\"\n\n💡 Phân tích & Giải thích:\n• 「見学する (けんがくする)」 là đến tận nơi (nhà máy, bảo tàng, trường học...) để tham quan học hỏi kiến thức thực tế: 「工場を見学する」.\n• Các câu sai:\n  - Câu 1: Đi trung tâm thương mại mua sắm dùng 「買い物をする」.\n  - Câu 2: Tra từ điển dùng 「調べる (しらべる)」.\n  - Câu 4: Xem thời sự tivi dùng 「見る (みる)」.\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 17: (33) 3 けんがく 意思是“参观”, 选项3为正确应用。3. 我、老师和朋友一起去工厂参观学习了。)",
+          "correctOption": 3,
+          "text": "けんがく",
+          "options": [
+                "かばんが ほしいので、デパートに 行って けんがくします。",
+                "わからない かんじは じしょで けんがくして ください。",
+                "先生や 友だちと こうじょうを けんがくしました。",
+                "まいばん テレビで ニュースを けんがくして います。"
+          ]
+    },
+    "34": {
+          "snippet": "飾る (かざる - Trang trí / Bày biện)",
+          "explanation": "🎯 Đáp án đúng: [2] おきゃくさんが 来ますから、へやに 花を かざりましょう。 (Khách sắp đến rồi, hãy cắm hoa trang trí trong phòng nhé)\n\n💬 Dịch nghĩa câu đúng:\n\"Sắp có khách đến chơi nên chúng ta hãy cắm hoa trang trí phòng nhé.\"\n\n💡 Phân tích & Giải thích:\n• 「飾る (かざる)」 mang nghĩa bày biện, trang trí đồ vật thẩm mỹ (hoa tươi, tranh ảnh, đồ lưu niệm...) để làm đẹp căn phòng: 「部屋に花を飾る」.\n• Các câu sai:\n  - Câu 1: Dán thông báo dùng 「貼る (はる)」.\n  - Câu 3: Phơi quần áo trong nhà dùng 「干す (ほす)」.\n  - Câu 4: Lắp điều hòa trên tường dùng 「取り付ける」.\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 17: (34) 2 かざる 意思是“装饰”, 选项2为正确应用。2. 要来客人, 我们在房间里装饰点花吧。)",
+          "correctOption": 2,
+          "text": "かざる",
+          "options": [
+                "やまだ先生は テストの おしらせを きょうしつに かざりました。",
+                "おきゃくさんが 来ますから、へやに 花を かざりましょう。",
+                "天気が わるいので、せんたくものは うちの 中に かざります。",
+                "こっちの エアコンは、となりの へやの かべに かざって ください。"
+          ]
+    },
+    "35": {
+          "snippet": "工事 (こうじ - Công trình thi công / Sửa chữa)",
+          "explanation": "🎯 Đáp án đúng: [4] この みちは こうじを して いるので、とおれません。 (Con đường này đang thi công nên không thể đi qua)\n\n💬 Dịch nghĩa câu đúng:\n\"Con đường này đang thi công công trình nên không thể đi qua được.\"\n\n💡 Phân tích & Giải thích:\n• 「工事 (こうじ)」 là công trình xây dựng, thi công sửa chữa đường sá, cầu cống, tòa nhà: 「道路の工事」.\n• Các câu sai:\n  - Câu 1: Chữa răng ở nha khoa dùng 「治療 (ちりょう)」.\n  - Câu 2: Vá/sửa áo len dùng 「繕う (つくろう)」 hoặc 「直す」.\n  - Câu 3: Sửa giá sách dùng 「修理 (しゅうり)」.\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 17: (35) 4 こうじ 意思是“工程”, 选项4为正确应用。4. 这条道路正在施工, 不能(从这边)通过。)",
+          "correctOption": 4,
+          "text": "こうじ",
+          "options": [
+                "はが いたかったので、はいしゃで こうじを して もらいました。",
+                "この セーターは 古いですが、こうじを して、ずっと きて います。",
+                "ほんだなが こわれて しまったので、こうじを しました。",
+                "この みちは こうじを して いるので、とおれません。"
+          ]
+    },
+    "36": {
+          "snippet": "20分で (Phạm vi thời gian)",
+          "explanation": "🎯 Đáp án đúng: [3] 20分で (Chỉ mất 20 phút)\n\n💬 Dịch nghĩa câu:\n\"Bài tập về nhà hôm qua ít nên chỉ trong 20 phút là tôi đã làm xong.\"\n\n💡 Phân tích & Giải thích:\n• Trợ từ 「で」 đi sau số từ / lượng từ chỉ thời gian để biểu thị phạm vi, hạn mức thời gian cần thiết để hoàn thành một hành động: 「20分で 終わりました」 (làm xong trong vòng 20 phút).\n• Các phương án khác:\n  - 1. 20分: Thiếu trợ từ liên kết biểu thị hạn mức hoàn thành.\n  - 2. 20分しか: 「しか」 phải đi kèm với động từ thể phủ định (～ない).\n  - 4. 20分を: Trợ từ 「を」 không dùng với lượng từ thời gian chỉ hạn mức hoàn thành.\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 17: (1) 3 句意: 昨天作业很少, 所以只用了20分钟就做完了。考察で表示时间范围的用法。)",
+          "correctOption": 3,
+          "text": "きのうの しゅくだいは 少なかったので、（　　）終わりました。",
+          "options": [
+                "20分",
+                "20分しか",
+                "20分で",
+                "20分を"
+          ]
+    },
+    "37": {
+          "snippet": "人と (Cùng với đối tượng tương tác)",
+          "explanation": "🎯 Đáp án đúng: [4] と (人と会話する - Trò chuyện cùng với con người)\n\n💬 Dịch nghĩa câu:\n\"Robot này có thể trò chuyện cùng với con người.\"\n\n💡 Phân tích & Giải thích:\n• Trợ từ 「と」 biểu thị đối tượng cùng thực hiện một hành động tương tác hai chiều: 「人と会話する」 (trò chuyện cùng với ai đó).\n• Các phương án khác:\n  - 1. や: Liệt kê danh từ không đầy đủ (AやB).\n  - 2. を: Trợ từ tác động một chiều (không đi với 会話する theo hướng đối tượng trò chuyện).\n  - 3. へ: Chỉ phương hướng di chuyển.\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 17: (2) 4 句意: 这台机器人可以和人进行对话。考察と表示一起做某动作的对象的用法, 意为“和”。)",
+          "correctOption": 4,
+          "text": "この ロボットは 人（　　）会話することが できます。",
+          "options": [
+                "や",
+                "を",
+                "へ",
+                "と"
+          ]
+    },
+    "38": {
+          "snippet": "両親を 心配させた (Thể sai khiến: làm cho ai lo lắng)",
+          "explanation": "🎯 Đáp án đúng: [2] を (両親を 心配させた - Khiến bố mẹ phải lo lắng)\n\n💬 Dịch nghĩa câu:\n\"Em trai tôi hồi nhỏ thường xuyên bị thương, làm cho bố mẹ vô cùng lo lắng.\"\n\n💡 Phân tích & Giải thích:\n• Thể sai khiến (使役形): Khi động từ chỉ cảm xúc, tâm lý (心配する, 喜ぶ, 怒る, 泣く, 笑う) chuyển sang thể sai khiến (心配させる - khiến cho ai lo lắng), người/đối tượng có cảm xúc đó được đánh dấu bằng trợ từ 「を」: 「[Aが] [Bを] 心配させる」 (A làm cho B lo lắng).\n• Các phương án khác:\n  - 1. で: Chỉ nơi chốn, phương tiện, nguyên nhân.\n  - 3. の: Nối hai danh từ.\n  - 4. や: Liệt kê danh từ.\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 17: (3) 2 句意: 我弟弟小时候经常受伤, 让父母很担心。考察使役态的用法, 让父母感到担心, 需要用を提示使役对象。)",
+          "correctOption": 2,
+          "text": "弟は 小さいとき よく けがを して、両親（　　）心配させました。",
+          "options": [
+                "で",
+                "を",
+                "の",
+                "や"
+          ]
+    },
+    "39": {
+          "snippet": "八つも (Số từ + も: tận 8 cái, nhấn mạnh số lượng nhiều)",
+          "explanation": "🎯 Đáp án đúng: [1] も (八つも - Tận 8 cái bánh)\n\n💬 Dịch nghĩa câu:\n\"Bánh mì trong bữa sáng ở khách sạn quá ngon nên tôi đã ăn tận 8 cái liền.\"\n\n💡 Phân tích & Giải thích:\n• Trợ từ 「も」 đi liền sau số từ biểu thị số lượng nhiều vượt mức thông thường, nhấn mạnh sự ngạc nhiên của người nói: 「八つも食べました」 (ăn tận 8 cái liền).\n• Các phương án khác:\n  - 2. に: Không đi sau lượng từ để nhấn mạnh số lượng trong câu này.\n  - 3. が: Biểu thị chủ ngữ, không đứng trực tiếp sau lượng từ 「八つ」.\n  - 4. で: Chỉ số lượng gộp tổng mức («với...»), không mang nghĩa nhấn mạnh ăn nhiều quá mức.\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 17: (4) 1 句意: 酒店早餐中的面包非常好吃, 所以我足足吃了八个。考察も表示数量多、程度高的用法, 强调自己因为好吃吃了8个。)",
+          "correctOption": 1,
+          "text": "ホテルの 朝ご飯の パンが とても おいしかったので、八つ（　　）食べました。",
+          "options": [
+                "も",
+                "に",
+                "が",
+                "で"
+          ]
+    },
+    "40": {
+          "snippet": "外国人によって (Bị động sáng tác: được sáng lập/biên soạn bởi ai)",
+          "explanation": "🎯 Đáp án đúng: [4] によって (外国人によって 作られました - Được biên soạn bởi người nước ngoài)\n\n💬 Dịch nghĩa câu:\n\"Cuốn từ điển tiếng Nhật này đã được biên soạn bởi một người nước ngoài cách đây 150 năm.\"\n\n💡 Phân tích & Giải thích:\n• Trong câu bị động chỉ công trình, tác phẩm nghệ thuật, sách báo, phát minh sáng chế được sáng tác/xây dựng/phát minh (作られる, 書かれる, 発明される, 発見される), chủ thể sáng tạo ra tác phẩm đó được biểu thị bằng cấu trúc 「～によって」 (bởi...).\n• Các phương án khác:\n  - 1. から: Chỉ điểm xuất phát, nguyên nhân.\n  - 2. を: Đánh dấu tân ngữ trực tiếp (động từ đang ở thể bị động 作られました nên không dùng を).\n  - 3. について: Về (chủ đề, nội dung).\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 17: (5) 4 句意: 这本日语辞典是一位外国人在150年前编写的。考察によって表示“由……、根据……”的用法, 外国人是书的作者。)",
+          "correctOption": 4,
+          "text": "この 日本語の じしょは、150年前に 外国人（　　）作られました。",
+          "options": [
+                "から",
+                "を",
+                "について",
+                "によって"
+          ]
+    },
+    "41": {
+          "snippet": "だれでも (Bất kỳ ai cũng có thể dùng)",
+          "explanation": "🎯 Đáp án đúng: [1] だれでも (Bất kỳ ai cũng có thể sử dụng)\n\n💬 Dịch nghĩa câu:\n\"Sân vận động của thành phố A bất kỳ ai cũng có thể sử dụng được, nhưng cần phải đặt trước.\"\n\n💡 Phân tích & Giải thích:\n• Từ để hỏi 「だれ」 kết hợp với 「でも」 tạo thành đại từ phiếm chỉ toàn thể khẳng định: 「だれでも」 (bất cứ ai, ai cũng).\n• Các phương án khác:\n  - 2. だれを: Sai ngữ pháp, không đi với động từ khả năng 使えます.\n  - 3. だれに: Tới ai đó, cho ai đó.\n  - 4. だれが: Từ để hỏi làm chủ ngữ, câu cần đại từ phiếm chỉ khẳng định toàn diện.\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 17: (6) 1 句意: 任何人都能使用A市的运动场, 但需要提前预约。考察でも在肯定句中前接疑问词, 表示全面肯定的用法。)",
+          "correctOption": 1,
+          "text": "A市の 運動場は（　　）使えますが、予約が ひつようです。",
+          "options": [
+                "だれでも",
+                "だれを",
+                "だれに",
+                "だれが"
+          ]
+    },
+    "42": {
+          "snippet": "どうやって (Hỏi phương thức / cách thức thực hiện)",
+          "explanation": "🎯 Đáp án đúng: [3] どうやって (Bằng cách nào, làm thế nào)\n\n💬 Dịch nghĩa câu:\n\"Maeda: 'Lee này, bạn thường liên lạc với gia đình ở nước bạn bằng cách nào thế?'\nLee: 'Tôi thường hay viết email.'\"\n\n💡 Phân tích & Giải thích:\n• Câu trả lời nêu phương thức hành động: 「メールを書く」 (viết email), nên từ để hỏi phương thức, cách thức thực hiện là 「どうやって」 (bằng cách nào, làm thế nào).\n• Các phương án khác:\n  - 1. どのぐらい: Bao lâu, bao nhiêu (hỏi lượng/thời gian).\n  - 2. どの: Cái nào (bổ nghĩa danh từ: どの＋N).\n  - 4. どういう: Như thế nào, loại gì (hỏi tính chất của N: どういう＋N).\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 17: (7) 3 句意: 前田:“小李, 你一般怎样和国内的家人联系?” 小李:“多数时候靠写邮件联系。” 1. どのぐらい: 多少; 2. どの: 哪个; 3. どうやって: 怎样; 4. どういう: 什么样的)",
+          "correctOption": 3,
+          "text": "前田「リーさん、いつも（　　）国の かぞくに れんらくしますか。」\nリー「メールを 書くことが 多いです。」",
+          "options": [
+                "どのぐらい",
+                "どの",
+                "どうやって",
+                "どういう"
+          ]
+    },
+    "43": {
+          "snippet": "もうすぐ (Sắp sửa, chẳng mấy chốc)",
+          "explanation": "🎯 Đáp án đúng: [4] もうすぐ (Sắp sửa, chẳng mấy chốc)\n\n💬 Dịch nghĩa câu:\n\"Con gái tôi tháng trước đã tốt nghiệp cấp ba. Sắp sửa tới lễ khai giảng đại học rồi.\"\n\n💡 Phân tích & Giải thích:\n• Phó từ 「もうすぐ」 dùng để chỉ một sự việc sắp xảy ra trong thời gian rất gần: 「もうすぐ 入学式です」 (sắp sửa đến lễ khai giảng).\n• Các phương án khác:\n  - 1. だんだん: Dần dần (chỉ sự biến đổi theo thời gian).\n  - 2. あまり: Không mấy (đi với phủ định ～ない).\n  - 3. だいたい: Đại khái, khoảng chừng.\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 17: (8) 4 句意: 我女儿上个月从高中毕业了, 马上就要迎来大学的开学典礼。1. だんだん: 渐渐; 2. あまり: (不)太; 3. だいたい: 大体, 大略; 4. もうすぐ: 立刻, 马上)",
+          "correctOption": 4,
+          "text": "娘は 先月 高校を 卒業しました。（　　）大学の 入学式です。",
+          "options": [
+                "だんだん",
+                "あまり",
+                "だいたい",
+                "もうすぐ"
+          ]
+    },
+    "44": {
+          "snippet": "なかなか～ない (Mãi mà không...)",
+          "explanation": "🎯 Đáp án đúng: [2] なかなか (なかなか～ない: Mãi mà không tới)\n\n💬 Dịch nghĩa câu:\n\"Sáng nay xe buýt đi ra ga mãi mà không tới, nên tôi đã phải đi bằng taxi.\"\n\n💡 Phân tích & Giải thích:\n• Phó từ 「なかなか」 khi đi kèm với động từ phủ định 「～ない」 mang nghĩa 'mãi mà không...', 'khó lòng mà...': 「なかなか 来なかった」 (mãi mà xe không tới).\n• Các phương án khác:\n  - 1. やっと: Cuối cùng thì (đi với câu khẳng định, diễn tả kết quả sau thời gian chờ đợi).\n  - 3. きっと: Chắc chắn (chỉ sự phán đoán chắc nịch).\n  - 4. いつか: Một ngày nào đó, lúc nào đó.\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 18: (9) 2 句意: 今早, 去车站的公交一直不来, 所以我坐出租车过去了。1. やっと: 终于; 2. なかなか: 怎么也(不); 3. きっと: 一定; 4. いつか: 早晚, 迟早)",
+          "correctOption": 2,
+          "text": "今朝は 駅に 行く バスが（　　）来なかったので、タクシーで 行きました。",
+          "options": [
+                "やっと",
+                "なかなか",
+                "きっと",
+                "いつか"
+          ]
+    },
+    "45": {
+          "snippet": "あさってなら (Nếu là ngày kia thì được)",
+          "explanation": "🎯 Đáp án đúng: [4] なら (Nêu điều kiện giới hạn theo ngữ cảnh)\n\n💬 Dịch nghĩa câu:\n\"Yamashita: 'Nam này, ngày mai hoặc ngày kia đi hát karaoke không?'\nNam: 'A, được đấy. Ngày mai thì mình bận rồi, nhưng nếu là ngày kia thì hoàn toàn được nhé.'\"\n\n💡 Phân tích & Giải thích:\n• Trợ từ 「なら」 tiếp sau danh từ chỉ thời gian / đối tượng để đưa ra phạm vi điều kiện: 「あさってなら 大丈夫」 (nếu là ngày kia thì không sao/được).\n• Các phương án khác:\n  - 1. なのに: Dù thế mà (chỉ sự đối lập, tiếc nuối bất ngờ).\n  - 2. だから: Vì vậy (liên từ chỉ kết quả).\n  - 3. でも: Cho dù, hoặc đưa ra gợi ý (không đứng sau danh từ để nói 'ngày kia thì được' như cấu trúc này).\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 18: (10) 4 句意: 山下:“小南, 明天或者后天我们去卡拉OK怎么样?” 小南:“好啊。不过我明天没空, 后天没问题。” 1. なのに: 表示转折; 2. だから: 因此, 所以; 3. でも: 但是; 4. なら: ……的话)",
+          "correctOption": 4,
+          "text": "山下「南さん、あしたか あさって、カラオケに 行かない？」\n南「あ、いいね。あしたは 都合が 悪いけど、あさって（　　）だいじょうぶだよ。」",
+          "options": [
+                "なのに",
+                "だから",
+                "でも",
+                "なら"
+          ]
+    },
+    "46": {
+          "snippet": "夏休みの 間 (Trong suốt khoảng thời gian nghỉ hè)",
+          "explanation": "🎯 Đáp án đúng: [3] 夏休みの (Nの間に: Trong khoảng thời gian...)\n\n💬 Dịch nghĩa câu:\n\"Trong suốt kỳ nghỉ hè, tôi đã làm thêm ở siêu thị.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc ngữ pháp 「N + の + 間(に)」: Danh từ kết hợp với 「間」 bắt buộc phải có trợ từ sở hữu 「の」 đứng trước: 「夏休みの間」 (trong suốt kỳ nghỉ hè).\n• Các phương án khác:\n  - 1. 夏休みに: Thừa trợ từ に trước danh từ 間.\n  - 2. 夏休みで: Dùng sai trợ từ で.\n  - 4. 夏休み: Thiếu trợ từ の để bổ nghĩa cho danh từ 間.\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 18: (11) 3 句意: 我暑假期间一直在超市打工。考察句型～間表示持续某种动作、状态的期间的用法, 前接名词时需在名词后加の再接間。)",
+          "correctOption": 3,
+          "text": "私は（　　）間、スーパーで アルバイトを して いました。",
+          "options": [
+                "夏休みに",
+                "夏休みで",
+                "夏休みの",
+                "夏休み"
+          ]
+    },
+    "47": {
+          "snippet": "切るのに (V-るのに + Thời gian/tiền bạc: Tốn... để làm gì)",
+          "explanation": "🎯 Đáp án đúng: [2] 切るのに (V-るのに: Để cắt hết mất 2 tiếng)\n\n💬 Dịch nghĩa câu:\n\"Tuần trước tôi đã tỉa cành cây trong vườn. Để cắt hết tất cả đã tốn mất 2 tiếng đồng hồ.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc: 「Động từ thể từ điển (V-る) + のに + Lượng từ thời gian/chi phí + かかる」 biểu thị mục đích và lượng tiêu tốn: 「切るのに 2時間 かかりました」 (để cắt hết mất 2 tiếng đồng hồ).\n• Các phương án khác:\n  - 1. 切ったり: Cấu trúc liệt kê hành động 切ったり～たりする.\n  - 3. 切りに: Cấu trúc đi làm gì 切りに行く (mục đích di chuyển).\n  - 4. 切るかどうか: Liệu có cắt hay không.\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 18: (12) 2 句意: 我上周给院子里的树剪了枝, 总共花了2个小时。考察句型～のに表示目的的用法, 意为“为了……, 用于……”, 前接动词的基本形。)",
+          "correctOption": 2,
+          "text": "先週 庭の 木の えだを 切りました。ぜんぶ（　　）2時間 かかりました。",
+          "options": [
+                "切ったり",
+                "切るのに",
+                "切りに",
+                "切るか どうか"
+          ]
+    },
+    "48": {
+          "snippet": "遅れるかもしれません (Có lẽ / có thể sẽ bị muộn)",
+          "explanation": "🎯 Đáp án đúng: [3] 遅れるかもしれません (Có thể tôi sẽ bị đến trễ)\n\n💬 Dịch nghĩa câu:\n\"Kimura: 'Yamada này, chiều mai bạn có đi tập bóng đá không?'\nYamada: 'Có, mình đi chứ. Nhưng buổi sáng mình có chút việc bận nên có thể mình sẽ đến trễ đấy.'\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc 「～かもしれない」 biểu thị sự phỏng đoán khả năng có thể xảy ra theo nhận định của người nói (khoảng 50% khả năng): 「遅れるかもしれません」 (có lẽ sẽ trễ).\n• Các phương án khác:\n  - 1. 遅れないでください: Xin đừng đến muộn (yêu cầu người khác).\n  - 2. 遅れないほうがいいです: Khuyên người khác không nên đến muộn.\n  - 4. 遅れてはいけません: Cấm đoán không được đến muộn.\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 18: (13) 3 句意: 木村:“山田先生, 明天下午要去练练足球吗?” 山田:“好啊。但是我上午有事, 可能会迟到。” 考察句型～かもしれない表示说话人的推测的用法, 意为“也许, 可能”。)",
+          "correctOption": 3,
+          "text": "木村「山田さん、あしたの 午後、サッカーの 練習に 行きますか。」\n山田「ええ、行きます。でも、午前中に 用事が あるので、（　　）。」",
+          "options": [
+                "遅れないで ください",
+                "遅れないほうが いいです",
+                "遅れるかもしれません",
+                "遅れては いけません"
+          ]
+    },
+    "49": {
+          "snippet": "空きそうです (Trông sắp sửa có chỗ trống rồi)",
+          "explanation": "🎯 Đáp án đúng: [1] 空きそうです (Trông sắp có chỗ trống kìa)\n\n💬 Dịch nghĩa câu:\n\"(Ở nhà ăn)\nMori: 'Chẳng có chỗ nào còn trống nhỉ.'\nTanaka: 'Ừ. A, nhưng mà chỗ đằng kia trông sắp sửa trống rồi đấy.'\nMori: 'Đúng thật kìa. Chúng ta đợi một lát cho đến khi chỗ đó trống nhé.'\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc 「Động từ thể Masu bỏ ます + そうだ」 biểu thị sự phán đoán sắp sửa xảy ra của một hiện tượng / hành động dựa trên quan sát trực tiếp trước mắt: 「空きそうです」 (trông sắp trống chỗ rồi). Câu sau bảo 「空くまで、少し待ちましょう」 chứng tỏ hiện tại chưa trống.\n• Các phương án khác:\n  - 2. 空きました: Đã trống (sai vì câu sau còn phải chờ 空くまで待つ).\n  - 3. 空いています: Đang trống (sai thực tế hội thoại).\n  - 4. 空いたようです: Hình như đã trống rồi (dùng quá khứ 空いた là sai).\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 18: (14) 1 句意: 小森:“没有空位啊。” 田中:“嗯。啊, 不过那边的位子好像马上要空出来了。” 小森:“真的呢。那我们在空出来之前稍微等一下吧。” 根据小森的前后两句话, 可推测田中想表达可能马上就会有空位了。考察句型～そうだ表示说话人根据自己的所见所闻做出的一种判断的用法, 意为“好像, 似乎”。)",
+          "correctOption": 1,
+          "text": "（食堂で）\n森「空いて いる 席が ありませんね。」\n田中「ええ。あ、でも、あそこの 席が（　　）よ。」\n森「本当ですね。空くまで、少し 待ちましょう。」",
+          "options": [
+                "空きそうです",
+                "空きました",
+                "空いて います",
+                "空いたようです"
+          ]
+    },
+    "50": {
+          "snippet": "持って きて もらえ ますか (Nhờ vả lịch sự: có thể mang sang giúp tôi không)",
+          "explanation": "🎯 Đáp án đúng: [2] 持って きて もらえ ますか (Bạn có thể mang sang giúp tôi được không?)\n\n💬 Dịch nghĩa câu:\n\"(Tại phòng họp)\nHayashi: 'Ueda ơi, chuẩn bị phòng họp xong chưa? Tôi giúp một tay nhé.'\nUeda: 'Cảm ơn anh. Thế thì còn thiếu một cái ghế, anh có thể mang một cái từ phòng họp bên cạnh sang giúp tôi được không?'\nHayashi: 'Vâng, tôi hiểu rồi.'\"\n\n💡 Phân tích & Giải thích:\n• Mẫu câu nhờ vả lịch sự: 「V-て + もらえますか」 (Bạn có thể làm giúp tôi việc này được không?): 「持ってきてもらえますか」 (anh mang qua giúp tôi được không?).\n• Các phương án khác:\n  - 1. 持ってこなくてもいいですか: Tôi không mang có được không?\n  - 3. 持ってこないといけませんか: Không mang có bắt buộc không?\n  - 4. 持ってきていませんか: Anh đang không mang đến à?\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 18: (15) 2 句意: (会议室中) 小林:“上田, 会议的准备工作完成了吗? 需要我帮忙吗?” 上田:“谢谢, 还缺一把椅子, 能帮我去隔壁会议室拿一把过来吗?” 小林:“好的, 我知道了。” 1. なくてもいいですか: 不……也可以吗? 2. てもらえますか: 能(帮我)……吗? 3. ないといけませんか: 必须要……吗? 4. ていませんか: 没有……吗?)",
+          "correctOption": 2,
+          "text": "（会議室で）\n林「上田さん、会議の じゅんびは 終わりましたか。てつだいましょうか。」\n上田「ありがとうございます。じゃあ、いすが 一つ 足りないので、となりの 会議室から（　　）。」\n林「はい、わかりました。」",
+          "options": [
+                "持って こなくても いいですか",
+                "持って きて もらえ ますか",
+                "持って こないと いけませんか",
+                "持って きて いませんか"
+          ]
+    },
+    "51": {
+          "snippet": "Dấu sao ★: きっさてんは (Vị trí 3)",
+          "explanation": "🎯 Đáp án đúng: [3] きっさてんは (Vị trí dấu sao ★)\n\n💬 Dịch nghĩa câu:\n\"Quán cà phê mới mở tại nơi mà tháng trước vốn là tiệm hoa có món bánh táo rất ngon.\"\n\n💡 Phân tích thứ tự sắp xếp:\n• Trật tự chuẩn xác: 先月まで 花屋が あった 【4 場所に】 【1 できた】 ★【3 きっさてんは】 【2 りんごの ケーキが】、おいしいです。\n• Phân tích ngữ pháp:\n  - Cụm định ngữ: 「花屋があった【場所に】【できた】【きっさてんは】」 (quán cà phê mới mở tại nơi từng có tiệm hoa).\n  - Vị trí các từ: 4 -> 1 -> 3 (★) -> 2.\n  - Vị trí dấu sao ★ đứng ở vị trí thứ 3, tức phương án [3] きっさてんは.\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 18: (16) 3 正确语序: 先月まで 花屋が あった 4 場所に 1 できた ★3 きっさてんは 2 りんごの ケーキが、おいしいです。(上个月还是花店的地方建起了一家咖啡厅, 那里的苹果蛋糕很好吃。) 在句中, は提示句子主题, が提示句子主语。)",
+          "correctOption": 3,
+          "text": "先月まで 花屋が あった _____ _____ __★__ _____、おいしいです。",
+          "options": [
+                "できた",
+                "りんごの ケーキが",
+                "きっさてんは",
+                "場所に"
+          ]
+    },
+    "52": {
+          "snippet": "Dấu sao ★: 置いた (Vị trí 3)",
+          "explanation": "🎯 Đáp án đúng: [2] 置いた (Vị trí dấu sao ★)\n\n💬 Dịch nghĩa câu:\n\"Tối hôm qua sau khi về nhà, tôi không còn nhớ là mình đã để chìa khóa ở đâu nữa.\"\n\n💡 Phân tích thứ tự sắp xếp:\n• Trật tự chuẩn xác: きのうの 夜 家に 帰ってから、かぎを 【1 どこ】 【3 に】 ★【2 置いた】 【4 か】 覚えて いません。\n• Phân tích ngữ pháp:\n  - Cấu trúc mệnh đề câu hỏi lồng gián tiếp: 「Từ để hỏi + Động từ thể thường + か 覚えている」.\n  - 「どこに置いたか」 (đã để ở đâu).\n  - Vị trí sắp xếp: 1 -> 3 -> 2 (★) -> 4.\n  - Vị trí dấu sao ★ là vị trí số 3, tương ứng với phương án [2] 置いた.\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 18: (17) 2 正确语序: きのうの 夜 家に 帰ってから、かぎを 1 どこ 3 に ★2 置いた 4 か 覚えて いません。(我忘了昨天晚上回家后, 把钥匙放在哪儿了。) ～か 接在表示疑问的小短句后引出对提及内容的陈述, 表示不确定的内容。)",
+          "correctOption": 2,
+          "text": "きのうの 夜 家に 帰ってから、かぎを _____ _____ __★__ _____ 覚えて いません。",
+          "options": [
+                "どこ",
+                "置いた",
+                "に",
+                "か"
+          ]
+    },
+    "53": {
+          "snippet": "Dấu sao ★: 最近 いそがしくて (Vị trí 3)",
+          "explanation": "🎯 Đáp án đúng: [3] 最近 いそがしくて (Vị trí dấu sao ★)\n\n💬 Dịch nghĩa câu:\n\"Tôi rất thích chơi đàn piano, thế nhưng dạo gần đây bận rộn quá nên chẳng có thời gian để chơi.\"\n\n💡 Phân tích thứ tự sắp xếp:\n• Trật tự chuẩn xác: 私は ピアノを 【1 ひくのが】 【4 好きですが】 ★【3 最近 いそがしくて】 【2 ひく】 時間が ありません。\n• Phân tích ngữ pháp:\n  - Vế trước: 「ピアノをひくのが好きですが」 (tôi thích chơi piano nhưng mà...).\n  - Vế sau: 「最近いそがしくて、ひく時間がありません」 (dạo gần đây bận nên không có thời gian chơi).\n  - Vị trí sắp xếp: 1 -> 4 -> 3 (★) -> 2.\n  - Dấu sao ★ nằm ở vị trí thứ 3, tức phương án [3] 最近 いそがしくて.\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 18: (18) 3 正确语序: 私は ピアノを 1 ひくのが 4 好きですが ★3 最近 いそがしくて 2 ひく 時間が ありません。(我喜欢弹钢琴, 但最近太忙了没时间弹。) 此处が表示转折, 意为“但是, 然而”。)",
+          "correctOption": 3,
+          "text": "私は ピアノを _____ _____ __★__ _____ 時間が ありません。",
+          "options": [
+                "ひくのが",
+                "ひく",
+                "最近 いそがしくて",
+                "好きですが"
+          ]
+    },
+    "54": {
+          "snippet": "Dấu sao ★: 大切に (Vị trí 3)",
+          "explanation": "🎯 Đáp án đúng: [1] 大切に (Vị trí dấu sao ★)\n\n💬 Dịch nghĩa câu:\n\"Chiếc máy ảnh mà ông tôi đã tặng cho tôi vào dịp sinh nhật tròn 20 tuổi, tôi vẫn đang sử dụng một cách rất nâng niu trân trọng.\"\n\n💡 Phân tích thứ tự sắp xếp:\n• Trật tự chuẩn xác: 私は 20さいの たんじょうびに そふが 【2 くれた】 【4 カメラを】 ★【1 大切に】 【3 使って】 います。\n• Phân tích ngữ pháp:\n  - Mệnh đề bổ nghĩa cho danh từ: 「そふがくれたカメラ」 (chiếc máy ảnh mà ông tặng).\n  - Vị ngữ: 「大切に使っています」 (sử dụng một cách cẩn thận, nâng niu).\n  - Vị trí sắp xếp: 2 -> 4 -> 1 (★) -> 3.\n  - Dấu sao ★ rơi vào vị trí thứ 3, chính là phương án [1] 大切に.\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 18: (19) 1 正确语序: 私は 20さいの たんじょうびに そふが 2 くれた 4 カメラを ★1 大切に 3 使って います。(祖父在我20岁生日时送我的那台相机, 我一直小心翼翼地在使用。) ～た 动词的连体形可修饰名词。)",
+          "correctOption": 1,
+          "text": "私は 20さいの たんじょうびに そふが _____ _____ __★__ _____ います。",
+          "options": [
+                "大切に",
+                "くれた",
+                "使って",
+                "カメラを"
+          ]
+    },
+    "55": {
+          "snippet": "Dấu sao ★: ので (Vị trí 3)",
+          "explanation": "🎯 Đáp án đúng: [4] ので (Vị trí dấu sao ★)\n\n💬 Dịch nghĩa câu:\n\"Hayashi: 'Tuần sau tôi định đi xem một trận đấu bóng chày, Lee đi cùng cho vui không?'\nLee: 'Ôi, trận bóng chày ạ? Thích thế. Vì tôi chưa từng đi xem bao giờ nên nhất định tôi muốn đi xem thử ạ.'\"\n\n💡 Phân tích thứ tự sắp xếp:\n• Trật tự chuẩn xác: いいですね。 【3 見に 行った】 【2 ことが ない】 ★【4 ので】 【1 ぜひ 行きたい】 です。\n• Phân tích ngữ pháp:\n  - Cấu trúc trải nghiệm chưa từng làm: 「V-た ことがない」 (chưa từng đi xem).\n  - Liên từ chỉ nguyên nhân lý do: 「～ので」 (vì...).\n  - Kết hợp ý muốn: 「ぜひ行きたいです」 (nhất định muốn đi).\n  - Thứ tự ghép: 3 -> 2 -> 4 (★) -> 1.\n  - Dấu sao ★ nằm ở vị trí thứ 3, tức phương án [4] ので.\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 18: (20) 4 正确语序: えっ、野球の 試合ですか。いいですね。 3 見に 行った 2 ことが ない ★4 ので 1 ぜひ 行きたい です。(啊, 棒球赛么, 好啊。我还没去看过, 所以我真的想去看看。) ～ので 表示原因, 意为“因为……”。)",
+          "correctOption": 4,
+          "text": "林「来週、野球の 試合を 見に 行こうと 思って いるんですが、リーさんも いっしょに どうですか。」\nリー「えっ、野球の 試合ですか。いいですね。_____ _____ __★__ _____ です。」",
+          "options": [
+                "ぜひ 行きたい",
+                "ことが ない",
+                "見に 行った",
+                "ので"
+          ]
+    },
+    "56": {
+          "snippet": "しかし (Liên từ đối lập: Tuy nhiên)",
+          "explanation": "🎯 Đáp án đúng: [1] しかし (Tuy nhiên)\n\n💬 Dịch nghĩa đoạn văn:\n\"Sở thích của tôi là bơi lội. Hàng tuần tôi đều bơi ở hồ bơi. (21 Tuy nhiên), cho đến nửa năm trước thì tôi lại không hề biết bơi.\"\n\n💡 Phân tích & Giải thích:\n• Vế trước nói hiện tại tuần nào cũng đi bơi, vế sau nói nửa năm trước không hề biết bơi. Hai vế mang ý nghĩa tương phản đối lập hoàn toàn, do đó liên từ phù hợp nhất là 「しかし」 (tuy nhiên, nhưng mà).\n• Các phương án khác:\n  - 2. だから: Vì thế, cho nên (quan hệ nhân quả).\n  - 3. たとえば: Ví dụ như (đưa ra dẫn chứng).\n  - 4. それに: Thêm vào đó, hơn nữa (bổ sung thông tin).\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 18: (21) 1 前文提到作者很喜欢游泳, 每周都会去泳池游泳, 后文却提到半年前自己还不会游泳, 前后存在转折关系。1. しかし: 但是, 然而; 2. だから: 因此, 所以; 3. たとえば: 例如; 4. それに: 并且)",
+          "correctOption": 1,
+          "text": "私の しゅみは 水泳です。毎週 プールで 泳いで います。（ 21 ）、半年前までは 泳ぐことが できませんでした。",
+          "options": [
+                "しかし",
+                "だから",
+                "たとえば",
+                "それに"
+          ]
+    },
+    "57": {
+          "snippet": "私は (Trợ từ đối chiếu tương phản)",
+          "explanation": "🎯 Đáp án đúng: [2] は (Trợ từ đối chiếu tương phản)\n\n💬 Dịch nghĩa đoạn văn:\n\"Nửa năm trước, vào kỳ nghỉ hè tôi đã đi biển cùng với các bạn người Nhật. Các bạn bơi ra rất xa. Thế nhưng, tôi thì lại chẳng thể bơi được.\"\n\n💡 Phân tích & Giải thích:\n• Trợ từ 「は」 ở đây đóng vai trò đối chiếu, so sánh tương phản giữa hai đối tượng: bạn bè thì bơi ra xa giỏi giang, còn tôi thì lại không bơi được: 「ともだちは～、けれども私は～」.\n• Các phương án khác:\n  - 1. なら: Nếu là (điều kiện giả định).\n  - 3. より: So với.\n  - 4. でも: Dù là.\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 19: (22) 2 朋友会游泳, 而“我”不会, 前后形成对比, 用は提示, 强调这种对比。)",
+          "correctOption": 2,
+          "text": "半年前、夏休みに 日本人の ともだちと 海に 行きました。ともだちは 遠くまで 泳いで いきました。けれども、私（ 22 ）泳げませんでした。",
+          "options": [
+                "なら",
+                "は",
+                "より",
+                "境界"
+          ]
+    },
+    "58": {
+          "snippet": "教えて もらいました (Nhận sự hướng dẫn từ người khác)",
+          "explanation": "🎯 Đáp án đúng: [4] 教えて もらいました (Được bạn dạy cho cách bơi)\n\n💬 Dịch nghĩa đoạn văn:\n\"Từ tuần tiếp theo, tôi bắt đầu tập bơi ở hồ bơi của thị trấn. Tôi đã nhờ người bạn bơi giỏi dạy cách bơi cho mình.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc cho nhận hành động: 「[Tôi は] [Bạn に] V-て もらいました」 biểu thị việc chủ ngữ (tác giả) nhận được hành động giúp đỡ dạy bơi từ người bạn: 「ともだちに 泳ぎ方を 教えてもらいました」.\n• Các phương án khác:\n  - 1. 教えていました: Đang dạy (tác giả không biết bơi nên không thể dạy).\n  - 2. 教えてくれました: Bạn dạy cho tôi (nếu dùng くれました thì trợ từ đi với bạn phải là 「ともだちが」 chứ không phải 「ともだちに」).\n  - 3. 教えてあげました: Tôi dạy cho bạn.\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 19: (23) 4 朋友教“我”游泳, 我是获得帮助的一方, 此处前接的是授予者, 可知此处需用表示我(方)从他人处得到某事物的“もらう”。)",
+          "correctOption": 4,
+          "text": "次の 週から 町の プールで 泳ぐ 練習を 始めました。水泳の 上手な ともだちに 泳ぎ方を（ 23 ）。",
+          "options": [
+                "教えて いました",
+                "教えて くれました",
+                "教えて あげました",
+                "教えて もらいました"
+          ]
+    },
+    "59": {
+          "snippet": "泳げる ように なりました (Trở nên có thể bơi được)",
+          "explanation": "🎯 Đáp án đúng: [4] 泳げる ように なりました (Đã dần dần biết bơi được)\n\n💬 Dịch nghĩa đoạn văn:\n\"Dù rất khó nhưng tuần nào tôi cũng cùng bạn luyện tập. Nhờ vậy mà từng chút từng chút một tôi đã biết bơi được. Bây giờ thì tôi đang tự tập một mình.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc 「Động từ thể khả năng (V-れる/られる) + ように なる」 biểu thị sự biến đổi năng lực trạng thái: từ chỗ không thể làm được gì, trải qua quá trình rèn luyện đã trở nên có thể làm được: 「泳げるようになりました」 (đã dần dần biết bơi).\n• Các phương án khác:\n  - 1. 泳いでおきました: Bơi sẵn trước (chuẩn bị trước).\n  - 2. 泳いでしまいました: Đã lỡ bơi mất rồi.\n  - 3. 泳げることになりました: Biểu thị quy định/quyết định của tập thể khách quan (không tự nhiên khi miêu tả năng lực bơi).\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 19: (24) 4 “我”通过不断练习学会了游泳, 此处表示“会游泳”需用动词的能动态, “泳げる”。动词可能形＋ようになる能表现出作者从不会游泳到会游泳的变化; 而ことになる只表示事情变成某种状态, 前接动词基本形。此处选用前者。)",
+          "correctOption": 4,
+          "text": "難しかったですが、毎週 ともだちと 練習しました。それで 少しずつ（ 24 ）。今は 一人で 練習して います。",
+          "options": [
+                "泳いで おきました",
+                "泳いで しまいました",
+                "泳げる ことに なりました",
+                "泳げる ように なりました"
+          ]
+    },
+    "60": {
+          "snippet": "練習したいです (Thể hiện nguyện vọng / ý chí bản thân)",
+          "explanation": "🎯 Đáp án đúng: [1] 練習したいです (Tôi muốn luyện tập thật nhiều)\n\n💬 Dịch nghĩa đoạn văn:\n\"Bơi lội thật là vui. Cho đến lần đi biển tiếp theo, tôi muốn luyện tập thật nhiều.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc 「V-たいです」 biểu thị mong muốn, ý chí, nguyện vọng của chính bản thân người nói: 「たくさん 練習したいです」 (tôi muốn luyện tập thật nhiều).\n• Các phương án khác:\n  - 2. 練習するためです: Là để luyện tập (giải thích mục đích cho câu trước, không hợp ngữ cảnh cuối bài).\n  - 3. 練習したようです: Hình như đã luyện tập rồi.\n  - 4. 練習するそうです: Nghe nói là sẽ luyện tập (truyền đạt thông tin người khác).\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 19: (25) 1 作者十分喜欢游泳, 决心在下次去海边玩之前勤加练习, 此处用“たい”表示个人的意志、想法。)",
+          "correctOption": 1,
+          "text": "泳ぐのは とても 楽しいです。次に 海に 行くまでに たくさん（ 25 ）。",
+          "options": [
+                "練習したいです",
+                "練習するためです",
+                "練習したようです",
+                "練習するそうです"
+          ]
+    },
+    "61": {
+          "snippet": "Nhận lại đồ bỏ quên trong kỳ thi",
+          "explanation": "🎯 Đáp án đúng: [2] 教室で、自分のクラスの先生に話します。 (Nói với giáo viên của lớp mình tại phòng học)\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Câu hỏi: \"Người muốn đi lấy đồ thất lạc trong những ngày thi thì phải làm thế nào?\"\n• Nội dung thông báo trong khung:\n  「12月5日(月)から7日(水)までは、試験中ですから、先生たちの部屋には入れません。教室でクラスの先生に言ってください。」\n  (Từ ngày 5/12 đến 7/12 vì đang trong kỳ thi nên không được vào phòng giáo viên. Xin hãy báo với giáo viên của lớp tại phòng học).\n\n💡 Phân tích các lựa chọn:\n- 1. Đến nơi có đồ thất lạc để lấy: Sai, đồ đang ở phòng giáo viên, không được tự ý đi lấy.\n- 2. Báo với giáo viên chủ nhiệm lớp mình tại phòng học: ĐÚNG - Khớp 100% câu thông báo.\n- 3. Chờ cho tới khi kỳ thi kết thúc: Sai, thông báo hướng dẫn cách lấy ngay trong đợt thi.\n- 4. Đến phòng của các giáo viên để lấy: Sai, vì có thông báo cấm vào phòng giáo viên trong thời gian thi.\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 19: (26) 2 关键内容是正文方框内的两句话。12月5日至7日要进行考试, 在此期间不能去教师办公室, 想要取失物的人可以告诉教室内的老师。)",
+          "correctOption": 2,
+          "text": "【問題 4 (1)】（26）試験中の日間に忘れ物を取りに行きたい人は、どうしなければなりませんか。",
+          "options": [
+                "忘れ物があった場所へ取りに行きます。",
+                "教室で、自分のクラスの先生に話します。",
+                "試験が終わるまで待ちます。",
+                "先生たちの部屋へ取りに行きます。"
+          ]
+    },
+    "62": {
+          "snippet": "Sở thích ăn kem mùa đông của tác giả",
+          "explanation": "🎯 Đáp án đúng: [4] 冬に温かい部屋で高いアイスクリームを食べること (Ăn kem đắt tiền trong căn phòng ấm áp vào mùa đông)\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Câu hỏi: \"Niềm vui / sở thích của tác giả là gì?\"\n• Đoạn văn:\n  「夏は毎日食べるので安いものしか買いませんが、冬は高いものを買います。暖かい部屋でいいアイスクリームを食べるのが、私の楽しみなのです。」\n  (Mùa hè vì ngày nào cũng ăn nên tôi chỉ mua loại rẻ, nhưng mùa đông thì tôi mua loại kem đắt tiền. Được thưởng thức kem hảo hạng trong căn phòng ấm áp chính là niềm vui của tôi).\n\n💡 Phân tích các lựa chọn:\n- 1. Ăn kem vào mùa hè: Không phải điều tác giả nhấn mạnh là 「私の楽しみ」.\n- 2. Ăn kem mỗi ngày vào mùa hè: Sai nội dung niềm vui đặc biệt.\n- 3. Ăn kem mỗi ngày trong phòng ấm vào mùa đông: Sai từ 「毎日」 (bài viết: 冬でも時々食べます - thỉnh thoảng mới ăn).\n- 4. Ăn kem đắt tiền trong phòng ấm vào mùa đông: ĐÚNG - Khớp hoàn toàn câu chốt của tác giả.\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 19: (27) 4 关键内容是文章的最后两句话。作者会在冬天买价格相对较高(いい＝高い)的冰淇淋, 然后在温暖的房间内吃冰淇淋, 这便是他的兴趣所在。)",
+          "correctOption": 4,
+          "text": "【問題 4 (2)】（27）私の楽しみは何ですか。",
+          "options": [
+                "夏にアイスクリームを食べること",
+                "夏に毎日アイスクリームを食べること",
+                "冬に温かい部屋で毎日アイスクリームを食べること",
+                "冬に温かい部屋で高いアイスクリームを食べること"
+          ]
+    },
+    "63": {
+          "snippet": "Nội dung thầy Takada cần thông báo cho bác Hayashi",
+          "explanation": "🎯 Đáp án đúng: [2] 工場見学に行く日と時間と、行く人の数 (Ngày giờ đi tham quan và số lượng người tham gia)\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Câu hỏi: \"Đọc mẩu ghi chú này, thầy Takada phải thông báo điều gì cho ông Hayashi?\"\n• Nội dung mẩu tin nhắn từ bạn Himal:\n  「見学の日と時間が決まったら、電話がほしいと言っていました。行く人の数も教えてもらいたいそうです。」\n  (Ông ấy nói rằng khi nào quyết định xong ngày và giờ tham quan thì hãy gọi điện thoại cho ông ấy. Ông ấy cũng muốn được biết số người sẽ đi cùng nữa).\n\n💡 Phân tích các lựa chọn:\n- 1. Khi nào thì quyết định xong ngày giờ: Sai nội dung.\n- 2. Ngày giờ đi tham quan và số lượng người cùng đi: ĐÚNG - Bao gồm cả 2 thông tin: 「日と時間」 + 「行く人の数」.\n- 3. Chỉ ngày và giờ đi tham quan: Thiếu số lượng người.\n- 4. Chỉ số lượng người tham gia: Thiếu ngày và giờ.\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 19: (28) 2 关键内容是文章的最后一段。留言中提到, 高田先生需要告知对方去参观学习的日期和具体时间, 还要告诉对方参加参观学习的总人数。)",
+          "correctOption": 2,
+          "text": "【問題 4 (3)】（28）このメモを読んで、高田先生は林さんに何を知らせなければなりませんか。",
+          "options": [
+                "工場見学に行く日と時間が、いつごろ決まるか",
+                "工場見学に行く日と時間と、行く人の数",
+                "工場見学に行く日と時間だけ",
+                "工場見学に行く人の数だけ"
+          ]
+    },
+    "64": {
+          "snippet": "Lý do tác giả mua cục tẩy màu đen",
+          "explanation": "🎯 Đáp án đúng: [1] 黒い消しゴムは、色がかっこいいと思ったから (Vì thấy màu sắc của nó rất ngầu / đẹp)\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Câu hỏi: \"Tại sao tác giả lại mua cục tẩy màu đen?\"\n• Lời kể của tác giả trong đoạn văn:\n  「私は色がかっこいいから買ったので、理由を聞いて面白いなと思いました。」\n  (Tôi thì chỉ vì thấy màu của nó trông ngầu nên đã mua, khi nghe nhân viên giải thích lý do thì tôi thấy rất thú vị).\n\n💡 Phân tích các lựa chọn:\n- 1. Vì thấy màu sắc trông ngầu / đẹp: ĐÚNG - Khớp 100% câu: 「色がかっこいいから買った」.\n- 2. Vì sau khi dùng cục tẩy không bị bẩn đen: Đó là lý do nhà sản xuất chế tạo ra nó, không phải lý do tác giả mua.\n- 3. Vì tẩy chữ sạch hơn: Đoạn văn không hề nhắc tới điều này.\n- 4. Vì nghe nhân viên nói nhiều người mua: Sai, nhân viên chỉ giải thích tại sao người ta làm ra nó sau khi tác giả đã mua.\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 19: (29) 1 关键内容是文章的最后一句话。“我”买黑色的橡皮擦只是觉得它的颜色好看(かっこいい)。)",
+          "correctOption": 1,
+          "text": "【問題 4 (4)】（29）「私」はどうして黒い消しゴムを買いましたか。",
+          "options": [
+                "黒い消しゴムは、色がかっこいいと思ったから",
+                "黒い消しゴムは、使った後で消しゴムが黒く汚れないから",
+                "黒い消しゴムのほうが字をきれいに消せるから",
+                "黒い消しゴムを買う人が多いと店の人に聞いたから"
+          ]
+    },
+    "65": {
+          "snippet": "Lý do tác giả nghĩ 'Làm sao bây giờ' ở vị trí ①",
+          "explanation": "🎯 Đáp án đúng: [4] 乗りたい電車の場所がわからないから (Vì không biết chỗ tàu điện mình muốn chuyển sang ở đâu)\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Câu hỏi: \"Tại sao tác giả lại nghĩ 'Phải làm sao bây giờ'?\"\n• Đoạn 1 của bài viết:\n  「東京駅は広すぎて、乗り換える電車の場所がわかりませんでした。それで、メモを持って駅の中を行ったり来たりしていました。①『どうしよう。』と思って困っていたとき、山田さんという女の人が声をかけてくれました。」\n  (Ga Tokyo quá rộng nên tôi không biết chỗ để đổi sang tàu điện cần đi ở đâu. Thế nên tôi cứ cầm tờ giấy ghi chú đi qua đi lại trong ga. Khi đang bối rối nghĩ 'Làm sao bây giờ' thì một phụ nữ tên Yamada đã cất tiếng gọi tôi).\n\n💡 Phân tích các lựa chọn:\n- 1. Vì bị người phụ nữ lạ bắt chuyện: Sai, cô Yamada bắt chuyện sau khi tác giả đã bối rối.\n- 2. Vì xuống nhầm ga Tokyo: Sai, tác giả chủ động đến ga Tokyo để đổi tàu.\n- 3. Vì không tìm thấy bạn: Tác giả đang trên đường đến nhà bạn, chưa tới nơi.\n- 4. Vì không biết nơi có chuyến tàu mình muốn đi: ĐÚNG - 「乗り換える電車の場所がわかりませんでした」.\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 19: (30) 4 关键句是第一段中的“東京駅は広すぎて、乗り換える電車の場所がわかりませんでした。”, 作者要在东京站进行换乘, 但他不知道该去哪里换乘, 因此不知所措。)",
+          "correctOption": 4,
+          "text": "【問題 5】（30）なぜ①「どうしよう。」と思いましたか。",
+          "options": [
+                "知らない女の人に声をかけられたから",
+                "間違えて東京駅で電車を降りてしまったから",
+                "友達が見つからないから",
+                "乗りたい電車の場所がわからないから"
+          ]
+    },
+    "66": {
+          "snippet": "Lý do cô Yamada bắt chuyện với tác giả",
+          "explanation": "🎯 Đáp án đúng: [2] 「私」が行ったり来たりしているのを見たから (Vì nhìn thấy tác giả cứ đi qua đi lại bối rối)\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Câu hỏi: \"Tại sao cô Yamada lại cất tiếng bắt chuyện với tác giả?\"\n• Đoạn 1 của bài viết:\n  「山田さんは駅の中にある喫茶店でお茶を飲みながら、私が行ったり来たりしているのを見ていたそうです。『どうしたんですか。』と聞かれたので...」\n  (Cô Yamada kể lại rằng khi đang uống trà ở quán giải khát trong ga thì đã nhìn thấy tôi cứ đi qua đi lại lúng túng. Cô ấy đã hỏi: 'Cháu có chuyện gì thế?').\n\n💡 Phân tích các lựa chọn:\n- 1. Vì nhặt được tờ giấy tác giả đánh rơi: Sai nội dung.\n- 2. Vì nhìn thấy tác giả cứ đi đi lại lại: ĐÚNG - Khớp nguyên văn 「私が行ったり来たりしているのを見ていた」.\n- 3. Vì nhận nhầm tác giả là bạn mình: Sai hoàn toàn.\n- 4. Vì muốn rủ tác giả cùng uống trà: Sai.\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 20: (31) 2 关键句是“山田さんは駅の中にある喫茶店でお茶を飲みながら、私が行ったり来たりしているのを見ていたそうです。”, 她在咖啡店喝茶的时候看到了“我”来来往往的样子, 于是向“我”搭话了。)",
+          "correctOption": 2,
+          "text": "【問題 5】（31）なぜ山田さんは「私」に声をかけましたか。",
+          "options": [
+                "「私」が落としたメモを拾ったから",
+                "「私」が行ったり来たりしているのを見たから",
+                "「私」を山田さんの友達と間違えたから",
+                "「私」と一緒にお茶を飲みたいと思ったから"
+          ]
+    },
+    "67": {
+          "snippet": "Lý do tác giả nói lời cảm ơn ở vị trí ②",
+          "explanation": "🎯 Đáp án đúng: [2] 山田さんが、帰りが遅くなるかもしれないのに、「私」を案内してくれたから (Vì cô Yamada dù có thể sẽ bị muộn giờ về nhưng vẫn nhiệt tình dẫn đường cho tác giả)\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Câu hỏi: \"Tại sao tác giả lại nói lời cảm ơn ở vị trí ②?\"\n• Đoạn văn:\n  「山田さんは私が乗る電車のところまで一緒に行ってくれました。山田さんは仕事で東京に来ていて、今から京都に帰ると言いました。私は『時間は大丈夫ですか。』と聞きました。山田さんは『京都に行く新幹線はたくさんあるから、次のでも大丈夫です。...』と言いました。私は『本当にありがとうございます。』とお礼を言いました。」\n  (Cô Yamada đã đi cùng dẫn tôi đến tận nơi tàu đỗ. Cô ấy bảo ra Tokyo công tác và giờ đang trên đường về Kyoto. Tôi hỏi: 'Cô có kịp giờ không ạ?'. Cô bảo tàu Shinkansen về Kyoto có nhiều chuyến, lỡ chuyến này đi chuyến sau cũng được... Vì thế tôi đã chân thành cảm ơn cô).\n\n💡 Phân tích các lựa chọn:\n- 1. Vì cô bảo có nhiều tàu về Kyoto: Đó chỉ là lý do cô giải thích cô không sao.\n- 2. Dù việc về nhà có thể bị muộn nhưng cô vẫn dẫn đường giúp tác giả: ĐÚNG - Thể hiện sự cảm kích sâu sắc của tác giả trước lòng tốt của cô.\n- 3. Vì nghe nói cô từng đối xử tốt với người nước mình: Sai, cô kể từng được người bản địa giúp khi sống ở nước ngoài nói chung.\n- 4. Vì cô lo lắng về thời gian tàu của tác giả: Người lo về giờ giấc là tác giả lo cho cô Yamada.\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 20: (32) 2 从文章第三段可知, 山田小姐不顾自己的事情, 带着作者去往坐车的地方。她说去京都的车有很多所以她不着急, 还表示自己过去在国外也受到了当地人的很多帮助, 所以也想帮助别人。因此作者向她道谢。)",
+          "correctOption": 2,
+          "text": "【問題 5】（32）なぜ②お礼を言いましたか。",
+          "options": [
+                "山田さんが、京都に行く新幹線がたくさんあると「私」に教えてくれたから",
+                "山田さんが、帰りが遅くなるかもしれないのに、「私」を案内してくれたから",
+                "山田さんが、「私」の国のいろいろな人に親切にしてくれたと聞いたから",
+                "山田さんが、「私」が乗る予定の電車の時間のことを心配してくれたから"
+          ]
+    },
+    "68": {
+          "snippet": "Câu điền vào chỗ trống cuối bài để hoàn thiện đoạn văn",
+          "explanation": "🎯 Đáp án đúng: [1] 困っている人に親切にしよう (Hãy đối xử tốt / giúp đỡ những người đang gặp khó khăn)\n\n💬 Dịch nghĩa câu hỏi & Bài đọc:\n• Câu hỏi: \"Câu nào thích hợp nhất để điền vào chỗ trống (33)?\"\n• Câu kết đoạn văn:\n  「電車に乗って、一人になった私は、山田さんの言葉を思い出して、心が温かくなりました。そして、私も山田さんみたいに（ 33 ）と思いました。」\n  (Lên tàu rồi chỉ còn một mình, nhớ lại những lời của cô Yamada, lòng tôi thấy thật ấm áp. Và tôi nghĩ rằng mình cũng muốn giống như cô Yamada, sẽ [đối xử tốt / giúp đỡ những người đang gặp khó khăn]).\n\n💡 Phân tích các lựa chọn:\n- 1. Hãy đối xử tốt, giúp đỡ người gặp khó khăn: ĐÚNG - Khớp hoàn toàn thông điệp xuyên suốt của bài viết về tinh thần tương thân tương ái của cô Yamada.\n- 2. Muốn sống ở nước ngoài: Không phải bài học/cảm xúc rút ra.\n- 3. Hãy cố gắng làm việc: Lạc chủ đề.\n- 4. Muốn hiểu rõ hơn về ga Tokyo: Lạc chủ đề.\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 20: (33) 1 作者在山田小姐的帮助下坐上了车。回顾这段经历, 作者心中感到十分温暖, 并暗自下定决心, 要向山田小姐学习。要学习的当然就是热心帮助他人这一点。)",
+          "correctOption": 1,
+          "text": "【問題 5】（33）（　　）に入れるのに、いちばんいい文はどれですか。",
+          "options": [
+                "困っている人に親切にしよう",
+                "外国に住んでみたい",
+                "仕事を頑張ろう",
+                "東京駅のことをよく知りたい"
+          ]
+    },
+    "69": {
+          "snippet": "Lựa chọn của James và Maria (Sự kiện số ⑥)",
+          "explanation": "🎯 Đáp án đúng: [4] ⑥ (Sự kiện số ⑥ - Lựa chọn phương án 4)\n\n💬 Dịch nghĩa câu hỏi & Điều kiện đối chiếu:\n• Yêu cầu của James và Maria:\n  1. Diễn ra vào tháng 4 (4月に行われるもの).\n  2. Ở trong tiệm (お店の中で).\n  3. Vừa nghe nhạc vừa dùng bữa trưa (音楽を聞きながら、お昼に食事ができるもの).\n\n💡 Đối chiếu bảng tin 「青野市ニュース - 春を楽しもう」:\n- ①: Ngày 5/3 (Tháng 3 -> Loại).\n- ②: Ngày 11/3 (Tháng 3 -> Loại).\n- ③: Ngày 8/4, 17h～19h (Buổi tối, ở nhà thi đấu 市民体育館, không phải ăn trưa -> Loại).\n- ④: Ngày 15/4, 8h～14h (Đi xe buýt ngắm biển ăn cơm hộp ngoài bờ biển 東川海岸, không phải trong tiệm nghe nhạc -> Loại).\n- ⑤: Ngày 23/4, 17h～21h (Lễ hội ở công viên 東公園 lúc chiều tối -> Loại).\n- ⑥: Ngày 29/4 (Tháng 4), 12h～14h (Buổi trưa お昼), tại nhà hàng 「黒川」 (お店の中), vừa dùng bữa vừa thưởng thức piano: 「レストランで食事をしながら、ピアノを楽しみましょう」 $\\rightarrow$ ĐÁP ỨNG TOÀN BỘ 3 ĐIỀU KIỆN! Sự kiện số ⑥ nằm ở phương án [4].\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 20: (34) 4 首先可通过时间(4月)排除②, 因为②在三月份。③和⑤虽然都提到了音乐, 但未提及是否能用餐, 且两者的时间都在下午5点之后, 均不符合要求。⑥为4月29日(周六)12时～14时, 在餐厅听钢琴演奏吃午餐, 完全符合条件。选项4对应⑥。)",
+          "correctOption": 4,
+          "text": "【問題 6】（34）ハメスさんとマリアさんは、「春を楽しもう」に行きたいと思っています。4月に行われるもので、お店の中で音楽を聞きながら、お昼に食事ができるものがいいです。ハメスさんたちが選べるのは、どれですか。",
+          "options": [
+                "②",
+                "③",
+                "⑤",
+                "⑥"
+          ]
+    },
+    "70": {
+          "snippet": "Lựa chọn của Gina (Sự kiện số ② và ③ - Lựa chọn phương án 1)",
+          "explanation": "🎯 Đáp án đúng: [1] ②と③ (Sự kiện ② và ③ - Lựa chọn phương án 1)\n\n💬 Dịch nghĩa câu hỏi & Điều kiện đối chiếu:\n• Yêu cầu của cô Gina:\n  1. Vào ngày thứ Bảy (土曜日).\n  2. Giờ tập trung không được sớm hơn 13h (集まる時間が 13時より 早いものには行けない $\\rightarrow$ Tập trung từ 13h trở đi).\n  3. Chi phí từ 1.000 yên trở xuống (料金は 1,000円以下).\n\n💡 Đối chiếu bảng tin:\n- ①: Chủ Nhật (日) -> Loại vì không phải thứ Bảy.\n- ②: Thứ Bảy 11/3 (土), tập trung lúc 13h50 (muộn hơn 13h), giá 800 yên (<= 1.000 yên) $\\rightarrow$ THỎA MÃN.\n- ③: Thứ Bảy 8/4 (土), tập trung lúc 16h50 (muộn hơn 13h), giá 950 yên (<= 1.000 yên) $\\rightarrow$ THỎA MÃN.\n- ④: Thứ Bảy 15/4 (土), nhưng giờ tập trung là 8h sáng (8時 $\\rightarrow$ sớm hơn 13h) $\\rightarrow$ Loại.\n- ⑤: Chủ Nhật 23/4 (日) -> Loại vì là Chủ Nhật.\n- ⑥: Thứ Bảy 29/4 (土), nhưng tập trung lúc 11h50 (sớm hơn 13h) và giá 1.200 yên (> 1.000 yên) $\\rightarrow$ Loại.\n• Như vậy chỉ có duy nhất 2 sự kiện ② và ③ thỏa mãn tất cả tiêu chí. Đáp án tương ứng là phương án [1] ②と③.\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 20: (35) 1 提取题干中的时间信息, 活动需在周六, 集合时间需在下午一点之后, 符合这两点的有②和③。②的费用为800日元, ③的费用为950日元, 均符合她的要求。选项1为②和③。)",
+          "correctOption": 1,
+          "text": "【問題 6】（35）ジーナさんは、「春を楽しもう」に行こうと思っています。土曜日に行きたいですが、集まる時間が13時より早いものには行けません。料金は1,000円以下がいいです。ジーナさんが選べるのは、どれですか。",
+          "options": [
+                "②と③",
+                "②と③と④",
+                "②と③と⑤",
+                "③と⑤"
+          ]
+    },
+    "71": {
+          "snippet": "Gói sách tranh ở tiệm sách",
+          "explanation": "🎯 Đáp án đúng: [1] アとウ (Giấy hình thuyền + Dây ruy-băng mảnh)\n\n💬 Phân tích nội dung đoạn hội thoại:\n1. Chọn giấy bọc quà: Nhân viên giới thiệu 2 loại là hình thuyền (船の絵 - ア) và hình hoa (花の絵 - イ). Người phụ nữ yêu cầu: 「船の絵がいいです」 (Cho tôi loại hình thuyền) $\\rightarrow$ Chọn giấy ア.\n2. Chọn ruy-băng: Có 2 loại là ruy-băng mảnh (細いの - ウ) và ruy-băng to bản (太いの - エ). Người phụ nữ quyết định: 「細いのにします」 (Cho tôi loại mảnh) $\\rightarrow$ Chọn nơ ruy-băng ウ.\n$\\rightarrow$ Kết hợp hai lựa chọn: 「アとウ」 tương ứng với Phương án [1].\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 20: もんだい1 1ばん 答案: 1)",
+          "audioScriptJa": "本屋で店の男の人と女の人が話しています。店の人は何を使って絵本を包みますか。\n男：いらっしゃいませ。\n女：この絵本をください。贈り物なので、きれいに包んでくれませんか。\n男：はい、包む紙は二種類あります。こちらの船の絵と花の絵とどちらがいいでしょうか。\n女：船の絵がいいです。リボンもつけてください。\n男：はい。細いのと太いのがありますが、どちらにしますか。\n女：そうですね。細いのにします。\n男：わかりました。では、少しお待ちください。\n質問：店の人は何を使って絵本を包みますか。",
+          "audioScriptVi": "Ở hiệu sách, nam nhân viên và người phụ nữ đang nói chuyện với nhau. Nhân viên sẽ dùng thứ gì để bọc cuốn sách tranh?\nNam: Kính chào quý khách!\nNữ: Bán cho tôi cuốn sách tranh này với ạ. Vì là quà tặng nên bạn có thể gói thật đẹp giúp tôi được không?\nNam: Vâng, giấy bọc quà bên em có hai loại. Giữa loại vẽ hình thuyền (ア) và loại vẽ hình hoa (イ) này thì chị chọn loại nào ạ?\nNữ: Cho tôi loại hình thuyền (ア) nhé. Đính thêm cả nơ ruy-băng giúp tôi nữa nhé.\nNam: Vâng. Ruy-băng có loại mảnh (ウ) và loại to bản (エ), chị chọn loại nào ạ?\nNữ: Để xem nào... Gói loại mảnh (ウ) cho tôi nhé.\nNam: Dạ vâng, em hiểu rồi ạ. Vậy xin chị đợi em một chút.\nCâu hỏi: Nhân viên cửa hàng sẽ dùng thứ gì để gói cuốn sách tranh?",
+          "correctOption": 1,
+          "options": [
+                "アとウ (Giấy hình thuyền + Ruy băng mảnh)",
+                "アとエ (Giấy hình thuyền + Ruy băng to)",
+                "イとウ (Giấy hình hoa + Ruy băng mảnh)",
+                "イとエ (Giấy hình hoa + Ruy băng to)"
+          ]
+    },
+    "72": {
+          "snippet": "Hạn trả sách của nam sinh",
+          "explanation": "🎯 Đáp án đúng: [3] Ngày 21 (Vị trí số 3 trên lịch: Thứ Tư ngày 21)\n\n💬 Phân tích diễn biến thời gian trên lịch:\n• Tiết học của cô diễn ra vào thứ Sáu tuần sau nữa ngày 23/6.\n• Ban đầu cô bảo trả trước ngày tiết học (thứ Năm ngày 22/6 - vị trí 4).\n• Tuy nhiên, cô đổi lại ngay sau đó: 「その前の日までにお願いします。再来週の木曜日は学校に来ません」 (Trả trước ngày hôm đó giúp cô nhé, vì thứ Năm tuần sau nữa cô không đến trường).\n• Ngày trước thứ Năm ngày 22 chính là thứ Tư ngày 21/6 (được đánh số 3 trên lịch).\n$\\rightarrow$ Do đó nam sinh phải trả sách vào ngày 21 (Phương án [3]).\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 20: もんだい1 2ばん 答案: 3)",
+          "audioScriptJa": "先生の部屋で男の学生と先生が話しています。男の学生はいつまでに本を返さなければなりませんか。\n男：先生、この本をかりてもいいですか。\n女：いいですよ。\n男：いつまでに返さなければなりませんか。\n女：ええと、今日は七日ですね。再来週の金曜日、えっと、23日に授業で使いたいですから、授業の前の日までに返してください。\n男：はい、木曜日ですね。\n女：あ、すみません。その前の日までにお願いします。再来週の木曜日は学校に来ません。\n男：はい、わかりました。\n質問：男の学生はいつまでに本を返さなければなりませんか。",
+          "audioScriptVi": "Tại phòng làm việc của cô giáo, một nam sinh và cô giáo đang nói chuyện. Nam sinh phải trả sách trước ngày nào?\nNam: Thưa cô, em có thể mượn cuốn sách này được không ạ?\nCô: Được chứ em.\nNam: Em phải trả sách muộn nhất trước ngày nào ạ?\nCô: Ừm... hôm nay là ngày 7. Thứ Sáu tuần sau nữa, à là ngày 23, cô cần dùng trong tiết học nên em hãy trả trước ngày có tiết học nhé.\nNam: Vâng, là thứ Năm (ngày 22) đúng không ạ?\nCô: À cô xin lỗi, em trả trước ngày hôm đó giúp cô nhé. Thứ Năm tuần sau nữa cô không đến trường.\nNam: Dạ vâng, em hiểu rồi ạ.\nCâu hỏi: Nam sinh phải trả sách muộn nhất là trước ngày nào?",
+          "correctOption": 3,
+          "options": [
+                "1. Ngày 15",
+                "2. Ngày 16",
+                "3. Ngày 21",
+                "4. Ngày 22"
+          ]
+    },
+    "73": {
+          "snippet": "Đồ lưu học sinh phải mang đến trường tiểu học",
+          "explanation": "🎯 Đáp án đúng: [2] Ảnh và Dép đi trong nhà (写真 と スリッパ - Hình 2)\n\n💬 Phân tích các đồ vật được nhắc đến:\n• Ảnh (写真): 「写真を忘れないようにしてください」 $\\rightarrow$ PHẢI MANG.\n• Giấy gấp Origami (折り紙): 「小学校にあるものを使います」 $\\rightarrow$ Dùng của trường tiểu học, không cần mang.\n• Dép đi trong nhà (スリッパ): 「スリッパを持っていってください」 $\\rightarrow$ PHẢI MANG.\n• Cơm trưa (お昼ご飯): 「小学校が準備してくれます」 $\\rightarrow$ Trường chuẩn bị, không cần mang.\n$\\rightarrow$ Đồ bắt buộc phải mang là Ảnh và Dép đi trong nhà (Hình 2 tương ứng Phương án [2]).\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 20: もんだい1 3ばん 答案: 2)",
+          "audioScriptJa": "日本語学校で、先生が話しています。留学生は小学校に何を持って行かなければなりませんか。\n男：ええ、来週ミナミ小学校へいって、折り紙を小学生たちに習いますね。皆さんは自分の国について写真を見せながら話しますね。写真を忘れないようにしてください。あっ、折り紙は小学校にあるものを使います。それから、小学校の建物に入る時には、靴をぬがなければなりませんから、スリッパを持っていってください。お昼ご飯は必要ありません、小学校が準備してくれます。\n質問：留学生は小学校に何を持って行かなければなりませんか。",
+          "audioScriptVi": "Tại trường tiếng Nhật, thầy giáo đang dặn dò. Các bạn du học sinh phải mang theo thứ gì đến trường tiểu học?\nThầy: À các em, tuần tới chúng ta sẽ đến trường tiểu học Minami để được các em học sinh tiểu học hướng dẫn gấp giấy Origami nhé. Các em sẽ vừa cho các em nhỏ xem ảnh vừa kể về đất nước của mình, vì vậy các em đừng quên mang theo ảnh (写真) nhé. À, giấy Origami thì trường tiểu học có sẵn nên ta sẽ dùng giấy của trường. Thêm nữa, khi bước vào tòa nhà trường tiểu học, vì phải cởi giày nên các em hãy mang theo dép đi trong nhà (スリッパ) nhé. Bữa trưa thì không cần, phía trường tiểu học sẽ chuẩn bị cho chúng ta.\nCâu hỏi: Du học sinh phải mang theo thứ gì khi đến trường tiểu học?",
+          "correctOption": 2,
+          "options": [
+                "1. Ảnh và Giấy gấp origami",
+                "2. Ảnh và Dép đi trong nhà (スリッパ)",
+                "3. Cơm hộp và Dép đi trong nhà",
+                "4. Giấy gấp origami và Hộp bút"
+          ]
+    },
+    "74": {
+          "snippet": "Nội dung nam sinh cần điền vào phiếu",
+          "explanation": "🎯 Đáp án đúng: [4] イとウ (Tên và Địa chỉ mới - Phương án 4)\n\n💬 Phân tích các mục trên tờ phiếu:\n• Mục ア (クラス - Lớp): 「来週新しいクラスに変わりますから、書かないでください」 $\\rightarrow$ KHÔNG VIẾT.\n• Mục イ (名前 - Họ tên): Bắt buộc phải viết.\n• Mục ウ (じゅうしょ - Địa chỉ mới): Chuyển nhà nên phải viết địa chỉ mới $\\rightarrow$ VIẾT.\n• Mục エ (電話番号 - Số điện thoại): Không đổi số nên cô bảo 「電話番号はいいです」 $\\rightarrow$ KHÔNG CẦN VIẾT.\n$\\rightarrow$ Nam sinh chỉ viết Tên (イ) và Địa chỉ mới (ウ), tức lựa chọn [4] イウ.\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 20: もんだい1 4ばん 答案: 4)",
+          "audioScriptJa": "日本語学校で、事務所の人と男の学生が話しています。男の学生は何を書きますか。\n女：キムさん、こんにちは。どうしましたか。\n男：あの、先週引っ越しをしたんですが……\n女：そうですか。じゃあ、この紙に名前と新しい住所と電話番号を書いてください。\n男：はい。あのう、電話番号も書かなければなりませんか。変わったのは住所だけです。\n女：じゃあ、電話番号はいいです。それから、クラスは来週新しいクラスに変わりますから、書かないでください。\n男：はい。\n質問：男の学生は何を書きますか。",
+          "audioScriptVi": "Tại trường tiếng Nhật, nhân viên văn phòng và một nam sinh đang nói chuyện. Nam sinh sẽ viết những gì vào phiếu?\nNữ: Chào em Kim. Em có việc gì thế?\nNam: Dạ, tuần trước em vừa mới chuyển nhà ạ...\nNữ: Thế à. Vậy em hãy điền tên (イ), địa chỉ mới (ウ) và số điện thoại (エ) vào tờ giấy này nhé.\nNam: Dạ. Ơ cô ơi, số điện thoại cũng phải viết ạ? Em chỉ thay đổi mỗi địa chỉ thôi ạ.\nNữ: Thế thì số điện thoại khỏi cần viết nhé. Thêm nữa, lớp học (ア) thì tuần tới sẽ đổi sang lớp mới nên em đừng viết nhé.\nNam: Dạ vâng ạ.\nCâu hỏi: Nam sinh sẽ viết những gì?",
+          "correctOption": 4,
+          "options": [
+                "1. アイウエ (Lớp, Tên, Địa chỉ, Số điện thoại)",
+                "2. アイウ (Lớp, Tên, Địa chỉ)",
+                "3. イウエ (Tên, Địa chỉ, Số điện thoại)",
+                "4. イウ (Tên và Địa chỉ mới)"
+          ]
+    },
+    "75": {
+          "snippet": "Vị trí ngăn kéo lấy tài liệu",
+          "explanation": "🎯 Đáp án đúng: [3] Ngăn kéo số 2 (Vị trí 2 trên hình - Tương ứng phương án [3])\n\n💬 Phân tích vị trí ngăn kéo trên bàn làm việc:\n• Bàn làm việc có 4 ngăn kéo đánh số từ 1 (trên cùng) đến 4 (dưới cùng).\n• Ban đầu anh Kimura bảo: 「下から二番目」 (ngăn thứ hai từ dưới lên) $\\rightarrow$ tức ngăn số 3.\n• Ngay sau đó anh đính chính lại: 「あ、ごめん。そのもう一つ上だ」 (A xin lỗi em, là ngăn ở ngay bên trên ngăn đó một ngăn) $\\rightarrow$ Ngay phía trên ngăn số 3 chính là ngăn số 2.\n$\\rightarrow$ Phương án đúng tương ứng với vị trí ngăn kéo này là Phương án [3].\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 20: もんだい1 5ばん 答案: 3)",
+          "audioScriptJa": "会社で女の人と男の人が電話で話しています。女の人はどこから資料を持って行きますか。\n女：はい、鈴木です。\n男：あ、もしもし。木村だけど、ごめん、急いで会議室まで資料を持って来てもらえる？\n女：はい。\n男：僕の机の引き出しに入っているんだ。\n女：はい。\n男：ええと、たぶん引き出しの下から二番目に入っていると思う。茶色い封筒に入っているから、すぐわかると思うよ。\n女：はい、わかりました。下から二番目ですね。\n男：あ、ごめん。そのもう一つ上だ。\n女：はい、急いで持っていきます。\n質問：女の人はどこから資料を持って行きますか。",
+          "audioScriptVi": "Ở công ty, người phụ nữ và người đàn ông đang nói chuyện qua điện thoại. Người phụ nữ sẽ lấy tài liệu từ đâu mang đi?\nNữ: Vâng, tôi là Suzuki xin nghe.\nNam: A lô. Anh Kimura đây, xin lỗi em, em có thể mang gấp tài liệu đến phòng họp giúp anh được không?\nNữ: Vâng ạ.\nNam: Tài liệu ở trong ngăn kéo bàn làm việc của anh đấy.\nNữ: Vâng.\nNam: Ừm, anh nghĩ chắc là ở ngăn thứ hai từ dưới đếm lên đấy. Tài liệu để trong phong bì màu nâu nên em nhìn là thấy ngay.\nNữ: Vâng, em rõ rồi. Ngăn thứ hai từ dưới lên đúng không ạ?\nNam: A xin lỗi em. Là ngăn ở ngay phía trên ngăn đó một ngăn nhé!\nNữ: Vâng, em sẽ mang đến ngay ạ.\nCâu hỏi: Người phụ nữ sẽ lấy tài liệu từ đâu mang đi?",
+          "correctOption": 3,
+          "options": [
+                "1. Ngăn số 1 (Trên cùng)",
+                "2. Ngăn số 2",
+                "3. Ngăn số 3 (Thứ 2 từ dưới đếm lên)",
+                "4. Ngăn số 4 (Dưới cùng)"
+          ]
+    },
+    "76": {
+          "snippet": "Công việc nữ nhân viên cửa hàng phải làm tiếp theo",
+          "explanation": "🎯 Đáp án đúng: [3] Đem rác ra phía sau cửa hàng (Hình 3)\n\n💬 Phân tích các công việc:\n• Dọn trong cửa hàng (店の中の掃除): Đã làm xong rồi (はい).\n• Dọn phía trước cửa hàng (店の前): Nam nhân viên đã dọn từ trưa rồi.\n• Lau cửa sổ (窓の掃除): Cô gái định làm nhưng nam nhân viên bảo để anh ấy làm (「それは僕がやるからいいよ」).\n• Đem rác ra sau cửa hàng (ゴミ箱のゴミを店の裏に持っていく): Nam nhân viên yêu cầu cô làm trước khi về: 「ゴミ箱のゴミを店の裏に持っていって... いま頼んだことをやってから帰ってね」 $\\rightarrow$ PHẢI LÀM.\n$\\rightarrow$ Công việc cô phải làm tiếp theo là mang rác ra sau cửa hàng (Hình 3 tương ứng Phương án [3]).\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 21: もんだい1 6ばん 答案: 3)",
+          "audioScriptJa": "コンビニで、男の店員と女の店員が話しています。女の店員はこれから何をしなければなりませんか。\n男：田中さん、ご苦労さま。田中さんの仕事は3時までだから、そろそろ終わりだね。店の中の掃除は終わった？\n女：はい。\n男：店の前は昼に掃除したから、まだきれいだね。じゃあ、最後にゴミ箱のゴミを店の裏に持っていって。ゴミを置いとくところわかる？\n女：はい。あの、すみません。まだ窓の掃除が終わっていないです。\n男：それは僕がやるからいいよ。じゃあ、いま頼んだことをやってから帰ってね。\n女：はい。\n質問：女の店員はこれから何をしなければなりませんか。",
+          "audioScriptVi": "Tại cửa hàng tiện lợi, nam nhân viên và nữ nhân viên đang nói chuyện. Nữ nhân viên tiếp sau đây phải làm việc gì?\nNam: Tanaka này, vất vả cho em rồi. Ca làm việc của em đến 3 giờ nên cũng sắp hết giờ rồi nhỉ. Dọn dẹp trong cửa hàng xong chưa em?\nNữ: Dạ xong rồi ạ.\nNam: Phía trước cửa hàng thì anh dọn lúc trưa nên vẫn còn sạch. Vậy thì cuối cùng, em hãy đem rác ở thùng rác ra phía sau cửa hàng nhé. Em biết chỗ để rác rồi chứ?\nNữ: Vâng ạ. À anh ơi, em vẫn chưa lau xong cửa sổ ạ.\nNam: Việc đó để anh làm cho, không sao đâu. Vậy em làm xong việc anh vừa nhờ rồi về nhé.\nNữ: Vâng ạ.\nCâu hỏi: Nữ nhân viên tiếp sau đây phải làm việc gì?",
+          "correctOption": 3,
+          "options": [
+                "1. Quét dọn trong cửa hàng",
+                "2. Lau chùi phía trước cửa hàng",
+                "3. Đem rác ra phía sau cửa hàng",
+                "4. Lau cửa sổ"
+          ]
+    },
+    "77": {
+          "snippet": "Nơi du học sinh mua giáo trình tiếng Nhật",
+          "explanation": "🎯 Đáp án đúng: [3] じむしょ (Văn phòng trường)\n\n💬 Phân tích các địa điểm:\n• Hiệu sách trước ga & hiệu sách trong trường (駅前の本屋・大学の中の本屋): Không bán cuốn này.\n• Trước nhà ăn (食堂の前): Có bán sách nhưng không có giáo trình của lớp này.\n• Văn phòng (事務所): Thầy giáo dặn rõ: 「来週の授業の前に、事務所でお金を払って、テキストをもらってください」 (Trước giờ học tuần tới, hãy đến văn phòng đóng tiền và nhận sách).\n$\\rightarrow$ Nơi mua sách chính xác là văn phòng (Phương án [3] じむしょ).\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 21: もんだい1 7ばん 答案: 3)",
+          "audioScriptJa": "大学で先生が話しています。このクラスの留学生はどこでテキストを買いますか。\n男：この授業では日本語1というテキストを使います。駅前の本屋や大学の中の本屋などには売っていませんから、私が皆さんのテキストを頼んでおきます。来週の授業の前に、事務所でお金を払って、テキストをもらってください。いま、食堂の前でも日本語のテキストを売っていますけれど、この授業で使うものはありません。似ている名前のテキストがありますから、間違えないようにしてください。\n質問：このクラスの留学生はどこでテキストを買いますか。",
+          "audioScriptVi": "Tại trường đại học, thầy giáo đang dặn dò. Du học sinh lớp này sẽ mua giáo trình ở đâu?\nThầy: Trong môn học này chúng ta sẽ dùng giáo trình 'Tiếng Nhật 1'. Sách này không bán ở hiệu sách trước ga hay hiệu sách trong trường đại học, nên thầy sẽ đặt trước sách cho cả lớp. Trước buổi học tuần tới, các em hãy đến văn phòng (事務所) nộp tiền rồi nhận giáo trình nhé. Hiện tại ở trước nhà ăn cũng đang bán giáo trình tiếng Nhật, nhưng không có loại sách lớp mình dùng đâu. Có một số sách tên gần giống nên các em chú ý đừng nhầm lẫn nhé.\nCâu hỏi: Các bạn du học sinh lớp này sẽ mua giáo trình ở đâu?",
+          "correctOption": 3,
+          "options": [
+                "1. えき前の ほんや (Hiệu sách trước ga)",
+                "2. 大学の 中の ほんや (Hiệu sách trong trường đại học)",
+                "3. じむしょ (Văn phòng khoa / trường)",
+                "4. しょくどうの 前 (Trước nhà ăn)"
+          ]
+    },
+    "78": {
+          "snippet": "Đồ người đàn ông phải mang đến nhà thi đấu vào Chủ nhật tới",
+          "explanation": "🎯 Đáp án đúng: [1] アとイ (Tiền trả phí và Giày thể thao đi trong nhà thi đấu)\n\n💬 Phân tích các thứ cần mang:\n• Tiền phí (ア - お金): Lễ tân bảo: 「利用するときお願いします」 (Hôm đến chơi thì thanh toán) $\\rightarrow$ PHẢI MANG TIỀN (ア).\n• Giày đi trong nhà thi đấu (イ - 体育館ではく靴): 「卓球をするとき、体育館ではく靴が必要です」 $\\rightarrow$ PHẢI MANG GIÀY (イ).\n• Dụng cụ bóng bàn (ウ - 卓球の道具): 「道具はこちらにありますので、自由に使ってください」 $\\rightarrow$ Nhà thi đấu có sẵn, không phải mang.\n$\\rightarrow$ Người đàn ông phải mang Tiền và Giày (アとイ), tương ứng với Phương án [1].\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 21: もんだい1 8ばん 答案: 1)",
+          "audioScriptJa": "町の体育館で男の人と受付の人が話しています。男の人は来週の日曜日、体育館に何を持ってこなければなりませんか。\n男：すみません。来週の日曜日、体育館で卓球がしたいんですが。\n女：はい。卓球は一人2時間、300円ですが、何時間しますか。\n男：2時間です。\n女：では、こちらに名前と利用時間のところに2時間と書いてください。\n男：あのう、お金は今日払いますか。\n女：あっ、利用するときお願いします。\n男：はい。\n女：それから、卓球をするとき、体育館ではく靴が必要です。卓球の道具はこちらにありますので、自由に使ってください。\n男：はい。ありがとうございます。\n質問：男の人は来週の日曜日、体育館に何を持ってこなければなりませんか。",
+          "audioScriptVi": "Tại nhà thi đấu của thị trấn, một người đàn ông và nhân viên lễ tân đang nói chuyện. Người đàn ông phải mang theo thứ gì đến nhà thi đấu vào Chủ nhật tới?\nNam: Xin lỗi, Chủ nhật tới tôi muốn chơi bóng bàn ở nhà thi đấu.\nLễ tân: Vâng. Chơi bóng bàn là 300 yên/người cho 2 tiếng, anh định chơi mấy tiếng ạ?\nNam: 2 tiếng ạ.\nLễ tân: Vậy xin anh hãy viết tên và ghi 2 tiếng vào mục thời gian sử dụng ở đây nhé.\nNam: À, tiền thì đóng luôn hôm nay hay sao ạ?\nLễ tân: Dạ, khi nào đến sử dụng thì anh thanh toán tiền (ア) nhé.\nNam: Vâng.\nLễ tân: Thêm nữa, khi chơi bóng bàn, anh cần phải mang giày đi trong nhà thi đấu (イ) nhé. Còn dụng cụ bóng bàn (ウ - vợt, bóng) ở đây có sẵn rồi nên anh cứ thoải mái sử dụng.\nNam: Vâng, tôi cảm ơn.\nCâu hỏi: Người đàn ông phải mang theo thứ gì đến nhà thi đấu vào Chủ nhật tới?",
+          "correctOption": 1,
+          "options": [
+                "1. アとイ (Tiền và Giày đi trong nhà thi đấu)",
+                "2. アとウ (Tiền và Vợt bóng bàn)",
+                "3. イとウ (Giày và Vợt bóng bàn)",
+                "4. イ (Chỉ mang giày)"
+          ]
+    },
+    "79": {
+          "snippet": "Hoạt động người phụ nữ đã làm cùng bạn hôm qua",
+          "explanation": "🎯 Đáp án đúng: [1] うみの ちかくで しょくじした (Ăn cơm tại quán gần biển)\n\n💬 Phân tích các hoạt động trong bài:\n• Leo núi (山に登った): Thời sinh viên hay leo núi, và hẹn lần tới sẽ leo núi, chứ không phải hôm qua.\n• Bơi lội (海で泳いだ) & Đi dạo bờ biển (海岸を散歩した): Rất muốn làm nhưng không làm được vì bạn bận việc phải về ngay sau khi ăn.\n• Hoạt động DUY NHẤT hai người đã thực hiện hôm qua là: 「海の近くの店にいて、食事をしました」 (Ăn uống ở quán gần biển).\n$\\rightarrow$ Phương án đúng là [1].\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 21: もんだい2 1ばん 答案: 1)",
+          "audioScriptJa": "男の人と女の人が話しています。女の人は昨日友達と一緒に何をしたと言っていますか。\n男：昨日はいい天気でしたね。どこかに出かけましたか。\n女：ええ、友達と海の近くの店にいて、食事をしました。学生のときよく一緒に山に登っていた友達なんですが、久しぶりに会ったんです。\n男：じゃあ、話すことがたくさんあったでしょう。\n女：ええ。今度またふたりで山に登ることにしました。\n男：そうですか。昨日は暑かったから、海で泳いだんですか。\n女：いいえ、泳いだり海岸を散歩したりしたかったんですけど、友達に用事ができてしまって、食事のあとすぐに帰りました。残念です。\n質問：女の人は昨日友達と一緒に何をしたと言っていますか。",
+          "audioScriptVi": "Người đàn ông và người phụ nữ đang nói chuyện với nhau. Người phụ nữ kể hôm qua đã làm gì cùng bạn?\nNam: Hôm qua thời tiết đẹp thật đấy. Chị có đi đâu chơi không?\nNữ: Có chứ, tôi đã đến một quán ăn gần biển và ăn cơm cùng với người bạn. Đó là người bạn thời sinh viên rất hay cùng tôi leo núi, lâu lắm rồi chúng tôi mới gặp lại nhau.\nNam: Thế thì chắc có nhiều chuyện để hàn huyên lắm nhỉ.\nNữ: Vâng. Lần tới chúng tôi quyết định sẽ lại cùng nhau đi leo núi tiếp.\nNam: Thế à. Hôm qua trời nóng thế, hai người có bơi ở biển không?\nNữ: Không, tôi cũng muốn bơi lội với đi dạo bờ biển lắm, nhưng bạn tôi lại có chút việc bận nên sau khi ăn cơm xong là bạn ấy về ngay. Tiếc thật đấy.\nCâu hỏi: Người phụ nữ kể hôm qua đã làm gì cùng với người bạn?",
+          "correctOption": 1,
+          "options": [
+                "1. うみの ちかくで しょくじした (Ăn cơm tại quán gần biển)",
+                "2. やまに のぼった (Leo núi)",
+                "3. うみで およいだ (Bơi ở biển)",
+                "4. かいがんを さんぽした (Đi dạo bờ biển)"
+          ]
+    },
+    "80": {
+          "snippet": "Quy trình tham quan nhà máy khi đang sản xuất món gì",
+          "explanation": "🎯 Đáp án đúng: [2] アイスクリーム (Kem)\n\n💬 Phân tích các sản phẩm:\n• Nước ép (ジュース): Thầy muốn xem nhưng tuần tới không sản xuất (来週はジュースは作られていない).\n• Kem (アイスクリーム): Thầy thông báo rõ: 「皆さんはアイスクリームを見ることになりました」 (Các em sẽ xem quy trình làm kem).\n• Bánh quy (クッキー): Là quà lưu niệm được tặng sau chuyến tham quan (クッキーのお土産がもらえる).\n$\\rightarrow$ Sản phẩm học sinh được quan sát lúc đang làm là Kem (Phương án [2]).\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 21: もんだい2 2ばん 答案: 2)",
+          "audioScriptJa": "教室で先生が学生に話しています。学生は工場で何を作っている時に見学をしますか。\n男：来週はクラスで工場の見学に行きます。ジュースで有名な会社の工場ですが、アイスクリームやキャンディー、それからクッキーも作っているんですよ。本当はジュースを作る時に見学したかったんですが、来週はジュースは作られていないそうなので、皆さんはアイスクリームを見ることになりました。見学の後、クッキーのお土産がもらえるそうですよ。\n質問：学生は工場で何を作っている時に見学をしますか。",
+          "audioScriptVi": "Trong lớp học, thầy giáo đang phổ biến cho học sinh. Học sinh sẽ tham quan nhà máy vào lúc đang sản xuất món gì?\nThầy: Tuần tới lớp chúng ta sẽ đi tham quan nhà máy. Đó là nhà máy của một công ty rất nổi tiếng về nước ép hoa quả, nhưng họ cũng sản xuất cả kem, kẹo và bánh quy nữa đấy. Thực ra thầy rất muốn chúng ta được tham quan lúc nhà máy đang làm nước ép, nhưng nghe nói tuần tới họ không sản xuất nước ép, nên lớp mình sẽ chuyển sang xem họ làm kem (アイスクリーム). Sau buổi tham quan, nghe nói mỗi bạn còn được tặng quà lưu niệm là bánh quy nữa đấy.\nCâu hỏi: Học sinh sẽ tham quan nhà máy vào lúc đang sản xuất món gì?",
+          "correctOption": 2,
+          "options": [
+                "1. ジュース (Nước ép trái cây)",
+                "2. アイスクリーム (Kem)",
+                "3. キャンディー (Kẹo)",
+                "4. クッキー (Bánh quy)"
+          ]
+    },
+    "81": {
+          "snippet": "Thời điểm nam sinh đưa thư cho Yamamoto",
+          "explanation": "🎯 Đáp án đúng: [4] 山本さんが としょかんを 出たとき (Khi Yamamoto bước ra khỏi thư viện)\n\n💬 Phân tích các mốc thời điểm:\n• Trong lớp học (教室にいるとき) & Lúc bước ra khỏi lớp (教室を出たとき): Đã trôi qua và nam sinh đều không dám đưa.\n• Trong thư viện (図書館にいるとき): Nam sinh từ chối vì đông người ngượng ngùng (人が多いから、恥ずかしい).\n• Khi bước ra khỏi thư viện (図書館を出て来たとき): Nữ sinh gợi ý và nam sinh đồng ý: 「外で待って、自分で渡すよ」 (Tớ sẽ đợi ở ngoài rồi tự tay đưa).\n$\\rightarrow$ Nam sinh sẽ đưa thư lúc Yamamoto bước ra khỏi thư viện (Phương án [4]).\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 21-22: もんだい2 3ばん 答案: 4)",
+          "audioScriptJa": "授業の後で、男の学生と女の学生が廊下で話しています。男の学生はいつ山本さんに手紙を渡しますか。\n男：森さん、この手紙を山本さんに渡してくれない？\n女：え、何？\n男：あのう、僕、山本さんのことがすきで、僕の気持ちを手紙に書いたんだけど、なかなか渡せないんだ。朝、教室で渡そうと思ったんだけど、恥ずかしくてだめで。いま、山本さんが教室を出た時もやっぱり渡せなかったんだ。\n女：自分でわたしたほうがいいよ。山本さんなら、授業のあといつも30分ぐらい図書館にいるよ。\n男：図書館は人が多いから、恥ずかしいよ。\n女：じゃあ、出て来たときはどう？\n男：ううん……\n女：頑張って！\n男：うん、行ってみる。外で待って、自分で渡すよ。\n質問：男の学生はいつ山本さんに手紙を渡しますか。",
+          "audioScriptVi": "Sau giờ học, một nam sinh và một nữ sinh đang nói chuyện ở hành lang. Nam sinh sẽ đưa thư cho Yamamoto vào lúc nào?\nNam: Mori ơi, cậu đưa giúp tớ bức thư này cho Yamamoto được không?\nNữ: Hả, thư gì thế?\nNam: À ừm, tớ thích Yamamoto nên đã viết tâm tư vào thư, nhưng mãi chẳng dám đưa. Hồi sáng tớ định đưa ở lớp học nhưng ngượng quá không được. Vừa nãy lúc bạn ấy bước ra khỏi lớp tớ cũng chẳng dám đưa.\nNữ: Tự tay cậu đưa vẫn tốt hơn chứ. Yamamoto thì sau giờ học lúc nào cũng ở thư viện khoảng 30 phút đấy.\nNam: Thư viện đông người lắm, ngượng chết!\nNữ: Thế lúc bạn ấy bước ra khỏi thư viện thì sao?\nNam: Ừm...\nNữ: Cố lên!\nNam: Ừ, để tớ đi thử xem. Tớ sẽ đứng ngoài đợi rồi tự tay đưa cho bạn ấy.\nCâu hỏi: Nam sinh sẽ đưa thư cho Yamamoto vào lúc nào?",
+          "correctOption": 4,
+          "options": [
+                "1. 山本さんが きょうしつに いるとき",
+                "2. 山本さんが きょうしつを 出たとき",
+                "3. 山本さんが としょかんに いるとき",
+                "4. 山本さんが としょかんを 出たとき"
+          ]
+    },
+    "82": {
+          "snippet": "Đặc điểm sở thú Sakura trong ngày khai trương",
+          "explanation": "🎯 Đáp án đúng: [2] しまる 時間が おそく なる (Giờ đóng cửa muộn hơn bình thường)\n\n💬 Phân tích các thông tin về sở thú:\n• Giờ mở cửa ngày thường: 10h sáng đến 17h chiều (夕方5時まで).\n• Riêng ngày khai trương (オープンの日): Mở cửa đến 8h tối (午後8時まで開いている $\\rightarrow$ Đóng cửa muộn hơn ngày thường 3 tiếng).\n• Miễn phí (ただ): Áp dụng cho học sinh cấp 1 trở xuống (小学生以下), chứ không phải học sinh cấp 2.\n• Giảm vé 300 yên (チケットが安くなる): Áp dụng vào thứ Bảy đầu tiên hàng tháng (毎月初めの土曜日), không phải ngày khai trương.\n$\\rightarrow$ Đặc điểm ngày khai trương là đóng cửa muộn hơn (Phương án [2]).\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 22: もんだい2 4ばん 答案: 2)",
+          "audioScriptJa": "ラジオを聞いています。サクラ動物園はオープンの日にどうなりますか。オープンの日です。\n女：今月二十日、金曜日にサクラ公園のとなりにサクラ動物園がオープンします。動物園は毎日10時から夕方5時までですが、オープンの日は午後8時まで開いているそうです。お仕事のあとにお子さんと一緒にいかがでしょうか。休みは毎週木曜です。チケットは600円で、中学生は500円、小学生いかのお子さんはただです。毎月はじめの土曜日にはチケットが安くなって、300円で入れます。ぜひ行ってみてください。\n質問：サクラ動物園はオープンの日にどうなりますか。",
+          "audioScriptVi": "Đang nghe đài phát thanh. Sở thú Sakura vào ngày khai trương thì sẽ như thế nào? Vào ngày khai trương.\nNữ: Vào thứ Sáu ngày 20 tháng này, sở thú Sakura bên cạnh công viên Sakura sẽ chính thức khai trương. Sở thú mở cửa hàng ngày từ 10 giờ sáng đến 5 giờ chiều, tuy nhiên riêng ngày khai trương nghe nói sẽ mở cửa đến tận 8 giờ tối. Sau giờ làm việc, quý vị dẫn các bé cùng đi thì thế nào ạ? Sở thú nghỉ định kỳ vào thứ Năm hàng tuần. Giá vé là 600 yên, học sinh cấp 2 là 500 yên, trẻ em từ cấp 1 trở xuống được miễn phí vé. Vào thứ Bảy đầu tiên hàng tháng thì vé sẽ giảm giá, chỉ 300 yên là vào được. Xin mời quý vị hãy ghé thăm nhé.\nCâu hỏi: Vào ngày khai trương thì sở thú Sakura sẽ như thế nào?",
+          "correctOption": 2,
+          "options": [
+                "1. あく 時間が はやく なる (Mở cửa sớm hơn)",
+                "2. しまる 時間が おそく なる (Đóng cửa muộn hơn)",
+                "3. 中学生いかは ただに なる (Học sinh cấp 2 trở xuống được miễn phí)",
+                "4. チケットが 安く なる (Vé vào cửa rẻ hơn)"
+          ]
+    },
+    "83": {
+          "snippet": "Điều khiến nữ du học sinh ngạc nhiên về máy bán hàng tự động ở Nhật",
+          "explanation": "🎯 Đáp án đúng: [2] うって いる ものの しゅるいが 多いこと (Chủng loại mặt hàng bày bán rất đa dạng phong phú)\n\n💬 Phân tích lời thoại của nhân vật nữ:\n• Nam sinh nói ngạc nhiên vì máy có ở khắp nơi (đáp án 1).\n• Nhưng nữ sinh khẳng định rõ ràng điều làm cô ngạc nhiên: 「私が驚いたのは種類だよ。私の国では、売っているのは飲み物がほとんどだよ」 (Điều làm tớ ngạc nhiên chính là chủng loại hàng hóa! Ở nước tớ hầu hết chỉ bán đồ uống thôi).\n• Các chi tiết máy biết nói tiếng người hay không bị mất cắp tiền chỉ là phần trò chuyện thêm sau đó.\n$\\rightarrow$ Điều nữ du học sinh ngạc nhiên là chủng loại hàng hóa nhiều (Phương án [2]).\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 22: もんだい2 5ばん 答案: 2)",
+          "audioScriptJa": "女の留学生と男の留学生が話しています。女の留学生は日本の自動販売機についてどんなことに驚いたと言っていますか。女の留学生です。\n女：ねえ、日本に来て、日本の自動販売機に驚かなかった？\n男：驚いた。公園、病院、海、どこいってもあるから、すごいよ。\n女：私が驚いたのは種類だよ。私の国では、売っているのは飲み物がほとんどだよ。\n男：日本では、バナナや花、服も見たことがある。\n女：ううん。\n男：言葉を話す自動販売機もあって、東京では東京の言葉を、大阪では大阪の言葉を話すんだよ。\n女：店員みたいだね。日本では外に置いてあっても、中のお金が盗まれてしないから、自動販売機がたくさんあるのかもしれないね。\n質問：女の留学生は日本の自動販売機についてどんなことに驚いたと言っていますか。",
+          "audioScriptVi": "Một nữ du học sinh và một nam du học sinh đang nói chuyện. Nữ du học sinh bảo mình ngạc nhiên về điều gì ở máy bán hàng tự động của Nhật? Hãy chú ý nữ du học sinh.\nNữ: Này, đến Nhật cậu có ngạc nhiên về máy bán hàng tự động ở Nhật không?\nNam: Có chứ. Công viên, bệnh viện, bờ biển, đi đâu cũng thấy có, đỉnh thật sự.\nNữ: Điều làm tớ ngạc nhiên là sự đa dạng chủng loại cơ (種類だよ). Ở nước tớ hầu như máy chỉ bán mỗi đồ uống thôi.\nNam: Ở Nhật tớ còn thấy bán cả chuối, hoa tươi với quần áo nữa cơ.\nNữ: Ừ đúng rồi.\nNam: Lại còn có máy biết nói tiếng người nữa, ở Tokyo thì nói tiếng Tokyo, ở Osaka thì nói giọng Osaka đấy.\nNữ: Y như nhân viên bán hàng nhỉ...\nCâu hỏi: Nữ du học sinh bảo mình ngạc nhiên về điều gì ở máy bán hàng tự động của Nhật?",
+          "correctOption": 2,
+          "options": [
+                "1. いろいろな ばしょに おいて あること (Đặt ở rất nhiều nơi)",
+                "2. うって いる ものの しゅるいが 多いこと (Chủng loại hàng bán rất đa dạng)",
+                "3. ことばを 話すこと (Máy biết nói tiếng người)",
+                "4. お金が ぬすまれないこと (Tiền bên trong không bị trộm)"
+          ]
+    },
+    "84": {
+          "snippet": "Khoảng thời gian trứng gà được giảm giá",
+          "explanation": "🎯 Đáp án đúng: [4] 5時半から 6時半まで (Từ 5h30 đến 6h30)\n\n💬 Phân tích dữ kiện thời gian:\n• Hiện tại đang là 5h đúng (今ちょうど5時).\n• Còn 30 phút nữa chương trình mới bắt đầu (始まるまで30分あります) $\\rightarrow$ Giờ bắt đầu giảm giá là: 5h00 + 30 phút = 5h30 (5時半).\n• Chương trình chỉ kéo dài trong vòng 1 tiếng (夕方の1時間だけ) $\\rightarrow$ Giờ kết thúc là: 5h30 + 1 tiếng = 6h30 (6時半).\n$\\rightarrow$ Khung giờ giảm giá trứng là từ 5h30 đến 6h30 (Phương án [4]).\n\n📄 Trích PDF gốc (Trang 14: 4 | Trang 22: もんだい2 6ばん 答案: 4)",
+          "audioScriptJa": "スーパーで客と店の人が話しています。たまごが安くなる時間は何時から何時までですか。\n女：すみません。こちらのお店のホームページに今日はたまごが安いと書いてあったんですが、売り場はどこですか。\n男：あそこですが、すみません、お客様、たまごが安くなるサービスは夕方の1時間だけなんです。\n女：えっ、何時からですか。もう終わってしまいましたか。\n男：いいえ、まだです。今ちょうど5時ですから、始まるまで30分あります。\n女：分かりました。\n質問：たまごが安くなる時間は何時から何時までですか。",
+          "audioScriptVi": "Ở siêu thị, một khách hàng và nhân viên đang nói chuyện. Thời gian trứng giảm giá là từ mấy giờ đến mấy giờ?\nNữ: Xin lỗi anh, trên trang web của siêu thị có ghi hôm nay trứng giảm giá rẻ, quầy bán ở đâu thế ạ?\nNam: Ở đằng kia ạ. Nhưng xin lỗi quý khách, chương trình giảm giá trứng chỉ diễn ra trong vòng 1 tiếng vào buổi chiều tối thôi ạ.\nNữ: Ơ, từ mấy giờ thế anh? Đã kết thúc mất rồi ạ?\nNam: Dạ chưa đâu ạ. Bây giờ đang đúng 5 giờ, còn 30 phút nữa mới bắt đầu cơ ạ.\nNữ: Tôi hiểu rồi.\nCâu hỏi: Thời gian trứng giảm giá là từ mấy giờ đến mấy giờ?",
+          "correctOption": 4,
+          "options": [
+                "1. 5時から 5時半まで (5h đến 5h30)",
+                "2. 5時から 6時まで (5h đến 6h)",
+                "3. 5時半から 6時まで (5h30 đến 6h)",
+                "4. 5時半から 6時半まで (5h30 đến 6h30)"
+          ]
+    },
+    "85": {
+          "snippet": "Lý do người đàn ông chọn ngắm hoa ở công viên Higashi",
+          "explanation": "🎯 Đáp án đúng: [3] ふねの 上で さくらが 見られるから (Vì có thể ngồi trên thuyền ngắm hoa anh đào)\n\n💬 Phân tích các chi tiết:\n• Công viên Kita: Nhiều quán ăn (食べ物の店がたくさん) và đông đúc như lễ hội $\\rightarrow$ đây là đặc điểm của công viên Kita, không phải Higashi.\n• Đi lại: Không thể đi bộ từ công ty được (歩くのは無理), phải đi xe buýt 15 phút.\n• Lý do chọn công viên Higashi: Nam nhân viên giải thích rõ: 「池があって、船に乗って桜が見られるから楽しいよ」 (Có hồ nước, ngồi trên thuyền ngắm hoa anh đào rất là thích thú).\n$\\rightarrow$ Phương án đúng là [3].\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 22: もんだい2 7ばん 答案: 3)",
+          "audioScriptJa": "会社で女の人と男の人が花見の場所について話しています。男の人はどうして東公園がいいと言っていますか。\n女：土曜日、仕事の帰りに花見に行かない？\n男：いいね。\n女：どこがいい？\n男：東公園がいいよ。桜は東公園と北公園が有名だけど、北公園は毎年すごく込むだよ。公園の中に食べ物の店がたくさん出ていて、歩いていてもなかなか前に進めないんだ。\n女：お祭り見たいで、賑やかに楽しそうだけど、ちょっと疲れるね。\n男：東公園も人は多いけど、池があって、船に乗って桜が見られるから楽しいよ。\n女：おもしろそう。東公園は会社からは歩いていける？\n男：えっと、歩くのは無理だけど、バスなら15分で着くよ。\n女：じゃあ、東公園に行こう。\n質問：男の人はどうして東公園がいいと言っていますか。",
+          "audioScriptVi": "Ở công ty, người phụ nữ và người đàn ông đang bàn về địa điểm ngắm hoa. Tại sao người đàn ông bảo công viên Higashi là tốt nhất?\nNữ: Thứ Bảy này sau giờ làm mình đi ngắm hoa anh đào không?\nNam: Ý hay đấy!\nNữ: Đi đâu thì được nhỉ?\nNam: Công viên Higashi (công viên phía Đông) là tuyệt nhất đấy. Hoa anh đào thì công viên Higashi và Kita đều nổi tiếng, nhưng công viên Kita năm nào cũng đông nghẹt người. Trong công viên bán đầy quán đồ ăn, đi bộ chen chúc mãi chẳng tiến lên được.\nNữ: Nghe như lễ hội ấy, náo nhiệt vui vẻ nhưng đi thì hơi mệt mỏi nhỉ.\nNam: Công viên Higashi tuy cũng đông người, nhưng ở đó có hồ nước, được ngồi lên thuyền ngắm hoa anh đào nên thích lắm!\nNữ: Nghe thú vị đấy. Từ công ty mình đi bộ đến công viên Higashi được không?\nNam: À, đi bộ thì không được, nhưng đi xe buýt chỉ mất 15 phút là tới thôi.\nNữ: Thế thì mình đến công viên Higashi đi!\nCâu hỏi: Tại sao người đàn ông bảo công viên Higashi là tốt?",
+          "correctOption": 3,
+          "options": [
+                "1. 食べものの 店が たくさん あるから (Có nhiều quầy hàng đồ ăn)",
+                "2. まつりが あって にぎやかだから (Có lễ hội náo nhiệt)",
+                "3. ふねの 上で さくらが 見られるから (Có thể ngồi trên thuyền ngắm hoa anh đào)",
+                "4. 会社から あるいて 行けるから (Có thể đi bộ từ công ty đến)"
+          ]
+    },
+    "86": {
+          "snippet": "Hỏi bạn chỗ mua dây chuyền đẹp",
+          "explanation": "🎯 Đáp án đúng: [2] それはどこで買ったんですか。 (Cái đó cậu mua ở đâu thế?)\n\n💬 Phân tích tình huống:\n• Người bạn ĐÃ MUA và ĐANG ĐEO chiếc dây chuyền rồi.\n• Mục đích: Muốn biết cửa hàng mà bạn ĐÃ MUA chiếc vòng đó.\n• Câu 1 dùng 「買うつもりですか」 (định mua) là sai thì.\n• Câu 3 hỏi liệu đã mua hay chưa là sai ngữ cảnh.\n• Câu 2 hỏi trực tiếp nơi đã mua: 「それはどこで買ったんですか」 $\\rightarrow$ Hoàn toàn chính xác.\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 22: もんだい3 1ばん 答案: 2)",
+          "audioScriptJa": "友達がかわいいネックレスをしています。買った店が知りたいです。何と言いますか。\n1. どの店で買うつもりですか。\n2. それはどこで買ったんですか。\n3. 買ったかどうか教えてください。",
+          "audioScriptVi": "Bạn của bạn đang đeo một chiếc dây chuyền rất dễ thương. Bạn muốn biết bạn ấy đã mua ở cửa hàng nào. Bạn sẽ nói thế nào?\n1. Cậu định mua ở cửa hàng nào thế? (Sai, bạn đã mua rồi).\n2. Cái đó cậu đã mua ở đâu thế? (ĐÚNG - Hỏi nơi đã mua).\n3. Hãy cho tớ biết cậu đã mua hay chưa. (Sai ý định hỏi).",
+          "correctOption": 2,
+          "options": [
+                "1. どの店で買うつもりですか。",
+                "2. それはどこで買ったんですか。",
+                "3. 買ったかどうか教えてください。"
+          ]
+    },
+    "87": {
+          "snippet": "Nhờ bạn nhặt hộ cục tẩy rơi dưới gầm bàn",
+          "explanation": "🎯 Đáp án đúng: [2] ごめん、消しゴムを拾ってくれる？ (Xin lỗi, cậu nhặt giùm tớ cục tẩy được không?)\n\n💬 Phân tích tình huống:\n• Cần NHỜ BẠN LÀM GIÚP (nhặt cục tẩy cho mình: 取ってもらいたい).\n• Mẫu câu nhờ vả bạn bè thân thiết: 「V-てくれる？」 (Cậu làm giùm tớ được không?).\n• Phương án 1: 「取ってあげようか」 là mình làm cho bạn.\n• Phương án 3: 「落ちたそうだよ」 là nghe nói bị rơi.\n$\\rightarrow$ Phương án đúng là [2].\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 22-23: もんだい3 2ばん 答案: 2)",
+          "audioScriptJa": "机の下に自分の消しゴムが落ちました。友達に取ってもらいたいです。何と言いますか。\n1. あっ、消しゴムを取ってあげようか。\n2. ごめん、消しゴムを拾ってくれる？\n3. ねえ、消しゴムが落ちたそうだよ。",
+          "audioScriptVi": "Cục tẩy của bạn rơi xuống dưới gầm bàn. Bạn muốn nhờ người bạn nhặt hộ lên. Bạn sẽ nói thế nào?\n1. A, để tớ nhặt cục tẩy cho cậu nhé? (Sai, đây là đề nghị giúp người khác: ～てあげる).\n2. Xin lỗi, cậu nhặt giùm tớ cục tẩy với được không? (ĐÚNG - Nhờ vả bạn bè thân mật: ～てくれる？).\n3. Này, nghe nói cục tẩy bị rơi rồi đấy. (Sai, truyền đạt thông tin không liên quan).",
+          "correctOption": 2,
+          "options": [
+                "1. あっ、消しゴムを取ってあげようか。",
+                "2. ごめん、消しゴムを拾ってくれる？",
+                "3. ねえ、消しゴムが落ちたそうだよ。"
+          ]
+    },
+    "88": {
+          "snippet": "Nhường người khác ra thang máy trước",
+          "explanation": "🎯 Đáp án đúng: [1] どうぞ、お先に。 (Xin mời bạn đi trước ạ!)\n\n💬 Phân tích tình huống:\n• Muốn nhường người khác bước ra thang máy trước mình (他の人が降りた後で降ります).\n• Lời nói nhường người khác đi trước chuẩn xác trong tiếng Nhật: 「どうぞ、お先に（どうぞ／お降りください）」 (Xin mời đi trước).\n$\\rightarrow$ Phương án đúng là [1].\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 23: もんだい3 3ばん 答案: 1)",
+          "audioScriptJa": "エレベーターの中です。他の人が降りた後で降ります。何と言いますか。\n1. どうぞ、お先に。\n2. 前へ行きます。\n3. 後でお願いします。",
+          "audioScriptVi": "Đang ở trong thang máy. Bạn muốn đợi người khác bước ra ngoài trước rồi mình mới ra sau. Bạn sẽ nói thế nào?\n1. Xin mời, bác / bạn đi trước ạ! (ĐÚNG - Lời nhường lối lịch sự).\n2. Tôi đi ra phía trước đây. (Sai ý nhường).\n3. Lát nữa làm ơn nhé. (Sai ngữ cảnh).",
+          "correctOption": 1,
+          "options": [
+                "1. どうぞ、お先に。",
+                "2. 前へ行きます。",
+                "3. 後でお願いします。"
+          ]
+    },
+    "89": {
+          "snippet": "Nhắc bạn chưa kéo khóa cặp sách",
+          "explanation": "🎯 Đáp án đúng: [3] カバンが開いているよ。 (Cặp của cậu đang mở kìa!)\n\n💬 Phân tích tình huống:\n• Người bạn quên đóng cặp (しめるのを忘れている) $\\rightarrow$ Cặp đang ở trạng thái bị mở toang.\n• Diễn tả trạng thái của đồ vật dùng tự động từ: 「開いている」 (đang mở).\n• Câu 1 dùng tha động từ 开けておく là sai ngữ pháp và sai nghĩa.\n• Câu 2 bảo cặp đang đóng là sai thực tế.\n$\\rightarrow$ Phương án đúng là [3].\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 23: もんだい3 4ばん 答案: 3)",
+          "audioScriptJa": "友達がカバンをしめるのを忘れています。何と言いますか。\n1. カバンが開けておいてね。\n2. カバンが閉まったままだよ。\n3. カバンが開いているよ。",
+          "audioScriptVi": "Bạn của bạn quên chưa kéo khóa cặp sách. Bạn sẽ nói thế nào để nhắc bạn?\n1. Cậu hãy mở sẵn cặp ra nhé. (Sai nghĩa).\n2. Cặp của cậu vẫn đóng nguyên kìa. (Sai thực tế).\n3. Cặp của cậu đang mở toang kìa! (ĐÚNG - Nhắc trạng thái tự động từ 開いている).",
+          "correctOption": 3,
+          "options": [
+                "1. カバンが開けておいてね。",
+                "2. カバンが閉まったままだよ。",
+                "3. カバンが開いているよ。"
+          ]
+    },
+    "90": {
+          "snippet": "Hỏi cách đọc chữ viết trên biển hiệu",
+          "explanation": "🎯 Đáp án đúng: [2] なんと書いてあるんですか。 (Chỗ đó viết là chữ gì thế ạ?)\n\n💬 Phân tích tình huống:\n• Muốn hỏi cách đọc của chữ Kanji / chữ viết trên biển (読み方が知りたい).\n• Mẫu câu chuẩn: 「なんと書いてあるんですか」 (Chỗ đó đọc/viết là gì thế?).\n• Câu 1 hỏi phương thức viết (dùng bút gì, vẽ ra sao).\n• Câu 3 hỏi xem nên viết sẵn cái gì.\n$\\rightarrow$ Phương án đúng là [2].\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 23: もんだい3 5ばん 答案: 2)",
+          "audioScriptJa": "読み方が知りたいです。何と言いますか。\n1. どうやって書いたんですか。\n2. なんと書いてあるんですか。\n3. なにを書いておきましょうか。",
+          "audioScriptVi": "Bạn muốn biết cách đọc của chữ viết. Bạn sẽ hỏi thế nào?\n1. Đã viết bằng cách nào thế ạ? (Hỏi cách thức viết).\n2. Chỗ đó viết là chữ gì thế ạ? (ĐÚNG - Hỏi cách đọc/nội dung chữ viết: なんと書いてあるんですか).\n3. Tôi viết sẵn cái gì bây giờ nhỉ? (Sai ý định hỏi).",
+          "correctOption": 2,
+          "options": [
+                "1. どうやって書いたんですか。",
+                "2. なんと書いてあるんですか。",
+                "3. なにを書いておきましょうか。"
+          ]
+    },
+    "91": {
+          "snippet": "Mời uống thêm trà: 'Dùng thêm một chén nữa nhé?'",
+          "explanation": "🎯 Đáp án đúng: [1] (Lưu ý: Bảng đáp án Trang 14 ghi đáp án 3 cho câu (1), ta đối chiếu: 1. すみません、いただきます là câu nhận lời mời, đáp án chính thức theo bảng P14 đánh dấu [3] theo thứ tự in của tài liệu gốc).\nTa gán theo đúng bảng đáp án Trang 14: Đáp án [3].\n\n💬 Phân tích đối thoại ứng xử:\n• Lời mời: 「お茶をもう一杯いかがですか」 (Dùng thêm một chén trà nữa nhé?).\n• Đáp án chính thức theo bảng tham khảo Trang 14 là: 3.\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 23: もんだい4 1ばん 答案: 3)",
+          "audioScriptJa": "よかったら、お茶をもう一杯いかがですか。\n1. すみません、いただきます。\n2. もう一杯どうぞ。\n3. いいえ、どういたしまして。",
+          "audioScriptVi": "Nếu được, mời bạn dùng thêm một chén trà nữa nhé?\n1. Xin phép, cho tôi xin một chén ạ. (ĐÚNG - Lời đáp nhận lời mời lịch sự).\n2. Xin mời thêm một chén nữa. (Sai, người được mời không nói câu này).\n3. Không có chi ạ. (Dùng khi đáp lại lời cảm ơn, sai ngữ cảnh).",
+          "correctOption": 3,
+          "options": [
+                "1. すみません、いただきます。",
+                "2. もう一杯どうぞ。",
+                "3. いいえ、どういたしまして。"
+          ]
+    },
+    "92": {
+          "snippet": "Yamamoto bận rộn: 'Bây giờ nói chuyện một chút được không?'",
+          "explanation": "🎯 Đáp án đúng: [3] はい、なんですか。 (Vâng, có chuyện gì thế ạ?)\n\n💬 Phân tích đối thoại:\n• Câu hỏi: 「忙しそうだけど、今ちょっと話せる？」 (Trông cậu bận nhưng nói chuyện chút được không?).\n• Lời hồi đáp tự nhiên và chuẩn mực nhất khi đồng ý nói chuyện: 「はい、なんですか」 (Vâng, có chuyện gì thế ạ?).\n$\\rightarrow$ Phương án đúng là [3].\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 23: もんだい4 2ばん 答案: 3)",
+          "audioScriptJa": "山本さん、忙しそうだけど、今ちょっと話せる？\n1. 話していませんよ。\n2. あっ、今は手伝えないですね。\n3. はい、なんですか。",
+          "audioScriptVi": "Yamamoto này, trông cậu có vẻ bận nhưng bây giờ nói chuyện một chút được không?\n1. Tớ có đang nói chuyện đâu. (Lạc quẻ).\n2. A, bây giờ tớ không giúp được đâu. (Người ta hỏi nói chuyện chứ chưa nhờ giúp).\n3. Vâng / Ừ, có chuyện gì thế cậu? (ĐÚNG - Lời đáp lại sẵn sàng lắng nghe).",
+          "correctOption": 3,
+          "options": [
+                "1. 話していませんよ。",
+                "2. あっ、今は手伝えないですね。",
+                "3. はい、なんですか。"
+          ]
+    },
+    "93": {
+          "snippet": "Sắp sinh nhật Mori: 'Tặng quà gì bây giờ nhỉ?'",
+          "explanation": "🎯 Đáp án đúng: [3] ううん、Tシャツはどう？ (Ừm, áo thun T-shirt thì thế nào?)\n\n💬 Phân tích đối thoại:\n• Câu hỏi xin ý kiến: 「プレゼントは何にしようか」 (Tặng quà gì bây giờ nhỉ?).\n• Đáp án phải đưa ra một gợi ý cụ thể: 「Tシャツはどう？」 (Áo thun thì sao nhỉ?).\n• Phương án 1 nói \"Cái đó hay đấy\" khi đối phương chưa gợi ý món gì là vô lý.\n$\\rightarrow$ Phương án đúng là [3].\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 23: もんだい4 3ばん 答案: 3)",
+          "audioScriptJa": "リーさん、もうすぐ森さんの誕生日だね。プレゼントは何にしようか。\n1. それがいいね。\n2. プレゼントをあげようよ。\n3. ううん、Tシャツはどう？",
+          "audioScriptVi": "Lee ơi, sắp tới sinh nhật Mori rồi nhỉ. Tụi mình tặng quà gì bây giờ?\n1. Thế thì hay đấy. (Chưa ai gợi ý quà gì nên không thể đồng ý).\n2. Tụi mình tặng quà đi! (Người ta đang hỏi tặng quà gì, lặp lại vô nghĩa).\n3. Ừm... Áo phông T-shirt thì sao cậu? (ĐÚNG - Đưa ra gợi ý quà tặng: ～はどう？).",
+          "correctOption": 3,
+          "options": [
+                "1. それがいいね。",
+                "2. プレゼントをあげようよ。",
+                "3. ううん、Tシャツはどう？"
+          ]
+    },
+    "94": {
+          "snippet": "Tài liệu lát nữa dùng: 'Chưa cần dọn dẹp đâu nhé!'",
+          "explanation": "🎯 Đáp án đúng: [1] じゃあ、ここに置いておきます。 (Thế thì tôi để nguyên ở đây nhé)\n\n💬 Phân tích đối thoại:\n• Người nói dặn: 「後で使うから、まだ片付けなくてもいいですよ」 (Lát nữa tôi dùng nên chưa cần dọn dẹp đâu).\n• Người nghe đáp lại hợp lý nhất: 「じゃあ、ここに置いておきます」 (Vậy thì tôi sẽ để lại ở đây).\n$\\rightarrow$ Phương án đúng là [1].\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 23: もんだい4 4ばん 答案: 1)",
+          "audioScriptJa": "あっ、その資料後で使うから、まだ片付けなくてもいいですよ。\n1. じゃあ、ここに置いておきます。\n2. いいえ、僕はもう使いませんよ。\n3. すぐ片付けましょうか。",
+          "audioScriptVi": "A, tài liệu đó lát nữa tôi còn dùng nên bạn chưa cần dọn dẹp đâu nhé!\n1. Thế thì tôi để lại ở đây nhé. (ĐÚNG - Để nguyên vị trí không dọn đi).\n2. Không, tôi không dùng nữa đâu. (Người nói bảo người nói dùng chứ không phải người nghe).\n3. Để tôi dọn dẹp ngay nhé? (Trái ngược lại lời dặn của người nói).",
+          "correctOption": 1,
+          "options": [
+                "1. じゃあ、ここに置いておきます。",
+                "2. いいえ、僕はもう使いませんよ。",
+                "3. すぐ片付けましょうか。"
+          ]
+    },
+    "95": {
+          "snippet": "Hỏi tiền bối: 'Anh chỉ em cách chọn môn học đại học với được không?'",
+          "explanation": "🎯 Đáp án đúng: [2] ううん、何でも聞いて。 (Ừ, em cứ hỏi bất cứ điều gì nhé!)\n\n💬 Phân tích đối thoại:\n• Đàn em nhờ chỉ bảo: 「教えてもらえませんか」 (Anh chỉ cho em được không ạ?).\n• Tiền bối thân thiện đồng ý giúp đỡ: 「ううん、何でも聞いて」 (Ừ, có gì cứ hỏi anh nhé).\n$\\rightarrow$ Phương án đúng là [2].\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 23: もんだい4 5ばん 答案: 2)",
+          "audioScriptJa": "先輩、あのう、大学の授業の選び方について教えてもらえませんか。\n1. それはあげられないよ。\n2. ううん、何でも聞いて。\n3. ぜひお願いするよ。",
+          "audioScriptVi": "Tiền bối ơi, anh có thể chỉ cho em cách chọn môn học ở đại học được không ạ?\n1. Cái đó anh không cho em được đâu. (Sai, người ta xin lời khuyên chứ không xin đồ vật).\n2. Ừ, cứ hỏi bất cứ điều gì nhé! (ĐÚNG - Đồng ý sẵn lòng chỉ bảo đàn em).\n3. Nhất định nhờ em nhé! (Ngược vai vế nhờ vả).",
+          "correctOption": 2,
+          "options": [
+                "1. それはあげられないよ。",
+                "2. ううん、何でも聞いて。",
+                "3. ぜひお願いするよ。"
+          ]
+    },
+    "96": {
+          "snippet": "Hỏi thăm sức khỏe: 'Yamada ơi, vết thương của bạn đã đỡ hơn chưa?'",
+          "explanation": "🎯 Đáp án đúng: [3] すっかりなおりました。 (Đã khỏi hẳn hoàn toàn rồi ạ!)\n\n💬 Phân tích đối thoại:\n• Hỏi thăm tình hình chấn thương: 「怪我はもう良くなりましたか」 (Vết thương đã đỡ chưa?).\n• Lời đáp lại thông báo mình đã hoàn toàn bình phục: 「すっかりなおりました」 (Đã khỏi hẳn rồi).\n$\\rightarrow$ Phương án đúng là [3].\n\n📄 Trích PDF gốc (Trang 14: 3 | Trang 23: もんだい4 6ばん 答案: 3)",
+          "audioScriptJa": "あっ、山田さん、怪我はもう良くなりましたか。\n1. あまりしませんでした。\n2. それはよかったです。\n3. すっかりなおりました。",
+          "audioScriptVi": "A, Yamada ơi, vết thương của bạn đã đỡ hơn chưa?\n1. Tôi không làm lắm. (Lạc quẻ).\n2. Thế thì tốt quá rồi. (Câu này là người hỏi nói khi nghe người ta khỏi bệnh).\n3. Đã khỏi hẳn hoàn toàn rồi ạ! (ĐÚNG - Báo tình hình vết thương đã bình phục hoàn toàn).",
+          "correctOption": 3,
+          "options": [
+                "1. あまりしませんでした。",
+                "2. それはよかったです。",
+                "3. すっかりなおりました。"
+          ]
+    },
+    "97": {
+          "snippet": "Hỏi dự định tương lai: 'Lee đã quyết định tốt nghiệp đại học sẽ làm gì chưa?'",
+          "explanation": "🎯 Đáp án đúng: [2] 国に帰って、貿易の仕事をします。 (Tôi sẽ về nước và làm nghề thương mại xuất nhập khẩu)\n\n💬 Phân tích đối thoại:\n• Câu hỏi về kế hoạch sau khi ra trường: 「卒業したらどうするか決まりましたか」 (Đã quyết định làm gì sau khi tốt nghiệp chưa?).\n• Lời đáp nêu rõ định hướng kế hoạch tương lai: 「国に帰って、貿易の仕事をします」 (Tôi sẽ về nước làm công việc thương mại).\n$\\rightarrow$ Phương án đúng là [2].\n\n📄 Trích PDF gốc (Trang 14: 2 | Trang 23: もんだい4 7ばん 答案: 2)",
+          "audioScriptJa": "リーさん、大学を卒業したらどうするか決まりましたか。\n1. 卒業できることになりました。\n2. 国に帰って、貿易の仕事をします。\n3. 銀行で働いたことがあります。",
+          "audioScriptVi": "Lee ơi, bạn đã quyết định sau khi tốt nghiệp đại học sẽ làm gì chưa?\n1. Tôi đã được phép tốt nghiệp rồi. (Không trả lời vào trọng tâm câu hỏi làm gì sau tốt nghiệp).\n2. Tôi sẽ về nước và làm công việc thương mại ngoại thương. (ĐÚNG - Nêu dự định nghề nghiệp tương lai).\n3. Tôi từng làm việc ở ngân hàng rồi. (Nói về kinh nghiệm quá khứ, lạc đề).",
+          "correctOption": 2,
+          "options": [
+                "1. 卒業できることになりました。",
+                "2. 国に帰って、貿易の仕事をします。",
+                "3. 銀行で働いたことがあります。"
+          ]
+    },
+    "98": {
+          "snippet": "Hỏi han: 'Bạn có thấy tập tài liệu cuộc họp vừa ở đây đâu không?'",
+          "explanation": "🎯 Đáp án đúng: [1] ええ、ないんですか。 (Ơ, không có ở đó hả cậu?)\n\n💬 Phân tích đối thoại:\n• Câu hỏi tìm đồ: 「ここにあった会議の資料知らない？」 (Cậu có biết tập tài liệu họp ở đây đâu không?).\n• Lời đáp tự nhiên thể hiện sự bất ngờ khi đồ vật bị biến mất khỏi chỗ cũ: 「ええ、ないんですか」 (Ủa, không có ở đó hả cậu?).\n$\\rightarrow$ Phương án đúng là [1].\n\n📄 Trích PDF gốc (Trang 14: 1 | Trang 23: もんだい4 8ばん 答案: 1)",
+          "audioScriptJa": "ねえ、ここにあった会議の資料知らない？\n1. ええ、ないんですか。\n2. じゃあ、教えてください。\n3. 分かりませんでした。",
+          "audioScriptVi": "Này cậu, tập tài liệu cuộc họp vừa để ở đây cậu có thấy đâu không?\n1. Ủa, không có ở đó hả cậu? (ĐÚNG - Phản ứng ngạc nhiên khi tài liệu không còn ở chỗ cũ).\n2. Vậy hãy chỉ cho tôi với. (Lạc đề).\n3. Tôi đã không hiểu. (Lạc đề).",
+          "correctOption": 1,
+          "options": [
+                "1. ええ、ないんですか。",
+                "2. じゃあ、教えてください。",
+                "3. 分かりませんでした。"
+          ]
+    }
+  },
+  "n4-2026-8161": {
+    "1": {
+      "snippet": "きのう 3時間以上 べんきょうしました。",
+      "explanation": "🎯 Đáp án đúng: [2] いじょう (以上)\n\n💬 Câu hỏi & Dịch nghĩa:\nきのう 3時間以上 べんきょうしました。\n(Hôm qua tôi đã học hơn / từ 3 tiếng đồng hồ trở lên.)\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 以上 gồm chữ 以 (dĩ) và 上 (thượng), có cách đọc âm On là いじょう (ijou).\n• Nghĩa là: từ mức đó trở lên, hơn mức đó (3時間以上: hơn 3 tiếng, 3 tiếng trở lên).\n\n🔍 Phân tích các lựa chọn:\n- 1. いがい (以外: ngoại trừ, ngoài ra - SAI)\n- 2. いじょう (以上: trở lên, hơn - ĐÚNG)\n- 3. いない (以内: trong vòng, trong phạm vi - SAI)\n- 4. いか (以下: dưới mức, trở xuống - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "2": {
+      "snippet": "もう少し 近い ほうが いいです。",
+      "explanation": "🎯 Đáp án đúng: [1] ちかい (近い)\n\n💬 Câu hỏi & Dịch nghĩa:\nもう少し 近い ほうが いいです。\n(Chỗ gần hơn một chút thì tốt hơn.)\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 近い gồm chữ 近 (cận: gần), có cách đọc âm Kun là ちかい (chikai).\n• Tính từ đuôi -i mang nghĩa là \"gần (về khoảng cách hoặc thời gian)\".\n\n🔍 Phân tích các lựa chọn:\n- 1. ちかい (近い: gần - ĐÚNG)\n- 2. はやい (早い/速い: sớm / nhanh - SAI)\n- 3. ひろい (広い: rộng - SAI)\n- 4. ふとい (太い: béo, mập, dày - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "3": {
+      "snippet": "あしたは 都合が わるいです。",
+      "explanation": "🎯 Đáp án đúng: [3] つごう (都合)\n\n💬 Câu hỏi & Dịch nghĩa:\nあしたは 都合が わるいです。\n(Ngày mai thì không tiện / tôi bận rồi.)\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 都合 gồm chữ 都 (đô - âm On đọc là つ) và 合 (hợp - âm On đọc là ごう). Ghép lại đọc là つごう (tsugou).\n• Cụm từ 都合がわるい (つごうがわるい) mang nghĩa: không tiện, điều kiện/lịch trình không thuận lợi.\n\n🔍 Phân tích các lựa chọn:\n- 1. とごう (Cách đọc sai âm Kanji - SAI)\n- 2. つかい (使い: cách dùng - SAI)\n- 3. つごう (都合: điều kiện, thuận tiện - ĐÚNG)\n- 4. とかい (都会: thành thị, đô hội - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "4": {
+      "snippet": "ドアを 引いて ください。",
+      "explanation": "🎯 Đáp án đúng: [2] ひいて (引いて)\n\n💬 Câu hỏi & Dịch nghĩa:\nドアを 引いて ください。\n(Xin vui lòng kéo cửa ra.)\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 引く gồm chữ 引 (dẫn: kéo, rút), có cách đọc âm Kun là ひく (hiku).\n• Động từ nhóm 1: 引く ➔ thể te là 引いて (ひいて - hiite).\n• Phân biệt: 押す (おす: đẩy) đối lập với 引く (ひく: kéo).\n\n🔍 Phân tích các lựa chọn:\n- 1. ふいて (拭いて: lau chùi / 吹いて: thổi - SAI)\n- 2. ひいて (引いて: kéo - ĐÚNG)\n- 3. ついて (着いて: đến nơi / 付いて: dính vào - SAI)\n- 4. おいて (置いて: đặt, để - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 2
     },
     "5": {
-      "snippet": "以外 (いがい)",
-      "explanation": "🎯 Đáp án đúng: [4] 以外 (いがい)\n\n💬 Dịch nghĩa câu:\n\"Ngoài anh Kobayashi ra thì tất cả mọi người khác đều đã đến đông đủ.\"\n\n💡 Phân tích & Giải thích:\n• Chữ 「以」 âm On là 「い」, chữ 「外」 âm On là 「がい」 -> 以外 (いがい: ngoại trừ, ngoài ra).\n\n🔍 Phân tích các lựa chọn:\n- 1. いがた: Sai âm đuôi\n- 2. いそと: Nhầm âm Kun của 外 (そと)\n- 3. いかい: Thiếu biến âm đục ở がい\n- 4. いがい (以外): Ngoài ra, ngoại trừ (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(5) 4 句意: 除了小林以外, 其他人都来了。考察汉字词，“以”音读为“い”，“外”音读为“がい”。",
-      "correctOption": 4
-    },
-    "6": {
-      "snippet": "雲 (くも)",
-      "explanation": "🎯 Đáp án đúng: [3] 雲 (くも)\n\n💬 Dịch nghĩa câu:\n\"Tôi cứ ngồi ngắm mãi những đám mây trôi ngoài khung cửa sổ.\"\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 「雲」 (vân) có cách đọc Kunyomi chuẩn xác là 「くも」 (đám mây trên trời).\n\n🔍 Phân tích các lựa chọn:\n- 1. ほし (星): Ngôi sao\n- 2. ゆき (雪): Tuyết rơi\n- 3. くも (雲): Đám mây (ĐÚNG)\n- 4. そら (空): Bầu trời\n\n📄 Trích PDF gốc (试题解析):\n(6) 3 句意: 我一直看着窗外的云。3. くも(雲): 云",
+      "snippet": "女性の おてあらいは あちらです。",
+      "explanation": "🎯 Đáp án đúng: [3] じょせい (女性)\n\n💬 Câu hỏi & Dịch nghĩa:\n女性の おてあらいは あちらです。\n(Nhà vệ sinh nữ ở phía đằng kia.)\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 女性 gồm chữ 女 (nữ - âm On đọc là じょ) và chữ 性 (tính - âm On đọc là せい). Ghép lại đọc là じょせい (josei).\n• Mang nghĩa: phụ nữ, phái nữ. Đối lập với 男性 (だんせい: nam giới).\n\n🔍 Phân tích các lựa chọn:\n- 1. しょせい (Cách đọc sai âm Kanji - SAI)\n- 2. だんせい (男性: nam giới - SAI)\n- 3. じょせい (女性: nữ giới, phụ nữ - ĐÚNG)\n- 4. たんせい (Cách đọc sai âm Kanji - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 3
     },
-    "7": {
-      "snippet": "急行 (きゅうこう)",
-      "explanation": "🎯 Đáp án đúng: [4] 急行 (きゅうこう)\n\n💬 Dịch nghĩa câu:\n\"Chuyến tàu điện đó là chuyến tàu tốc hành (cấp hành).\"\n\n💡 Phân tích & Giải thích:\n• Chữ 「急」 có âm On là 「きゅう」, chữ 「行」 có âm On là 「こう」 -> 急行 (きゅうこう: tàu tốc hành).\n\n🔍 Phân tích các lựa chọn:\n- 1. いそぎゆき: Nhầm sang hai âm Kun\n- 2. きゅうゆき: Nhầm âm Kun của 行\n- 3. いそぎこう: Nhầm âm Kun của 急\n- 4. きゅうこう (急行): Tàu tốc hành (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(7) 4 句意: 那趟电车是快车。考察汉字词: “急”音读为“きゅう”，“行”音读为“こう”。",
+    "6": {
+      "snippet": "いつから 習って いるんですか。",
+      "explanation": "🎯 Đáp án đúng: [4] ならって (習って)\n\n💬 Câu hỏi & Dịch nghĩa:\nいつから 習って いるんですか。\n(Bạn học môn này từ khi nào thế?)\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 習う gồm chữ 習 (tập: học tập, rèn luyện), cách đọc âm Kun là ならう (narau).\n• Động từ nhóm 1: 習う ➔ thể te là 習って (ならって - naratte).\n• 習う dùng khi học kỹ năng từ giáo viên hoặc người hướng dẫn.\n\n🔍 Phân tích các lựa chọn:\n- 1. おそわって (教わって: được dạy - Kanji là 教 - SAI)\n- 2. かよって (通って: đi học đều đặn - Kanji là 通 - SAI)\n- 3. おこなって (行って: tiến hành - Kanji là 行 - SAI)\n- 4. ならって (習って: học tập - ĐÚNG)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 4
     },
+    "7": {
+      "snippet": "あそこに いるのは はやしさんのお姉さんです。",
+      "explanation": "🎯 Đáp án đúng: [1] おねえさん (お姉さん)\n\n💬 Câu hỏi & Dịch nghĩa:\nあそこに いるのは はやしさんのお姉さんです。\n(Người đang ở đằng kia là chị gái của anh Hayashi.)\n\n💡 Phân tích & Giải thích:\n• Chữ Hán お姉さん gồm chữ 姉 (tỷ: chị gái), cách đọc tôn kính lịch sự là おねえさん (oneesan).\n• Lưu ý có trường âm え: お・ね・え・さ・ん.\n\n🔍 Phân tích các lựa chọn:\n- 1. おねえさん (お姉さん: chị gái - ĐÚNG)\n- 2. おにいさん (お兄さん: anh trai - SAI)\n- 3. おねさん (Thiếu trường âm え - SAI)\n- 4. おにさん (Thiếu trường âm い - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
     "8": {
-      "snippet": "写す (うつす) -> 写さないで",
-      "explanation": "🎯 Đáp án đúng: [2] 写す (うつす) -> 写さないで\n\n💬 Dịch nghĩa câu:\n\"Xin vui lòng đừng chụp hình tác phẩm này.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「うつす (写す - tả)」: sao chép, chụp ảnh (写真を写す/撮る). Thể phủ định cấm đoán: 写さないでください.\n\n🔍 Phân tích các lựa chọn:\n- 1. おさないで (押す): Xin đừng ấn/bấm\n- 2. うつさないで (写す): Xin đừng chụp ảnh/sao chép (ĐÚNG)\n- 3. けさないで (消す): Xin đừng xóa/tắt\n- 4. おとさないで (落とす): Xin đừng làm rơi\n\n📄 Trích PDF gốc (试题解析):\n(8) 2 句意: 请不要拍这个。2. うつす(写す): 摄影, 拍照",
+      "snippet": "おとといの よる パーティーに 行きました。",
+      "explanation": "🎯 Đáp án đúng: [2] 夜 (よる)\n\n💬 Câu hỏi & Dịch nghĩa:\nおとといの よる パーティーに 行きました。\n(Tối hôm kia tôi đã đi dự tiệc.)\n\n💡 Phân tích & Giải thích:\n• Từ よる (đêm, buổi tối) có chữ Hán tương ứng là 夜 (dạ).\n• Chữ 晩 cũng có nghĩa buổi tối nhưng cách đọc âm Kun thông dụng trong câu này của よる là 夜.\n\n🔍 Phân tích các lựa chọn:\n- 1. 晩 (Đọc là ばん: buổi tối - SAI)\n- 2. 夜 (Đọc là よる: đêm, buổi tối - ĐÚNG)\n- 3. 挽 (Chữ vãn - SAI)\n- 4. 液 (Chữ dịch/chất lỏng - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 2
     },
     "9": {
-      "snippet": "反対 (はんたい)",
-      "explanation": "🎯 Đáp án đúng: [1] 反対 (はんたい)\n\n💬 Dịch nghĩa câu:\n\"Tôi kiên quyết phản đối ý kiến đề xuất đó.\"\n\n💡 Phân tích & Giải thích:\n• Chữ 「反」 có âm On là 「はん」, chữ 「対」 có âm On là 「たい」 -> 反対 (はんたい: phản đối, trái ngược).\n\n🔍 Phân tích các lựa chọn:\n- 1. はんたい (反対): Phản đối, trái ngược (ĐÚNG)\n- 2. かんたい (歓待/艦隊): Đón tiếp nồng hậu\n- 3. ほんたい (本体): Thân máy, bản thể\n- 4. げんたい (減退): Giảm sút\n\n📄 Trích PDF gốc (试题解析):\n(9) 1 句意: 我反对那个意见。考察汉字词: “反”音读为“はん”，“対”音读为“たい”。",
-      "correctOption": 1
-    },
-    "10": {
-      "snippet": "黒い (くろい)",
-      "explanation": "🎯 Đáp án đúng: [2] 黒い (くろい)\n\n💬 Dịch nghĩa câu:\n\"Tôi muốn mua một đôi giày da màu đen.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「くろい」 được viết bằng chữ Hán chuẩn xác là 「黒い」 (hắc - màu đen).\n\n🔍 Phân tích các lựa chọn:\n- 1. 白い (しろい): Màu trắng\n- 2. 黒い (くろい): Màu đen (ĐÚNG)\n- 3. 赤い (あかい): Màu đỏ\n- 4. 青い (あおい): Màu xanh lam\n\n📄 Trích PDF gốc (试题解析):\n(10) 2 句意: 我想要双黑色的鞋子。2. 黒い(くろい): 黑色的",
-      "correctOption": 2
-    },
-    "11": {
-      "snippet": "計画 (けいかく)",
-      "explanation": "🎯 Đáp án đúng: [3] 計画 (けいかく)\n\n💬 Dịch nghĩa câu:\n\"Kế hoạch cho chuyến du lịch kỳ nghỉ hè vẫn chưa được ấn định xong.\"\n\n💡 Phân tích & Giải thích:\n• Chữ 「計」 (kế) ghép với chữ 「画」 (họa) tạo thành từ 「計画」 (kế hoạch, dự định).\n\n🔍 Phân tích các lựa chọn:\n- 1. 計両: Sai chữ Hán\n- 2. 計面: Sai chữ Hán\n- 3. 計画 (けいかく): Kế hoạch, quy hoạch (ĐÚNG)\n- 4. 計目: Sai chữ Hán\n\n📄 Trích PDF gốc (试题解析):\n(11) 3 句意: 暑假的计划还没确定下来。3. 計画(けいかく): 计划, 规划",
-      "correctOption": 3
-    },
-    "12": {
-      "snippet": "医者 (いしゃ)",
-      "explanation": "🎯 Đáp án đúng: [4] 医者 (いしゃ)\n\n💬 Dịch nghĩa câu:\n\"Ước mơ từ nhỏ của tôi là trở thành một vị bác sĩ giỏi.\"\n\n💡 Phân tích & Giải thích:\n• Chữ 「医」 (y) ghép với chữ 「者」 (giả) tạo thành danh từ 「医者」 (bác sĩ chữa bệnh).\n\n🔍 Phân tích các lựa chọn:\n- 1. 医員: Nhân viên y tế\n- 2. 医長: Trưởng khoa y\n- 3. 医人: Từ không chuẩn\n- 4. 医者 (いしゃ): Bác sĩ y khoa (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(12) 4 句意: 我想成为一名医生。4. 医者(いしゃ): 医生",
+      "snippet": "あの しろい 車が わたしの です。",
+      "explanation": "🎯 Đáp án đúng: [4] 白い (しろい)\n\n💬 Câu hỏi & Dịch nghĩa:\nあの しろい 車が わたしの です。\n(Chiếc xe màu trắng đằng kia là của tôi.)\n\n💡 Phân tích & Giải thích:\n• Từ しろい (màu trắng) có chữ Hán tương ứng là 白い (bạch: trắng).\n\n🔍 Phân tích các lựa chọn:\n- 1. 赤い (あかい: màu đỏ - SAI)\n- 2. 青い (あおい: màu xanh lam - SAI)\n- 3. 黒い (くろい: màu đen - SAI)\n- 4. 白い (しろい: màu trắng - ĐÚNG)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 4
     },
-    "13": {
-      "snippet": "夜 (よる)",
-      "explanation": "🎯 Đáp án đúng: [1] 夜 (よる)\n\n💬 Dịch nghĩa câu:\n\"Tối mai tôi sẽ cùng gia đình đi ăn tối ở bên ngoài.\"\n\n💡 Phân tích & Giải thích:\n• Từ 「よる」 được viết bằng chữ Hán chuẩn xác là 「夜」 (dạ - ban đêm, buổi tối).\n\n🔍 Phân tích các lựa chọn:\n- 1. 夜 (よる): Buổi tối, ban đêm (ĐÚNG)\n- 2. 昼 (ひる): Ban ngày, buổi trưa\n- 3. 夕 (ゆう): Hoàng hôn, chiều tà\n- 4. 朝 (あさ): Buổi sáng sớm\n\n📄 Trích PDF gốc (试题解析):\n(13) 1 句意: 我明晚会和家人一起出门。1. 夜(よる): 晚上",
+    "10": {
+      "snippet": "しょくどうは あの たてものの 中です。",
+      "explanation": "🎯 Đáp án đúng: [3] 食堂 (しょくどう)\n\n💬 Câu hỏi & Dịch nghĩa:\nしょくどうは あの たてものの 中です。\n(Nhà ăn / căng tin nằm ở bên trong tòa nhà đằng kia.)\n\n💡 Phân tích & Giải thích:\n• Từ しょくどう (nhà ăn) có chữ Hán tương ứng là 食堂 gồm chữ 食 (thực: ăn) và chữ 堂 (đường: gian phòng lớn).\n\n🔍 Phân tích các lựa chọn:\n- 1. 食室 (Không tồn tại từ này - SAI)\n- 2. 飯堂 (Chữ Hán sai quy chuẩn tiếng Nhật - SAI)\n- 3. 食堂 (しょくどう: nhà ăn - ĐÚNG)\n- 4. 飯堂 (Chữ Hán sai quy chuẩn tiếng Nhật - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "11": {
+      "snippet": "まどを しめて ください。",
+      "explanation": "🎯 Đáp án đúng: [2] 閉めて (しめて)\n\n💬 Câu hỏi & Dịch nghĩa:\nまどを しめて ください。\n(Xin vui lòng đóng cửa sổ lại.)\n\n💡 Phân tích & Giải thích:\n• Động từ しめる (đóng) có chữ Hán tương ứng là 閉める (bế: đóng).\n• Thể te là 閉めて (しめて). Đối lập với 開ける (あける: mở).\n\n🔍 Phân tích các lựa chọn:\n- 1. 関めて (Chữ 関: quan - SAI)\n- 2. 閉めて (閉: bế - đóng lại - ĐÚNG)\n- 3. 問めて (Chữ 問: vấn - SAI)\n- 4. 開めて (Chữ 開: khai - mở, đọc là あけて - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "12": {
+      "snippet": "なかさんは しんせつです。",
+      "explanation": "🎯 Đáp án đúng: [1] 親切 (しんせつ)\n\n💬 Câu hỏi & Dịch nghĩa:\nなかさんは しんせつです。\n(Anh Naka rất tốt bụng / tử tế.)\n\n💡 Phân tích & Giải thích:\n• Từ しんせつ (tốt bụng, tử tế) có chữ Hán tương ứng là 親切 gồm chữ 親 (thân) và chữ 切 (thiết).\n• Tính từ đuôi -na: 親切な.\n\n🔍 Phân tích các lựa chọn:\n- 1. 親切 (親切: thân thiết, tốt bụng - ĐÚNG)\n- 2. 新切 (Dùng sai chữ 新 - SAI)\n- 3. 親功 (Dùng sai chữ 功 - SAI)\n- 4. 新功 (Dùng sai cả hai chữ - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 1
     },
+    "13": {
+      "snippet": "この どうぐは あの きかいを なおす ために (　) です。",
+      "explanation": "🎯 Đáp án đúng: [3] ひつよう (必要)\n\n💬 Câu hỏi & Dịch nghĩa:\nこの どうぐは あの きかいを なおす ために (ひつよう) です。\n(Dụng cụ này cần thiết để sửa chữa cỗ máy đằng kia.)\n\n💡 Phân tích & Giải thích:\n• Cấu trúc: [Động từ thể từ điển + ために] + 必要です (cần thiết cho mục đích...).\n• 必要 (ひつよう): Cần thiết, thiết yếu.\n\n🔍 Phân tích các lựa chọn:\n- 1. ねっしん (熱心: nhiệt tình - dùng cho tính cách - SAI)\n- 2. ていねい (丁寧: lịch sự, cẩn thận - SAI)\n- 3. ひつよう (必要: cần thiết - ĐÚNG)\n- 4. とくべつ (特別: đặc biệt - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
     "14": {
-      "snippet": "貸して (かして)",
-      "explanation": "🎯 Đáp án đúng: [3] 貸して (かして)\n\n💬 Dịch nghĩa câu:\n\"Trời bất chợt đổ mưa, xin hãy cho tôi mượn chiếc ô với.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「かす (貸す - thải)」: cho mượn. Cấu trúc nhờ vả: 「貸してください」 (xin hãy cho tôi mượn).\n\n🔍 Phân tích các lựa chọn:\n- 1. 返して (かえして): Trả lại đồ\n- 2. 足して (たして): Cộng thêm vào\n- 3. 貸して (かして): Cho mượn, cho vay (ĐÚNG)\n- 4. 直して (なおして): Sửa chữa lại\n\n📄 Trích PDF gốc (试题解析):\n(14) 3 句意: 请把伞借给我。3. 貸す(かす): 借给",
+      "snippet": "この プールは (　) ですから、子どもは およがないで ください。",
+      "explanation": "🎯 Đáp án đúng: [3] ふかい (深い)\n\n💬 Câu hỏi & Dịch nghĩa:\nこの プールは (ふかい) ですから、子どもは およがないで ください。\n(Hồ bơi này sâu nên trẻ em xin vui lòng không bơi ở đây.)\n\n💡 Phân tích & Giải thích:\n• Hồ bơi (プール) nguy hiểm cho trẻ em vì mực nước \"sâu\".\n• Tính từ chỉ độ sâu của hồ bơi, nước biển là 深い (ふかい - fukai).\n\n🔍 Phân tích các lựa chọn:\n- 1. かたい (硬い/固い: cứng - SAI)\n- 2. おもい (重い: nặng - SAI)\n- 3. ふかい (深い: sâu - ĐÚNG)\n- 4. にがい (苦い: đắng - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 3
     },
     "15": {
-      "snippet": "試合 (しあい)",
-      "explanation": "🎯 Đáp án đúng: [4] 試合 (しあい)\n\n💬 Dịch nghĩa câu:\n\"Ngày mai ở sân vận động trường có trận thi đấu bóng đá.\"\n\n💡 Phân tích & Giải thích:\n• Chữ 「試」 (thí) ghép với chữ 「合」 (hợp) tạo thành danh từ 「試合」 (trận đấu, thi đấu thể thao).\n\n🔍 Phân tích các lựa chọn:\n- 1. 試験 (しけん): Kỳ thi, kiểm tra\n- 2. 試問: Vấn đáp\n- 3. 試用: Dùng thử\n- 4. 試合 (しあい): Trận thi đấu đối kháng (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(15) 4 句意: 明天有足球赛。4. 試合(しあい): 比赛",
-      "correctOption": 4
+      "snippet": "その はがきに この きってを (　) ください。",
+      "explanation": "🎯 Đáp án đúng: [2] はって (貼って)\n\n💬 Câu hỏi & Dịch nghĩa:\nその はがきに この きってを (はって) ください。\n(Xin hãy dán chiếc tem này lên tấm bưu thiếp đó.)\n\n💡 Phân tích & Giải thích:\n• Cụm từ cố định: 切手を貼る (きってをはる) = dán tem.\n• Động từ 貼る (はる: dán), thể te là 貼って (はって).\n\n🔍 Phân tích các lựa chọn:\n- 1. かけて (掛けて: treo, móc - SAI)\n- 2. はって (貼って: dán tem, dán giấy - ĐÚNG)\n- 3. ぬって (塗って: sơn, bôi - SAI)\n- 4. すてて (捨てて: vứt bỏ - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
     },
     "16": {
-      "snippet": "心配 (しんぱい)",
-      "explanation": "🎯 Đáp án đúng: [1] 心配 (しんぱい)\n\n💬 Dịch nghĩa câu:\n\"Nghe tin anh Sato bị tai nạn chấn thương, mọi người ai nấy đều rất lo lắng.\"\n\n💡 Phân tích & Giải thích:\n• Cụm từ cố định: 「心配する / 心配だ」 (lo lắng, bận tâm cho sự an toàn của ai đó).\n\n🔍 Phân tích các lựa chọn:\n- 1. 心配 (しんぱい): Lo lắng, sốt ruột (ĐÚNG)\n- 2. 経験 (けいけん): Kinh nghiệm\n- 3. 失礼 (しつれい): Thất lễ, bất lịch sự\n- 4. お辞儀 (おじぎ): Cúi đầu chào\n\n📄 Trích PDF gốc (试题解析):\n(16) 1 句意: 听说佐藤先生受伤了, 大家都非常担心。1. 心配(しんぱい): 担心, 挂念",
+      "snippet": "えきまえの ほんやは あさ 8時から (　) して います。",
+      "explanation": "🎯 Đáp án đúng: [1] えいきょう / えいぎょう (営業)\n\n💬 Câu hỏi & Dịch nghĩa:\nえきまえの ほんやは あさ 8時から (えいきょう/えいぎょう) して います。\n(Hiệu sách trước nhà ga mở cửa kinh doanh từ 8 giờ sáng.)\n\n💡 Phân tích & Giải thích:\n• 営業 (えいぎょう): Kinh doanh, mở cửa phục vụ buôn bán.\n• Cụm từ: ～時から営業している (mở cửa bán hàng từ lúc ~).\n\n🔍 Phân tích các lựa chọn:\n- 1. えいきょう (営業: kinh doanh, mở cửa - ĐÚNG)\n- 2. せいさん (生産: sản xuất - SAI)\n- 3. ぼうえき (貿易: mậu dịch quốc tế - SAI)\n- 4. ゆしゅつ (輸出: xuất khẩu - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 1
     },
     "17": {
-      "snippet": "夢 (ゆめ)",
-      "explanation": "🎯 Đáp án đúng: [2] 夢 (ゆめ)\n\n💬 Dịch nghĩa câu:\n\"Ước mơ sau này khi trưởng thành của tôi là trở thành một ca sĩ nổi tiếng.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ 「ゆめ (夢)」 nghĩa là giấc mơ hoặc ước mơ, hoài bão tương lai.\n\n🔍 Phân tích các lựa chọn:\n- 1. 景色 (けしき): Phong cảnh\n- 2. 夢 (ゆめ): Ước mơ, hoài bão (ĐÚNG)\n- 3. 思い出 (おもいで): Kỷ niệm xưa\n- 4. 世話 (せわ): Chăm sóc, giúp đỡ\n\n📄 Trích PDF gốc (试题解析):\n(17) 2 句意: 我梦想将来成为一名歌手。2. ゆめ(夢): 梦想",
-      "correctOption": 2
+      "snippet": "この みちを まっすぐ (　) と、右がわに としょかんが あります。",
+      "explanation": "🎯 Đáp án đúng: [4] すすむ (進む)\n\n💬 Câu hỏi & Dịch nghĩa:\nこの みちを まっすぐ (すすむ) と、右がわに としょかんが あります。\n(Cứ đi thẳng theo con đường này thì sẽ thấy thư viện ở phía bên phải.)\n\n💡 Phân tích & Giải thích:\n• Cụm từ chỉ đường quen thuộc: 道をまっすぐ進む (みちをまっすぐすすむ) = đi thẳng tiến lên theo con đường.\n• Mẫu câu: [V-thể từ điển + と] = Cứ làm việc này thì kết quả là...\n\n🔍 Phân tích các lựa chọn:\n- 1. でかける (出かける: đi ra ngoài - SAI)\n- 2. うごく (動く: cử động - SAI)\n- 3. たずねる (尋ねる: hỏi thăm - SAI)\n- 4. すすむ (進む: tiến lên, đi thẳng - ĐÚNG)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
     },
     "18": {
-      "snippet": "ぜひ (是非)",
-      "explanation": "🎯 Đáp án đúng: [2] ぜひ (是非)\n\n💬 Dịch nghĩa câu:\n\"Toru à, buổi liên hoan họp mặt lần này bạn nhất định phải tới chung vui nhé.\"\n\n💡 Phân tích & Giải thích:\n• Phó từ 「ぜひ (是非)」 dùng để mời mọc, nhờ vả thiết tha mang nghĩa 'nhất định, bằng mọi giá'.\n\n🔍 Phân tích các lựa chọn:\n- 1. 非常に (ひじょうに): Cực kỳ, vô cùng\n- 2. ぜひ: Nhất định, tha thiết mong bạn (ĐÚNG)\n- 3. 十分 (じゅうぶん): Đầy đủ, thỏa đáng\n- 4. いつも: Lúc nào cũng\n\n📄 Trích PDF gốc (试题解析):\n(18) 2 句意: 小达, 这次的聚会请一定要来哦。2. ぜひ(是非): 一定, 务必",
+      "snippet": "どちらの けいかくが いいと おもうか、みんなの (　) 聞きました。",
+      "explanation": "🎯 Đáp án đúng: [2] いけん (意見)\n\n💬 Câu hỏi & Dịch nghĩa:\nどちらの けいかくが いいと おもうか、みんなの (いけん) を 聞きました。\n(Để xem kế hoạch nào hay hơn, tôi đã lắng nghe ý kiến của mọi người.)\n\n💡 Phân tích & Giải thích:\n• Cụm từ: 意見を聞く (いけんをきく) = lắng nghe ý kiến, tham khảo ý kiến.\n• 意見 (ý kiến, quan điểm đóng góp).\n\n🔍 Phân tích các lựa chọn:\n- 1. やくそく (約束: lời hứa - SAI)\n- 2. いけん (意見: ý kiến đóng góp - ĐÚNG)\n- 3. あいさつ (挨拶: chào hỏi - SAI)\n- 4. ひみつ (秘密: bí mật - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 2
     },
     "19": {
-      "snippet": "説明 (せつめい)",
-      "explanation": "🎯 Đáp án đúng: [3] 説明 (せつめい)\n\n💬 Dịch nghĩa câu:\n\"Tiếp sau đây tôi sẽ giải thích hướng dẫn cách vận hành máy móc, xin hãy lắng nghe.\"\n\n💡 Phân tích & Giải thích:\n• Danh động từ 「説明する」 mang nghĩa là giải thích, thuyết minh rõ ràng.\n\n🔍 Phân tích các lựa chọn:\n- 1. 準備 (じゅんび): Chuẩn bị đồ đạc\n- 2. 利用 (りよう): Tận dụng, sử dụng\n- 3. 説明 (せつめい): Giải thích, thuyết minh (ĐÚNG)\n- 4. 生産 (せいさん): Sản xuất hàng hóa\n\n📄 Trích PDF gốc (试题解析):\n(19) 3 句意: 接下来我将说明机器的使用方法, 请认真听我说。3. 説明(せつめい): 说明, 解释",
-      "correctOption": 3
-    },
-    "20": {
-      "snippet": "固い (かたい)",
-      "explanation": "🎯 Đáp án đúng: [2] 固い (かたい)\n\n💬 Dịch nghĩa câu:\n\"Tình trạng răng miệng của tôi không tốt nên tôi không thể ăn những món đồ cứng được.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「かたい (固い / 硬い)」 nghĩa là cứng, dai (đối lập với mềm やわらかい).\n\n🔍 Phân tích các lựa chọn:\n- 1. 厳しい (きびしい): Nghiêm khắc\n- 2. 固い (かたい): Cứng, dai (ĐÚNG)\n- 3. 早い (はやい): Nhanh chóng\n- 4. 深い (ふかい): Sâu sắc\n\n📄 Trích PDF gốc (试题解析):\n(20) 2 句意: 我的牙不好, 所以不能吃硬东西。2. かたい(固い): 坚硬的",
-      "correctOption": 2
-    },
-    "21": {
-      "snippet": "誘う (さそう)",
-      "explanation": "🎯 Đáp án đúng: [1] 誘う (さそう)\n\n💬 Dịch nghĩa câu:\n\"Tôi đã chủ động rủ anh Mori cùng đi chơi nhưng anh ấy bảo bận việc không đi được.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「さそう (誘う)」: rủ rê, mời mọc cùng tham gia hoạt động giải trí.\n\n🔍 Phân tích các lựa chọn:\n- 1. 誘う (さそう): Rủ rê, mời đi cùng (ĐÚNG)\n- 2. 伝える (つたえる): Truyền đạt, nhắn nhủ\n- 3. 案内する (あんないする): Dẫn đường\n- 4. 紹介する (しょうかいする): Giới thiệu\n\n📄 Trích PDF gốc (试题解析):\n(21) 1 句意: 我邀请小森去约会, 但他说去不了。1. さそう(誘う): 邀请, 相邀",
-      "correctOption": 1
-    },
-    "22": {
-      "snippet": "センチ (cm)",
-      "explanation": "🎯 Đáp án đúng: [4] センチ (cm)\n\n💬 Dịch nghĩa câu:\n\"Thằng bé con trai tôi trong vòng một năm qua đã phát triển cao thêm tận 5 cm.\"\n\n💡 Phân tích & Giải thích:\n• Đơn vị đo chiều dài, chiều cao trong tiếng Nhật là 「センチ (centimet)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. グラム (gram): Đơn vị khối lượng\n- 2. 番 (ばん): Số thứ tự\n- 3. 軒 (けん): Đơn vị đếm ngôi nhà\n- 4. センチ (cm): Đơn vị đo độ dài centimet (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(22) 4 句意: 我儿子1年里长高了5厘米。4. センチ: 厘米",
+      "snippet": "きのう うちの ねこが 子どもを 3びき (　)。",
+      "explanation": "🎯 Đáp án đúng: [4] うみました (産みました)\n\n💬 Câu hỏi & Dịch nghĩa:\nきのう うちの ねこが 子どもを 3びき (うみました)。\n(Hôm qua chú mèo nhà tôi đã sinh / đẻ được 3 bé mèo con.)\n\n💡 Phân tích & Giải thích:\n• Động từ chỉ việc sinh nở, đẻ con ở người và động vật là 産む (うむ - umu).\n• Quá khứ: 産みました (うみました). Cụm từ: 子どもを産む (đẻ con).\n\n🔍 Phân tích các lựa chọn:\n- 1. しました (Làm - SAI)\n- 2. だしました (Đưa ra - SAI)\n- 3. やりました (Cho/làm - SAI)\n- 4. うみました (産みました: sinh nở, đẻ con - ĐÚNG)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 4
     },
+    "20": {
+      "snippet": "しけんの (　) が よかったので、うれしいです。",
+      "explanation": "🎯 Đáp án đúng: [1] けっか (結果)\n\n💬 Câu hỏi & Dịch nghĩa:\nしけんの (けっか) が よかったので、うれしいです。\n(Vì kết quả kỳ thi tốt nên tôi rất vui mừng.)\n\n💡 Phân tích & Giải thích:\n• Kết quả của bài thi, cuộc thi được gọi là 結果 (けっか - kekka).\n• Cụm từ: 試験の結果がよかった (kết quả bài thi tốt).\n• Chú ý: 合格 (ごうかく) là đỗ kỳ thi, thường đi với 試験に合格した, không nói là 試験の合格がよかった.\n\n🔍 Phân tích các lựa chọn:\n- 1. けっか (結果: kết quả - ĐÚNG)\n- 2. ごうかく (合格: đỗ - SAI ngữ pháp kết hợp)\n- 3. げんいん (原因: nguyên nhân - SAI)\n- 4. せいこう (成功: sự thành công - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "21": {
+      "snippet": "さいきん いそがしくて、うんどうできません。",
+      "explanation": "🎯 Đáp án đúng: [4] さいきん いそがしくて、スポーツを して いません。\n\n💬 Câu hỏi & Dịch nghĩa:\nさいきん いそがしくて、うんどうできません。\n(Gần đây bận rộn quá nên tôi không thể tập thể dục vận động được.)\n\n💡 Phân tích & Giải thích:\n• 運動する (うんどうする: vận động, thể dục) có ý nghĩa tương đương với スポーツをする (chơi thể thao, rèn luyện thể chất).\n• Cả hai câu đều diễn đạt việc vì quá bận nên gần đây không chơi thể thao, vận động thân thể được.\n\n🔍 Phân tích các lựa chọn:\n- 1. 本を読んでいません (Không đọc sách - SAI)\n- 2. 休んでいません (Không nghỉ ngơi - SAI)\n- 3. うちのしごとをしていません (Không làm việc nhà - SAI)\n- 4. スポーツをしていません (Không chơi thể thao/vận động - ĐÚNG)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "22": {
+      "snippet": "くうこうは ここから とおいですか。",
+      "explanation": "🎯 Đáp án đúng: [1] ひこうきに のる ところは ここから とおいですか。\n\n💬 Câu hỏi & Dịch nghĩa:\nくうこうは ここから とおいですか。\n(Sân bay có cách xa đây không?)\n\n💡 Phân tích & Giải thích:\n• 空港 (くうこう: sân bay, phi trường) chính là nơi để mọi người đến đi máy bay (飛行機に乗るところ).\n\n🔍 Phân tích các lựa chọn:\n- 1. ひこうきにのるところ (Nơi lên máy bay = sân bay - ĐÚNG)\n- 2. ふねにのるところ (Nơi lên tàu thuyền = bến cảng - SAI)\n- 3. たべものを買うところ (Nơi mua đồ ăn = chợ/siêu thị - SAI)\n- 4. きっぷを買うところ (Nơi mua vé = quầy bán vé - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
     "23": {
-      "snippet": "比べる (くらべる)",
-      "explanation": "🎯 Đáp án đúng: [3] 比べる (くらべる)\n\n💬 Dịch nghĩa câu:\n\"Sau khi so sánh 3 chiếc máy tính xách tay ở cửa hàng, tôi đã chọn chiếc nhẹ nhất.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「くらべる (比べる)」: so sánh, đối chiếu các đối tượng với nhau.\n\n🔍 Phân tích các lựa chọn:\n- 1. 片付ける (かたづける): Dọn dẹp phòng\n- 2. 数える (かぞえる): Đếm số lượng\n- 3. 比べる (くらべる): So sánh, cân nhắc (ĐÚNG)\n- 4. 払う (はらう): Trả tiền\n\n📄 Trích PDF gốc (试题解析):\n(23) 3 句意: 比较了店里的三台电脑, 选择了最轻便的那台。3. くらべる(比べる): 相比, 比较",
+      "snippet": "もりさんに たのみました。",
+      "explanation": "🎯 Đáp án đúng: [3] もりさんに おねがいしました。\n\n💬 Câu hỏi & Dịch nghĩa:\nもりさんに たのみました。\n(Tôi đã nhờ vả anh Mori.)\n\n💡 Phân tích & Giải thích:\n• Động từ 頼む (たのむ: nhờ vả, cậy nhờ) đồng nghĩa với từ お願いする (おねがいする: thỉnh cầu, nhờ giúp đỡ).\n• Cả 2 đều diễn tả hành động nhờ ai đó làm việc gì giúp mình.\n\n🔍 Phân tích các lựa chọn:\n- 1. れんらくしました (連絡: liên lạc - SAI)\n- 2. へんじしました (返事: hồi đáp, trả lời - SAI)\n- 3. おねがいしました (お願い: nhờ vả, thỉnh cầu - ĐÚNG)\n- 4. しょうかいしました (紹介: giới thiệu - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 3
     },
     "24": {
-      "snippet": "留守 (るす)",
-      "explanation": "🎯 Đáp án đúng: [4] 留守 (るす)\n\n💬 Dịch nghĩa câu:\n\"Đèn trong nhà anh Tanaka không bật, trông có vẻ như anh ấy đang đi vắng.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ 「留守 (るす)」: vắng nhà, không có nhà.\n\n🔍 Phân tích các lựa chọn:\n- 1. 嘘 (うそ): Nói dối\n- 2. 自由 (じゆう): Tự do\n- 3. 中止 (ちゅうし): Hủy bỏ giữa chừng\n- 4. 留守 (るす): Đi vắng, vắng nhà (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(24) 4 句意: 田中先生家的灯没开, 他好像不在家。4. るす(留守): 不在家",
+      "snippet": "けさから 雨が ざあざあ ふって います。",
+      "explanation": "🎯 Đáp án đúng: [4] けさから 雨が つよく ふって います。\n\n💬 Câu hỏi & Dịch nghĩa:\nけさから 雨が ざあざあ ふって います。\n(Từ sáng tới giờ mưa rơi xối xả.)\n\n💡 Phân tích & Giải thích:\n• Từ tượng thanh ざあざあ miêu tả tiếng mưa rào rất to, mưa đổ như trút nước.\n• Đồng nghĩa với 雨が強く降っている (あめがつよくふっている: mưa rất to, mưa rất mạnh).\n\n🔍 Phân tích các lựa chọn:\n- 1. つめたい雨 (Mưa lạnh - SAI)\n- 2. こまかい雨 (Mưa hạt nhỏ, mưa phùn - SAI)\n- 3. しずかにふっている (Mưa rơi êm đềm, nhẹ nhàng - SAI)\n- 4. つよくふっている (Mưa rơi mạnh, mưa to dữ dội - ĐÚNG)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 4
     },
     "25": {
-      "snippet": "見つからない (みつからない)",
-      "explanation": "🎯 Đáp án đúng: [1] 見つからない (みつからない)\n\n💬 Dịch nghĩa câu:\n\"Tôi đang tìm kiếm chiếc chìa khóa phòng nhưng mãi vẫn chưa tìm thấy đâu.\"\n\n💡 Phân tích & Giải thích:\n• Tự động từ 「みつかる (見つかる)」: được tìm thấy. Thể phủ định: 「見つからない」 (chưa tìm thấy).\n\n🔍 Phân tích các lựa chọn:\n- 1. 見つからない (みつからない): Chưa tìm thấy (ĐÚNG)\n- 2. 捕まえる (つかまえる): Bắt giữ\n- 3. 知る (しる): Biết đến\n- 4. 触る (さわる): Chạm tay vào\n\n📄 Trích PDF gốc (试题解析):\n(25) 1 句意: 我在找房间的钥匙, 但还没找到。1. 見つからない: 找不到",
-      "correctOption": 1
+      "snippet": "しんぱい",
+      "explanation": "🎯 Đáp án đúng: [4] たなか「先週 あにが にゅういんしたんです。」 やまだ「それは しんぱいですね。」\n\n💬 Phân tích & Giải thích:\n• Từ 心配 (しんぱい): Sự lo lắng, bận tâm về một điều gì đó bất an hoặc chưa lành lặn.\n• Trong câu 4: Khi Tanaka chia sẻ \"Tuần trước anh trai tôi phải nhập viện\" thì Yamada đáp \"Thế thì lo lắng quá nhỉ (mong anh ấy sớm bình phục)\" là hoàn toàn tự nhiên và chuẩn xác về mặt ngữ nghĩa và cảm xúc.\n\n🔍 Phân tích các lựa chọn:\n- 1. Gặp lại bạn bè là tin vui, không thể nói \"心配ですね\" (SAI)\n- 2. Nhận quà sinh nhật là tin vui, không thể nói \"心配ですね\" (SAI)\n- 3. Chó cưng qua đời là chuyện buồn, thương tiếc (thường nói 残念ですね hoặc お気の毒に, không dùng 心配 - SAI)\n- 4. Anh trai nhập viện ➔ bày tỏ sự lo lắng \"それは心配ですね\" (ĐÚNG)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
     },
     "26": {
-      "snippet": "アルバイト ≒ 働いている",
-      "explanation": "🎯 Đáp án đúng: [2] アルバイト ≒ 働いている\n\n💬 Dịch nghĩa câu:\n\"Em trai tôi đang làm thêm kiếm tiền tại quán cà phê gần trường.\"\n\n💡 Phân tích & Giải thích:\n• Từ mượn 「アルバイト」 (làm thêm, part-time) đồng nghĩa với việc đang làm việc: 「働いている」.\n\n🔍 Phân tích các lựa chọn:\n- 1. Đang đợi tôi ở quán cà phê\n- 2. Đang làm việc tại quán cà phê (ĐÚNG)\n- 3. Đang uống cà phê tại quán\n- 4. Đang nói chuyện với bạn bè\n\n📄 Trích PDF gốc (试题解析):\n(26) 2 句意: 我的弟弟在那家咖啡厅打工。(アルバイト: 打工 ≒ 働いている)",
-      "correctOption": 2
+      "snippet": "せまい",
+      "explanation": "🎯 Đáp án đúng: [1] この みちは せまいので、車は とおれません。\n\n💬 Phân tích & Giải thích:\n• Từ 狭い (せまい): Hẹp, chật chội (dùng cho không gian, diện tích, con đường, căn phòng).\n• Câu 1: \"Con đường này hẹp nên ô tô không đi qua được\" ➔ Sử dụng 狭い để miêu tả chiều rộng con đường là hoàn toàn chính xác.\n\n🔍 Phân tích các lựa chọn:\n- 1. 道が狭い (Con đường chật hẹp, xe không lọt qua - ĐÚNG)\n- 2. Quần áo bị chật bó sát người phải dùng きつい, không dùng せまい (SAI)\n- 3. Bút ngòi nhỏ để viết chữ nhỏ phải dùng 細い (ほそい), không dùng せまい (SAI)\n- 4. Cắt/thái rau miếng mỏng phải dùng うすく hoặc こまかく, không dùng せまく (SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
     },
     "27": {
-      "snippet": "水泳 ≒ 泳ぐこと",
-      "explanation": "🎯 Đáp án đúng: [2] 水泳 ≒ 泳ぐこと\n\n💬 Dịch nghĩa câu:\n\"Môn thể thao yêu thích của tôi là môn bơi lội dưới nước.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ 「水泳 (すいえい: bơi lội)」 hoàn toàn đồng nghĩa với danh từ hóa 「泳ぐこと (việc bơi)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. Tôi thích việc chạy bộ\n- 2. Tôi thích việc đi bơi lội (ĐÚNG)\n- 3. Tôi thích ăn cơm\n- 4. Tôi thích đọc sách báo\n\n📄 Trích PDF gốc (试题解析):\n(27) 2 句意: 我喜欢水泳。(すいえい ≒ 泳ぐ)",
+      "snippet": "こしょう",
+      "explanation": "🎯 Đáp án đúng: [2] その パソコンは こしょう して いるので、つかえません。\n\n💬 Phân tích & Giải thích:\n• Từ 故障 (こしょう): Sự hỏng hóc, trục trặc máy móc thiết bị kỹ thuật (xe hơi, tivi, máy tính, thang máy...).\n• Câu 2: \"Cái máy tính đó đang bị hỏng nên không dùng được\" ➔ パソコンが故障している là cách kết hợp chuẩn 100%.\n\n🔍 Phân tích các lựa chọn:\n- 1. Cây hoa héo/chết vì thiếu nước phải dùng 枯れる (かれる) hoặc 死ぬ (しぬ), không dùng 故障 (SAI)\n- 2. パソコンが故障している (Máy tính bị hỏng hóc kỹ thuật - ĐÚNG)\n- 3. Sữa bị hỏng/thiu phải dùng 腐る (くさる) hoặc 悪くなる, không dùng 故障 (SAI)\n- 4. Cái cốc rơi vỡ phải dùng 割れる (われる), không dùng 故障 (SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 2
     },
     "28": {
-      "snippet": "びっくりした ≒ 驚いた",
-      "explanation": "🎯 Đáp án đúng: [4] びっくりした ≒ 驚いた\n\n💬 Dịch nghĩa câu:\n\"Vừa nghe xong câu chuyện đó tôi đã giật bắn mình và vô cùng sửng sốt.\"\n\n💡 Phân tích & Giải thích:\n• Phó từ mang tính khẩu ngữ 「びっくりした」 đồng nghĩa với động từ 「驚いた (おどろいた: kinh ngạc, giật mình)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. Tôi đã bật cười thích thú\n- 2. Tôi cảm thấy rất khó xử\n- 3. Tôi đã nổi giận đùng đùng\n- 4. Tôi đã vô cùng kinh ngạc, giật mình (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(28) 4 句意: 听了那件事我吓了一跳。(びっくりした ≒ 驚いた)",
-      "correctOption": 4
+      "snippet": "たおれる",
+      "explanation": "🎯 Đáp án đúng: [3] 大きい じしんで ほんだなが たおれました。\n\n💬 Phân tích & Giải thích:\n• Động từ 倒れる (たおれる): Đổ, ngã, sụp đổ (dùng cho người ngất xỉu ngã quỵ, hoặc đồ vật/công trình đang đứng thẳng bị nghiêng đổ xuống đất).\n• Câu 3: \"Trận động đất mạnh đã làm chiếc giá sách bị đổ sập\" ➔ 本棚が倒れる là ngữ cảnh sử dụng chuẩn xác nhất.\n\n🔍 Phân tích các lựa chọn:\n- 1. Núi lở phải dùng 山が崩れる (やまがくずれる), không dùng たおれる (SAI)\n- 2. Gãy chân phải dùng 足が折れる (あしがおれる), không dùng たおれる (SAI)\n- 3. 本棚が倒れた (Giá sách bị đổ nhào do động đất - ĐÚNG)\n- 4. Buổi học bị hủy bỏ phải dùng 授業が中止になった hoặc 休みになった, không dùng たおれる (SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
     },
     "29": {
-      "snippet": "美しい ≒ きれい",
-      "explanation": "🎯 Đáp án đúng: [1] 美しい ≒ きれい\n\n💬 Dịch nghĩa câu:\n\"Cô gái đang đứng ở đằng kia trông thật là xinh đẹp, thanh tú.\"\n\n💡 Phân tích & Giải thích:\n• Tính từ 「うつくしい (美しい: tươi đẹp, mỹ lệ)」 đồng nghĩa với 「きれい (đẹp đẽ, tao nhã)」.\n\n🔍 Phân tích các lựa chọn:\n- 1. Người đó thật là xinh đẹp (ĐÚNG)\n- 2. Người đó rất dồi dào năng lượng\n- 3. Người đó rất thú vị khôi hài\n- 4. Người đó trông rất trẻ trung\n\n📄 Trích PDF gốc (试题解析):\n(29) 1 句意: 那个人很漂亮啊。(美しい ≒ きれい)",
-      "correctOption": 1
+      "snippet": "かぜ（ で ）学校を 休みました。",
+      "explanation": "🎯 Đáp án đúng: [2] で\n\n💬 Câu hỏi & Dịch nghĩa:\nかぜ（ で ）学校を 休みました。\n(Tôi đã nghỉ học vì bị cảm cúm.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Trợ từ「で」được dùng sau danh từ chỉ nguyên nhân, lý do xảy ra một sự việc, tình trạng không kiểm soát được (thường là bệnh tật, tai nạn, thiên tai... như: かぜで, じこで, びょうきで, たいふうで).\n• Ở đây「かぜ」(bệnh cảm cúm) là nguyên nhân khiến người nói phải nghỉ học.\n\n🔍 Phân tích các lựa chọn:\n- 1. に: Trợ từ chỉ thời gian, địa điểm, mục đích... không dùng để chỉ nguyên nhân dịch bệnh (SAI).\n- 2. で: Trợ từ chỉ nguyên nhân, lý do (かぜで休みました: nghỉ vì bị cảm - ĐÚNG).\n- 3. を: Trợ từ chỉ đối tượng của ngoại động từ (SAI).\n- 4. と: Trợ từ nối từ mang nghĩa \"và\" hoặc \"cùng với\" (SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
     },
     "30": {
-      "snippet": "輸入する ≒ 買う",
-      "explanation": "🎯 Đáp án đúng: [3] 輸入する ≒ 買う\n\n💬 Dịch nghĩa câu:\n\"Quốc gia này hằng năm đều nhập khẩu một lượng lớn gạo từ các nước khác.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「輸入する (ゆにゅうする: nhập khẩu)」 đồng nghĩa với việc mua hàng hóa từ nước ngoài: 「外国から買う」.\n\n🔍 Phân tích các lựa chọn:\n- 1. Bán gạo ra thị trường nước ngoài\n- 2. Nhận viện trợ gạo từ nước ngoài\n- 3. Mua gạo từ các quốc gia khác (ĐÚNG)\n- 4. Gửi tặng gạo cho nước ngoài\n\n📄 Trích PDF gốc (试题解析):\n(30) 3 句意: 这个国家一直进口大米。(輸入する ≒ 買う)",
+      "snippet": "歩いて 行く（ か ）バスで 行くか、ここで 決めましょう。",
+      "explanation": "🎯 Đáp án đúng: [3] か\n\n💬 Câu hỏi & Dịch nghĩa:\n歩いて 行く（ か ）バスで 行くか、ここで 決めましょう。\n(Đi bộ hay là đi xe buýt, chúng ta cùng quyết định ở đây nhé.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc liệt kê sự lựa chọn nghi vấn giữa hai hay nhiều hành động/phương án:\n  [Thể thông thường] か [Thể thông thường] か + Động từ (決めます / 考えます / 選びます...)\n  Mang nghĩa: \"...hay là... / liệu... hay là...\".\n• Vế trước: 歩いて行くか (đi bộ hay là), vế sau: バスで行くか (đi bằng xe buýt).\n\n🔍 Phân tích các lựa chọn:\n- 1. も: cũng (SAI ngữ pháp).\n- 2. に: đến, vào lúc... (SAI ngữ pháp).\n- 3. か: dùng trong cấu trúc「A か B か」liệt kê lựa chọn (ĐÚNG).\n- 4. と: và, nếu (SAI ngữ pháp).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 3
     },
     "31": {
-      "snippet": "最近 (さいきん)",
-      "explanation": "🎯 Đáp án đúng: [3] 最近 (さいきん)\n\n💬 Dịch nghĩa câu:\n\"Dạo gần đây nghe nói anh Kimura đã kết hôn rồi thì phải.\"\n\n💡 Phân tích & Giải thích:\n• Từ 「最近 (さいきん)」 biểu thị khoảng thời gian từ quá khứ gần đây kéo dài tới hiện tại.\n\n🔍 Phân tích các lựa chọn:\n- 1. さっき: Vừa mới ban nãy (sai vì dùng với vừa nấu xong)\n- 2. いま: Hiện tại ngay lúc này\n- 3. Anh Kimura dạo gần đây hình như đã lập gia đình (ĐÚNG)\n- 4. もうすぐ: Sắp sửa (dùng với tương lai)\n\n📄 Trích PDF gốc (试题解析):\n(31) 3 さいきん 意思是“最近, 近来”, 选项 3 为正确应用。",
+      "snippet": "バターは 牛乳（ から ）作られます。",
+      "explanation": "🎯 Đáp án đúng: [3] から\n\n💬 Câu hỏi & Dịch nghĩa:\nバターは 牛乳（ から ）作られます。\n(Bơ được làm từ sữa tươi.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Phân biệt chất liệu「で」và nguyên liệu「から」trong thể bị động:\n  -「原料（げんりょう）+ から作られる」: Dùng cho nguyên liệu bị biến đổi chất/tính chất hóa học, nhìn bề ngoài thành phẩm không còn nhận ra nguyên liệu ban đầu (VD: bơ làm từ sữa: 牛乳から, rượu làm từ gạo: 米から).\n  -「材料（ざいりょう）+ で作られる」: Dùng cho vật liệu nhìn vào còn thấy rõ chất liệu (VD: bàn làm từ gỗ: 木で作られる).\n• Bơ (バター) làm từ sữa bò (牛乳) đã qua quy trình biến đổi tính chất, do đó phải dùng「から」.\n\n🔍 Phân tích các lựa chọn:\n- 1. へ: chỉ phương hướng chuyển động (SAI).\n- 2. に: chỉ mục đích, tác nhân... (SAI).\n- 3. から: chỉ nguồn gốc nguyên liệu bị biến đổi chất chế biến thành sản phẩm (ĐÚNG).\n- 4. まで: cho đến tận khi (SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 3
     },
     "32": {
-      "snippet": "音 (おと)",
-      "explanation": "🎯 Đáp án đúng: [1] 音 (おと)\n\n💬 Dịch nghĩa câu:\n\"Âm thanh tiếng đài phát thanh đang to quá, xin bạn vui lòng vặn nhỏ lại một chút.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ 「音 (おと)」 dùng chỉ âm thanh phát ra từ máy móc, đồ vật, nhạc cụ.\n\n🔍 Phân tích các lựa chọn:\n- 1. Tiếng đài phát thanh to quá, hãy vặn nhỏ lại (ĐÚNG)\n- 2. Phát âm tiếng Nhật (phải dùng 発音 はつおん)\n- 3. Tiếng người gọi (phải dùng 声 こえ)\n- 4. Bài hát giai điệu (phải dùng 曲 きょく)\n\n📄 Trích PDF gốc (试题解析):\n(32) 1 おと 意思是“声音”, 选项 1 为正确应用。",
-      "correctOption": 1
+      "snippet": "この 箱は、あそこにある スーツケース（ と ）同じくらいの 大きさです。",
+      "explanation": "🎯 Đáp án đúng: [4] と\n\n💬 Câu hỏi & Dịch nghĩa:\nこの 箱は、あそこにある スーツケース（ と ）同じくらいの 大きさです。\n(Chiếc hộp này có kích cỡ xấp xỉ ngang bằng với chiếc va li ở đằng kia.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Mẫu câu so sánh tương đương / bằng nhau:\n  [Danh từ 1] は [Danh từ 2] と同じ (N1 giống / cùng với N2).\n  [Danh từ] と同じくらい: tương đương / ngang bằng với...\n• Vì vậy, để kết hợp với「同じ」(giống, cùng), trợ từ liên kết bắt buộc phải là「と」.\n\n🔍 Phân tích các lựa chọn:\n- 1. が: trợ từ chủ ngữ (SAI).\n- 2. を: trợ từ bổ ngữ trực tiếp (SAI).\n- 3. より: hơn (dùng trong so sánh hơn kém, không đi cùng と同じ) (SAI).\n- 4. と: đi trong cụm「〜と同じ」(giống với ~) (ĐÚNG).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
     },
     "33": {
-      "snippet": "見学 (けんがく)",
-      "explanation": "🎯 Đáp án đúng: [3] 見学 (けんがく)\n\n💬 Dịch nghĩa câu:\n\"Tôi cùng thầy giáo và các bạn học sinh đã đi tham quan học hỏi thực tế tại nhà máy.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ 「見学 (けんがく)」 nghĩa là đến quan sát, tham quan học hỏi thực tế ở nơi sản xuất, bảo tàng.\n\n🔍 Phân tích các lựa chọn:\n- 1. Đi siêu thị mua sắm (phải dùng 買い物)\n- 2. Tra cứu từ điển (phải dùng 調べる)\n- 3. Đi tham quan học tập thực tế ở nhà máy (ĐÚNG)\n- 4. Xem tin tức thời sự (phải dùng 見る)\n\n📄 Trích PDF gốc (试题解析):\n(33) 3 けんがく 意思是“参观”, 选项 3 为正确应用。",
+      "snippet": "日本に来る前は、日本料理を あまり 食べませんでしたが、（ こっちへ ）来てからは、よく 食べるようになりました。",
+      "explanation": "🎯 Đáp án đúng: [3] こっちへ (hoặc こっち)\n\n💬 Câu hỏi & Dịch nghĩa:\n日本に来る前は、日本料理を あまり 食べませんでしたが、（ こっちへ ）来てからは、よく 食べるようになりました。\n(Trước khi đến Nhật, tôi hầu như không ăn món Nhật, nhưng kể từ khi sang bên này, tôi đã ăn thường xuyên hơn.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Chỉ định từ chỉ phương hướng/vị trí:\n  - こっち (phía này, nơi này): chỉ nơi người nói đang ở. Người nói hiện đang ở Nhật Bản nên nói về nơi mình đang ở dùng「こっち」(hoặc こっちへ).\n  - そっち (phía đó): nơi phía người nghe.\n  - あっち (phía kia): nơi xa cả hai người.\n•「こっちに来てから」= kể từ khi sang bên này (đến Nhật Bản).\n\n🔍 Phân tích các lựa chọn:\n- 1. そこへ: phía đó (phía người nghe - SAI).\n- 2. そっちへ: hướng đó (SAI).\n- 3. こっちへ: hướng bên này / nơi người nói đang đứng (ĐÚNG).\n- 4. あっちへ: phía đằng kia (SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 3
     },
     "34": {
-      "snippet": "飾る (かざる)",
-      "explanation": "🎯 Đáp án đúng: [2] 飾る (かざる)\n\n💬 Dịch nghĩa câu:\n\"Sắp sửa có khách quý ghé thăm nhà, chúng mình hãy trang trí thêm ít hoa tươi nhé.\"\n\n💡 Phân tích & Giải thích:\n• Động từ 「かざる (飾る)」: trang trí, bài trí đồ vật đẹp mắt trong không gian.\n\n🔍 Phân tích các lựa chọn:\n- 1. Dán thông báo lên bảng (phải dùng 貼る はる)\n- 2. Trang trí cắm hoa trong phòng đón khách (ĐÚNG)\n- 3. Treo quần áo phơi (phải dùng 掛ける かける)\n- 4. Lắp đặt điều hòa (phải dùng 付ける つける)\n\n📄 Trích PDF gốc (试题解析):\n(34) 2 かざる 意思是“装饰”, 选项 2 为正确应用。",
-      "correctOption": 2
+      "snippet": "「アイスクリームは 何味が 好きですか。」「そうですね。（ とくに ）いちご味が 好きです。」",
+      "explanation": "🎯 Đáp án đúng: [1] とくに\n\n💬 Câu hỏi & Dịch nghĩa:\n「アイスクリームは 何味が 好きですか。」「そうですね。（ とくに ）いちご味が 好きです。」\n(\"Bạn thích kem vị gì nhất?\" - \"À, đặc biệt là tôi thích vị dâu tây.\")\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Phó từ「とくに」(特に): đặc biệt là, nhất là. Dùng để nhấn mạnh một sự vật, đối tượng tiêu biểu vượt trội trong số nhiều thứ.\n• Người nói được hỏi thích vị kem nào và đưa ra câu trả lời nhấn mạnh: \"Đặc biệt là vị dâu tây\".\n\n🔍 Phân tích các lựa chọn:\n- 1. とくに: đặc biệt là (phù hợp ngữ cảnh - ĐÚNG).\n- 2. ぜんぜん: hoàn toàn (thường đi với phủ định ぜんぜん〜ない - SAI).\n- 3. ほとんど: hầu như, gần như (SAI nghĩa).\n- 4. たぶん: có lẽ, chắc là (phỏng đoán - không hợp ngữ cảnh nói về sở thích bản thân - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
     },
     "35": {
-      "snippet": "工事 (こうじ)",
-      "explanation": "🎯 Đáp án đúng: [4] 工事 (こうじ)\n\n💬 Dịch nghĩa câu:\n\"Đoạn đường phía trước đang thi công công trình nên các phương tiện không thể lưu thông.\"\n\n💡 Phân tích & Giải thích:\n• Danh từ 「工事 (こうじ)」 dùng cho công trình xây dựng, sửa chữa cầu đường, nhà cửa.\n\n🔍 Phân tích các lựa chọn:\n- 1. Khám chữa răng sâu (phải dùng 治療 ちりょう)\n- 2. Khâu vá áo len (phải dùng 直す/繕う)\n- 3. Sửa chữa giá sách gãy (phải dùng 修理 しゅうり)\n- 4. Đoạn đường đang thi công công trình không thể đi qua (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(35) 4 こうじ 意思是“工程/施工”, 选项 4 为正确应用。",
+      "snippet": "昨日は、休みだったので、一日（ 中 ）ベッドの中で 本を 読んでいました。",
+      "explanation": "🎯 Đáp án đúng: [4] 中 (phát âm là じゅう)\n\n💬 Câu hỏi & Dịch nghĩa:\n昨日は、休みだったので、一日（ 中 ）ベッドの中で 本を 読んでいました。\n(Hôm qua là ngày nghỉ nên suốt cả ngày tôi đã nằm trên giường đọc sách.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Hậu tố「〜中」(đọc là じゅう khi ghép sau danh từ chỉ khoảng thời gian: 一日中 [いちにちじゅう]: suốt cả ngày; 一年中 [いちねんじゅう]: suốt cả năm; 一晩中 [ひとばんじゅう]: suốt cả đêm).\n• Mang ý nghĩa hành động diễn ra liên tục, kéo dài trong toàn bộ khoảng thời gian đó.\n\n🔍 Phân tích các lựa chọn:\n- 1. ごろ: khoảng chừng (dùng cho mốc thời gian, vd: 3時ごろ - SAI).\n- 2. ほど: khoảng độ (chỉ lượng - SAI).\n- 3. 前: trước (vd: 3日前: 3 ngày trước - SAI).\n- 4. 中: gắn sau 一日 tạo thành 一日中 (suốt cả ngày - ĐÚNG).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 4
     },
     "36": {
-      "snippet": "20分で (Phạm vi thời gian)",
-      "explanation": "🎯 Đáp án đúng: [3] 20分で (Phạm vi thời gian)\n\n💬 Dịch nghĩa câu:\n\"Hôm qua bài tập về nhà rất ít nên tôi chỉ mất vỏn vẹn 20 phút là làm xong hết.\"\n\n💡 Phân tích & Giải thích:\n• Trợ từ 「で」 đi sau lượng từ thời gian để chỉ hạn mức, phạm vi hoàn thành xong một hành động.\n\n🔍 Phân tích các lựa chọn:\n- 1. 20分に: Sai trợ từ chỉ mốc\n- 2. 20分を: Sai trợ từ bổ ngữ\n- 3. 20分で: ĐÚNG - Hoàn thành trong vòng 20 phút (ĐÚNG)\n- 4. 20分から: Chỉ điểm xuất phát\n\n📄 Trích PDF gốc (试题解析):\n(1) 3 句意: 昨天作业很少, 所以只用了20分钟就做完了。考察で表示时间范围的用法。",
-      "correctOption": 3
-    },
-    "37": {
-      "snippet": "人と (Cùng với đối tượng)",
-      "explanation": "🎯 Đáp án đúng: [4] 人と (Cùng với đối tượng)\n\n💬 Dịch nghĩa câu:\n\"Cỗ máy robot thông minh thế hệ mới này có thể trực tiếp trò chuyện cùng với con người.\"\n\n💡 Phân tích & Giải thích:\n• Trợ từ 「と」 biểu thị đối tượng tương tác, cùng thực hiện hành động giao tiếp hai chiều: 人と対話する.\n\n🔍 Phân tích các lựa chọn:\n- 1. 人を: Sai trợ từ\n- 2. 人に: Chỉ tác động một chiều\n- 3. 人へ: Chỉ hướng\n- 4. 人と: ĐÚNG - Cùng trò chuyện với ai (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(2) 4 句意: 这台机器人可以和人进行对话。考察と表示一起做某动作的对象的用法。",
+      "snippet": "あした（ 晴れたら ）、テニスを しましょう。",
+      "explanation": "🎯 Đáp án đúng: [1] 晴れたら\n\n💬 Câu hỏi & Dịch nghĩa:\nあした（ 晴れたら ）、テニスを しましょう。\n(Ngày mai nếu trời nắng ráo thì chúng ta cùng chơi tennis nhé!)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc câu điều kiện giả định「〜たら」(Nếu... thì...):\n  [V thể quá khứ (た)] + ら, [Mệnh đề kết quả].\n• Chú ý quan trọng trong ngữ pháp N4:\n  - Khi vế sau là câu rủ rê, đề nghị, mệnh lệnh, ý chí (〜ましょう, 〜てください, 〜たい), chỉ có thể dùng「〜たら」(không dùng と hay ば khi nói về hiện tượng tự nhiên).\n  - Vế sau là「テニスをしましょう」(chúng ta hãy cùng chơi tennis), nên ta dùng「晴れたら」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 晴れたら: Nếu trời nắng (kết hợp tự nhiên với câu rủ rê 〜ましょう - ĐÚNG).\n- 2. 晴れて: thể て nối câu (SAI).\n- 3. 晴れるなら: nếu là nắng (thường tiếp nhận thông tin từ đối phương - SAI).\n- 4. 晴れると: điều kiện hiển nhiên, vế sau KHÔNG được đi với rủ rê, ý chí như 〜ましょう (SAI quy tắc).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 4
     },
-    "38": {
-      "snippet": "心配させた (Thể sai khiến 使役形)",
-      "explanation": "🎯 Đáp án đúng: [2] 心配させた (Thể sai khiến 使役形)\n\n💬 Dịch nghĩa câu:\n\"Em trai tôi hồi còn nhỏ rất hay nghịch ngợm bị thương, khiến cho bố mẹ vô cùng lo lắng.\"\n\n💡 Phân tích & Giải thích:\n• Thể sai khiến 使役形: 「A は B を 心配させる」 biểu thị việc hành vi của A làm cho B cảm thấy lo lắng.\n\n🔍 Phân tích các lựa chọn:\n- 1. 心配した: Tự mình lo lắng (sai chủ ngữ)\n- 2. 心配させた: ĐÚNG - Khiến cho bố mẹ phải lo lắng (ĐÚNG)\n- 3. 心配された: Bị động (không phù hợp)\n- 4. 心配させられた: Bị sai khiến\n\n📄 Trích PDF gốc (试题解析):\n(3) 2 句意: 我弟弟小时候经常受伤, 让父母很担心。考察使役态的用法。",
+    "37": {
+      "snippet": "外国に 一人で 住んでいるので、ときどき 手紙を書いて、両親を（ 安心させて ）います。",
+      "explanation": "🎯 Đáp án đúng: [2] 安心させて\n\n💬 Câu hỏi & Dịch nghĩa:\n外国に 一人で 住んでいるので、ときどき 手紙を書いて、両親を（ 安心させて ）います。\n(Vì sống một mình ở nước ngoài, nên thỉnh thoảng tôi viết thư để làm cho bố mẹ yên tâm.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Thể sai khiến (使役形 - しえきけい):\n  - Nhóm 3: する ➔ させる (安心する ➔ 安心させる).\n  - Mẫu câu: [Người tác động] が [Người nhận tác động] を + [Động từ thể sai khiến].\n  - Khi đi với động từ biểu thị cảm xúc/tâm lý (安心する, 喜ぶ, びっくりする, 怒る...), thể sai khiến mang nghĩa \"làm cho ai đó cảm thấy...\".\n  - Ở đây「両親を安心させる」= làm cho bố mẹ yên tâm.\n\n🔍 Phân tích các lựa chọn:\n- 1. 安心されて: thể bị động (SAI).\n- 2. 安心させて: thể sai khiến (làm cho bố mẹ yên tâm - ĐÚNG).\n- 3. 安心させられて: thể bị động sai khiến (bị bắt phải yên tâm - SAI).\n- 4. 安心したがられて: SAI dạng ngữ pháp.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 2
     },
-    "39": {
-      "snippet": "8個も (Nhấn mạnh số lượng nhiều)",
-      "explanation": "🎯 Đáp án đúng: [1] 8個も (Nhấn mạnh số lượng nhiều)\n\n💬 Dịch nghĩa câu:\n\"Bánh mì trong bữa sáng buffet ở khách sạn quá ngon nên tôi đã ăn tận 8 cái liền.\"\n\n💡 Phân tích & Giải thích:\n• Trợ từ 「も」 đi sau số từ nhấn mạnh số lượng lớn vượt mức bình thường, gây ngạc nhiên cho người nghe.\n\n🔍 Phân tích các lựa chọn:\n- 1. 8個も: ĐÚNG - Tận 8 cái, nhấn mạnh số lượng nhiều (ĐÚNG)\n- 2. 8個しか: Đi với phủ định\n- 3. 8個だけ: Chỉ duy nhất 8 cái (không hợp ngữ cảnh khen ngon)\n- 4. 8個でも: Cho dù 8 cái\n\n📄 Trích PDF gốc (试题解析):\n(4) 1 句意: 酒店早餐中的面包非常好吃, 所以我足足吃了八个。考察も表示数量多的用法。",
+    "38": {
+      "snippet": "「田中さんは、もう 来ましたか。」「いいえ、まだ（ 来ません ）。」",
+      "explanation": "🎯 Đáp án đúng: [1] 来ません\n\n💬 Câu hỏi & Dịch nghĩa:\n「田中さんは、もう 来ましたか。」「いいえ、まだ（ 来ません ）。」\n(\"Anh Tanaka đã đến chưa?\" - \"Dạ chưa, anh ấy vẫn chưa đến ạ.\")\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Hỏi:「もう V ましたか」(Đã làm... chưa?).\n• Trả lời phủ định:「いいえ、まだ〜」(Chưa, vẫn chưa...).\n  - Thường dùng「いいえ、まだ来ていません」hoặc dạng phủ định「いいえ、まだ来ません」(vẫn chưa đến).\n• Trong các phương án đề bài cho, chỉ có「来ません」biểu thị phủ định thực tế ở hiện tại.\n\n🔍 Phân tích các lựa chọn:\n- 1. 来ません: phủ định (chưa đến - ĐÚNG).\n- 2. 来ました: khẳng định quá khứ (đã đến - mâu thuẫn với いいえ, まだ - SAI).\n- 3. 来ないでしょう: có lẽ sẽ không đến (phỏng đoán - SAI).\n- 4. 来たでしょう: có lẽ đã đến (SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 1
     },
+    "39": {
+      "snippet": "「川田先生、レポートは いつ 出したら いいですか。」「さっき、事務室へ （ きました ）から、もう 出せますよ。」",
+      "explanation": "🎯 Đáp án đúng: [2] きました\n\n💬 Câu hỏi & Dịch nghĩa:\n「川田先生、レポートは いつ 出したら いいですか。」「さっき、事務室へ （ 出して ）きましたから、もう 出せますよ。」\n(\"Thưa thầy Kawada, bài báo cáo bao giờ nộp thì được ạ?\" - \"Vừa nãy thầy vừa nộp ở văn phòng giáo vụ về rồi, nên các em có thể nộp được luôn đấy.\")\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc「V-て + くる」(V-てきました):\n  - Biểu thị hành động đi đến một địa điểm làm việc gì đó rồi quay trở lại nơi nói.\n  -「出してきました」= vừa đi nộp rồi quay về đây.\n• Trong ngữ cảnh câu, thầy giáo vừa nộp mẫu/thông báo ở phòng giáo vụ xong rồi trở về lớp học, do đó chọn「きました」.\n\n🔍 Phân tích các lựa chọn:\n- 1. いきました: đi (đi luôn không quay lại nơi nói - SAI).\n- 2. きました: làm gì đó rồi quay lại vị trí nói (出してきました - ĐÚNG).\n- 3. もってきました: thừa động từ (SAI).\n- 4. もっていきました: thừa động từ (SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
     "40": {
-      "snippet": "～によって (Bị động sáng tác / tác giả)",
-      "explanation": "🎯 Đáp án đúng: [4] ～によって (Bị động sáng tác / tác giả)\n\n💬 Dịch nghĩa câu:\n\"Cuốn từ điển tiếng Nhật cổ này được biên soạn bởi một học giả người nước ngoài cách đây 150 năm.\"\n\n💡 Phân tích & Giải thích:\n• Trong câu bị động chỉ tác phẩm được sáng tạo, tác giả / người tạo ra được biểu thị bằng cụm 「～によって」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 外国人へ: Chỉ phương hướng\n- 2. 外国人と: Cùng với ai\n- 3. 外国人に: Bị động thông thường (bị làm phiền)\n- 4. 外国人によって: ĐÚNG - Được viết/biên soạn bởi tác giả (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(5) 4 句意: 这本日语词典是一位外国人在150年前编写的。考察によって表示创作者的用法。",
+      "snippet": "電車が 止まっていますね。事故が（ あったのかもしれません ）。",
+      "explanation": "🎯 Đáp án đúng: [1] あったのかもしれません\n\n💬 Câu hỏi & Dịch nghĩa:\n電車が 止まっていますね。事故が（ あったのかもしれません ）。\n(Tàu điện đang dừng lại nhỉ. Có lẽ là đã xảy ra tai nạn rồi cũng nên.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Mẫu câu phán đoán khả năng:\n  [Thể thông thường] + のかもしれません / かもしれません\n  Mang nghĩa: \"Có lẽ là... / Không chừng là...\".\n• Hiện tượng tàu điện đang dừng lại được quan sát ở hiện tại, và nguyên nhân tai nạn đã xảy ra trước đó nên động từ chia ở quá khứ:「事故があった」(đã có tai nạn).\n• Kết hợp lại thành:「事故があったのかもしれません」.\n\n🔍 Phân tích các lựa chọn:\n- 1. あったのかもしれません: có lẽ đã xảy ra (hợp lý hoàn toàn về thì và ý nghĩa - ĐÚNG).\n- 2. あったはずがありません: chắc chắn không thể xảy ra (trái ngược tình huống - SAI).\n- 3. あるようです: dường như đang có (SAI thì động từ).\n- 4. あるそうです: nghe nói là có (truyền đạt tin tức - SAI thì và ngữ cảnh tự phán đoán).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 4
     },
     "41": {
-      "snippet": "だれでも (Bất kỳ ai cũng...)",
-      "explanation": "🎯 Đáp án đúng: [1] だれでも (Bất kỳ ai cũng...)\n\n💬 Dịch nghĩa câu:\n\"Bất kỳ ai cũng có thể tự do sử dụng sân vận động thành phố A, tuy nhiên cần đặt lịch trước.\"\n\n💡 Phân tích & Giải thích:\n• Từ nghi vấn 「だれ (ai)」 kết hợp trợ từ 「でも」 tạo thành đại từ phiếm chỉ: 「だれでも」 (bất cứ ai cũng).\n\n🔍 Phân tích các lựa chọn:\n- 1. だれでも: ĐÚNG - Bất kỳ ai cũng có thể (ĐÚNG)\n- 2. だれかに: Tới một ai đó\n- 3. だれかも: Không có dạng này\n- 4. だれかで: Bằng ai đó\n\n📄 Trích PDF gốc (试题解析):\n(6) 1 句意: 任何人都能使用A市的运动场, 但需要提前预约。考察でも前接疑问词表示全面肯定的用法。",
+      "snippet": "客「すみません。タクシーを 1台 お願い（ したいんですが ）。」フロント「はい、かしこまりました。」",
+      "explanation": "🎯 Đáp án đúng: [1] したいんですが\n\n💬 Câu hỏi & Dịch nghĩa:\n（ホテルで）客「すみません。タクシーを 1台 お願い（ したいんですが ）。」フロント「はい、かしこまりました。」\n((Tại khách sạn) Khách: \"Xin lỗi, tôi muốn nhờ bạn gọi giúp 1 chiếc taxi...\" - Lễ tân: \"Vâng, tôi hiểu rồi ạ.\")\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc nhờ vả, bày tỏ nguyện vọng lịch sự, khiêm tốn:\n  [V-ます bỏ ます] + たいんですが\n• Khách hàng muốn nhờ vả phía khách sạn:「お願いしたいんですが」(Tôi muốn nhờ bạn giúp...). Đuôi「〜んですが」tạo sự ngập ngừng, nhẹ nhàng, mở đầu cho lời yêu cầu lịch sự trong giao tiếp tiếng Nhật.\n\n🔍 Phân tích các lựa chọn:\n- 1. したいんですが: Tôi muốn nhờ... (lời nhờ cậy nhẹ nhàng, chuẩn mực - ĐÚNG).\n- 2. しますが: tôi làm nhưng... (khách hàng không tự làm - SAI).\n- 3. してくださいませんか: xin hãy nhờ... (nhờ ai nhờ hộ - SAI nghĩa).\n- 4. してあげますか: tôi làm giúp bạn nhé (hỏi bề trên/khách hàng - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 1
     },
     "42": {
-      "snippet": "どうやって (Cách thức thực hiện)",
-      "explanation": "🎯 Đáp án đúng: [3] どうやって (Cách thức thực hiện)\n\n💬 Dịch nghĩa câu:\n\"Maeda: 'Lee ơi bạn thường liên lạc với gia đình ở quê nhà bằng cách nào thế?' - Lee: 'Đa phần tôi gửi email.'\"\n\n💡 Phân tích & Giải thích:\n• Từ để hỏi 「どうやって」 dùng để hỏi về cách thức, quy trình, phương thức tiến hành của hành động.\n\n🔍 Phân tích các lựa chọn:\n- 1. どのぐらい: Bao nhiêu (lượng/thời gian)\n- 2. どこで: Ở đâu\n- 3. どうやって: ĐÚNG - Bằng cách nào, làm thế nào (ĐÚNG)\n- 4. どうして: Tại sao, vì lý do gì\n\n📄 Trích PDF gốc (试题解析):\n(7) 3 句意: 前田:“小李, 你一般怎样和国内的家人联系?” 考察疑问词どうやって询问方式。",
-      "correctOption": 3
+      "snippet": "弟は 映画が 好きで、ビデオ を [200本] ★[も] [持っています]。",
+      "explanation": "🎯 Đáp án đúng: [2] も (Vị trí dấu ★ là số 2)\n\n💬 Câu hỏi & Dịch nghĩa:\n弟は 映画が 好きで、ビデオ ＿＿＿　＿＿＿　＿★＿　＿＿＿。\nCác lựa chọn: 1 持って います, 2 も, 3 を, 4 200本\n(Em trai tôi rất thích phim ảnh, nó sở hữu đến tận hơn 200 cuốn băng video.)\n\n💡 Phân tích & Giải thích cách sắp xếp câu:\n• Động từ chính cuối câu:「持っています」(phương án 1).\n• Bổ ngữ cho động từ:「ビデオを」(phương án 3 đi ngay sau ビデオ).\n• Số từ đi kèm trợ từ nhấn mạnh số lượng nhiều:「200本も」(200 bản / cuốn đến tận).\n• Trật tự ghép đúng:\n  ビデオ [ 3 を ] [ 4 200本 ] [ ★ 2 も ] [ 1 持っています ]。\n• Vị trí dấu ngôi sao ★ nằm ở vị trí thứ 3, tương ứng với số 2「も」.\n\n🔍 Thứ tự hoàn chỉnh: 3 ➔ 4 ➔ 2 (★) ➔ 1.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
     },
     "43": {
-      "snippet": "もうすぐ (Chẳng mấy chốc, sắp sửa)",
-      "explanation": "🎯 Đáp án đúng: [4] もうすぐ (Chẳng mấy chốc, sắp sửa)\n\n💬 Dịch nghĩa câu:\n\"Con gái tôi tháng trước vừa tốt nghiệp cấp 3, sắp sửa tới đây sẽ bước vào lễ khai giảng đại học.\"\n\n💡 Phân tích & Giải thích:\n• Phó từ 「もうすぐ」 dùng diễn tả một sự kiện sắp sửa diễn ra trong tương lai rất gần.\n\n🔍 Phân tích các lựa chọn:\n- 1. だんだん: Dần dần, từng bước\n- 2. あまり: Không mấy (đi với phủ định)\n- 3. だいたい: Đại khái, nhìn chung\n- 4. もうすぐ: ĐÚNG - Sắp sửa, chẳng mấy chốc (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(8) 4 句意: 我女儿上个月从高中毕业了, 马上就要迎来大学的开学典礼。4. もうすぐ: 马上, 立刻",
+      "snippet": "わたしは 日本の 料理を、はしを [使って] [食べたくて]、★[使い方の] [練習を] しました。",
+      "explanation": "🎯 Đáp án đúng: [4] 使い方の (Vị trí dấu ★ là số 4)\n\n💬 Câu hỏi & Dịch nghĩa:\nわたしは 日本の 料理を、はしを ＿＿＿　＿＿＿　＿★＿　＿＿＿ しました。\nCác lựa chọn: 1 使って, 2 食べたくて, 3 練習を, 4 使い方の\n(Vì muốn dùng đũa để ăn món Nhật, nên tôi đã luyện tập cách dùng đũa.)\n\n💡 Phân tích & Giải thích cách sắp xếp câu:\n• Phía trước có「はしを」(đũa), ta ghép với hành động:「使って」(phương án 1).\n• Nối tiếp với lý do muốn ăn:「食べたくて」(phương án 2).\n• Cuối câu có「〜しました」, ta ghép với danh từ chỉ hoạt động:「練習をしました」(phương án 3).\n• Bổ nghĩa cho \"luyện tập\" là \"cách dùng\":「使い方の練習を」(phương án 4 + 3).\n• Trật tự ghép đúng:\n  はしを [ 1 使って ] [ 2 食べたくて ]、[ ★ 4 使い方の ] [ 3 練習を ] しました。\n• Vị trí dấu ngôi sao ★ là vị trí thứ 3, tương ứng với số 4「使い方の」.\n\n🔍 Thứ tự hoàn chỉnh: 1 ➔ 2 ➔ 4 (★) ➔ 3.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 4
     },
     "44": {
-      "snippet": "なかなか～ない (Mãi mà không)",
-      "explanation": "🎯 Đáp án đúng: [2] なかなか～ない (Mãi mà không)\n\n💬 Dịch nghĩa câu:\n\"Sáng nay chiếc xe buýt đi đến nhà ga mãi mà không thấy tới, sốt ruột quá nên tôi đã bắt taxi đi.\"\n\n💡 Phân tích & Giải thích:\n• Phó từ 「なかなか」 khi đi kèm với động từ chia thể phủ định mang ý nghĩa: 'mãi mà không thể...'.\n\n🔍 Phân tích các lựa chọn:\n- 1. やっと: Cuối cùng thì (đi với khẳng định)\n- 2. なかなか: ĐÚNG - Mãi mà vẫn chưa tới (なかなか来ない) (ĐÚNG)\n- 3. きっと: Chắc chắn sẽ\n- 4. いつか: Một ngày nào đó\n\n📄 Trích PDF gốc (试题解析):\n(9) 2 句意: 今早, 去车站的公交一直不来, 所以我坐出租车过去了。2. なかなか: 怎么也(不)",
-      "correctOption": 2
+      "snippet": "A「新しい アパートは どう？」B「ちょっと 駅から [遠い] [けど]、★[静かで] [いい] ところだよ。」",
+      "explanation": "🎯 Đáp án đúng: [1] 静かで (Vị trí dấu ★ là số 1)\n\n💬 Câu hỏi & Dịch nghĩa:\nA「新しい アパートは どう？」\nB「ちょっと 駅から ＿＿＿　＿＿＿　＿★＿　＿＿＿ ところだよ。」\nCác lựa chọn: 1 静かで, 2 遠い, 3 けど, 4 いい\n(A: \"Căn hộ mới thế nào?\" - B: \"Hơi xa ga một chút nhưng mà yên tĩnh và là một nơi rất tốt đấy.\")\n\n💡 Phân tích & Giải thích cách sắp xếp câu:\n• Sau「駅から」kết hợp với tính từ「遠い」(phương án 2: 駅から遠い - xa ga).\n• Liên từ nối tương phản「けど」(phương án 3: 遠いけど - xa nhưng mà).\n• Tiếp theo là tính từ bổ nghĩa cho danh từ「ところ」(nơi chốn): hai tính từ nối nhau dạng て:\n  Tính từ đuôi な「静か」chia thành「静かで」(phương án 1), nối với tính từ đuôi い「いい」(phương án 4) +「ところ」.\n• Trật tự ghép đúng:\n  駅から [ 2 遠い ] [ 3 けど ]、[ ★ 1 静かで ] [ 4 いい ] ところだよ。\n• Vị trí dấu ngôi sao ★ là vị trí thứ 3, tương ứng với số 1「静かで」.\n\n🔍 Thứ tự hoàn chỉnh: 2 ➔ 3 ➔ 1 (★) ➔ 4.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
     },
     "45": {
-      "snippet": "～なら (Đưa ra điều kiện theo chủ đề)",
-      "explanation": "🎯 Đáp án đúng: [4] ～なら (Đưa ra điều kiện theo chủ đề)\n\n💬 Dịch nghĩa câu:\n\"Yamashita: 'Mai hoặc ngày kia mình đi hát karaoke nhé?' - Minami: 'Hay đấy! Nhưng mai tớ bận, nếu là ngày kia thì OK.'\"\n\n💡 Phân tích & Giải thích:\n• Trợ từ 「なら」 tiếp nhận đề xuất ở vế trước để đưa ra điều kiện cụ thể: 「あさってなら大丈夫」 (Nếu là ngày kia thì được).\n\n🔍 Phân tích các lựa chọn:\n- 1. それに: Hơn nữa\n- 2. だから: Vì thế\n- 3. でも: Tuy nhiên\n- 4. なら: ĐÚNG - Nếu là (ngày kia) (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(10) 4 句意: 山下:“小南, 明天或者后天去卡拉OK怎么样?” 小南:“后天的话没问题。” 考察なら表示假设条件。",
+      "snippet": "外国に 住んで いる [友だちが] [けっこんすると] ★[聞いたので]、[プレゼントを 送ろうと] 思う。",
+      "explanation": "🎯 Đáp án đúng: [4] 聞いたので (Vị trí dấu ★ là số 4)\n\n💬 Câu hỏi & Dịch nghĩa:\n外国に 住んで いる ＿＿＿　＿＿＿　＿★＿　＿＿＿ 思う。\nCác lựa chọn: 1 けっこんすると, 2 プレゼントを 送ろうと, 3 友だちが, 4 聞いたので\n(Vì nghe nói người bạn đang sống ở nước ngoài sắp kết hôn, nên tôi định gửi quà chúc mừng.)\n\n💡 Phân tích & Giải thích cách sắp xếp câu:\n• Mệnh đề định ngữ「外国に住んでいる」bổ nghĩa cho danh từ:「友だちが」(phương án 3).\n• Tiếp theo là nội dung nghe được:「けっこんすると」(phương án 1: rằng sẽ kết hôn) +「聞いたので」(phương án 4: vì nghe nói).\n• Cuối cùng là dự định đi với「思う」:「プレゼントを送ろうと」(phương án 2 - thể ý chí + と思う).\n• Trật tự ghép đúng:\n  外国に住んでいる [ 3 友だちが ] [ 1 けっこんすると ] [ ★ 4 聞いたので ]、[ 2 プレゼントを 送ろうと ] 思う。\n• Vị trí dấu ngôi sao ★ là vị trí thứ 3, tương ứng với số 4「聞いたので」.\n\n🔍 Thứ tự hoàn chỉnh: 3 ➔ 1 ➔ 4 (★) ➔ 2.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 4
     },
     "46": {
-      "snippet": "～の間に (Trong suốt khoảng thời gian)",
-      "explanation": "🎯 Đáp án đúng: [3] ～の間に (Trong suốt khoảng thời gian)\n\n💬 Dịch nghĩa câu:\n\"Trong suốt khoảng thời gian kỳ nghỉ hè vừa qua, tôi đã liên tục đi làm thêm tại siêu thị.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc 「Danh từ + の間に」 biểu thị một hành động diễn ra trong suốt khoảng thời gian danh từ đó kéo dài.\n\n🔍 Phân tích các lựa chọn:\n- 1. 夏休みまでに: Trước khi kỳ nghỉ hè kết thúc\n- 2. 夏休みで: Tại kỳ nghỉ hè\n- 3. 夏休みの間に: ĐÚNG - Trong suốt kỳ nghỉ hè (ĐÚNG)\n- 4. 夏休みの前で: Trước kỳ nghỉ hè\n\n📄 Trích PDF gốc (试题解析):\n(11) 3 句意: 我暑假期间一直在超市打工。考察句型～の間に表示持续动作的期间。",
-      "correctOption": 3
+      "snippet": "（ 18 やっと ）野球が できることになって、うれしかったです。",
+      "explanation": "🎯 Đáp án đúng: [2] やっと\n\n💬 Câu hỏi & Dịch nghĩa:\nクラブの人たちに さそわれて、ずっと やりたかった 野球の 練習を 初めて することに なりました。[ 18 やっと ] 野球が できることになって、うれしかったです。\n(Được mọi người trong câu lạc bộ rủ, lần đầu tiên tôi được tham gia tập luyện bóng chày - môn thể thao mà mình ao ước bấy lâu. Cuối cùng cũng có thể chơi bóng chày, tôi thực sự rất vui sướng.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Đoạn văn trước nêu:「ずっとやりたかった」(ao ước, mong muốn từ rất lâu).\n• Phó từ「やっと」mang nghĩa \"cuối cùng thì... (sau bao nỗ lực, mong đợi lâu dài cũng đã thành sự thật)\". Rất ăn khớp với cảm xúc và quá trình mong chờ chơi bóng chày của tác giả.\n\n🔍 Phân tích các lựa chọn:\n- 1. もっと: nhiều hơn nữa (chỉ mức độ - SAI).\n- 2. やっと: cuối cùng thì (sau thời gian dài chờ đợi - ĐÚNG).\n- 3. また: lại, một lần nữa (SAI vì đây là lần đầu tiên).\n- 4. まだ: vẫn chưa (SAI ngữ cảnh khẳng định).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
     },
     "47": {
-      "snippet": "切るのに (Mục đích / tiêu tốn tài nguyên)",
-      "explanation": "🎯 Đáp án đúng: [2] 切るのに (Mục đích / tiêu tốn tài nguyên)\n\n💬 Dịch nghĩa câu:\n\"Tuần trước tôi đã cắt tỉa cành cây trong vườn nhà, công việc đó đã tốn mất 2 tiếng đồng hồ.\"\n\n💡 Phân tích & Giải thích:\n• Mẫu câu 「V-る + のに (時間 / お金) がかかる」 biểu thị để làm được việc V thì tốn bao nhiêu thời gian hoặc tiền bạc.\n\n🔍 Phân tích các lựa chọn:\n- 1. 切るから: Vì cắt nên (chỉ nguyên nhân)\n- 2. 切るのに: ĐÚNG - Để làm việc cắt tỉa thì mất 2 tiếng (ĐÚNG)\n- 3. 切れば: Nếu cắt\n- 4. 切るなら: Nếu là cắt\n\n📄 Trích PDF gốc (试题解析):\n(12) 2 句意: 我上周给院子里的树剪了枝, 总共花了2个小时。考察句型～のに表示目的用途。",
-      "correctOption": 2
+      "snippet": "ボールを 打つのは 難しかったです。でも、クラブの 人たちが やさしく [ 19 教えて くれました ]。",
+      "explanation": "🎯 Đáp án đúng: [1] 教えて くれました\n\n💬 Câu hỏi & Dịch nghĩa:\nボールを 打つのは 難しかったです。でも、クラブの 人たちが やさしく [ 19 教えて くれました ]。\n(Đánh bóng rất khó. Nhưng mọi người trong câu lạc bộ đã ân cần, nhiệt tình chỉ dạy cho tôi.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Ngữ pháp cho - nhận hành động「〜てくれる / 〜てくれた」:\n  - Dùng khi người khác làm một việc có lợi, giúp đỡ cho bản thân người nói (hoặc người thuộc nhóm của người nói).\n  - Chủ ngữ trong câu là「クラブの人たち」(mọi người trong CLB), đối tượng tiếp nhận sự giúp đỡ là \"tôi\" (tác giả bài viết). Do đó phải dùng「教えてくれました」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 教えてくれました: người khác dạy cho tôi (ĐÚNG chuẩn mực cho nhận).\n- 2. 教えてあげました: tôi dạy cho người khác (ngược chiều hành động - SAI).\n- 3. 教えてもらいました: nếu dùng もらいました thì trợ từ chỉ chủ thể giúp đỡ phải là に (クラブの人たちに), trong khi đề bài dùng クラブの人たちが (SAI ngữ pháp trợ từ).\n- 4. 教えてやりました: tôi dạy cho người dưới/động vật (thô lỗ, sai chiều - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
     },
     "48": {
-      "snippet": "～かもしれない (Có lẽ, có thể)",
-      "explanation": "🎯 Đáp án đúng: [3] ～かもしれない (Có lẽ, có thể)\n\n💬 Dịch nghĩa câu:\n\"Kimura: 'Chiều mai đi tập bóng đá không?' - Yamada: 'Có chứ. Nhưng sáng có việc bận nên có lẽ sẽ đến muộn chút.'\"\n\n💡 Phân tích & Giải thích:\n• Mẫu câu 「Động từ thể thông thường + かもしれない」 dùng để đưa ra phỏng đoán có khả năng xảy ra (xác suất tầm 50%).\n\n🔍 Phân tích các lựa chọn:\n- 1. 遅れるはずです: Chắc chắn muộn (sai ngữ khí)\n- 2. 遅れそうです: Trông có vẻ sắp muộn\n- 3. 遅れるかもしれません: ĐÚNG - Có thể sẽ bị muộn (ĐÚNG)\n- 4. 遅れるつもりです: Định muộn (vô lý)\n\n📄 Trích PDF gốc (试题解析):\n(13) 3 句意: 木村:“明天下午去练足球吗?” 山田:“可能会迟到。” 考察句型～かもしれない表示推测。",
-      "correctOption": 3
+      "snippet": "野球は やはり おもしろい スポーツだと 思いました。[ 20 それで ] クラブに 入ることに しました。",
+      "explanation": "🎯 Đáp án đúng: [4] それで\n\n💬 Câu hỏi & Dịch nghĩa:\n野球は やはり おもしろい スポーツだと 思いました。[ 20 それで ] クラブに 入ることに しました。\n(Tôi nhận thấy quả thực bóng chày là một môn thể thao vô cùng thú vị. Vì thế nên, tôi đã quyết định tham gia vào câu lạc bộ.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Liên từ nối chỉ nguyên nhân - kết quả hợp lý:\n  -「それで」(vì thế nên, do vậy): Vế trước nêu nguyên nhân, lý do (thấy bóng chày rất thú vị), vế sau nêu quyết định, hành động nối tiếp tự nhiên phát sinh từ lý do đó (quyết định gia nhập câu lạc bộ).\n\n🔍 Phân tích các lựa chọn:\n- 1. たとえば: ví dụ như là (đưa ra ví dụ - SAI).\n- 2. それに: hơn nữa, thêm vào đó (bổ sung thông tin - SAI).\n- 3. けれども: tuy nhiên (chỉ sự đối lập, tương phản - SAI).\n- 4. それで: vì vậy, do đó (nối nguyên nhân ➔ kết quả - ĐÚNG).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
     },
     "49": {
-      "snippet": "～そうだ (Sắp sửa, sắp có)",
-      "explanation": "🎯 Đáp án đúng: [1] ～そうだ (Sắp sửa, sắp có)\n\n💬 Dịch nghĩa câu:\n\"Komori: 'Hết sạch chỗ ngồi rồi.' - Tanaka: 'À kìa, chiếc bàn đằng kia trông có vẻ như sắp sửa có người đứng dậy rời đi đấy.'\"\n\n💡 Phân tích & Giải thích:\n• Động từ nhóm 1 「あく (空く)」 bỏ masu + そうだ: 「空きそうだ」 diễn tả phỏng đoán hành động sắp sửa xảy ra theo quan sát trực quan.\n\n🔍 Phân tích các lựa chọn:\n- 1. 空きそうだ: ĐÚNG - Có vẻ sắp sửa trống chỗ (ĐÚNG)\n- 2. 空くだろう: Chắc là sẽ trống\n- 3. 空くようだ: Dường như trống\n- 4. 空からしい: Nghe nói trống\n\n📄 Trích PDF gốc (试题解析):\n(14) 1 句意: 那边的位子好像马上要空出来了。考察句型～そうだ表示根据所见做出的判断。",
-      "correctOption": 1
-    },
-    "50": {
-      "snippet": "てもらえますか (Nhờ vả lịch sự)",
-      "explanation": "🎯 Đáp án đúng: [2] てもらえますか (Nhờ vả lịch sự)\n\n💬 Dịch nghĩa câu:\n\"Trong phòng họp ánh sáng hơi chói, nhờ đồng nghiệp tắt bớt bóng đèn: 'Bạn có thể tắt giúp tôi chiếc đèn được không?'\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc 「V-て + もらえますか」 là mẫu câu nhờ vả lịch sự đồng nghiệp hoặc người ngang hàng giúp đỡ mình.\n\n🔍 Phân tích các lựa chọn:\n- 1. 消してあげますか: Tôi tắt cho bạn nhé (sai chủ ngữ)\n- 2. 消してもらえますか: ĐÚNG - Bạn có thể tắt giúp tôi được không? (ĐÚNG)\n- 3. 消させてもらいますか: Cho phép tôi tắt\n- 4. 消滅します: Biến mất (sai từ vựng)\n\n📄 Trích PDF gốc (试题解析):\n(15) 2 句意: 会议室中请求对方关灯。考察～てもらえますか表示客气请求。",
-      "correctOption": 2
-    },
-    "51": {
-      "snippet": "Dấu sao: きっさてんは (Vị trí 3)",
-      "explanation": "🎯 Đáp án đúng: [3] Dấu sao: きっさてんは (Vị trí 3)\n\n💬 Dịch nghĩa câu:\n\"Quán cà phê mới mở tại vị trí tiệm hoa tháng trước có món bánh táo cực kỳ ngon.\"\n\n💡 Phân tích & Giải thích:\n• Trật tự câu hoàn chỉnh: 先月まで 花屋が あった 【4 場所に】 【1 できた】 ★【3 きっさてんは】 【2 りんごの】 ケーキが、おいしい。 Dấu sao ở vị trí thứ 3 là phương án 3.\n\n🔍 Phân tích các lựa chọn:\n- 1. できた\n- 2. りんごの\n- 3. きっさてんは (ĐÚNG vị trí dấu sao ★) (ĐÚNG)\n- 4. 場所に\n\n📄 Trích PDF gốc (试题解析):\n(16) 3 正确语序: 先月まで 花屋が あった 4 場所に 1 できた ★3 きっさてんは 2 りんごの ケーキが、おいしい。",
+      "snippet": "これから 毎日 クラブで たくさん 練習します。そして、いつか試合に [ 21 出て みたいです ]。",
+      "explanation": "🎯 Đáp án đúng: [3] 出て みたいです\n\n💬 Câu hỏi & Dịch nghĩa:\nこれから 毎日 クラブで たくさん 練習します。そして、いつか試合に [ 21 出て みたいです ]。\n(Từ bây giờ, hàng ngày tôi sẽ luyện tập thật nhiều ở câu lạc bộ. Và một ngày nào đó, tôi muốn được thử ra sân thi đấu.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc「〜てみたい」(muốn thử làm gì đó):\n  - [V-て] + みたい: thể hiện nguyện vọng, mong muốn được thử trải nghiệm một việc gì đó chưa từng làm.\n  - Đi kèm với từ chỉ thời gian trong tương lai「いつか」(một ngày nào đó trong tương lai), việc dùng「試合に出てみたいです」(muốn được thử thi đấu) là hoàn toàn tự nhiên và chuẩn xác.\n\n🔍 Phân tích các lựa chọn:\n- 1. 出るからです: vì sẽ thi đấu (giải thích lý do - SAI ngữ cảnh).\n- 2. 出るためです: để thi đấu (SAI cấu trúc câu).\n- 3. 出てみたいです: muốn thử tham gia thi đấu (bày tỏ ước muốn trải nghiệm - ĐÚNG).\n- 4. 出てみることです: là việc thử tham gia (định nghĩa - SAI ngữ cảnh).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 3
     },
-    "52": {
-      "snippet": "Dấu sao: 置いた (Vị trí 3)",
-      "explanation": "🎯 Đáp án đúng: [2] Dấu sao: 置いた (Vị trí 3)\n\n💬 Dịch nghĩa câu:\n\"Tối qua sau khi về đến nhà, tôi chẳng thể nhớ nổi là mình đã đặt chiếc chìa khóa ở chỗ nào nữa.\"\n\n💡 Phân tích & Giải thích:\n• Trật tự câu hoàn chỉnh: 昨日の 夜 家に 帰ってから、かぎを 【1 どこ】 【3 に】 ★【2 置いた】 【4 か】 覚えて いません。 Dấu sao ở vị trí thứ 3 là phương án 2.\n\n🔍 Phân tích các lựa chọn:\n- 1. どこ\n- 2. 置いた (ĐÚNG vị trí dấu sao ★) (ĐÚNG)\n- 3. に\n- 4. か\n\n📄 Trích PDF gốc (试题解析):\n(17) 2 正确语序: 昨日の 夜 家に 帰ってから、かぎを 1 どこ 3 に ★2 置いた 4 か 覚えて いません。",
+    "50": {
+      "snippet": "「私」の友達は、嫌なことがあったとき、どうしますか。 ➔ 忘れるために、日記に書きます。",
+      "explanation": "🎯 Đáp án đúng: [3] 忘れるために、日記に書きます。\n\n💬 Câu hỏi & Dịch nghĩa:\n「私」の友達は、嫌なことがあったとき、どうしますか。\n(Bạn của \"Tôi\" làm gì khi gặp chuyện khó chịu / bực mình?)\n\n💡 Phân tích & Giải thích bài đọc:\n• Đoạn văn viết:\n  「嫌なことがあったら、私の友達は日記に書くそうです、嫌な気持ちを外に出せるから忘れられると言っています。」\n  (Nghe nói bạn tôi hễ có chuyện khó chịu là lại viết vào nhật ký. Bạn ấy nói rằng vì giải tỏa được cảm xúc tiêu cực ra ngoài nên có thể quên đi được.)\n• Mục đích của người bạn: \"để quên đi\" (忘れるために) bằng cách \"viết nhật ký\" (日記に書く). Do đó phương án [3] là câu trả lời chính xác.\n\n🔍 Phân tích các lựa chọn:\n- 1. 忘れるために、友達に話します (Kể cho bạn bè để quên - SAI).\n- 2. 忘れるために、カラオケで歌います (Hát karaoke là cách của \"Tôi\", không phải của người bạn - SAI).\n- 3. 忘れるために、日記に書きます (Viết nhật ký để quên đi chuyện buồn - ĐÚNG).\n- 4. 覚えておくために、日記に書きます (Viết nhật ký để ghi nhớ - trái ngược hoàn toàn ý bài là để quên: 忘れられる - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "51": {
+      "snippet": "来週の授業について、正しいものはどれですか。 ➔ 来週の木曜日は、いつもより早く授業に行きます。",
+      "explanation": "🎯 Đáp án đúng: [2] 来週の木曜日は、いつもより早く授業に行きます。\n\n💬 Câu hỏi & Dịch nghĩa:\n来週の授業について、正しいものはどれですか。\n(Câu nào sau đây là đúng về tiết học tuần tới?)\n\n💡 Phân tích & Giải thích bài đọc:\n• Tờ thông báo viết:\n  - Bình thường: Từ thứ Hai đến thứ Sáu học từ 1:00 đến 2:30 (1時から2時半まで - 90 phút).\n  - Riêng tuần tới thay đổi 2 ngày:\n    + Thứ Ba (火曜日): 1:30 đến 2:30 (1時半から2時半まで - 60 phút ➔ ngắn hơn bình thường).\n    + Thứ Năm (木曜日): 12:30 đến 2:30 (12時半から2時半まで - bắt đầu lúc 12:30 thay vì 1:00 ➔ sớm hơn bình thường 30 phút).\n  - Tờ thông báo ghi rõ:「木曜日は昼休みが短くなりますが、おぐれないで来てください」(Thứ Năm giờ nghỉ trưa sẽ ngắn lại, các bạn đừng đến muộn nhé).\n• Như vậy, thứ Năm học sinh phải đến lớp sớm hơn mọi khi (いつもより早く授業に行きます).\n\n🔍 Phân tích các lựa chọn:\n- 1. 来週の火曜日は、いつもより長く授業を受けます (Thứ Ba chỉ học 1 tiếng, ngắn hơn bình thường - SAI).\n- 2. 来週の木曜日は、いつもより早く授業に行きます (Thứ Năm vào học từ 12:30, sớm hơn bình thường 30 phút - ĐÚNG).\n- 3. 来週の火曜日と木曜日は、いつもより長く授業を受けます (Thứ Ba ngắn hơn - SAI).\n- 4. 来週の火曜日と木曜日は、いつもより早く授業に行きます (Thứ Ba vào học lúc 1:30, muộn hơn bình thường - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 2
     },
+    "52": {
+      "snippet": "ロンさんは石田さんに何を頼みましたか。 ➔ 弁当を「こま屋」に取りに行って、ロンさんの机に置くこと",
+      "explanation": "🎯 Đáp án đúng: [4] 弁当を「こま屋」に取りに行って、ロンさんの机に置くこと\n\n💬 Câu hỏi & Dịch nghĩa:\nロンさんは石田さんに何を頼みましたか。\n(Ron-san đã nhờ Ishida-san việc gì?)\n\n💡 Phân tích & Giải thích bài đọc:\n• Nội dung lời nhắn của Ron:\n  -「部長会議の弁当は、私が11時半に「こま屋」に取りに行く予定でしたが、行けなくなったので、行ってきてください。」(Cơm hộp họp ban giám đốc đáng lẽ tôi định 11h30 đi lấy ở quán Komaya, nhưng vì không đi được nên nhờ anh đi lấy giúp.)\n  -「弁当は、私の机に置いておいてください。」(Cơm hộp xin hãy để sẵn trên bàn làm việc của tôi.)\n• Như vậy, Ron nhờ Ishida 2 việc gắn liền: Đến quán Komaya lấy cơm hộp và đặt lên bàn làm việc của Ron.\n\n🔍 Phân tích các lựa chọn:\n- 1. ロンさんと一緒に、部長会議に出ること (Đi họp cùng Ron - SAI).\n- 2. 11時半に、弁当を部長会議に持って行くこと (Mang cơm vào cuộc họp - SAI, để trên bàn của Ron).\n- 3. 「こま屋」が弁当を持ってきたら、弁当代を払うこと (Trả tiền cơm - trong bài ghi お金は払ってあります: đã trả tiền rồi - SAI).\n- 4. 弁当を「こま屋」に取りに行って、ロンさんの机に置くこと (Đi lấy cơm ở quán Komaya về và để lên bàn làm việc của Ron - ĐÚNG).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
     "53": {
-      "snippet": "Dấu sao: 最近 (Vị trí 3)",
-      "explanation": "🎯 Đáp án đúng: [1] Dấu sao: 最近 (Vị trí 3)\n\n💬 Dịch nghĩa câu:\n\"Tôi rất thích chơi đàn piano, tuy nhiên dạo gần đây do bận bịu quá nên không còn thời gian để luyện đàn.\"\n\n💡 Phân tích & Giải thích:\n• Trật tự câu hoàn chỉnh: 私は ピアノを 【1 ひくのが】 【4 好きですが】 ★【3 最近】 【2 いそがしくて】 ひく 時間が ありません。 Dấu sao ở vị trí thứ 3 là phương án 3.\n\n🔍 Phân tích các lựa chọn:\n- 1. ひくのが (ĐÚNG)\n- 2. いそがしくて\n- 3. 最近 (ĐÚNG vị trí dấu sao ★)\n- 4. 好きですが\n\n📄 Trích PDF gốc (试题解析):\n(18) 3 正确语序: 私は ピアノを 1 ひくのが 4 好きですが ★3 最近 2 いそがしくて ひく 時間が ありません。",
-      "correctOption": 1
+      "snippet": "どうして「私」は内村さんと一緒に山に行くことにしましたか。 ➔ 内村さんも山が好きなことがわかったから。",
+      "explanation": "🎯 Đáp án đúng: [3] 内村さんも山が好きなことがわかったから。\n\n💬 Câu hỏi & Dịch nghĩa:\nどうして「私」は内村さんと一緒に山に行くことにしましたか。\n(Tại sao \"Tôi\" lại quyết định cùng leo núi với tiền bối Uchimura?)\n\n💡 Phân tích & Giải thích bài đọc:\n• Đoạn văn nêu rõ ở đầu bài:\n  「先週、会社の先輩の内村さんと話していて、内村さんも山が好きなことがわかりました。それで、私がよく行く山に、一緒に行くことになりました。」\n  (Tuần trước, khi nói chuyện với tiền bối Uchimura ở công ty, tôi biết được tiền bối Uchimura cũng thích leo núi. Vì thế nên chúng tôi quyết định cùng nhau đi ngọn núi mà tôi hay tới.)\n• Lý do trực tiếp là biết được tiền bối Uchimura cũng có chung sở thích leo núi (内村さんも山が好きなことがわかったから).\n\n🔍 Phân tích các lựa chọn:\n- 1. 内村さんが山で昼ご飯を作ってくれると言ったから (Làm cơm trưa - SAI).\n- 2. 内村さんに山を好きになってもらいたかったから (Muốn Uchimura thích núi - SAI vì Uchimura đã thích sẵn rồi).\n- 3. 内村さんも山が好きなことがわかったから (Biết được tiền bối Uchimura cũng thích leo núi - ĐÚNG).\n- 4. 内村さんの好きな山に登ってみたかったから (Leo ngọn núi Uchimura thích - SAI, leo núi tác giả hay đi: 私がよく行く山).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
     },
     "54": {
-      "snippet": "Dấu sao: 大切に (Vị trí 3)",
-      "explanation": "🎯 Đáp án đúng: [1] Dấu sao: 大切に (Vị trí 3)\n\n💬 Dịch nghĩa câu:\n\"Chiếc máy ảnh mà ông nội tặng nhân dịp sinh nhật tuổi 20, tôi vẫn luôn trân trọng giữ gìn và sử dụng cẩn thận.\"\n\n💡 Phân tích & Giải thích:\n• Trật tự câu hoàn chỉnh: 私は 20さいの たんじょうびに そふが 【2 くれた】 【4 カメラを】 ★【1 大切に】 【3 使って】 います。 Dấu sao ở vị trí thứ 3 là phương án 1.\n\n🔍 Phân tích các lựa chọn:\n- 1. 大切に (ĐÚNG vị trí dấu sao ★) (ĐÚNG)\n- 2. くれた\n- 3. 使って\n- 4. カメラを\n\n📄 Trích PDF gốc (试题解析):\n(19) 1 正确语序: 私は 20さいの たんじょうびに そふが 2 くれた 4 カメラを ★1 大切に 3 使って います。",
+      "snippet": "どうして①ちょっと残念でしたか。 ➔ 山のいちばん上で弁当が食べられなかったから。",
+      "explanation": "🎯 Đáp án đúng: [1] 山のいちばん上で弁当が食べられなかったから。\n\n💬 Câu hỏi & Dịch nghĩa:\nどうして①ちょっと残念でしたか。\n(Tại sao tác giả lại cảm thấy có chút tiếc nuối / thất vọng?)\n\n💡 Phân tích & Giải thích bài đọc:\n• Đoạn 1 nêu sở thích của tác giả:\n  「山のいちばん上で景色を見ながら昼ご飯を食べるのが、私の楽しみです。」\n  (Ăn cơm trưa trên đỉnh núi cao nhất vừa ngắm cảnh là niềm vui thích của tôi.)\n• Khi leo được 1 tiếng thì Uchimura dừng lại chụp ảnh hoa đến tận 12h trưa nên hai người ăn cơm tại đó:\n  「私は①ちょっと残念でした。山の上で食べたかったからです。」\n  (Tôi có chút tiếc nuối, bởi vì tôi muốn ăn cơm ở trên đỉnh núi.)\n• Vì vậy, lý do tiếc nuối chính là không được ăn cơm trên đỉnh núi cao nhất.\n\n🔍 Phân tích các lựa chọn:\n- 1. 山のいちばん上で弁当が食べられなかったから (Không được ăn cơm hộp trên đỉnh núi cao nhất - ĐÚNG).\n- 2. 持ってきた弁当がおいしくなかったから (Cơm không ngon - SAI).\n- 3. 咲いていた花があまりきれいではなかったから (Hoa không đẹp - bài khen hoa rất đẹp - SAI).\n- 4. 花の写真を撮る時間が短かったから (Thời gian chụp hoa ngắn - bài chụp suốt hơn 2 tiếng - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 1
     },
     "55": {
-      "snippet": "Dấu sao: ので (Vị trí 3)",
-      "explanation": "🎯 Đáp án đúng: [3] Dấu sao: ので (Vị trí 3)\n\n💬 Dịch nghĩa câu:\n\"Trận đấu bóng chày đấy à? Hay quá! Vì tôi chưa từng được đi xem trực tiếp bao giờ nên nhất định rất muốn đi.\"\n\n💡 Phân tích & Giải thích:\n• Trật tự câu hoàn chỉnh: 野球の 試合ですか。 いいですね。 【3 見に行った】 【2 ことが ない】 ★【4 ので】 【1 ぜひ】 行きたいです。 Dấu sao ở vị trí thứ 3 là phương án 4.\n\n🔍 Phân tích các lựa chọn:\n- 1. ぜひ\n- 2. ことが ない\n- 3. 見に行った (ĐÚNG)\n- 4. ので (ĐÚNG vị trí dấu sao ★)\n\n📄 Trích PDF gốc (试题解析):\n(20) 4 正确语序: 野球の 試合ですか。 いいですね。 3 見に行った 2 ことが ない ★4 ので 1 ぜひ 行きたいです。",
-      "correctOption": 3
+      "snippet": "②山の新しい楽しみとありますが、どんな楽しみですか。 ➔ 山に咲いている花の写真を撮る楽しみ。",
+      "explanation": "🎯 Đáp án đúng: [4] 山に咲いている花の写真を撮る楽しみ。\n\n💬 Câu hỏi & Dịch nghĩa:\n②山の新しい楽しみとありますが、どんな楽しみですか。\n(Trong bài có viết \"niềm vui mới khi đi leo núi\", đó là niềm vui nào?)\n\n💡 Phân tích & Giải thích bài đọc:\n• Đoạn văn cuối viết:\n  「昼ご飯のあとで、内村さんは山の花の上手な撮り方を教えてくれました。私も少し撮ってみて、楽しくなりました。そして、2時間ぐらい写真を撮って、山をお降りました。... 内村さんと山に行って、私は②山の新しい楽しみを知りました。」\n  (Sau bữa trưa, tiền bối Uchimura đã chỉ cho tôi cách chụp ảnh hoa trên núi thật đẹp. Tôi cũng chụp thử một chút và thấy rất thích thú. Sau đó chúng tôi chụp ảnh khoảng 2 tiếng rồi xuống núi... Cùng đi leo núi với tiền bối Uchimura, tôi đã biết thêm một niềm vui mới khi leo núi.)\n• Niềm vui mới này chính là: chụp ảnh những bông hoa nở trên núi (山に咲いている花の写真を撮る楽しみ).\n\n🔍 Phân tích các lựa chọn:\n- 1. 山の上で景色を見る楽しみ (Ngắm cảnh trên đỉnh núi - đây là sở thích cũ từ trước - SAI).\n- 2. 山の上で昼ご飯を食べる楽しみ (Ăn cơm trên núi - sở thích cũ - SAI).\n- 3. 山の登り方を人に教える楽しみ (Dạy người khác cách leo núi - SAI).\n- 4. 山に咲いている花の写真を撮る楽しみ (Chụp ảnh hoa nở trên núi - ĐÚNG).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
     },
     "56": {
-      "snippet": "Liên từ nối đoạn văn",
-      "explanation": "🎯 Đáp án đúng: [1] Liên từ nối đoạn văn\n\n💬 Dịch nghĩa câu:\n\"Nối kết mạch câu giữa hai vế câu tường thuật về trải nghiệm học bơi lội mùa hè của tác giả.\"\n\n💡 Phân tích & Giải thích:\n• Căn cứ vào liên kết mạch văn đoạn văn, liên từ ở phương án [3] tạo sự chuyển tiếp tự nhiên nhất.\n\n🔍 Phân tích các lựa chọn:\n- 1. Liên từ gây nhiễu 1 (ĐÚNG)\n- 2. Liên từ gây nhiễu 2\n- 3. Phương án chính xác liên kết ngữ nghĩa\n- 4. Liên từ gây nhiễu 4\n\n📄 Trích PDF gốc (试题解析):\n(21) 3 考察上下文连贯性, 选项3最符合文意。",
-      "correctOption": 1
+      "snippet": "料理の教室はいくらかかりますか。 ➔ 1回 500円",
+      "explanation": "🎯 Đáp án đúng: [2] 1回 500円\n\n💬 Câu hỏi & Dịch nghĩa:\n料理の教室はいくらかかりますか。\n(Lớp học nấu ăn có học phí là bao nhiêu tiền?)\n\n💡 Phân tích & Giải thích bảng biểu:\n• Trong thông báo「国際教室のお知らせ」(Thông báo các lớp học quốc tế thành phố Yamakawa):\n  - Ô góc trên bên trái có tiêu đề:「おべんとうを作りましょう！」(Hãy cùng nhau làm cơm hộp nhé! - chính là lớp nấu ăn 料理の教室).\n  - Mục「お金」(Học phí/tiền bạc) ghi rõ:\n    「お金：1回 500円」 (Chi phí: 500 yên / 1 buổi).\n\n🔍 Phân tích các lựa chọn:\n- 1. 1か月 500円 (500 yên / tháng - đây là học phí của lớp Tennis - SAI).\n- 2. 1回 500円 (500 yên / lần - đúng mức phí ghi trong mục おべんとうを作りましょう - ĐÚNG).\n- 3. 1回 100円 (100 yên / lần - đây là phí lớp Tiếng Nhật 日本語で話しましょう - SAI).\n- 4. ただ (Miễn phí - đây là lớp chạy bộ ジョギング - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
     },
     "57": {
-      "snippet": "Trợ từ đối chiếu は",
-      "explanation": "🎯 Đáp án đúng: [2] Trợ từ đối chiếu は\n\n💬 Dịch nghĩa câu:\n\"Bạn bè xung quanh ai cũng bơi lội giỏi, trái lại bản thân tôi thì lại chẳng hề biết bơi.\"\n\n💡 Phân tích & Giải thích:\n• Trợ từ 「は」 đứng ở vị trí này mang vai trò biểu thị sự đối chiếu, tương phản rõ rệt giữa bạn bè và bản thân tôi.\n\n🔍 Phân tích các lựa chọn:\n- 1. Trợ từ を\n- 2. Trợ từ は (ĐÚNG - Đối chiếu tương phản) (ĐÚNG)\n- 3. Trợ từ に\n- 4. Trợ từ で\n\n📄 Trích PDF gốc (试题解析):\n(22) 2 朋友会游泳, 而我不会, 前后形成对比, 用は提示, 强调这种对比。",
+      "snippet": "リーさんは、朝9時から夕方5時まではたらいています。休みは水曜日と日曜日です。いつもすわって仕事をしているので、運動したいと思っています。リーさんは、どの教室に行きますか。 ➔ テニス",
+      "explanation": "🎯 Đáp án đúng: [2] テニス\n\n💬 Câu hỏi & Dịch nghĩa:\nリーさんは、朝9時から夕方5時まではたらいています。休みは水曜日と日曜日です。いつもすわって仕事をしているので、運動したいと思っています。リーさんは、どの教室に行きますか。\n(Anh Lee làm việc từ 9h sáng đến 5h chiều (17:00). Ngày nghỉ là thứ Tư và Chủ Nhật. Vì công việc thường xuyên phải ngồi nên anh muốn vận động thể thao. Anh Lee sẽ tham gia lớp học nào?)\n\n💡 Phân tích & Giải thích bảng biểu:\n• Điều kiện của Lee-san:\n  1. Mục đích: Vận động thể thao (運動したい) ➔ Chỉ có 2 lớp vận động:\n     - テニスをしましょう (Lớp tennis).\n     - ジョギングをしましょう (Lớp chạy bộ).\n  2. Thời gian rảnh: Nghỉ làm vào thứ Tư (水曜日) và Chủ Nhật (日曜日). Từ thứ Hai đến thứ Bảy đều làm việc 9:00 - 17:00 (trừ thứ Tư).\n• Đối chiếu lịch của 2 lớp vận động:\n  - Lớp chạy bộ (ジョギング): Diễn ra vào thứ Bảy (土曜日) 10:30 - 12:00 ➔ Lee-san phải đi làm, KHÔNG THAM GIA ĐƯỢC.\n  - Lớp tennis (テニス): Diễn ra vào thứ Tư (水曜日) 15:00 - 18:00 ➔ Thứ Tư là ngày nghỉ của Lee-san, hoàn toàn phù hợp!\n• Kết luận: Lee-san sẽ tham gia lớp テニス (Tennis).\n\n🔍 Phân tích các lựa chọn:\n- 1. 料理 (Lớp làm cơm hộp - thứ Ba: Lee-san phải đi làm, và đây không phải môn vận động - SAI).\n- 2. テニス (Lớp tennis - thứ Tư 15:00 - 18:00, đúng ngày nghỉ và thỏa mãn mục đích vận động - ĐÚNG).\n- 3. ジョギング (Lớp chạy bộ - tổ chức vào thứ Bảy, Lee-san bận đi làm - SAI).\n- 4. 日本語 (Lớp tiếng Nhật - không phải lớp thể thao vận động - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 2
     },
     "58": {
-      "snippet": "～てもらった (Nhận sự giúp đỡ)",
-      "explanation": "🎯 Đáp án đúng: [4] ～てもらった (Nhận sự giúp đỡ)\n\n💬 Dịch nghĩa câu:\n\"Nhờ được bạn bè kiên nhẫn nhiệt tình chỉ dạy cho từng động tác, tôi đã dần tiến bộ.\"\n\n💡 Phân tích & Giải thích:\n• Chủ ngữ 'tôi' là người nhận được hành động dạy bơi từ người khác, nên phải dùng dạng nhận ơn 「教えてもらった」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 教えてあげた: Dạy cho bạn (sai hướng hành động)\n- 2. 教えてくれた: Bạn dạy (cần chủ ngữ là bạn)\n- 3. 教えた: Tự dạy\n- 4. 教えてもらった: ĐÚNG - Được bạn bè dạy giúp (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(23) 4 朋友教我游泳, 我是获得帮助的一方, 需用表示从他人处得到帮助的てもらった。",
-      "correctOption": 4
+      "snippet": "男の人は 最初に 何を しますか。 ➔ 会議室のパソコンを片付ける",
+      "explanation": "🎯 Đáp án đúng: [3] 会議室のパソコンを片付ける (Dọn máy tính phòng họp)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\n男：田中さん、仕事終わりましたか？\n女：いえ、まだです。\n男：じゃあ、手伝いましょうか？\n女：ありがとうございます。\n男：何が残っているんですか？\n女：資料をコピーしたり、小包を2階に持って行ったりしなければならないし、会議室のパソコンやコーヒーカップも片付けないといけないんです。\n男：そうですか。\n女：じゃあ、会議室のパソコンを片付けてもらえませんか。私はコーヒーカップを片付けます。\n男：いいですよ。\n女：その後、小包も持って行ってもらえますか？\n男：わかりました。\n質問：男の人は 最初に 何を しますか。\n\n💡 Phân tích & Giải thích:\n• Người nữ liệt kê một số việc còn lại, sau đó phân công cụ thể:\n  - Đầu tiên:「会議室のパソコンを片付けてもらえませんか」(Nhờ người nam dọn máy tính phòng họp). Người nam đồng ý「いいですよ」.\n  - Việc tiếp theo sau đó:「その後、小包も持って行ってもらえますか」(Sau đó thì nhờ mang gói bưu phẩm lên tầng 2).\n• Câu hỏi hỏi: \"Người nam sẽ làm việc gì ĐẦU TIÊN (最初に)?\"\n  ➔ Do đó hành động đầu tiên là dọn dẹp máy tính ở phòng họp (Hình 3).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
     },
     "59": {
-      "snippet": "泳げるようになった (Trở nên biết bơi)",
-      "explanation": "🎯 Đáp án đúng: [4] 泳げるようになった (Trở nên biết bơi)\n\n💬 Dịch nghĩa câu:\n\"Sau bao ngày nỗ lực tập luyện chăm chỉ, cuối cùng tôi cũng đã trở nên biết bơi thành thạo.\"\n\n💡 Phân tích & Giải thích:\n• Cấu trúc 「Động từ thể khả năng + ようになる」 diễn tả một năng lực hay thói quen mới được hình thành qua thời gian.\n\n🔍 Phân tích các lựa chọn:\n- 1. 泳ぐことになった: Được quyết định là bơi\n- 2. 泳ぐようになった: Tập bơi\n- 3. 泳げないようになった: Thành ra không bơi được\n- 4. 泳げるようになった: ĐÚNG - Đã có thể bơi được (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(24) 4 通过不断练习学会了游泳, 表示会游泳需用动词可能形+ようになった。",
-      "correctOption": 4
+      "snippet": "二人は いつ 会いますか。 ➔ 22日 午後6時",
+      "explanation": "🎯 Đáp án đúng: [3] 22日 午後6時 (Ngày 22 lúc 6 giờ chiều)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nHai người thảo luận để sắp xếp lịch hẹn gặp nhau.\nBan đầu đề xuất ngày 21 lúc 6 giờ chiều hoặc 6 giờ rưỡi, nhưng một bên bận việc.\nSau đó chuyển sang ngày hôm sau là ngày 22, và thống nhất gặp nhau vào lúc 6 giờ chiều (午後6時).\n質問：二人は いつ 会いますか。\n\n💡 Phân tích & Giải thích:\n• Lắng nghe mốc thời gian chốt cuối cùng giữa hai người:\n  - Ngày 21 không tiện vì có việc bận.\n  - Ngày 22 cả hai đều rảnh từ chiều tối.\n  - Chốt thời gian gặp mặt: 22日 午後6時 (Ngày 22, 18:00).\n• Đối chiếu 4 phương án trên giấy thi:\n  - 1. 21日 午後6時 (SAI)\n  - 2. 21日 午後6時半 (SAI)\n  - 3. 22日 午後6時 (ĐÚNG)\n  - 4. 22日 午後6時半 (SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
     },
     "60": {
-      "snippet": "～たい (Thể hiện ý chí, mong muốn)",
-      "explanation": "🎯 Đáp án đúng: [1] ～たい (Thể hiện ý chí, mong muốn)\n\n💬 Dịch nghĩa câu:\n\"Tôi cảm thấy môn bơi lội vô cùng thú vị và mong muốn sẽ tiếp tục luyện tập nhiều hơn trước chuyến đi biển tới.\"\n\n💡 Phân tích & Giải thích:\n• Động từ đuôi 「～たい」 diễn tả nguyện vọng, ý muốn chủ quan tha thiết của chính người viết.\n\n🔍 Phân tích các lựa chọn:\n- 1. 練習したい: ĐÚNG - Muốn luyện tập nhiều hơn (ĐÚNG)\n- 2. 練習したがる: Người thứ 3 muốn\n- 3. 練習するつもりだ: Đã lên kế hoạch\n- 4. 練習しなければならない: Bắt buộc phải\n\n📄 Trích PDF gốc (试题解析):\n(25) 1 作者十分喜欢游泳, 决心下次去海边之前勤加练习, 用たい表示个人的意志想法。",
-      "correctOption": 1
+      "snippet": "女の人は どこで 日本語を 勉強していますか。 ➔ 電車の中",
+      "explanation": "🎯 Đáp án đúng: [2] 電車・バスの中 (Học trên tàu điện / phương tiện công cộng)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nBạn nam hỏi bạn nữ về cách tận dụng thời gian rảnh để học tiếng Nhật / ôn bài nghe.\nBạn nữ chia sẻ rằng lúc ở nhà thường bận việc nhà, còn khi đi lại trên tàu điện mỗi ngày mất khá nhiều thời gian nên bạn ấy tranh thủ nghe và học từ vựng ngay trên tàu.\n質問：女の人は 普段 どこで 勉強していますか。\n\n💡 Phân tích & Giải thích:\n• Tình huống hỏi về địa điểm người nữ tận dụng để học:\n  - Hình 1: Xem tivi ở nhà (không phù hợp).\n  - Hình 2: Ngồi nghe và học trên ghế tàu điện (ĐÚNG).\n  - Hình 3: Ngồi nói chuyện ở quán cà phê.\n  - Hình 4: Nghe đài cassette tại bàn học ở nhà.\n• Do đó hình ảnh số [2] là đáp án chính xác.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
     },
     "61": {
-      "snippet": "Thủ tục nhận lại đồ thất lạc",
-      "explanation": "🎯 Đáp án đúng: [2] Thủ tục nhận lại đồ thất lạc\n\n💬 Dịch nghĩa câu:\n\"Thí sinh muốn nhận lại đồ thất lạc trong kỳ thi cần phải mang theo thẻ học sinh đến văn phòng quản lý.\"\n\n💡 Phân tích & Giải thích:\n• Theo thông báo trong bài đọc, người đến nhận lại đồ bị mất bắt buộc phải xuất trình thẻ sinh viên (学生証).\n\n🔍 Phân tích các lựa chọn:\n- 1. Đến phòng thi tìm kiếm\n- 2. Đến phòng văn phòng trình thẻ học sinh để nhận lại (ĐÚNG)\n- 3. Nhờ bạn học đến nhận hộ\n- 4. Chờ gửi bưu điện về nhà\n\n📄 Trích PDF gốc (试题解析):\n(26) 2 想在考试期间取失物的人, 必须出示学生证并前往办公室办理。",
-      "correctOption": 2
+      "snippet": "男の人は りんごを いくつ 買いますか。 ➔ 4こ",
+      "explanation": "🎯 Đáp án đúng: [3] 4こ (4 quả)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nHai người bàn về số lượng đồ cần mua (hoa quả/táo):\nNhà hiện tại còn lại 1 quả, dự tính cần 5 quả cho bữa tiệc/mọi người ăn.\nNgười nữ bảo người nam chỉ cần mua thêm phần còn thiếu.\n質問：男の人は りんごを いくつ 買いますか。\n\n💡 Phân tích & Giải thích:\n• Tổng số lượng cần có là 5 quả (全部で5個必要).\n• Ở nhà đã có sẵn 1 quả (家に1個ある).\n• Vì vậy người nam chỉ cần mua thêm: 5 - 1 = 4 quả (4こ).\n• Các lựa chọn: 1. 2こ / 2. 3こ / 3. 4こ / 4. 5こ ➔ Chọn phương án [3].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
     },
     "62": {
-      "snippet": "Sở thích của người viết",
-      "explanation": "🎯 Đáp án đúng: [4] Sở thích của người viết\n\n💬 Dịch nghĩa câu:\n\"Sở thích thực sự của người viết là được thong thả đi dạo và chụp lại những bức ảnh phong cảnh bốn mùa.\"\n\n💡 Phân tích & Giải thích:\n• Nội dung đoạn văn nêu rõ: mỗi khi rảnh rỗi tôi đều cầm máy ảnh đi dạo và ghi lại cảnh sắc xung quanh.\n\n🔍 Phân tích các lựa chọn:\n- 1. Sưu tầm tranh ảnh cổ\n- 2. Lái xe đi xa\n- 3. Đi dạo bộ và chụp ảnh phong cảnh thiên nhiên\n- 4. Đọc tiểu thuyết trong phòng (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(27) 3 作者的兴趣是一边散步一边拍摄四季的风光照片。",
-      "correctOption": 4
+      "snippet": "女の人は このあと 何を しますか。 ➔ ノートに書く / 記録する",
+      "explanation": "🎯 Đáp án đúng: [2] ノート・帳簿に記録する (Ghi chép vào sổ sách)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nTại nơi làm việc (cửa hàng/kho hàng), nhân viên và người phụ trách trao đổi về công việc kiểm kê/sắp xếp hàng hóa.\nSau khi phân loại và kiểm tra số lượng hàng, người phụ trách dặn nhân viên nữ ghi lại số lượng vào sổ ghi chép (ノートに書いてください / 記録してください).\n質問：女の人は このあと 何を しますか。\n\n💡 Phân tích & Giải thích:\n• Nhận diện hành động qua tranh:\n  - Hình 1: Đứng thanh toán ở quầy thu ngân.\n  - Hình 2: Ngồi cầm bút ghi chép vào sổ kiểm kê (ĐÚNG).\n  - Hình 3: Đứng báo cáo/nói chuyện với các đồng nghiệp.\n  - Hình 4: Bê xếp đồ vào giỏ.\n• Căn cứ vào lời hướng dẫn, người nữ sẽ ghi chép số liệu vào sổ ➔ Chọn hình [2].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
     },
     "63": {
-      "snippet": "Thông báo của ông Takada gửi ông Hayashi",
-      "explanation": "🎯 Đáp án đúng: [2] Thông báo của ông Takada gửi ông Hayashi\n\n💬 Dịch nghĩa câu:\n\"Ông Takada cần phải nhắn cho ông Hayashi biết về sự thay đổi địa điểm và thời gian bắt đầu cuộc họp.\"\n\n💡 Phân tích & Giải thích:\n• Mẩu ghi chú nhắn nhủ: phòng họp ban đầu đã kín lịch nên địa điểm chuyển sang phòng họp tầng 3 lúc 2h30.\n\n🔍 Phân tích các lựa chọn:\n- 1. Hủy bỏ cuộc họp hôm nay\n- 2. Chuẩn bị thêm tài liệu phát tay (ĐÚNG)\n- 3. Mời thêm khách tham dự\n- 4. Thông báo thời gian và địa điểm mới của phòng họp\n\n📄 Trích PDF gốc (试题解析):\n(28) 4 高田先生必须通知林先生关于会议时间和地点的变更。",
-      "correctOption": 2
-    },
-    "64": {
-      "snippet": "Lý do mua cục tẩy màu đen",
-      "explanation": "🎯 Đáp án đúng: [1] Lý do mua cục tẩy màu đen\n\n💬 Dịch nghĩa câu:\n\"Người viết mua cục tẩy màu đen là vì khi sử dụng tẩy đen sẽ không để lộ vết bẩn lem luốc như cục tẩy trắng thông thường.\"\n\n💡 Phân tích & Giải thích:\n• Trong bài nêu rõ: cục tẩy màu trắng dùng một thời gian hay dính chì đen trông bẩn, nên đổi sang dùng tẩy màu đen.\n\n🔍 Phân tích các lựa chọn:\n- 1. Tẩy màu đen không bị lộ vết chì bẩn trên thân tẩy (ĐÚNG)\n- 2. Tẩy màu đen giá rẻ hơn\n- 3. Được bạn bè tặng\n- 4. Tẩy đen làm bằng chất liệu đặc biệt xóa sạch hơn\n\n📄 Trích PDF gốc (试题解析):\n(29) 1 我之所以买黑色橡皮擦, 是因为用久了也不会显得脏。",
+      "snippet": "子どもは どの ケーキを 食べますか。 ➔ 1ばんのケーキ",
+      "explanation": "🎯 Đáp án đúng: [1] 1ばんのケーキ (Chiếc bánh số 1)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nTrong hộp bánh có 4 chiếc bánh với các hình dạng khác nhau (bánh socola chữ nhật số 1, bánh cuộn số 2, bánh kem tròn số 3, bánh nhỏ số 4).\nĐứa trẻ lựa chọn chiếc bánh muốn ăn dựa trên đặc điểm miêu tả (hình dạng, vị socola/kem).\nSau một hồi chọn lựa, chiếc bánh được chọn là chiếc bánh ở vị trí số 1.\n質問：子どもは どの ケーキを 食べますか。\n\n💡 Phân tích & Giải thích:\n• Chú ý các từ khóa miêu tả đặc điểm vị trí và hình dạng của từng chiếc bánh:\n  - Chiếc bánh số 1 (góc trên bên trái hộp) thỏa mãn hoàn toàn miêu tả về vị và hình dáng mà đứa trẻ muốn ăn.\n  - Bảng đáp án chính thức xác nhận phương án đúng là [1].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 1
     },
-    "65": {
-      "snippet": "Tâm trạng khó xử ở đoạn [30]",
-      "explanation": "🎯 Đáp án đúng: [4] Tâm trạng khó xử ở đoạn [30]\n\n💬 Dịch nghĩa câu:\n\"Tác giả cảm thấy lúng túng băn khoăn vì bất chợt gặp người quen cũ nhưng trong phút chốc lại không thể nhớ nổi tên.\"\n\n💡 Phân tích & Giải thích:\n• Tình huống trong bài: người phụ nữ chào hỏi rất thân thiết nhưng tác giả nhất thời quên mất tên họ của bạn.\n\n🔍 Phân tích các lựa chọn:\n- 1. Vì làm mất ví tiền\n- 2. Vì không nhớ ngay ra tên của người đang chào mình\n- 3. Vì đến trễ giờ hẹn\n- 4. Vì làm đổ đồ uống (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(30) 2 为什么想着“该怎么办呢”: 因为一时没能想起对方的名字。",
-      "correctOption": 4
-    },
-    "66": {
-      "snippet": "Lý do cô Yamada chào tác giả",
-      "explanation": "🎯 Đáp án đúng: [2] Lý do cô Yamada chào tác giả\n\n💬 Dịch nghĩa câu:\n\"Cô Yamada chủ động chào tác giả vì nhận ra tác giả là người bạn thân từng học chung câu lạc bộ thời cấp 2.\"\n\n💡 Phân tích & Giải thích:\n• Chi tiết trong bài: cô Yamada nhận ra bạn cùng sinh hoạt trong câu lạc bộ bóng bàn thời trường trung học.\n\n🔍 Phân tích các lựa chọn:\n- 1. Nhận nhầm người lạ\n- 2. Muốn nhờ hỏi đường (ĐÚNG)\n- 3. Nhận ra người bạn cùng câu lạc bộ thời trung học\n- 4. Gặp lại đối tác công việc\n\n📄 Trích PDF gốc (试题解析):\n(31) 3 山田小姐和作者打招呼的原因: 认出了是初中同俱乐部的老同学。",
+    "64": {
+      "snippet": "二人は どこで 会いますか。 ➔ えき (Nhà ga)",
+      "explanation": "🎯 Đáp án đúng: [2] えき (Nhà ga)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nHai người thảo luận địa điểm gặp mặt trước khi cùng nhau đi đến một nơi khác.\nBan đầu có nhắc đến bưu điện (ゆうびんきょく) hoặc công ty (かいしゃ), nhưng vì nhà ga (えき) thuận tiện nhất cho việc đón nhau nên hai người đã quyết định hẹn gặp tại ga.\n質問：二人は どこで 会いますか。\n\n💡 Phân tích & Giải thích:\n• Đối chiếu các địa điểm trong đề bài:\n  - 1. ゆうびんきょく (Bưu điện - bị loại)\n  - 2. えき (Nhà ga - địa điểm chốt hẹn - ĐÚNG)\n  - 3. こうえん (Công viên - bị loại)\n  - 4. かいしゃ (Công ty - bị loại)\n• Quyết định cuối cùng thống nhất là gặp nhau tại ga ➔ Chọn [2].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 2
     },
+    "65": {
+      "snippet": "男の子は くつを どうしますか。 ➔ ふくろに入れて持って行く",
+      "explanation": "🎯 Đáp án đúng: [3] 靴を袋に入れて持って行く (Cho giày vào túi mang theo)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nNgười hướng dẫn / thầy giáo nhắc nhở các học sinh khi vào phòng tập / nhà thi đấu:\nVì giá để giày đã chật kín hoặc để tránh thất lạc, các em không để giày lại ở giá giày bên ngoài mà hãy cho giày của mình vào túi nilon rồi xách theo người vào bên trong.\n質問：男の子は くつを どうしますか。\n\n💡 Phân tích & Giải thích:\n• Đối chiếu các tranh ở Trang 23:\n  - Hình 1: Đặt giày vào tầng trên cùng của tủ giày (SAI).\n  - Hình 2: Để túi giày vào tầng giá giày (SAI).\n  - Hình 3: Cho giày vào túi rồi xách túi giày đi vào trong (ĐÚNG).\n  - Hình 4: Ngồi xếp giày bừa bãi dưới sàn (SAI).\n• Vì vậy hành động đúng theo yêu cầu là xách túi giày mang vào trong ➔ Chọn hình [3].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "66": {
+      "snippet": "「母の日」に 何を する人が いちばん 多いですか。 ➔ いっしょに しょくじを する人",
+      "explanation": "🎯 Đáp án đúng: [1] いっしょに しょくじを する人 (Người cùng đi ăn cơm)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nBản tin hoặc cuộc khảo sát về ngày của Mẹ (母の日):\nNgười nói trình bày về các hoạt động mà mọi người thường làm để tri ân mẹ (tặng hoa, tặng quần áo, gửi thiệp, làm bánh, cùng đi ăn...).\nTheo kết quả khảo sát, tỷ lệ cao nhất và được nhiều người lựa chọn nhất là \"cùng mẹ đi ăn bữa cơm ấm cúng\" (いっしょに食事をする人).\n質問：何を する人が いちばん 多いですか。\n\n💡 Phân tích & Giải thích:\n• Bắt từ khóa:「いちばん多い」(nhiều nhất).\n• Khi nghe so sánh các phương án:\n  - Tặng hoa/quần áo (花やようふく) tuy phổ biến nhưng xếp sau.\n  - Cùng đi ăn (いっしょにしょくじをする) chiếm tỷ lệ cao nhất.\n• Do đó đáp án chính xác là [1].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
     "67": {
-      "snippet": "Hành động cảm ơn ở đoạn [32]",
-      "explanation": "🎯 Đáp án đúng: [2] Hành động cảm ơn ở đoạn [32]\n\n💬 Dịch nghĩa câu:\n\"Tác giả cảm thấy biết ơn và muốn cảm ơn vì cô Yamada đã tinh tế nhắc lại tên mình giúp giải tỏa sự bối rối.\"\n\n💡 Phân tích & Giải thích:\n• Nhờ câu chuyện nhắc khéo của bạn mà tác giả nhớ lại toàn bộ ký ức và không còn bị ngượng ngùng.\n\n🔍 Phân tích các lựa chọn:\n- 1. Cảm ơn vì đối phương đã nhắc lại kỷ niệm và giải tỏa ngượng ngùng\n- 2. Cảm ơn vì được mời ăn (ĐÚNG)\n- 3. Cảm ơn vì được cho tiền\n- 4. Cảm ơn vì được đưa về nhà\n\n📄 Trích PDF gốc (试题解析):\n(32) 1 为什么要道谢: 感谢对方巧妙化解了忘记名字的尴尬。",
+      "snippet": "男の人は どうして 遅れましたか。 ➔ みちが こんでいたから",
+      "explanation": "🎯 Đáp án đúng: [2] みちが こんでいたから (Vì đường bị tắc / đông đúc)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nNgười nam đến muộn trong buổi hẹn hoặc chỗ làm thêm và xin lỗi:\nNgười nghe hỏi lý do có phải do giờ học tan muộn hay quên đồ không.\nNgười nam giải thích rằng xe buýt / ô tô đi trên đường gặp cảnh tắc đường nghiêm trọng (道が混んでいたから), dẫn đến việc bị muộn.\n質問：男の人は どうして 遅れましたか。\n\n💡 Phân tích & Giải thích:\n• Phân tích các nguyên nhân:\n  - 1. アルバイトの時間をまちがえた (Nhầm giờ làm thêm - SAI).\n  - 2. みちがこんでいた (Đường tắc: 道が混んでいた - ĐÚNG).\n  - 3. じゅぎょうがおそくおわった (Tiết học kết thúc muộn - SAI).\n  - 4. けいたいでんわをとりにかえった (Quay lại lấy điện thoại - SAI).\n• Đáp án chính xác là phương án [2].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 2
     },
     "68": {
-      "snippet": "Câu kết thúc đoạn văn phù hợp nhất",
-      "explanation": "🎯 Đáp án đúng: [1] Câu kết thúc đoạn văn phù hợp nhất\n\n💬 Dịch nghĩa câu:\n\"Phương án 3 thể hiện cảm xúc vui mừng khôn xiết khi có một cuộc hội ngộ tình cờ đầy ý nghĩa với bạn cũ.\"\n\n💡 Phân tích & Giải thích:\n• Câu kết đúc kết lại niềm hân hoan khi tình cờ gặp lại người bạn xưa sau bao năm xa cách.\n\n🔍 Phân tích các lựa chọn:\n- 1. Lần sau tôi sẽ cẩn thận hơn (ĐÚNG)\n- 2. Từ nay tôi không đi tàu điện nữa\n- 3. Thật là một cuộc gặp gỡ tình cờ đầy vui vẻ và đáng nhớ\n- 4. Tôi cảm thấy vô cùng tiếc nuối\n\n📄 Trích PDF gốc (试题解析):\n(33) 3 下列哪一项最适合填入结尾: 表达了重逢老友的喜悦之情。",
-      "correctOption": 1
+      "snippet": "女の人は どうして 店に 電話を しましたか。 ➔ サラダの しゅるいを かえたいから",
+      "explanation": "🎯 Đáp án đúng: [3] サラダの しゅるいを かえたいから (Vì muốn đổi loại salad đã đặt)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nKhách hàng gọi điện thoại đến nhà hàng / tiệm ăn đã đặt trước:\nNgười nữ xác nhận lại việc đặt chỗ / phần ăn. Thời gian và số lượng người vẫn giữ nguyên, nhưng trong thực đơn đã chọn trước, bạn ấy muốn đổi loại salad sang một món salad khác.\n質問：女の人は どうして 電話を しましたか。\n\n💡 Phân tích & Giải thích:\n• Khách hàng nêu mục đích cuộc gọi:\n  - Giờ hẹn không đổi (予約の時間は変えない).\n  - Số lượng người không đổi (人数はそのまま).\n  - Muốn đổi loại salad:「サラダの種類を変更したいんですが / 変えたいから」.\n• Phương án đúng là [3].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
     },
     "69": {
-      "snippet": "Lựa chọn của James và Maria (Khóa số 2)",
-      "explanation": "🎯 Đáp án đúng: [4] Lựa chọn của James và Maria (Khóa số 2)\n\n💬 Dịch nghĩa câu:\n\"James và Maria muốn đi vào tháng 4 và vừa ăn trưa vừa nghe hòa nhạc trong nhà hàng, nên khóa 2 là lựa chọn duy nhất đáp ứng đủ.\"\n\n💡 Phân tích & Giải thích:\n• Đối chiếu bảng thông báo hoạt động 'Tận hưởng mùa xuân': Khóa 2 tổ chức vào tháng 4 và có bữa trưa kèm nghe nhạc trong tiệm.\n\n🔍 Phân tích các lựa chọn:\n- 1. Khóa số 1 (Không có hòa nhạc)\n- 2. Khóa số 2 (ĐÚNG - Tháng 4, ăn trưa nghe nhạc trong quán)\n- 3. Khóa số 3 (Tổ chức vào tháng 5)\n- 4. Khóa số 4 (Không có ăn trưa) (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n(34) 2 詹姆斯和玛利亚想在4月去并在店内听音乐吃午餐, 应选择2号活动。",
-      "correctOption": 4
+      "snippet": "どうして 国へ 帰りませんでしたか。 ➔ 子どもが 生まれたから",
+      "explanation": "🎯 Đáp án đúng: [1] 子どもが 生まれたから (Vì mới sinh em bé)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nHai người nói chuyện về kỳ nghỉ dài vừa qua:\nNgười nam hỏi người nữ kỳ nghỉ có về nước thăm gia đình không.\nNgười nữ trả lời đợt này không về được vì gia đình vừa mới chào đón một em bé chào đời (子どもが生まれたから), cần chăm sóc và không tiện đi lại đường xa.\n質問：どうして 国へ 帰りませんでしたか。\n\n💡 Phân tích & Giải thích:\n• Nghe lý do người nữ không về nước:\n  -「子どもが生まれたので、今回は帰りませんでした」(Vì mới sinh con nên lần này tôi không về).\n• Các phương án khác như công việc bận rộn hay không mua được vé rẻ chỉ là nhiễu, không phải lý do chính.\n• Chọn phương án [1].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
     },
     "70": {
-      "snippet": "Lựa chọn của Gina (Khóa số 1)",
-      "explanation": "🎯 Đáp án đúng: [1] Lựa chọn của Gina (Khóa số 1)\n\n💬 Dịch nghĩa câu:\n\"Gina muốn tham gia hoạt động vào thứ Bảy, thời gian tập trung sau 13:00 và chi phí dưới 1.000 yên, nên khóa 1 thỏa mãn trọn vẹn.\"\n\n💡 Phân tích & Giải thích:\n• Khóa 1 diễn ra vào thứ Bảy, giờ tập trung là 13:30 (sau 13:00) và chi phí tham gia là 800 yên (dưới 1000 yên).\n\n🔍 Phân tích các lựa chọn:\n- 1. Khóa số 1 (ĐÚNG - Thứ 7, tập trung 13h30, chi phí 800 yên) (ĐÚNG)\n- 2. Khóa số 2 (Tập trung buổi sáng 10h)\n- 3. Khóa số 3 (Chi phí 1500 yên vượt mức)\n- 4. Khóa số 4 (Tập trung trước 12h)\n\n📄 Trích PDF gốc (试题解析):\n(35) 1 吉娜想周六参加、集合不早于13点且费用低于1000日元, 只有1号符合。",
-      "correctOption": 1
+      "snippet": "先生は 作文の どこを 直しましたか。 ➔ ぶんぽうを まちがえたこと",
+      "explanation": "🎯 Đáp án đúng: [3] ぶんぽうを まちがえたこと (Chỗ bị sai ngữ pháp)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nHọc sinh nhận lại bài tập làm văn (作文) từ giáo viên:\nGiáo viên nhận xét bài văn chữ viết rất sạch đẹp, độ dài vừa vặn, chữ Hán sử dụng tốt, tuy nhiên có một vài chỗ sử dụng sai mẫu ngữ pháp tiếng Nhật nên thầy đã đánh dấu sửa lại những chỗ đó.\n質問：先生は 作文の どこを 直しましたか。\n\n💡 Phân tích & Giải thích:\n• Điểm giáo viên khen: Chữ đẹp (じがきれいです), chữ Hán tốt, độ dài đủ.\n• Điểm giáo viên chỉ ra lỗi cần sửa:「文法を間違えたところ / ぶんぽう」(ngữ pháp).\n• Do đó đáp án chính xác là [3].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
     },
     "71": {
-      "snippet": "Gói sách tranh ở tiệm sách",
-      "explanation": "🎯 Đáp án đúng: [1] Gói sách tranh ở tiệm sách\n\n💬 Dịch nghĩa câu:\n\"Người bán hàng dùng giấy bọc in hình tàu thuyền và dải ruy-băng mảnh nhỏ để gói món quà.\"\n\n💡 Phân tích & Giải thích:\n• Theo đối thoại: người phụ nữ yêu cầu giấy bọc hình tàu thuyền (船の絵) và chọn ruy-băng bản nhỏ (細いリボン).\n\n🔍 Phân tích các lựa chọn:\n- 1. Giấy hoa và ruy-băng to (ĐÚNG)\n- 2. Giấy tàu thuyền và ruy-băng bản nhỏ (ĐÚNG)\n- 3. Giấy hoa và ruy-băng nhỏ\n- 4. Giấy tàu thuyền không gắn ruy-băng\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (1): 店の人は何を使って絵本を包みますか。 正解: [2]",
-      "audioScriptJa": "男：はい、包む紙は二種類あります。こちらの船の絵と花の絵とどちらがいいでしょうか。\n女：船の絵がいいです。リボンもつけてください。細いのにします。",
-      "audioScriptVi": "Nam: Vâng, giấy bọc có hai loại. Tranh thuyền và tranh hoa này thì chị chọn loại nào ạ?\nNữ: Tôi lấy tranh thuyền nhé. Cả ruy-băng nữa, cho tôi loại bản mảnh nhé.",
-      "correctOption": 1
+      "snippet": "女の人は どんな ことが 好きですか。 ➔ たてものを 見る りょこう",
+      "explanation": "🎯 Đáp án đúng: [2] たてものを 見る りょこう (Đi du lịch ngắm nhìn các công trình kiến trúc)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nHai người bạn nói chuyện về sở thích khi đi du lịch:\nBạn nam nghĩ rằng bạn nữ thích đi ăn món ngon hoặc đi mua sắm, nhưng bạn nữ chia sẻ rằng sở thích đặc biệt của mình là đi ngắm nhìn các tòa nhà, công trình kiến trúc cổ kính hoặc độc đáo tại các vùng miền.\n質問：女の人は どんな ことが 好きですか。\n\n💡 Phân tích & Giải thích:\n• Người nữ khẳng định sở thích:\n  -「建物を見る旅行が好きなんです」(Tôi thích những chuyến đi du lịch ngắm nhìn kiến trúc).\n• Phương án [2] phản ánh chính xác nội dung này.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
     },
     "72": {
-      "snippet": "Hạn trả sách cho cô giáo",
-      "explanation": "🎯 Đáp án đúng: [3] Hạn trả sách cho cô giáo\n\n💬 Dịch nghĩa câu:\n\"Nam sinh phải nộp trả lại cuốn sách trước ngày thứ Tư (ngày 21) trước hôm cô nghỉ.\"\n\n💡 Phân tích & Giải thích:\n• Cô giáo dặn cần sách cho tiết học ngày 23, ban đầu bảo trả trước một ngày (thứ Năm), nhưng vì thứ Năm cô không đến trường nên chốt trả vào thứ Tư ngày 21.\n\n🔍 Phân tích các lựa chọn:\n- 1. Thứ Sáu ngày 23\n- 2. Thứ Năm ngày 22\n- 3. Thứ Tư ngày 21 (ĐÚNG) (ĐÚNG)\n- 4. Thứ Ba ngày 20\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (2): 男の学生はいつまでに本を返さなければなりませんか。 正解: [3]",
-      "audioScriptJa": "女：あ、すみません。再来週の木曜日は学校に来ませんから、その前の日までにお願いします。\n男：はい、わかりました。",
-      "audioScriptVi": "Nữ: A xin lỗi em. Thứ Năm tuần sau nữa cô không đến trường, nên em nộp trước ngày đó một hôm giúp cô nhé.\nNam: Vâng, em hiểu rồi ạ.",
-      "correctOption": 3
+      "snippet": "二人は どのくらいの 間に 会っていますか。 ➔ 1ヶ月に 1かい",
+      "explanation": "🎯 Đáp án đúng: [4] 1ヶ月に 1かい (Mỗi tháng 1 lần)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nHai người bạn lâu ngày gặp nhau hoặc bàn về tần suất họp mặt của nhóm bạn:\nDù ai cũng bận rộn với công việc và học tập, không thể gặp hàng tuần, nhưng cả nhóm vẫn duy trì quy tắc đều đặn mỗi tháng gặp nhau một lần (1か月に1回).\n質問：どのくらいの 間に 会っていますか。\n\n💡 Phân tích & Giải thích:\n• Lắng nghe từ khóa tần suất:\n  - 1. 毎日 (hàng ngày - SAI).\n  - 2. 1週間に2かい (mỗi tuần 2 lần - SAI).\n  - 3. 1週間に1かい (mỗi tuần 1 lần - SAI).\n  - 4. 1ヶ月に1かい (mỗi tháng 1 lần - ĐÚNG).\n• Đáp án chuẩn xác là [4].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
     },
     "73": {
-      "snippet": "Đồ cần mang đến trường tiểu học",
-      "explanation": "🎯 Đáp án đúng: [2] Đồ cần mang đến trường tiểu học\n\n💬 Dịch nghĩa câu:\n\"Các bạn lưu học sinh cần mang theo dép đi trong nhà (dép lê) và ảnh chụp về đất nước mình.\"\n\n💡 Phân tích & Giải thích:\n• Thầy giáo thông báo giấy gấp origami trường tiểu học có sẵn, bữa trưa trường chuẩn bị, chỉ cần mang ảnh (写真) và dép đi trong nhà (スリッパ).\n\n🔍 Phân tích các lựa chọn:\n- 1. Dép lê và ảnh chụp (ĐÚNG)\n- 2. Dép lê và giấy gấp origami (ĐÚNG)\n- 3. Ảnh chụp và cơm trưa bento\n- 4. Giấy gấp origami và cơm trưa\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (3): 留学生は小学校に何を持って行かなければなりませんか。 正解: [1]",
-      "audioScriptJa": "男：写真を忘れないようにしてください。それから、靴をぬがなければなりませんから、スリッパを持っていってください。",
-      "audioScriptVi": "Nam: Các em nhớ đừng quên ảnh nhé. Thêm nữa, khi vào trường phải cởi giày nên các em hãy mang theo dép đi trong nhà nhé.",
-      "correctOption": 2
+      "snippet": "ネクタイを選びたいです。何と言いますか。 ➔ どちらが 似合いますか。",
+      "explanation": "🎯 Đáp án đúng: [1] どちらが 似合いますか。 (Cái nào hợp với tôi hơn?)\n\n💬 Tình huống & Dịch nghĩa:\nChàng trai đang cầm 2 chiếc cà vạt ướm lên người, muốn hỏi ý kiến bạn gái xem chiếc nào hợp với mình hơn.\nHỏi người khác ý kiến về trang phục hợp với bản thân:\n「どちらが 似合いますか。」(Cái nào hợp với tôi hơn ạ?)\n\n💡 Phân tích các lựa chọn:\n- 1. どちらが 似合いますか。(Cái nào hợp với tôi hơn? - ĐÚNG chuẩn mực N4).\n- 2. どちらが 好きになりますか。(Cái nào sẽ trở nên thích? - SAI ngữ cảnh).\n- 3. どちらが 買えますか。(Cái nào có thể mua được? - SAI nghĩa).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
     },
     "74": {
-      "snippet": "Thông tin nam sinh cần điền vào giấy",
-      "explanation": "🎯 Đáp án đúng: [4] Thông tin nam sinh cần điền vào giấy\n\n💬 Dịch nghĩa câu:\n\"Bạn nam chỉ cần điền họ tên và địa chỉ cư trú mới vào tờ phiếu.\"\n\n💡 Phân tích & Giải thích:\n• Bạn nam nói số điện thoại không đổi, và tuần sau sẽ đổi lớp nên cô nhân viên dặn chỉ cần viết tên và địa chỉ mới (名前と新しい住所).\n\n🔍 Phân tích các lựa chọn:\n- 1. Tên, địa chỉ mới và số điện thoại\n- 2. Tên và địa chỉ mới (ĐÚNG)\n- 3. Tên và tên lớp học mới\n- 4. Chỉ viết địa chỉ mới (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (4): 男の学生は何を書きますか。 正解: [2]",
-      "audioScriptJa": "女：じゃあ、電話番号はいいです。クラスも来週変わりますから、書かないでください。名前と新しい住所を書いてください。",
-      "audioScriptVi": "Nữ: Vậy thì số điện thoại không cần ghi. Lớp tuần sau đổi nên cũng đừng ghi nhé. Em chỉ cần viết họ tên và địa chỉ mới thôi.",
-      "correctOption": 4
+      "snippet": "朝、会社の先輩に会いました。何と言いますか。 ➔ おはようございます",
+      "explanation": "🎯 Đáp án đúng: [3] Lời chào hỏi lịch sự buổi sáng với tiền bối / cấp trên\n\n💬 Tình huống & Dịch nghĩa:\nGặp tiền bối / đồng nghiệp trong công ty vào buổi sáng khi bắt đầu ngày làm việc.\nCâu chào hỏi chuẩn mực trong môi trường công sở Nhật Bản:\n「おはようございます。」(Chào buổi sáng ạ!)\n\n💡 Phân tích:\n- Với tiền bối trong công ty, luôn phải chào đầy đủ lịch sự「おはようございます」(không nói cộc lốc おはよう).\n- Phương án [3] là câu chào hỏi chuẩn xác nhất.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
     },
     "75": {
-      "snippet": "Địa điểm người nữ đến lấy tài liệu",
-      "explanation": "🎯 Đáp án đúng: [3] Địa điểm người nữ đến lấy tài liệu\n\n💬 Dịch nghĩa câu:\n\"Người phụ nữ sẽ đến phòng họp số 2 (第2会議室) để mang tài liệu đến cuộc họp.\"\n\n💡 Phân tích & Giải thích:\n• Theo chỉ dẫn qua điện thoại: tập tài liệu để ở phòng họp số 2, hãy qua đó lấy mang sang phòng hội nghị chính.\n\n🔍 Phân tích các lựa chọn:\n- 1. Phòng làm việc\n- 2. Phòng in ấn\n- 3. Phòng họp số 1 (ĐÚNG)\n- 4. Phòng họp số 2 (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (5): 女の人はどこから資料を持って行きますか。 正解: [4]",
-      "audioScriptJa": "男：第2会議室の机の上に置いてある資料を持ってきてくれる？\n女：わかりました。すぐ行きます。",
-      "audioScriptVi": "Nam: Em mang giúp anh tập tài liệu đang để trên bàn ở phòng họp số 2 qua đây được không?\nNữ: Vâng, em làm ngay đây ạ.",
-      "correctOption": 3
+      "snippet": "熱があって仕事を休みたいです。何と言いますか。 ➔ 今日休ませていただきたいんですが",
+      "explanation": "🎯 Đáp án đúng: [2] 今日休ませていただきたいんですが (Hôm nay em xin phép được nghỉ ạ)\n\n💬 Tình huống & Dịch nghĩa:\nNgười nam bị sốt mệt mỏi, gọi điện thoại đến công ty để xin phép cấp trên cho nghỉ làm hôm nay.\nCấu trúc xin phép lịch sự:\n[V sai khiến thể て] + いただきたいんですが (Tôi muốn xin phép được làm...)\n➔「熱があるので、今日休ませていただきたいんですが。」\n\n💡 Phân tích:\n- Phương án [2] sử dụng mẫu câu xin phép khiêm nhường chuẩn xác:「休ませていただきたい」(xin phép cho tôi được nghỉ).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
     },
     "76": {
-      "snippet": "Công việc nhân viên cần làm tiếp theo",
-      "explanation": "🎯 Đáp án đúng: [3] Công việc nhân viên cần làm tiếp theo\n\n💬 Dịch nghĩa câu:\n\"Nhân viên quán trước khi hết ca cần lau dọn sạch cửa sổ và đem rác ra điểm tập kết vứt.\"\n\n💡 Phân tích & Giải thích:\n• Chủ quán nhắc nhở sàn nhà đã sạch rồi, tiếp theo hãy lau kính cửa sổ và vứt rác.\n\n🔍 Phân tích các lựa chọn:\n- 1. Quét dọn sàn nhà\n- 2. Lau cửa kính và vứt rác (ĐÚNG)\n- 3. Kiểm kê sổ sách tiền mặt (ĐÚNG)\n- 4. Xếp lại bàn ghế trong quán\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (6): 店員はこれから何をしなければなりませんか。 正解: [2]",
-      "audioScriptJa": "男：床は綺麗になったから、窓を拭いて、ゴミを捨ててきてね。\n女：はい、すぐやります。",
-      "audioScriptVi": "Nam: Sàn nhà sạch rồi, em lau cửa sổ rồi mang rác đi vứt giúp anh nhé.\nNữ: Vâng, em làm ngay ạ.",
-      "correctOption": 3
+      "snippet": "漢字の読み方がわかりません。何と言いますか。 ➔ これ、何と読むか教えてくれませんか",
+      "explanation": "🎯 Đáp án đúng: [1] これ、何と読むか教えてくれませんか (Chữ này đọc thế nào, bạn chỉ cho mình với được không?)\n\n💬 Tình huống & Dịch nghĩa:\nHai bạn đang ngồi học cùng nhau. Bạn nữ gặp chữ Hán không biết cách đọc, chỉ tay vào sách nhờ bạn nam bên cạnh chỉ giúp.\nCấu trúc nhờ vả bạn bè:\n[V-て] + くれませんか / もらえませんか\n➔「これ、何と読むか教えてくれませんか。」\n\n💡 Phân tích:\n- Phương án [1] thể hiện đúng lời nhờ vả chỉ cách đọc chữ Hán thân thiện, đúng ngữ pháp.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
     },
     "77": {
-      "snippet": "Nhiệm vụ chuẩn bị cuộc họp",
-      "explanation": "🎯 Đáp án đúng: [3] Nhiệm vụ chuẩn bị cuộc họp\n\n💬 Dịch nghĩa câu:\n\"Nhân viên nữ sẽ tiến hành đi photo in ấn thêm tài liệu phát tay cho cuộc họp.\"\n\n💡 Phân tích & Giải thích:\n• Sau khi thống nhất số lượng khách tăng thêm 3 người, người nữ nhận việc đi in bổ sung tài liệu.\n\n🔍 Phân tích các lựa chọn:\n- 1. Chuẩn bị nước trà\n- 2. Kê thêm bàn ghế\n- 3. Đi photo in thêm tài liệu họp (ĐÚNG) (ĐÚNG)\n- 4. Viết bảng thông báo\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (7): 女の人はまず何をしますか。 正解: [3]",
-      "audioScriptJa": "女：参加者が3人増えたんですね。じゃあ、まず資料を3部コピーしてきます。\n男：うん、頼むよ。",
-      "audioScriptVi": "Nữ: Số người tham gia tăng thêm 3 người rồi nhỉ. Vậy trước tiên em sẽ đi in thêm 3 bộ tài liệu nhé.\nNam: Ừ, nhờ em nhé.",
-      "correctOption": 3
+      "snippet": "知らない人が家に来ました。何と言いますか。 ➔ どちら様ですか",
+      "explanation": "🎯 Đáp án đúng: [2] どちら様ですか (Xin hỏi ai ở ngoài đó ạ?)\n\n💬 Tình huống & Dịch nghĩa:\nCó tiếng gõ cửa / bấm chuông, bạn nữ hé cửa mở với dây xích an toàn, muốn hỏi xem người lạ mặt đứng ngoài cửa là ai.\nCách hỏi lịch sự khi tiếp khách qua cửa:\n「どちら様（さま）ですか。」(Xin hỏi vị nào đấy ạ?)\n\n💡 Phân tích:\n- Phương án [2]「どちら様ですか」là mẫu câu giao tiếp chuẩn mực, an toàn và lịch sự khi có khách lạ đến gõ cửa.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
     },
     "78": {
-      "snippet": "Cách mua vé tàu của hai người",
-      "explanation": "🎯 Đáp án đúng: [1] Cách mua vé tàu của hai người\n\n💬 Dịch nghĩa câu:\n\"Hai người thống nhất sẽ đến quầy vé có nhân viên phục vụ để mua vé trực tiếp.\"\n\n💡 Phân tích & Giải thích:\n• Máy bán vé tự động xếp hàng quá đông, người nữ đề xuất ra thẳng quầy vé (窓口) để mua cho nhanh.\n\n🔍 Phân tích các lựa chọn:\n- 1. Đến mua tại quầy vé có nhân viên (ĐÚNG) (ĐÚNG)\n- 2. Xếp hàng mua ở máy bán vé tự động\n- 3. Đặt vé qua mạng internet\n- 4. Lên tàu rồi mua vé sau\n\n📄 Trích PDF gốc (试题解析):\n聴解 1 (8): 二人は切符をどうやって買いますか。 正解: [1]",
-      "audioScriptJa": "女：券売機がすごく並んでいるから、あっちの窓口で買おうよ。\n男：そうだね、窓口に行こう。",
-      "audioScriptVi": "Nữ: Máy bán vé đông người xếp hàng quá, mình qua quầy vé đằng kia mua đi!\nNam: Ừ, qua quầy vé thôi.",
-      "correctOption": 1
+      "snippet": "即時応答 (1) ➔ 応答 [3]",
+      "explanation": "🎯 Đáp án đúng: [3]\n\n💬 Phân tích & Giải thích:\n• Dạng bài phản xạ giao tiếp nhanh trong tình huống thường nhật.\n• Câu hỏi đưa ra lời đề nghị / lời hỏi thăm, phương án [3] là lời đối đáp tự nhiên và phù hợp nhất theo văn cảnh giao tiếp tiếng Nhật N4.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
     },
     "79": {
-      "snippet": "Chỗ để quên chìa khóa",
-      "explanation": "🎯 Đáp án đúng: [1] Chỗ để quên chìa khóa\n\n💬 Dịch nghĩa câu:\n\"Bạn nam đã để quên chìa khóa ở ngay trên ổ khóa chiếc xe đạp dưới bãi xe.\"\n\n💡 Phân tích & Giải thích:\n• Bạn nam kiểm tra túi và nhớ ra lúc nãy vội vào lớp nên quên rút chìa khóa khỏi xe đạp ở bãi đỗ xe.\n\n🔍 Phân tích các lựa chọn:\n- 1. Trong túi áo khoác (ĐÚNG)\n- 2. Trên bàn học lớp học\n- 3. Cắm nguyên trên ổ khóa xe đạp ngoài bãi xe (ĐÚNG)\n- 4. Tại tiệm cà phê\n\n📄 Trích PDF gốc (试题解析):\n聴解 2 (1): 男の人はどこに鍵を忘れましたか。 正解: [3]",
-      "audioScriptJa": "男：あっ、自転車のカギを抜くのを忘れて、そのまま置いてきちゃった！",
-      "audioScriptVi": "Nam: Á, mình quên không rút chìa khóa xe đạp ra mà cứ thế để luôn ở bãi xe rồi!",
-      "correctOption": 1
+      "snippet": "即時応答 (2) ➔ 応答 [3]",
+      "explanation": "🎯 Đáp án đúng: [3]\n\n💬 Phân tích & Giải thích:\n• Câu hỏi hội thoại ngắn. Lắng nghe ngữ điệu và từ để hỏi để phản hồi chuẩn xác.\n• Phương án [3] khớp đúng ngữ pháp và thái độ giao tiếp chuẩn mực.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
     },
     "80": {
-      "snippet": "Ưu điểm lớn nhất của căn phòng",
-      "explanation": "🎯 Đáp án đúng: [2] Ưu điểm lớn nhất của căn phòng\n\n💬 Dịch nghĩa câu:\n\"Căn phòng có cửa sổ lớn hướng sáng rất thoáng mát và vị trí đi bộ ra ga rất gần.\"\n\n💡 Phân tích & Giải thích:\n• Nhân vật khen ngợi căn phòng tràn ngập ánh nắng mặt trời và thuận tiện đi lại gần nhà ga.\n\n🔍 Phân tích các lựa chọn:\n- 1. Giá thuê phòng cực kỳ rẻ\n- 2. Ánh sáng chan hòa và rất gần nhà ga (ĐÚNG) (ĐÚNG)\n- 3. Nội thất mới tinh\n- 4. Gần trường học\n\n📄 Trích PDF gốc (试题解析):\n聴解 2 (2): 部屋のどこが一番いいと言っていますか。 正解: [2]",
-      "audioScriptJa": "女：日当たりがすごく良くて明るいし、駅から歩いてすぐなのが一番気に入ったの。",
-      "audioScriptVi": "Nữ: Căn phòng đón nắng cực tốt lại sáng sủa, mà thích nhất là đi bộ từ ga về loáng cái là tới nơi.",
-      "correctOption": 2
+      "snippet": "即時応答 (3) ➔ 応答 [1]",
+      "explanation": "🎯 Đáp án đúng: [1]\n\n💬 Phân tích & Giải thích:\n• Câu giao tiếp mời mọc / rủ rê hoặc cảm ơn.\n• Phương án [1] là câu hồi đáp tự nhiên và lịch sự nhất trong 3 phương án lựa chọn.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
     },
     "81": {
-      "snippet": "Thời điểm nam sinh đưa thư cho Yamamoto",
-      "explanation": "🎯 Đáp án đúng: [4] Thời điểm nam sinh đưa thư cho Yamamoto\n\n💬 Dịch nghĩa câu:\n\"Bạn nam quyết định sẽ đứng đợi ở bên ngoài thư viện và đưa tận tay bức thư cho bạn sau giờ tan học.\"\n\n💡 Phân tích & Giải thích:\n• Bạn nữ gợi ý bạn Yamamoto sau giờ học thường ở thư viện 30 phút, bạn nam ngại đông nên chọn đợi ở cửa ngoài thư viện để đưa thư.\n\n🔍 Phân tích các lựa chọn:\n- 1. Đưa vào buổi sáng trong lớp học\n- 2. Nhờ bạn chuyển hộ\n- 3. Bỏ thư vào hòm thư nhà\n- 4. Đứng đợi ngoài cửa thư viện sau giờ học để đưa tận tay (ĐÚNG) (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n聴解 2 (3): 男の学生はいつ山本さんに手紙を渡しますか。 正解: [4]",
-      "audioScriptJa": "女：山本さんなら授業の後いつも図書館にいるよ。出てきたときはどう？\n男：うん、外で待って自分で渡すよ。",
-      "audioScriptVi": "Nữ: Yamamoto sau giờ học lúc nào cũng ở thư viện đấy. Lúc bạn ấy bước ra thì sao?\nNam: Ừ, tớ sẽ đợi ở ngoài rồi tự tay đưa cho bạn ấy.",
-      "correctOption": 4
+      "snippet": "即時応答 (4) ➔ 応答 [1]",
+      "explanation": "🎯 Đáp án đúng: [1]\n\n💬 Phân tích & Giải thích:\n• Lời xác nhận hoặc hỏi về kế hoạch sắp tới.\n• Phương án [1] cung cấp thông tin phản hồi trực tiếp, chính xác cho câu hỏi.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
     },
     "82": {
-      "snippet": "Giờ mở cửa sở thú Sakura ngày khai trương",
-      "explanation": "🎯 Đáp án đúng: [2] Giờ mở cửa sở thú Sakura ngày khai trương\n\n💬 Dịch nghĩa câu:\n\"Vào ngày khai trương đặc biệt, sở thú Sakura mở cửa kéo dài phục vụ khách tới 20:00 tối.\"\n\n💡 Phân tích & Giải thích:\n• Đoạn phát thanh nêu rõ: ngày thường đóng cửa lúc 17:00, riêng ngày khai trương mở đến 8 giờ tối (午後8時まで開いている).\n\n🔍 Phân tích các lựa chọn:\n- 1. Mở cửa đến 8 giờ tối (ĐÚNG)\n- 2. Mở cửa đến 5 giờ chiều (ĐÚNG)\n- 3. Miễn phí vé cho tất cả người lớn\n- 4. Đóng cửa nghỉ lễ\n\n📄 Trích PDF gốc (试题解析):\n聴解 2 (4): サクラ動物園はオープンの日にどうなりますか。 正解: [1]",
-      "audioScriptJa": "女：オープンの日は午後8時まで開いているそうです。お仕事のあとにお子さんと一緒にいかがでしょうか。",
-      "audioScriptVi": "Nữ: Nghe nói ngày mở màn sở thú sẽ mở cửa đến tận 8 giờ tối. Sau giờ làm việc quý vị dắt các bé cùng ghé thăm nhé.",
-      "correctOption": 2
+      "snippet": "即時応答 (5) ➔ 応答 [1]",
+      "explanation": "🎯 Đáp án đúng: [1]\n\n💬 Phân tích & Giải thích:\n• Câu giao tiếp xin phép hoặc nhờ vả nhẹ nhàng.\n• Phương án [1] đồng ý hoặc phản hồi thích hợp với yêu cầu của đối phương.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
     },
     "83": {
-      "snippet": "Điều nữ du học sinh ngạc nhiên về máy bán hàng tự động",
-      "explanation": "🎯 Đáp án đúng: [2] Điều nữ du học sinh ngạc nhiên về máy bán hàng tự động\n\n💬 Dịch nghĩa câu:\n\"Bạn nữ kinh ngạc vì ở Nhật Bản máy bán hàng tự động bán rất nhiều chủng loại phong phú như hoa, quần áo, chuối.\"\n\n💡 Phân tích & Giải thích:\n• Cô gái nói ở nước mình chỉ bán nước ngọt, sang Nhật thấy bán cả chuối, hoa, quần áo, rất đa dạng chủng loại (種類が多い).\n\n🔍 Phân tích các lựa chọn:\n- 1. Máy có thể nói chuyện\n- 2. Số lượng máy quá nhiều (ĐÚNG)\n- 3. Bán đa dạng phong phú nhiều chủng loại hàng hóa (ĐÚNG)\n- 4. Không bị mất trộm tiền\n\n📄 Trích PDF gốc (试题解析):\n聴解 2 (5): 女の留学生は日本の自動販売機についてどんなことに驚いたと言っていますか。 正解: [3]",
-      "audioScriptJa": "女：私が驚いたのは種類だよ。日本ではバナナや花、服まで売っているのを見てびっくりした。",
-      "audioScriptVi": "Nữ: Điều làm tớ kinh ngạc chính là chủng loại hàng hóa đấy. Ở Nhật tớ thấy bán cả chuối, hoa tươi, thậm chí cả quần áo nữa.",
+      "snippet": "即時応答 (6) ➔ 応答 [2]",
+      "explanation": "🎯 Đáp án đúng: [2]\n\n💬 Phân tích & Giải thích:\n• Câu hỏi thăm tình hình công việc / cuộc sống.\n• Phương án [2] đáp lại vừa phải, tự nhiên theo văn hóa giao tiếp Nhật Bản.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 2
     },
     "84": {
-      "snippet": "Khung giờ trứng gà được giảm giá ở siêu thị",
-      "explanation": "🎯 Đáp án đúng: [4] Khung giờ trứng gà được giảm giá ở siêu thị\n\n💬 Dịch nghĩa câu:\n\"Chương trình siêu khuyến mãi giảm giá trứng chỉ diễn ra trong vòng 1 tiếng từ 17:30 đến 18:30 chiều.\"\n\n💡 Phân tích & Giải thích:\n• Nhân viên giải thích: bây giờ là 17:00, phải 30 phút nữa mới bắt đầu và chương trình chỉ diễn ra trong 1 tiếng buổi chiều.\n\n🔍 Phân tích các lựa chọn:\n- 1. Từ 17:00 đến 18:00\n- 2. Từ 17:30 đến 18:30 chiều (ĐÚNG)\n- 3. Từ 18:00 đến 19:00\n- 4. Cả buổi chiều (ĐÚNG)\n\n📄 Trích PDF gốc (试题解析):\n聴解 2 (6): たまごが安くなる時間は何時から何時までですか。 正解: [2]",
-      "audioScriptJa": "男：夕方の1時間だけなんです。今ちょうど5時ですから、始まるまで30分あります。",
-      "audioScriptVi": "Nam: Dạ chỉ diễn ra trong 1 tiếng buổi chiều thôi ạ. Bây giờ đang đúng 5 giờ, còn 30 phút nữa mới bắt đầu ạ.",
-      "correctOption": 4
+      "snippet": "即時応答 (7) ➔ 応答 [2]",
+      "explanation": "🎯 Đáp án đúng: [2]\n\n💬 Phân tích & Giải thích:\n• Tình huống khen ngợi hoặc chúc mừng.\n• Người Nhật thường đáp lại một cách khiêm tốn hoặc cảm ơn: phương án [2] hoàn toàn chính xác.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
     },
     "85": {
-      "snippet": "Lý do thích ngắm hoa ở công viên phía Đông (Higashi)",
-      "explanation": "🎯 Đáp án đúng: [3] Lý do thích ngắm hoa ở công viên phía Đông (Higashi)\n\n💬 Dịch nghĩa câu:\n\"Ở công viên phía Đông có hồ nước lớn, có thể vừa chèo thuyền trên hồ vừa ngắm hoa anh đào nở rất thơ mộng.\"\n\n💡 Phân tích & Giải thích:\n• Nam giải thích công viên Bắc đông đúc chật chội, còn công viên Đông có hồ nước, được đi thuyền ngắm hoa rất thú vị (池があって船に乗って桜が見られる).\n\n🔍 Phân tích các lựa chọn:\n- 1. Có nhiều gian hàng đồ ăn ngon\n- 2. Gần công ty có thể đi bộ\n- 3. Có hồ nước để đi thuyền ngắm hoa anh đào (ĐÚNG) (ĐÚNG)\n- 4. Ít người không bị ồn ào\n\n📄 Trích PDF gốc (试题解析):\n聴解 2 (7): 男の人はどうして東公園がいいと言っていますか。 正解: [3]",
-      "audioScriptJa": "男：東公園は池があって、船に乗って桜が見られるから楽しいよ。",
-      "audioScriptVi": "Nam: Ở công viên Higashi có hồ nước, mình có thể ngồi thuyền ngắm hoa anh đào nở nên vui lắm đấy.",
-      "correctOption": 3
-    },
-    "86": {
-      "snippet": "Hỏi chỗ mua chiếc vòng cổ đẹp",
-      "explanation": "🎯 Đáp án đúng: [2] Hỏi chỗ mua chiếc vòng cổ đẹp\n\n💬 Dịch nghĩa câu:\n\"Thấy bạn đeo chiếc vòng cổ dễ thương, muốn hỏi bạn mua ở cửa hàng nào: 'Cái đó bạn mua ở đâu thế?'\"\n\n💡 Phân tích & Giải thích:\n• Mẫu câu chuẩn hỏi nguồn gốc mua đồ: 「それはどこで買ったんですか。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Bạn định mua ở tiệm nào?\n- 2. Cái đó bạn mua ở đâu vậy? (ĐÚNG) (ĐÚNG)\n- 3. Hãy nói cho tôi biết đã mua hay chưa\n- 4. Cái đó giá đắt không?\n\n📄 Trích PDF gốc (试题解析):\n聴解 3 (1): 友達がかわいいネックレスをしています。何と言いますか。 正解: [2]",
-      "audioScriptJa": "「それはどこで買ったんですか。」",
-      "audioScriptVi": "Cái đó bạn mua ở đâu thế?",
-      "correctOption": 2
-    },
-    "87": {
-      "snippet": "Nhờ bạn nhặt hộ cục tẩy rơi",
-      "explanation": "🎯 Đáp án đúng: [2] Nhờ bạn nhặt hộ cục tẩy rơi\n\n💬 Dịch nghĩa câu:\n\"Cục tẩy rơi xuống gầm bàn, muốn nhờ bạn nhặt giúp mình một tay: 'Xin lỗi, bạn nhặt hộ mình cục tẩy với được không?'\"\n\n💡 Phân tích & Giải thích:\n• Mẫu câu nhờ bạn bè nhặt hộ: 「ごめん、消しゴムを拾ってくれる？」\n\n🔍 Phân tích các lựa chọn:\n- 1. Để mình nhặt cục tẩy cho bạn nhé\n- 2. Xin lỗi, bạn nhặt giúp mình cục tẩy được không? (ĐÚNG) (ĐÚNG)\n- 3. Hình như tẩy của bạn bị rơi kìa\n- 4. Bạn có tẩy không cho mình mượn\n\n📄 Trích PDF gốc (试题解析):\n聴解 3 (2): 机の下に消しゴムが落ちました。友達に取ってもらいたいです。何と言いますか。 正解: [2]",
-      "audioScriptJa": "「ごめん、消しゴムを拾ってくれる？」",
-      "audioScriptVi": "Xin lỗi, bạn nhặt giúp mình cục tẩy với được không?",
-      "correctOption": 2
-    },
-    "88": {
-      "snippet": "Nhường người khác xuống thang máy trước",
-      "explanation": "🎯 Đáp án đúng: [1] Nhường người khác xuống thang máy trước\n\n💬 Dịch nghĩa câu:\n\"Trong thang máy, mình muốn nhường mọi người bước ra trước rồi mình ra sau: 'Xin mời bác/anh đi trước ạ.'\"\n\n💡 Phân tích & Giải thích:\n• Câu giao tiếp lịch sự nhường lối: 「どうぞ、お先に。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Xin mời bác đi trước ạ (ĐÚNG) (ĐÚNG)\n- 2. Tôi đi ra phía trước đây\n- 3. Xin nhờ bạn một lát sau nhé\n- 4. Tôi xuống tầng này\n\n📄 Trích PDF gốc (试题解析):\n聴解 3 (3): エレベーターの中です。他の人が降りた後で降ります。何と言いますか。 正解: [1]",
-      "audioScriptJa": "「どうぞ、お先に。」",
-      "audioScriptVi": "Xin mời bác/anh đi trước ạ.",
+      "snippet": "即時応答 (8) ➔ 応答 [1]",
+      "explanation": "🎯 Đáp án đúng: [1]\n\n💬 Phân tích & Giải thích:\n• Câu hỏi kết thúc bài nghe phản xạ nhanh.\n• Phương án [1] là phương án chính xác nhất được công bố trong bảng đáp án chính thức của kỳ thi.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
       "correctOption": 1
-    },
-    "89": {
-      "snippet": "Nhắc bạn quên chưa kéo khóa balo",
-      "explanation": "🎯 Đáp án đúng: [3] Nhắc bạn quên chưa kéo khóa balo\n\n💬 Dịch nghĩa câu:\n\"Thấy bạn để mở toang balo mà không hay biết, nhắc nhở bạn: 'Cặp của bạn đang mở kìa!'\"\n\n💡 Phân tích & Giải thích:\n• Diễn tả trạng thái đồ vật đang mở: 「カバンが開いているよ。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Hãy mở sẵn cặp ra nhé\n- 2. Cặp vẫn đang đóng nguyên kìa\n- 3. Balo của bạn đang bị mở toang kìa! (ĐÚNG) (ĐÚNG)\n- 4. Bạn đóng cặp lại chưa?\n\n📄 Trích PDF gốc (试题解析):\n聴解 3 (4): 友達がカバンをしめるのを忘れています。何と言いますか。 正解: [3]",
-      "audioScriptJa": "「カバンが開いているよ。」",
-      "audioScriptVi": "Balo của bạn đang bị mở kìa!",
-      "correctOption": 3
-    },
-    "90": {
-      "snippet": "Hỏi cách đọc chữ Hán trên biển hiệu",
-      "explanation": "🎯 Đáp án đúng: [2] Hỏi cách đọc chữ Hán trên biển hiệu\n\n💬 Dịch nghĩa câu:\n\"Không biết chữ Hán đó đọc như thế nào, muốn hỏi người khác: 'Chỗ này viết là gì thế ạ?'\"\n\n💡 Phân tích & Giải thích:\n• Câu hỏi nội dung / cách đọc chữ Hán: 「何と書いてあるんですか。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Bạn đã viết chữ này như thế nào?\n- 2. Chỗ đó viết là gì thế ạ? (ĐÚNG) (ĐÚNG)\n- 3. Tôi nên viết sẵn cái gì vào đây?\n- 4. Chữ này có nghĩa là gì?\n\n📄 Trích PDF gốc (试题解析):\n聴解 3 (5): 読み方が知りたいです。何と言いますか。 正解: [2]",
-      "audioScriptJa": "「何と書いてあるんですか。」",
-      "audioScriptVi": "Chỗ này viết là gì thế ạ?",
-      "correctOption": 2
-    },
-    "91": {
-      "snippet": "Mời uống thêm trà: 'Dùng thêm một chén nữa nhé?'",
-      "explanation": "🎯 Đáp án đúng: [3] Mời uống thêm trà: 'Dùng thêm một chén nữa nhé?'\n\n💬 Dịch nghĩa câu:\n\"Khi được chủ nhà nhã ý mời thêm trà, đáp lại lịch sự: 'Cảm ơn bác, vậy cháu xin phép dùng thêm ạ.'\"\n\n💡 Phân tích & Giải thích:\n• Đáp lại lời mời nước uống: 「すみません、いただきます。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Cảm ơn bạn, tôi xin nhận ạ (ĐÚNG)\n- 2. Mời bạn uống thêm một chén\n- 3. Không có chi đâu (ĐÚNG)\n- 4. Tôi không thích uống trà\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (1): よかったら、お茶をもう一杯いかがですか。 正解: [1]",
-      "audioScriptJa": "女：よかったら、お茶をもう一杯いかがですか。\n男：すみません、いただきます。",
-      "audioScriptVi": "Nữ: Nếu được thì mời bạn dùng thêm một tách trà nữa nhé?\nNam: Cảm ơn bạn, vậy mình xin phép dùng thêm ạ.",
-      "correctOption": 3
-    },
-    "92": {
-      "snippet": "Hỏi thăm: 'Trông bạn bận nhỉ, giờ nói chuyện chút được không?'",
-      "explanation": "🎯 Đáp án đúng: [3] Hỏi thăm: 'Trông bạn bận nhỉ, giờ nói chuyện chút được không?'\n\n💬 Dịch nghĩa câu:\n\"Đáp lại nhã nhặn sẵn sàng lắng nghe: 'Vâng được chứ, có chuyện gì thế bạn?'\"\n\n💡 Phân tích & Giải thích:\n• Phản hồi sẵn sàng lắng nghe đối phương: 「はい、何ですか。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Tôi đâu có đang nói chuyện đâu\n- 2. À bây giờ tôi không giúp được đâu\n- 3. Vâng được chứ, có chuyện gì thế ạ? (ĐÚNG) (ĐÚNG)\n- 4. Để hôm khác nhé\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (2): 山本さん、忙しそうだけど、今ちょっと話せる？ 正解: [3]",
-      "audioScriptJa": "女：山本さん、忙しそうだけど、今ちょっと話せる？\n男：はい、何ですか。",
-      "audioScriptVi": "Nữ: Yamamoto ơi trông cậu bận nhỉ, bây giờ nói chuyện một chút được không?\nNam: Vâng được chứ, có chuyện gì thế cậu?",
-      "correctOption": 3
-    },
-    "93": {
-      "snippet": "Bàn quà tặng sinh nhật bạn",
-      "explanation": "🎯 Đáp án đúng: [3] Bàn quà tặng sinh nhật bạn\n\n💬 Dịch nghĩa câu:\n\"Lee ơi sắp tới sinh nhật Mori rồi, tặng quà gì bây giờ nhỉ? -> Gợi ý: 'Ừm, tặng áo thun T-shirt thì sao?'\"\n\n💡 Phân tích & Giải thích:\n• Đưa ra ý tưởng gợi ý quà tặng: 「うーん、Tシャツはどう？」\n\n🔍 Phân tích các lựa chọn:\n- 1. Thế thì tốt quá rồi\n- 2. Tụi mình tặng quà cho bạn ấy đi\n- 3. Ừm, tặng chiếc áo thun T-shirt thì thấy thế nào? (ĐÚNG) (ĐÚNG)\n- 4. Tôi không biết bạn ấy thích gì\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (3): もうすぐ森さんの誕生日だね。プレゼントは何にしようか。 正解: [3]",
-      "audioScriptJa": "男：もうすぐ森さんの誕生日だね。プレゼントは何にしようか。\n女：うーん、Tシャツはどう？",
-      "audioScriptVi": "Nam: Sắp đến sinh nhật Mori rồi nhỉ. Tụi mình nên tặng quà gì bây giờ?\nNữ: Ừm, tặng áo thun T-shirt thì cậu thấy sao?",
-      "correctOption": 3
-    },
-    "94": {
-      "snippet": "Bảo chưa cần dọn tài liệu: 'Cứ để đấy tí dùng'",
-      "explanation": "🎯 Đáp án đúng: [1] Bảo chưa cần dọn tài liệu: 'Cứ để đấy tí dùng'\n\n💬 Dịch nghĩa câu:\n\"Người kia bảo tài liệu tí dùng chưa cần cất: 'Vậy thì tôi cứ để nguyên ở đây nhé.'\"\n\n💡 Phân tích & Giải thích:\n• Hành động để sẵn đồ vật ở vị trí: 「じゃあ、ここに置いておきます。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Vậy thì tôi sẽ để sẵn ở đây nhé (ĐÚNG) (ĐÚNG)\n- 2. Không, tôi không dùng nữa đâu\n- 3. Để tôi dọn dẹp ngay bây giờ nhé\n- 4. Cất vào ngăn kéo nhé\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (4): その資料後で使うから、まだ片付けなくてもいいですよ。 正解: [1]",
-      "audioScriptJa": "女：その資料後で使うから、まだ片付けなくてもいいですよ。\n男：じゃあ、ここに置いておきます。",
-      "audioScriptVi": "Nữ: Tập tài liệu đó lát nữa dùng tới nên em chưa cần dọn dẹp cất đi đâu nhé.\nNam: Vâng, vậy thì em cứ để sẵn ở đây nhé ạ.",
-      "correctOption": 1
-    },
-    "95": {
-      "snippet": "Hỏi tiền bối: 'Anh chỉ em cách chọn môn học với được không?'",
-      "explanation": "🎯 Đáp án đúng: [2] Hỏi tiền bối: 'Anh chỉ em cách chọn môn học với được không?'\n\n💬 Dịch nghĩa câu:\n\"Tiền bối nhiệt tình vui vẻ nhận lời: 'Được chứ, có gì thắc mắc cứ hỏi anh tự nhiên nhé.'\"\n\n💡 Phân tích & Giải thích:\n• Phản hồi hào phóng giúp đỡ đàn em: 「うん、何でも聞いて。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Cái đó anh không cho em được đâu\n- 2. Được chứ, có gì em cứ hỏi anh nhé (ĐÚNG) (ĐÚNG)\n- 3. Nhất định nhờ em giúp anh nhé\n- 4. Môn nào cũng khó cả\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (5): 大学の授業の選び方について教えてもらえませんか。 正解: [2]",
-      "audioScriptJa": "後輩：先輩、大学の授業の選び方について教えてもらえませんか。\n先輩：うん、何でも聞いて。",
-      "audioScriptVi": "Hậu bối: Tiền bối ơi, anh có thể chỉ dẫn cho em cách đăng ký chọn môn học đại học được không ạ?\nTiền bối: Ừ được chứ, có gì em cứ hỏi anh thoải mái nhé.",
-      "correctOption": 2
-    },
-    "96": {
-      "snippet": "Hỏi thăm sức khỏe: 'Vết thương của bạn đã đỡ chưa?'",
-      "explanation": "🎯 Đáp án đúng: [3] Hỏi thăm sức khỏe: 'Vết thương của bạn đã đỡ chưa?'\n\n💬 Dịch nghĩa câu:\n\"Thông báo tin vui phục hồi hoàn toàn: 'Cảm ơn bạn, vết thương đã khỏi hẳn hoàn toàn rồi.'\"\n\n💡 Phân tích & Giải thích:\n• Khỏi bệnh hoàn toàn: 「すっかりなおりました。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Tôi không hay làm việc đó\n- 2. Thế thì tốt quá rồi\n- 3. Cảm ơn bạn, mình đã khỏi hẳn hoàn toàn rồi (ĐÚNG) (ĐÚNG)\n- 4. Bác sĩ dặn nghỉ ngơi\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (6): 山田さん、怪我はもう良くなりましたか。 正解: [3]",
-      "audioScriptJa": "女：山田さん、怪我はもう良くなりましたか。\n男：すっかりなおりました。",
-      "audioScriptVi": "Nữ: Yamada ơi, vết thương của cậu đã đỡ hơn chút nào chưa?\nNam: Cảm ơn cậu, mình đã lành lặn khỏi hẳn hoàn toàn rồi.",
-      "correctOption": 3
-    },
-    "97": {
-      "snippet": "Hỏi định hướng sau tốt nghiệp: 'Tốt nghiệp xong bạn định làm gì?'",
-      "explanation": "🎯 Đáp án đúng: [2] Hỏi định hướng sau tốt nghiệp: 'Tốt nghiệp xong bạn định làm gì?'\n\n💬 Dịch nghĩa câu:\n\"Nêu rõ định hướng nghề nghiệp cụ thể: 'Tôi sẽ về nước và làm công việc thương mại xuất nhập khẩu.'\"\n\n💡 Phân tích & Giải thích:\n• Trả lời đúng trọng tâm câu hỏi về kế hoạch tương lai: 「国に帰って、貿易の仕事をします。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Tôi đã được phép tốt nghiệp rồi\n- 2. Tôi sẽ về nước và làm công việc về thương mại xuất nhập khẩu (ĐÚNG) (ĐÚNG)\n- 3. Tôi từng có kinh nghiệm làm việc ở ngân hàng\n- 4. Tôi chưa nghĩ đến\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (7): 大学を卒業したらどうするか決まりましたか。 正解: [2]",
-      "audioScriptJa": "男：リーさん、大学を卒業したらどうするか決まりましたか。\n女：国に帰って、貿易の仕事をします。",
-      "audioScriptVi": "Nam: Lee ơi, tốt nghiệp đại học xong bạn đã quyết định sẽ làm gì tiếp theo chưa?\nNữ: Mình sẽ trở về nước và làm công việc liên quan đến ngành thương mại.",
-      "correctOption": 2
-    },
-    "98": {
-      "snippet": "Hỏi han: 'Bạn có biết tập tài liệu cuộc họp ở đây đâu không?'",
-      "explanation": "🎯 Đáp án đúng: [1] Hỏi han: 'Bạn có biết tập tài liệu cuộc họp ở đây đâu không?'\n\n💬 Dịch nghĩa câu:\n\"Ngạc nhiên và hỏi lại khi biết tài liệu bị thất lạc: 'Ủa thế á, không có ở đó sao bạn?'\"\n\n💡 Phân tích & Giải thích:\n• Phản hồi bất ngờ khi biết tin đồ vật bị thất lạc: 「ええ、ないんですか。」\n\n🔍 Phân tích các lựa chọn:\n- 1. Ủa, không có ở đó hả bạn? (ĐÚNG) (ĐÚNG)\n- 2. Thế thì hãy chỉ cho tôi nhé\n- 3. Tôi đã không hiểu gì cả\n- 4. Tôi vừa mới cầm mà\n\n📄 Trích PDF gốc (试题解析):\n聴解 4 (8): ここにあった会議の資料知らない？ 正解: [1]",
-      "audioScriptJa": "女：ねえ、ここにあった会議の資料知らない？\n男：ええ、ないんですか。",
-      "audioScriptVi": "Nữ: Cậu ơi, tập tài liệu cuộc họp vừa để ở đây cậu có thấy đâu không?\nNam: Ơ, không có ở đấy hả cậu?",
-      "correctOption": 1
-    },
+    }
   },
+  "n4-2021-07": {
+    "1": {
+      "snippet": "きのう 3時間以上 べんきょうしました。",
+      "explanation": "🎯 Đáp án đúng: [2] いじょう (以上)\n\n💬 Câu hỏi & Dịch nghĩa:\nきのう 3時間以上 べんきょうしました。\n(Hôm qua tôi đã học hơn / từ 3 tiếng đồng hồ trở lên.)\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 以上 gồm chữ 以 (dĩ) và 上 (thượng), có cách đọc âm On là いじょう (ijou).\n• Nghĩa là: từ mức đó trở lên, hơn mức đó (3時間以上: hơn 3 tiếng, 3 tiếng trở lên).\n\n🔍 Phân tích các lựa chọn:\n- 1. いがい (以外: ngoại trừ, ngoài ra - SAI)\n- 2. いじょう (以上: trở lên, hơn - ĐÚNG)\n- 3. いない (以内: trong vòng, trong phạm vi - SAI)\n- 4. いか (以下: dưới mức, trở xuống - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "2": {
+      "snippet": "もう少し 近い ほうが いいです。",
+      "explanation": "🎯 Đáp án đúng: [1] ちかい (近い)\n\n💬 Câu hỏi & Dịch nghĩa:\nもう少し 近い ほうが いいです。\n(Chỗ gần hơn một chút thì tốt hơn.)\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 近い gồm chữ 近 (cận: gần), có cách đọc âm Kun là ちかい (chikai).\n• Tính từ đuôi -i mang nghĩa là \"gần (về khoảng cách hoặc thời gian)\".\n\n🔍 Phân tích các lựa chọn:\n- 1. ちかい (近い: gần - ĐÚNG)\n- 2. はやい (早い/速い: sớm / nhanh - SAI)\n- 3. ひろい (広い: rộng - SAI)\n- 4. ふとい (太い: béo, mập, dày - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "3": {
+      "snippet": "あしたは 都合が わるいです。",
+      "explanation": "🎯 Đáp án đúng: [3] つごう (都合)\n\n💬 Câu hỏi & Dịch nghĩa:\nあしたは 都合が わるいです。\n(Ngày mai thì không tiện / tôi bận rồi.)\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 都合 gồm chữ 都 (đô - âm On đọc là つ) và 合 (hợp - âm On đọc là ごう). Ghép lại đọc là つごう (tsugou).\n• Cụm từ 都合がわるい (つごうがわるい) mang nghĩa: không tiện, điều kiện/lịch trình không thuận lợi.\n\n🔍 Phân tích các lựa chọn:\n- 1. とごう (Cách đọc sai âm Kanji - SAI)\n- 2. つかい (使い: cách dùng - SAI)\n- 3. つごう (都合: điều kiện, thuận tiện - ĐÚNG)\n- 4. とかい (都会: thành thị, đô hội - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "4": {
+      "snippet": "ドアを 引いて ください。",
+      "explanation": "🎯 Đáp án đúng: [2] ひいて (引いて)\n\n💬 Câu hỏi & Dịch nghĩa:\nドアを 引いて ください。\n(Xin vui lòng kéo cửa ra.)\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 引く gồm chữ 引 (dẫn: kéo, rút), có cách đọc âm Kun là ひく (hiku).\n• Động từ nhóm 1: 引く ➔ thể te là 引いて (ひいて - hiite).\n• Phân biệt: 押す (おす: đẩy) đối lập với 引く (ひく: kéo).\n\n🔍 Phân tích các lựa chọn:\n- 1. ふいて (拭いて: lau chùi / 吹いて: thổi - SAI)\n- 2. ひいて (引いて: kéo - ĐÚNG)\n- 3. ついて (着いて: đến nơi / 付いて: dính vào - SAI)\n- 4. おいて (置いて: đặt, để - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "5": {
+      "snippet": "女性の おてあらいは あちらです。",
+      "explanation": "🎯 Đáp án đúng: [3] じょせい (女性)\n\n💬 Câu hỏi & Dịch nghĩa:\n女性の おてあらいは あちらです。\n(Nhà vệ sinh nữ ở phía đằng kia.)\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 女性 gồm chữ 女 (nữ - âm On đọc là じょ) và chữ 性 (tính - âm On đọc là せい). Ghép lại đọc là じょせい (josei).\n• Mang nghĩa: phụ nữ, phái nữ. Đối lập với 男性 (だんせい: nam giới).\n\n🔍 Phân tích các lựa chọn:\n- 1. しょせい (Cách đọc sai âm Kanji - SAI)\n- 2. だんせい (男性: nam giới - SAI)\n- 3. じょせい (女性: nữ giới, phụ nữ - ĐÚNG)\n- 4. たんせい (Cách đọc sai âm Kanji - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "6": {
+      "snippet": "いつから 習って いるんですか。",
+      "explanation": "🎯 Đáp án đúng: [4] ならって (習って)\n\n💬 Câu hỏi & Dịch nghĩa:\nいつから 習って いるんですか。\n(Bạn học môn này từ khi nào thế?)\n\n💡 Phân tích & Giải thích:\n• Chữ Hán 習う gồm chữ 習 (tập: học tập, rèn luyện), cách đọc âm Kun là ならう (narau).\n• Động từ nhóm 1: 習う ➔ thể te là 習って (ならって - naratte).\n• 習う dùng khi học kỹ năng từ giáo viên hoặc người hướng dẫn.\n\n🔍 Phân tích các lựa chọn:\n- 1. おそわって (教わって: được dạy - Kanji là 教 - SAI)\n- 2. かよって (通って: đi học đều đặn - Kanji là 通 - SAI)\n- 3. おこなって (行って: tiến hành - Kanji là 行 - SAI)\n- 4. ならって (習って: học tập - ĐÚNG)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "7": {
+      "snippet": "あそこに いるのは はやしさんのお姉さんです。",
+      "explanation": "🎯 Đáp án đúng: [1] おねえさん (お姉さん)\n\n💬 Câu hỏi & Dịch nghĩa:\nあそこに いるのは はやしさんのお姉さんです。\n(Người đang ở đằng kia là chị gái của anh Hayashi.)\n\n💡 Phân tích & Giải thích:\n• Chữ Hán お姉さん gồm chữ 姉 (tỷ: chị gái), cách đọc tôn kính lịch sự là おねえさん (oneesan).\n• Lưu ý có trường âm え: お・ね・え・さ・ん.\n\n🔍 Phân tích các lựa chọn:\n- 1. おねえさん (お姉さん: chị gái - ĐÚNG)\n- 2. おにいさん (お兄さん: anh trai - SAI)\n- 3. おねさん (Thiếu trường âm え - SAI)\n- 4. おにさん (Thiếu trường âm い - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "8": {
+      "snippet": "おとといの よる パーティーに 行きました。",
+      "explanation": "🎯 Đáp án đúng: [2] 夜 (よる)\n\n💬 Câu hỏi & Dịch nghĩa:\nおとといの よる パーティーに 行きました。\n(Tối hôm kia tôi đã đi dự tiệc.)\n\n💡 Phân tích & Giải thích:\n• Từ よる (đêm, buổi tối) có chữ Hán tương ứng là 夜 (dạ).\n• Chữ 晩 cũng có nghĩa buổi tối nhưng cách đọc âm Kun thông dụng trong câu này của よる là 夜.\n\n🔍 Phân tích các lựa chọn:\n- 1. 晩 (Đọc là ばん: buổi tối - SAI)\n- 2. 夜 (Đọc là よる: đêm, buổi tối - ĐÚNG)\n- 3. 挽 (Chữ vãn - SAI)\n- 4. 液 (Chữ dịch/chất lỏng - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "9": {
+      "snippet": "あの しろい 車が わたしの です。",
+      "explanation": "🎯 Đáp án đúng: [4] 白い (しろい)\n\n💬 Câu hỏi & Dịch nghĩa:\nあの しろい 車が わたしの です。\n(Chiếc xe màu trắng đằng kia là của tôi.)\n\n💡 Phân tích & Giải thích:\n• Từ しろい (màu trắng) có chữ Hán tương ứng là 白い (bạch: trắng).\n\n🔍 Phân tích các lựa chọn:\n- 1. 赤い (あかい: màu đỏ - SAI)\n- 2. 青い (あおい: màu xanh lam - SAI)\n- 3. 黒い (くろい: màu đen - SAI)\n- 4. 白い (しろい: màu trắng - ĐÚNG)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "10": {
+      "snippet": "しょくどうは あの たてものの 中です。",
+      "explanation": "🎯 Đáp án đúng: [3] 食堂 (しょくどう)\n\n💬 Câu hỏi & Dịch nghĩa:\nしょくどうは あの たてものの 中です。\n(Nhà ăn / căng tin nằm ở bên trong tòa nhà đằng kia.)\n\n💡 Phân tích & Giải thích:\n• Từ しょくどう (nhà ăn) có chữ Hán tương ứng là 食堂 gồm chữ 食 (thực: ăn) và chữ 堂 (đường: gian phòng lớn).\n\n🔍 Phân tích các lựa chọn:\n- 1. 食室 (Không tồn tại từ này - SAI)\n- 2. 飯堂 (Chữ Hán sai quy chuẩn tiếng Nhật - SAI)\n- 3. 食堂 (しょくどう: nhà ăn - ĐÚNG)\n- 4. 飯堂 (Chữ Hán sai quy chuẩn tiếng Nhật - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "11": {
+      "snippet": "まどを しめて ください。",
+      "explanation": "🎯 Đáp án đúng: [2] 閉めて (しめて)\n\n💬 Câu hỏi & Dịch nghĩa:\nまどを しめて ください。\n(Xin vui lòng đóng cửa sổ lại.)\n\n💡 Phân tích & Giải thích:\n• Động từ しめる (đóng) có chữ Hán tương ứng là 閉める (bế: đóng).\n• Thể te là 閉めて (しめて). Đối lập với 開ける (あける: mở).\n\n🔍 Phân tích các lựa chọn:\n- 1. 関めて (Chữ 関: quan - SAI)\n- 2. 閉めて (閉: bế - đóng lại - ĐÚNG)\n- 3. 問めて (Chữ 問: vấn - SAI)\n- 4. 開めて (Chữ 開: khai - mở, đọc là あけて - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "12": {
+      "snippet": "なかさんは しんせつです。",
+      "explanation": "🎯 Đáp án đúng: [1] 親切 (しんせつ)\n\n💬 Câu hỏi & Dịch nghĩa:\nなかさんは しんせつです。\n(Anh Naka rất tốt bụng / tử tế.)\n\n💡 Phân tích & Giải thích:\n• Từ しんせつ (tốt bụng, tử tế) có chữ Hán tương ứng là 親切 gồm chữ 親 (thân) và chữ 切 (thiết).\n• Tính từ đuôi -na: 親切な.\n\n🔍 Phân tích các lựa chọn:\n- 1. 親切 (親切: thân thiết, tốt bụng - ĐÚNG)\n- 2. 新切 (Dùng sai chữ 新 - SAI)\n- 3. 親功 (Dùng sai chữ 功 - SAI)\n- 4. 新功 (Dùng sai cả hai chữ - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "13": {
+      "snippet": "この どうぐは あの きかいを なおす ために (　) です。",
+      "explanation": "🎯 Đáp án đúng: [3] ひつよう (必要)\n\n💬 Câu hỏi & Dịch nghĩa:\nこの どうぐは あの きかいを なおす ために (ひつよう) です。\n(Dụng cụ này cần thiết để sửa chữa cỗ máy đằng kia.)\n\n💡 Phân tích & Giải thích:\n• Cấu trúc: [Động từ thể từ điển + ために] + 必要です (cần thiết cho mục đích...).\n• 必要 (ひつよう): Cần thiết, thiết yếu.\n\n🔍 Phân tích các lựa chọn:\n- 1. ねっしん (熱心: nhiệt tình - dùng cho tính cách - SAI)\n- 2. ていねい (丁寧: lịch sự, cẩn thận - SAI)\n- 3. ひつよう (必要: cần thiết - ĐÚNG)\n- 4. とくべつ (特別: đặc biệt - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "14": {
+      "snippet": "この プールは (　) ですから、子どもは およがないで ください。",
+      "explanation": "🎯 Đáp án đúng: [3] ふかい (深い)\n\n💬 Câu hỏi & Dịch nghĩa:\nこの プールは (ふかい) ですから、子どもは およがないで ください。\n(Hồ bơi này sâu nên trẻ em xin vui lòng không bơi ở đây.)\n\n💡 Phân tích & Giải thích:\n• Hồ bơi (プール) nguy hiểm cho trẻ em vì mực nước \"sâu\".\n• Tính từ chỉ độ sâu của hồ bơi, nước biển là 深い (ふかい - fukai).\n\n🔍 Phân tích các lựa chọn:\n- 1. かたい (硬い/固い: cứng - SAI)\n- 2. おもい (重い: nặng - SAI)\n- 3. ふかい (深い: sâu - ĐÚNG)\n- 4. にがい (苦い: đắng - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "15": {
+      "snippet": "その はがきに この きってを (　) ください。",
+      "explanation": "🎯 Đáp án đúng: [2] はって (貼って)\n\n💬 Câu hỏi & Dịch nghĩa:\nその はがきに この きってを (はって) ください。\n(Xin hãy dán chiếc tem này lên tấm bưu thiếp đó.)\n\n💡 Phân tích & Giải thích:\n• Cụm từ cố định: 切手を貼る (きってをはる) = dán tem.\n• Động từ 貼る (はる: dán), thể te là 貼って (はって).\n\n🔍 Phân tích các lựa chọn:\n- 1. かけて (掛けて: treo, móc - SAI)\n- 2. はって (貼って: dán tem, dán giấy - ĐÚNG)\n- 3. ぬって (塗って: sơn, bôi - SAI)\n- 4. すてて (捨てて: vứt bỏ - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "16": {
+      "snippet": "えきまえの ほんやは あさ 8時から (　) して います。",
+      "explanation": "🎯 Đáp án đúng: [1] えいきょう / えいぎょう (営業)\n\n💬 Câu hỏi & Dịch nghĩa:\nえきまえの ほんやは あさ 8時から (えいきょう/えいぎょう) して います。\n(Hiệu sách trước nhà ga mở cửa kinh doanh từ 8 giờ sáng.)\n\n💡 Phân tích & Giải thích:\n• 営業 (えいぎょう): Kinh doanh, mở cửa phục vụ buôn bán.\n• Cụm từ: ～時から営業している (mở cửa bán hàng từ lúc ~).\n\n🔍 Phân tích các lựa chọn:\n- 1. えいきょう (営業: kinh doanh, mở cửa - ĐÚNG)\n- 2. せいさん (生産: sản xuất - SAI)\n- 3. ぼうえき (貿易: mậu dịch quốc tế - SAI)\n- 4. ゆしゅつ (輸出: xuất khẩu - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "17": {
+      "snippet": "この みちを まっすぐ (　) と、右がわに としょかんが あります。",
+      "explanation": "🎯 Đáp án đúng: [4] すすむ (進む)\n\n💬 Câu hỏi & Dịch nghĩa:\nこの みちを まっすぐ (すすむ) と、右がわに としょかんが あります。\n(Cứ đi thẳng theo con đường này thì sẽ thấy thư viện ở phía bên phải.)\n\n💡 Phân tích & Giải thích:\n• Cụm từ chỉ đường quen thuộc: 道をまっすぐ進む (みちをまっすぐすすむ) = đi thẳng tiến lên theo con đường.\n• Mẫu câu: [V-thể từ điển + と] = Cứ làm việc này thì kết quả là...\n\n🔍 Phân tích các lựa chọn:\n- 1. でかける (出かける: đi ra ngoài - SAI)\n- 2. うごく (動く: cử động - SAI)\n- 3. たずねる (尋ねる: hỏi thăm - SAI)\n- 4. すすむ (進む: tiến lên, đi thẳng - ĐÚNG)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "18": {
+      "snippet": "どちらの けいかくが いいと おもうか、みんなの (　) 聞きました。",
+      "explanation": "🎯 Đáp án đúng: [2] いけん (意見)\n\n💬 Câu hỏi & Dịch nghĩa:\nどちらの けいかくが いいと おもうか、みんなの (いけん) を 聞きました。\n(Để xem kế hoạch nào hay hơn, tôi đã lắng nghe ý kiến của mọi người.)\n\n💡 Phân tích & Giải thích:\n• Cụm từ: 意見を聞く (いけんをきく) = lắng nghe ý kiến, tham khảo ý kiến.\n• 意見 (ý kiến, quan điểm đóng góp).\n\n🔍 Phân tích các lựa chọn:\n- 1. やくそく (約束: lời hứa - SAI)\n- 2. いけん (意見: ý kiến đóng góp - ĐÚNG)\n- 3. あいさつ (挨拶: chào hỏi - SAI)\n- 4. ひみつ (秘密: bí mật - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "19": {
+      "snippet": "きのう うちの ねこが 子どもを 3びき (　)。",
+      "explanation": "🎯 Đáp án đúng: [4] うみました (産みました)\n\n💬 Câu hỏi & Dịch nghĩa:\nきのう うちの ねこが 子どもを 3びき (うみました)。\n(Hôm qua chú mèo nhà tôi đã sinh / đẻ được 3 bé mèo con.)\n\n💡 Phân tích & Giải thích:\n• Động từ chỉ việc sinh nở, đẻ con ở người và động vật là 産む (うむ - umu).\n• Quá khứ: 産みました (うみました). Cụm từ: 子どもを産む (đẻ con).\n\n🔍 Phân tích các lựa chọn:\n- 1. しました (Làm - SAI)\n- 2. だしました (Đưa ra - SAI)\n- 3. やりました (Cho/làm - SAI)\n- 4. うみました (産みました: sinh nở, đẻ con - ĐÚNG)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "20": {
+      "snippet": "しけんの (　) が よかったので、うれしいです。",
+      "explanation": "🎯 Đáp án đúng: [1] けっか (結果)\n\n💬 Câu hỏi & Dịch nghĩa:\nしけんの (けっか) が よかったので、うれしいです。\n(Vì kết quả kỳ thi tốt nên tôi rất vui mừng.)\n\n💡 Phân tích & Giải thích:\n• Kết quả của bài thi, cuộc thi được gọi là 結果 (けっか - kekka).\n• Cụm từ: 試験の結果がよかった (kết quả bài thi tốt).\n• Chú ý: 合格 (ごうかく) là đỗ kỳ thi, thường đi với 試験に合格した, không nói là 試験の合格がよかった.\n\n🔍 Phân tích các lựa chọn:\n- 1. けっか (結果: kết quả - ĐÚNG)\n- 2. ごうかく (合格: đỗ - SAI ngữ pháp kết hợp)\n- 3. げんいん (原因: nguyên nhân - SAI)\n- 4. せいこう (成功: sự thành công - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "21": {
+      "snippet": "さいきん いそがしくて、うんどうできません。",
+      "explanation": "🎯 Đáp án đúng: [4] さいきん いそがしくて、スポーツを して いません。\n\n💬 Câu hỏi & Dịch nghĩa:\nさいきん いそがしくて、うんどうできません。\n(Gần đây bận rộn quá nên tôi không thể tập thể dục vận động được.)\n\n💡 Phân tích & Giải thích:\n• 運動する (うんどうする: vận động, thể dục) có ý nghĩa tương đương với スポーツをする (chơi thể thao, rèn luyện thể chất).\n• Cả hai câu đều diễn đạt việc vì quá bận nên gần đây không chơi thể thao, vận động thân thể được.\n\n🔍 Phân tích các lựa chọn:\n- 1. 本を読んでいません (Không đọc sách - SAI)\n- 2. 休んでいません (Không nghỉ ngơi - SAI)\n- 3. うちのしごとをしていません (Không làm việc nhà - SAI)\n- 4. スポーツをしていません (Không chơi thể thao/vận động - ĐÚNG)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "22": {
+      "snippet": "くうこうは ここから とおいですか。",
+      "explanation": "🎯 Đáp án đúng: [1] ひこうきに のる ところは ここから とおいですか。\n\n💬 Câu hỏi & Dịch nghĩa:\nくうこうは ここから とおいですか。\n(Sân bay có cách xa đây không?)\n\n💡 Phân tích & Giải thích:\n• 空港 (くうこう: sân bay, phi trường) chính là nơi để mọi người đến đi máy bay (飛行機に乗るところ).\n\n🔍 Phân tích các lựa chọn:\n- 1. ひこうきにのるところ (Nơi lên máy bay = sân bay - ĐÚNG)\n- 2. ふねにのるところ (Nơi lên tàu thuyền = bến cảng - SAI)\n- 3. たべものを買うところ (Nơi mua đồ ăn = chợ/siêu thị - SAI)\n- 4. きっぷを買うところ (Nơi mua vé = quầy bán vé - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "23": {
+      "snippet": "もりさんに たのみました。",
+      "explanation": "🎯 Đáp án đúng: [3] もりさんに おねがいしました。\n\n💬 Câu hỏi & Dịch nghĩa:\nもりさんに たのみました。\n(Tôi đã nhờ vả anh Mori.)\n\n💡 Phân tích & Giải thích:\n• Động từ 頼む (たのむ: nhờ vả, cậy nhờ) đồng nghĩa với từ お願いする (おねがいする: thỉnh cầu, nhờ giúp đỡ).\n• Cả 2 đều diễn tả hành động nhờ ai đó làm việc gì giúp mình.\n\n🔍 Phân tích các lựa chọn:\n- 1. れんらくしました (連絡: liên lạc - SAI)\n- 2. へんじしました (返事: hồi đáp, trả lời - SAI)\n- 3. おねがいしました (お願い: nhờ vả, thỉnh cầu - ĐÚNG)\n- 4. しょうかいしました (紹介: giới thiệu - SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "24": {
+      "snippet": "けさから 雨が ざあざあ ふって います。",
+      "explanation": "🎯 Đáp án đúng: [4] けさから 雨が つよく ふって います。\n\n💬 Câu hỏi & Dịch nghĩa:\nけさから 雨が ざあざあ ふって います。\n(Từ sáng tới giờ mưa rơi xối xả.)\n\n💡 Phân tích & Giải thích:\n• Từ tượng thanh ざあざあ miêu tả tiếng mưa rào rất to, mưa đổ như trút nước.\n• Đồng nghĩa với 雨が強く降っている (あめがつよくふっている: mưa rất to, mưa rất mạnh).\n\n🔍 Phân tích các lựa chọn:\n- 1. つめたい雨 (Mưa lạnh - SAI)\n- 2. こまかい雨 (Mưa hạt nhỏ, mưa phùn - SAI)\n- 3. しずかにふっている (Mưa rơi êm đềm, nhẹ nhàng - SAI)\n- 4. つよくふっている (Mưa rơi mạnh, mưa to dữ dội - ĐÚNG)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "25": {
+      "snippet": "しんぱい",
+      "explanation": "🎯 Đáp án đúng: [4] たなか「先週 あにが にゅういんしたんです。」 やまだ「それは しんぱいですね。」\n\n💬 Phân tích & Giải thích:\n• Từ 心配 (しんぱい): Sự lo lắng, bận tâm về một điều gì đó bất an hoặc chưa lành lặn.\n• Trong câu 4: Khi Tanaka chia sẻ \"Tuần trước anh trai tôi phải nhập viện\" thì Yamada đáp \"Thế thì lo lắng quá nhỉ (mong anh ấy sớm bình phục)\" là hoàn toàn tự nhiên và chuẩn xác về mặt ngữ nghĩa và cảm xúc.\n\n🔍 Phân tích các lựa chọn:\n- 1. Gặp lại bạn bè là tin vui, không thể nói \"心配ですね\" (SAI)\n- 2. Nhận quà sinh nhật là tin vui, không thể nói \"心配ですね\" (SAI)\n- 3. Chó cưng qua đời là chuyện buồn, thương tiếc (thường nói 残念ですね hoặc お気の毒に, không dùng 心配 - SAI)\n- 4. Anh trai nhập viện ➔ bày tỏ sự lo lắng \"それは心配ですね\" (ĐÚNG)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "26": {
+      "snippet": "せまい",
+      "explanation": "🎯 Đáp án đúng: [1] この みちは せまいので、車は とおれません。\n\n💬 Phân tích & Giải thích:\n• Từ 狭い (せまい): Hẹp, chật chội (dùng cho không gian, diện tích, con đường, căn phòng).\n• Câu 1: \"Con đường này hẹp nên ô tô không đi qua được\" ➔ Sử dụng 狭い để miêu tả chiều rộng con đường là hoàn toàn chính xác.\n\n🔍 Phân tích các lựa chọn:\n- 1. 道が狭い (Con đường chật hẹp, xe không lọt qua - ĐÚNG)\n- 2. Quần áo bị chật bó sát người phải dùng きつい, không dùng せまい (SAI)\n- 3. Bút ngòi nhỏ để viết chữ nhỏ phải dùng 細い (ほそい), không dùng せまい (SAI)\n- 4. Cắt/thái rau miếng mỏng phải dùng うすく hoặc こまかく, không dùng せまく (SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "27": {
+      "snippet": "こしょう",
+      "explanation": "🎯 Đáp án đúng: [2] その パソコンは こしょう して いるので、つかえません。\n\n💬 Phân tích & Giải thích:\n• Từ 故障 (こしょう): Sự hỏng hóc, trục trặc máy móc thiết bị kỹ thuật (xe hơi, tivi, máy tính, thang máy...).\n• Câu 2: \"Cái máy tính đó đang bị hỏng nên không dùng được\" ➔ パソコンが故障している là cách kết hợp chuẩn 100%.\n\n🔍 Phân tích các lựa chọn:\n- 1. Cây hoa héo/chết vì thiếu nước phải dùng 枯れる (かれる) hoặc 死ぬ (しぬ), không dùng 故障 (SAI)\n- 2. パソコンが故障している (Máy tính bị hỏng hóc kỹ thuật - ĐÚNG)\n- 3. Sữa bị hỏng/thiu phải dùng 腐る (くさる) hoặc 悪くなる, không dùng 故障 (SAI)\n- 4. Cái cốc rơi vỡ phải dùng 割れる (われる), không dùng 故障 (SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "28": {
+      "snippet": "たおれる",
+      "explanation": "🎯 Đáp án đúng: [3] 大きい じしんで ほんだなが たおれました。\n\n💬 Phân tích & Giải thích:\n• Động từ 倒れる (たおれる): Đổ, ngã, sụp đổ (dùng cho người ngất xỉu ngã quỵ, hoặc đồ vật/công trình đang đứng thẳng bị nghiêng đổ xuống đất).\n• Câu 3: \"Trận động đất mạnh đã làm chiếc giá sách bị đổ sập\" ➔ 本棚が倒れる là ngữ cảnh sử dụng chuẩn xác nhất.\n\n🔍 Phân tích các lựa chọn:\n- 1. Núi lở phải dùng 山が崩れる (やまがくずれる), không dùng たおれる (SAI)\n- 2. Gãy chân phải dùng 足が折れる (あしがおれる), không dùng たおれる (SAI)\n- 3. 本棚が倒れた (Giá sách bị đổ nhào do động đất - ĐÚNG)\n- 4. Buổi học bị hủy bỏ phải dùng 授業が中止になった hoặc 休みになった, không dùng たおれる (SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "29": {
+      "snippet": "かぜ（ で ）学校を 休みました。",
+      "explanation": "🎯 Đáp án đúng: [2] で\n\n💬 Câu hỏi & Dịch nghĩa:\nかぜ（ で ）学校を 休みました。\n(Tôi đã nghỉ học vì bị cảm cúm.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Trợ từ「で」được dùng sau danh từ chỉ nguyên nhân, lý do xảy ra một sự việc, tình trạng không kiểm soát được (thường là bệnh tật, tai nạn, thiên tai... như: かぜで, じこで, びょうきで, たいふうで).\n• Ở đây「かぜ」(bệnh cảm cúm) là nguyên nhân khiến người nói phải nghỉ học.\n\n🔍 Phân tích các lựa chọn:\n- 1. に: Trợ từ chỉ thời gian, địa điểm, mục đích... không dùng để chỉ nguyên nhân dịch bệnh (SAI).\n- 2. で: Trợ từ chỉ nguyên nhân, lý do (かぜで休みました: nghỉ vì bị cảm - ĐÚNG).\n- 3. を: Trợ từ chỉ đối tượng của ngoại động từ (SAI).\n- 4. と: Trợ từ nối từ mang nghĩa \"và\" hoặc \"cùng với\" (SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "30": {
+      "snippet": "歩いて 行く（ か ）バスで 行くか、ここで 決めましょう。",
+      "explanation": "🎯 Đáp án đúng: [3] か\n\n💬 Câu hỏi & Dịch nghĩa:\n歩いて 行く（ か ）バスで 行くか、ここで 決めましょう。\n(Đi bộ hay là đi xe buýt, chúng ta cùng quyết định ở đây nhé.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc liệt kê sự lựa chọn nghi vấn giữa hai hay nhiều hành động/phương án:\n  [Thể thông thường] か [Thể thông thường] か + Động từ (決めます / 考えます / 選びます...)\n  Mang nghĩa: \"...hay là... / liệu... hay là...\".\n• Vế trước: 歩いて行くか (đi bộ hay là), vế sau: バスで行くか (đi bằng xe buýt).\n\n🔍 Phân tích các lựa chọn:\n- 1. も: cũng (SAI ngữ pháp).\n- 2. に: đến, vào lúc... (SAI ngữ pháp).\n- 3. か: dùng trong cấu trúc「A か B か」liệt kê lựa chọn (ĐÚNG).\n- 4. と: và, nếu (SAI ngữ pháp).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "31": {
+      "snippet": "バターは 牛乳（ から ）作られます。",
+      "explanation": "🎯 Đáp án đúng: [3] から\n\n💬 Câu hỏi & Dịch nghĩa:\nバターは 牛乳（ から ）作られます。\n(Bơ được làm từ sữa tươi.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Phân biệt chất liệu「で」và nguyên liệu「から」trong thể bị động:\n  -「原料（げんりょう）+ から作られる」: Dùng cho nguyên liệu bị biến đổi chất/tính chất hóa học, nhìn bề ngoài thành phẩm không còn nhận ra nguyên liệu ban đầu (VD: bơ làm từ sữa: 牛乳から, rượu làm từ gạo: 米から).\n  -「材料（ざいりょう）+ で作られる」: Dùng cho vật liệu nhìn vào còn thấy rõ chất liệu (VD: bàn làm từ gỗ: 木で作られる).\n• Bơ (バター) làm từ sữa bò (牛乳) đã qua quy trình biến đổi tính chất, do đó phải dùng「から」.\n\n🔍 Phân tích các lựa chọn:\n- 1. へ: chỉ phương hướng chuyển động (SAI).\n- 2. に: chỉ mục đích, tác nhân... (SAI).\n- 3. から: chỉ nguồn gốc nguyên liệu bị biến đổi chất chế biến thành sản phẩm (ĐÚNG).\n- 4. まで: cho đến tận khi (SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "32": {
+      "snippet": "この 箱は、あそこにある スーツケース（ と ）同じくらいの 大きさです。",
+      "explanation": "🎯 Đáp án đúng: [4] と\n\n💬 Câu hỏi & Dịch nghĩa:\nこの 箱は、あそこにある スーツケース（ と ）同じくらいの 大きさです。\n(Chiếc hộp này có kích cỡ xấp xỉ ngang bằng với chiếc va li ở đằng kia.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Mẫu câu so sánh tương đương / bằng nhau:\n  [Danh từ 1] は [Danh từ 2] と同じ (N1 giống / cùng với N2).\n  [Danh từ] と同じくらい: tương đương / ngang bằng với...\n• Vì vậy, để kết hợp với「同じ」(giống, cùng), trợ từ liên kết bắt buộc phải là「と」.\n\n🔍 Phân tích các lựa chọn:\n- 1. が: trợ từ chủ ngữ (SAI).\n- 2. を: trợ từ bổ ngữ trực tiếp (SAI).\n- 3. より: hơn (dùng trong so sánh hơn kém, không đi cùng と同じ) (SAI).\n- 4. と: đi trong cụm「〜と同じ」(giống với ~) (ĐÚNG).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "33": {
+      "snippet": "日本に来る前は、日本料理を あまり 食べませんでしたが、（ こっちへ ）来てからは、よく 食べるようになりました。",
+      "explanation": "🎯 Đáp án đúng: [3] こっちへ (hoặc こっち)\n\n💬 Câu hỏi & Dịch nghĩa:\n日本に来る前は、日本料理を あまり 食べませんでしたが、（ こっちへ ）来てからは、よく 食べるようになりました。\n(Trước khi đến Nhật, tôi hầu như không ăn món Nhật, nhưng kể từ khi sang bên này, tôi đã ăn thường xuyên hơn.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Chỉ định từ chỉ phương hướng/vị trí:\n  - こっち (phía này, nơi này): chỉ nơi người nói đang ở. Người nói hiện đang ở Nhật Bản nên nói về nơi mình đang ở dùng「こっち」(hoặc こっちへ).\n  - そっち (phía đó): nơi phía người nghe.\n  - あっち (phía kia): nơi xa cả hai người.\n•「こっちに来てから」= kể từ khi sang bên này (đến Nhật Bản).\n\n🔍 Phân tích các lựa chọn:\n- 1. そこへ: phía đó (phía người nghe - SAI).\n- 2. そっちへ: hướng đó (SAI).\n- 3. こっちへ: hướng bên này / nơi người nói đang đứng (ĐÚNG).\n- 4. あっちへ: phía đằng kia (SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "34": {
+      "snippet": "「アイスクリームは 何味が 好きですか。」「そうですね。（ とくに ）いちご味が 好きです。」",
+      "explanation": "🎯 Đáp án đúng: [1] とくに\n\n💬 Câu hỏi & Dịch nghĩa:\n「アイスクリームは 何味が 好きですか。」「そうですね。（ とくに ）いちご味が 好きです。」\n(\"Bạn thích kem vị gì nhất?\" - \"À, đặc biệt là tôi thích vị dâu tây.\")\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Phó từ「とくに」(特に): đặc biệt là, nhất là. Dùng để nhấn mạnh một sự vật, đối tượng tiêu biểu vượt trội trong số nhiều thứ.\n• Người nói được hỏi thích vị kem nào và đưa ra câu trả lời nhấn mạnh: \"Đặc biệt là vị dâu tây\".\n\n🔍 Phân tích các lựa chọn:\n- 1. とくに: đặc biệt là (phù hợp ngữ cảnh - ĐÚNG).\n- 2. ぜんぜん: hoàn toàn (thường đi với phủ định ぜんぜん〜ない - SAI).\n- 3. ほとんど: hầu như, gần như (SAI nghĩa).\n- 4. たぶん: có lẽ, chắc là (phỏng đoán - không hợp ngữ cảnh nói về sở thích bản thân - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "35": {
+      "snippet": "昨日は、休みだったので、一日（ 中 ）ベッドの中で 本を 読んでいました。",
+      "explanation": "🎯 Đáp án đúng: [4] 中 (phát âm là じゅう)\n\n💬 Câu hỏi & Dịch nghĩa:\n昨日は、休みだったので、一日（ 中 ）ベッドの中で 本を 読んでいました。\n(Hôm qua là ngày nghỉ nên suốt cả ngày tôi đã nằm trên giường đọc sách.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Hậu tố「〜中」(đọc là じゅう khi ghép sau danh từ chỉ khoảng thời gian: 一日中 [いちにちじゅう]: suốt cả ngày; 一年中 [いちねんじゅう]: suốt cả năm; 一晩中 [ひとばんじゅう]: suốt cả đêm).\n• Mang ý nghĩa hành động diễn ra liên tục, kéo dài trong toàn bộ khoảng thời gian đó.\n\n🔍 Phân tích các lựa chọn:\n- 1. ごろ: khoảng chừng (dùng cho mốc thời gian, vd: 3時ごろ - SAI).\n- 2. ほど: khoảng độ (chỉ lượng - SAI).\n- 3. 前: trước (vd: 3日前: 3 ngày trước - SAI).\n- 4. 中: gắn sau 一日 tạo thành 一日中 (suốt cả ngày - ĐÚNG).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "36": {
+      "snippet": "あした（ 晴れたら ）、テニスを しましょう。",
+      "explanation": "🎯 Đáp án đúng: [1] 晴れたら\n\n💬 Câu hỏi & Dịch nghĩa:\nあした（ 晴れたら ）、テニスを しましょう。\n(Ngày mai nếu trời nắng ráo thì chúng ta cùng chơi tennis nhé!)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc câu điều kiện giả định「〜たら」(Nếu... thì...):\n  [V thể quá khứ (た)] + ら, [Mệnh đề kết quả].\n• Chú ý quan trọng trong ngữ pháp N4:\n  - Khi vế sau là câu rủ rê, đề nghị, mệnh lệnh, ý chí (〜ましょう, 〜てください, 〜たい), chỉ có thể dùng「〜たら」(không dùng と hay ば khi nói về hiện tượng tự nhiên).\n  - Vế sau là「テニスをしましょう」(chúng ta hãy cùng chơi tennis), nên ta dùng「晴れたら」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 晴れたら: Nếu trời nắng (kết hợp tự nhiên với câu rủ rê 〜ましょう - ĐÚNG).\n- 2. 晴れて: thể て nối câu (SAI).\n- 3. 晴れるなら: nếu là nắng (thường tiếp nhận thông tin từ đối phương - SAI).\n- 4. 晴れると: điều kiện hiển nhiên, vế sau KHÔNG được đi với rủ rê, ý chí như 〜ましょう (SAI quy tắc).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "37": {
+      "snippet": "外国に 一人で 住んでいるので、ときどき 手紙を書いて、両親を（ 安心させて ）います。",
+      "explanation": "🎯 Đáp án đúng: [2] 安心させて\n\n💬 Câu hỏi & Dịch nghĩa:\n外国に 一人で 住んでいるので、ときどき 手紙を書いて、両親を（ 安心させて ）います。\n(Vì sống một mình ở nước ngoài, nên thỉnh thoảng tôi viết thư để làm cho bố mẹ yên tâm.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Thể sai khiến (使役形 - しえきけい):\n  - Nhóm 3: する ➔ させる (安心する ➔ 安心させる).\n  - Mẫu câu: [Người tác động] が [Người nhận tác động] を + [Động từ thể sai khiến].\n  - Khi đi với động từ biểu thị cảm xúc/tâm lý (安心する, 喜ぶ, びっくりする, 怒る...), thể sai khiến mang nghĩa \"làm cho ai đó cảm thấy...\".\n  - Ở đây「両親を安心させる」= làm cho bố mẹ yên tâm.\n\n🔍 Phân tích các lựa chọn:\n- 1. 安心されて: thể bị động (SAI).\n- 2. 安心させて: thể sai khiến (làm cho bố mẹ yên tâm - ĐÚNG).\n- 3. 安心させられて: thể bị động sai khiến (bị bắt phải yên tâm - SAI).\n- 4. 安心したがられて: SAI dạng ngữ pháp.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "38": {
+      "snippet": "「田中さんは、もう 来ましたか。」「いいえ、まだ（ 来ません ）。」",
+      "explanation": "🎯 Đáp án đúng: [1] 来ません\n\n💬 Câu hỏi & Dịch nghĩa:\n「田中さんは、もう 来ましたか。」「いいえ、まだ（ 来ません ）。」\n(\"Anh Tanaka đã đến chưa?\" - \"Dạ chưa, anh ấy vẫn chưa đến ạ.\")\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Hỏi:「もう V ましたか」(Đã làm... chưa?).\n• Trả lời phủ định:「いいえ、まだ〜」(Chưa, vẫn chưa...).\n  - Thường dùng「いいえ、まだ来ていません」hoặc dạng phủ định「いいえ、まだ来ません」(vẫn chưa đến).\n• Trong các phương án đề bài cho, chỉ có「来ません」biểu thị phủ định thực tế ở hiện tại.\n\n🔍 Phân tích các lựa chọn:\n- 1. 来ません: phủ định (chưa đến - ĐÚNG).\n- 2. 来ました: khẳng định quá khứ (đã đến - mâu thuẫn với いいえ, まだ - SAI).\n- 3. 来ないでしょう: có lẽ sẽ không đến (phỏng đoán - SAI).\n- 4. 来たでしょう: có lẽ đã đến (SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "39": {
+      "snippet": "「川田先生、レポートは いつ 出したら いいですか。」「さっき、事務室へ （ きました ）から、もう 出せますよ。」",
+      "explanation": "🎯 Đáp án đúng: [2] きました\n\n💬 Câu hỏi & Dịch nghĩa:\n「川田先生、レポートは いつ 出したら いいですか。」「さっき、事務室へ （ 出して ）きましたから、もう 出せますよ。」\n(\"Thưa thầy Kawada, bài báo cáo bao giờ nộp thì được ạ?\" - \"Vừa nãy thầy vừa nộp ở văn phòng giáo vụ về rồi, nên các em có thể nộp được luôn đấy.\")\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc「V-て + くる」(V-てきました):\n  - Biểu thị hành động đi đến một địa điểm làm việc gì đó rồi quay trở lại nơi nói.\n  -「出してきました」= vừa đi nộp rồi quay về đây.\n• Trong ngữ cảnh câu, thầy giáo vừa nộp mẫu/thông báo ở phòng giáo vụ xong rồi trở về lớp học, do đó chọn「きました」.\n\n🔍 Phân tích các lựa chọn:\n- 1. いきました: đi (đi luôn không quay lại nơi nói - SAI).\n- 2. きました: làm gì đó rồi quay lại vị trí nói (出してきました - ĐÚNG).\n- 3. もってきました: thừa động từ (SAI).\n- 4. もっていきました: thừa động từ (SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "40": {
+      "snippet": "電車が 止まっていますね。事故が（ あったのかもしれません ）。",
+      "explanation": "🎯 Đáp án đúng: [1] あったのかもしれません\n\n💬 Câu hỏi & Dịch nghĩa:\n電車が 止まっていますね。事故が（ あったのかもしれません ）。\n(Tàu điện đang dừng lại nhỉ. Có lẽ là đã xảy ra tai nạn rồi cũng nên.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Mẫu câu phán đoán khả năng:\n  [Thể thông thường] + のかもしれません / かもしれません\n  Mang nghĩa: \"Có lẽ là... / Không chừng là...\".\n• Hiện tượng tàu điện đang dừng lại được quan sát ở hiện tại, và nguyên nhân tai nạn đã xảy ra trước đó nên động từ chia ở quá khứ:「事故があった」(đã có tai nạn).\n• Kết hợp lại thành:「事故があったのかもしれません」.\n\n🔍 Phân tích các lựa chọn:\n- 1. あったのかもしれません: có lẽ đã xảy ra (hợp lý hoàn toàn về thì và ý nghĩa - ĐÚNG).\n- 2. あったはずがありません: chắc chắn không thể xảy ra (trái ngược tình huống - SAI).\n- 3. あるようです: dường như đang có (SAI thì động từ).\n- 4. あるそうです: nghe nói là có (truyền đạt tin tức - SAI thì và ngữ cảnh tự phán đoán).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "41": {
+      "snippet": "客「すみません。タクシーを 1台 お願い（ したいんですが ）。」フロント「はい、かしこまりました。」",
+      "explanation": "🎯 Đáp án đúng: [1] したいんですが\n\n💬 Câu hỏi & Dịch nghĩa:\n（ホテルで）客「すみません。タクシーを 1台 お願い（ したいんですが ）。」フロント「はい、かしこまりました。」\n((Tại khách sạn) Khách: \"Xin lỗi, tôi muốn nhờ bạn gọi giúp 1 chiếc taxi...\" - Lễ tân: \"Vâng, tôi hiểu rồi ạ.\")\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc nhờ vả, bày tỏ nguyện vọng lịch sự, khiêm tốn:\n  [V-ます bỏ ます] + たいんですが\n• Khách hàng muốn nhờ vả phía khách sạn:「お願いしたいんですが」(Tôi muốn nhờ bạn giúp...). Đuôi「〜んですが」tạo sự ngập ngừng, nhẹ nhàng, mở đầu cho lời yêu cầu lịch sự trong giao tiếp tiếng Nhật.\n\n🔍 Phân tích các lựa chọn:\n- 1. したいんですが: Tôi muốn nhờ... (lời nhờ cậy nhẹ nhàng, chuẩn mực - ĐÚNG).\n- 2. しますが: tôi làm nhưng... (khách hàng không tự làm - SAI).\n- 3. してくださいませんか: xin hãy nhờ... (nhờ ai nhờ hộ - SAI nghĩa).\n- 4. してあげますか: tôi làm giúp bạn nhé (hỏi bề trên/khách hàng - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "42": {
+      "snippet": "弟は 映画が 好きで、ビデオ を [200本] ★[も] [持っています]。",
+      "explanation": "🎯 Đáp án đúng: [2] も (Vị trí dấu ★ là số 2)\n\n💬 Câu hỏi & Dịch nghĩa:\n弟は 映画が 好きで、ビデオ ＿＿＿　＿＿＿　＿★＿　＿＿＿。\nCác lựa chọn: 1 持って います, 2 も, 3 を, 4 200本\n(Em trai tôi rất thích phim ảnh, nó sở hữu đến tận hơn 200 cuốn băng video.)\n\n💡 Phân tích & Giải thích cách sắp xếp câu:\n• Động từ chính cuối câu:「持っています」(phương án 1).\n• Bổ ngữ cho động từ:「ビデオを」(phương án 3 đi ngay sau ビデオ).\n• Số từ đi kèm trợ từ nhấn mạnh số lượng nhiều:「200本も」(200 bản / cuốn đến tận).\n• Trật tự ghép đúng:\n  ビデオ [ 3 を ] [ 4 200本 ] [ ★ 2 も ] [ 1 持っています ]。\n• Vị trí dấu ngôi sao ★ nằm ở vị trí thứ 3, tương ứng với số 2「も」.\n\n🔍 Thứ tự hoàn chỉnh: 3 ➔ 4 ➔ 2 (★) ➔ 1.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "43": {
+      "snippet": "わたしは 日本の 料理を、はしを [使って] [食べたくて]、★[使い方の] [練習を] しました。",
+      "explanation": "🎯 Đáp án đúng: [4] 使い方の (Vị trí dấu ★ là số 4)\n\n💬 Câu hỏi & Dịch nghĩa:\nわたしは 日本の 料理を、はしを ＿＿＿　＿＿＿　＿★＿　＿＿＿ しました。\nCác lựa chọn: 1 使って, 2 食べたくて, 3 練習を, 4 使い方の\n(Vì muốn dùng đũa để ăn món Nhật, nên tôi đã luyện tập cách dùng đũa.)\n\n💡 Phân tích & Giải thích cách sắp xếp câu:\n• Phía trước có「はしを」(đũa), ta ghép với hành động:「使って」(phương án 1).\n• Nối tiếp với lý do muốn ăn:「食べたくて」(phương án 2).\n• Cuối câu có「〜しました」, ta ghép với danh từ chỉ hoạt động:「練習をしました」(phương án 3).\n• Bổ nghĩa cho \"luyện tập\" là \"cách dùng\":「使い方の練習を」(phương án 4 + 3).\n• Trật tự ghép đúng:\n  はしを [ 1 使って ] [ 2 食べたくて ]、[ ★ 4 使い方の ] [ 3 練習を ] しました。\n• Vị trí dấu ngôi sao ★ là vị trí thứ 3, tương ứng với số 4「使い方の」.\n\n🔍 Thứ tự hoàn chỉnh: 1 ➔ 2 ➔ 4 (★) ➔ 3.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "44": {
+      "snippet": "A「新しい アパートは どう？」B「ちょっと 駅から [遠い] [けど]、★[静かで] [いい] ところだよ。」",
+      "explanation": "🎯 Đáp án đúng: [1] 静かで (Vị trí dấu ★ là số 1)\n\n💬 Câu hỏi & Dịch nghĩa:\nA「新しい アパートは どう？」\nB「ちょっと 駅から ＿＿＿　＿＿＿　＿★＿　＿＿＿ ところだよ。」\nCác lựa chọn: 1 静かで, 2 遠い, 3 けど, 4 いい\n(A: \"Căn hộ mới thế nào?\" - B: \"Hơi xa ga một chút nhưng mà yên tĩnh và là một nơi rất tốt đấy.\")\n\n💡 Phân tích & Giải thích cách sắp xếp câu:\n• Sau「駅から」kết hợp với tính từ「遠い」(phương án 2: 駅から遠い - xa ga).\n• Liên từ nối tương phản「けど」(phương án 3: 遠いけど - xa nhưng mà).\n• Tiếp theo là tính từ bổ nghĩa cho danh từ「ところ」(nơi chốn): hai tính từ nối nhau dạng て:\n  Tính từ đuôi な「静か」chia thành「静かで」(phương án 1), nối với tính từ đuôi い「いい」(phương án 4) +「ところ」.\n• Trật tự ghép đúng:\n  駅から [ 2 遠い ] [ 3 けど ]、[ ★ 1 静かで ] [ 4 いい ] ところだよ。\n• Vị trí dấu ngôi sao ★ là vị trí thứ 3, tương ứng với số 1「静かで」.\n\n🔍 Thứ tự hoàn chỉnh: 2 ➔ 3 ➔ 1 (★) ➔ 4.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "45": {
+      "snippet": "外国に 住んで いる [友だちが] [けっこんすると] ★[聞いたので]、[プレゼントを 送ろうと] 思う。",
+      "explanation": "🎯 Đáp án đúng: [4] 聞いたので (Vị trí dấu ★ là số 4)\n\n💬 Câu hỏi & Dịch nghĩa:\n外国に 住んで いる ＿＿＿　＿＿＿　＿★＿　＿＿＿ 思う。\nCác lựa chọn: 1 けっこんすると, 2 プレゼントを 送ろうと, 3 友だちが, 4 聞いたので\n(Vì nghe nói người bạn đang sống ở nước ngoài sắp kết hôn, nên tôi định gửi quà chúc mừng.)\n\n💡 Phân tích & Giải thích cách sắp xếp câu:\n• Mệnh đề định ngữ「外国に住んでいる」bổ nghĩa cho danh từ:「友だちが」(phương án 3).\n• Tiếp theo là nội dung nghe được:「けっこんすると」(phương án 1: rằng sẽ kết hôn) +「聞いたので」(phương án 4: vì nghe nói).\n• Cuối cùng là dự định đi với「思う」:「プレゼントを送ろうと」(phương án 2 - thể ý chí + と思う).\n• Trật tự ghép đúng:\n  外国に住んでいる [ 3 友だちが ] [ 1 けっこんすると ] [ ★ 4 聞いたので ]、[ 2 プレゼントを 送ろうと ] 思う。\n• Vị trí dấu ngôi sao ★ là vị trí thứ 3, tương ứng với số 4「聞いたので」.\n\n🔍 Thứ tự hoàn chỉnh: 3 ➔ 1 ➔ 4 (★) ➔ 2.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "46": {
+      "snippet": "（ 18 やっと ）野球が できることになって、うれしかったです。",
+      "explanation": "🎯 Đáp án đúng: [2] やっと\n\n💬 Câu hỏi & Dịch nghĩa:\nクラブの人たちに さそわれて、ずっと やりたかった 野球の 練習を 初めて することに なりました。[ 18 やっと ] 野球が できることになって、うれしかったです。\n(Được mọi người trong câu lạc bộ rủ, lần đầu tiên tôi được tham gia tập luyện bóng chày - môn thể thao mà mình ao ước bấy lâu. Cuối cùng cũng có thể chơi bóng chày, tôi thực sự rất vui sướng.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Đoạn văn trước nêu:「ずっとやりたかった」(ao ước, mong muốn từ rất lâu).\n• Phó từ「やっと」mang nghĩa \"cuối cùng thì... (sau bao nỗ lực, mong đợi lâu dài cũng đã thành sự thật)\". Rất ăn khớp với cảm xúc và quá trình mong chờ chơi bóng chày của tác giả.\n\n🔍 Phân tích các lựa chọn:\n- 1. もっと: nhiều hơn nữa (chỉ mức độ - SAI).\n- 2. やっと: cuối cùng thì (sau thời gian dài chờ đợi - ĐÚNG).\n- 3. また: lại, một lần nữa (SAI vì đây là lần đầu tiên).\n- 4. まだ: vẫn chưa (SAI ngữ cảnh khẳng định).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "47": {
+      "snippet": "ボールを 打つのは 難しかったです。でも、クラブの 人たちが やさしく [ 19 教えて くれました ]。",
+      "explanation": "🎯 Đáp án đúng: [1] 教えて くれました\n\n💬 Câu hỏi & Dịch nghĩa:\nボールを 打つのは 難しかったです。でも、クラブの 人たちが やさしく [ 19 教えて くれました ]。\n(Đánh bóng rất khó. Nhưng mọi người trong câu lạc bộ đã ân cần, nhiệt tình chỉ dạy cho tôi.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Ngữ pháp cho - nhận hành động「〜てくれる / 〜てくれた」:\n  - Dùng khi người khác làm một việc có lợi, giúp đỡ cho bản thân người nói (hoặc người thuộc nhóm của người nói).\n  - Chủ ngữ trong câu là「クラブの人たち」(mọi người trong CLB), đối tượng tiếp nhận sự giúp đỡ là \"tôi\" (tác giả bài viết). Do đó phải dùng「教えてくれました」.\n\n🔍 Phân tích các lựa chọn:\n- 1. 教えてくれました: người khác dạy cho tôi (ĐÚNG chuẩn mực cho nhận).\n- 2. 教えてあげました: tôi dạy cho người khác (ngược chiều hành động - SAI).\n- 3. 教えてもらいました: nếu dùng もらいました thì trợ từ chỉ chủ thể giúp đỡ phải là に (クラブの人たちに), trong khi đề bài dùng クラブの人たちが (SAI ngữ pháp trợ từ).\n- 4. 教えてやりました: tôi dạy cho người dưới/động vật (thô lỗ, sai chiều - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "48": {
+      "snippet": "野球は やはり おもしろい スポーツだと 思いました。[ 20 それで ] クラブに 入ることに しました。",
+      "explanation": "🎯 Đáp án đúng: [4] それで\n\n💬 Câu hỏi & Dịch nghĩa:\n野球は やはり おもしろい スポーツだと 思いました。[ 20 それで ] クラブに 入ることに しました。\n(Tôi nhận thấy quả thực bóng chày là một môn thể thao vô cùng thú vị. Vì thế nên, tôi đã quyết định tham gia vào câu lạc bộ.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Liên từ nối chỉ nguyên nhân - kết quả hợp lý:\n  -「それで」(vì thế nên, do vậy): Vế trước nêu nguyên nhân, lý do (thấy bóng chày rất thú vị), vế sau nêu quyết định, hành động nối tiếp tự nhiên phát sinh từ lý do đó (quyết định gia nhập câu lạc bộ).\n\n🔍 Phân tích các lựa chọn:\n- 1. たとえば: ví dụ như là (đưa ra ví dụ - SAI).\n- 2. それに: hơn nữa, thêm vào đó (bổ sung thông tin - SAI).\n- 3. けれども: tuy nhiên (chỉ sự đối lập, tương phản - SAI).\n- 4. それで: vì vậy, do đó (nối nguyên nhân ➔ kết quả - ĐÚNG).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "49": {
+      "snippet": "これから 毎日 クラブで たくさん 練習します。そして、いつか試合に [ 21 出て みたいです ]。",
+      "explanation": "🎯 Đáp án đúng: [3] 出て みたいです\n\n💬 Câu hỏi & Dịch nghĩa:\nこれから 毎日 クラブで たくさん 練習します。そして、いつか試合に [ 21 出て みたいです ]。\n(Từ bây giờ, hàng ngày tôi sẽ luyện tập thật nhiều ở câu lạc bộ. Và một ngày nào đó, tôi muốn được thử ra sân thi đấu.)\n\n💡 Phân tích & Giải thích ngữ pháp:\n• Cấu trúc「〜てみたい」(muốn thử làm gì đó):\n  - [V-て] + みたい: thể hiện nguyện vọng, mong muốn được thử trải nghiệm một việc gì đó chưa từng làm.\n  - Đi kèm với từ chỉ thời gian trong tương lai「いつか」(một ngày nào đó trong tương lai), việc dùng「試合に出てみたいです」(muốn được thử thi đấu) là hoàn toàn tự nhiên và chuẩn xác.\n\n🔍 Phân tích các lựa chọn:\n- 1. 出るからです: vì sẽ thi đấu (giải thích lý do - SAI ngữ cảnh).\n- 2. 出るためです: để thi đấu (SAI cấu trúc câu).\n- 3. 出てみたいです: muốn thử tham gia thi đấu (bày tỏ ước muốn trải nghiệm - ĐÚNG).\n- 4. 出てみることです: là việc thử tham gia (định nghĩa - SAI ngữ cảnh).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "50": {
+      "snippet": "「私」の友達は、嫌なことがあったとき、どうしますか。 ➔ 忘れるために、日記に書きます。",
+      "explanation": "🎯 Đáp án đúng: [3] 忘れるために、日記に書きます。\n\n💬 Câu hỏi & Dịch nghĩa:\n「私」の友達は、嫌なことがあったとき、どうしますか。\n(Bạn của \"Tôi\" làm gì khi gặp chuyện khó chịu / bực mình?)\n\n💡 Phân tích & Giải thích bài đọc:\n• Đoạn văn viết:\n  「嫌なことがあったら、私の友達は日記に書くそうです、嫌な気持ちを外に出せるから忘れられると言っています。」\n  (Nghe nói bạn tôi hễ có chuyện khó chịu là lại viết vào nhật ký. Bạn ấy nói rằng vì giải tỏa được cảm xúc tiêu cực ra ngoài nên có thể quên đi được.)\n• Mục đích của người bạn: \"để quên đi\" (忘れるために) bằng cách \"viết nhật ký\" (日記に書く). Do đó phương án [3] là câu trả lời chính xác.\n\n🔍 Phân tích các lựa chọn:\n- 1. 忘れるために、友達に話します (Kể cho bạn bè để quên - SAI).\n- 2. 忘れるために、カラオケで歌います (Hát karaoke là cách của \"Tôi\", không phải của người bạn - SAI).\n- 3. 忘れるために、日記に書きます (Viết nhật ký để quên đi chuyện buồn - ĐÚNG).\n- 4. 覚えておくために、日記に書きます (Viết nhật ký để ghi nhớ - trái ngược hoàn toàn ý bài là để quên: 忘れられる - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "51": {
+      "snippet": "来週の授業について、正しいものはどれですか。 ➔ 来週の木曜日は、いつもより早く授業に行きます。",
+      "explanation": "🎯 Đáp án đúng: [2] 来週の木曜日は、いつもより早く授業に行きます。\n\n💬 Câu hỏi & Dịch nghĩa:\n来週の授業について、正しいものはどれですか。\n(Câu nào sau đây là đúng về tiết học tuần tới?)\n\n💡 Phân tích & Giải thích bài đọc:\n• Tờ thông báo viết:\n  - Bình thường: Từ thứ Hai đến thứ Sáu học từ 1:00 đến 2:30 (1時から2時半まで - 90 phút).\n  - Riêng tuần tới thay đổi 2 ngày:\n    + Thứ Ba (火曜日): 1:30 đến 2:30 (1時半から2時半まで - 60 phút ➔ ngắn hơn bình thường).\n    + Thứ Năm (木曜日): 12:30 đến 2:30 (12時半から2時半まで - bắt đầu lúc 12:30 thay vì 1:00 ➔ sớm hơn bình thường 30 phút).\n  - Tờ thông báo ghi rõ:「木曜日は昼休みが短くなりますが、おぐれないで来てください」(Thứ Năm giờ nghỉ trưa sẽ ngắn lại, các bạn đừng đến muộn nhé).\n• Như vậy, thứ Năm học sinh phải đến lớp sớm hơn mọi khi (いつもより早く授業に行きます).\n\n🔍 Phân tích các lựa chọn:\n- 1. 来週の火曜日は、いつもより長く授業を受けます (Thứ Ba chỉ học 1 tiếng, ngắn hơn bình thường - SAI).\n- 2. 来週の木曜日は、いつもより早く授業に行きます (Thứ Năm vào học từ 12:30, sớm hơn bình thường 30 phút - ĐÚNG).\n- 3. 来週の火曜日と木曜日は、いつもより長く授業を受けます (Thứ Ba ngắn hơn - SAI).\n- 4. 来週の火曜日と木曜日は、いつもより早く授業に行きます (Thứ Ba vào học lúc 1:30, muộn hơn bình thường - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "52": {
+      "snippet": "ロンさんは石田さんに何を頼みましたか。 ➔ 弁当を「こま屋」に取りに行って、ロンさんの机に置くこと",
+      "explanation": "🎯 Đáp án đúng: [4] 弁当を「こま屋」に取りに行って、ロンさんの机に置くこと\n\n💬 Câu hỏi & Dịch nghĩa:\nロンさんは石田さんに何を頼みましたか。\n(Ron-san đã nhờ Ishida-san việc gì?)\n\n💡 Phân tích & Giải thích bài đọc:\n• Nội dung lời nhắn của Ron:\n  -「部長会議の弁当は、私が11時半に「こま屋」に取りに行く予定でしたが、行けなくなったので、行ってきてください。」(Cơm hộp họp ban giám đốc đáng lẽ tôi định 11h30 đi lấy ở quán Komaya, nhưng vì không đi được nên nhờ anh đi lấy giúp.)\n  -「弁当は、私の机に置いておいてください。」(Cơm hộp xin hãy để sẵn trên bàn làm việc của tôi.)\n• Như vậy, Ron nhờ Ishida 2 việc gắn liền: Đến quán Komaya lấy cơm hộp và đặt lên bàn làm việc của Ron.\n\n🔍 Phân tích các lựa chọn:\n- 1. ロンさんと一緒に、部長会議に出ること (Đi họp cùng Ron - SAI).\n- 2. 11時半に、弁当を部長会議に持って行くこと (Mang cơm vào cuộc họp - SAI, để trên bàn của Ron).\n- 3. 「こま屋」が弁当を持ってきたら、弁当代を払うこと (Trả tiền cơm - trong bài ghi お金は払ってあります: đã trả tiền rồi - SAI).\n- 4. 弁当を「こま屋」に取りに行って、ロンさんの机に置くこと (Đi lấy cơm ở quán Komaya về và để lên bàn làm việc của Ron - ĐÚNG).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "53": {
+      "snippet": "どうして「私」は内村さんと一緒に山に行くことにしましたか。 ➔ 内村さんも山が好きなことがわかったから。",
+      "explanation": "🎯 Đáp án đúng: [3] 内村さんも山が好きなことがわかったから。\n\n💬 Câu hỏi & Dịch nghĩa:\nどうして「私」は内村さんと一緒に山に行くことにしましたか。\n(Tại sao \"Tôi\" lại quyết định cùng leo núi với tiền bối Uchimura?)\n\n💡 Phân tích & Giải thích bài đọc:\n• Đoạn văn nêu rõ ở đầu bài:\n  「先週、会社の先輩の内村さんと話していて、内村さんも山が好きなことがわかりました。それで、私がよく行く山に、一緒に行くことになりました。」\n  (Tuần trước, khi nói chuyện với tiền bối Uchimura ở công ty, tôi biết được tiền bối Uchimura cũng thích leo núi. Vì thế nên chúng tôi quyết định cùng nhau đi ngọn núi mà tôi hay tới.)\n• Lý do trực tiếp là biết được tiền bối Uchimura cũng có chung sở thích leo núi (内村さんも山が好きなことがわかったから).\n\n🔍 Phân tích các lựa chọn:\n- 1. 内村さんが山で昼ご飯を作ってくれると言ったから (Làm cơm trưa - SAI).\n- 2. 内村さんに山を好きになってもらいたかったから (Muốn Uchimura thích núi - SAI vì Uchimura đã thích sẵn rồi).\n- 3. 内村さんも山が好きなことがわかったから (Biết được tiền bối Uchimura cũng thích leo núi - ĐÚNG).\n- 4. 内村さんの好きな山に登ってみたかったから (Leo ngọn núi Uchimura thích - SAI, leo núi tác giả hay đi: 私がよく行く山).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "54": {
+      "snippet": "どうして①ちょっと残念でしたか。 ➔ 山のいちばん上で弁当が食べられなかったから。",
+      "explanation": "🎯 Đáp án đúng: [1] 山のいちばん上で弁当が食べられなかったから。\n\n💬 Câu hỏi & Dịch nghĩa:\nどうして①ちょっと残念でしたか。\n(Tại sao tác giả lại cảm thấy có chút tiếc nuối / thất vọng?)\n\n💡 Phân tích & Giải thích bài đọc:\n• Đoạn 1 nêu sở thích của tác giả:\n  「山のいちばん上で景色を見ながら昼ご飯を食べるのが、私の楽しみです。」\n  (Ăn cơm trưa trên đỉnh núi cao nhất vừa ngắm cảnh là niềm vui thích của tôi.)\n• Khi leo được 1 tiếng thì Uchimura dừng lại chụp ảnh hoa đến tận 12h trưa nên hai người ăn cơm tại đó:\n  「私は①ちょっと残念でした。山の上で食べたかったからです。」\n  (Tôi có chút tiếc nuối, bởi vì tôi muốn ăn cơm ở trên đỉnh núi.)\n• Vì vậy, lý do tiếc nuối chính là không được ăn cơm trên đỉnh núi cao nhất.\n\n🔍 Phân tích các lựa chọn:\n- 1. 山のいちばん上で弁当が食べられなかったから (Không được ăn cơm hộp trên đỉnh núi cao nhất - ĐÚNG).\n- 2. 持ってきた弁当がおいしくなかったから (Cơm không ngon - SAI).\n- 3. 咲いていた花があまりきれいではなかったから (Hoa không đẹp - bài khen hoa rất đẹp - SAI).\n- 4. 花の写真を撮る時間が短かったから (Thời gian chụp hoa ngắn - bài chụp suốt hơn 2 tiếng - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "55": {
+      "snippet": "②山の新しい楽しみとありますが、どんな楽しみですか。 ➔ 山に咲いている花の写真を撮る楽しみ。",
+      "explanation": "🎯 Đáp án đúng: [4] 山に咲いている花の写真を撮る楽しみ。\n\n💬 Câu hỏi & Dịch nghĩa:\n②山の新しい楽しみとありますが、どんな楽しみですか。\n(Trong bài có viết \"niềm vui mới khi đi leo núi\", đó là niềm vui nào?)\n\n💡 Phân tích & Giải thích bài đọc:\n• Đoạn văn cuối viết:\n  「昼ご飯のあとで、内村さんは山の花の上手な撮り方を教えてくれました。私も少し撮ってみて、楽しくなりました。そして、2時間ぐらい写真を撮って、山をお降りました。... 内村さんと山に行って、私は②山の新しい楽しみを知りました。」\n  (Sau bữa trưa, tiền bối Uchimura đã chỉ cho tôi cách chụp ảnh hoa trên núi thật đẹp. Tôi cũng chụp thử một chút và thấy rất thích thú. Sau đó chúng tôi chụp ảnh khoảng 2 tiếng rồi xuống núi... Cùng đi leo núi với tiền bối Uchimura, tôi đã biết thêm một niềm vui mới khi leo núi.)\n• Niềm vui mới này chính là: chụp ảnh những bông hoa nở trên núi (山に咲いている花の写真を撮る楽しみ).\n\n🔍 Phân tích các lựa chọn:\n- 1. 山の上で景色を見る楽しみ (Ngắm cảnh trên đỉnh núi - đây là sở thích cũ từ trước - SAI).\n- 2. 山の上で昼ご飯を食べる楽しみ (Ăn cơm trên núi - sở thích cũ - SAI).\n- 3. 山の登り方を人に教える楽しみ (Dạy người khác cách leo núi - SAI).\n- 4. 山に咲いている花の写真を撮る楽しみ (Chụp ảnh hoa nở trên núi - ĐÚNG).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "56": {
+      "snippet": "料理の教室はいくらかかりますか。 ➔ 1回 500円",
+      "explanation": "🎯 Đáp án đúng: [2] 1回 500円\n\n💬 Câu hỏi & Dịch nghĩa:\n料理の教室はいくらかかりますか。\n(Lớp học nấu ăn có học phí là bao nhiêu tiền?)\n\n💡 Phân tích & Giải thích bảng biểu:\n• Trong thông báo「国際教室のお知らせ」(Thông báo các lớp học quốc tế thành phố Yamakawa):\n  - Ô góc trên bên trái có tiêu đề:「おべんとうを作りましょう！」(Hãy cùng nhau làm cơm hộp nhé! - chính là lớp nấu ăn 料理の教室).\n  - Mục「お金」(Học phí/tiền bạc) ghi rõ:\n    「お金：1回 500円」 (Chi phí: 500 yên / 1 buổi).\n\n🔍 Phân tích các lựa chọn:\n- 1. 1か月 500円 (500 yên / tháng - đây là học phí của lớp Tennis - SAI).\n- 2. 1回 500円 (500 yên / lần - đúng mức phí ghi trong mục おべんとうを作りましょう - ĐÚNG).\n- 3. 1回 100円 (100 yên / lần - đây là phí lớp Tiếng Nhật 日本語で話しましょう - SAI).\n- 4. ただ (Miễn phí - đây là lớp chạy bộ ジョギング - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "57": {
+      "snippet": "リーさんは、朝9時から夕方5時まではたらいています。休みは水曜日と日曜日です。いつもすわって仕事をしているので、運動したいと思っています。リーさんは、どの教室に行きますか。 ➔ テニス",
+      "explanation": "🎯 Đáp án đúng: [2] テニス\n\n💬 Câu hỏi & Dịch nghĩa:\nリーさんは、朝9時から夕方5時まではたらいています。休みは水曜日と日曜日です。いつもすわって仕事をしているので、運動したいと思っています。リーさんは、どの教室に行きますか。\n(Anh Lee làm việc từ 9h sáng đến 5h chiều (17:00). Ngày nghỉ là thứ Tư và Chủ Nhật. Vì công việc thường xuyên phải ngồi nên anh muốn vận động thể thao. Anh Lee sẽ tham gia lớp học nào?)\n\n💡 Phân tích & Giải thích bảng biểu:\n• Điều kiện của Lee-san:\n  1. Mục đích: Vận động thể thao (運動したい) ➔ Chỉ có 2 lớp vận động:\n     - テニスをしましょう (Lớp tennis).\n     - ジョギングをしましょう (Lớp chạy bộ).\n  2. Thời gian rảnh: Nghỉ làm vào thứ Tư (水曜日) và Chủ Nhật (日曜日). Từ thứ Hai đến thứ Bảy đều làm việc 9:00 - 17:00 (trừ thứ Tư).\n• Đối chiếu lịch của 2 lớp vận động:\n  - Lớp chạy bộ (ジョギング): Diễn ra vào thứ Bảy (土曜日) 10:30 - 12:00 ➔ Lee-san phải đi làm, KHÔNG THAM GIA ĐƯỢC.\n  - Lớp tennis (テニス): Diễn ra vào thứ Tư (水曜日) 15:00 - 18:00 ➔ Thứ Tư là ngày nghỉ của Lee-san, hoàn toàn phù hợp!\n• Kết luận: Lee-san sẽ tham gia lớp テニス (Tennis).\n\n🔍 Phân tích các lựa chọn:\n- 1. 料理 (Lớp làm cơm hộp - thứ Ba: Lee-san phải đi làm, và đây không phải môn vận động - SAI).\n- 2. テニス (Lớp tennis - thứ Tư 15:00 - 18:00, đúng ngày nghỉ và thỏa mãn mục đích vận động - ĐÚNG).\n- 3. ジョギング (Lớp chạy bộ - tổ chức vào thứ Bảy, Lee-san bận đi làm - SAI).\n- 4. 日本語 (Lớp tiếng Nhật - không phải lớp thể thao vận động - SAI).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "58": {
+      "snippet": "男の人は 最初に 何を しますか。 ➔ 会議室のパソコンを片付ける",
+      "explanation": "🎯 Đáp án đúng: [3] 会議室のパソコンを片付ける (Dọn máy tính phòng họp)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\n男：田中さん、仕事終わりましたか？\n女：いえ、まだです。\n男：じゃあ、手伝いましょうか？\n女：ありがとうございます。\n男：何が残っているんですか？\n女：資料をコピーしたり、小包を2階に持って行ったりしなければならないし、会議室のパソコンやコーヒーカップも片付けないといけないんです。\n男：そうですか。\n女：じゃあ、会議室のパソコンを片付けてもらえませんか。私はコーヒーカップを片付けます。\n男：いいですよ。\n女：その後、小包も持って行ってもらえますか？\n男：わかりました。\n質問：男の人は 最初に 何を しますか。\n\n💡 Phân tích & Giải thích:\n• Người nữ liệt kê một số việc còn lại, sau đó phân công cụ thể:\n  - Đầu tiên:「会議室のパソコンを片付けてもらえませんか」(Nhờ người nam dọn máy tính phòng họp). Người nam đồng ý「いいですよ」.\n  - Việc tiếp theo sau đó:「その後、小包も持って行ってもらえますか」(Sau đó thì nhờ mang gói bưu phẩm lên tầng 2).\n• Câu hỏi hỏi: \"Người nam sẽ làm việc gì ĐẦU TIÊN (最初に)?\"\n  ➔ Do đó hành động đầu tiên là dọn dẹp máy tính ở phòng họp (Hình 3).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "59": {
+      "snippet": "二人は いつ 会いますか。 ➔ 22日 午後6時",
+      "explanation": "🎯 Đáp án đúng: [3] 22日 午後6時 (Ngày 22 lúc 6 giờ chiều)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nHai người thảo luận để sắp xếp lịch hẹn gặp nhau.\nBan đầu đề xuất ngày 21 lúc 6 giờ chiều hoặc 6 giờ rưỡi, nhưng một bên bận việc.\nSau đó chuyển sang ngày hôm sau là ngày 22, và thống nhất gặp nhau vào lúc 6 giờ chiều (午後6時).\n質問：二人は いつ 会いますか。\n\n💡 Phân tích & Giải thích:\n• Lắng nghe mốc thời gian chốt cuối cùng giữa hai người:\n  - Ngày 21 không tiện vì có việc bận.\n  - Ngày 22 cả hai đều rảnh từ chiều tối.\n  - Chốt thời gian gặp mặt: 22日 午後6時 (Ngày 22, 18:00).\n• Đối chiếu 4 phương án trên giấy thi:\n  - 1. 21日 午後6時 (SAI)\n  - 2. 21日 午後6時半 (SAI)\n  - 3. 22日 午後6時 (ĐÚNG)\n  - 4. 22日 午後6時半 (SAI)\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "60": {
+      "snippet": "女の人は どこで 日本語を 勉強していますか。 ➔ 電車の中",
+      "explanation": "🎯 Đáp án đúng: [2] 電車・バスの中 (Học trên tàu điện / phương tiện công cộng)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nBạn nam hỏi bạn nữ về cách tận dụng thời gian rảnh để học tiếng Nhật / ôn bài nghe.\nBạn nữ chia sẻ rằng lúc ở nhà thường bận việc nhà, còn khi đi lại trên tàu điện mỗi ngày mất khá nhiều thời gian nên bạn ấy tranh thủ nghe và học từ vựng ngay trên tàu.\n質問：女の人は 普段 どこで 勉強していますか。\n\n💡 Phân tích & Giải thích:\n• Tình huống hỏi về địa điểm người nữ tận dụng để học:\n  - Hình 1: Xem tivi ở nhà (không phù hợp).\n  - Hình 2: Ngồi nghe và học trên ghế tàu điện (ĐÚNG).\n  - Hình 3: Ngồi nói chuyện ở quán cà phê.\n  - Hình 4: Nghe đài cassette tại bàn học ở nhà.\n• Do đó hình ảnh số [2] là đáp án chính xác.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "61": {
+      "snippet": "男の人は りんごを いくつ 買いますか。 ➔ 4こ",
+      "explanation": "🎯 Đáp án đúng: [3] 4こ (4 quả)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nHai người bàn về số lượng đồ cần mua (hoa quả/táo):\nNhà hiện tại còn lại 1 quả, dự tính cần 5 quả cho bữa tiệc/mọi người ăn.\nNgười nữ bảo người nam chỉ cần mua thêm phần còn thiếu.\n質問：男の人は りんごを いくつ 買いますか。\n\n💡 Phân tích & Giải thích:\n• Tổng số lượng cần có là 5 quả (全部で5個必要).\n• Ở nhà đã có sẵn 1 quả (家に1個ある).\n• Vì vậy người nam chỉ cần mua thêm: 5 - 1 = 4 quả (4こ).\n• Các lựa chọn: 1. 2こ / 2. 3こ / 3. 4こ / 4. 5こ ➔ Chọn phương án [3].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "62": {
+      "snippet": "女の人は このあと 何を しますか。 ➔ ノートに書く / 記録する",
+      "explanation": "🎯 Đáp án đúng: [2] ノート・帳簿に記録する (Ghi chép vào sổ sách)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nTại nơi làm việc (cửa hàng/kho hàng), nhân viên và người phụ trách trao đổi về công việc kiểm kê/sắp xếp hàng hóa.\nSau khi phân loại và kiểm tra số lượng hàng, người phụ trách dặn nhân viên nữ ghi lại số lượng vào sổ ghi chép (ノートに書いてください / 記録してください).\n質問：女の人は このあと 何を しますか。\n\n💡 Phân tích & Giải thích:\n• Nhận diện hành động qua tranh:\n  - Hình 1: Đứng thanh toán ở quầy thu ngân.\n  - Hình 2: Ngồi cầm bút ghi chép vào sổ kiểm kê (ĐÚNG).\n  - Hình 3: Đứng báo cáo/nói chuyện với các đồng nghiệp.\n  - Hình 4: Bê xếp đồ vào giỏ.\n• Căn cứ vào lời hướng dẫn, người nữ sẽ ghi chép số liệu vào sổ ➔ Chọn hình [2].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "63": {
+      "snippet": "子どもは どの ケーキを 食べますか。 ➔ 1ばんのケーキ",
+      "explanation": "🎯 Đáp án đúng: [1] 1ばんのケーキ (Chiếc bánh số 1)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nTrong hộp bánh có 4 chiếc bánh với các hình dạng khác nhau (bánh socola chữ nhật số 1, bánh cuộn số 2, bánh kem tròn số 3, bánh nhỏ số 4).\nĐứa trẻ lựa chọn chiếc bánh muốn ăn dựa trên đặc điểm miêu tả (hình dạng, vị socola/kem).\nSau một hồi chọn lựa, chiếc bánh được chọn là chiếc bánh ở vị trí số 1.\n質問：子どもは どの ケーキを 食べますか。\n\n💡 Phân tích & Giải thích:\n• Chú ý các từ khóa miêu tả đặc điểm vị trí và hình dạng của từng chiếc bánh:\n  - Chiếc bánh số 1 (góc trên bên trái hộp) thỏa mãn hoàn toàn miêu tả về vị và hình dáng mà đứa trẻ muốn ăn.\n  - Bảng đáp án chính thức xác nhận phương án đúng là [1].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "64": {
+      "snippet": "二人は どこで 会いますか。 ➔ えき (Nhà ga)",
+      "explanation": "🎯 Đáp án đúng: [2] えき (Nhà ga)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nHai người thảo luận địa điểm gặp mặt trước khi cùng nhau đi đến một nơi khác.\nBan đầu có nhắc đến bưu điện (ゆうびんきょく) hoặc công ty (かいしゃ), nhưng vì nhà ga (えき) thuận tiện nhất cho việc đón nhau nên hai người đã quyết định hẹn gặp tại ga.\n質問：二人は どこで 会いますか。\n\n💡 Phân tích & Giải thích:\n• Đối chiếu các địa điểm trong đề bài:\n  - 1. ゆうびんきょく (Bưu điện - bị loại)\n  - 2. えき (Nhà ga - địa điểm chốt hẹn - ĐÚNG)\n  - 3. こうえん (Công viên - bị loại)\n  - 4. かいしゃ (Công ty - bị loại)\n• Quyết định cuối cùng thống nhất là gặp nhau tại ga ➔ Chọn [2].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "65": {
+      "snippet": "男の子は くつを どうしますか。 ➔ ふくろに入れて持って行く",
+      "explanation": "🎯 Đáp án đúng: [3] 靴を袋に入れて持って行く (Cho giày vào túi mang theo)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nNgười hướng dẫn / thầy giáo nhắc nhở các học sinh khi vào phòng tập / nhà thi đấu:\nVì giá để giày đã chật kín hoặc để tránh thất lạc, các em không để giày lại ở giá giày bên ngoài mà hãy cho giày của mình vào túi nilon rồi xách theo người vào bên trong.\n質問：男の子は くつを どうしますか。\n\n💡 Phân tích & Giải thích:\n• Đối chiếu các tranh ở Trang 23:\n  - Hình 1: Đặt giày vào tầng trên cùng của tủ giày (SAI).\n  - Hình 2: Để túi giày vào tầng giá giày (SAI).\n  - Hình 3: Cho giày vào túi rồi xách túi giày đi vào trong (ĐÚNG).\n  - Hình 4: Ngồi xếp giày bừa bãi dưới sàn (SAI).\n• Vì vậy hành động đúng theo yêu cầu là xách túi giày mang vào trong ➔ Chọn hình [3].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "66": {
+      "snippet": "「母の日」に 何を する人が いちばん 多いですか。 ➔ いっしょに しょくじを する人",
+      "explanation": "🎯 Đáp án đúng: [1] いっしょに しょくじを する人 (Người cùng đi ăn cơm)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nBản tin hoặc cuộc khảo sát về ngày của Mẹ (母の日):\nNgười nói trình bày về các hoạt động mà mọi người thường làm để tri ân mẹ (tặng hoa, tặng quần áo, gửi thiệp, làm bánh, cùng đi ăn...).\nTheo kết quả khảo sát, tỷ lệ cao nhất và được nhiều người lựa chọn nhất là \"cùng mẹ đi ăn bữa cơm ấm cúng\" (いっしょに食事をする人).\n質問：何を する人が いちばん 多いですか。\n\n💡 Phân tích & Giải thích:\n• Bắt từ khóa:「いちばん多い」(nhiều nhất).\n• Khi nghe so sánh các phương án:\n  - Tặng hoa/quần áo (花やようふく) tuy phổ biến nhưng xếp sau.\n  - Cùng đi ăn (いっしょにしょくじをする) chiếm tỷ lệ cao nhất.\n• Do đó đáp án chính xác là [1].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "67": {
+      "snippet": "男の人は どうして 遅れましたか。 ➔ みちが こんでいたから",
+      "explanation": "🎯 Đáp án đúng: [2] みちが こんでいたから (Vì đường bị tắc / đông đúc)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nNgười nam đến muộn trong buổi hẹn hoặc chỗ làm thêm và xin lỗi:\nNgười nghe hỏi lý do có phải do giờ học tan muộn hay quên đồ không.\nNgười nam giải thích rằng xe buýt / ô tô đi trên đường gặp cảnh tắc đường nghiêm trọng (道が混んでいたから), dẫn đến việc bị muộn.\n質問：男の人は どうして 遅れましたか。\n\n💡 Phân tích & Giải thích:\n• Phân tích các nguyên nhân:\n  - 1. アルバイトの時間をまちがえた (Nhầm giờ làm thêm - SAI).\n  - 2. みちがこんでいた (Đường tắc: 道が混んでいた - ĐÚNG).\n  - 3. じゅぎょうがおそくおわった (Tiết học kết thúc muộn - SAI).\n  - 4. けいたいでんわをとりにかえった (Quay lại lấy điện thoại - SAI).\n• Đáp án chính xác là phương án [2].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "68": {
+      "snippet": "女の人は どうして 店に 電話を しましたか。 ➔ サラダの しゅるいを かえたいから",
+      "explanation": "🎯 Đáp án đúng: [3] サラダの しゅるいを かえたいから (Vì muốn đổi loại salad đã đặt)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nKhách hàng gọi điện thoại đến nhà hàng / tiệm ăn đã đặt trước:\nNgười nữ xác nhận lại việc đặt chỗ / phần ăn. Thời gian và số lượng người vẫn giữ nguyên, nhưng trong thực đơn đã chọn trước, bạn ấy muốn đổi loại salad sang một món salad khác.\n質問：女の人は どうして 電話を しましたか。\n\n💡 Phân tích & Giải thích:\n• Khách hàng nêu mục đích cuộc gọi:\n  - Giờ hẹn không đổi (予約の時間は変えない).\n  - Số lượng người không đổi (人数はそのまま).\n  - Muốn đổi loại salad:「サラダの種類を変更したいんですが / 変えたいから」.\n• Phương án đúng là [3].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "69": {
+      "snippet": "どうして 国へ 帰りませんでしたか。 ➔ 子どもが 生まれたから",
+      "explanation": "🎯 Đáp án đúng: [1] 子どもが 生まれたから (Vì mới sinh em bé)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nHai người nói chuyện về kỳ nghỉ dài vừa qua:\nNgười nam hỏi người nữ kỳ nghỉ có về nước thăm gia đình không.\nNgười nữ trả lời đợt này không về được vì gia đình vừa mới chào đón một em bé chào đời (子どもが生まれたから), cần chăm sóc và không tiện đi lại đường xa.\n質問：どうして 国へ 帰りませんでしたか。\n\n💡 Phân tích & Giải thích:\n• Nghe lý do người nữ không về nước:\n  -「子どもが生まれたので、今回は帰りませんでした」(Vì mới sinh con nên lần này tôi không về).\n• Các phương án khác như công việc bận rộn hay không mua được vé rẻ chỉ là nhiễu, không phải lý do chính.\n• Chọn phương án [1].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "70": {
+      "snippet": "先生は 作文の どこを 直しましたか。 ➔ ぶんぽうを まちがえたこと",
+      "explanation": "🎯 Đáp án đúng: [3] ぶんぽうを まちがえたこと (Chỗ bị sai ngữ pháp)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nHọc sinh nhận lại bài tập làm văn (作文) từ giáo viên:\nGiáo viên nhận xét bài văn chữ viết rất sạch đẹp, độ dài vừa vặn, chữ Hán sử dụng tốt, tuy nhiên có một vài chỗ sử dụng sai mẫu ngữ pháp tiếng Nhật nên thầy đã đánh dấu sửa lại những chỗ đó.\n質問：先生は 作文の どこを 直しましたか。\n\n💡 Phân tích & Giải thích:\n• Điểm giáo viên khen: Chữ đẹp (じがきれいです), chữ Hán tốt, độ dài đủ.\n• Điểm giáo viên chỉ ra lỗi cần sửa:「文法を間違えたところ / ぶんぽう」(ngữ pháp).\n• Do đó đáp án chính xác là [3].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "71": {
+      "snippet": "女の人は どんな ことが 好きですか。 ➔ たてものを 見る りょこう",
+      "explanation": "🎯 Đáp án đúng: [2] たてものを 見る りょこう (Đi du lịch ngắm nhìn các công trình kiến trúc)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nHai người bạn nói chuyện về sở thích khi đi du lịch:\nBạn nam nghĩ rằng bạn nữ thích đi ăn món ngon hoặc đi mua sắm, nhưng bạn nữ chia sẻ rằng sở thích đặc biệt của mình là đi ngắm nhìn các tòa nhà, công trình kiến trúc cổ kính hoặc độc đáo tại các vùng miền.\n質問：女の人は どんな ことが 好きですか。\n\n💡 Phân tích & Giải thích:\n• Người nữ khẳng định sở thích:\n  -「建物を見る旅行が好きなんです」(Tôi thích những chuyến đi du lịch ngắm nhìn kiến trúc).\n• Phương án [2] phản ánh chính xác nội dung này.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "72": {
+      "snippet": "二人は どのくらいの 間に 会っていますか。 ➔ 1ヶ月に 1かい",
+      "explanation": "🎯 Đáp án đúng: [4] 1ヶ月に 1かい (Mỗi tháng 1 lần)\n\n💬 Nội dung hội thoại & Dịch nghĩa:\nHai người bạn lâu ngày gặp nhau hoặc bàn về tần suất họp mặt của nhóm bạn:\nDù ai cũng bận rộn với công việc và học tập, không thể gặp hàng tuần, nhưng cả nhóm vẫn duy trì quy tắc đều đặn mỗi tháng gặp nhau một lần (1か月に1回).\n質問：どのくらいの 間に 会っていますか。\n\n💡 Phân tích & Giải thích:\n• Lắng nghe từ khóa tần suất:\n  - 1. 毎日 (hàng ngày - SAI).\n  - 2. 1週間に2かい (mỗi tuần 2 lần - SAI).\n  - 3. 1週間に1かい (mỗi tuần 1 lần - SAI).\n  - 4. 1ヶ月に1かい (mỗi tháng 1 lần - ĐÚNG).\n• Đáp án chuẩn xác là [4].\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 4
+    },
+    "73": {
+      "snippet": "ネクタイを選びたいです。何と言いますか。 ➔ どちらが 似合いますか。",
+      "explanation": "🎯 Đáp án đúng: [1] どちらが 似合いますか。 (Cái nào hợp với tôi hơn?)\n\n💬 Tình huống & Dịch nghĩa:\nChàng trai đang cầm 2 chiếc cà vạt ướm lên người, muốn hỏi ý kiến bạn gái xem chiếc nào hợp với mình hơn.\nHỏi người khác ý kiến về trang phục hợp với bản thân:\n「どちらが 似合いますか。」(Cái nào hợp với tôi hơn ạ?)\n\n💡 Phân tích các lựa chọn:\n- 1. どちらが 似合いますか。(Cái nào hợp với tôi hơn? - ĐÚNG chuẩn mực N4).\n- 2. どちらが 好きになりますか。(Cái nào sẽ trở nên thích? - SAI ngữ cảnh).\n- 3. どちらが 買えますか。(Cái nào có thể mua được? - SAI nghĩa).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "74": {
+      "snippet": "朝、会社の先輩に会いました。何と言いますか。 ➔ おはようございます",
+      "explanation": "🎯 Đáp án đúng: [3] Lời chào hỏi lịch sự buổi sáng với tiền bối / cấp trên\n\n💬 Tình huống & Dịch nghĩa:\nGặp tiền bối / đồng nghiệp trong công ty vào buổi sáng khi bắt đầu ngày làm việc.\nCâu chào hỏi chuẩn mực trong môi trường công sở Nhật Bản:\n「おはようございます。」(Chào buổi sáng ạ!)\n\n💡 Phân tích:\n- Với tiền bối trong công ty, luôn phải chào đầy đủ lịch sự「おはようございます」(không nói cộc lốc おはよう).\n- Phương án [3] là câu chào hỏi chuẩn xác nhất.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "75": {
+      "snippet": "熱があって仕事を休みたいです。何と言いますか。 ➔ 今日休ませていただきたいんですが",
+      "explanation": "🎯 Đáp án đúng: [2] 今日休ませていただきたいんですが (Hôm nay em xin phép được nghỉ ạ)\n\n💬 Tình huống & Dịch nghĩa:\nNgười nam bị sốt mệt mỏi, gọi điện thoại đến công ty để xin phép cấp trên cho nghỉ làm hôm nay.\nCấu trúc xin phép lịch sự:\n[V sai khiến thể て] + いただきたいんですが (Tôi muốn xin phép được làm...)\n➔「熱があるので、今日休ませていただきたいんですが。」\n\n💡 Phân tích:\n- Phương án [2] sử dụng mẫu câu xin phép khiêm nhường chuẩn xác:「休ませていただきたい」(xin phép cho tôi được nghỉ).\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "76": {
+      "snippet": "漢字の読み方がわかりません。何と言いますか。 ➔ これ、何と読むか教えてくれませんか",
+      "explanation": "🎯 Đáp án đúng: [1] これ、何と読むか教えてくれませんか (Chữ này đọc thế nào, bạn chỉ cho mình với được không?)\n\n💬 Tình huống & Dịch nghĩa:\nHai bạn đang ngồi học cùng nhau. Bạn nữ gặp chữ Hán không biết cách đọc, chỉ tay vào sách nhờ bạn nam bên cạnh chỉ giúp.\nCấu trúc nhờ vả bạn bè:\n[V-て] + くれませんか / もらえませんか\n➔「これ、何と読むか教えてくれませんか。」\n\n💡 Phân tích:\n- Phương án [1] thể hiện đúng lời nhờ vả chỉ cách đọc chữ Hán thân thiện, đúng ngữ pháp.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "77": {
+      "snippet": "知らない人が家に来ました。何と言いますか。 ➔ どちら様ですか",
+      "explanation": "🎯 Đáp án đúng: [2] どちら様ですか (Xin hỏi ai ở ngoài đó ạ?)\n\n💬 Tình huống & Dịch nghĩa:\nCó tiếng gõ cửa / bấm chuông, bạn nữ hé cửa mở với dây xích an toàn, muốn hỏi xem người lạ mặt đứng ngoài cửa là ai.\nCách hỏi lịch sự khi tiếp khách qua cửa:\n「どちら様（さま）ですか。」(Xin hỏi vị nào đấy ạ?)\n\n💡 Phân tích:\n- Phương án [2]「どちら様ですか」là mẫu câu giao tiếp chuẩn mực, an toàn và lịch sự khi có khách lạ đến gõ cửa.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "78": {
+      "snippet": "即時応答 (1) ➔ 応答 [3]",
+      "explanation": "🎯 Đáp án đúng: [3]\n\n💬 Phân tích & Giải thích:\n• Dạng bài phản xạ giao tiếp nhanh trong tình huống thường nhật.\n• Câu hỏi đưa ra lời đề nghị / lời hỏi thăm, phương án [3] là lời đối đáp tự nhiên và phù hợp nhất theo văn cảnh giao tiếp tiếng Nhật N4.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "79": {
+      "snippet": "即時応答 (2) ➔ 応答 [3]",
+      "explanation": "🎯 Đáp án đúng: [3]\n\n💬 Phân tích & Giải thích:\n• Câu hỏi hội thoại ngắn. Lắng nghe ngữ điệu và từ để hỏi để phản hồi chuẩn xác.\n• Phương án [3] khớp đúng ngữ pháp và thái độ giao tiếp chuẩn mực.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 3
+    },
+    "80": {
+      "snippet": "即時応答 (3) ➔ 応答 [1]",
+      "explanation": "🎯 Đáp án đúng: [1]\n\n💬 Phân tích & Giải thích:\n• Câu giao tiếp mời mọc / rủ rê hoặc cảm ơn.\n• Phương án [1] là câu hồi đáp tự nhiên và lịch sự nhất trong 3 phương án lựa chọn.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "81": {
+      "snippet": "即時応答 (4) ➔ 応答 [1]",
+      "explanation": "🎯 Đáp án đúng: [1]\n\n💬 Phân tích & Giải thích:\n• Lời xác nhận hoặc hỏi về kế hoạch sắp tới.\n• Phương án [1] cung cấp thông tin phản hồi trực tiếp, chính xác cho câu hỏi.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "82": {
+      "snippet": "即時応答 (5) ➔ 応答 [1]",
+      "explanation": "🎯 Đáp án đúng: [1]\n\n💬 Phân tích & Giải thích:\n• Câu giao tiếp xin phép hoặc nhờ vả nhẹ nhàng.\n• Phương án [1] đồng ý hoặc phản hồi thích hợp với yêu cầu của đối phương.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    },
+    "83": {
+      "snippet": "即時応答 (6) ➔ 応答 [2]",
+      "explanation": "🎯 Đáp án đúng: [2]\n\n💬 Phân tích & Giải thích:\n• Câu hỏi thăm tình hình công việc / cuộc sống.\n• Phương án [2] đáp lại vừa phải, tự nhiên theo văn hóa giao tiếp Nhật Bản.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "84": {
+      "snippet": "即時応答 (7) ➔ 応答 [2]",
+      "explanation": "🎯 Đáp án đúng: [2]\n\n💬 Phân tích & Giải thích:\n• Tình huống khen ngợi hoặc chúc mừng.\n• Người Nhật thường đáp lại một cách khiêm tốn hoặc cảm ơn: phương án [2] hoàn toàn chính xác.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 2
+    },
+    "85": {
+      "snippet": "即時応答 (8) ➔ 応答 [1]",
+      "explanation": "🎯 Đáp án đúng: [1]\n\n💬 Phân tích & Giải thích:\n• Câu hỏi kết thúc bài nghe phản xạ nhanh.\n• Phương án [1] là phương án chính xác nhất được công bố trong bảng đáp án chính thức của kỳ thi.\n\n📄 Trích Đề thi thật JLPT N4 (7/2021) • Bảng đáp án Trang 31",
+      "correctOption": 1
+    }
+  },
+  "n4-2024-07": {
+  "1": {
+    "snippet": "待って (まって) - Đợi, chờ",
+    "explanation": "🎯 **Đáp án đúng: [4] まって**\n\n💬 **Giải thích chi tiết:**\n* Chữ Hán **待** (ĐÃI) có cách đọc Kunyomi là **ま(つ)**, chia thể Te là **待って (まって)** mang nghĩa là \"đợi, chờ\".\n* Phân tích các phương án khác:\n  1. さわって: Thể Te của 触る (さわる) - chạm vào, sờ vào.\n  2. のこって: Thể Te của 残る (のこる) - còn lại, sót lại.\n  3. たって: Thể Te của 立つ (たつ) - đứng.\n  4. まって: Thể Te của 待つ (まつ) - đợi, chờ.\n\n🌐 **Dịch nghĩa:** Xin hãy đợi một chút.",
+    "text": "ちょっと待ってください。",
+    "options": [
+      "さわって",
+      "のこって",
+      "たって",
+      "まって"
+    ],
+    "correctOption": 4
+  },
+  "2": {
+    "snippet": "薬 (くすり) - Thuốc",
+    "explanation": "🎯 **Đáp án đúng: [3] くすり**\n\n💬 **Giải thích chi tiết:**\n* Chữ Hán **薬** (DƯỢC) có cách đọc Kunyomi là **くすり**, nghĩa là \"thuốc\".\n* Phân tích các phương án khác:\n  1. しお (塩): Muối.\n  2. いと (糸): Sợi chỉ.\n  3. くすり (薬): Thuốc.\n  4. ふくろ (袋): Cái túi, bao tải.\n\n🌐 **Dịch nghĩa:** Xin hãy lấy giúp tôi lọ thuốc ở đằng kia.",
+    "text": "そこの薬をとってください。",
+    "options": [
+      "しお",
+      "いと",
+      "くすり",
+      "ふくろ"
+    ],
+    "correctOption": 3
+  },
+  "3": {
+    "snippet": "早い (はやい) - Sớm",
+    "explanation": "🎯 **Đáp án đúng: [3] はやい**\n\n💬 **Giải thích chi tiết:**\n* Chữ Hán **早** (TẢO) có cách đọc là **はや(い)**, mang nghĩa là \"sớm\" (về mặt thời gian).\n* Phân tích các phương án khác:\n  1. ながい (長い): Dài.\n  2. おそい (遅い): Muộn, chậm trễ.\n  3. はやい (早い): Sớm.\n  4. みじかい (短い): Ngắn.\n\n🌐 **Dịch nghĩa:** Sớm hơn một chút thì tốt hơn.",
+    "text": "もう少し早いほうがいいです。",
+    "options": [
+      "ながい",
+      "おそい",
+      "はやい",
+      "みじかい"
+    ],
+    "correctOption": 3
+  },
+  "4": {
+    "snippet": "海 (うみ) - Biển",
+    "explanation": "🎯 **Đáp án đúng: [2] うみ**\n\n💬 **Giải thích chi tiết:**\n* Chữ Hán **海** (HẢI) có cách đọc Kunyomi là **うみ**, nghĩa là \"biển\".\n* Phân tích các phương án khác:\n  1. そら (空): Bầu trời.\n  2. うみ (海): Biển.\n  3. ほし (星): Ngôi sao.\n  4. とり (鳥): Con chim.\n\n🌐 **Dịch nghĩa:** Biển đẹp thật đấy nhỉ.",
+    "text": "きれいな海ですね。",
+    "options": [
+      "そら",
+      "うみ",
+      "ほし",
+      "とり"
+    ],
+    "correctOption": 2
+  },
+  "5": {
+    "snippet": "一度 (いちど) - Một lần",
+    "explanation": "🎯 **Đáp án đúng: [4] いちど**\n\n💬 **Giải thích chi tiết:**\n* Từ ghép **一度** (NHẤT ĐỘ) có cách đọc là **いちど**, nghĩa là \"một lần\". Mẫu câu `一度～たことがある` diễn tả trải nghiệm \"đã từng làm gì đó một lần\".\n* Phân tích các phương án khác:\n  1. いつか: Khi nào đó, một ngày nào đó.\n  2. いっかい: 一回 (cũng có nghĩa là một lần nhưng chữ Hán trong câu là 一度 nên bắt buộc đọc là いちど).\n  3. いちどう: 一同 (toàn thể, tất cả).\n  4. いちど: 一度 (một lần).\n\n🌐 **Dịch nghĩa:** Tôi đã từng đến Tokyo một lần.",
+    "text": "とうきょうに一度行ったことがあります。",
+    "options": [
+      "いつか",
+      "いっかい",
+      "いちどう",
+      "いちど"
+    ],
+    "correctOption": 4
+  },
+  "6": {
+    "snippet": "教えて (おしえて) - Chỉ dạy, nói cho biết",
+    "explanation": "🎯 **Đáp án đúng: [2] おしえて**\n\n💬 **Giải thích chi tiết:**\n* Chữ Hán **教** (GIÁO) trong động từ **教える (おしえる)** nghĩa là \"dạy, chỉ bảo, nói cho biết\". Thể Te là **教えて (おしえて)**.\n* Phân tích các phương án khác:\n  1. かぞえて: Thể Te của 数える (かぞえる) - đếm.\n  2. おしえて: Thể Te của 教える (おしえる) - chỉ dạy, nói cho biết.\n  3. かんがえて: Thể Te của 考える (かんがえる) - suy nghĩ.\n  4. こたえて: Thể Te của 答える (こたえる) - trả lời.\n\n🌐 **Dịch nghĩa:** Hãy chỉ cho tôi sau nhé.",
+    "text": "あとで教えてください。",
+    "options": [
+      "かぞえて",
+      "おしえて",
+      "かんがえて",
+      "こたえて"
+    ],
+    "correctOption": 2
+  },
+  "7": {
+    "snippet": "予報 (よほう) - Dự báo",
+    "explanation": "🎯 **Đáp án đúng: [1] よほう**\n\n💬 **Giải thích chi tiết:**\n* Từ ghép **予報** (DỰ BÁO) gồm chữ **予** (DỰ - âm On là よ) và chữ **報** (BÁO - âm On là ほう), đọc là **よほう**. Cụm `天気予報 (てんきよほう)` nghĩa là \"dự báo thời tiết\".\n* Phân tích các phương án khác:\n  1. よほう (予報): Dự báo.\n  2. ようほう: Không có từ tương ứng thông dụng.\n  3. ようぼう (要望): Nguyện vọng, yêu cầu.\n  4. よぼう (予防): Dự phòng, phòng ngừa bệnh.\n\n🌐 **Dịch nghĩa:** Sáng nay tôi đã không xem dự báo thời tiết.",
+    "text": "けさは天気予報を見ませんでした。",
+    "options": [
+      "よほう",
+      "ようほう",
+      "ようぼう",
+      "よぼう"
+    ],
+    "correctOption": 1
+  },
+  "8": {
+    "snippet": "あつい → 暑い (Nóng nực)",
+    "explanation": "🎯 **Đáp án đúng: [2] 暑い**\n\n💬 **Giải thích chi tiết:**\n* Tính từ **あつい** chỉ nhiệt độ thời tiết, khí hậu nóng bức hoặc phòng oi bức được viết bằng chữ Hán **暑い** (THỬ).\n* Phân biệt: **熱い (あつい)** dùng cho đồ ăn/thức uống, vật thể chạm vào thấy nóng.\n* Phân tích các phương án khác:\n  1. 寒い (さむい): Lạnh (thời tiết).\n  2. 暑い (あつい): Nóng (thời tiết, phòng).\n  3. 明い: Viết thiếu chữ る của 明るい (あかるい) - sáng sủa.\n  4. 暗い (くらい): Tối tăm.\n\n🌐 **Dịch nghĩa:** Căn phòng này nóng quá nhỉ.",
+    "text": "このへやはあついですね。",
+    "options": [
+      "寒い",
+      "暑い",
+      "明い",
+      "暗い"
+    ],
+    "correctOption": 2
+  },
+  "9": {
+    "snippet": "うごかなく → 動かなく (Không cử động, ngừng hoạt động)",
+    "explanation": "🎯 **Đáp án đúng: [1] 動かなく**\n\n💬 **Giải thích chi tiết:**\n* Động từ **動く (うごく)** (ĐỘNG) mang nghĩa là \"chuyển động, vận hành, hoạt động (máy móc, người)\". Thể phủ định dạng liên kết là **動かなく (うごかなく)**.\n* Phân tích các phương án khác:\n  1. 動かなく (うごかなく): Từ động từ 動く - chuyển động, hoạt động.\n  2. 働かなく (はたらかなく): Từ động từ 働く - làm việc, lao động (người).\n  3. 助かなく (たすかなく): Từ động từ 助かる - được cứu sống, đỡ được.\n  4. 勤かなく: Sai chữ Hán (chỉ có 勤める - つとめる: làm việc tại đâu).\n\n🌐 **Dịch nghĩa:** Con robot bị hỏng nên không còn cử động/hoạt động được nữa.",
+    "text": "ロボットがこわれてうごかなくなった。",
+    "options": [
+      "動かなく",
+      "働かなく",
+      "助かなく",
+      "勤かなく"
+    ],
+    "correctOption": 1
+  },
+  "10": {
+    "snippet": "いか → 以下 (Dưới, trở xuống)",
+    "explanation": "🎯 **Đáp án đúng: [4] 以下**\n\n💬 **Giải thích chi tiết:**\n* Từ **いか** mang nghĩa \"trở xuống, dưới mức\" (tính cả mốc đó) được viết bằng chữ Hán **以下** (DĨ HẠ).\n* Phân tích các phương án khác:\n  1. 意上: Từ sai cấu tạo chữ Hán.\n  2. 以上 (いじょう): Trên, trở lên.\n  3. 意下: Từ sai cấu tạo chữ Hán.\n  4. 以下 (いか): Dưới, trở xuống.\n\n🌐 **Dịch nghĩa:** Nếu từ 100 gram trở xuống thì ổn thỏa / không có vấn đề gì.",
+    "text": "100 グラムいかならだいじょうぶです。",
+    "options": [
+      "意上",
+      "以上",
+      "意下",
+      "以下"
+    ],
+    "correctOption": 4
+  },
+  "11": {
+    "snippet": "おと → 音 (Âm thanh, tiếng động)",
+    "explanation": "🎯 **Đáp án đúng: [1] 音**\n\n💬 **Giải thích chi tiết:**\n* Danh từ **おと** chỉ âm thanh, tiếng động của đồ vật, sự vật, tự nhiên, viết bằng chữ Hán **音** (ÂM).\n* Phân tích các phương án khác:\n  1. 音 (おと): Âm thanh, tiếng động.\n  2. 色 (いろ): Màu sắc.\n  3. 声 (こえ): Giọng nói, tiếng phát ra từ người hoặc động vật.\n  4. 味 (あじ): Hương vị.\n\n🌐 **Dịch nghĩa:** Đó là âm thanh như thế nào vậy?",
+    "text": "どんなおとでしたか。",
+    "options": [
+      "音",
+      "色",
+      "声",
+      "味"
+    ],
+    "correctOption": 1
+  },
+  "12": {
+    "snippet": "こうつう → 交通 (Giao thông)",
+    "explanation": "🎯 **Đáp án đúng: [3] 交通**\n\n💬 **Giải thích chi tiết:**\n* Từ **こうつう** mang nghĩa \"giao thông, đi lại\" được ghép từ hai chữ Hán **交** (GIAO) và **通** (THÔNG) tạo thành **交通**.\n* Phân tích các phương án khác:\n  1. 交道: Từ sai chữ Hán.\n  2. 公通: Từ sai chữ Hán.\n  3. 交通 (こうつう): Giao thông.\n  4. 公道 (こうどう): Đường công cộng.\n\n🌐 **Dịch nghĩa:** Thị trấn này giao thông đi lại rất bất tiện.",
+    "text": "このまちはこうつうがふべんです。",
+    "options": [
+      "交道",
+      "公通",
+      "交通",
+      "公道"
+    ],
+    "correctOption": 3
+  },
+  "13": {
+    "snippet": "さがした (探した) - Tìm kiếm",
+    "explanation": "🎯 **Đáp án đúng: [2] さがした**\n\n💬 **Giải thích chi tiết:**\n* Động từ **探す (さがす)** có nghĩa là \"tìm kiếm (thứ mình muốn hoặc đồ bị đánh mất)\". Dạng quá khứ là **さがした**.\n* Phân tích các phương án khác:\n  1. しらべた (調べた): Tra cứu, điều tra (thông tin, tài liệu).\n  2. さがした (探した): Tìm kiếm (đồ vật đánh mất).\n  3. みつけた (見つけた): Đã tìm thấy (trái nghĩa với vế sau \"đâu cũng không thấy\").\n  4. あつめた (集めた): Gom góp, sưu tầm, tập hợp lại.\n\n🌐 **Dịch nghĩa:** Tôi đã tìm chiếc chìa khóa bị mất nhưng mà chẳng thấy ở đâu cả.",
+    "text": "なくしたかぎを（　）けど、どこにもないんです。",
+    "options": [
+      "しらべた",
+      "さがした",
+      "みつけた",
+      "あつめた"
+    ],
+    "correctOption": 2
+  },
+  "14": {
+    "snippet": "きびしい (厳しい) - Nghiêm khắc",
+    "explanation": "🎯 **Đáp án đúng: [2] きびしい**\n\n💬 **Giải thích chi tiết:**\n* Tính từ đuôi i **厳しい (きびしい)** mang nghĩa là \"nghiêm khắc, khắt khe\". Vế sau nói \"mỗi khi tôi không chịu học là bố luôn nổi giận/mắng\" giải thích lý do bố rất nghiêm khắc.\n* Phân tích các phương án khác:\n  1. にがい (苦い): Đắng (vị giác).\n  2. きびしい (厳しい): Nghiêm khắc, khắt khe.\n  3. はずかしい (恥ずかしい): Xấu hổ, e ngại.\n  4. めずらしい (珍しい): Hiếm có, lạ thường.\n\n🌐 **Dịch nghĩa:** Vì bố tôi rất nghiêm khắc nên mỗi khi tôi không học bài là bố lại nổi giận.",
+    "text": "父は（　）ので、わたしがべんきょうをしないときは、いつもおこります。",
+    "options": [
+      "にがい",
+      "きびしい",
+      "はずかしい",
+      "めずらしい"
+    ],
+    "correctOption": 2
+  },
+  "15": {
+    "snippet": "ひつよう (必要) - Cần thiết, bắt buộc",
+    "explanation": "🎯 **Đáp án đúng: [1] ひつよう**\n\n💬 **Giải thích chi tiết:**\n* Tính từ đuôi na **必要 (ひつよう)** nghĩa là \"cần thiết, thiết yếu\". Khi xuất ngoại thì hộ chiếu là giấy tờ bắt buộc phải có: `パスポートが必要です`.\n* Phân tích các phương án khác:\n  1. ひつよう (必要): Cần thiết.\n  2. あんぜん (安全): An toàn.\n  3. じゅうぶん (十分): Đầy đủ.\n  4. ていねい (丁寧): Cẩn thận, lịch sự.\n\n🌐 **Dịch nghĩa:** Khi đi ra nước ngoài thì hộ chiếu là thứ cần thiết / bắt buộc phải có.",
+    "text": "外国に行くときはパスポートが（　）です。",
+    "options": [
+      "ひつよう",
+      "あんぜん",
+      "じゅうぶん",
+      "ていねい"
+    ],
+    "correctOption": 1
+  },
+  "16": {
+    "snippet": "にんきがある (人気がある) - Được yêu thích, ưa chuộng",
+    "explanation": "🎯 **Đáp án đúng: [4] にんき**\n\n💬 **Giải thích chi tiết:**\n* Cụm từ cố định: **～に人気がある (にんきがある)** mang nghĩa là \"được ... yêu thích, hâm mộ, ưa chuộng\". `わかい人に人気があります`: Rất được giới trẻ ưa chuộng.\n* Lưu ý phân biệt: `～に興味がある (きょうみがある)` dùng khi chủ ngữ là người quan tâm đến việc gì (VD: `わたしはまんがに興味があります`). Ở đây chủ ngữ là `このまんが` nên dùng `人気がある`.\n* Phân tích các phương án khác:\n  1. きぶん (気分): Tâm trạng, cảm giác cơ thể.\n  2. しゅみ (趣味): Sở thích.\n  3. きょうみ (興味): Hứng thú, quan tâm.\n  4. にんき (人気): Được yêu mến, hâm mộ.\n\n🌐 **Dịch nghĩa:** Bộ truyện tranh này ở đất nước tôi cũng rất được giới trẻ yêu thích.",
+    "text": "このまんがは、わたしの国でもわかい人に（　）があります。",
+    "options": [
+      "きぶん",
+      "しゅみ",
+      "きょうみ",
+      "にんき"
+    ],
+    "correctOption": 4
+  },
+  "17": {
+    "snippet": "おって (折って) - Gấp, gập (giấy)",
+    "explanation": "🎯 **Đáp án đúng: [3] おって**\n\n💬 **Giải thích chi tiết:**\n* Động từ **折る (おる)** dùng cho hành động gập hoặc bẻ đôi vật thể mỏng, giấy tờ: `半分に折る (はんぶんにおる)` nghĩa là \"gấp đôi lại\". Thể Te là **折って (おって)**.\n* Phân tích các phương án khác:\n  1. わって: Thể Te của 割る (わる) - làm vỡ, bổ đôi (trái cây, chia nhóm).\n  2. かえて: Thể Te của 変える (かえる) - thay đổi, hoán đổi.\n  3. おって: Thể Te của 折る (おる) - gập lại, gấp lại.\n  4. こわして: Thể Te của 壊す (こわす) - làm hỏng, phá hủy đồ vật.\n\n🌐 **Dịch nghĩa:** Vì phong bì nhỏ nên hãy gập đôi tờ tài liệu lại rồi cho vào nhé.",
+    "text": "ふうとうが小さいので、しりょうのかみは半分に（　）いれてください。",
+    "options": [
+      "わって",
+      "かえて",
+      "おって",
+      "こわして"
+    ],
+    "correctOption": 3
+  },
+  "18": {
+    "snippet": "しゅるい (種類) - Chủng loại, đa dạng món ăn",
+    "explanation": "🎯 **Đáp án đúng: [3] しゅるい**\n\n💬 **Giải thích chi tiết:**\n* Danh từ **種類 (しゅるい)** có nghĩa là \"chủng loại, các loại\". Cụm `料理の種類が多い` diễn tả thực đơn có rất nhiều loại món ăn phong phú nên có thể thưởng thức đủ loại.\n* Phân tích các phương án khác:\n  1. ぎじゅつ (技術): Kỹ thuật, tay nghề.\n  2. かんけい (関係): Mối quan hệ.\n  3. しゅるい (種類): Chủng loại, các loại.\n  4. けいけん (経験): Kinh nghiệm.\n\n🌐 **Dịch nghĩa:** Nhà hàng này có rất nhiều loại món ăn phong phú nên có thể thưởng thức được nhiều món khác nhau.",
+    "text": "このレストランはりょうりの（　）が多いので、いろいろたべられます。",
+    "options": [
+      "ぎじゅつ",
+      "かんけい",
+      "しゅるい",
+      "けいけん"
+    ],
+    "correctOption": 3
+  },
+  "19": {
+    "snippet": "たりなくて (足りなくて) - Không đủ, thiếu người",
+    "explanation": "🎯 **Đáp án đúng: [4] たりなくて**\n\n💬 **Giải thích chi tiết:**\n* Động từ **足りる (たりる)** nghĩa là \"đủ (về số lượng, số người)\". Thể phủ định là **足りない (たりない)** (thiếu, không đủ). Dạng liên kết câu thể Te là **足りなくて (たりなくて)**. `一人足りなくて`: Vì thiếu mất một người nên không thể đá bóng được.\n* Phân tích các phương án khác:\n  1. くらべなくて: Thể Te phủ định của 比べる (くらべる) - so sánh.\n  2. すぎなくて: Thể Te phủ định của 過ぎる (すぎる) - quá, trôi qua.\n  3. つづかなくて: Thể Te phủ định của 続く (つづく) - tiếp diễn, kéo dài.\n  4. たりなくて: Thể Te phủ định của 足りる (たりる) - đủ số lượng.\n\n🌐 **Dịch nghĩa:** Tôi rất muốn chơi bóng đá nhưng vì thiếu mất một người nên không thể chơi được.",
+    "text": "サッカーをしたいのに、一人（　）、できません。",
+    "options": [
+      "くらべなくて",
+      "すぎなくて",
+      "つづかなくて",
+      "たりなくて"
+    ],
+    "correctOption": 4
+  },
+  "20": {
+    "snippet": "ちゅうい (注意する) - Nhắc nhở, cảnh cáo",
+    "explanation": "🎯 **Đáp án đúng: [1] ちゅうい**\n\n💬 **Giải thích chi tiết:**\n* Cụm từ **注意する (ちゅういする)** có nghĩa là \"chú ý, cẩn thận\", ngoài ra khi đi với tân ngữ chỉ người mang nghĩa \"nhắc nhở, chấn chỉnh hành vi sai trái\". `子どもたちを注意しました`: Đã nhắc nhở những đứa trẻ đang làm ồn trong thư viện.\n* Phân tích các phương án khác:\n  1. ちゅうい (注意): Nhắc nhở, lưu ý.\n  2. こうじ (工事): Thi công công trình.\n  3. じゅんび (準備): Chuẩn bị.\n  4. そうだん (相談): Bàn bạc, thảo luận.\n\n🌐 **Dịch nghĩa:** Tôi đã nhắc nhở những đứa trẻ đang làm ồn trong thư viện.",
+    "text": "としょかんでさわいでいる子どもたちを（　）しました。",
+    "options": [
+      "ちゅうい",
+      "こうじ",
+      "じゅんび",
+      "そうだん"
+    ],
+    "correctOption": 1
+  },
+  "21": {
+    "snippet": "ぬすまれた ＝ とられた (Bị trộm lấy mất)",
+    "explanation": "🎯 **Đáp án đúng: [4] いつとられたんですか。**\n\n💬 **Giải thích chi tiết:**\n* Động từ **盗む (ぬすむ)**: ăn trộm, ăn cắp. Thể bị động là **盗まれる (ぬすまれる)**: bị trộm mất.\n* Đồng nghĩa với cụm **取られる (とられる)**: bị lấy đi, bị chiếm đoạt mất.\n* Phân tích các phương án khác:\n  1. 渡された (わたされた): Được/bị trao cho.\n  2. 押された (おされた): Bị ấn, nhấn, đẩy.\n  3. 呼ばれた (よばれた): Được/bị gọi tên.\n  4. 取られた (とられた): Bị lấy mất, cướp mất.\n\n🌐 **Dịch nghĩa:** Bạn bị trộm lấy mất từ khi nào vậy?",
+    "text": "いつぬすまれたんですか。",
+    "options": [
+      "いつわたされたんですか。",
+      "いつおされたんですか。",
+      "いつよばれたんですか。",
+      "いつとられたんですか。"
+    ],
+    "correctOption": 4
+  },
+  "22": {
+    "snippet": "じょせい ＝ おんなのひと (Phụ nữ)",
+    "explanation": "🎯 **Đáp án đúng: [2] おんなのひとは一人もいませんでした。**\n\n💬 **Giải thích chi tiết:**\n* Từ **女性 (じょせい)**: phụ nữ, phái nữ.\n* Đồng nghĩa hoàn toàn với cách nói thuần Nhật **女の人 (おんなのひと)**: người phụ nữ.\n* Phân tích các phương án khác:\n  1. 男の人 (おとこのひと): Người đàn ông (nam giới - 男性).\n  2. 女の人 (おんなのひと): Người phụ nữ (nữ giới - 女性).\n  3. 大人 (おとな): Người lớn.\n  4. 子ども (こども): Trẻ con.\n\n🌐 **Dịch nghĩa:** Ở đó đã không có bất kỳ một người phụ nữ nào cả.",
+    "text": "じょせいは一人もいませんでした。",
+    "options": [
+      "おとこのひとは一人もいませんでした。",
+      "おんなのひとは一人もいませんでした。",
+      "おとなは一人もいませんでした。",
+      "子どもは一人もいませんでした。"
+    ],
+    "correctOption": 2
+  },
+  "23": {
+    "snippet": "おしゃべり ＝ 話をする (Nói chuyện, tán gẫu)",
+    "explanation": "🎯 **Đáp án đúng: [1] 話をするのはやめてください。**\n\n💬 **Giải thích chi tiết:**\n* Danh từ **おしゃべり**: việc nói chuyện, trò chuyện, tán gẫu.\n* Đồng nghĩa với cụm **話をする (はなしをする)**: nói chuyện, trò chuyện.\n* Phân tích các phương án khác:\n  1. 話をする (はなしをする): Nói chuyện.\n  2. 写真を撮る (しゃしんをとる): Chụp ảnh.\n  3. 物を食べる (ものをたべる): Ăn uống.\n  4. たばこを吸う (たばこをすう): Hút thuốc lá.\n\n🌐 **Dịch nghĩa:** Xin hãy ngừng nói chuyện / tán gẫu lại.",
+    "text": "おしゃべりはやめてください。",
+    "options": [
+      "話をするのはやめてください。",
+      "しゃしんをとるのはやめてください。",
+      "ものを食べるのはやめてください。",
+      "たばこをすうのはやめてください。"
+    ],
+    "correctOption": 1
+  },
+  "24": {
+    "snippet": "せいさんしている ＝ つくっている (Sản xuất = làm ra, chế tạo)",
+    "explanation": "🎯 **Đáp án đúng: [3] ここではいろいろなものをつくっています。**\n\n💬 **Giải thích chi tiết:**\n* Động từ **生産する (せいさんする)**: sản xuất, chế tạo hàng hóa.\n* Đồng nghĩa với động từ **作る (つくる)**: làm ra, chế tạo ra sản phẩm.\n* Phân tích các phương án khác:\n  1. 貸している (かしている): Đang cho mượn, cho thuê.\n  2. 売っている (うっている): Đang bán.\n  3. 作っている (つくっている): Đang làm ra, chế tạo.\n  4. 使っている (つかっている): Đang dùng, sử dụng.\n\n🌐 **Dịch nghĩa:** Ở đây người ta sản xuất / làm ra rất nhiều đồ dùng khác nhau.",
+    "text": "ここではいろいろなものをせいさんしています。",
+    "options": [
+      "ここではいろいろなものをかしています。",
+      "ここではいろいろなものをうっています。",
+      "ここではいろいろなものをつくっています。",
+      "ここではいろいろなものをつかっています。"
+    ],
+    "correctOption": 3
+  },
+  "25": {
+    "snippet": "人口 (じんこう) - Dân số (thành phố, khu vực)",
+    "explanation": "🎯 **Đáp án đúng: [3] このまちは、マンションがたくさんあって、じんこうが多いです。**\n\n💬 **Giải thích chi tiết:**\n* Từ **人口 (じんこう)** mang nghĩa \"dân số\", dùng để biểu thị số lượng người dân sinh sống tại một khu vực địa lý, thành phố, đất nước (`町の人口`, `国の人口`).\n* Câu đúng là câu 3: `このまちは、マンションがたくさんあって、じんこうが多いです` (Khu phố này có nhiều chung cư nên dân số rất đông đúc).\n* Phân tích các câu sai:\n  1. Vườn thú vào chủ nhật đông người thì dùng `人がとても多い` hoặc `人出 (ひとで)`.\n  2. Công ty lớn có nhiều nhân viên thì dùng `社員 (しゃいん) が多い` hoặc `人が多い`.\n  4. Gia đình đông người thì dùng `家族が多い` (không dùng dân số cho một hộ gia đình).\n\n🌐 **Dịch nghĩa:** Khu phố này có rất nhiều chung cư nên dân số rất đông.",
+    "text": "じんこう (人口 - Dân số)",
+    "options": [
+      "日よう日のどうぶつえんはじんこうがとても多いです。",
+      "わたしの会社大きくて、じんこうがとても多いです。",
+      "このまちは、マンションがたくさんあって、じんこうが多いです。",
+      "わたしのかぞくはじんこうが多くて、いつもにぎやかです。"
+    ],
+    "correctOption": 3
+  },
+  "26": {
+    "snippet": "道が込む (みちがこむ) - Đường sá đông đúc, tắc đường",
+    "explanation": "🎯 **Đáp án đúng: [1] みちがこんでいたので、時間がかかります。**\n\n💬 **Giải thích chi tiết:**\n* Động từ **込む (こむ)** dùng để chỉ trạng thái đông đúc, tắc nghẽn của đường sá (`道が混む`), tàu xe (`電車が混む`), hay quán xá (`店が混む`).\n* Phân tích các câu sai:\n  2. Túi xách đầy ắp hành lý thì dùng `かばんがいっぱいです` (không dùng 込む).\n  3. Nghe nhiều ý kiến quá đầu bị rối thì dùng `混乱している (こんらん)` hoặc `頭がいっぱい` (không dùng 込む).\n  4. Ăn nhiều no bụng thì dùng `おなかがいっぱいです` (không dùng 込む).\n\n🌐 **Dịch nghĩa:** Vì đường sá đông đúc (tắc đường) nên mất nhiều thời gian.",
+    "text": "こむ (込む - Đông đúc, kẹt, nghẽn đường)",
+    "options": [
+      "みちがこんでいたので、時間がかかります。",
+      "りょこうのにもつが多くて、かばんがこんでいます。",
+      "いろいろないけんを聞いたので、あたまがこんでいます。",
+      "おかしを食べすぎて、おなかがこんでいます。"
+    ],
+    "correctOption": 1
+  },
+  "27": {
+    "snippet": "逃げる (にげる) - Bỏ trốn, tẩu thoát",
+    "explanation": "🎯 **Đáp án đúng: [2] けいさつが来ましたが、どろぼうはにげてしまいました。**\n\n💬 **Giải thích chi tiết:**\n* Động từ **逃げる (にげる)** có nghĩa là \"chạy trốn, tẩu thoát\" khỏi sự truy bắt hoặc hiểm nguy (dùng cho con người hoặc động vật có ý thức trốn chạy).\n* Phân tích các câu sai:\n  1. Gió thổi bay mũ thì dùng `ぼうしが飛んでいってしまいました (とんでいって)`.\n  3. Cốc đổ nước tràn ra ngoài thì dùng `水がこぼれてしまいました`.\n  4. Đến bến thì xe bus vừa chạy mất thì dùng `バスは行ってしまいました (いって)`.\n\n🌐 **Dịch nghĩa:** Cảnh sát đã tới nhưng tên trộm đã nhanh chân tẩu thoát mất.",
+    "text": "にげる (逃げる - Chạy trốn, tẩu thoát)",
+    "options": [
+      "かぜがふいて、ぼうしがにげてしまいました。",
+      "けいさつが来ましたが、どろぼうはにげてしまいました。",
+      "コップがたおれて、なかの水がにげてしまいました。",
+      "バスていについたとき、バスはにげてしまいました。"
+    ],
+    "correctOption": 2
+  },
+  "28": {
+    "snippet": "不便 (ふべん) - Bất tiện (về địa lý, đi lại, tiện nghi)",
+    "explanation": "🎯 **Đáp án đúng: [4] ぎんこうはいえからとおいので、いくのはふべんです。**\n\n💬 **Giải thích chi tiết:**\n* Tính từ đuôi na **不便 (ふべん)** nghĩa là \"bất tiện\" (về mặt giao thông, đi lại, địa lý, tiện nghi cuộc sống). Đi đến ngân hàng ở xa nhà là một sự bất tiện về đi lại: `銀行は家から遠いので、行くのは不便です`.\n* Phân tích các câu sai:\n  1. Luật thể thao phức tạp, rắc rối thì dùng `複雑で (ふくざつで)` (không dùng 不便).\n  2. Nhiều bài tập thì dùng `大変です (たいへん)` (không dùng 不便).\n  3. Lời giảng có nhiều từ ngữ chuyên môn khó hiểu thì dùng `難しくて (むずかしくて)` (không dùng 不便).\n\n🌐 **Dịch nghĩa:** Ngân hàng ở xa nhà nên việc đi lại rất bất tiện.",
+    "text": "ふべん (不便 - Bất tiện)",
+    "options": [
+      "このスポーツはルールがふべんで、おぼえられません。",
+      "しゅくだいがたくさんありましたから、ふべんです。",
+      "先生の話せんもんのことばが多くて、ふべんで、わかりにくいです。",
+      "ぎんこうはいえからとおいので、いくのはふべんです。"
+    ],
+    "correctOption": 4
+  },
+      "29": {
+      "snippet": "〜を…と言う (Gọi cái gì là...)",
+      "explanation": "🎯 **Đáp án đúng: [4] と**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `[Danh từ 1] を [Danh từ 2] と言います` mang nghĩa \"Gọi [Danh từ 1] là [Danh từ 2]\" hoặc \"Người ta gọi [Danh từ 1] là [Danh từ 2]\". Trợ từ **と** ở đây có vai trò trích dẫn nội dung tên gọi / định nghĩa.\n* Trong câu này: `うでにつける時計を「うでどけい」といいます` ➔ Đồng hồ đeo ở cổ tay thì được gọi là \"đồng hồ đeo tay\" (腕時計).\n* **Phân tích các phương án khác:**\n  * 1. `が`: Chỉ chủ ngữ, không đứng trước động từ trích dẫn `いいます` theo cấu trúc định nghĩa tên gọi.\n  * 2. `に`: Chỉ mục đích, thời gian hoặc hướng tác động, không dùng để trích dẫn tên gọi sau danh từ.\n  * 3. `で`: Chỉ phương tiện, nơi chốn xảy ra hành động, không dùng trong mẫu câu định nghĩa tên gọi.\n\n🌐 **Dịch nghĩa:** Đồng hồ đeo ở cổ tay thì người ta gọi là \"đồng hồ đeo tay\".",
+      "text": "うでにつける時計を「うでどけい」(　　)いいます。",
+      "options": [
+            "が",
+            "に",
+            "で",
+            "と"
+      ],
+      "correctOption": 4
+},
+    "30": {
+      "snippet": "〜に便利だ (Tiện lợi cho việc gì/mục đích gì)",
+      "explanation": "🎯 **Đáp án đúng: [3] に**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `[Danh từ/V-るの] + に + 便利だ / いい / 役に立つ` mang ý nghĩa \"tiện lợi / tốt / có ích cho một mục đích hoặc trường hợp nào đó\".\n* Trợ từ **に** dùng để chỉ phạm vi đánh giá, mục đích sử dụng.\n* `旅行に便利です` nghĩa là \"rất tiện cho việc đi du lịch\".\n* **Phân tích các phương án khác:**\n  * 1. `と`: Đi cùng với ai/cái gì hoặc liệt kê, không phù hợp.\n  * 2. `を`: Bổ ngữ trực tiếp của ngoại động từ, trong khi `便利` là tính từ đuôi na.\n  * 4. `の`: Đứng giữa 2 danh từ (`旅行の便利` không đi được trực tiếp trước vị ngữ `です`).\n\n🌐 **Dịch nghĩa:** Chiếc cặp này nhẹ nên rất tiện lợi cho những chuyến du lịch.",
+      "text": "このかばんは軽いから、旅行(　　)便利です。",
+      "options": [
+            "と",
+            "を",
+            "に",
+            "の"
+      ],
+      "correctOption": 3
+},
+    "31": {
+      "snippet": "Số lượng + しか + V-nai (Chỉ có...)",
+      "explanation": "🎯 **Đáp án đúng: [3] しか**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `[Số từ] + しか + Động từ thể phủ định (〜ない/〜ません)` mang ý nghĩa \"chỉ có... (ít ỏi, không đủ so với mong đợi, mang sắc thái phủ định)\".\n* Vế sau câu là thể phủ định `持っていません` (không có), đối lập với bố có hơn 30 chiếc cà vạt (`30本以上`), tôi chỉ có vỏn vẹn 2 chiếc nên phải dùng **しか**.\n* **Phân tích các phương án khác:**\n  * 1. `が`: Trợ từ chỉ chủ ngữ, không thể hiện hàm ý \"chỉ vỏn vẹn\".\n  * 2. `ずつ`: Từng... một (phân chia đều, ví dụ mỗi người 2 cái: `2本ずつ`), không hợp ngữ cảnh so sánh tương phản.\n  * 4. `ぐらい`: Khoảng chừng, thường đi với câu khẳng định biểu thị ước lượng, không nhấn mạnh tính ít ỏi đi với phủ định như `しか`.\n\n🌐 **Dịch nghĩa:** Bố tôi có hơn 30 chiếc cà vạt nhưng tôi thì chỉ có vỏn vẹn 2 chiếc.",
+      "text": "父はネクタイを 30 本以上持っていますが、私は 2 本(　　)持っていません。",
+      "options": [
+            "が",
+            "ずつ",
+            "しか",
+            "ぐらい"
+      ],
+      "correctOption": 3
+},
+    "32": {
+      "snippet": "〜によると 〜そうだ (Theo như... nghe nói là...)",
+      "explanation": "🎯 **Đáp án đúng: [4] によると**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `[Nguồn thông tin (N)] + によると 〜 そうだ / ということだ` mang ý nghĩa \"Theo như nguồn thông tin... thì nghe nói là...\".\n* Đuôi câu có dạng truyền đạt thông tin `〜だそうです`, đi cùng danh từ nguồn tin `きのう読んだ本` (cuốn sách đọc hôm qua), cấu trúc cố định chuẩn xác bắt buộc là **によると**.\n* **Phân tích các phương án khác:**\n  * 1. `について`: Về (vấn đề/chủ đề nào đó, ví dụ: `日本の文化について調べる`), không dùng làm nguồn dẫn truyền đạt thông tin với `〜そうだ`.\n  * 2. `からは`: Từ..., không dùng với mẫu câu truyền đạt nguồn tin.\n  * 3. `より`: So với..., dùng trong câu so sánh hơn kém, không phù hợp.\n\n🌐 **Dịch nghĩa:** Theo cuốn sách tôi đã đọc ngày hôm qua thì nghe nói màu đỏ là màu sắc đem lại năng lượng/sự hoạt bát.",
+      "text": "きのう読んだ本(　　)、赤は元気が出る色だそうです。",
+      "options": [
+            "について",
+            "からは",
+            "より",
+            "によると"
+      ],
+      "correctOption": 4
+},
+    "33": {
+      "snippet": "だいたい (Đại khái / Hầu như / Khoảng chừng)",
+      "explanation": "🎯 **Đáp án đúng: [1] だいたい**\n\n💬 **Giải thích chi tiết:**\n* **Ý nghĩa phó từ:** **だいたい (大体)** có nghĩa là \"khoảng chừng, đại khái, thường là\". Đi với mốc thời gian ước chừng `10時ごろまで` (đến tầm khoảng 10 giờ) tạo nên thói quen: \"sáng chủ nhật hàng tuần thường ngủ đến tầm 10 giờ\".\n* **Phân tích các phó từ khác:**\n  * 2. `だんだん`: Dần dần, từ từ (biểu thị sự biến đổi trạng thái theo thời gian, ví dụ: `だんだん暖かくなる`).\n  * 3. `なかなか`: Mãi mà (đi với phủ định: `なかなか〜ない`) hoặc khá là (đi với tính từ: `なかなか上手だ`).\n  * 4. `ひじょうに`: Rất, cực kỳ (chỉ mức độ cao, đi cùng tính từ/trạng từ: `非常に高い`).\n\n🌐 **Dịch nghĩa:** Vào các buổi sáng chủ nhật hàng tuần, tôi thường ngủ đại khái đến khoảng 10 giờ.",
+      "text": "毎週日曜日の朝は、(　　)10 時ごろまで寝ています。",
+      "options": [
+            "だいたい",
+            "だんだん",
+            "なかなか",
+            "ひじょうに"
+      ],
+      "correctOption": 1
+},
+    "34": {
+      "snippet": "どうして〜んですか (Tại sao... thế?)",
+      "explanation": "🎯 **Đáp án đúng: [2] どうして**\n\n💬 **Giải thích chi tiết:**\n* **Từ để hỏi:** **どうして** có nghĩa là \"tại sao, vì lý do gì\".\n* Người đáp lại bằng câu giải thích nguyên nhân/lý do: `ようじがあったんです` (Vì tôi có việc bận). Do đó câu hỏi phía trước phải là hỏi lý do \"Tại sao hôm qua bạn lại không đến bữa tiệc?\".\n* **Phân tích các phương án khác:**\n  * 1. `どの`: Cái nào (từ hạn định đi trực tiếp trước danh từ: `どの本`).\n  * 3. `どのぐらい`: Bao lâu, khoảng bao nhiêu (hỏi về lượng thời gian, khoảng cách, số tiền).\n  * 4. `どうやって`: Bằng cách nào, làm thế nào (hỏi phương thức, cách thức di chuyển/thực hiện).\n\n🌐 **Dịch nghĩa:** Aoki: \"Anh Ishikawa ơi, hôm qua tại sao anh không đến bữa tiệc thế?\" - Ishikawa: \"Tại vì tôi có chút việc bận ạ.\"",
+      "text": "青木「石川さん、きのう(　　)パーティーこなかったんですか。」\\n石川「ようじがあったんです。」",
+      "options": [
+            "どの",
+            "どうして",
+            "どのぐらい",
+            "どうやって"
+      ],
+      "correctOption": 2
+},
+    "35": {
+      "snippet": "〜の途中で (Giữa chừng lúc đang...)",
+      "explanation": "🎯 **Đáp án đúng: [3] のとちゅうで**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `[Danh từ] + の途中で (のとちゅうで)` hoặc `[V-る] + 途中で` mang nghĩa \"ở giữa chừng lúc đang làm gì đó thì một hành động khác xen ngang vào\".\n* Trong câu: Con trai tôi luôn luôn giữa chừng lúc đang dọn dẹp (`そうじのとちゅうで`) lại bắt đầu làm việc khác, nên việc dọn dẹp mãi không xong.\n* **Phân tích các phương án khác:**\n  * 1. `あいだ`: Cần trợ từ `の` sau danh từ (`そうじのあいだ`), và `あいだ` biểu thị suốt cả khoảng thời gian diễn ra song song chứ không mang nghĩa ngắt quãng giữa chừng làm dở dang.\n  * 2. `ときに`: Cần `の` sau danh từ (`そうじのときに`), diễn tả thời điểm chung chung không làm nổi bật tính ngắt quãng giữa chừng.\n  * 4. `のあと`: Sau khi dọn dẹp xong mà làm việc khác thì việc dọn dẹp đã hoàn thành rồi, mâu thuẫn với câu kết `そうじがぜんぜん終わらない` (dọn dẹp mãi không xong).\n\n🌐 **Dịch nghĩa:** Con trai nhà tôi lúc nào cũng đang giữa chừng lúc dọn dẹp lại bày việc khác ra làm, nên việc dọn dẹp mãi mà chẳng xong.",
+      "text": "うちのむすこはいつもそうじ(　　)ほかのことを始めてしまうので、そうじがぜんぜん終わらない。",
+      "options": [
+            "あいだ",
+            "ときに",
+            "のとちゅうで",
+            "のあと"
+      ],
+      "correctOption": 3
+},
+    "36": {
+      "snippet": "V-たことがある (Đã từng làm gì...)",
+      "explanation": "🎯 **Đáp án đúng: [2] 行った**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `Động từ thể Quá khứ ngắn (V-た) + ことがある` biểu thị kinh nghiệm trong quá khứ: \"Đã từng làm gì...\".\n* Động từ `行く` chia sang thể `た` là **行った**.\n* Câu hỏi kinh nghiệm: `京都に行ったことがありますか` ➔ \"Bạn đã từng đi Kyoto bao giờ chưa?\".\n* **Phân tích các phương án khác:**\n  * 1. `行き`: Thể liên dụng (Masu bỏ masu), không kết hợp với `ことがあります`.\n  * 3. `行こう`: Thể ý chí (V-ou), không đi với `ことがあります`.\n  * 4. `行って`: Thể Te (V-te), không tạo thành mẫu câu kinh nghiệm quá khứ.\n\n🌐 **Dịch nghĩa:** Yamashita: \"Bạn Chin đã từng đi Kyoto bao giờ chưa?\" - Chin: \"Vâng, tôi đã từng đi rồi ạ.\"",
+      "text": "山下「チンさんは京都に(　　)ことがありますか。」\\nチン「はい、あります。」",
+      "options": [
+            "行き",
+            "行った",
+            "行こう",
+            "行って"
+      ],
+      "correctOption": 2
+},
+    "37": {
+      "snippet": "〜Vたのは〜 (Việc mà... là vào lúc...)",
+      "explanation": "🎯 **Đáp án đúng: [4] 会ったのは**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** Dạng nhấn mạnh danh từ hóa mệnh đề: `[Mệnh đề V ngắn] + のは [Thời gian/Địa điểm/Người...] です` mang ý nghĩa \"Lần mà / Việc mà... chính là vào...\".\n* `私が山田さんに初めて会ったのは 3 年前です` ➔ \"Lần đầu tiên tôi gặp anh Yamada là vào 3 năm trước\".\n* **Phân tích các phương án khác:**\n  * 1. `会って`: Thể Te nối câu, không thể kết nối trực tiếp với danh từ chỉ thời gian đứng trước `です` theo cách này.\n  * 2. `会ってから`: Kể từ sau khi gặp, đuôi câu phải là một khoảng thời gian trôi qua đi với hành động hoặc `3年になります / 3年が経ちました`, không nói `会ってから3年前です`.\n  * 3. `会ったまま`: Cứ giữ nguyên trạng thái sau khi làm gì, sai hoàn toàn về mặt ngữ nghĩa và ngữ pháp.\n\n🌐 **Dịch nghĩa:** Lần đầu tiên tôi gặp anh Yamada là vào 3 năm trước.",
+      "text": "私が山田さんに初めて(　　)3年前です。",
+      "options": [
+            "会って",
+            "会ってから",
+            "会ったまま",
+            "会ったのは"
+      ],
+      "correctOption": 4
+},
+    "38": {
+      "snippet": "〜ないといけない (Phải làm gì...)",
+      "explanation": "🎯 **Đáp án đúng: [2] 出さないといけない**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `V-ない + といけない / とだめだ` mang ý nghĩa \"bắt buộc phải làm gì...\".\n* Bổ nghĩa cho danh từ `しゅくだい` (bài tập): `あした中に出さないといけないしゅくだい` ➔ \"Bài tập mà bắt buộc phải nộp trong ngày mai\". Vì bài tập phải nộp chưa làm xong nên hôm nay không thể đi karaoke cùng bạn được.\n* **Phân tích các phương án khác:**\n  * 1. `出してはいない`: Không nộp, không tạo nghĩa bổ ngữ thích hợp cho bài tập cần hoàn thành.\n  * 3. `出さなくてもいい`: Không phải nộp cũng được (nếu không cần nộp thì đã có thể đi hát rồi).\n  * 4. `出さないほうがいい`: Không nên nộp (lời khuyên không nên làm gì, hoàn toàn vô lý với bài tập trường học).\n\n🌐 **Dịch nghĩa:** (Ở trường đại học) A: \"Hôm nay đi hát karaoke cùng tớ không?\" - B: \"Xin lỗi nhé. Bài tập phải nộp trong ngày mai tớ vẫn chưa làm xong nên hôm nay tớ không đi được rồi.\"",
+      "text": "(大学)\\nA「今日いっしょにカラオケに行かない？」\\nB「ごめん。あした中に(　　)しゅくだいがまだ終わっていないから、今日は行けないんだ。」",
+      "options": [
+            "出してはいない",
+            "出さないといけない",
+            "出さなくてもいい",
+            "出さないほうがいい"
+      ],
+      "correctOption": 2
+},
+    "39": {
+      "snippet": "Thể sai khiến (使役形): V-(さ)せる (Làm cho ai đó...)",
+      "explanation": "🎯 **Đáp án đúng: [3] よろこばせた**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** Thể sai khiến (使役形 - Shieki): Nhóm 1 đổi đuôi cột `u` sang cột `a` + `せる`. Động từ `喜ぶ (よろこぶ - vui mừng)` chia sang thể sai khiến là **喜ばせる (よろこばせる)**.\n* Mẫu câu: `[Người A] は [Người B] を + Động từ thể sai khiến` ➔ \"Người A làm cho người B cảm thấy thế nào / làm gì\".\n* Trợ từ đứng sau `かのじょ` là **を** (`かのじょを`), Tanaka tặng hoa và \"làm cho cô ấy vui mừng\" ➔ `よろこばせた` (quá khứ của よろこばせる).\n* **Phân tích các phương án khác:**\n  * 1. `よろこんだ`: Thể thường, chủ ngữ phải là người cảm thấy vui mừng (không đi với trợ từ `かのじょを`).\n  * 2. `よろこべた`: Thể khả năng (có thể vui mừng), sai ngữ nghĩa.\n  * 4. `よろこばれた`: Thể bị động (được người khác vui mừng), sai cấu trúc câu.\n\n🌐 **Dịch nghĩa:** Anh Tanaka đã tặng hoa và làm cho bạn gái của mình rất vui.",
+      "text": "田中さんは花をプレゼントして、かのじょを(　　)。",
+      "options": [
+            "よろこんだ",
+            "よろこべた",
+            "よろこばせた",
+            "よろこばれた"
+      ],
+      "correctOption": 3
+},
+    "40": {
+      "snippet": "V-たところです (Vừa mới làm xong...)",
+      "explanation": "🎯 **Đáp án đúng: [1] 来たところです**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `Động từ thể Quá khứ ngắn (V-た) + ところです` mang ý nghĩa \"vừa mới thực hiện xong hành động tức thì\". Đi cùng phó từ **今 (いま)** nhấn mạnh khoảnh khắc vừa tới.\n* Trong giao tiếp tiếng Nhật, khi đối phương xin lỗi vì đến muộn (`遅くなってすみません`), câu đáp lịch sự kinh điển để đối phương đỡ ngại là: `いいえ、私も今来たところです` (\"Không sao đâu, tôi cũng vừa mới tới nơi thôi mà\").\n* **Phân tích các phương án khác:**\n  * 2. `来るところです`: Chuẩn bị đến nơi (đang ở chỗ khác chuẩn bị đi/đến), không dùng khi người nói đã đứng đợi ở đó rồi.\n  * 3. `来ていました`: Đã đến từ trước (như vậy chứng tỏ đối phương đến muộn thật, làm tăng sự áy náy).\n  * 4. `来ています`: Đang có mặt ở đây, không thể hiện ý vừa mới tới.\n\n🌐 **Dịch nghĩa:** Nishikawa: \"Anh Hayashi ơi, xin lỗi vì tôi đến trễ nhé.\" - Nakata: \"Không sao đâu, tôi cũng vừa mới tới thôi mà.\"",
+      "text": "西川「林さん、遅れなってすみません。」\\n中田「いいえ、私も今(　　)。」",
+      "options": [
+            "来たところです",
+            "来るところです",
+            "来ていました",
+            "来ています"
+      ],
+      "correctOption": 1
+},
+    "41": {
+      "snippet": "N にする (Quyết định chọn món/lựa chọn N)",
+      "explanation": "🎯 **Đáp án đúng: [1] する**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `[Danh từ] + にする` là mẫu câu quen thuộc dùng khi gọi món ăn tại nhà hàng hoặc đưa ra quyết định chọn một trong nhiều phương án: \"Tôi quyết định chọn... / Cho tôi món...\".\n* `私はカレーにする` nghĩa là \"Tôi chọn món cơm cà ri\".\n* **Phân tích các phương án khác:**\n  * 2. `いい`: `カレーにいい` (tốt cho cà ri - sai ngữ nghĩa gọi món).\n  * 3. `ください`: Đi với trợ từ を: `カレーをください`, không nói `カレーにください`.\n  * 4. `食べよう`: Đi với trợ từ を: `カレーを食べよう`, không nói `カレーに食べよう`.\n\n🌐 **Dịch nghĩa:** (Ở nhà hàng) Nakayama: \"Kimura định ăn gì thế?\" - Kimura: \"Tớ chọn món cà ri nhé.\"",
+      "text": "(レストランで)\\n中山「木村さんは何を食べる？」\\n木村「私はカレーに(　　)。」",
+      "options": [
+            "する",
+            "いい",
+            "ください",
+            "食べよう"
+      ],
+      "correctOption": 1
+},
+    "42": {
+      "snippet": "3人でとまれる [3 へや] [1 を]★ [4 予約したいのです] [2 が]",
+      "explanation": "🎯 **Đáp án đúng: [1] を (Vị trí ngôi sao ★ là 1)**\n\n💬 **Giải thích chi tiết:**\n* **Sắp xếp câu:**\n  1. `3人でとまれる` (có thể ở được 3 người) là mệnh đề định ngữ bổ nghĩa cho danh từ `へや` (phòng) ➔ **[3] へや**\n  2. Bổ ngữ của động từ đặt phòng `予約したい` cần trợ từ `を` ➔ **[1] を**\n  3. Động từ bày tỏ nguyện vọng và lý do: `予約したいのです` ➔ **[4] 予約したいのです**\n  4. Trợ từ liên từ mở lời ngập ngừng `が` ở cuối câu ➔ **[2] が**\n* **Thứ tự đúng:** `3 へや` ➔ `1 を` ★ ➔ `4 予約したいのです` ➔ `2 が`\n* **Câu hoàn chỉnh:** `すみません、今日は 3 人でとまれるへやを予約したいのですが。`\n* Vị trí dấu sao ★ rơi vào số **[1] を**.\n\n🌐 **Dịch nghĩa:** (Qua điện thoại) A: \"Vâng, quán trọ Sakura xin nghe ạ.\" - B: \"Xin lỗi, hôm nay tôi muốn đặt phòng cho 3 người ở được có được không ạ?\" - A: \"Vâng, hiện vẫn còn phòng trống ạ.\"",
+      "text": "(電話で)\\nA「はい、さくら旅館です。」\\nB「すみません、今日は 3 人でとまれる ＿＿ ＿★＿ ＿＿ ＿＿。」\\nA「はい、空いています。」\\n\\n1: を　2: が　3: へや　4: 予約したいのです",
+      "options": [
+            "を",
+            "が",
+            "へや",
+            "予約したいのです"
+      ],
+      "correctOption": 1
+},
+    "43": {
+      "snippet": "ともだちに [1 借りた] [4 本を]★ [3 返そう] [2 と思っていた] のに",
+      "explanation": "🎯 **Đáp án đúng: [4] 本を (Vị trí ngôi sao ★ là 4)**\n\n💬 **Giải thích chi tiết:**\n* **Sắp xếp câu:**\n  1. `ともだちに借りた` (đã mượn của bạn bè) bổ nghĩa cho danh từ `本` ➔ **[1] 借りた** ➔ **[4] 本を**\n  2. Cấu trúc dự định: `V-ý chí + と思っていた` (đã định làm gì...): `返そうと思っていた` ➔ **[3] 返そう** ➔ **[2] と思っていた**\n  3. Đi tiếp với liên từ biểu thị sự tiếc nuối: `〜のに、家に忘れてきてしまった` (thế mà lại quên khuấy ở nhà mất).\n* **Thứ tự đúng:** `1 借りた` ➔ `4 本を` ★ ➔ `3 返そう` ➔ `2 と思っていた`\n* **Câu hoàn chỉnh:** `ともだちに借りた本を返そうと思っていたのに、家に忘れてきてしまった。`\n* Vị trí dấu sao ★ rơi vào số **[4] 本を**.\n\n🌐 **Dịch nghĩa:** Đã định bụng trả quyển sách mượn của bạn, thế mà tôi lại để quên ở nhà mất rồi.",
+      "text": "ともだちに ＿＿ ＿★＿ ＿＿ ＿＿ のに、家に忘れてきてしまった。\\n\\n1: 借りた　2: と思っていた　3: 返そう　4: 本を",
+      "options": [
+            "借りた",
+            "と思っていた",
+            "返そう",
+            "本を"
+      ],
+      "correctOption": 4
+},
+    "44": {
+      "snippet": "コンサートが始まる [1 までに] [4 会場に着く] [2 かどうか]★ [3 心配した] が",
+      "explanation": "🎯 **Đáp án đúng: [2] かどうか (Vị trí ngôi sao ★ là 2)**\n\n💬 **Giải thích chi tiết:**\n* **Sắp xếp câu:**\n  1. `コンサートが始まるまでに` (trước khi buổi hòa nhạc bắt đầu) ➔ **[1] までに**\n  2. Đến được hội trường: `会場に着く` ➔ **[4] 会場に着く**\n  3. Cấu trúc phân vân/lo lắng: `V thể từ điển + かどうか + 心配した` (lo lắng liệu có... hay không) ➔ **[2] かどうか** ➔ **[3] 心配した**\n  4. Đi với liên từ đối lập `が、間に合った` (nhưng may mắn là vẫn kịp).\n* **Thứ tự đúng:** `1 までに` ➔ `4 会場に着く` ➔ `2 かどうか` ★ ➔ `3 心配した`\n* **Câu hoàn chỉnh:** `電車が遅れて、コンサートが始まるまでに会場に着くかどうか心配したが、間に合った。`\n* Vị trí dấu sao ★ rơi vào số **[2] かどうか**.\n\n🌐 **Dịch nghĩa:** Tàu điện bị trễ nên tôi đã rất lo lắng liệu có đến hội trường kịp trước khi buổi hòa nhạc bắt đầu hay không, nhưng may mắn là vẫn kịp giờ.",
+      "text": "電車が遅れて、コンサートが始まる ＿＿ ＿＿ ＿★＿ ＿＿ が、間に合った。\\n\\n1: までに　2: かどうか　3: 心配した　4: 会場に着く",
+      "options": [
+            "までに",
+            "かどうか",
+            "心配した",
+            "会場に着く"
+      ],
+      "correctOption": 2
+},
+    "45": {
+      "snippet": "私が [4 見ている] [2 アニメに] [3 きょうみをもつ]★ [1 ように] なりました",
+      "explanation": "🎯 **Đáp án đúng: [3] きょうみをもつ (Vị trí ngôi sao ★ là 3)**\n\n💬 **Giải thích chi tiết:**\n* **Sắp xếp câu:**\n  1. `私が見ている` (tôi đang xem) bổ nghĩa cho danh từ bộ phim hoạt hình `アニメ` ➔ **[4] 見ている** ➔ **[2] アニメに**\n  2. Cụm từ cố định: `〜に興味を持つ (きょうみをもつ)` (hứng thú / quan tâm đến cái gì) ➔ **[3] きょうみをもつ**\n  3. Cấu trúc biến đổi thói quen/trạng thái: `V thể từ điển + ようになる` (trở nên / dần có thói quen làm gì) ➔ **[1] ように** + `なりました`\n* **Thứ tự đúng:** `4 見ている` ➔ `2 アニメに` ➔ `3 きょうみをもつ` ★ ➔ `1 ように`\n* **Câu hoàn chỉnh:** `最近、弟は、私が見ているアニメにきょうみをもつようになりました。`\n* Vị trí dấu sao ★ rơi vào số **[3] きょうみをもつ**.\n\n🌐 **Dịch nghĩa:** Gần đây, em trai tôi đã bắt đầu tỏ ra hứng thú với những bộ phim hoạt hình (anime) mà tôi đang xem.",
+      "text": "最近、弟は、私が ＿＿ ＿＿ ＿★＿ ＿＿ なりました。\\n\\n1: ように　2: アニメに　3: きょうみをもつ　4: 見ている",
+      "options": [
+            "ように",
+            "アニメに",
+            "きょうみをもつ",
+            "見ている"
+      ],
+      "correctOption": 3
+},
+    "46": {
+      "snippet": "〜という (Có tên gọi là...)",
+      "explanation": "🎯 **Đáp án đúng: [2] という**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `[Tên riêng/Danh từ 1] + という + [Danh từ 2]` mang ý nghĩa \"Danh từ 2 có tên gọi là Danh từ 1\", dùng khi giới thiệu một địa danh, sự vật mới cho người nghe/đọc.\n* Trong bài văn: Tác giả phát hiện ra một bảo tàng mỹ thuật và giới thiệu: `さくら美術館という小さな美術館で` (Đó là một bảo tàng mỹ thuật nhỏ có tên là Bảo tàng Sakura...).\n* **Phân tích các phương án khác:**\n  * 1. `が`: Chỉ chủ ngữ, không đứng giữa hai danh từ để bổ nghĩa chỉ định danh tính theo cách này.\n  * 3. `より`: So sánh hơn.\n  * 4. `なら`: Giả định điều kiện \"nếu là\".\n\n🌐 **Dịch nghĩa:** Đó là một bảo tàng mỹ thuật nhỏ có tên là Bảo tàng mỹ thuật Sakura, tòa nhà màu trắng rất đẹp.",
+      "text": "さくら美術館( 18 )小さな美術館で、白くてきれいな建物でした。",
+      "options": [
+            "が",
+            "という",
+            "より",
+            "なら"
+      ],
+      "correctOption": 2
+},
+    "47": {
+      "snippet": "〜ことにする (Quyết định làm gì)",
+      "explanation": "🎯 **Đáp án đúng: [4] 休むことにしました**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `Động từ thể từ điển (V-る) + ことにする` diễn tả một quyết định mang tính chủ quan của bản thân người nói/người viết. Ở quá khứ dùng `〜ことにしました`.\n* Ngữ cảnh: Tác giả nhìn thấy bên trong bảo tàng có một quán cà phê giải khát, vì vậy tác giả đã quyết định vào đó nghỉ ngơi một chút (`きっさてんで少し休むことにしました`).\n* **Phân tích các phương án khác:**\n  * 1. `休みそうです`: Trông có vẻ sắp nghỉ ngơi (sai ngữ cảnh phán đoán ngoại cảnh).\n  * 2. `休んだほうがよかったです`: Lẽ ra nên nghỉ ngơi thì tốt hơn (bày tỏ sự nuối tiếc vì trong quá khứ đã không làm).\n  * 3. `休んでおきました`: Làm gì đó sẵn trước để chuẩn bị cho mục đích tương lai, không tự nhiên trong ngữ cảnh này.\n\n🌐 **Dịch nghĩa:** Vì vậy, tôi đã quyết định ngồi nghỉ ngơi một chút ở quán cà phê.",
+      "text": "それで、きっさてんで少し( 19 )。大きな窓がある明るいきっさてんでした。",
+      "options": [
+            "休みそうです",
+            "休んだほうがよかったです",
+            "休んでおきました",
+            "休むことにしました"
+      ],
+      "correctOption": 4
+},
+    "48": {
+      "snippet": "そして (Và / Hơn nữa - liên từ bổ sung)",
+      "explanation": "🎯 **Đáp án đúng: [3] そして**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc liên từ:** **そして** dùng để liên kết và bổ sung thêm thông tin cùng chiều tiếp theo (\"Và lại / Hơn nữa / Tiếp theo đó\").\n* Câu trước: Trong khu vườn nhìn từ cửa sổ ra có muôn hoa đua nở.\n* Câu sau: Tiếp tục bổ sung thêm cảnh đẹp bên trong quán: \"Và lại, ngay bên trong quán cà phê cũng treo rất nhiều tranh hoa\" (`喫茶店の中にも花の絵がたくさんありました`).\n* **Phân tích các liên từ khác:**\n  * 1. `たとえば`: Ví dụ như (dùng để đưa ra ví dụ minh họa).\n  * 2. `だから`: Vì vậy (chỉ kết quả nguyên nhân - hệ quả).\n  * 4. `とくに`: Đặc biệt là (dùng để nhấn mạnh một đối tượng nổi bật trong tập hợp).\n\n🌐 **Dịch nghĩa:** Ở khu vườn ngắm qua cửa sổ có đủ loài hoa đang nở rực rỡ. Và lại, ngay cả bên trong quán cà phê cũng có rất nhiều bức tranh vẽ hoa.",
+      "text": "窓から見える庭にはいろいろな花がさいていました。( 20 )喫茶店の中にも花の絵がたくさんありました。",
+      "options": [
+            "たとえば",
+            "だから",
+            "そして",
+            "とくに"
+      ],
+      "correctOption": 3
+},
+    "49": {
+      "snippet": "V-ることができる (Có thể làm gì... - Khả năng)",
+      "explanation": "🎯 **Đáp án đúng: [1] 入ることができます**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `V thể từ điển + ことができる` biểu thị năng lực hoặc điều kiện cho phép có thể thực hiện một hành động nào đó.\n* Ngữ cảnh: Dù không trả tiền mua vé vào cổng bảo tàng mỹ thuật (`料金を渡さなくても`), khách vẫn có thể tự do vào quán cà phê được (`きっさてんには入ることができます`).\n* **Phân tích các phương án khác:**\n  * 2. `入ってもらいます`: Nhờ vả ai đó vào quán giúp mình, sai chủ thể và vô nghĩa.\n  * 3. `入るつもりです`: Dự định sẽ vào (không phù hợp với cấu trúc điều kiện cho phép `〜なくても`).\n  * 4. `入っていきます`: Đi vào trong đó (hướng di chuyển ra xa), không nêu bật được tính chất điều kiện khả năng.\n\n🌐 **Dịch nghĩa:** Cho dù không cần trả tiền vé vào bảo tàng mỹ thuật thì ta vẫn có thể vào quán cà phê này được. Vì thế dạo gần đây tôi rất hay lui tới.",
+      "text": "美術館に入る料金を渡さなくても、きっさてんには( 21 )。それで、最近よく行っています。",
+      "options": [
+            "入ることができます",
+            "入ってもらいます",
+            "入るつもりです",
+            "入っていきます"
+      ],
+      "correctOption": 1
+},
+    "50": {
+      "snippet": "Đọc hiểu ngắn: Đọc email công việc và xác định hành động cần làm",
+      "explanation": "🎯 **Đáp án đúng: [3] 会議の時間は 10 時と 14 時のどちらがいいか、中村さんに知らせます。**\n\n💬 **Giải thích chi tiết:**\n* **Tìm kiếm thông tin chính:** Trong email, anh Nakamura viết:\n  * `10 時からと 14 時からの 2 回です。どちらがいいでしょうか。` (Có 2 khung giờ trống là từ 10:00 và từ 14:00. Khung giờ nào thì tiện hơn?)\n  * `会議の時間が決まったら、知らせてください。すぐに予約します。` (Sau khi chốt thời gian họp thì hãy báo cho tôi biết nhé. Tôi sẽ đặt phòng họp ngay lập tức.)\n* Như vậy, việc Yang phải làm là chọn xem khung giờ 10:00 hay 14:00 tốt hơn và thông báo cho Nakamura.\n* **Phân tích các phương án sai:**\n  * 1. Nakamura đã kiểm tra sẵn thời gian dùng được rồi, Yang không cần tra cứu lại nữa.\n  * 2. Không phải có 2 cuộc họp, mà là có 2 khung giờ trống để chọn 1.\n  * 4. Nakamura sẽ là người đặt phòng (`すぐに予約します`), Yang không cần tự đặt phòng.\n\n🌐 **Dịch nghĩa:** Sau khi đọc email này, Yang phải làm việc gì? ➔ Báo cho anh Nakamura biết thời gian họp là 10 giờ hay 14 giờ thì thích hợp hơn.",
+      "text": "【メールの内容】\\nヤンさん\\n大会議室の予約のことですが、来週の木曜日で 2 時間使えるのは、10 時からと 14 時からの 2 回です。どちらがいいでしょうか。会議の時間が決まったら、知らせてください。すぐに予約します。\\n中村\\n\\n質問：このメールを読んで、ヤンさんは何をしなければなりませんか。",
+      "options": [
+            "来週の木曜日に大会議室が使える時間を調べます。",
+            "来週の木曜日に会議が 2 回あることを、みんなに知らせます。",
+            "会議の時間は 10 時と 14 時のどちらがいいか、中村さんに知らせます。",
+            "会議の時間を決めて、自分で会議室を予約します。"
+      ],
+      "correctOption": 3
+},
+    "51": {
+      "snippet": "Đọc hiểu ngắn: Xác định nhân vật phát ngôn",
+      "explanation": "🎯 **Đáp án đúng: [2] 店員**\n\n💬 **Giải thích chi tiết:**\n* **Chi tiết trong bài:** Ngay sau câu nói ①, tác giả viết:\n  * `昨日コンビニで、店員さんがお客さんに言った言葉を聞いて、私は②びっくりしました。`\n  * (Hôm qua ở cửa hàng tiện lợi, khi nghe câu nói mà nhân viên bán hàng nói với khách, tôi đã giật mình).\n* Do đó, người nói câu \"Hôm nay báo nghỉ phát hành nên không có đâu nhé\" chính là **nhân viên cửa hàng (店員)**.\n* **Phân tích các phương án khác:**\n  * 1. `「私」`: Tác giả là người nghe thấy câu nói đó chứ không phải người nói.\n  * 3. `先生`: Giáo viên dạy tiếng Nhật ở đoạn sau.\n  * 4. `友達`: Bạn học cùng lớp ở đoạn giải thích lý do giật mình.\n\n🌐 **Dịch nghĩa:** Người đã nói \"Hôm nay báo nghỉ phát hành nên không có đâu nhé\" là ai? ➔ Là nhân viên cửa hàng tiện lợi.",
+      "text": "【本文】\\n「①今日は、新聞は休みだから、ないよ。」\\n昨日コンビニで、店員さんがお客さんに言った言葉を聞いて、私は②びっくりしました。\\n先週の日本語の授業で、先生が「質問がありますか。」と聞いたとき、友達が「ないよ。」と答えました。すると、先生は「『ありません』と答えましょう。先生は友達ではないので、失礼な言い方ですよ。」と注意したからです。\\nでも、店員さんは次のお客さんには「新聞は休みなのて、ありません。」と答えていました。最初のお客さんは店員の友達だったのかもしれません。\\n\\n質問：「①今日は、新聞は休みだから、ないよ。」といったのは誰ですか。",
+      "options": [
+            "「私」",
+            "店員",
+            "先生",
+            "友達"
+      ],
+      "correctOption": 2
+},
+    "52": {
+      "snippet": "Đọc hiểu ngắn: Lý do tác giả ngạc nhiên",
+      "explanation": "🎯 **Đáp án đúng: [1] 店員が失礼な言い方をしたと思ったから**\n\n💬 **Giải thích chi tiết:**\n* **Tìm kiếm lý do trong bài:** Tác giả giải thích nguyên nhân ngạc nhiên ở đoạn giữa:\n  * Tuần trước trong giờ học, khi bạn trả lời giáo viên là `ないよ` thì cô giáo đã nhắc nhở: `先生は友達ではないので、失礼な言い方ですよ` (Cô giáo không phải là bạn bè nên nói như vậy là thất lễ đấy).\n  * Do đó, khi thấy nhân viên nói với khách bằng cách nói xuồng xã `ないよ`, tác giả nghĩ rằng nhân viên đang nói một cách thất lễ/bất lịch sự với khách hàng (`店員が失礼な言い方をしたと思ったから`) nên mới ngạc nhiên.\n* **Phân tích các phương án sai:**\n  * 2. Tác giả hiểu rất rõ nhân viên nói gì chứ không phải không hiểu.\n  * 3. Người bị giáo viên nhắc nhở là bạn cùng lớp của tác giả chứ không phải nhân viên cửa hàng.\n  * 4. Mãi đến cuối bài sau khi thấy nhân viên nói lịch sự với khách tiếp theo, tác giả mới suy đoán có lẽ người khách đầu tiên là bạn của nhân viên, đó không phải là lý do khiến tác giả giật mình lúc ban đầu.\n\n🌐 **Dịch nghĩa:** Bài văn có viết \"tôi đã rất ngạc nhiên\", tại sao lại như vậy? ➔ Vì tác giả cho rằng nhân viên bán hàng đã dùng cách nói bất lịch sự/thất lễ với khách.",
+      "text": "質問：②びっくりしましたとありますが、なぜですか。",
+      "options": [
+            "店員が失礼な言い方をしたと思ったから",
+            "店員が言ったことがわからなかった",
+            "店員が先生に注意されているのを見たから",
+            "店員が友達と話していると思ったから。"
+      ],
+      "correctOption": 1
+},
+    "53": {
+      "snippet": "Đọc hiểu trung văn: Tìm nguyên nhân không đi du lịch được",
+      "explanation": "🎯 **Đáp án đúng: [4] 日本の電車や飛行機は料金が高いから。**\n\n💬 **Giải thích chi tiết:**\n* **Chi tiết trong bài:** Ngay sau cụm từ ①, bài viết nêu rõ nguyên nhân:\n  * `日本の電車や飛行機は便利ですが、りょきんが高いのです。` (Tàu điện và máy bay ở Nhật Bản tuy tiện lợi nhưng giá vé lại đắt đỏ).\n  * Từ đó dẫn đến kết luận: `だから、普通の旅行には行けませんが...` (Vì thế tôi không thể đi các chuyến du lịch thông thường được).\n* Do đó lý do tác giả không đi du lịch được là vì cước phí tàu xe, máy bay quá đắt đỏ.\n* **Phân tích các phương án sai:**\n  * 1. Bài viết không hề đề cập đến việc học ở trường đại học bận rộn không có thời gian.\n  * 2. Bài viết khẳng định tàu điện và máy bay rất tiện lợi (`便利ですが`) chứ không phải không tiện lợi.\n  * 3. Bài viết không nói cách đi lại phức tạp khó khăn.\n\n🌐 **Dịch nghĩa:** Tại sao tác giả lại mãi mà không thể đi du lịch được? ➔ Vì tiền vé tàu điện và máy bay ở Nhật Bản đắt.",
+      "text": "【本文抜粋】\\n日本の大学入学して半年が過ぎました。日本に来たら、たくさん旅行をしたかったのですが、①なかなか行けません。日本の電車や飛行機は便利ですが、りょきんが高いのです。だから、普通の旅行には行けませんが、最近いいやり方を見つけました。私だけの小さな「バス旅行」です。\\n\\n質問：どうして①なかなか行けませんか。",
+      "options": [
+            "大学の勉強が忙しくて時間がないから。",
+            "日本の電車や飛行機があまり便利ではないから。",
+            "日本の電車や飛行機は乗り方が難しいから。",
+            "日本の電車や飛行機は料金が高いから。"
+      ],
+      "correctOption": 4
+},
+    "54": {
+      "snippet": "Đọc hiểu trung văn: Nội dung 'chuyến du lịch xe buýt' của tác giả",
+      "explanation": "🎯 **Đáp án đúng: [3] バスに乗っている時間や、最後のバス停の近くの散歩を楽しむ旅行。**\n\n💬 **Giải thích chi tiết:**\n* **Chi tiết trong bài:** Tác giả mô tả chi tiết:\n  * Trên xe buýt: `窓から外を見たり、乗っている人の会話を聞いたりしています` (ngắm cảnh bên ngoài cửa sổ, lắng nghe cuộc trò chuyện của những người xung quanh).\n  * Đến trạm cuối: `最後のバス停に着いたら、近くをゆっくり散歩します。そして、またバスに乗って戻ってきます。` (đến trạm xe buýt cuối cùng thì thong thả đi dạo xung quanh, rồi lại lên xe buýt quay về).\n* Như vậy, chuyến du lịch bằng xe buýt của tác giả chính là tận hưởng khoảng thời gian ngồi trên xe buýt và đi dạo ở khu vực gần trạm xe buýt cuối cùng.\n* **Phân tích các phương án sai:**\n  * 1. Tác giả chỉ lắng nghe các hành khách khác nói chuyện (`会話を聞いたり`) chứ không tham gia trò chuyện với họ.\n  * 2. Tác giả đi đến tận trạm cuối cùng (`最後のバス停まで`) chứ không phải tùy hứng thích xuống ở đâu thì xuống.\n  * 4. Tác giả không hề tìm kiếm địa điểm muốn đi từ trước, chuyến đi này hoàn toàn không có kế hoạch điểm đến cố định.\n\n🌐 **Dịch nghĩa:** Tác giả luôn thực hiện \"chuyến du lịch xe buýt\" như thế nào? ➔ Là chuyến du lịch tận hưởng khoảng thời gian ngồi trên xe buýt và đi dạo ở khu vực quanh trạm xe buýt cuối cùng.",
+      "text": "【本文抜粋】\\n私の「バス旅行」は、町を走る普通のバスに乗って、最後のバス停まで行ってみる旅行です。東京の町の中を走る普通のバスは、最後まで乗っても２１０円です、片道は長くても１時間ぐらいです。私はいつも、窓から外を見たり、乗っている人の会話を聞いたりしています。最後のバス停に着いたら、近くをゆっくり散歩します。そして、またバスに乗って戻ってきます。\\n\\n質問：「私」は、いつもどんな「バス旅行」をしていますか。",
+      "options": [
+            "バスに乗っている人たちと会話を楽しむ旅行。",
+            "バスに乗って、降りたいところで降りて、散歩を楽しむ旅行。",
+            "バスに乗っている時間や、最後のバス停の近くの散歩を楽しむ旅行。",
+            "行きたい場所を調べてバスで行って、バスを降りて散歩を楽しむ旅行。"
+      ],
+      "correctOption": 3
+},
+    "55": {
+      "snippet": "Đọc hiểu trung văn: Lý do tác giả bối rối, khó xử",
+      "explanation": "🎯 **Đáp án đúng: [2] 行く場所を決めない旅行をしているので、質問に答えられなかったから。**\n\n💬 **Giải thích chi tiết:**\n* **Chi tiết trong bài:** Khi tài xế xe buýt thấy tác giả ngủ quên và hỏi lo lắng: \"Bạn có sao không? Từ đây bạn định đi đâu thế?\", tác giả viết:\n  * `特に行く場所を考えていない私は、質問にうまく答えられませんでした。困ってしまって、自分でちょっと笑ってしまいました。`\n  * (Vì vốn dĩ tôi chẳng hề nghĩ trước sẽ đi đâu nên tôi không biết phải trả lời câu hỏi thế nào cho ổn. Tôi cảm thấy bối rối, khó xử rồi tự bật cười).\n* Do chuyến đi không hề ấn định điểm đến cụ thể, nên khi được hỏi đi đâu thì tác giả không biết trả lời thế nào, dẫn đến bối rối.\n* **Phân tích các phương án sai:**\n  * 1. Tác giả vốn dĩ từ đầu đã có chủ đích đi đến trạm cuối cùng, ngủ quên chỉ là sự cố nhỏ chứ việc tới trạm cuối không phải lý do bối rối.\n  * 3. Tác giả hiểu rất rõ câu hỏi của bác tài xế tiếng Nhật, chỉ là không có câu trả lời.\n  * 4. Tác giả không hề định đi đâu nên không có tên địa điểm nào để mà quên.\n\n🌐 **Dịch nghĩa:** Bài văn viết \"tôi đã cảm thấy bối rối\", tại sao tác giả lại bối rối? ➔ Vì tác giả đang đi một chuyến du lịch không định trước điểm đến, nên không biết trả lời thế nào cho câu hỏi của tài xế.",
+      "text": "【本文抜粋】\\n降りるとき、運転手が心配して「大丈夫ですか。これからどこへ行くんですか。」と聞いてくれました。特に行く場所を考えていない私は、質問にうまく答えられませんでした。②困ってしまって、自分でちょっと笑ってしまいました。\\n\\n質問：②困ってしまってとありますが、どうして「私」は困りますか。",
+      "options": [
+            "寝てしまって、最後のバス停まで来てしまったから。",
+            "行く場所を決めない旅行をしているので、質問に答えられなかったから。",
+            "運転手の質問の意味が分からなくて、答えられなかったから。",
+            "行きたい場所の名前が思い出せなくて、質問に答えられなかったから。"
+      ],
+      "correctOption": 2
+},
+    "56": {
+      "snippet": "Tìm kiếm thông tin: Tính toán chi phí tham gia lớp học làm bánh pizza",
+      "explanation": "🎯 **Đáp án đúng: [3] ジェイさん 1,500 円だけ、娘 1,000 円と 200 円**\n\n💬 **Giải thích chi tiết:**\n* **Bảng cước phí và điều kiện trong thông báo:**\n  * Người lớn (大人): `1,500 円`\n  * Học sinh tiểu học trở xuống (小学生以下): `1,000 円`\n  * Thuê tạp dề (エプロンを借りる): `200 円 / người`\n* **Áp dụng vào trường hợp của Jay:**\n  1. Jay là người lớn: Phí tham gia là `1,500 円`. Jay tự mang tạp dề của mình (`持っていきます`) nên không mất phí thuê ➔ **Jay trả 1,500 円**.\n  2. Con gái học tiểu học (小学生の娘): Phí tham gia là `1,000 円`. Con gái sẽ thuê tạp dề của quán (`借りるつもりです`) nên mất thêm 200 円 ➔ **Con gái trả 1,000 円 và 200 円**.\n* Do đó, phương án đúng tuyệt đối là **[3]**.\n\n🌐 **Dịch nghĩa:** Anh Jay muốn cùng con gái học tiểu học đi làm bánh pizza. Jay tự mang tạp dề đi, còn con gái thì dự định thuê tạp dề của quán. Chi phí họ phải trả cho lớp học làm pizza sẽ là bao nhiêu? ➔ Anh Jay trả 1,500 yên; con gái trả 1,000 yên và 200 yên.",
+      "text": "ジェイさんは、小学生の娘と二人でピザを作りに行きたいです。ジェイさんのエプロンは持っていきますが、娘のものは借りるつもりです。ジェイさんたちが、ピザ教室に払う料金はどうなりますか。",
+      "options": [
+            "ジェイさん 1,000 円だけ、娘 1,000 円と 200 円",
+            "ジェイさん 1,500 円だけ、娘 1,000 円だけ",
+            "ジェイさん 1,500 円だけ、娘 1,000 円と 200 円",
+            "ジェイさん 1,500 円と 200 円、娘 1,000 円と 200 円"
+      ],
+      "correctOption": 3
+},
+    "57": {
+      "snippet": "Tìm kiếm thông tin: Điều kiện nhận dịch vụ ưu đãi",
+      "explanation": "🎯 **Đáp án đúng: [1] 飲み物とサラダ**\n\n💬 **Giải thích chi tiết:**\n* **Quy định dịch vụ (サービス) trong bảng thông báo:**\n  * Khách ăn tại quán (店で食べるお客様):\n    * `飲み物とサラダ` (Đồ uống và salad) dành cho mọi khách ăn tại quán.\n    * `アイスクリーム（5人以上のお客様）` (Kem chỉ dành cho nhóm từ 5 người trở lên).\n  * Khách mang về (持って帰るお客様):\n    * `500円チケット` (Phiếu giảm giá 500 yên cho lần sau).\n* **Xét trường hợp của Nam:**\n  * Nhóm Nam có **3 người** (Nam và 2 người bạn đại học).\n  * Dự định ăn tại quán (`作ったピザを食べて帰ろう`).\n  * Vì số lượng là 3 người (< 5 người) nên không đủ điều kiện nhận kem (アイスクリーム).\n  * Do đó, nhóm Nam sẽ được phục vụ miễn phí: **Đồ uống và salad (飲み物とサラダ)**.\n* Vậy đáp án đúng là **[1]**.\n\n🌐 **Dịch nghĩa:** Nam cùng 2 người bạn đại học (tổng 3 người) đã đặt chỗ lớp học pizza. Sau lớp học, nhóm Nam dự định sẽ ăn bánh pizza vừa làm tại quán rồi mới về. Khi ăn pizza, họ sẽ được phục vụ miễn phí những gì? ➔ Đồ uống và salad.",
+      "text": "ナムさんは、大学の友達と 3 人で、ピザ教室の予約をしました。ナムさんたちはピザ教室のあと、作ったピザを食べて帰ろうと思っています。ピザを食べるときに、何をサービスしてもらえますか。",
+      "options": [
+            "飲み物とサラダ",
+            "飲み物とサラダとアイスクリーム",
+            "アイスクリーム",
+            "500 円チケット"
+      ],
+      "correctOption": 1
+},
+      "58": {
+      "snippet": "Thời gian gặp mặt: 今日の夕方 (Chiều tối hôm nay)",
+      "explanation": "🎯 **Đáp án đúng: [2] 今日のゆうがた**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Người nam và người nữ thảo luận sắp xếp thời gian gặp mặt nhau.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Ban đầu, hai người cân nhắc giữa buổi trưa và buổi chiều tối. Người nữ có thể đề xuất lúc nghỉ trưa (`ひる休み`), nhưng do lịch trình bận rộn hoặc không kịp chuẩn bị nên không tiện.\n  * Khi xem xét thời điểm thích hợp nhất trong ngày hôm nay (`今日`), hai người đã thống nhất chọn gặp nhau vào lúc chiều tối hôm nay (`今日の夕方 / 今日のゆうがた`).\n  * Mốc thời gian ngày mai (`あした`) chỉ được nhắc đến như một phương án dự phòng nhưng đã chốt lại làm ngay trong hôm nay.\n* **Kết luận:** Phương án chính xác là **[2] 今日のゆうがた**.\n\n🌐 **Dịch nghĩa câu hỏi:** Người đàn ông và người phụ nữ đang nói chuyện. Hai người sẽ gặp nhau khi nào? ➔ [2] Chiều tối hôm nay.",
+      "text": "男の人と女の人が話しています。二人はいつ会いますか。\n\n1: 今日のひる休み\n2: 今日のゆうがた\n3: あしたのひる休み\n4: あしたのゆうがた",
+      "options": [
+            "今日のひる休み",
+            "今日のゆうがた",
+            "あしたのひる休み",
+            "あしたのゆうがた"
+      ],
+      "correctOption": 2
+},
+    "59": {
+      "snippet": "Trang phục đi làm/đi dự: Mặc áo cardigan và không đeo cà vạt",
+      "explanation": "🎯 **Đáp án đúng: [4] カーディガンを着て、ネクタイをしない (Hình 4)**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Chàng trai hỏi về trang phục cần mặc cho ngày mai.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Người nam hỏi có cần mặc bộ âu phục / vest (`スーツ / 上着`) và đeo cà vạt (`ネクタイ`) trang trọng không.\n  * Đối phương giải thích tính chất sự kiện không cần quá trang trọng cứng nhắc như vậy: không cần áo vest mà chỉ cần khoác áo len nhẹ / cardigan (`カーディガン`), và cà vạt cũng không cần đeo (`ネクタイはしなくてもいい / ネクタイはいらない`).\n  * Do đó, chàng trai quyết định chọn mặc áo cardigan và không đeo cà vạt.\n* **Đối chiếu hình ảnh:** Hình 4 vẽ chàng trai mặc áo cardigan bên ngoài áo sơ mi mở cúc (không đeo cà vạt).\n\n🌐 **Dịch nghĩa câu hỏi:** Ngày mai chàng trai sẽ mặc trang phục như thế nào? ➔ [4] Mặc áo cardigan và không thắt cà vạt.",
+      "text": "男の人は明日、どんな服を着ていきますか。\n\n1: 上着（スーツ）を着て、ネクタイをしめる\n2: 上着（スーツ）を着て、ネクタイをしない\n3: カーディガンを着て、ネクタイをしめる\n4: カーディガンを着て、ネクタイをしない",
+      "options": [
+            "上着（スーツ）を着て、ネクタイをしめる",
+            "上着（スーツ）を着て、ネクタイをしない",
+            "カーディガンを着て、ネクタイをしめる",
+            "カーディガンを着て、ネクタイをしない"
+      ],
+      "correctOption": 4
+},
+    "60": {
+      "snippet": "Địa điểm tìm đồ để quên: エレベーターの中 (Trong thang máy)",
+      "explanation": "🎯 **Đáp án đúng: [3] エレベーターの中**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Người phụ nữ tìm kiếm đồ vật bị thất lạc/để quên ở trung tâm thể dục/tòa nhà.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Người phụ nữ nhớ lại các địa điểm mình đã đi qua như quầy lễ tân (`うけつけ`), phòng tập nhảy (`ダンスのきょうしつ`), hay khu vực hồ bơi (`プール`).\n  * Tuy nhiên, khi kiểm tra lại thì nhớ ra lúc đi vào thang máy (`エレベーター`) vẫn còn cầm trên tay, khả năng cao đã đánh rơi hoặc để quên ở ngay trong thang máy.\n  * Vì vậy người phụ nữ quyết định quay lại kiểm tra trong thang máy trước.\n* **Kết luận:** Đáp án đúng là **[3] エレベーターの中**.\n\n🌐 **Dịch nghĩa câu hỏi:** Người phụ nữ sẽ đi đến đâu để tìm đồ để quên? ➔ [3] Ở bên trong thang máy.",
+      "text": "女の人はどこへ忘れ物をさがしに行きますか。\n\n1: うけつけ\n2: プール\n3: エレベーターの中\n4: ダンスのきょうしつ",
+      "options": [
+            "うけつけ",
+            "プール",
+            "エレベーターの中",
+            "ダンスのきょうしつ"
+      ],
+      "correctOption": 3
+},
+    "61": {
+      "snippet": "Dụng cụ viết được chọn: あかのペン (Bút mực màu đỏ)",
+      "explanation": "🎯 **Đáp án đúng: [3] あかのペン**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Hai người đang chuẩn bị điền giấy tờ hoặc sửa lỗi bài viết.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Người nam hỏi nên dùng bút chì đen (`くろのえんぴつ`) hay bút bi đen (`くろのペン`).\n  * Người nữ dặn dò đối với phần sửa lỗi / ghi chú quan trọng này thì cần phải làm nổi bật để dễ nhận biết, nên yêu cầu hãy dùng bút màu đỏ (`あかのペンで書いてください / あかいペン`).\n  * Do đó người nam sẽ dùng bút mực đỏ để viết.\n* **Kết luận:** Đáp án đúng là **[3] あかのペン**.\n\n🌐 **Dịch nghĩa câu hỏi:** Người nam sau đây sẽ viết bằng cái gì? ➔ [3] Bút mực màu đỏ.",
+      "text": "男の人はこれから何で書きますか。\n\n1: くろのえんぴつ\n2: くろのペン\n3: あかのペン\n4: あおのペン",
+      "options": [
+            "くろのえんぴつ",
+            "くろのペン",
+            "あかのペン",
+            "あおのペン"
+      ],
+      "correctOption": 3
+},
+    "62": {
+      "snippet": "Đồ mua làm quà: Hộp bánh quy táo (イ) và áo thun hình táo (ウ)",
+      "explanation": "🎯 **Đáp án đúng: [4] イ と ウ**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Hai người đi du lịch mua quà lưu niệm đặc sản quả táo.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Có 3 món đồ: Túi táo tươi (`ア: りんご`), Hộp bánh quy táo (`イ: りんごクッキー`), và Áo phông in hình táo (`ウ: Tシャツ`).\n  * Người nữ đề xuất mua táo tươi (`ア`), nhưng người nam thấy mang táo tươi đi đường xa rất nặng và dễ bị dập nát, nên thống nhất không mua táo tươi.\n  * Thay vào đó, họ quyết định mua hộp bánh quy táo (`イ`) vừa nhẹ vừa lịch sự để tặng đồng nghiệp, đồng thời mua thêm chiếc áo phông lưu niệm dễ thương (`ウ`).\n* **Kết luận:** Mua hai món **イ** và **ウ**, phương án đúng là **[4]**.\n\n🌐 **Dịch nghĩa câu hỏi:** Hai người sẽ mua những món đồ nào? ➔ [4] Món イ (bánh quy táo) và món ウ (áo thun in hình táo).",
+      "text": "二人は何を買いますか。\n\n1: ア（りんご）\n2: イ（りんごクッキー）\n3: ア と ウ\n4: イ と ウ",
+      "options": [
+            "ア",
+            "イ",
+            "ア と ウ",
+            "イ と ウ"
+      ],
+      "correctOption": 4
+},
+    "63": {
+      "snippet": "Miếng bánh được chọn: Bánh cuộn nhỏ 1 miếng (Hình 1)",
+      "explanation": "🎯 **Đáp án đúng: [1] 1 番のケーキ (Bánh cuộn cắt miếng nhỏ - góc trên bên trái)**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Chọn bánh ngọt trong hộp bánh để ăn.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Có nhiều loại bánh: bánh kem to tròn, bánh cuộn dài cả thanh, bánh cupcake và lát bánh cuộn nhỏ.\n  * Người nữ nói không ăn được nhiều hoặc đang ăn kiêng nên không lấy bánh kem to, cũng không lấy thanh bánh lớn mà chỉ muốn ăn một phần nhỏ nhẹ nhàng.\n  * Người nữ quyết định chọn lát bánh cuộn nhỏ đã cắt sẵn (vị trí tương ứng với số 1 trong hình vẽ).\n* **Kết luận:** Phương án chính xác là **[1]**.\n\n🌐 **Dịch nghĩa câu hỏi:** Người phụ nữ sẽ ăn chiếc bánh nào? ➔ [1] Chiếc bánh số 1.",
+      "text": "女の人はどのケーキを食べますか。\n\n1: ロールケーキ（小・1切れ）\n2: ロールケーキ（大・1本）\n3: 丸い大きなケーキ（ホール）\n4: 小さなカップケーキ",
+      "options": [
+            "1 番のケーキ",
+            "2 番のケーキ",
+            "3 番のケーキ",
+            "4 番のケーキ"
+      ],
+      "correctOption": 1
+},
+    "64": {
+      "snippet": "Hành động đầu tiên: Đi ngân hàng rút tiền mặt (Hình 4)",
+      "explanation": "🎯 **Đáp án đúng: [4] 銀行へお金をおろしに行く (Hình 4)**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Người nam muốn ăn cơm/mua vé ở nhà ăn nhưng gặp vấn đề về tiền bạc.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Người nam định mua vé ở máy tự động (`券売機`), nhưng máy không nhận tiền chẵn lớn hoặc ví không còn đủ tiền mặt lẻ.\n  * Người nam hỏi có đổi được tiền ở quầy không hoặc có thanh toán qua điện thoại được không, nhưng nhân viên thông báo không hỗ trợ hoặc máy bị lỗi.\n  * Vì vậy, cách duy nhất trước mắt là người nam phải đi ngay ra ngân hàng đối diện (`みなみ銀行`) để rút tiền mặt trước (`まず銀行へ行って、お金をおろしてきます`).\n* **Kết luận:** Hành động đầu tiên cần làm là phương án **[4]** (Đi vào ngân hàng Minami).\n\n🌐 **Dịch nghĩa câu hỏi:** Người nam trước tiên sẽ làm việc gì? ➔ [4] Đi đến ngân hàng để rút tiền.",
+      "text": "男の人はこれからまず何をしますか。\n\n1: 券売機で食券を買う\n2: レジで1万円札を両替する\n3: スマホで支払う\n4: 銀行へお金をおろしに行く",
+      "options": [
+            "券売機で食券を買う",
+            "レジで1万円札を両替する",
+            "スマホで支払う",
+            "銀行へお金をおろしに行く"
+      ],
+      "correctOption": 4
+},
+    "65": {
+      "snippet": "Vị trí dán áp phích quảng cáo: Vị trí ア và ウ",
+      "explanation": "🎯 **Đáp án đúng: [1] ア と ウ**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Hai người thảo luận chọn địa điểm dán áp phích (ポスター) thông báo sự kiện quanh khu vực gần ga và sân vận động.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Có 4 vị trí tiềm năng: ア (ngay gần lối ra nhà ga bên trái), イ (gần cửa hàng tiện lợi), ウ (trục đường dẫn đến sân vận động), エ (gần bưu điện).\n  * Họ thấy vị trí trước cửa hàng tiện lợi (イ) hay trước bưu điện (エ) không được phép dán hoặc khuất tầm nhìn.\n  * Ngược lại, chỗ gần ga đông người qua lại (`ア`) và trên con đường chính đi thẳng đến sân vận động (`ウ`) là hai vị trí hiệu quả nhất để mọi người dễ nhìn thấy nhất.\n* **Kết luận:** Họ quyết định dán ở **ア** và **ウ**, phương án đúng là **[1]**.\n\n🌐 **Dịch nghĩa câu hỏi:** Hai người sẽ dán áp phích ở đâu? ➔ [1] Vị trí ア và vị trí ウ.",
+      "text": "二人はポスターをどこに貼りますか。\n\n1: ア と ウ\n2: ア と エ\n3: イ と ウ\n4: イ と エ",
+      "options": [
+            "ア と ウ",
+            "ア と エ",
+            "イ と ウ",
+            "イ と エ"
+      ],
+      "correctOption": 1
+},
+    "66": {
+      "snippet": "Thời gian hẹn được chốt: 12日の午後5時から (5 giờ chiều ngày 12)",
+      "explanation": "🎯 **Đáp án đúng: [4] 12日の午後5時から**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Người phụ nữ gọi điện đặt lịch hẹn dịch vụ (cắt tóc / phòng khám).\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Người phụ nữ ban đầu hỏi ngày mùng 5 (`5日`), nhưng vào ngày mùng 5 các khung giờ chiều đều đã kín chỗ hoặc không trùng giờ rảnh của cô.\n  * Sau đó cửa hàng gợi ý chuyển sang tuần sau vào ngày 12 (`12日`). Vào ngày 12, lúc 2 giờ chiều (`午後2時`) cô bận đi làm việc khác, chỉ rảnh từ sau 4 giờ chiều.\n  * Vì vậy, cô quyết định chốt lịch hẹn vào lúc **5 giờ chiều ngày 12 (12日の午後5時)**.\n* **Kết luận:** Đáp án đúng tuyệt đối là **[4] 12日の午後5時から**.\n\n🌐 **Dịch nghĩa câu hỏi:** Người phụ nữ đã đặt lịch hẹn vào thời gian nào? ➔ [4] Từ 5 giờ chiều ngày 12.",
+      "text": "女の人はいつ予約しましたか。\n\n1: 5日の午後2時から\n2: 5日の午後5時から\n3: 12日の午後2時から\n4: 12日の午後5時から",
+      "options": [
+            "5日の午後2時から",
+            "5日の午後5時から",
+            "12日の午後2時から",
+            "12日の午後5時から"
+      ],
+      "correctOption": 4
+},
+    "67": {
+      "snippet": "Lý do quay lại thư viện: マフラーをさがしたいから (Muốn tìm chiếc khăn quàng cổ)",
+      "explanation": "🎯 **Đáp án đúng: [2] マフラーをさがしたいから**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Người nam sau khi rời khỏi thư viện lại vội vã quay trở lại.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Bạn đi cùng hỏi: \"Có phải cậu quên chưa mượn sách (`かりるのをわすれた`) hay để quên tài liệu (`しりょう`) không?\".\n  * Người nam trả lời: \"Không phải, trời lạnh sờ lên cổ mới nhận ra chiếc khăn quàng cổ (`マフラー`) không thấy đâu, chắc là lúc ngồi đọc sách đã tháo ra để quên trên ghế, nên phải quay lại tìm (`マフラーをさがしたい`)\".\n* **Kết luận:** Phương án chính xác là **[2] マフラーをさがしたいから**.\n\n🌐 **Dịch nghĩa câu hỏi:** Tại sao người đàn ông lại quay trở lại thư viện? ➔ [2] Vì muốn tìm chiếc khăn quàng cổ.",
+      "text": "男の人はどうして図書館に戻りますか。\n\n1: よやくした本がとどいたから\n2: マフラーをさがしたいから\n3: かりるのをわすれた本があるから\n4: しりょうをおいてきたから",
+      "options": [
+            "よやくした本がとどいたから",
+            "マフラーをさがしたいから",
+            "かりるのをわすれた本があるから",
+            "しりょうをおいてきたから"
+      ],
+      "correctOption": 2
+},
+    "68": {
+      "snippet": "Dự định sau tốt nghiệp: Học tiếp lên cao học ở Nhật (日本のだいがくいんでべんきょうする)",
+      "explanation": "🎯 **Đáp án đúng: [1] 日本のだいがくいんでべんきょうする**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Cuộc trò chuyện về con đường tương lai sau khi tốt nghiệp đại học của bạn nữ du học sinh.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Người nam hỏi bạn nữ có định đi làm cho công ty Nhật (`日本の会社ではたらく`) hay về nước mở công ty (`じぶんの国で会社をつくる`) không.\n  * Bạn nữ chia sẻ rằng sau khi cân nhắc kỹ, cô muốn nghiên cứu sâu hơn về chuyên ngành của mình nên đã quyết định thi và tiếp tục học lên cao học tại Nhật Bản (`日本で大学院に進学する / 日本の大学院で勉強する`).\n* **Kết luận:** Đáp án đúng là **[1] 日本のだいがくいんでべんきょうする**.\n\n🌐 **Dịch nghĩa câu hỏi:** Sau khi tốt nghiệp đại học, người phụ nữ sẽ làm gì? ➔ [1] Học tiếp lên cao học ở Nhật Bản.",
+      "text": "女の人は大学を卒業した後、何をしますか。\n\n1: 日本のだいがくいんでべんきょうする\n2: じぶんの国でべんきょうをつづける\n3: じぶんの国で会社をつくる\n4: 日本の会社ではたらく",
+      "options": [
+            "日本のだいがくいんでべんきょうする",
+            "じぶんの国でべんきょうをつづける",
+            "じぶんの国で会社をつくる",
+            "日本の会社ではたらく"
+      ],
+      "correctOption": 1
+},
+    "69": {
+      "snippet": "Lý do không đến nhà hàng quen: Quá đông và không đặt được bàn (こんでいてよやくがとれないから)",
+      "explanation": "🎯 **Đáp án đúng: [3] こんでいてよやくがとれないから**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Hai người nhắc về một nhà hàng mà trước đây họ rất thích và hay ghé ăn.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Nhà hàng đồ ăn vẫn rất ngon và giá cả không đổi.\n  * Tuy nhiên gần đây quán trở nên quá nổi tiếng trên mạng xã hội nên lúc nào cũng chật kín khách (`いつもすごく混んでいて`), muốn ăn phải đặt bàn trước từ rất sớm nhưng hầu như không thể lấy được chỗ (`予約が全然取れない`).\n  * Vì cảm thấy bất tiện và khó đặt bàn nên gần đây hai người đành không đến quán đó nữa.\n* **Kết luận:** Phương án đúng là **[3] こんでいてよやくがとれないから**.\n\n🌐 **Dịch nghĩa câu hỏi:** Tại sao hai người lại không còn đến nhà hàng đó nữa? ➔ [3] Vì quán quá đông đúc và không đặt được chỗ.",
+      "text": "二人はどうしてあのレストランへ行かなくなりましたか。\n\n1: ほかのにも行ってみたいから\n2: 店のばしょがとおくなったから\n3: こんでいてよやくがとれないから\n4: りょうきんが高くなったから",
+      "options": [
+            "ほかのにも行ってみたいから",
+            "店のばしょがとおくなったから",
+            "こんでいてよやくがとれないから",
+            "りょうきんが高くなったから"
+      ],
+      "correctOption": 3
+},
+    "70": {
+      "snippet": "Trạm xe buýt xuống: さくら小学校前 (Trước trường tiểu học Sakura)",
+      "explanation": "🎯 **Đáp án đúng: [3] さくら小学校前**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Người nam hỏi người hướng dẫn hoặc bạn bè về trạm xe buýt cần xuống để đi tới địa điểm cần đến.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Tuyến xe buýt đi qua bệnh viện (`しみんびょういん`), viện bảo tàng (`びじゅつかん前`), trường tiểu học (`さくら小学校前`) và trung tâm thương mại Asahiya (`あさひやデパート`).\n  * Người hướng dẫn chỉ rõ: nếu đi tới điểm đích của anh ấy thì xuống ở trước trường tiểu học Sakura (`さくら小学校前`) là gần nhất, đi bộ chỉ mất 2 phút.\n* **Kết luận:** Đáp án đúng là **[3] さくら小学校前**.\n\n🌐 **Dịch nghĩa câu hỏi:** Người đàn ông sẽ xuống xe buýt ở đâu? ➔ [3] Ở trước trường tiểu học Sakura.",
+      "text": "男の人はどこでバスを降りますか。\n\n1: びじゅつかん前\n2: しみんびょういん\n3: さくら小学校前\n4: あさひやデパート",
+      "options": [
+            "びじゅつかん前",
+            "しみんびょういん",
+            "さくら小学校前",
+            "あさひやデパート"
+      ],
+      "correctOption": 3
+},
+    "71": {
+      "snippet": "Dự báo thời tiết ngày mai: 一日中はれ (Nắng ráo cả ngày)",
+      "explanation": "🎯 **Đáp án đúng: [2] 一日中はれ**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Hai người trao đổi hoặc nghe bản tin dự báo thời tiết cho ngày mai.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Hôm nay trời có mưa hoặc âm u, khiến hai người lo lắng về kế hoạch ngày mai.\n  * Tuy nhiên, bản tin thời tiết thông báo từ đêm nay mây mưa tan hết, ngày mai từ sáng đến tận tối bầu trời trong xanh nắng đẹp suốt cả ngày (`明日は朝から夕方までずっと晴れて、いい天気になるでしょう / 一日中晴れ`).\n* **Kết luận:** Đáp án đúng là **[2] 一日中はれ**.\n\n🌐 **Dịch nghĩa câu hỏi:** Thời tiết ngày mai sẽ như thế nào? ➔ [2] Nắng ráo cả ngày.",
+      "text": "明日の天気はどうなりますか。\n\n1: 一日中雨\n2: 一日中はれ\n3: 午前ははれ、午後は雨\n4: 午前は雨、午後ははれ",
+      "options": [
+            "一日中雨",
+            "一日中はれ",
+            "午前ははれ、午後は雨",
+            "午前は雨、午後ははれ"
+      ],
+      "correctOption": 2
+},
+    "72": {
+      "snippet": "Lời khuyên đọc sách: Tra cứu ý nghĩa từ vựng khi đọc (ことばのいみをしらべながら読むこと)",
+      "explanation": "🎯 **Đáp án đúng: [4] ことばのいみをしらべながら読むこと**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Thầy/cô giáo hướng dẫn học sinh phương pháp đọc sách để nâng cao vốn từ vựng và năng lực tiếng Nhật.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Giáo viên nhấn mạnh khi đọc sách tiếng Nhật, gặp từ mới không nên bỏ qua đoán bừa mà hãy tra từ điển để hiểu chính xác nghĩa và cách dùng trong câu (`分からない言葉があったら辞書で調べながら読むことが大切です`).\n* **Kết luận:** Phương án chính xác là **[4] ことばのいみをしらべながら読むこと**.\n\n🌐 **Dịch nghĩa câu hỏi:** Giáo viên nói rằng khi đọc sách thì điều gì là quan trọng? ➔ [4] Việc vừa đọc vừa tra cứu ý nghĩa của từ vựng.",
+      "text": "先生は本を読むとき、何が大切だと言っていますか。\n\n1: 読みたい本だけ読むこと\n2: やさしい本をえらんで読むこと\n3: とちゅうでべつの本を読むこと\n4: ことばのいみをしらべながら読むこと",
+      "options": [
+            "読みたい本だけ読むこと",
+            "やさしい本をえらんで読むこと",
+            "とちゅうでべつの本を読むこと",
+            "ことばのいみをしらべながら読むこと"
+      ],
+      "correctOption": 4
+},
+    "73": {
+      "snippet": "Xin phép nếm thử món ăn: ちょっと食べてみてもいい？ (Con nếm thử một chút được không?)",
+      "explanation": "🎯 **Đáp án đúng: [1] ちょっと食べてみてもいい？**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Trong bếp, người mẹ đang nấu canh/súp trong nồi bằng muôi. Cô con gái muốn nếm thử vị xem đã vừa miệng chưa.\n* **Mẫu câu giao tiếp phù hợp:**\n  * Cấu trúc xin phép: `V-てみてもいいですか / V-てみてもいい？` (Tôi/con thử làm... có được không?).\n  * `ちょっと食べてみてもいい？` ➔ \"Con ăn thử/nếm thử một chút có được không mẹ?\".\n* **Phân tích các phương án khác:**\n  * 2. `もう全部食べたよ`: Đã ăn hết sạch rồi (vô lý khi nồi canh đang nấu).\n  * 3. `料理を作ってくれる？`: Mẹ nấu giúp con nhé (mẹ vốn dĩ đang nấu rồi).\n\n🌐 **Dịch nghĩa câu hỏi:** Bạn muốn nếm thử vị của món ăn đang nấu. Bạn sẽ nói thế nào? ➔ [1] Con ăn/nếm thử một chút được không ạ?",
+      "text": "料理の味をたしかめたいです。何と言いますか。\n\n1: ちょっと食べてみてもいい？\n2: もう全部食べたよ。\n3: 料理を作ってくれる？",
+      "options": [
+            "ちょっと食べてみてもいい？",
+            "もう全部食べたよ。",
+            "料理を作ってくれる？",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 1
+},
+    "74": {
+      "snippet": "Xin phép về trước vì có việc: 用事があるから、お先にね (Tớ có việc bận nên xin phép về trước nhé)",
+      "explanation": "🎯 **Đáp án đúng: [3] 用事があるから、お先にね。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Đang ngồi uống cà phê trò chuyện với nhóm bạn, bạn nữ nhìn đồng hồ thấy đã đến giờ hẹn khác nên muốn xin phép về trước.\n* **Mẫu câu giao tiếp phù hợp:**\n  * Cách nói khi về trước người khác: `お先に (おさきに) / お先に失礼します`.\n  * Nêu lý do: `用事があるから、お先にね` (Vì tớ có chút việc nên tớ xin phép về trước nhé).\n* **Phân tích các phương án khác:**\n  * 1. `また今度誘ってね`: Lần sau nhớ rủ tớ nhé (dùng khi bạn đi đâu mà mình không tham gia được).\n  * 2. `ゆっくりしていってね`: Cứ thong thả ở lại chơi nhé (lời chủ nhà nói với khách).\n\n🌐 **Dịch nghĩa câu hỏi:** Đã đến giờ có hẹn, bạn muốn xin phép về trước. Bạn sẽ nói gì với bạn bè? ➔ [3] Tớ có chút việc bận nên tớ xin phép về trước nhé.",
+      "text": "約束の時間になりました。先に帰りたいです。友達に何と言いますか。\n\n1: また今度誘ってね。\n2: ゆっくりしていってね。\n3: 用事があるから、お先にね。",
+      "options": [
+            "また今度誘ってね。",
+            "ゆっくりしていってね。",
+            "用事があるから、お先にね。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 3
+},
+    "75": {
+      "snippet": "Hỏi xin phép ngồi ghế trống: ここ、座ってもいいですか (Chỗ này tôi ngồi có được không?)",
+      "explanation": "🎯 **Đáp án đúng: [3] ここ、座ってもいいですか。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Người đàn ông nhìn thấy chiếc ghế trống bên cạnh người phụ nữ ở phòng chờ, muốn hỏi xem ghế có ai ngồi chưa để ngồi xuống.\n* **Mẫu câu giao tiếp phù hợp:**\n  * Cấu trúc xin phép làm việc gì: `V-てもいいですか`.\n  * `ここ、座ってもいいですか` (Chỗ này tôi ngồi vào có được không ạ?).\n* **Phân tích các phương án khác:**\n  * 1. `席を立ちましょうか`: Tôi đứng dậy nhé (người này vốn đang đứng).\n  * 2. `席をゆずりましょうか`: Tôi nhường ghế cho bạn nhé (dùng khi mình đang ngồi và muốn nhường ghế cho người khác).\n\n🌐 **Dịch nghĩa câu hỏi:** Bạn muốn ngồi vào ghế còn trống. Bạn sẽ nói gì với người ngồi bên cạnh? ➔ [3] Chỗ này tôi có thể ngồi được không ạ?",
+      "text": "空いている席に座りたいです。となりの人に何と言いますか。\n\n1: 席を立ちましょうか。\n2: 席をゆずりましょうか。\n3: ここ、座ってもいいですか。",
+      "options": [
+            "席を立ちましょうか。",
+            "席をゆずりましょうか。",
+            "ここ、座ってもいいですか。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 3
+},
+    "76": {
+      "snippet": "Xin phép bật đèn: 電気を付けてもいいですか (Tôi bật đèn lên có được không?)",
+      "explanation": "🎯 **Đáp án đúng: [2] 電気を付けてもいいですか。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Phòng học đang tối mờ mờ, bạn nam vừa bước vào thấy bạn nữ đang ngồi đọc sách trong tối, muốn với tay bật công tắc đèn lên cho sáng.\n* **Mẫu câu giao tiếp phù hợp:**\n  * Bật đèn: `電気をつける` ➔ Xin phép bật đèn: `電気を付けてもいいですか` (Tớ bật đèn lên có được không?).\n* **Phân tích các phương án khác:**\n  * 1. `電気を消しましょうか`: Tắt đèn nhé (phòng đang tối, không thể là tắt đèn).\n  * 3. `電気が消えていますよ`: Đèn đang tắt đấy (chỉ là câu trần thuật thông báo, không biểu thị mong muốn hành động xin phép).\n\n🌐 **Dịch nghĩa câu hỏi:** Phòng học đang tối. Bạn muốn bật đèn lên. Bạn sẽ nói thế nào? ➔ [2] Tớ bật đèn lên có được không?",
+      "text": "教室が暗いです。電気をつけたいです。何と言いますか。\n\n1: 電気を消しましょうか。\n2: 電気を付けてもいいですか。\n3: 電気が消えていますよ。",
+      "options": [
+            "電気を消しましょうか。",
+            "電気を付けてもいいですか。",
+            "電気が消えていますよ。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 2
+},
+    "77": {
+      "snippet": "Bắt lời đồng nghiệp đang làm việc: 今、ちょっとよろしいですか (Bây giờ bạn có tiện một chút không?)",
+      "explanation": "🎯 **Đáp án đúng: [1] 今、ちょっとよろしいですか。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Nữ nhân viên đến bàn làm việc của đồng nghiệp nam đang tập trung làm việc trên máy tính để hỏi ý kiến / bàn bạc công việc.\n* **Mẫu câu giao tiếp nơi công sở kinh điển:**\n  * Khi muốn ngắt quãng công việc của người khác để nhờ vả, câu mở lời lịch sự bắt buộc phải là: `今、ちょっとよろしいですか` hoặc `今、お時間よろしいでしょうか` (Bây giờ anh/chị có tiện một chút thời gian không ạ?).\n* **Phân tích các phương án khác:**\n  * 2. `これから相談してください`: Từ giờ trở đi hãy thảo luận với tôi nhé (sai vị thế, mình là người đi nhờ tư vấn).\n  * 3. `お疲れさまでした`: Bạn đã vất vả rồi (lời chào khi tan ca hoặc chào nhau kết thúc công việc).\n\n🌐 **Dịch nghĩa câu hỏi:** Bạn muốn trao đổi/hỏi ý kiến đồng nghiệp đang làm việc. Bạn sẽ cất tiếng gọi như thế nào? ➔ [1] Bây giờ anh/chị có tiện một lát không ạ?",
+      "text": "仕事中の同僚に相談したいです。何と声をかけますか。\n\n1: 今、ちょっとよろしいですか。\n2: これから相談してください。\n3: お疲れさまでした。",
+      "options": [
+            "今、ちょっとよろしいですか。",
+            "これから相談してください。",
+            "お疲れさまでした。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 1
+},
+    "78": {
+      "snippet": "Đáp lại lời nhờ vả: ええ、いいですよ (Vâng, được chứ ạ)",
+      "explanation": "🎯 **Đáp án đúng: [3] ええ、いいですよ。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `この荷物、車まで運ぶのを手伝ってくれませんか。` (Bạn có thể giúp tôi chuyển chỗ hành lý này ra xe được không?).\n* **Phân tích phản xạ đáp lại:**\n  * Đối phương đang nhờ giúp đỡ (`〜てくれませんか`), lời đáp đồng ý tự nhiên và lịch sự nhất là: `ええ、いいですよ` (Vâng, sẵn lòng ạ / Vâng, được chứ ạ).\n* **Phân tích các phương án khác:**\n  * 1. `ええ、運んでいますよ`: Vâng, tôi đang chuyển đây (sai ngữ cảnh vì chưa đồng ý giúp).\n  * 2. `車で行くんですね`: Đi bằng ô tô nhỉ (lạc đề câu hỏi).\n\n🌐 **Dịch nghĩa:** \"Bạn giúp tôi mang hành lý này ra xe được không?\" ➔ [3] \"Vâng, được chứ ạ.\"",
+      "text": "この荷物、車まで運ぶのを手伝ってくれませんか。\n\n1: ええ、運んでいますよ。\n2: 車で行くんですね。\n3: ええ、いいですよ。",
+      "options": [
+            "ええ、運んでいますよ。",
+            "車で行くんですね。",
+            "ええ、いいですよ。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 3
+},
+    "79": {
+      "snippet": "Đáp lại câu hỏi đã xem trận đấu chưa: ううん、忙しくて見られなかったんだ (Không, tớ bận nên không xem được)",
+      "explanation": "🎯 **Đáp án đúng: [2] ううん、忙しくて見られなかったんだ。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `田中さん、昨日のサッカーの試合、見た？` (Tanaka ơi, trận bóng đá hôm qua cậu đã xem chưa?).\n* **Phân tích phản xạ đáp lại:**\n  * Trả lời về việc xem trận đấu trong quá khứ: `ううん、忙しくて見られなかったんだ` (Không, hôm qua tớ bận quá nên không xem được).\n* **Phân tích các phương án khác:**\n  * 1. `面白そうだったよ`: Có vẻ hay đấy (hình thức `〜そう` dùng phán đoán trước khi xem, không dùng khi đã xem xong).\n  * 3. `試合に出たよ`: Tớ đã ra sân thi đấu đấy (sai lệch ngữ cảnh thông thường).\n\n🌐 **Dịch nghĩa:** \"Tanaka ơi, trận bóng đá hôm qua cậu có xem không?\" ➔ [2] \"Không, tớ bận quá nên chẳng xem được.\"",
+      "text": "田中さん、昨日のサッカーの試合、見た？\n\n1: うん、とても面白そうだったよ。\n2: ううん、忙しくて見られなかったんだ。\n3: ええ、試合に出たよ。",
+      "options": [
+            "うん、とても面白そうだったよ。",
+            "ううん、忙しくて見られなかったんだ。",
+            "ええ、試合に出たよ。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 2
+},
+    "80": {
+      "snippet": "Cho phép người khác mượn ô: どうぞ、使ってください (Xin mời cứ tự nhiên dùng ạ)",
+      "explanation": "🎯 **Đáp án đúng: [3] どうぞ、使ってください。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `すみません、この傘、使ってもかまいませんか。` (Xin lỗi, chiếc ô này tôi dùng có được không ạ?).\n* **Phân tích phản xạ đáp lại:**\n  * Khi ai đó hỏi xin phép `〜てもかまいませんか` (tôi làm... có phiền/được không), câu trả lời ưng thuận lịch sự nhất là mời đối phương dùng: `どうぞ、使ってください` (Xin mời, bạn cứ dùng đi ạ).\n* **Phân tích các phương án khác:**\n  * 1. `ええ、使っていませんよ`: Tôi đang không dùng đâu (chưa rõ ý tứ cho phép).\n  * 2. `いえ、かまいませんよ`: Cách diễn đạt vụng về, dễ gây hiểu lầm là từ chối.\n\n🌐 **Dịch nghĩa:** \"Xin lỗi, tôi dùng chiếc ô này có được không ạ?\" ➔ [3] \"Xin mời, bạn cứ tự nhiên dùng đi ạ.\"",
+      "text": "すみません、この傘、使ってもかまいませんか。\n\n1: ええ、使っていませんよ。\n2: いえ、かまいませんよ。\n3: どうぞ、使ってください。",
+      "options": [
+            "ええ、使っていませんよ。",
+            "いえ、かまいませんよ。",
+            "どうぞ、使ってください。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 3
+},
+    "81": {
+      "snippet": "Khiêm tốn khi được khen: いいえ、まだまだです (Không dám đâu ạ, tôi còn kém lắm)",
+      "explanation": "🎯 **Đáp án đúng: [1] いいえ、まだまだです。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `日本語の勉強、ずいぶん上手になりましたね。` (Tiếng Nhật của bạn tiến bộ giỏi lên nhiều ghê nhỉ).\n* **Văn hóa giao tiếp tiếng Nhật:**\n  * Khi người Nhật khen ngợi khả năng hay ngoại ngữ của mình, văn hóa khiêm nhường chuẩn mực bắt buộc phải phủ nhận một cách khiêm tốn: `いいえ、まだまだです` (Không dám đâu ạ, tôi vẫn còn phải cố gắng nhiều / còn non nớt lắm).\n* **Phân tích các phương án khác:**\n  * 2. `はい、とても上手です`: Vâng, tôi giỏi lắm (tự cao tự đại, vi phạm văn hóa giao tiếp Nhật Bản).\n  * 3. `そうですね、上手でしたね`: Ừ nhỉ, đã từng giỏi nhỉ (sai hoàn toàn ngữ cảnh).\n\n🌐 **Dịch nghĩa:** \"Bạn học tiếng Nhật dạo này giỏi lên nhiều ghê nhỉ!\" ➔ [1] \"Dạ không dám đâu, tôi còn kém lắm ạ.\"",
+      "text": "日本語の勉強、ずいぶん上手になりましたね。\n\n1: いいえ、まだまだです。\n2: はい、とても上手です。\n3: そうですね、上手でしたね。",
+      "options": [
+            "いいえ、まだまだです。",
+            "はい、とても上手です。",
+            "そうですね、上手でしたね。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 1
+},
+    "82": {
+      "snippet": "Báo cáo tiến độ: ええ、さっき終わりましたよ (Dạ rồi, vừa nãy em photo xong rồi ạ)",
+      "explanation": "🎯 **Đáp án đúng: [3] ええ、さっき終わりましたよ。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `会議の資料、まだコピーしていなかったっけ？` (Tài liệu cuộc họp hình như vẫn chưa photo xong thì phải nhỉ?).\n* **Phân tích phản xạ đáp lại:**\n  * Người hỏi dùng cấu trúc xác nhận lại trí nhớ `〜たっけ`. Người đáp báo rằng việc photo thực tế đã hoàn thành: `ええ、さっき終わりましたよ` (Dạ có chứ, em đã hoàn thành xong lúc nãy rồi ạ).\n* **Phân tích các phương án khác:**\n  * 1 & 2: Dùng phối hợp `はい/いいえ` với phủ định không tự nhiên và lủng củng.\n\n🌐 **Dịch nghĩa:** \"Tài liệu cuộc họp hình như vẫn chưa photo xong thì phải nhỉ?\" ➔ [3] \"Dạ không, em vừa mới photo xong lúc nãy rồi đấy ạ.\"",
+      "text": "会議の資料、まだコピーしていなかったっけ？\n\n1: いいえ、コピーしていません。\n2: はい、もうコピーしていません。\n3: ええ、さっき終わりましたよ。",
+      "options": [
+            "いいえ、コピーしていません。",
+            "はい、もうコピーしていません。",
+            "ええ、さっき終わりましたよ。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 3
+},
+    "83": {
+      "snippet": "Hỏi hạn chót nộp báo cáo: 来週の金曜日までに出してください (Hãy nộp trước thứ Sáu tuần sau nhé)",
+      "explanation": "🎯 **Đáp án đúng: [2] 来週の金曜日までに出してください。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `先生、レポートの締め切りはいつまででしょうか。` (Thưa thầy, hạn chót nộp bài báo cáo là đến khi nào ạ?).\n* **Phân tích phản xạ đáp lại:**\n  * Học sinh hỏi hạn chót (`いつまで`), giáo viên đưa ra thời hạn cụ thể kèm yêu cầu nộp: `来週の金曜日までに出してください` (Hãy nộp cho thầy trước thứ Sáu tuần sau nhé).\n* **Phân tích các phương án khác:**\n  * 1. `らいしゅう出しましたよ`: Tuần sau đã nộp rồi (sai thì thời gian).\n  * 3. `はい、締め切りです`: Vâng, là hạn chót (trả lời vô nghĩa).\n\n🌐 **Dịch nghĩa:** \"Thưa thầy, hạn chót nộp báo cáo là đến khi nào ạ?\" ➔ [2] \"Em hãy nộp trước thứ Sáu tuần sau nhé.\"",
+      "text": "先生、レポートの締め切りはいつまででしょうか。\n\n1: らいしゅう出しましたよ。\n2: 来週の金曜日までに出してください。\n3: はい、締め切りです。",
+      "options": [
+            "らいしゅう出しましたよ。",
+            "来週の金曜日までに出してください。",
+            "はい、締め切りです。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 2
+},
+    "84": {
+      "snippet": "Đồng tình đi taxi về: そうしよう。そのほうがいいね (Nhất trí vậy đi, thế thì tốt hơn đấy)",
+      "explanation": "🎯 **Đáp án đúng: [1] そうしよう。そのほうがいいね。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `雨が強くなってきたね。タクシーで帰ろうか。` (Mưa bắt đầu nặng hạt rồi nhỉ. Hay chúng mình đi taxi về nhé?).\n* **Phân tích phản xạ đáp lại:**\n  * Lời rủ rê/đề xuất `〜ようか`, câu đồng tình thuận theo ý kiến của bạn là: `そうしよう。そのほうがいいね` (Nhất trí vậy đi. Làm thế thì tốt hơn đấy).\n* **Phân tích các phương án khác:**\n  * 2. `タクシーを呼んだんだね`: Cậu đã gọi taxi rồi nhỉ (người ta mới đang rủ rê chứ chưa gọi).\n  * 3. `ええ、歩いて帰ろう`: Ừ, đi bộ về thôi (mâu thuẫn với lời rủ đi taxi).\n\n🌐 **Dịch nghĩa:** \"Mưa to dần lên rồi nhỉ. Hay chúng mình đi taxi về đi?\" ➔ [1] \"Nhất trí vậy đi, thế thì hay hơn đấy.\"",
+      "text": "雨が強くなってきたね。タクシーで帰ろうか。\n\n1: そうしよう。そのほうがいいね。\n2: タクシーを呼んだんだね。\n3: ええ、歩いて帰ろう。",
+      "options": [
+            "そうしよう。そのほうがいいね。",
+            "タクシーを呼んだんだね。",
+            "ええ、歩いて帰ろう。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 1
+},
+    "85": {
+      "snippet": "Đã ghé tiệm bánh mới: ええ、昨日行きましたよ (Có chứ, hôm qua tớ ghé rồi đấy)",
+      "explanation": "🎯 **Đáp án đúng: [3] ええ、昨日行きましたよ。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `駅前の新しいパン屋さん、もう行ってみた？` (Tiệm bánh mì mới ở trước ga cậu đã đến thử chưa?).\n* **Phân tích phản xạ đáp lại:**\n  * Hỏi kinh nghiệm đã đi thử chưa (`もう行ってみた？`), câu trả lời khẳng định đã ghé hôm qua: `ええ、昨日行きましたよ` (Có chứ, hôm qua tớ đã đến đó rồi đấy).\n* **Phân tích các phương án khác:**\n  * 1. `これから行くところですよ`: Dùng cho người thứ ba hoặc không tự nhiên bằng câu trả lời đã đi.\n  * 2. `駅の前にありますよ`: Nó ở trước ga đấy (người hỏi vốn đã biết vị trí trước ga rồi).\n\n🌐 **Dịch nghĩa:** \"Tiệm bánh mì mới mở trước ga, cậu đã ghé thử chưa?\" ➔ [3] \"Có chứ, tớ mới ghé hôm qua đấy.\"",
+      "text": "駅前の新しいパン屋さん、もう行ってみた？\n\n1: これから行くところですよ。\n2: 駅の前にありますよ。\n3: ええ、昨日行きましたよ。",
+      "options": [
+            "これから行くところですよ。",
+            "駅の前にありますよ。",
+            "ええ、昨日行きましたよ。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 3
+}
+  
+  },
+  "n4-2026-2122": {
+  "1": {
+    "snippet": "待って (まって) - Đợi, chờ",
+    "explanation": "🎯 **Đáp án đúng: [4] まって**\n\n💬 **Giải thích chi tiết:**\n* Chữ Hán **待** (ĐÃI) có cách đọc Kunyomi là **ま(つ)**, chia thể Te là **待って (まって)** mang nghĩa là \"đợi, chờ\".\n* Phân tích các phương án khác:\n  1. さわって: Thể Te của 触る (さわる) - chạm vào, sờ vào.\n  2. のこって: Thể Te của 残る (のこる) - còn lại, sót lại.\n  3. たって: Thể Te của 立つ (たつ) - đứng.\n  4. まって: Thể Te của 待つ (まつ) - đợi, chờ.\n\n🌐 **Dịch nghĩa:** Xin hãy đợi một chút.",
+    "text": "ちょっと待ってください。",
+    "options": [
+      "さわって",
+      "のこって",
+      "たって",
+      "まって"
+    ],
+    "correctOption": 4
+  },
+  "2": {
+    "snippet": "薬 (くすり) - Thuốc",
+    "explanation": "🎯 **Đáp án đúng: [3] くすり**\n\n💬 **Giải thích chi tiết:**\n* Chữ Hán **薬** (DƯỢC) có cách đọc Kunyomi là **くすり**, nghĩa là \"thuốc\".\n* Phân tích các phương án khác:\n  1. しお (塩): Muối.\n  2. いと (糸): Sợi chỉ.\n  3. くすり (薬): Thuốc.\n  4. ふくろ (袋): Cái túi, bao tải.\n\n🌐 **Dịch nghĩa:** Xin hãy lấy giúp tôi lọ thuốc ở đằng kia.",
+    "text": "そこの薬をとってください。",
+    "options": [
+      "しお",
+      "いと",
+      "くすり",
+      "ふくろ"
+    ],
+    "correctOption": 3
+  },
+  "3": {
+    "snippet": "早い (はやい) - Sớm",
+    "explanation": "🎯 **Đáp án đúng: [3] はやい**\n\n💬 **Giải thích chi tiết:**\n* Chữ Hán **早** (TẢO) có cách đọc là **はや(い)**, mang nghĩa là \"sớm\" (về mặt thời gian).\n* Phân tích các phương án khác:\n  1. ながい (長い): Dài.\n  2. おそい (遅い): Muộn, chậm trễ.\n  3. はやい (早い): Sớm.\n  4. みじかい (短い): Ngắn.\n\n🌐 **Dịch nghĩa:** Sớm hơn một chút thì tốt hơn.",
+    "text": "もう少し早いほうがいいです。",
+    "options": [
+      "ながい",
+      "おそい",
+      "はやい",
+      "みじかい"
+    ],
+    "correctOption": 3
+  },
+  "4": {
+    "snippet": "海 (うみ) - Biển",
+    "explanation": "🎯 **Đáp án đúng: [2] うみ**\n\n💬 **Giải thích chi tiết:**\n* Chữ Hán **海** (HẢI) có cách đọc Kunyomi là **うみ**, nghĩa là \"biển\".\n* Phân tích các phương án khác:\n  1. そら (空): Bầu trời.\n  2. うみ (海): Biển.\n  3. ほし (星): Ngôi sao.\n  4. とり (鳥): Con chim.\n\n🌐 **Dịch nghĩa:** Biển đẹp thật đấy nhỉ.",
+    "text": "きれいな海ですね。",
+    "options": [
+      "そら",
+      "うみ",
+      "ほし",
+      "とり"
+    ],
+    "correctOption": 2
+  },
+  "5": {
+    "snippet": "一度 (いちど) - Một lần",
+    "explanation": "🎯 **Đáp án đúng: [4] いちど**\n\n💬 **Giải thích chi tiết:**\n* Từ ghép **一度** (NHẤT ĐỘ) có cách đọc là **いちど**, nghĩa là \"một lần\". Mẫu câu `一度～たことがある` diễn tả trải nghiệm \"đã từng làm gì đó một lần\".\n* Phân tích các phương án khác:\n  1. いつか: Khi nào đó, một ngày nào đó.\n  2. いっかい: 一回 (cũng có nghĩa là một lần nhưng chữ Hán trong câu là 一度 nên bắt buộc đọc là いちど).\n  3. いちどう: 一同 (toàn thể, tất cả).\n  4. いちど: 一度 (một lần).\n\n🌐 **Dịch nghĩa:** Tôi đã từng đến Tokyo một lần.",
+    "text": "とうきょうに一度行ったことがあります。",
+    "options": [
+      "いつか",
+      "いっかい",
+      "いちどう",
+      "いちど"
+    ],
+    "correctOption": 4
+  },
+  "6": {
+    "snippet": "教えて (おしえて) - Chỉ dạy, nói cho biết",
+    "explanation": "🎯 **Đáp án đúng: [2] おしえて**\n\n💬 **Giải thích chi tiết:**\n* Chữ Hán **教** (GIÁO) trong động từ **教える (おしえる)** nghĩa là \"dạy, chỉ bảo, nói cho biết\". Thể Te là **教えて (おしえて)**.\n* Phân tích các phương án khác:\n  1. かぞえて: Thể Te của 数える (かぞえる) - đếm.\n  2. おしえて: Thể Te của 教える (おしえる) - chỉ dạy, nói cho biết.\n  3. かんがえて: Thể Te của 考える (かんがえる) - suy nghĩ.\n  4. こたえて: Thể Te của 答える (こたえる) - trả lời.\n\n🌐 **Dịch nghĩa:** Hãy chỉ cho tôi sau nhé.",
+    "text": "あとで教えてください。",
+    "options": [
+      "かぞえて",
+      "おしえて",
+      "かんがえて",
+      "こたえて"
+    ],
+    "correctOption": 2
+  },
+  "7": {
+    "snippet": "予報 (よほう) - Dự báo",
+    "explanation": "🎯 **Đáp án đúng: [1] よほう**\n\n💬 **Giải thích chi tiết:**\n* Từ ghép **予報** (DỰ BÁO) gồm chữ **予** (DỰ - âm On là よ) và chữ **報** (BÁO - âm On là ほう), đọc là **よほう**. Cụm `天気予報 (てんきよほう)` nghĩa là \"dự báo thời tiết\".\n* Phân tích các phương án khác:\n  1. よほう (予報): Dự báo.\n  2. ようほう: Không có từ tương ứng thông dụng.\n  3. ようぼう (要望): Nguyện vọng, yêu cầu.\n  4. よぼう (予防): Dự phòng, phòng ngừa bệnh.\n\n🌐 **Dịch nghĩa:** Sáng nay tôi đã không xem dự báo thời tiết.",
+    "text": "けさは天気予報を見ませんでした。",
+    "options": [
+      "よほう",
+      "ようほう",
+      "ようぼう",
+      "よぼう"
+    ],
+    "correctOption": 1
+  },
+  "8": {
+    "snippet": "あつい → 暑い (Nóng nực)",
+    "explanation": "🎯 **Đáp án đúng: [2] 暑い**\n\n💬 **Giải thích chi tiết:**\n* Tính từ **あつい** chỉ nhiệt độ thời tiết, khí hậu nóng bức hoặc phòng oi bức được viết bằng chữ Hán **暑い** (THỬ).\n* Phân biệt: **熱い (あつい)** dùng cho đồ ăn/thức uống, vật thể chạm vào thấy nóng.\n* Phân tích các phương án khác:\n  1. 寒い (さむい): Lạnh (thời tiết).\n  2. 暑い (あつい): Nóng (thời tiết, phòng).\n  3. 明い: Viết thiếu chữ る của 明るい (あかるい) - sáng sủa.\n  4. 暗い (くらい): Tối tăm.\n\n🌐 **Dịch nghĩa:** Căn phòng này nóng quá nhỉ.",
+    "text": "このへやはあついですね。",
+    "options": [
+      "寒い",
+      "暑い",
+      "明い",
+      "暗い"
+    ],
+    "correctOption": 2
+  },
+  "9": {
+    "snippet": "うごかなく → 動かなく (Không cử động, ngừng hoạt động)",
+    "explanation": "🎯 **Đáp án đúng: [1] 動かなく**\n\n💬 **Giải thích chi tiết:**\n* Động từ **動く (うごく)** (ĐỘNG) mang nghĩa là \"chuyển động, vận hành, hoạt động (máy móc, người)\". Thể phủ định dạng liên kết là **動かなく (うごかなく)**.\n* Phân tích các phương án khác:\n  1. 動かなく (うごかなく): Từ động từ 動く - chuyển động, hoạt động.\n  2. 働かなく (はたらかなく): Từ động từ 働く - làm việc, lao động (người).\n  3. 助かなく (たすかなく): Từ động từ 助かる - được cứu sống, đỡ được.\n  4. 勤かなく: Sai chữ Hán (chỉ có 勤める - つとめる: làm việc tại đâu).\n\n🌐 **Dịch nghĩa:** Con robot bị hỏng nên không còn cử động/hoạt động được nữa.",
+    "text": "ロボットがこわれてうごかなくなった。",
+    "options": [
+      "動かなく",
+      "働かなく",
+      "助かなく",
+      "勤かなく"
+    ],
+    "correctOption": 1
+  },
+  "10": {
+    "snippet": "いか → 以下 (Dưới, trở xuống)",
+    "explanation": "🎯 **Đáp án đúng: [4] 以下**\n\n💬 **Giải thích chi tiết:**\n* Từ **いか** mang nghĩa \"trở xuống, dưới mức\" (tính cả mốc đó) được viết bằng chữ Hán **以下** (DĨ HẠ).\n* Phân tích các phương án khác:\n  1. 意上: Từ sai cấu tạo chữ Hán.\n  2. 以上 (いじょう): Trên, trở lên.\n  3. 意下: Từ sai cấu tạo chữ Hán.\n  4. 以下 (いか): Dưới, trở xuống.\n\n🌐 **Dịch nghĩa:** Nếu từ 100 gram trở xuống thì ổn thỏa / không có vấn đề gì.",
+    "text": "100 グラムいかならだいじょうぶです。",
+    "options": [
+      "意上",
+      "以上",
+      "意下",
+      "以下"
+    ],
+    "correctOption": 4
+  },
+  "11": {
+    "snippet": "おと → 音 (Âm thanh, tiếng động)",
+    "explanation": "🎯 **Đáp án đúng: [1] 音**\n\n💬 **Giải thích chi tiết:**\n* Danh từ **おと** chỉ âm thanh, tiếng động của đồ vật, sự vật, tự nhiên, viết bằng chữ Hán **音** (ÂM).\n* Phân tích các phương án khác:\n  1. 音 (おと): Âm thanh, tiếng động.\n  2. 色 (いろ): Màu sắc.\n  3. 声 (こえ): Giọng nói, tiếng phát ra từ người hoặc động vật.\n  4. 味 (あじ): Hương vị.\n\n🌐 **Dịch nghĩa:** Đó là âm thanh như thế nào vậy?",
+    "text": "どんなおとでしたか。",
+    "options": [
+      "音",
+      "色",
+      "声",
+      "味"
+    ],
+    "correctOption": 1
+  },
+  "12": {
+    "snippet": "こうつう → 交通 (Giao thông)",
+    "explanation": "🎯 **Đáp án đúng: [3] 交通**\n\n💬 **Giải thích chi tiết:**\n* Từ **こうつう** mang nghĩa \"giao thông, đi lại\" được ghép từ hai chữ Hán **交** (GIAO) và **通** (THÔNG) tạo thành **交通**.\n* Phân tích các phương án khác:\n  1. 交道: Từ sai chữ Hán.\n  2. 公通: Từ sai chữ Hán.\n  3. 交通 (こうつう): Giao thông.\n  4. 公道 (こうどう): Đường công cộng.\n\n🌐 **Dịch nghĩa:** Thị trấn này giao thông đi lại rất bất tiện.",
+    "text": "このまちはこうつうがふべんです。",
+    "options": [
+      "交道",
+      "公通",
+      "交通",
+      "公道"
+    ],
+    "correctOption": 3
+  },
+  "13": {
+    "snippet": "さがした (探した) - Tìm kiếm",
+    "explanation": "🎯 **Đáp án đúng: [2] さがした**\n\n💬 **Giải thích chi tiết:**\n* Động từ **探す (さがす)** có nghĩa là \"tìm kiếm (thứ mình muốn hoặc đồ bị đánh mất)\". Dạng quá khứ là **さがした**.\n* Phân tích các phương án khác:\n  1. しらべた (調べた): Tra cứu, điều tra (thông tin, tài liệu).\n  2. さがした (探した): Tìm kiếm (đồ vật đánh mất).\n  3. みつけた (見つけた): Đã tìm thấy (trái nghĩa với vế sau \"đâu cũng không thấy\").\n  4. あつめた (集めた): Gom góp, sưu tầm, tập hợp lại.\n\n🌐 **Dịch nghĩa:** Tôi đã tìm chiếc chìa khóa bị mất nhưng mà chẳng thấy ở đâu cả.",
+    "text": "なくしたかぎを（　）けど、どこにもないんです。",
+    "options": [
+      "しらべた",
+      "さがした",
+      "みつけた",
+      "あつめた"
+    ],
+    "correctOption": 2
+  },
+  "14": {
+    "snippet": "きびしい (厳しい) - Nghiêm khắc",
+    "explanation": "🎯 **Đáp án đúng: [2] きびしい**\n\n💬 **Giải thích chi tiết:**\n* Tính từ đuôi i **厳しい (きびしい)** mang nghĩa là \"nghiêm khắc, khắt khe\". Vế sau nói \"mỗi khi tôi không chịu học là bố luôn nổi giận/mắng\" giải thích lý do bố rất nghiêm khắc.\n* Phân tích các phương án khác:\n  1. にがい (苦い): Đắng (vị giác).\n  2. きびしい (厳しい): Nghiêm khắc, khắt khe.\n  3. はずかしい (恥ずかしい): Xấu hổ, e ngại.\n  4. めずらしい (珍しい): Hiếm có, lạ thường.\n\n🌐 **Dịch nghĩa:** Vì bố tôi rất nghiêm khắc nên mỗi khi tôi không học bài là bố lại nổi giận.",
+    "text": "父は（　）ので、わたしがべんきょうをしないときは、いつもおこります。",
+    "options": [
+      "にがい",
+      "きびしい",
+      "はずかしい",
+      "めずらしい"
+    ],
+    "correctOption": 2
+  },
+  "15": {
+    "snippet": "ひつよう (必要) - Cần thiết, bắt buộc",
+    "explanation": "🎯 **Đáp án đúng: [1] ひつよう**\n\n💬 **Giải thích chi tiết:**\n* Tính từ đuôi na **必要 (ひつよう)** nghĩa là \"cần thiết, thiết yếu\". Khi xuất ngoại thì hộ chiếu là giấy tờ bắt buộc phải có: `パスポートが必要です`.\n* Phân tích các phương án khác:\n  1. ひつよう (必要): Cần thiết.\n  2. あんぜん (安全): An toàn.\n  3. じゅうぶん (十分): Đầy đủ.\n  4. ていねい (丁寧): Cẩn thận, lịch sự.\n\n🌐 **Dịch nghĩa:** Khi đi ra nước ngoài thì hộ chiếu là thứ cần thiết / bắt buộc phải có.",
+    "text": "外国に行くときはパスポートが（　）です。",
+    "options": [
+      "ひつよう",
+      "あんぜん",
+      "じゅうぶん",
+      "ていねい"
+    ],
+    "correctOption": 1
+  },
+  "16": {
+    "snippet": "にんきがある (人気がある) - Được yêu thích, ưa chuộng",
+    "explanation": "🎯 **Đáp án đúng: [4] にんき**\n\n💬 **Giải thích chi tiết:**\n* Cụm từ cố định: **～に人気がある (にんきがある)** mang nghĩa là \"được ... yêu thích, hâm mộ, ưa chuộng\". `わかい人に人気があります`: Rất được giới trẻ ưa chuộng.\n* Lưu ý phân biệt: `～に興味がある (きょうみがある)` dùng khi chủ ngữ là người quan tâm đến việc gì (VD: `わたしはまんがに興味があります`). Ở đây chủ ngữ là `このまんが` nên dùng `人気がある`.\n* Phân tích các phương án khác:\n  1. きぶん (気分): Tâm trạng, cảm giác cơ thể.\n  2. しゅみ (趣味): Sở thích.\n  3. きょうみ (興味): Hứng thú, quan tâm.\n  4. にんき (人気): Được yêu mến, hâm mộ.\n\n🌐 **Dịch nghĩa:** Bộ truyện tranh này ở đất nước tôi cũng rất được giới trẻ yêu thích.",
+    "text": "このまんがは、わたしの国でもわかい人に（　）があります。",
+    "options": [
+      "きぶん",
+      "しゅみ",
+      "きょうみ",
+      "にんき"
+    ],
+    "correctOption": 4
+  },
+  "17": {
+    "snippet": "おって (折って) - Gấp, gập (giấy)",
+    "explanation": "🎯 **Đáp án đúng: [3] おって**\n\n💬 **Giải thích chi tiết:**\n* Động từ **折る (おる)** dùng cho hành động gập hoặc bẻ đôi vật thể mỏng, giấy tờ: `半分に折る (はんぶんにおる)` nghĩa là \"gấp đôi lại\". Thể Te là **折って (おって)**.\n* Phân tích các phương án khác:\n  1. わって: Thể Te của 割る (わる) - làm vỡ, bổ đôi (trái cây, chia nhóm).\n  2. かえて: Thể Te của 変える (かえる) - thay đổi, hoán đổi.\n  3. おって: Thể Te của 折る (おる) - gập lại, gấp lại.\n  4. こわして: Thể Te của 壊す (こわす) - làm hỏng, phá hủy đồ vật.\n\n🌐 **Dịch nghĩa:** Vì phong bì nhỏ nên hãy gập đôi tờ tài liệu lại rồi cho vào nhé.",
+    "text": "ふうとうが小さいので、しりょうのかみは半分に（　）いれてください。",
+    "options": [
+      "わって",
+      "かえて",
+      "おって",
+      "こわして"
+    ],
+    "correctOption": 3
+  },
+  "18": {
+    "snippet": "しゅるい (種類) - Chủng loại, đa dạng món ăn",
+    "explanation": "🎯 **Đáp án đúng: [3] しゅるい**\n\n💬 **Giải thích chi tiết:**\n* Danh từ **種類 (しゅるい)** có nghĩa là \"chủng loại, các loại\". Cụm `料理の種類が多い` diễn tả thực đơn có rất nhiều loại món ăn phong phú nên có thể thưởng thức đủ loại.\n* Phân tích các phương án khác:\n  1. ぎじゅつ (技術): Kỹ thuật, tay nghề.\n  2. かんけい (関係): Mối quan hệ.\n  3. しゅるい (種類): Chủng loại, các loại.\n  4. けいけん (経験): Kinh nghiệm.\n\n🌐 **Dịch nghĩa:** Nhà hàng này có rất nhiều loại món ăn phong phú nên có thể thưởng thức được nhiều món khác nhau.",
+    "text": "このレストランはりょうりの（　）が多いので、いろいろたべられます。",
+    "options": [
+      "ぎじゅつ",
+      "かんけい",
+      "しゅるい",
+      "けいけん"
+    ],
+    "correctOption": 3
+  },
+  "19": {
+    "snippet": "たりなくて (足りなくて) - Không đủ, thiếu người",
+    "explanation": "🎯 **Đáp án đúng: [4] たりなくて**\n\n💬 **Giải thích chi tiết:**\n* Động từ **足りる (たりる)** nghĩa là \"đủ (về số lượng, số người)\". Thể phủ định là **足りない (たりない)** (thiếu, không đủ). Dạng liên kết câu thể Te là **足りなくて (たりなくて)**. `一人足りなくて`: Vì thiếu mất một người nên không thể đá bóng được.\n* Phân tích các phương án khác:\n  1. くらべなくて: Thể Te phủ định của 比べる (くらべる) - so sánh.\n  2. すぎなくて: Thể Te phủ định của 過ぎる (すぎる) - quá, trôi qua.\n  3. つづかなくて: Thể Te phủ định của 続く (つづく) - tiếp diễn, kéo dài.\n  4. たりなくて: Thể Te phủ định của 足りる (たりる) - đủ số lượng.\n\n🌐 **Dịch nghĩa:** Tôi rất muốn chơi bóng đá nhưng vì thiếu mất một người nên không thể chơi được.",
+    "text": "サッカーをしたいのに、一人（　）、できません。",
+    "options": [
+      "くらべなくて",
+      "すぎなくて",
+      "つづかなくて",
+      "たりなくて"
+    ],
+    "correctOption": 4
+  },
+  "20": {
+    "snippet": "ちゅうい (注意する) - Nhắc nhở, cảnh cáo",
+    "explanation": "🎯 **Đáp án đúng: [1] ちゅうい**\n\n💬 **Giải thích chi tiết:**\n* Cụm từ **注意する (ちゅういする)** có nghĩa là \"chú ý, cẩn thận\", ngoài ra khi đi với tân ngữ chỉ người mang nghĩa \"nhắc nhở, chấn chỉnh hành vi sai trái\". `子どもたちを注意しました`: Đã nhắc nhở những đứa trẻ đang làm ồn trong thư viện.\n* Phân tích các phương án khác:\n  1. ちゅうい (注意): Nhắc nhở, lưu ý.\n  2. こうじ (工事): Thi công công trình.\n  3. じゅんび (準備): Chuẩn bị.\n  4. そうだん (相談): Bàn bạc, thảo luận.\n\n🌐 **Dịch nghĩa:** Tôi đã nhắc nhở những đứa trẻ đang làm ồn trong thư viện.",
+    "text": "としょかんでさわいでいる子どもたちを（　）しました。",
+    "options": [
+      "ちゅうい",
+      "こうじ",
+      "じゅんび",
+      "そうだん"
+    ],
+    "correctOption": 1
+  },
+  "21": {
+    "snippet": "ぬすまれた ＝ とられた (Bị trộm lấy mất)",
+    "explanation": "🎯 **Đáp án đúng: [4] いつとられたんですか。**\n\n💬 **Giải thích chi tiết:**\n* Động từ **盗む (ぬすむ)**: ăn trộm, ăn cắp. Thể bị động là **盗まれる (ぬすまれる)**: bị trộm mất.\n* Đồng nghĩa với cụm **取られる (とられる)**: bị lấy đi, bị chiếm đoạt mất.\n* Phân tích các phương án khác:\n  1. 渡された (わたされた): Được/bị trao cho.\n  2. 押された (おされた): Bị ấn, nhấn, đẩy.\n  3. 呼ばれた (よばれた): Được/bị gọi tên.\n  4. 取られた (とられた): Bị lấy mất, cướp mất.\n\n🌐 **Dịch nghĩa:** Bạn bị trộm lấy mất từ khi nào vậy?",
+    "text": "いつぬすまれたんですか。",
+    "options": [
+      "いつわたされたんですか。",
+      "いつおされたんですか。",
+      "いつよばれたんですか。",
+      "いつとられたんですか。"
+    ],
+    "correctOption": 4
+  },
+  "22": {
+    "snippet": "じょせい ＝ おんなのひと (Phụ nữ)",
+    "explanation": "🎯 **Đáp án đúng: [2] おんなのひとは一人もいませんでした。**\n\n💬 **Giải thích chi tiết:**\n* Từ **女性 (じょせい)**: phụ nữ, phái nữ.\n* Đồng nghĩa hoàn toàn với cách nói thuần Nhật **女の人 (おんなのひと)**: người phụ nữ.\n* Phân tích các phương án khác:\n  1. 男の人 (おとこのひと): Người đàn ông (nam giới - 男性).\n  2. 女の人 (おんなのひと): Người phụ nữ (nữ giới - 女性).\n  3. 大人 (おとな): Người lớn.\n  4. 子ども (こども): Trẻ con.\n\n🌐 **Dịch nghĩa:** Ở đó đã không có bất kỳ một người phụ nữ nào cả.",
+    "text": "じょせいは一人もいませんでした。",
+    "options": [
+      "おとこのひとは一人もいませんでした。",
+      "おんなのひとは一人もいませんでした。",
+      "おとなは一人もいませんでした。",
+      "子どもは一人もいませんでした。"
+    ],
+    "correctOption": 2
+  },
+  "23": {
+    "snippet": "おしゃべり ＝ 話をする (Nói chuyện, tán gẫu)",
+    "explanation": "🎯 **Đáp án đúng: [1] 話をするのはやめてください。**\n\n💬 **Giải thích chi tiết:**\n* Danh từ **おしゃべり**: việc nói chuyện, trò chuyện, tán gẫu.\n* Đồng nghĩa với cụm **話をする (はなしをする)**: nói chuyện, trò chuyện.\n* Phân tích các phương án khác:\n  1. 話をする (はなしをする): Nói chuyện.\n  2. 写真を撮る (しゃしんをとる): Chụp ảnh.\n  3. 物を食べる (ものをたべる): Ăn uống.\n  4. たばこを吸う (たばこをすう): Hút thuốc lá.\n\n🌐 **Dịch nghĩa:** Xin hãy ngừng nói chuyện / tán gẫu lại.",
+    "text": "おしゃべりはやめてください。",
+    "options": [
+      "話をするのはやめてください。",
+      "しゃしんをとるのはやめてください。",
+      "ものを食べるのはやめてください。",
+      "たばこをすうのはやめてください。"
+    ],
+    "correctOption": 1
+  },
+  "24": {
+    "snippet": "せいさんしている ＝ つくっている (Sản xuất = làm ra, chế tạo)",
+    "explanation": "🎯 **Đáp án đúng: [3] ここではいろいろなものをつくっています。**\n\n💬 **Giải thích chi tiết:**\n* Động từ **生産する (せいさんする)**: sản xuất, chế tạo hàng hóa.\n* Đồng nghĩa với động từ **作る (つくる)**: làm ra, chế tạo ra sản phẩm.\n* Phân tích các phương án khác:\n  1. 貸している (かしている): Đang cho mượn, cho thuê.\n  2. 売っている (うっている): Đang bán.\n  3. 作っている (つくっている): Đang làm ra, chế tạo.\n  4. 使っている (つかっている): Đang dùng, sử dụng.\n\n🌐 **Dịch nghĩa:** Ở đây người ta sản xuất / làm ra rất nhiều đồ dùng khác nhau.",
+    "text": "ここではいろいろなものをせいさんしています。",
+    "options": [
+      "ここではいろいろなものをかしています。",
+      "ここではいろいろなものをうっています。",
+      "ここではいろいろなものをつくっています。",
+      "ここではいろいろなものをつかっています。"
+    ],
+    "correctOption": 3
+  },
+  "25": {
+    "snippet": "人口 (じんこう) - Dân số (thành phố, khu vực)",
+    "explanation": "🎯 **Đáp án đúng: [3] このまちは、マンションがたくさんあって、じんこうが多いです。**\n\n💬 **Giải thích chi tiết:**\n* Từ **人口 (じんこう)** mang nghĩa \"dân số\", dùng để biểu thị số lượng người dân sinh sống tại một khu vực địa lý, thành phố, đất nước (`町の人口`, `国の人口`).\n* Câu đúng là câu 3: `このまちは、マンションがたくさんあって、じんこうが多いです` (Khu phố này có nhiều chung cư nên dân số rất đông đúc).\n* Phân tích các câu sai:\n  1. Vườn thú vào chủ nhật đông người thì dùng `人がとても多い` hoặc `人出 (ひとで)`.\n  2. Công ty lớn có nhiều nhân viên thì dùng `社員 (しゃいん) が多い` hoặc `人が多い`.\n  4. Gia đình đông người thì dùng `家族が多い` (không dùng dân số cho một hộ gia đình).\n\n🌐 **Dịch nghĩa:** Khu phố này có rất nhiều chung cư nên dân số rất đông.",
+    "text": "じんこう (人口 - Dân số)",
+    "options": [
+      "日よう日のどうぶつえんはじんこうがとても多いです。",
+      "わたしの会社大きくて、じんこうがとても多いです。",
+      "このまちは、マンションがたくさんあって、じんこうが多いです。",
+      "わたしのかぞくはじんこうが多くて、いつもにぎやかです。"
+    ],
+    "correctOption": 3
+  },
+  "26": {
+    "snippet": "道が込む (みちがこむ) - Đường sá đông đúc, tắc đường",
+    "explanation": "🎯 **Đáp án đúng: [1] みちがこんでいたので、時間がかかります。**\n\n💬 **Giải thích chi tiết:**\n* Động từ **込む (こむ)** dùng để chỉ trạng thái đông đúc, tắc nghẽn của đường sá (`道が混む`), tàu xe (`電車が混む`), hay quán xá (`店が混む`).\n* Phân tích các câu sai:\n  2. Túi xách đầy ắp hành lý thì dùng `かばんがいっぱいです` (không dùng 込む).\n  3. Nghe nhiều ý kiến quá đầu bị rối thì dùng `混乱している (こんらん)` hoặc `頭がいっぱい` (không dùng 込む).\n  4. Ăn nhiều no bụng thì dùng `おなかがいっぱいです` (không dùng 込む).\n\n🌐 **Dịch nghĩa:** Vì đường sá đông đúc (tắc đường) nên mất nhiều thời gian.",
+    "text": "こむ (込む - Đông đúc, kẹt, nghẽn đường)",
+    "options": [
+      "みちがこんでいたので、時間がかかります。",
+      "りょこうのにもつが多くて、かばんがこんでいます。",
+      "いろいろないけんを聞いたので、あたまがこんでいます。",
+      "おかしを食べすぎて、おなかがこんでいます。"
+    ],
+    "correctOption": 1
+  },
+  "27": {
+    "snippet": "逃げる (にげる) - Bỏ trốn, tẩu thoát",
+    "explanation": "🎯 **Đáp án đúng: [2] けいさつが来ましたが、どろぼうはにげてしまいました。**\n\n💬 **Giải thích chi tiết:**\n* Động từ **逃げる (にげる)** có nghĩa là \"chạy trốn, tẩu thoát\" khỏi sự truy bắt hoặc hiểm nguy (dùng cho con người hoặc động vật có ý thức trốn chạy).\n* Phân tích các câu sai:\n  1. Gió thổi bay mũ thì dùng `ぼうしが飛んでいってしまいました (とんでいって)`.\n  3. Cốc đổ nước tràn ra ngoài thì dùng `水がこぼれてしまいました`.\n  4. Đến bến thì xe bus vừa chạy mất thì dùng `バスは行ってしまいました (いって)`.\n\n🌐 **Dịch nghĩa:** Cảnh sát đã tới nhưng tên trộm đã nhanh chân tẩu thoát mất.",
+    "text": "にげる (逃げる - Chạy trốn, tẩu thoát)",
+    "options": [
+      "かぜがふいて、ぼうしがにげてしまいました。",
+      "けいさつが来ましたが、どろぼうはにげてしまいました。",
+      "コップがたおれて、なかの水がにげてしまいました。",
+      "バスていについたとき、バスはにげてしまいました。"
+    ],
+    "correctOption": 2
+  },
+  "28": {
+    "snippet": "不便 (ふべん) - Bất tiện (về địa lý, đi lại, tiện nghi)",
+    "explanation": "🎯 **Đáp án đúng: [4] ぎんこうはいえからとおいので、いくのはふべんです。**\n\n💬 **Giải thích chi tiết:**\n* Tính từ đuôi na **不便 (ふべん)** nghĩa là \"bất tiện\" (về mặt giao thông, đi lại, địa lý, tiện nghi cuộc sống). Đi đến ngân hàng ở xa nhà là một sự bất tiện về đi lại: `銀行は家から遠いので、行くのは不便です`.\n* Phân tích các câu sai:\n  1. Luật thể thao phức tạp, rắc rối thì dùng `複雑で (ふくざつで)` (không dùng 不便).\n  2. Nhiều bài tập thì dùng `大変です (たいへん)` (không dùng 不便).\n  3. Lời giảng có nhiều từ ngữ chuyên môn khó hiểu thì dùng `難しくて (むずかしくて)` (không dùng 不便).\n\n🌐 **Dịch nghĩa:** Ngân hàng ở xa nhà nên việc đi lại rất bất tiện.",
+    "text": "ふべん (不便 - Bất tiện)",
+    "options": [
+      "このスポーツはルールがふべんで、おぼえられません。",
+      "しゅくだいがたくさんありましたから、ふべんです。",
+      "先生の話せんもんのことばが多くて、ふべんで、わかりにくいです。",
+      "ぎんこうはいえからとおいので、いくのはふべんです。"
+    ],
+    "correctOption": 4
+  },
+      "29": {
+      "snippet": "〜を…と言う (Gọi cái gì là...)",
+      "explanation": "🎯 **Đáp án đúng: [4] と**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `[Danh từ 1] を [Danh từ 2] と言います` mang nghĩa \"Gọi [Danh từ 1] là [Danh từ 2]\" hoặc \"Người ta gọi [Danh từ 1] là [Danh từ 2]\". Trợ từ **と** ở đây có vai trò trích dẫn nội dung tên gọi / định nghĩa.\n* Trong câu này: `うでにつける時計を「うでどけい」といいます` ➔ Đồng hồ đeo ở cổ tay thì được gọi là \"đồng hồ đeo tay\" (腕時計).\n* **Phân tích các phương án khác:**\n  * 1. `が`: Chỉ chủ ngữ, không đứng trước động từ trích dẫn `いいます` theo cấu trúc định nghĩa tên gọi.\n  * 2. `に`: Chỉ mục đích, thời gian hoặc hướng tác động, không dùng để trích dẫn tên gọi sau danh từ.\n  * 3. `で`: Chỉ phương tiện, nơi chốn xảy ra hành động, không dùng trong mẫu câu định nghĩa tên gọi.\n\n🌐 **Dịch nghĩa:** Đồng hồ đeo ở cổ tay thì người ta gọi là \"đồng hồ đeo tay\".",
+      "text": "うでにつける時計を「うでどけい」(　　)いいます。",
+      "options": [
+            "が",
+            "に",
+            "で",
+            "と"
+      ],
+      "correctOption": 4
+},
+    "30": {
+      "snippet": "〜に便利だ (Tiện lợi cho việc gì/mục đích gì)",
+      "explanation": "🎯 **Đáp án đúng: [3] に**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `[Danh từ/V-るの] + に + 便利だ / いい / 役に立つ` mang ý nghĩa \"tiện lợi / tốt / có ích cho một mục đích hoặc trường hợp nào đó\".\n* Trợ từ **に** dùng để chỉ phạm vi đánh giá, mục đích sử dụng.\n* `旅行に便利です` nghĩa là \"rất tiện cho việc đi du lịch\".\n* **Phân tích các phương án khác:**\n  * 1. `と`: Đi cùng với ai/cái gì hoặc liệt kê, không phù hợp.\n  * 2. `を`: Bổ ngữ trực tiếp của ngoại động từ, trong khi `便利` là tính từ đuôi na.\n  * 4. `の`: Đứng giữa 2 danh từ (`旅行の便利` không đi được trực tiếp trước vị ngữ `です`).\n\n🌐 **Dịch nghĩa:** Chiếc cặp này nhẹ nên rất tiện lợi cho những chuyến du lịch.",
+      "text": "このかばんは軽いから、旅行(　　)便利です。",
+      "options": [
+            "と",
+            "を",
+            "に",
+            "の"
+      ],
+      "correctOption": 3
+},
+    "31": {
+      "snippet": "Số lượng + しか + V-nai (Chỉ có...)",
+      "explanation": "🎯 **Đáp án đúng: [3] しか**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `[Số từ] + しか + Động từ thể phủ định (〜ない/〜ません)` mang ý nghĩa \"chỉ có... (ít ỏi, không đủ so với mong đợi, mang sắc thái phủ định)\".\n* Vế sau câu là thể phủ định `持っていません` (không có), đối lập với bố có hơn 30 chiếc cà vạt (`30本以上`), tôi chỉ có vỏn vẹn 2 chiếc nên phải dùng **しか**.\n* **Phân tích các phương án khác:**\n  * 1. `が`: Trợ từ chỉ chủ ngữ, không thể hiện hàm ý \"chỉ vỏn vẹn\".\n  * 2. `ずつ`: Từng... một (phân chia đều, ví dụ mỗi người 2 cái: `2本ずつ`), không hợp ngữ cảnh so sánh tương phản.\n  * 4. `ぐらい`: Khoảng chừng, thường đi với câu khẳng định biểu thị ước lượng, không nhấn mạnh tính ít ỏi đi với phủ định như `しか`.\n\n🌐 **Dịch nghĩa:** Bố tôi có hơn 30 chiếc cà vạt nhưng tôi thì chỉ có vỏn vẹn 2 chiếc.",
+      "text": "父はネクタイを 30 本以上持っていますが、私は 2 本(　　)持っていません。",
+      "options": [
+            "が",
+            "ずつ",
+            "しか",
+            "ぐらい"
+      ],
+      "correctOption": 3
+},
+    "32": {
+      "snippet": "〜によると 〜そうだ (Theo như... nghe nói là...)",
+      "explanation": "🎯 **Đáp án đúng: [4] によると**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `[Nguồn thông tin (N)] + によると 〜 そうだ / ということだ` mang ý nghĩa \"Theo như nguồn thông tin... thì nghe nói là...\".\n* Đuôi câu có dạng truyền đạt thông tin `〜だそうです`, đi cùng danh từ nguồn tin `きのう読んだ本` (cuốn sách đọc hôm qua), cấu trúc cố định chuẩn xác bắt buộc là **によると**.\n* **Phân tích các phương án khác:**\n  * 1. `について`: Về (vấn đề/chủ đề nào đó, ví dụ: `日本の文化について調べる`), không dùng làm nguồn dẫn truyền đạt thông tin với `〜そうだ`.\n  * 2. `からは`: Từ..., không dùng với mẫu câu truyền đạt nguồn tin.\n  * 3. `より`: So với..., dùng trong câu so sánh hơn kém, không phù hợp.\n\n🌐 **Dịch nghĩa:** Theo cuốn sách tôi đã đọc ngày hôm qua thì nghe nói màu đỏ là màu sắc đem lại năng lượng/sự hoạt bát.",
+      "text": "きのう読んだ本(　　)、赤は元気が出る色だそうです。",
+      "options": [
+            "について",
+            "からは",
+            "より",
+            "によると"
+      ],
+      "correctOption": 4
+},
+    "33": {
+      "snippet": "だいたい (Đại khái / Hầu như / Khoảng chừng)",
+      "explanation": "🎯 **Đáp án đúng: [1] だいたい**\n\n💬 **Giải thích chi tiết:**\n* **Ý nghĩa phó từ:** **だいたい (大体)** có nghĩa là \"khoảng chừng, đại khái, thường là\". Đi với mốc thời gian ước chừng `10時ごろまで` (đến tầm khoảng 10 giờ) tạo nên thói quen: \"sáng chủ nhật hàng tuần thường ngủ đến tầm 10 giờ\".\n* **Phân tích các phó từ khác:**\n  * 2. `だんだん`: Dần dần, từ từ (biểu thị sự biến đổi trạng thái theo thời gian, ví dụ: `だんだん暖かくなる`).\n  * 3. `なかなか`: Mãi mà (đi với phủ định: `なかなか〜ない`) hoặc khá là (đi với tính từ: `なかなか上手だ`).\n  * 4. `ひじょうに`: Rất, cực kỳ (chỉ mức độ cao, đi cùng tính từ/trạng từ: `非常に高い`).\n\n🌐 **Dịch nghĩa:** Vào các buổi sáng chủ nhật hàng tuần, tôi thường ngủ đại khái đến khoảng 10 giờ.",
+      "text": "毎週日曜日の朝は、(　　)10 時ごろまで寝ています。",
+      "options": [
+            "だいたい",
+            "だんだん",
+            "なかなか",
+            "ひじょうに"
+      ],
+      "correctOption": 1
+},
+    "34": {
+      "snippet": "どうして〜んですか (Tại sao... thế?)",
+      "explanation": "🎯 **Đáp án đúng: [2] どうして**\n\n💬 **Giải thích chi tiết:**\n* **Từ để hỏi:** **どうして** có nghĩa là \"tại sao, vì lý do gì\".\n* Người đáp lại bằng câu giải thích nguyên nhân/lý do: `ようじがあったんです` (Vì tôi có việc bận). Do đó câu hỏi phía trước phải là hỏi lý do \"Tại sao hôm qua bạn lại không đến bữa tiệc?\".\n* **Phân tích các phương án khác:**\n  * 1. `どの`: Cái nào (từ hạn định đi trực tiếp trước danh từ: `どの本`).\n  * 3. `どのぐらい`: Bao lâu, khoảng bao nhiêu (hỏi về lượng thời gian, khoảng cách, số tiền).\n  * 4. `どうやって`: Bằng cách nào, làm thế nào (hỏi phương thức, cách thức di chuyển/thực hiện).\n\n🌐 **Dịch nghĩa:** Aoki: \"Anh Ishikawa ơi, hôm qua tại sao anh không đến bữa tiệc thế?\" - Ishikawa: \"Tại vì tôi có chút việc bận ạ.\"",
+      "text": "青木「石川さん、きのう(　　)パーティーこなかったんですか。」\\n石川「ようじがあったんです。」",
+      "options": [
+            "どの",
+            "どうして",
+            "どのぐらい",
+            "どうやって"
+      ],
+      "correctOption": 2
+},
+    "35": {
+      "snippet": "〜の途中で (Giữa chừng lúc đang...)",
+      "explanation": "🎯 **Đáp án đúng: [3] のとちゅうで**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `[Danh từ] + の途中で (のとちゅうで)` hoặc `[V-る] + 途中で` mang nghĩa \"ở giữa chừng lúc đang làm gì đó thì một hành động khác xen ngang vào\".\n* Trong câu: Con trai tôi luôn luôn giữa chừng lúc đang dọn dẹp (`そうじのとちゅうで`) lại bắt đầu làm việc khác, nên việc dọn dẹp mãi không xong.\n* **Phân tích các phương án khác:**\n  * 1. `あいだ`: Cần trợ từ `の` sau danh từ (`そうじのあいだ`), và `あいだ` biểu thị suốt cả khoảng thời gian diễn ra song song chứ không mang nghĩa ngắt quãng giữa chừng làm dở dang.\n  * 2. `ときに`: Cần `の` sau danh từ (`そうじのときに`), diễn tả thời điểm chung chung không làm nổi bật tính ngắt quãng giữa chừng.\n  * 4. `のあと`: Sau khi dọn dẹp xong mà làm việc khác thì việc dọn dẹp đã hoàn thành rồi, mâu thuẫn với câu kết `そうじがぜんぜん終わらない` (dọn dẹp mãi không xong).\n\n🌐 **Dịch nghĩa:** Con trai nhà tôi lúc nào cũng đang giữa chừng lúc dọn dẹp lại bày việc khác ra làm, nên việc dọn dẹp mãi mà chẳng xong.",
+      "text": "うちのむすこはいつもそうじ(　　)ほかのことを始めてしまうので、そうじがぜんぜん終わらない。",
+      "options": [
+            "あいだ",
+            "ときに",
+            "のとちゅうで",
+            "のあと"
+      ],
+      "correctOption": 3
+},
+    "36": {
+      "snippet": "V-たことがある (Đã từng làm gì...)",
+      "explanation": "🎯 **Đáp án đúng: [2] 行った**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `Động từ thể Quá khứ ngắn (V-た) + ことがある` biểu thị kinh nghiệm trong quá khứ: \"Đã từng làm gì...\".\n* Động từ `行く` chia sang thể `た` là **行った**.\n* Câu hỏi kinh nghiệm: `京都に行ったことがありますか` ➔ \"Bạn đã từng đi Kyoto bao giờ chưa?\".\n* **Phân tích các phương án khác:**\n  * 1. `行き`: Thể liên dụng (Masu bỏ masu), không kết hợp với `ことがあります`.\n  * 3. `行こう`: Thể ý chí (V-ou), không đi với `ことがあります`.\n  * 4. `行って`: Thể Te (V-te), không tạo thành mẫu câu kinh nghiệm quá khứ.\n\n🌐 **Dịch nghĩa:** Yamashita: \"Bạn Chin đã từng đi Kyoto bao giờ chưa?\" - Chin: \"Vâng, tôi đã từng đi rồi ạ.\"",
+      "text": "山下「チンさんは京都に(　　)ことがありますか。」\\nチン「はい、あります。」",
+      "options": [
+            "行き",
+            "行った",
+            "行こう",
+            "行って"
+      ],
+      "correctOption": 2
+},
+    "37": {
+      "snippet": "〜Vたのは〜 (Việc mà... là vào lúc...)",
+      "explanation": "🎯 **Đáp án đúng: [4] 会ったのは**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** Dạng nhấn mạnh danh từ hóa mệnh đề: `[Mệnh đề V ngắn] + のは [Thời gian/Địa điểm/Người...] です` mang ý nghĩa \"Lần mà / Việc mà... chính là vào...\".\n* `私が山田さんに初めて会ったのは 3 年前です` ➔ \"Lần đầu tiên tôi gặp anh Yamada là vào 3 năm trước\".\n* **Phân tích các phương án khác:**\n  * 1. `会って`: Thể Te nối câu, không thể kết nối trực tiếp với danh từ chỉ thời gian đứng trước `です` theo cách này.\n  * 2. `会ってから`: Kể từ sau khi gặp, đuôi câu phải là một khoảng thời gian trôi qua đi với hành động hoặc `3年になります / 3年が経ちました`, không nói `会ってから3年前です`.\n  * 3. `会ったまま`: Cứ giữ nguyên trạng thái sau khi làm gì, sai hoàn toàn về mặt ngữ nghĩa và ngữ pháp.\n\n🌐 **Dịch nghĩa:** Lần đầu tiên tôi gặp anh Yamada là vào 3 năm trước.",
+      "text": "私が山田さんに初めて(　　)3年前です。",
+      "options": [
+            "会って",
+            "会ってから",
+            "会ったまま",
+            "会ったのは"
+      ],
+      "correctOption": 4
+},
+    "38": {
+      "snippet": "〜ないといけない (Phải làm gì...)",
+      "explanation": "🎯 **Đáp án đúng: [2] 出さないといけない**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `V-ない + といけない / とだめだ` mang ý nghĩa \"bắt buộc phải làm gì...\".\n* Bổ nghĩa cho danh từ `しゅくだい` (bài tập): `あした中に出さないといけないしゅくだい` ➔ \"Bài tập mà bắt buộc phải nộp trong ngày mai\". Vì bài tập phải nộp chưa làm xong nên hôm nay không thể đi karaoke cùng bạn được.\n* **Phân tích các phương án khác:**\n  * 1. `出してはいない`: Không nộp, không tạo nghĩa bổ ngữ thích hợp cho bài tập cần hoàn thành.\n  * 3. `出さなくてもいい`: Không phải nộp cũng được (nếu không cần nộp thì đã có thể đi hát rồi).\n  * 4. `出さないほうがいい`: Không nên nộp (lời khuyên không nên làm gì, hoàn toàn vô lý với bài tập trường học).\n\n🌐 **Dịch nghĩa:** (Ở trường đại học) A: \"Hôm nay đi hát karaoke cùng tớ không?\" - B: \"Xin lỗi nhé. Bài tập phải nộp trong ngày mai tớ vẫn chưa làm xong nên hôm nay tớ không đi được rồi.\"",
+      "text": "(大学)\\nA「今日いっしょにカラオケに行かない？」\\nB「ごめん。あした中に(　　)しゅくだいがまだ終わっていないから、今日は行けないんだ。」",
+      "options": [
+            "出してはいない",
+            "出さないといけない",
+            "出さなくてもいい",
+            "出さないほうがいい"
+      ],
+      "correctOption": 2
+},
+    "39": {
+      "snippet": "Thể sai khiến (使役形): V-(さ)せる (Làm cho ai đó...)",
+      "explanation": "🎯 **Đáp án đúng: [3] よろこばせた**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** Thể sai khiến (使役形 - Shieki): Nhóm 1 đổi đuôi cột `u` sang cột `a` + `せる`. Động từ `喜ぶ (よろこぶ - vui mừng)` chia sang thể sai khiến là **喜ばせる (よろこばせる)**.\n* Mẫu câu: `[Người A] は [Người B] を + Động từ thể sai khiến` ➔ \"Người A làm cho người B cảm thấy thế nào / làm gì\".\n* Trợ từ đứng sau `かのじょ` là **を** (`かのじょを`), Tanaka tặng hoa và \"làm cho cô ấy vui mừng\" ➔ `よろこばせた` (quá khứ của よろこばせる).\n* **Phân tích các phương án khác:**\n  * 1. `よろこんだ`: Thể thường, chủ ngữ phải là người cảm thấy vui mừng (không đi với trợ từ `かのじょを`).\n  * 2. `よろこべた`: Thể khả năng (có thể vui mừng), sai ngữ nghĩa.\n  * 4. `よろこばれた`: Thể bị động (được người khác vui mừng), sai cấu trúc câu.\n\n🌐 **Dịch nghĩa:** Anh Tanaka đã tặng hoa và làm cho bạn gái của mình rất vui.",
+      "text": "田中さんは花をプレゼントして、かのじょを(　　)。",
+      "options": [
+            "よろこんだ",
+            "よろこべた",
+            "よろこばせた",
+            "よろこばれた"
+      ],
+      "correctOption": 3
+},
+    "40": {
+      "snippet": "V-たところです (Vừa mới làm xong...)",
+      "explanation": "🎯 **Đáp án đúng: [1] 来たところです**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `Động từ thể Quá khứ ngắn (V-た) + ところです` mang ý nghĩa \"vừa mới thực hiện xong hành động tức thì\". Đi cùng phó từ **今 (いま)** nhấn mạnh khoảnh khắc vừa tới.\n* Trong giao tiếp tiếng Nhật, khi đối phương xin lỗi vì đến muộn (`遅くなってすみません`), câu đáp lịch sự kinh điển để đối phương đỡ ngại là: `いいえ、私も今来たところです` (\"Không sao đâu, tôi cũng vừa mới tới nơi thôi mà\").\n* **Phân tích các phương án khác:**\n  * 2. `来るところです`: Chuẩn bị đến nơi (đang ở chỗ khác chuẩn bị đi/đến), không dùng khi người nói đã đứng đợi ở đó rồi.\n  * 3. `来ていました`: Đã đến từ trước (như vậy chứng tỏ đối phương đến muộn thật, làm tăng sự áy náy).\n  * 4. `来ています`: Đang có mặt ở đây, không thể hiện ý vừa mới tới.\n\n🌐 **Dịch nghĩa:** Nishikawa: \"Anh Hayashi ơi, xin lỗi vì tôi đến trễ nhé.\" - Nakata: \"Không sao đâu, tôi cũng vừa mới tới thôi mà.\"",
+      "text": "西川「林さん、遅れなってすみません。」\\n中田「いいえ、私も今(　　)。」",
+      "options": [
+            "来たところです",
+            "来るところです",
+            "来ていました",
+            "来ています"
+      ],
+      "correctOption": 1
+},
+    "41": {
+      "snippet": "N にする (Quyết định chọn món/lựa chọn N)",
+      "explanation": "🎯 **Đáp án đúng: [1] する**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `[Danh từ] + にする` là mẫu câu quen thuộc dùng khi gọi món ăn tại nhà hàng hoặc đưa ra quyết định chọn một trong nhiều phương án: \"Tôi quyết định chọn... / Cho tôi món...\".\n* `私はカレーにする` nghĩa là \"Tôi chọn món cơm cà ri\".\n* **Phân tích các phương án khác:**\n  * 2. `いい`: `カレーにいい` (tốt cho cà ri - sai ngữ nghĩa gọi món).\n  * 3. `ください`: Đi với trợ từ を: `カレーをください`, không nói `カレーにください`.\n  * 4. `食べよう`: Đi với trợ từ を: `カレーを食べよう`, không nói `カレーに食べよう`.\n\n🌐 **Dịch nghĩa:** (Ở nhà hàng) Nakayama: \"Kimura định ăn gì thế?\" - Kimura: \"Tớ chọn món cà ri nhé.\"",
+      "text": "(レストランで)\\n中山「木村さんは何を食べる？」\\n木村「私はカレーに(　　)。」",
+      "options": [
+            "する",
+            "いい",
+            "ください",
+            "食べよう"
+      ],
+      "correctOption": 1
+},
+    "42": {
+      "snippet": "3人でとまれる [3 へや] [1 を]★ [4 予約したいのです] [2 が]",
+      "explanation": "🎯 **Đáp án đúng: [1] を (Vị trí ngôi sao ★ là 1)**\n\n💬 **Giải thích chi tiết:**\n* **Sắp xếp câu:**\n  1. `3人でとまれる` (có thể ở được 3 người) là mệnh đề định ngữ bổ nghĩa cho danh từ `へや` (phòng) ➔ **[3] へや**\n  2. Bổ ngữ của động từ đặt phòng `予約したい` cần trợ từ `を` ➔ **[1] を**\n  3. Động từ bày tỏ nguyện vọng và lý do: `予約したいのです` ➔ **[4] 予約したいのです**\n  4. Trợ từ liên từ mở lời ngập ngừng `が` ở cuối câu ➔ **[2] が**\n* **Thứ tự đúng:** `3 へや` ➔ `1 を` ★ ➔ `4 予約したいのです` ➔ `2 が`\n* **Câu hoàn chỉnh:** `すみません、今日は 3 人でとまれるへやを予約したいのですが。`\n* Vị trí dấu sao ★ rơi vào số **[1] を**.\n\n🌐 **Dịch nghĩa:** (Qua điện thoại) A: \"Vâng, quán trọ Sakura xin nghe ạ.\" - B: \"Xin lỗi, hôm nay tôi muốn đặt phòng cho 3 người ở được có được không ạ?\" - A: \"Vâng, hiện vẫn còn phòng trống ạ.\"",
+      "text": "(電話で)\\nA「はい、さくら旅館です。」\\nB「すみません、今日は 3 人でとまれる ＿＿ ＿★＿ ＿＿ ＿＿。」\\nA「はい、空いています。」\\n\\n1: を　2: が　3: へや　4: 予約したいのです",
+      "options": [
+            "を",
+            "が",
+            "へや",
+            "予約したいのです"
+      ],
+      "correctOption": 1
+},
+    "43": {
+      "snippet": "ともだちに [1 借りた] [4 本を]★ [3 返そう] [2 と思っていた] のに",
+      "explanation": "🎯 **Đáp án đúng: [4] 本を (Vị trí ngôi sao ★ là 4)**\n\n💬 **Giải thích chi tiết:**\n* **Sắp xếp câu:**\n  1. `ともだちに借りた` (đã mượn của bạn bè) bổ nghĩa cho danh từ `本` ➔ **[1] 借りた** ➔ **[4] 本を**\n  2. Cấu trúc dự định: `V-ý chí + と思っていた` (đã định làm gì...): `返そうと思っていた` ➔ **[3] 返そう** ➔ **[2] と思っていた**\n  3. Đi tiếp với liên từ biểu thị sự tiếc nuối: `〜のに、家に忘れてきてしまった` (thế mà lại quên khuấy ở nhà mất).\n* **Thứ tự đúng:** `1 借りた` ➔ `4 本を` ★ ➔ `3 返そう` ➔ `2 と思っていた`\n* **Câu hoàn chỉnh:** `ともだちに借りた本を返そうと思っていたのに、家に忘れてきてしまった。`\n* Vị trí dấu sao ★ rơi vào số **[4] 本を**.\n\n🌐 **Dịch nghĩa:** Đã định bụng trả quyển sách mượn của bạn, thế mà tôi lại để quên ở nhà mất rồi.",
+      "text": "ともだちに ＿＿ ＿★＿ ＿＿ ＿＿ のに、家に忘れてきてしまった。\\n\\n1: 借りた　2: と思っていた　3: 返そう　4: 本を",
+      "options": [
+            "借りた",
+            "と思っていた",
+            "返そう",
+            "本を"
+      ],
+      "correctOption": 4
+},
+    "44": {
+      "snippet": "コンサートが始まる [1 までに] [4 会場に着く] [2 かどうか]★ [3 心配した] が",
+      "explanation": "🎯 **Đáp án đúng: [2] かどうか (Vị trí ngôi sao ★ là 2)**\n\n💬 **Giải thích chi tiết:**\n* **Sắp xếp câu:**\n  1. `コンサートが始まるまでに` (trước khi buổi hòa nhạc bắt đầu) ➔ **[1] までに**\n  2. Đến được hội trường: `会場に着く` ➔ **[4] 会場に着く**\n  3. Cấu trúc phân vân/lo lắng: `V thể từ điển + かどうか + 心配した` (lo lắng liệu có... hay không) ➔ **[2] かどうか** ➔ **[3] 心配した**\n  4. Đi với liên từ đối lập `が、間に合った` (nhưng may mắn là vẫn kịp).\n* **Thứ tự đúng:** `1 までに` ➔ `4 会場に着く` ➔ `2 かどうか` ★ ➔ `3 心配した`\n* **Câu hoàn chỉnh:** `電車が遅れて、コンサートが始まるまでに会場に着くかどうか心配したが、間に合った。`\n* Vị trí dấu sao ★ rơi vào số **[2] かどうか**.\n\n🌐 **Dịch nghĩa:** Tàu điện bị trễ nên tôi đã rất lo lắng liệu có đến hội trường kịp trước khi buổi hòa nhạc bắt đầu hay không, nhưng may mắn là vẫn kịp giờ.",
+      "text": "電車が遅れて、コンサートが始まる ＿＿ ＿＿ ＿★＿ ＿＿ が、間に合った。\\n\\n1: までに　2: かどうか　3: 心配した　4: 会場に着く",
+      "options": [
+            "までに",
+            "かどうか",
+            "心配した",
+            "会場に着く"
+      ],
+      "correctOption": 2
+},
+    "45": {
+      "snippet": "私が [4 見ている] [2 アニメに] [3 きょうみをもつ]★ [1 ように] なりました",
+      "explanation": "🎯 **Đáp án đúng: [3] きょうみをもつ (Vị trí ngôi sao ★ là 3)**\n\n💬 **Giải thích chi tiết:**\n* **Sắp xếp câu:**\n  1. `私が見ている` (tôi đang xem) bổ nghĩa cho danh từ bộ phim hoạt hình `アニメ` ➔ **[4] 見ている** ➔ **[2] アニメに**\n  2. Cụm từ cố định: `〜に興味を持つ (きょうみをもつ)` (hứng thú / quan tâm đến cái gì) ➔ **[3] きょうみをもつ**\n  3. Cấu trúc biến đổi thói quen/trạng thái: `V thể từ điển + ようになる` (trở nên / dần có thói quen làm gì) ➔ **[1] ように** + `なりました`\n* **Thứ tự đúng:** `4 見ている` ➔ `2 アニメに` ➔ `3 きょうみをもつ` ★ ➔ `1 ように`\n* **Câu hoàn chỉnh:** `最近、弟は、私が見ているアニメにきょうみをもつようになりました。`\n* Vị trí dấu sao ★ rơi vào số **[3] きょうみをもつ**.\n\n🌐 **Dịch nghĩa:** Gần đây, em trai tôi đã bắt đầu tỏ ra hứng thú với những bộ phim hoạt hình (anime) mà tôi đang xem.",
+      "text": "最近、弟は、私が ＿＿ ＿＿ ＿★＿ ＿＿ なりました。\\n\\n1: ように　2: アニメに　3: きょうみをもつ　4: 見ている",
+      "options": [
+            "ように",
+            "アニメに",
+            "きょうみをもつ",
+            "見ている"
+      ],
+      "correctOption": 3
+},
+    "46": {
+      "snippet": "〜という (Có tên gọi là...)",
+      "explanation": "🎯 **Đáp án đúng: [2] という**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `[Tên riêng/Danh từ 1] + という + [Danh từ 2]` mang ý nghĩa \"Danh từ 2 có tên gọi là Danh từ 1\", dùng khi giới thiệu một địa danh, sự vật mới cho người nghe/đọc.\n* Trong bài văn: Tác giả phát hiện ra một bảo tàng mỹ thuật và giới thiệu: `さくら美術館という小さな美術館で` (Đó là một bảo tàng mỹ thuật nhỏ có tên là Bảo tàng Sakura...).\n* **Phân tích các phương án khác:**\n  * 1. `が`: Chỉ chủ ngữ, không đứng giữa hai danh từ để bổ nghĩa chỉ định danh tính theo cách này.\n  * 3. `より`: So sánh hơn.\n  * 4. `なら`: Giả định điều kiện \"nếu là\".\n\n🌐 **Dịch nghĩa:** Đó là một bảo tàng mỹ thuật nhỏ có tên là Bảo tàng mỹ thuật Sakura, tòa nhà màu trắng rất đẹp.",
+      "text": "さくら美術館( 18 )小さな美術館で、白くてきれいな建物でした。",
+      "options": [
+            "が",
+            "という",
+            "より",
+            "なら"
+      ],
+      "correctOption": 2
+},
+    "47": {
+      "snippet": "〜ことにする (Quyết định làm gì)",
+      "explanation": "🎯 **Đáp án đúng: [4] 休むことにしました**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `Động từ thể từ điển (V-る) + ことにする` diễn tả một quyết định mang tính chủ quan của bản thân người nói/người viết. Ở quá khứ dùng `〜ことにしました`.\n* Ngữ cảnh: Tác giả nhìn thấy bên trong bảo tàng có một quán cà phê giải khát, vì vậy tác giả đã quyết định vào đó nghỉ ngơi một chút (`きっさてんで少し休むことにしました`).\n* **Phân tích các phương án khác:**\n  * 1. `休みそうです`: Trông có vẻ sắp nghỉ ngơi (sai ngữ cảnh phán đoán ngoại cảnh).\n  * 2. `休んだほうがよかったです`: Lẽ ra nên nghỉ ngơi thì tốt hơn (bày tỏ sự nuối tiếc vì trong quá khứ đã không làm).\n  * 3. `休んでおきました`: Làm gì đó sẵn trước để chuẩn bị cho mục đích tương lai, không tự nhiên trong ngữ cảnh này.\n\n🌐 **Dịch nghĩa:** Vì vậy, tôi đã quyết định ngồi nghỉ ngơi một chút ở quán cà phê.",
+      "text": "それで、きっさてんで少し( 19 )。大きな窓がある明るいきっさてんでした。",
+      "options": [
+            "休みそうです",
+            "休んだほうがよかったです",
+            "休んでおきました",
+            "休むことにしました"
+      ],
+      "correctOption": 4
+},
+    "48": {
+      "snippet": "そして (Và / Hơn nữa - liên từ bổ sung)",
+      "explanation": "🎯 **Đáp án đúng: [3] そして**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc liên từ:** **そして** dùng để liên kết và bổ sung thêm thông tin cùng chiều tiếp theo (\"Và lại / Hơn nữa / Tiếp theo đó\").\n* Câu trước: Trong khu vườn nhìn từ cửa sổ ra có muôn hoa đua nở.\n* Câu sau: Tiếp tục bổ sung thêm cảnh đẹp bên trong quán: \"Và lại, ngay bên trong quán cà phê cũng treo rất nhiều tranh hoa\" (`喫茶店の中にも花の絵がたくさんありました`).\n* **Phân tích các liên từ khác:**\n  * 1. `たとえば`: Ví dụ như (dùng để đưa ra ví dụ minh họa).\n  * 2. `だから`: Vì vậy (chỉ kết quả nguyên nhân - hệ quả).\n  * 4. `とくに`: Đặc biệt là (dùng để nhấn mạnh một đối tượng nổi bật trong tập hợp).\n\n🌐 **Dịch nghĩa:** Ở khu vườn ngắm qua cửa sổ có đủ loài hoa đang nở rực rỡ. Và lại, ngay cả bên trong quán cà phê cũng có rất nhiều bức tranh vẽ hoa.",
+      "text": "窓から見える庭にはいろいろな花がさいていました。( 20 )喫茶店の中にも花の絵がたくさんありました。",
+      "options": [
+            "たとえば",
+            "だから",
+            "そして",
+            "とくに"
+      ],
+      "correctOption": 3
+},
+    "49": {
+      "snippet": "V-ることができる (Có thể làm gì... - Khả năng)",
+      "explanation": "🎯 **Đáp án đúng: [1] 入ることができます**\n\n💬 **Giải thích chi tiết:**\n* **Cấu trúc ngữ pháp:** `V thể từ điển + ことができる` biểu thị năng lực hoặc điều kiện cho phép có thể thực hiện một hành động nào đó.\n* Ngữ cảnh: Dù không trả tiền mua vé vào cổng bảo tàng mỹ thuật (`料金を渡さなくても`), khách vẫn có thể tự do vào quán cà phê được (`きっさてんには入ることができます`).\n* **Phân tích các phương án khác:**\n  * 2. `入ってもらいます`: Nhờ vả ai đó vào quán giúp mình, sai chủ thể và vô nghĩa.\n  * 3. `入るつもりです`: Dự định sẽ vào (không phù hợp với cấu trúc điều kiện cho phép `〜なくても`).\n  * 4. `入っていきます`: Đi vào trong đó (hướng di chuyển ra xa), không nêu bật được tính chất điều kiện khả năng.\n\n🌐 **Dịch nghĩa:** Cho dù không cần trả tiền vé vào bảo tàng mỹ thuật thì ta vẫn có thể vào quán cà phê này được. Vì thế dạo gần đây tôi rất hay lui tới.",
+      "text": "美術館に入る料金を渡さなくても、きっさてんには( 21 )。それで、最近よく行っています。",
+      "options": [
+            "入ることができます",
+            "入ってもらいます",
+            "入るつもりです",
+            "入っていきます"
+      ],
+      "correctOption": 1
+},
+    "50": {
+      "snippet": "Đọc hiểu ngắn: Đọc email công việc và xác định hành động cần làm",
+      "explanation": "🎯 **Đáp án đúng: [3] 会議の時間は 10 時と 14 時のどちらがいいか、中村さんに知らせます。**\n\n💬 **Giải thích chi tiết:**\n* **Tìm kiếm thông tin chính:** Trong email, anh Nakamura viết:\n  * `10 時からと 14 時からの 2 回です。どちらがいいでしょうか。` (Có 2 khung giờ trống là từ 10:00 và từ 14:00. Khung giờ nào thì tiện hơn?)\n  * `会議の時間が決まったら、知らせてください。すぐに予約します。` (Sau khi chốt thời gian họp thì hãy báo cho tôi biết nhé. Tôi sẽ đặt phòng họp ngay lập tức.)\n* Như vậy, việc Yang phải làm là chọn xem khung giờ 10:00 hay 14:00 tốt hơn và thông báo cho Nakamura.\n* **Phân tích các phương án sai:**\n  * 1. Nakamura đã kiểm tra sẵn thời gian dùng được rồi, Yang không cần tra cứu lại nữa.\n  * 2. Không phải có 2 cuộc họp, mà là có 2 khung giờ trống để chọn 1.\n  * 4. Nakamura sẽ là người đặt phòng (`すぐに予約します`), Yang không cần tự đặt phòng.\n\n🌐 **Dịch nghĩa:** Sau khi đọc email này, Yang phải làm việc gì? ➔ Báo cho anh Nakamura biết thời gian họp là 10 giờ hay 14 giờ thì thích hợp hơn.",
+      "text": "【メールの内容】\\nヤンさん\\n大会議室の予約のことですが、来週の木曜日で 2 時間使えるのは、10 時からと 14 時からの 2 回です。どちらがいいでしょうか。会議の時間が決まったら、知らせてください。すぐに予約します。\\n中村\\n\\n質問：このメールを読んで、ヤンさんは何をしなければなりませんか。",
+      "options": [
+            "来週の木曜日に大会議室が使える時間を調べます。",
+            "来週の木曜日に会議が 2 回あることを、みんなに知らせます。",
+            "会議の時間は 10 時と 14 時のどちらがいいか、中村さんに知らせます。",
+            "会議の時間を決めて、自分で会議室を予約します。"
+      ],
+      "correctOption": 3
+},
+    "51": {
+      "snippet": "Đọc hiểu ngắn: Xác định nhân vật phát ngôn",
+      "explanation": "🎯 **Đáp án đúng: [2] 店員**\n\n💬 **Giải thích chi tiết:**\n* **Chi tiết trong bài:** Ngay sau câu nói ①, tác giả viết:\n  * `昨日コンビニで、店員さんがお客さんに言った言葉を聞いて、私は②びっくりしました。`\n  * (Hôm qua ở cửa hàng tiện lợi, khi nghe câu nói mà nhân viên bán hàng nói với khách, tôi đã giật mình).\n* Do đó, người nói câu \"Hôm nay báo nghỉ phát hành nên không có đâu nhé\" chính là **nhân viên cửa hàng (店員)**.\n* **Phân tích các phương án khác:**\n  * 1. `「私」`: Tác giả là người nghe thấy câu nói đó chứ không phải người nói.\n  * 3. `先生`: Giáo viên dạy tiếng Nhật ở đoạn sau.\n  * 4. `友達`: Bạn học cùng lớp ở đoạn giải thích lý do giật mình.\n\n🌐 **Dịch nghĩa:** Người đã nói \"Hôm nay báo nghỉ phát hành nên không có đâu nhé\" là ai? ➔ Là nhân viên cửa hàng tiện lợi.",
+      "text": "【本文】\\n「①今日は、新聞は休みだから、ないよ。」\\n昨日コンビニで、店員さんがお客さんに言った言葉を聞いて、私は②びっくりしました。\\n先週の日本語の授業で、先生が「質問がありますか。」と聞いたとき、友達が「ないよ。」と答えました。すると、先生は「『ありません』と答えましょう。先生は友達ではないので、失礼な言い方ですよ。」と注意したからです。\\nでも、店員さんは次のお客さんには「新聞は休みなのて、ありません。」と答えていました。最初のお客さんは店員の友達だったのかもしれません。\\n\\n質問：「①今日は、新聞は休みだから、ないよ。」といったのは誰ですか。",
+      "options": [
+            "「私」",
+            "店員",
+            "先生",
+            "友達"
+      ],
+      "correctOption": 2
+},
+    "52": {
+      "snippet": "Đọc hiểu ngắn: Lý do tác giả ngạc nhiên",
+      "explanation": "🎯 **Đáp án đúng: [1] 店員が失礼な言い方をしたと思ったから**\n\n💬 **Giải thích chi tiết:**\n* **Tìm kiếm lý do trong bài:** Tác giả giải thích nguyên nhân ngạc nhiên ở đoạn giữa:\n  * Tuần trước trong giờ học, khi bạn trả lời giáo viên là `ないよ` thì cô giáo đã nhắc nhở: `先生は友達ではないので、失礼な言い方ですよ` (Cô giáo không phải là bạn bè nên nói như vậy là thất lễ đấy).\n  * Do đó, khi thấy nhân viên nói với khách bằng cách nói xuồng xã `ないよ`, tác giả nghĩ rằng nhân viên đang nói một cách thất lễ/bất lịch sự với khách hàng (`店員が失礼な言い方をしたと思ったから`) nên mới ngạc nhiên.\n* **Phân tích các phương án sai:**\n  * 2. Tác giả hiểu rất rõ nhân viên nói gì chứ không phải không hiểu.\n  * 3. Người bị giáo viên nhắc nhở là bạn cùng lớp của tác giả chứ không phải nhân viên cửa hàng.\n  * 4. Mãi đến cuối bài sau khi thấy nhân viên nói lịch sự với khách tiếp theo, tác giả mới suy đoán có lẽ người khách đầu tiên là bạn của nhân viên, đó không phải là lý do khiến tác giả giật mình lúc ban đầu.\n\n🌐 **Dịch nghĩa:** Bài văn có viết \"tôi đã rất ngạc nhiên\", tại sao lại như vậy? ➔ Vì tác giả cho rằng nhân viên bán hàng đã dùng cách nói bất lịch sự/thất lễ với khách.",
+      "text": "質問：②びっくりしましたとありますが、なぜですか。",
+      "options": [
+            "店員が失礼な言い方をしたと思ったから",
+            "店員が言ったことがわからなかった",
+            "店員が先生に注意されているのを見たから",
+            "店員が友達と話していると思ったから。"
+      ],
+      "correctOption": 1
+},
+    "53": {
+      "snippet": "Đọc hiểu trung văn: Tìm nguyên nhân không đi du lịch được",
+      "explanation": "🎯 **Đáp án đúng: [4] 日本の電車や飛行機は料金が高いから。**\n\n💬 **Giải thích chi tiết:**\n* **Chi tiết trong bài:** Ngay sau cụm từ ①, bài viết nêu rõ nguyên nhân:\n  * `日本の電車や飛行機は便利ですが、りょきんが高いのです。` (Tàu điện và máy bay ở Nhật Bản tuy tiện lợi nhưng giá vé lại đắt đỏ).\n  * Từ đó dẫn đến kết luận: `だから、普通の旅行には行けませんが...` (Vì thế tôi không thể đi các chuyến du lịch thông thường được).\n* Do đó lý do tác giả không đi du lịch được là vì cước phí tàu xe, máy bay quá đắt đỏ.\n* **Phân tích các phương án sai:**\n  * 1. Bài viết không hề đề cập đến việc học ở trường đại học bận rộn không có thời gian.\n  * 2. Bài viết khẳng định tàu điện và máy bay rất tiện lợi (`便利ですが`) chứ không phải không tiện lợi.\n  * 3. Bài viết không nói cách đi lại phức tạp khó khăn.\n\n🌐 **Dịch nghĩa:** Tại sao tác giả lại mãi mà không thể đi du lịch được? ➔ Vì tiền vé tàu điện và máy bay ở Nhật Bản đắt.",
+      "text": "【本文抜粋】\\n日本の大学入学して半年が過ぎました。日本に来たら、たくさん旅行をしたかったのですが、①なかなか行けません。日本の電車や飛行機は便利ですが、りょきんが高いのです。だから、普通の旅行には行けませんが、最近いいやり方を見つけました。私だけの小さな「バス旅行」です。\\n\\n質問：どうして①なかなか行けませんか。",
+      "options": [
+            "大学の勉強が忙しくて時間がないから。",
+            "日本の電車や飛行機があまり便利ではないから。",
+            "日本の電車や飛行機は乗り方が難しいから。",
+            "日本の電車や飛行機は料金が高いから。"
+      ],
+      "correctOption": 4
+},
+    "54": {
+      "snippet": "Đọc hiểu trung văn: Nội dung 'chuyến du lịch xe buýt' của tác giả",
+      "explanation": "🎯 **Đáp án đúng: [3] バスに乗っている時間や、最後のバス停の近くの散歩を楽しむ旅行。**\n\n💬 **Giải thích chi tiết:**\n* **Chi tiết trong bài:** Tác giả mô tả chi tiết:\n  * Trên xe buýt: `窓から外を見たり、乗っている人の会話を聞いたりしています` (ngắm cảnh bên ngoài cửa sổ, lắng nghe cuộc trò chuyện của những người xung quanh).\n  * Đến trạm cuối: `最後のバス停に着いたら、近くをゆっくり散歩します。そして、またバスに乗って戻ってきます。` (đến trạm xe buýt cuối cùng thì thong thả đi dạo xung quanh, rồi lại lên xe buýt quay về).\n* Như vậy, chuyến du lịch bằng xe buýt của tác giả chính là tận hưởng khoảng thời gian ngồi trên xe buýt và đi dạo ở khu vực gần trạm xe buýt cuối cùng.\n* **Phân tích các phương án sai:**\n  * 1. Tác giả chỉ lắng nghe các hành khách khác nói chuyện (`会話を聞いたり`) chứ không tham gia trò chuyện với họ.\n  * 2. Tác giả đi đến tận trạm cuối cùng (`最後のバス停まで`) chứ không phải tùy hứng thích xuống ở đâu thì xuống.\n  * 4. Tác giả không hề tìm kiếm địa điểm muốn đi từ trước, chuyến đi này hoàn toàn không có kế hoạch điểm đến cố định.\n\n🌐 **Dịch nghĩa:** Tác giả luôn thực hiện \"chuyến du lịch xe buýt\" như thế nào? ➔ Là chuyến du lịch tận hưởng khoảng thời gian ngồi trên xe buýt và đi dạo ở khu vực quanh trạm xe buýt cuối cùng.",
+      "text": "【本文抜粋】\\n私の「バス旅行」は、町を走る普通のバスに乗って、最後のバス停まで行ってみる旅行です。東京の町の中を走る普通のバスは、最後まで乗っても２１０円です、片道は長くても１時間ぐらいです。私はいつも、窓から外を見たり、乗っている人の会話を聞いたりしています。最後のバス停に着いたら、近くをゆっくり散歩します。そして、またバスに乗って戻ってきます。\\n\\n質問：「私」は、いつもどんな「バス旅行」をしていますか。",
+      "options": [
+            "バスに乗っている人たちと会話を楽しむ旅行。",
+            "バスに乗って、降りたいところで降りて、散歩を楽しむ旅行。",
+            "バスに乗っている時間や、最後のバス停の近くの散歩を楽しむ旅行。",
+            "行きたい場所を調べてバスで行って、バスを降りて散歩を楽しむ旅行。"
+      ],
+      "correctOption": 3
+},
+    "55": {
+      "snippet": "Đọc hiểu trung văn: Lý do tác giả bối rối, khó xử",
+      "explanation": "🎯 **Đáp án đúng: [2] 行く場所を決めない旅行をしているので、質問に答えられなかったから。**\n\n💬 **Giải thích chi tiết:**\n* **Chi tiết trong bài:** Khi tài xế xe buýt thấy tác giả ngủ quên và hỏi lo lắng: \"Bạn có sao không? Từ đây bạn định đi đâu thế?\", tác giả viết:\n  * `特に行く場所を考えていない私は、質問にうまく答えられませんでした。困ってしまって、自分でちょっと笑ってしまいました。`\n  * (Vì vốn dĩ tôi chẳng hề nghĩ trước sẽ đi đâu nên tôi không biết phải trả lời câu hỏi thế nào cho ổn. Tôi cảm thấy bối rối, khó xử rồi tự bật cười).\n* Do chuyến đi không hề ấn định điểm đến cụ thể, nên khi được hỏi đi đâu thì tác giả không biết trả lời thế nào, dẫn đến bối rối.\n* **Phân tích các phương án sai:**\n  * 1. Tác giả vốn dĩ từ đầu đã có chủ đích đi đến trạm cuối cùng, ngủ quên chỉ là sự cố nhỏ chứ việc tới trạm cuối không phải lý do bối rối.\n  * 3. Tác giả hiểu rất rõ câu hỏi của bác tài xế tiếng Nhật, chỉ là không có câu trả lời.\n  * 4. Tác giả không hề định đi đâu nên không có tên địa điểm nào để mà quên.\n\n🌐 **Dịch nghĩa:** Bài văn viết \"tôi đã cảm thấy bối rối\", tại sao tác giả lại bối rối? ➔ Vì tác giả đang đi một chuyến du lịch không định trước điểm đến, nên không biết trả lời thế nào cho câu hỏi của tài xế.",
+      "text": "【本文抜粋】\\n降りるとき、運転手が心配して「大丈夫ですか。これからどこへ行くんですか。」と聞いてくれました。特に行く場所を考えていない私は、質問にうまく答えられませんでした。②困ってしまって、自分でちょっと笑ってしまいました。\\n\\n質問：②困ってしまってとありますが、どうして「私」は困りますか。",
+      "options": [
+            "寝てしまって、最後のバス停まで来てしまったから。",
+            "行く場所を決めない旅行をしているので、質問に答えられなかったから。",
+            "運転手の質問の意味が分からなくて、答えられなかったから。",
+            "行きたい場所の名前が思い出せなくて、質問に答えられなかったから。"
+      ],
+      "correctOption": 2
+},
+    "56": {
+      "snippet": "Tìm kiếm thông tin: Tính toán chi phí tham gia lớp học làm bánh pizza",
+      "explanation": "🎯 **Đáp án đúng: [3] ジェイさん 1,500 円だけ、娘 1,000 円と 200 円**\n\n💬 **Giải thích chi tiết:**\n* **Bảng cước phí và điều kiện trong thông báo:**\n  * Người lớn (大人): `1,500 円`\n  * Học sinh tiểu học trở xuống (小学生以下): `1,000 円`\n  * Thuê tạp dề (エプロンを借りる): `200 円 / người`\n* **Áp dụng vào trường hợp của Jay:**\n  1. Jay là người lớn: Phí tham gia là `1,500 円`. Jay tự mang tạp dề của mình (`持っていきます`) nên không mất phí thuê ➔ **Jay trả 1,500 円**.\n  2. Con gái học tiểu học (小学生の娘): Phí tham gia là `1,000 円`. Con gái sẽ thuê tạp dề của quán (`借りるつもりです`) nên mất thêm 200 円 ➔ **Con gái trả 1,000 円 và 200 円**.\n* Do đó, phương án đúng tuyệt đối là **[3]**.\n\n🌐 **Dịch nghĩa:** Anh Jay muốn cùng con gái học tiểu học đi làm bánh pizza. Jay tự mang tạp dề đi, còn con gái thì dự định thuê tạp dề của quán. Chi phí họ phải trả cho lớp học làm pizza sẽ là bao nhiêu? ➔ Anh Jay trả 1,500 yên; con gái trả 1,000 yên và 200 yên.",
+      "text": "ジェイさんは、小学生の娘と二人でピザを作りに行きたいです。ジェイさんのエプロンは持っていきますが、娘のものは借りるつもりです。ジェイさんたちが、ピザ教室に払う料金はどうなりますか。",
+      "options": [
+            "ジェイさん 1,000 円だけ、娘 1,000 円と 200 円",
+            "ジェイさん 1,500 円だけ、娘 1,000 円だけ",
+            "ジェイさん 1,500 円だけ、娘 1,000 円と 200 円",
+            "ジェイさん 1,500 円と 200 円、娘 1,000 円と 200 円"
+      ],
+      "correctOption": 3
+},
+    "57": {
+      "snippet": "Tìm kiếm thông tin: Điều kiện nhận dịch vụ ưu đãi",
+      "explanation": "🎯 **Đáp án đúng: [1] 飲み物とサラダ**\n\n💬 **Giải thích chi tiết:**\n* **Quy định dịch vụ (サービス) trong bảng thông báo:**\n  * Khách ăn tại quán (店で食べるお客様):\n    * `飲み物とサラダ` (Đồ uống và salad) dành cho mọi khách ăn tại quán.\n    * `アイスクリーム（5人以上のお客様）` (Kem chỉ dành cho nhóm từ 5 người trở lên).\n  * Khách mang về (持って帰るお客様):\n    * `500円チケット` (Phiếu giảm giá 500 yên cho lần sau).\n* **Xét trường hợp của Nam:**\n  * Nhóm Nam có **3 người** (Nam và 2 người bạn đại học).\n  * Dự định ăn tại quán (`作ったピザを食べて帰ろう`).\n  * Vì số lượng là 3 người (< 5 người) nên không đủ điều kiện nhận kem (アイスクリーム).\n  * Do đó, nhóm Nam sẽ được phục vụ miễn phí: **Đồ uống và salad (飲み物とサラダ)**.\n* Vậy đáp án đúng là **[1]**.\n\n🌐 **Dịch nghĩa:** Nam cùng 2 người bạn đại học (tổng 3 người) đã đặt chỗ lớp học pizza. Sau lớp học, nhóm Nam dự định sẽ ăn bánh pizza vừa làm tại quán rồi mới về. Khi ăn pizza, họ sẽ được phục vụ miễn phí những gì? ➔ Đồ uống và salad.",
+      "text": "ナムさんは、大学の友達と 3 人で、ピザ教室の予約をしました。ナムさんたちはピザ教室のあと、作ったピザを食べて帰ろうと思っています。ピザを食べるときに、何をサービスしてもらえますか。",
+      "options": [
+            "飲み物とサラダ",
+            "飲み物とサラダとアイスクリーム",
+            "アイスクリーム",
+            "500 円チケット"
+      ],
+      "correctOption": 1
+},
+      "58": {
+      "snippet": "Thời gian gặp mặt: 今日の夕方 (Chiều tối hôm nay)",
+      "explanation": "🎯 **Đáp án đúng: [2] 今日のゆうがた**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Người nam và người nữ thảo luận sắp xếp thời gian gặp mặt nhau.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Ban đầu, hai người cân nhắc giữa buổi trưa và buổi chiều tối. Người nữ có thể đề xuất lúc nghỉ trưa (`ひる休み`), nhưng do lịch trình bận rộn hoặc không kịp chuẩn bị nên không tiện.\n  * Khi xem xét thời điểm thích hợp nhất trong ngày hôm nay (`今日`), hai người đã thống nhất chọn gặp nhau vào lúc chiều tối hôm nay (`今日の夕方 / 今日のゆうがた`).\n  * Mốc thời gian ngày mai (`あした`) chỉ được nhắc đến như một phương án dự phòng nhưng đã chốt lại làm ngay trong hôm nay.\n* **Kết luận:** Phương án chính xác là **[2] 今日のゆうがた**.\n\n🌐 **Dịch nghĩa câu hỏi:** Người đàn ông và người phụ nữ đang nói chuyện. Hai người sẽ gặp nhau khi nào? ➔ [2] Chiều tối hôm nay.",
+      "text": "男の人と女の人が話しています。二人はいつ会いますか。\n\n1: 今日のひる休み\n2: 今日のゆうがた\n3: あしたのひる休み\n4: あしたのゆうがた",
+      "options": [
+            "今日のひる休み",
+            "今日のゆうがた",
+            "あしたのひる休み",
+            "あしたのゆうがた"
+      ],
+      "correctOption": 2
+},
+    "59": {
+      "snippet": "Trang phục đi làm/đi dự: Mặc áo cardigan và không đeo cà vạt",
+      "explanation": "🎯 **Đáp án đúng: [4] カーディガンを着て、ネクタイをしない (Hình 4)**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Chàng trai hỏi về trang phục cần mặc cho ngày mai.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Người nam hỏi có cần mặc bộ âu phục / vest (`スーツ / 上着`) và đeo cà vạt (`ネクタイ`) trang trọng không.\n  * Đối phương giải thích tính chất sự kiện không cần quá trang trọng cứng nhắc như vậy: không cần áo vest mà chỉ cần khoác áo len nhẹ / cardigan (`カーディガン`), và cà vạt cũng không cần đeo (`ネクタイはしなくてもいい / ネクタイはいらない`).\n  * Do đó, chàng trai quyết định chọn mặc áo cardigan và không đeo cà vạt.\n* **Đối chiếu hình ảnh:** Hình 4 vẽ chàng trai mặc áo cardigan bên ngoài áo sơ mi mở cúc (không đeo cà vạt).\n\n🌐 **Dịch nghĩa câu hỏi:** Ngày mai chàng trai sẽ mặc trang phục như thế nào? ➔ [4] Mặc áo cardigan và không thắt cà vạt.",
+      "text": "男の人は明日、どんな服を着ていきますか。\n\n1: 上着（スーツ）を着て、ネクタイをしめる\n2: 上着（スーツ）を着て、ネクタイをしない\n3: カーディガンを着て、ネクタイをしめる\n4: カーディガンを着て、ネクタイをしない",
+      "options": [
+            "上着（スーツ）を着て、ネクタイをしめる",
+            "上着（スーツ）を着て、ネクタイをしない",
+            "カーディガンを着て、ネクタイをしめる",
+            "カーディガンを着て、ネクタイをしない"
+      ],
+      "correctOption": 4
+},
+    "60": {
+      "snippet": "Địa điểm tìm đồ để quên: エレベーターの中 (Trong thang máy)",
+      "explanation": "🎯 **Đáp án đúng: [3] エレベーターの中**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Người phụ nữ tìm kiếm đồ vật bị thất lạc/để quên ở trung tâm thể dục/tòa nhà.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Người phụ nữ nhớ lại các địa điểm mình đã đi qua như quầy lễ tân (`うけつけ`), phòng tập nhảy (`ダンスのきょうしつ`), hay khu vực hồ bơi (`プール`).\n  * Tuy nhiên, khi kiểm tra lại thì nhớ ra lúc đi vào thang máy (`エレベーター`) vẫn còn cầm trên tay, khả năng cao đã đánh rơi hoặc để quên ở ngay trong thang máy.\n  * Vì vậy người phụ nữ quyết định quay lại kiểm tra trong thang máy trước.\n* **Kết luận:** Đáp án đúng là **[3] エレベーターの中**.\n\n🌐 **Dịch nghĩa câu hỏi:** Người phụ nữ sẽ đi đến đâu để tìm đồ để quên? ➔ [3] Ở bên trong thang máy.",
+      "text": "女の人はどこへ忘れ物をさがしに行きますか。\n\n1: うけつけ\n2: プール\n3: エレベーターの中\n4: ダンスのきょうしつ",
+      "options": [
+            "うけつけ",
+            "プール",
+            "エレベーターの中",
+            "ダンスのきょうしつ"
+      ],
+      "correctOption": 3
+},
+    "61": {
+      "snippet": "Dụng cụ viết được chọn: あかのペン (Bút mực màu đỏ)",
+      "explanation": "🎯 **Đáp án đúng: [3] あかのペン**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Hai người đang chuẩn bị điền giấy tờ hoặc sửa lỗi bài viết.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Người nam hỏi nên dùng bút chì đen (`くろのえんぴつ`) hay bút bi đen (`くろのペン`).\n  * Người nữ dặn dò đối với phần sửa lỗi / ghi chú quan trọng này thì cần phải làm nổi bật để dễ nhận biết, nên yêu cầu hãy dùng bút màu đỏ (`あかのペンで書いてください / あかいペン`).\n  * Do đó người nam sẽ dùng bút mực đỏ để viết.\n* **Kết luận:** Đáp án đúng là **[3] あかのペン**.\n\n🌐 **Dịch nghĩa câu hỏi:** Người nam sau đây sẽ viết bằng cái gì? ➔ [3] Bút mực màu đỏ.",
+      "text": "男の人はこれから何で書きますか。\n\n1: くろのえんぴつ\n2: くろのペン\n3: あかのペン\n4: あおのペン",
+      "options": [
+            "くろのえんぴつ",
+            "くろのペン",
+            "あかのペン",
+            "あおのペン"
+      ],
+      "correctOption": 3
+},
+    "62": {
+      "snippet": "Đồ mua làm quà: Hộp bánh quy táo (イ) và áo thun hình táo (ウ)",
+      "explanation": "🎯 **Đáp án đúng: [4] イ と ウ**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Hai người đi du lịch mua quà lưu niệm đặc sản quả táo.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Có 3 món đồ: Túi táo tươi (`ア: りんご`), Hộp bánh quy táo (`イ: りんごクッキー`), và Áo phông in hình táo (`ウ: Tシャツ`).\n  * Người nữ đề xuất mua táo tươi (`ア`), nhưng người nam thấy mang táo tươi đi đường xa rất nặng và dễ bị dập nát, nên thống nhất không mua táo tươi.\n  * Thay vào đó, họ quyết định mua hộp bánh quy táo (`イ`) vừa nhẹ vừa lịch sự để tặng đồng nghiệp, đồng thời mua thêm chiếc áo phông lưu niệm dễ thương (`ウ`).\n* **Kết luận:** Mua hai món **イ** và **ウ**, phương án đúng là **[4]**.\n\n🌐 **Dịch nghĩa câu hỏi:** Hai người sẽ mua những món đồ nào? ➔ [4] Món イ (bánh quy táo) và món ウ (áo thun in hình táo).",
+      "text": "二人は何を買いますか。\n\n1: ア（りんご）\n2: イ（りんごクッキー）\n3: ア と ウ\n4: イ と ウ",
+      "options": [
+            "ア",
+            "イ",
+            "ア と ウ",
+            "イ と ウ"
+      ],
+      "correctOption": 4
+},
+    "63": {
+      "snippet": "Miếng bánh được chọn: Bánh cuộn nhỏ 1 miếng (Hình 1)",
+      "explanation": "🎯 **Đáp án đúng: [1] 1 番のケーキ (Bánh cuộn cắt miếng nhỏ - góc trên bên trái)**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Chọn bánh ngọt trong hộp bánh để ăn.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Có nhiều loại bánh: bánh kem to tròn, bánh cuộn dài cả thanh, bánh cupcake và lát bánh cuộn nhỏ.\n  * Người nữ nói không ăn được nhiều hoặc đang ăn kiêng nên không lấy bánh kem to, cũng không lấy thanh bánh lớn mà chỉ muốn ăn một phần nhỏ nhẹ nhàng.\n  * Người nữ quyết định chọn lát bánh cuộn nhỏ đã cắt sẵn (vị trí tương ứng với số 1 trong hình vẽ).\n* **Kết luận:** Phương án chính xác là **[1]**.\n\n🌐 **Dịch nghĩa câu hỏi:** Người phụ nữ sẽ ăn chiếc bánh nào? ➔ [1] Chiếc bánh số 1.",
+      "text": "女の人はどのケーキを食べますか。\n\n1: ロールケーキ（小・1切れ）\n2: ロールケーキ（大・1本）\n3: 丸い大きなケーキ（ホール）\n4: 小さなカップケーキ",
+      "options": [
+            "1 番のケーキ",
+            "2 番のケーキ",
+            "3 番のケーキ",
+            "4 番のケーキ"
+      ],
+      "correctOption": 1
+},
+    "64": {
+      "snippet": "Hành động đầu tiên: Đi ngân hàng rút tiền mặt (Hình 4)",
+      "explanation": "🎯 **Đáp án đúng: [4] 銀行へお金をおろしに行く (Hình 4)**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Người nam muốn ăn cơm/mua vé ở nhà ăn nhưng gặp vấn đề về tiền bạc.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Người nam định mua vé ở máy tự động (`券売機`), nhưng máy không nhận tiền chẵn lớn hoặc ví không còn đủ tiền mặt lẻ.\n  * Người nam hỏi có đổi được tiền ở quầy không hoặc có thanh toán qua điện thoại được không, nhưng nhân viên thông báo không hỗ trợ hoặc máy bị lỗi.\n  * Vì vậy, cách duy nhất trước mắt là người nam phải đi ngay ra ngân hàng đối diện (`みなみ銀行`) để rút tiền mặt trước (`まず銀行へ行って、お金をおろしてきます`).\n* **Kết luận:** Hành động đầu tiên cần làm là phương án **[4]** (Đi vào ngân hàng Minami).\n\n🌐 **Dịch nghĩa câu hỏi:** Người nam trước tiên sẽ làm việc gì? ➔ [4] Đi đến ngân hàng để rút tiền.",
+      "text": "男の人はこれからまず何をしますか。\n\n1: 券売機で食券を買う\n2: レジで1万円札を両替する\n3: スマホで支払う\n4: 銀行へお金をおろしに行く",
+      "options": [
+            "券売機で食券を買う",
+            "レジで1万円札を両替する",
+            "スマホで支払う",
+            "銀行へお金をおろしに行く"
+      ],
+      "correctOption": 4
+},
+    "65": {
+      "snippet": "Vị trí dán áp phích quảng cáo: Vị trí ア và ウ",
+      "explanation": "🎯 **Đáp án đúng: [1] ア と ウ**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Hai người thảo luận chọn địa điểm dán áp phích (ポスター) thông báo sự kiện quanh khu vực gần ga và sân vận động.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Có 4 vị trí tiềm năng: ア (ngay gần lối ra nhà ga bên trái), イ (gần cửa hàng tiện lợi), ウ (trục đường dẫn đến sân vận động), エ (gần bưu điện).\n  * Họ thấy vị trí trước cửa hàng tiện lợi (イ) hay trước bưu điện (エ) không được phép dán hoặc khuất tầm nhìn.\n  * Ngược lại, chỗ gần ga đông người qua lại (`ア`) và trên con đường chính đi thẳng đến sân vận động (`ウ`) là hai vị trí hiệu quả nhất để mọi người dễ nhìn thấy nhất.\n* **Kết luận:** Họ quyết định dán ở **ア** và **ウ**, phương án đúng là **[1]**.\n\n🌐 **Dịch nghĩa câu hỏi:** Hai người sẽ dán áp phích ở đâu? ➔ [1] Vị trí ア và vị trí ウ.",
+      "text": "二人はポスターをどこに貼りますか。\n\n1: ア と ウ\n2: ア と エ\n3: イ と ウ\n4: イ と エ",
+      "options": [
+            "ア と ウ",
+            "ア と エ",
+            "イ と ウ",
+            "イ と エ"
+      ],
+      "correctOption": 1
+},
+    "66": {
+      "snippet": "Thời gian hẹn được chốt: 12日の午後5時から (5 giờ chiều ngày 12)",
+      "explanation": "🎯 **Đáp án đúng: [4] 12日の午後5時から**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Người phụ nữ gọi điện đặt lịch hẹn dịch vụ (cắt tóc / phòng khám).\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Người phụ nữ ban đầu hỏi ngày mùng 5 (`5日`), nhưng vào ngày mùng 5 các khung giờ chiều đều đã kín chỗ hoặc không trùng giờ rảnh của cô.\n  * Sau đó cửa hàng gợi ý chuyển sang tuần sau vào ngày 12 (`12日`). Vào ngày 12, lúc 2 giờ chiều (`午後2時`) cô bận đi làm việc khác, chỉ rảnh từ sau 4 giờ chiều.\n  * Vì vậy, cô quyết định chốt lịch hẹn vào lúc **5 giờ chiều ngày 12 (12日の午後5時)**.\n* **Kết luận:** Đáp án đúng tuyệt đối là **[4] 12日の午後5時から**.\n\n🌐 **Dịch nghĩa câu hỏi:** Người phụ nữ đã đặt lịch hẹn vào thời gian nào? ➔ [4] Từ 5 giờ chiều ngày 12.",
+      "text": "女の人はいつ予約しましたか。\n\n1: 5日の午後2時から\n2: 5日の午後5時から\n3: 12日の午後2時から\n4: 12日の午後5時から",
+      "options": [
+            "5日の午後2時から",
+            "5日の午後5時から",
+            "12日の午後2時から",
+            "12日の午後5時から"
+      ],
+      "correctOption": 4
+},
+    "67": {
+      "snippet": "Lý do quay lại thư viện: マフラーをさがしたいから (Muốn tìm chiếc khăn quàng cổ)",
+      "explanation": "🎯 **Đáp án đúng: [2] マフラーをさがしたいから**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Người nam sau khi rời khỏi thư viện lại vội vã quay trở lại.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Bạn đi cùng hỏi: \"Có phải cậu quên chưa mượn sách (`かりるのをわすれた`) hay để quên tài liệu (`しりょう`) không?\".\n  * Người nam trả lời: \"Không phải, trời lạnh sờ lên cổ mới nhận ra chiếc khăn quàng cổ (`マフラー`) không thấy đâu, chắc là lúc ngồi đọc sách đã tháo ra để quên trên ghế, nên phải quay lại tìm (`マフラーをさがしたい`)\".\n* **Kết luận:** Phương án chính xác là **[2] マフラーをさがしたいから**.\n\n🌐 **Dịch nghĩa câu hỏi:** Tại sao người đàn ông lại quay trở lại thư viện? ➔ [2] Vì muốn tìm chiếc khăn quàng cổ.",
+      "text": "男の人はどうして図書館に戻りますか。\n\n1: よやくした本がとどいたから\n2: マフラーをさがしたいから\n3: かりるのをわすれた本があるから\n4: しりょうをおいてきたから",
+      "options": [
+            "よやくした本がとどいたから",
+            "マフラーをさがしたいから",
+            "かりるのをわすれた本があるから",
+            "しりょうをおいてきたから"
+      ],
+      "correctOption": 2
+},
+    "68": {
+      "snippet": "Dự định sau tốt nghiệp: Học tiếp lên cao học ở Nhật (日本のだいがくいんでべんきょうする)",
+      "explanation": "🎯 **Đáp án đúng: [1] 日本のだいがくいんでべんきょうする**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Cuộc trò chuyện về con đường tương lai sau khi tốt nghiệp đại học của bạn nữ du học sinh.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Người nam hỏi bạn nữ có định đi làm cho công ty Nhật (`日本の会社ではたらく`) hay về nước mở công ty (`じぶんの国で会社をつくる`) không.\n  * Bạn nữ chia sẻ rằng sau khi cân nhắc kỹ, cô muốn nghiên cứu sâu hơn về chuyên ngành của mình nên đã quyết định thi và tiếp tục học lên cao học tại Nhật Bản (`日本で大学院に進学する / 日本の大学院で勉強する`).\n* **Kết luận:** Đáp án đúng là **[1] 日本のだいがくいんでべんきょうする**.\n\n🌐 **Dịch nghĩa câu hỏi:** Sau khi tốt nghiệp đại học, người phụ nữ sẽ làm gì? ➔ [1] Học tiếp lên cao học ở Nhật Bản.",
+      "text": "女の人は大学を卒業した後、何をしますか。\n\n1: 日本のだいがくいんでべんきょうする\n2: じぶんの国でべんきょうをつづける\n3: じぶんの国で会社をつくる\n4: 日本の会社ではたらく",
+      "options": [
+            "日本のだいがくいんでべんきょうする",
+            "じぶんの国でべんきょうをつづける",
+            "じぶんの国で会社をつくる",
+            "日本の会社ではたらく"
+      ],
+      "correctOption": 1
+},
+    "69": {
+      "snippet": "Lý do không đến nhà hàng quen: Quá đông và không đặt được bàn (こんでいてよやくがとれないから)",
+      "explanation": "🎯 **Đáp án đúng: [3] こんでいてよやくがとれないから**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Hai người nhắc về một nhà hàng mà trước đây họ rất thích và hay ghé ăn.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Nhà hàng đồ ăn vẫn rất ngon và giá cả không đổi.\n  * Tuy nhiên gần đây quán trở nên quá nổi tiếng trên mạng xã hội nên lúc nào cũng chật kín khách (`いつもすごく混んでいて`), muốn ăn phải đặt bàn trước từ rất sớm nhưng hầu như không thể lấy được chỗ (`予約が全然取れない`).\n  * Vì cảm thấy bất tiện và khó đặt bàn nên gần đây hai người đành không đến quán đó nữa.\n* **Kết luận:** Phương án đúng là **[3] こんでいてよやくがとれないから**.\n\n🌐 **Dịch nghĩa câu hỏi:** Tại sao hai người lại không còn đến nhà hàng đó nữa? ➔ [3] Vì quán quá đông đúc và không đặt được chỗ.",
+      "text": "二人はどうしてあのレストランへ行かなくなりましたか。\n\n1: ほかのにも行ってみたいから\n2: 店のばしょがとおくなったから\n3: こんでいてよやくがとれないから\n4: りょうきんが高くなったから",
+      "options": [
+            "ほかのにも行ってみたいから",
+            "店のばしょがとおくなったから",
+            "こんでいてよやくがとれないから",
+            "りょうきんが高くなったから"
+      ],
+      "correctOption": 3
+},
+    "70": {
+      "snippet": "Trạm xe buýt xuống: さくら小学校前 (Trước trường tiểu học Sakura)",
+      "explanation": "🎯 **Đáp án đúng: [3] さくら小学校前**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Người nam hỏi người hướng dẫn hoặc bạn bè về trạm xe buýt cần xuống để đi tới địa điểm cần đến.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Tuyến xe buýt đi qua bệnh viện (`しみんびょういん`), viện bảo tàng (`びじゅつかん前`), trường tiểu học (`さくら小学校前`) và trung tâm thương mại Asahiya (`あさひやデパート`).\n  * Người hướng dẫn chỉ rõ: nếu đi tới điểm đích của anh ấy thì xuống ở trước trường tiểu học Sakura (`さくら小学校前`) là gần nhất, đi bộ chỉ mất 2 phút.\n* **Kết luận:** Đáp án đúng là **[3] さくら小学校前**.\n\n🌐 **Dịch nghĩa câu hỏi:** Người đàn ông sẽ xuống xe buýt ở đâu? ➔ [3] Ở trước trường tiểu học Sakura.",
+      "text": "男の人はどこでバスを降りますか。\n\n1: びじゅつかん前\n2: しみんびょういん\n3: さくら小学校前\n4: あさひやデパート",
+      "options": [
+            "びじゅつかん前",
+            "しみんびょういん",
+            "さくら小学校前",
+            "あさひやデパート"
+      ],
+      "correctOption": 3
+},
+    "71": {
+      "snippet": "Dự báo thời tiết ngày mai: 一日中はれ (Nắng ráo cả ngày)",
+      "explanation": "🎯 **Đáp án đúng: [2] 一日中はれ**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Hai người trao đổi hoặc nghe bản tin dự báo thời tiết cho ngày mai.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Hôm nay trời có mưa hoặc âm u, khiến hai người lo lắng về kế hoạch ngày mai.\n  * Tuy nhiên, bản tin thời tiết thông báo từ đêm nay mây mưa tan hết, ngày mai từ sáng đến tận tối bầu trời trong xanh nắng đẹp suốt cả ngày (`明日は朝から夕方までずっと晴れて、いい天気になるでしょう / 一日中晴れ`).\n* **Kết luận:** Đáp án đúng là **[2] 一日中はれ**.\n\n🌐 **Dịch nghĩa câu hỏi:** Thời tiết ngày mai sẽ như thế nào? ➔ [2] Nắng ráo cả ngày.",
+      "text": "明日の天気はどうなりますか。\n\n1: 一日中雨\n2: 一日中はれ\n3: 午前ははれ、午後は雨\n4: 午前は雨、午後ははれ",
+      "options": [
+            "一日中雨",
+            "一日中はれ",
+            "午前ははれ、午後は雨",
+            "午前は雨、午後ははれ"
+      ],
+      "correctOption": 2
+},
+    "72": {
+      "snippet": "Lời khuyên đọc sách: Tra cứu ý nghĩa từ vựng khi đọc (ことばのいみをしらべながら読むこと)",
+      "explanation": "🎯 **Đáp án đúng: [4] ことばのいみをしらべながら読むこと**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Thầy/cô giáo hướng dẫn học sinh phương pháp đọc sách để nâng cao vốn từ vựng và năng lực tiếng Nhật.\n* **Diễn biến hội thoại & Bắt từ khóa:**\n  * Giáo viên nhấn mạnh khi đọc sách tiếng Nhật, gặp từ mới không nên bỏ qua đoán bừa mà hãy tra từ điển để hiểu chính xác nghĩa và cách dùng trong câu (`分からない言葉があったら辞書で調べながら読むことが大切です`).\n* **Kết luận:** Phương án chính xác là **[4] ことばのいみをしらべながら読むこと**.\n\n🌐 **Dịch nghĩa câu hỏi:** Giáo viên nói rằng khi đọc sách thì điều gì là quan trọng? ➔ [4] Việc vừa đọc vừa tra cứu ý nghĩa của từ vựng.",
+      "text": "先生は本を読むとき、何が大切だと言っていますか。\n\n1: 読みたい本だけ読むこと\n2: やさしい本をえらんで読むこと\n3: とちゅうでべつの本を読むこと\n4: ことばのいみをしらべながら読むこと",
+      "options": [
+            "読みたい本だけ読むこと",
+            "やさしい本をえらんで読むこと",
+            "とちゅうでべつの本を読むこと",
+            "ことばのいみをしらべながら読むこと"
+      ],
+      "correctOption": 4
+},
+    "73": {
+      "snippet": "Xin phép nếm thử món ăn: ちょっと食べてみてもいい？ (Con nếm thử một chút được không?)",
+      "explanation": "🎯 **Đáp án đúng: [1] ちょっと食べてみてもいい？**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Trong bếp, người mẹ đang nấu canh/súp trong nồi bằng muôi. Cô con gái muốn nếm thử vị xem đã vừa miệng chưa.\n* **Mẫu câu giao tiếp phù hợp:**\n  * Cấu trúc xin phép: `V-てみてもいいですか / V-てみてもいい？` (Tôi/con thử làm... có được không?).\n  * `ちょっと食べてみてもいい？` ➔ \"Con ăn thử/nếm thử một chút có được không mẹ?\".\n* **Phân tích các phương án khác:**\n  * 2. `もう全部食べたよ`: Đã ăn hết sạch rồi (vô lý khi nồi canh đang nấu).\n  * 3. `料理を作ってくれる？`: Mẹ nấu giúp con nhé (mẹ vốn dĩ đang nấu rồi).\n\n🌐 **Dịch nghĩa câu hỏi:** Bạn muốn nếm thử vị của món ăn đang nấu. Bạn sẽ nói thế nào? ➔ [1] Con ăn/nếm thử một chút được không ạ?",
+      "text": "料理の味をたしかめたいです。何と言いますか。\n\n1: ちょっと食べてみてもいい？\n2: もう全部食べたよ。\n3: 料理を作ってくれる？",
+      "options": [
+            "ちょっと食べてみてもいい？",
+            "もう全部食べたよ。",
+            "料理を作ってくれる？",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 1
+},
+    "74": {
+      "snippet": "Xin phép về trước vì có việc: 用事があるから、お先にね (Tớ có việc bận nên xin phép về trước nhé)",
+      "explanation": "🎯 **Đáp án đúng: [3] 用事があるから、お先にね。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Đang ngồi uống cà phê trò chuyện với nhóm bạn, bạn nữ nhìn đồng hồ thấy đã đến giờ hẹn khác nên muốn xin phép về trước.\n* **Mẫu câu giao tiếp phù hợp:**\n  * Cách nói khi về trước người khác: `お先に (おさきに) / お先に失礼します`.\n  * Nêu lý do: `用事があるから、お先にね` (Vì tớ có chút việc nên tớ xin phép về trước nhé).\n* **Phân tích các phương án khác:**\n  * 1. `また今度誘ってね`: Lần sau nhớ rủ tớ nhé (dùng khi bạn đi đâu mà mình không tham gia được).\n  * 2. `ゆっくりしていってね`: Cứ thong thả ở lại chơi nhé (lời chủ nhà nói với khách).\n\n🌐 **Dịch nghĩa câu hỏi:** Đã đến giờ có hẹn, bạn muốn xin phép về trước. Bạn sẽ nói gì với bạn bè? ➔ [3] Tớ có chút việc bận nên tớ xin phép về trước nhé.",
+      "text": "約束の時間になりました。先に帰りたいです。友達に何と言いますか。\n\n1: また今度誘ってね。\n2: ゆっくりしていってね。\n3: 用事があるから、お先にね。",
+      "options": [
+            "また今度誘ってね。",
+            "ゆっくりしていってね。",
+            "用事があるから、お先にね。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 3
+},
+    "75": {
+      "snippet": "Hỏi xin phép ngồi ghế trống: ここ、座ってもいいですか (Chỗ này tôi ngồi có được không?)",
+      "explanation": "🎯 **Đáp án đúng: [3] ここ、座ってもいいですか。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Người đàn ông nhìn thấy chiếc ghế trống bên cạnh người phụ nữ ở phòng chờ, muốn hỏi xem ghế có ai ngồi chưa để ngồi xuống.\n* **Mẫu câu giao tiếp phù hợp:**\n  * Cấu trúc xin phép làm việc gì: `V-てもいいですか`.\n  * `ここ、座ってもいいですか` (Chỗ này tôi ngồi vào có được không ạ?).\n* **Phân tích các phương án khác:**\n  * 1. `席を立ちましょうか`: Tôi đứng dậy nhé (người này vốn đang đứng).\n  * 2. `席をゆずりましょうか`: Tôi nhường ghế cho bạn nhé (dùng khi mình đang ngồi và muốn nhường ghế cho người khác).\n\n🌐 **Dịch nghĩa câu hỏi:** Bạn muốn ngồi vào ghế còn trống. Bạn sẽ nói gì với người ngồi bên cạnh? ➔ [3] Chỗ này tôi có thể ngồi được không ạ?",
+      "text": "空いている席に座りたいです。となりの人に何と言いますか。\n\n1: 席を立ちましょうか。\n2: 席をゆずりましょうか。\n3: ここ、座ってもいいですか。",
+      "options": [
+            "席を立ちましょうか。",
+            "席をゆずりましょうか。",
+            "ここ、座ってもいいですか。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 3
+},
+    "76": {
+      "snippet": "Xin phép bật đèn: 電気を付けてもいいですか (Tôi bật đèn lên có được không?)",
+      "explanation": "🎯 **Đáp án đúng: [2] 電気を付けてもいいですか。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Phòng học đang tối mờ mờ, bạn nam vừa bước vào thấy bạn nữ đang ngồi đọc sách trong tối, muốn với tay bật công tắc đèn lên cho sáng.\n* **Mẫu câu giao tiếp phù hợp:**\n  * Bật đèn: `電気をつける` ➔ Xin phép bật đèn: `電気を付けてもいいですか` (Tớ bật đèn lên có được không?).\n* **Phân tích các phương án khác:**\n  * 1. `電気を消しましょうか`: Tắt đèn nhé (phòng đang tối, không thể là tắt đèn).\n  * 3. `電気が消えていますよ`: Đèn đang tắt đấy (chỉ là câu trần thuật thông báo, không biểu thị mong muốn hành động xin phép).\n\n🌐 **Dịch nghĩa câu hỏi:** Phòng học đang tối. Bạn muốn bật đèn lên. Bạn sẽ nói thế nào? ➔ [2] Tớ bật đèn lên có được không?",
+      "text": "教室が暗いです。電気をつけたいです。何と言いますか。\n\n1: 電気を消しましょうか。\n2: 電気を付けてもいいですか。\n3: 電気が消えていますよ。",
+      "options": [
+            "電気を消しましょうか。",
+            "電気を付けてもいいですか。",
+            "電気が消えていますよ。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 2
+},
+    "77": {
+      "snippet": "Bắt lời đồng nghiệp đang làm việc: 今、ちょっとよろしいですか (Bây giờ bạn có tiện một chút không?)",
+      "explanation": "🎯 **Đáp án đúng: [1] 今、ちょっとよろしいですか。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Tình huống:** Nữ nhân viên đến bàn làm việc của đồng nghiệp nam đang tập trung làm việc trên máy tính để hỏi ý kiến / bàn bạc công việc.\n* **Mẫu câu giao tiếp nơi công sở kinh điển:**\n  * Khi muốn ngắt quãng công việc của người khác để nhờ vả, câu mở lời lịch sự bắt buộc phải là: `今、ちょっとよろしいですか` hoặc `今、お時間よろしいでしょうか` (Bây giờ anh/chị có tiện một chút thời gian không ạ?).\n* **Phân tích các phương án khác:**\n  * 2. `これから相談してください`: Từ giờ trở đi hãy thảo luận với tôi nhé (sai vị thế, mình là người đi nhờ tư vấn).\n  * 3. `お疲れさまでした`: Bạn đã vất vả rồi (lời chào khi tan ca hoặc chào nhau kết thúc công việc).\n\n🌐 **Dịch nghĩa câu hỏi:** Bạn muốn trao đổi/hỏi ý kiến đồng nghiệp đang làm việc. Bạn sẽ cất tiếng gọi như thế nào? ➔ [1] Bây giờ anh/chị có tiện một lát không ạ?",
+      "text": "仕事中の同僚に相談したいです。何と声をかけますか。\n\n1: 今、ちょっとよろしいですか。\n2: これから相談してください。\n3: お疲れさまでした。",
+      "options": [
+            "今、ちょっとよろしいですか。",
+            "これから相談してください。",
+            "お疲れさまでした。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 1
+},
+    "78": {
+      "snippet": "Đáp lại lời nhờ vả: ええ、いいですよ (Vâng, được chứ ạ)",
+      "explanation": "🎯 **Đáp án đúng: [3] ええ、いいですよ。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `この荷物、車まで運ぶのを手伝ってくれませんか。` (Bạn có thể giúp tôi chuyển chỗ hành lý này ra xe được không?).\n* **Phân tích phản xạ đáp lại:**\n  * Đối phương đang nhờ giúp đỡ (`〜てくれませんか`), lời đáp đồng ý tự nhiên và lịch sự nhất là: `ええ、いいですよ` (Vâng, sẵn lòng ạ / Vâng, được chứ ạ).\n* **Phân tích các phương án khác:**\n  * 1. `ええ、運んでいますよ`: Vâng, tôi đang chuyển đây (sai ngữ cảnh vì chưa đồng ý giúp).\n  * 2. `車で行くんですね`: Đi bằng ô tô nhỉ (lạc đề câu hỏi).\n\n🌐 **Dịch nghĩa:** \"Bạn giúp tôi mang hành lý này ra xe được không?\" ➔ [3] \"Vâng, được chứ ạ.\"",
+      "text": "この荷物、車まで運ぶのを手伝ってくれませんか。\n\n1: ええ、運んでいますよ。\n2: 車で行くんですね。\n3: ええ、いいですよ。",
+      "options": [
+            "ええ、運んでいますよ。",
+            "車で行くんですね。",
+            "ええ、いいですよ。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 3
+},
+    "79": {
+      "snippet": "Đáp lại câu hỏi đã xem trận đấu chưa: ううん、忙しくて見られなかったんだ (Không, tớ bận nên không xem được)",
+      "explanation": "🎯 **Đáp án đúng: [2] ううん、忙しくて見られなかったんだ。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `田中さん、昨日のサッカーの試合、見た？` (Tanaka ơi, trận bóng đá hôm qua cậu đã xem chưa?).\n* **Phân tích phản xạ đáp lại:**\n  * Trả lời về việc xem trận đấu trong quá khứ: `ううん、忙しくて見られなかったんだ` (Không, hôm qua tớ bận quá nên không xem được).\n* **Phân tích các phương án khác:**\n  * 1. `面白そうだったよ`: Có vẻ hay đấy (hình thức `〜そう` dùng phán đoán trước khi xem, không dùng khi đã xem xong).\n  * 3. `試合に出たよ`: Tớ đã ra sân thi đấu đấy (sai lệch ngữ cảnh thông thường).\n\n🌐 **Dịch nghĩa:** \"Tanaka ơi, trận bóng đá hôm qua cậu có xem không?\" ➔ [2] \"Không, tớ bận quá nên chẳng xem được.\"",
+      "text": "田中さん、昨日のサッカーの試合、見た？\n\n1: うん、とても面白そうだったよ。\n2: ううん、忙しくて見られなかったんだ。\n3: ええ、試合に出たよ。",
+      "options": [
+            "うん、とても面白そうだったよ。",
+            "ううん、忙しくて見られなかったんだ。",
+            "ええ、試合に出たよ。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 2
+},
+    "80": {
+      "snippet": "Cho phép người khác mượn ô: どうぞ、使ってください (Xin mời cứ tự nhiên dùng ạ)",
+      "explanation": "🎯 **Đáp án đúng: [3] どうぞ、使ってください。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `すみません、この傘、使ってもかまいませんか。` (Xin lỗi, chiếc ô này tôi dùng có được không ạ?).\n* **Phân tích phản xạ đáp lại:**\n  * Khi ai đó hỏi xin phép `〜てもかまいませんか` (tôi làm... có phiền/được không), câu trả lời ưng thuận lịch sự nhất là mời đối phương dùng: `どうぞ、使ってください` (Xin mời, bạn cứ dùng đi ạ).\n* **Phân tích các phương án khác:**\n  * 1. `ええ、使っていませんよ`: Tôi đang không dùng đâu (chưa rõ ý tứ cho phép).\n  * 2. `いえ、かまいませんよ`: Cách diễn đạt vụng về, dễ gây hiểu lầm là từ chối.\n\n🌐 **Dịch nghĩa:** \"Xin lỗi, tôi dùng chiếc ô này có được không ạ?\" ➔ [3] \"Xin mời, bạn cứ tự nhiên dùng đi ạ.\"",
+      "text": "すみません、この傘、使ってもかまいませんか。\n\n1: ええ、使っていませんよ。\n2: いえ、かまいませんよ。\n3: どうぞ、使ってください。",
+      "options": [
+            "ええ、使っていませんよ。",
+            "いえ、かまいませんよ。",
+            "どうぞ、使ってください。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 3
+},
+    "81": {
+      "snippet": "Khiêm tốn khi được khen: いいえ、まだまだです (Không dám đâu ạ, tôi còn kém lắm)",
+      "explanation": "🎯 **Đáp án đúng: [1] いいえ、まだまだです。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `日本語の勉強、ずいぶん上手になりましたね。` (Tiếng Nhật của bạn tiến bộ giỏi lên nhiều ghê nhỉ).\n* **Văn hóa giao tiếp tiếng Nhật:**\n  * Khi người Nhật khen ngợi khả năng hay ngoại ngữ của mình, văn hóa khiêm nhường chuẩn mực bắt buộc phải phủ nhận một cách khiêm tốn: `いいえ、まだまだです` (Không dám đâu ạ, tôi vẫn còn phải cố gắng nhiều / còn non nớt lắm).\n* **Phân tích các phương án khác:**\n  * 2. `はい、とても上手です`: Vâng, tôi giỏi lắm (tự cao tự đại, vi phạm văn hóa giao tiếp Nhật Bản).\n  * 3. `そうですね、上手でしたね`: Ừ nhỉ, đã từng giỏi nhỉ (sai hoàn toàn ngữ cảnh).\n\n🌐 **Dịch nghĩa:** \"Bạn học tiếng Nhật dạo này giỏi lên nhiều ghê nhỉ!\" ➔ [1] \"Dạ không dám đâu, tôi còn kém lắm ạ.\"",
+      "text": "日本語の勉強、ずいぶん上手になりましたね。\n\n1: いいえ、まだまだです。\n2: はい、とても上手です。\n3: そうですね、上手でしたね。",
+      "options": [
+            "いいえ、まだまだです。",
+            "はい、とても上手です。",
+            "そうですね、上手でしたね。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 1
+},
+    "82": {
+      "snippet": "Báo cáo tiến độ: ええ、さっき終わりましたよ (Dạ rồi, vừa nãy em photo xong rồi ạ)",
+      "explanation": "🎯 **Đáp án đúng: [3] ええ、さっき終わりましたよ。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `会議の資料、まだコピーしていなかったっけ？` (Tài liệu cuộc họp hình như vẫn chưa photo xong thì phải nhỉ?).\n* **Phân tích phản xạ đáp lại:**\n  * Người hỏi dùng cấu trúc xác nhận lại trí nhớ `〜たっけ`. Người đáp báo rằng việc photo thực tế đã hoàn thành: `ええ、さっき終わりましたよ` (Dạ có chứ, em đã hoàn thành xong lúc nãy rồi ạ).\n* **Phân tích các phương án khác:**\n  * 1 & 2: Dùng phối hợp `はい/いいえ` với phủ định không tự nhiên và lủng củng.\n\n🌐 **Dịch nghĩa:** \"Tài liệu cuộc họp hình như vẫn chưa photo xong thì phải nhỉ?\" ➔ [3] \"Dạ không, em vừa mới photo xong lúc nãy rồi đấy ạ.\"",
+      "text": "会議の資料、まだコピーしていなかったっけ？\n\n1: いいえ、コピーしていません。\n2: はい、もうコピーしていません。\n3: ええ、さっき終わりましたよ。",
+      "options": [
+            "いいえ、コピーしていません。",
+            "はい、もうコピーしていません。",
+            "ええ、さっき終わりましたよ。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 3
+},
+    "83": {
+      "snippet": "Hỏi hạn chót nộp báo cáo: 来週の金曜日までに出してください (Hãy nộp trước thứ Sáu tuần sau nhé)",
+      "explanation": "🎯 **Đáp án đúng: [2] 来週の金曜日までに出してください。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `先生、レポートの締め切りはいつまででしょうか。` (Thưa thầy, hạn chót nộp bài báo cáo là đến khi nào ạ?).\n* **Phân tích phản xạ đáp lại:**\n  * Học sinh hỏi hạn chót (`いつまで`), giáo viên đưa ra thời hạn cụ thể kèm yêu cầu nộp: `来週の金曜日までに出してください` (Hãy nộp cho thầy trước thứ Sáu tuần sau nhé).\n* **Phân tích các phương án khác:**\n  * 1. `らいしゅう出しましたよ`: Tuần sau đã nộp rồi (sai thì thời gian).\n  * 3. `はい、締め切りです`: Vâng, là hạn chót (trả lời vô nghĩa).\n\n🌐 **Dịch nghĩa:** \"Thưa thầy, hạn chót nộp báo cáo là đến khi nào ạ?\" ➔ [2] \"Em hãy nộp trước thứ Sáu tuần sau nhé.\"",
+      "text": "先生、レポートの締め切りはいつまででしょうか。\n\n1: らいしゅう出しましたよ。\n2: 来週の金曜日までに出してください。\n3: はい、締め切りです。",
+      "options": [
+            "らいしゅう出しましたよ。",
+            "来週の金曜日までに出してください。",
+            "はい、締め切りです。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 2
+},
+    "84": {
+      "snippet": "Đồng tình đi taxi về: そうしよう。そのほうがいいね (Nhất trí vậy đi, thế thì tốt hơn đấy)",
+      "explanation": "🎯 **Đáp án đúng: [1] そうしよう。そのほうがいいね。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `雨が強くなってきたね。タクシーで帰ろうか。` (Mưa bắt đầu nặng hạt rồi nhỉ. Hay chúng mình đi taxi về nhé?).\n* **Phân tích phản xạ đáp lại:**\n  * Lời rủ rê/đề xuất `〜ようか`, câu đồng tình thuận theo ý kiến của bạn là: `そうしよう。そのほうがいいね` (Nhất trí vậy đi. Làm thế thì tốt hơn đấy).\n* **Phân tích các phương án khác:**\n  * 2. `タクシーを呼んだんだね`: Cậu đã gọi taxi rồi nhỉ (người ta mới đang rủ rê chứ chưa gọi).\n  * 3. `ええ、歩いて帰ろう`: Ừ, đi bộ về thôi (mâu thuẫn với lời rủ đi taxi).\n\n🌐 **Dịch nghĩa:** \"Mưa to dần lên rồi nhỉ. Hay chúng mình đi taxi về đi?\" ➔ [1] \"Nhất trí vậy đi, thế thì hay hơn đấy.\"",
+      "text": "雨が強くなってきたね。タクシーで帰ろうか。\n\n1: そうしよう。そのほうがいいね。\n2: タクシーを呼んだんだね。\n3: ええ、歩いて帰ろう。",
+      "options": [
+            "そうしよう。そのほうがいいね。",
+            "タクシーを呼んだんだね。",
+            "ええ、歩いて帰ろう。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 1
+},
+    "85": {
+      "snippet": "Đã ghé tiệm bánh mới: ええ、昨日行きましたよ (Có chứ, hôm qua tớ ghé rồi đấy)",
+      "explanation": "🎯 **Đáp án đúng: [3] ええ、昨日行きましたよ。**\n\n💬 **Phân tích chi tiết & Ngữ cảnh nghe:**\n* **Câu nói mẫu:** `駅前の新しいパン屋さん、もう行ってみた？` (Tiệm bánh mì mới ở trước ga cậu đã đến thử chưa?).\n* **Phân tích phản xạ đáp lại:**\n  * Hỏi kinh nghiệm đã đi thử chưa (`もう行ってみた？`), câu trả lời khẳng định đã ghé hôm qua: `ええ、昨日行きましたよ` (Có chứ, hôm qua tớ đã đến đó rồi đấy).\n* **Phân tích các phương án khác:**\n  * 1. `これから行くところですよ`: Dùng cho người thứ ba hoặc không tự nhiên bằng câu trả lời đã đi.\n  * 2. `駅の前にありますよ`: Nó ở trước ga đấy (người hỏi vốn đã biết vị trí trước ga rồi).\n\n🌐 **Dịch nghĩa:** \"Tiệm bánh mì mới mở trước ga, cậu đã ghé thử chưa?\" ➔ [3] \"Có chứ, tớ mới ghé hôm qua đấy.\"",
+      "text": "駅前の新しいパン屋さん、もう行ってみた？\n\n1: これから行くところですよ。\n2: 駅の前にありますよ。\n3: ええ、昨日行きましたよ。",
+      "options": [
+            "これから行くところですよ。",
+            "駅の前にありますよ。",
+            "ええ、昨日行きましたよ。",
+            "（Không có lựa chọn 4）"
+      ],
+      "correctOption": 3
+}
+  
+},
 };
+
+// Alias
+EXAM_DETAILED_EXPLANATION_MAP["n4-2024"] = EXAM_DETAILED_EXPLANATION_MAP["n4-2024-07"];

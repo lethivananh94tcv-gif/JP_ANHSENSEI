@@ -133,6 +133,42 @@ public class JlptExamServiceUnitTest {
     }
 
     @Test
+    @DisplayName("EXAM-UPDATE-01: Cập nhật thông tin đề (Level, Tên, Mã, Thời gian) - Thành công")
+    void testUpdateExam_Success() {
+        when(examRepository.findById(sampleExamId)).thenReturn(Optional.of(sampleExam));
+        when(examRepository.save(any(JlptExam.class))).thenAnswer(i -> i.getArgument(0));
+        when(versionRepository.findById(sampleVersionId)).thenReturn(Optional.of(sampleVersion));
+        when(versionRepository.save(any(JlptExamVersion.class))).thenAnswer(i -> i.getArgument(0));
+
+        com.anhsensei.learning.dto.UpdateJlptExamRequest updateReq = new com.anhsensei.learning.dto.UpdateJlptExamRequest(
+                "N5", "n5-2024-new", "Đề Thi N5 2024 Cập Nhật", "2024-07", 90
+        );
+
+        JlptExam updated = jlptExamService.updateExam(sampleExamId, updateReq);
+        assertNotNull(updated);
+        assertEquals("N5", updated.getLevelCode());
+        assertEquals("n5-2024-new", updated.getCode());
+        assertEquals("Đề Thi N5 2024 Cập Nhật", updated.getTitle());
+        assertEquals(90, sampleVersion.getDurationMinutes());
+    }
+
+    @Test
+    @DisplayName("EXAM-UPDATE-02: Cập nhật trùng mã đề của đề khác - Throw Exception")
+    void testUpdateExam_DuplicateExamCode_Throws() {
+        when(examRepository.findById(sampleExamId)).thenReturn(Optional.of(sampleExam));
+
+        JlptExam anotherExam = new JlptExam("n4-dup-code", "N4", "2023", "Đề khác");
+        anotherExam.setId(UUID.randomUUID());
+        when(examRepository.findAll()).thenReturn(List.of(sampleExam, anotherExam));
+
+        com.anhsensei.learning.dto.UpdateJlptExamRequest updateReq = new com.anhsensei.learning.dto.UpdateJlptExamRequest(
+                "N4", "n4-dup-code", "Đổi tên", "2024", 105
+        );
+
+        assertThrows(IllegalArgumentException.class, () -> jlptExamService.updateExam(sampleExamId, updateReq));
+    }
+
+    @Test
     @DisplayName("EXAM-07 & VERSION-03: Publish version không có câu hỏi - Reject")
     void testEXAM_07_VERSION_03_PublishVersion_ZeroQuestions_Reject() {
         sampleVersion.setStatus("DRAFT");

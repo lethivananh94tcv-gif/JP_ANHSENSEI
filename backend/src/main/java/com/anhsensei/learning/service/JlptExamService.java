@@ -13,6 +13,7 @@ import com.anhsensei.learning.repository.JlptExamVersionRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.anhsensei.learning.dto.ConfirmJlptImportRequest;
+import com.anhsensei.learning.dto.UpdateJlptExamRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -64,6 +65,61 @@ public class JlptExamService {
         JlptExamVersion version = new JlptExamVersion(exam.getId(), 1, req.getPdfUrl(), req.getAudioUrl(), req.getDurationMinutes());
         version.setStatus("DRAFT");
         versionRepository.save(version);
+
+        return exam;
+    }
+
+    @Transactional
+    public JlptExam updateExam(UUID examId, UpdateJlptExamRequest req) {
+        JlptExam exam = examRepository.findById(examId)
+                .orElseThrow(() -> new NoSuchElementException("Đề thi không tồn tại với ID: " + examId));
+
+        if (req.getTitle() != null && !req.getTitle().trim().isEmpty()) {
+            exam.setTitle(req.getTitle().trim());
+        }
+
+        if (req.getLevelCode() != null && !req.getLevelCode().trim().isEmpty()) {
+            String lvl = req.getLevelCode().trim().toUpperCase();
+            if (!lvl.equals("N5") && !lvl.equals("N4") && !lvl.equals("N3")) {
+                throw new IllegalArgumentException("Level không hợp lệ. Chỉ hỗ trợ N5, N4, N3");
+            }
+            exam.setLevelCode(lvl);
+        }
+
+        if (req.getExamCode() != null && !req.getExamCode().trim().isEmpty()) {
+            String newCode = req.getExamCode().trim().toLowerCase().replaceAll("\\s+", "-");
+            if (!newCode.equalsIgnoreCase(exam.getCode())) {
+                boolean exists = examRepository.findAll().stream()
+                        .anyMatch(e -> !e.getId().equals(examId) && e.getCode().equalsIgnoreCase(newCode));
+                if (exists) {
+                    throw new IllegalArgumentException("Mã đề thi '" + newCode + "' đã tồn tại, vui lòng chọn mã khác!");
+                }
+                exam.setCode(newCode);
+            }
+        }
+
+        if (req.getYearSession() != null && !req.getYearSession().trim().isEmpty()) {
+            exam.setYearSession(req.getYearSession().trim());
+        }
+
+        exam.setUpdatedAt(Instant.now());
+        exam = examRepository.save(exam);
+
+        if (req.getDurationMinutes() != null && req.getDurationMinutes() > 0) {
+            if (exam.getCurrentPublishedVersionId() != null) {
+                versionRepository.findById(exam.getCurrentPublishedVersionId()).ifPresent(v -> {
+                    v.setDurationMinutes(req.getDurationMinutes());
+                    versionRepository.save(v);
+                });
+            } else {
+                List<JlptExamVersion> versions = versionRepository.findByExamIdOrderByVersionNumberDesc(examId);
+                if (!versions.isEmpty()) {
+                    JlptExamVersion latest = versions.get(0);
+                    latest.setDurationMinutes(req.getDurationMinutes());
+                    versionRepository.save(latest);
+                }
+            }
+        }
 
         return exam;
     }

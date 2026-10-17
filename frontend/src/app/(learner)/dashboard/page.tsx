@@ -56,11 +56,17 @@ export default function LearnerDashboardPage() {
 
       // 1. Auth Guard Check
       if (typeof window !== "undefined") {
+        const token = localStorage.getItem("access_token") || localStorage.getItem("auth_token");
         const storedUser = localStorage.getItem("user");
-        if (storedUser) {
+
+        if (!token) {
+          setUser(null);
+        } else if (storedUser) {
           try {
             const parsedUser = JSON.parse(storedUser);
-            setUser(parsedUser);
+            if (parsedUser && (parsedUser.email || parsedUser.fullName)) {
+              setUser(parsedUser);
+            }
           } catch (e) {
             console.error("Failed to parse user", e);
           }

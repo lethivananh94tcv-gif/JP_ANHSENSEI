@@ -29,8 +29,13 @@ public class JlptPdfImportService {
             tempFile = File.createTempFile("jlpt_import_" + prefix, ".pdf");
             pdfFile.transferTo(tempFile);
 
-            String scriptPath = new File("scripts/universal_jlpt_parser.py").getAbsolutePath();
-            ProcessBuilder pb = new ProcessBuilder("python", scriptPath, tempFile.getAbsolutePath());
+            File scriptFile = new File("scripts/universal_jlpt_parser.py");
+            if (!scriptFile.exists()) {
+                scriptFile = new File("../scripts/universal_jlpt_parser.py");
+            }
+            String scriptPath = scriptFile.getAbsolutePath();
+            String safeOrigName = origName != null ? origName : "unknown.pdf";
+            ProcessBuilder pb = new ProcessBuilder("python", scriptPath, tempFile.getAbsolutePath(), safeOrigName);
             pb.redirectErrorStream(true);
 
             Process process = pb.start();
@@ -49,10 +54,16 @@ public class JlptPdfImportService {
             }
 
             String jsonOutput = output.toString().trim();
-            // Extract json block starting with {
-            int jsonStart = jsonOutput.indexOf("{");
-            if (jsonStart >= 0) {
-                jsonOutput = jsonOutput.substring(jsonStart);
+            int startMarker = jsonOutput.indexOf("===JSON_START===");
+            int endMarker = jsonOutput.indexOf("===JSON_END===");
+            if (startMarker >= 0 && endMarker > startMarker) {
+                jsonOutput = jsonOutput.substring(startMarker + "===JSON_START===".length(), endMarker).trim();
+            } else {
+                int jsonStart = jsonOutput.indexOf("{");
+                int jsonEnd = jsonOutput.lastIndexOf("}");
+                if (jsonStart >= 0 && jsonEnd > jsonStart) {
+                    jsonOutput = jsonOutput.substring(jsonStart, jsonEnd + 1);
+                }
             }
 
             return objectMapper.readValue(jsonOutput, Map.class);
@@ -70,7 +81,11 @@ public class JlptPdfImportService {
 
     public Map<String, Object> reprocessAllExistingExams() {
         try {
-            String scriptPath = new File("scripts/reprocess_all_existing_exams.py").getAbsolutePath();
+            File scriptFile = new File("scripts/reprocess_all_existing_exams.py");
+            if (!scriptFile.exists()) {
+                scriptFile = new File("../scripts/reprocess_all_existing_exams.py");
+            }
+            String scriptPath = scriptFile.getAbsolutePath();
             ProcessBuilder pb = new ProcessBuilder("python", scriptPath);
             pb.redirectErrorStream(true);
 

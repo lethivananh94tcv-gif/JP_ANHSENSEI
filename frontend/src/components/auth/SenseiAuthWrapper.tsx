@@ -577,15 +577,41 @@ export default function SenseiAuthWrapper({ initialMode = "LOGIN" }: SenseiAuthW
 
   const saveAuthAndRedirect = (data: any) => {
     if (typeof window !== "undefined") {
+      const normalizedUser = {
+        ...data,
+        id: data.userId || data.id,
+        userId: data.userId || data.id,
+        fullName: data.fullName,
+        email: data.email,
+        role: data.role,
+        avatarUrl: data.avatarUrl,
+        targetLevel: data.targetLevel || "N5",
+      };
       localStorage.setItem("access_token", data.accessToken);
       localStorage.setItem("auth_token", data.accessToken);
       if (data.refreshToken) {
         localStorage.setItem("refresh_token", data.refreshToken);
       }
-      localStorage.setItem("user", JSON.stringify(data));
+      localStorage.setItem("user", JSON.stringify(normalizedUser));
+      if (data.avatarUrl) {
+        localStorage.setItem("user_avatar", data.avatarUrl);
+      }
+
+      // Set cookies for server routes / middleware
+      try {
+        document.cookie = `access_token=${data.accessToken}; path=/; max-age=604800; SameSite=Lax`;
+        document.cookie = `auth_token=${data.accessToken}; path=/; max-age=604800; SameSite=Lax`;
+      } catch (e) {
+        console.warn("Could not set cookie", e);
+      }
+
+      // Dispatch global events for instant reactive header update
+      window.dispatchEvent(new Event("storage"));
+      window.dispatchEvent(new CustomEvent("auth-state-changed", { detail: normalizedUser }));
+
       setTimeout(() => {
         window.location.href = data.role === "ADMIN" ? "/admin" : "/dashboard";
-      }, 1200);
+      }, 1000);
     }
   };
 

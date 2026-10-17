@@ -113,7 +113,7 @@ const DEFAULT_N3_LESSONS: LessonItem[] = [
   { lessonId: 65, levelId: 3, title: "Bài 65: Ôn tập tổng hợp & Thành ngữ (N3総合復習)", description: "Tổng hợp từ vựng N3 cốt lõi, Thành ngữ 4 chữ, Cụm từ hay gặp trong kỳ thi JLPT N3", sortOrder: 15, status: "PUBLISHED" },
 ];
 
-export const getCanonicalLessonId = (lesson: LessonItem, levelCode = "N5"): number => {
+const getCanonicalLessonId = (lesson: LessonItem, levelCode = "N5"): number => {
   const lvl = (lesson.levelCode || levelCode || "N5").toUpperCase();
   if (lvl === "N4") {
     return lesson.lessonId >= 26 && lesson.lessonId <= 50

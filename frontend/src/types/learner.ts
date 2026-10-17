@@ -1,9 +1,13 @@
 export interface UserProfile {
-  userId: number;
+  userId?: number;
+  id?: number;
   fullName: string;
   email: string;
   role: string;
-  avatarUrl?: string;
+  avatarUrl?: string | null;
+  targetLevel?: string;
+  timezone?: string;
+  status?: string;
 }
 
 export interface LevelSummary {

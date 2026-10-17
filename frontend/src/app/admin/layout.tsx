@@ -6,8 +6,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { 
   ExternalLink, LogOut, 
   LayoutDashboard, BookOpen, Layers, Users, BarChart3, FileSpreadsheet, 
-  ShieldCheck, ChevronRight, PenTool, Puzzle, Target, UserCheck
+  ShieldCheck, ChevronRight, PenTool, Puzzle, Target, UserCheck, Loader2
 } from "lucide-react";
+import { getApiBaseUrl } from "@/lib/api/client";
 
 interface UserProfile {
   fullName: string;
@@ -33,6 +34,12 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const router = useRouter();
   const [user, setUser] = useState<UserProfile | null>(null);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  // Preload login page as soon as admin layout mounts for instant navigation
+  useEffect(() => {
+    router.prefetch("/login");
+  }, [router]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -57,11 +64,49 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   }, [router]);
 
   const handleLogout = () => {
-    localStorage.removeItem("auth_token");
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("refresh_token");
-    localStorage.removeItem("user");
+    // 1. Immediate visual feedback
+    setIsLoggingOut(true);
+
+    // 2. Read refresh token before clearing for asynchronous revocation
+    const refreshToken = typeof window !== "undefined" ? localStorage.getItem("refresh_token") : null;
+
+    // 3. Clear auth state and storage immediately
+    if (typeof window !== "undefined") {
+      localStorage.removeItem("auth_token");
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("refresh_token");
+      localStorage.removeItem("user");
+      sessionStorage.clear();
+      window.dispatchEvent(new Event("storage"));
+    }
+    setUser(null);
+
+    // 4. Non-blocking asynchronous token revocation on backend
+    if (refreshToken) {
+      try {
+        const apiBaseUrl = getApiBaseUrl();
+        fetch(`${apiBaseUrl}/auth/logout`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ refreshToken }),
+          keepalive: true,
+        }).catch(() => {});
+      } catch (e) {
+        // Non-blocking, ignore error
+      }
+    }
+
+    // 5. Instant navigation with Next.js router
     router.replace("/login");
+
+    // Safety fallback: if router takes longer than 100ms in dev, force instant window redirect
+    const timer = setTimeout(() => {
+      if (typeof window !== "undefined" && window.location.pathname !== "/login") {
+        window.location.replace("/login");
+      }
+    }, 100);
+
+    return () => clearTimeout(timer);
   };
 
   const navSections: NavSection[] = [
@@ -259,13 +304,26 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
         <div className="p-3.5 border-t border-[#E5D7C7] space-y-2.5 bg-white/40">
           <Link
             href="/dashboard"
-            className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-2xl text-xs font-extrabold text-[#56423E] hover:bg-white hover:text-[#C65D4B] transition-all border border-transparent hover:border-[#E5D7C7] shadow-2xs"
+            target="_blank"
+            className="w-full flex items-center justify-between px-3.5 py-2 rounded-2xl text-xs font-extrabold text-[#56423E] hover:bg-white hover:text-[#C65D4B] transition-all border border-transparent hover:border-[#E5D7C7] shadow-2xs"
           >
             <div className="flex items-center gap-2.5">
               <ExternalLink className="w-4 h-4 text-[#8B6F5A]" />
-              <span>Xem trang học viên</span>
+              <span>Xem Dashboard Học Viên</span>
             </div>
             <ChevronRight className="w-3.5 h-3.5 text-[#8B6F5A]" />
+          </Link>
+
+          <Link
+            href="/jlpt-practice"
+            target="_blank"
+            className="w-full flex items-center justify-between px-3.5 py-2 rounded-2xl text-xs font-extrabold text-[#C65D4B] bg-[#FFF5F2] hover:bg-white hover:text-[#B04F3F] transition-all border border-[#F2DDD4] hover:border-[#C65D4B] shadow-2xs"
+          >
+            <div className="flex items-center gap-2.5">
+              <BookOpen className="w-4 h-4 text-[#C65D4B]" />
+              <span>Xem Luyện JLPT Học Viên</span>
+            </div>
+            <ChevronRight className="w-3.5 h-3.5 text-[#C65D4B]" />
           </Link>
 
           <div className="p-3 bg-gradient-to-br from-[#FFFDF9] to-[#FAF3EB] border border-[#E5D7C7] rounded-2xl flex items-center justify-between shadow-2xs">
@@ -305,10 +363,16 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             <button
               type="button"
               onClick={handleLogout}
-              className="p-1.5 text-[#8B6F5A] hover:text-[#C65D4B] hover:bg-[#FAF3EB] rounded-xl transition-colors shrink-0 cursor-pointer"
+              disabled={isLoggingOut}
+              onMouseEnter={() => router.prefetch("/login")}
+              className="p-1.5 text-[#8B6F5A] hover:text-[#C65D4B] hover:bg-[#FAF3EB] rounded-xl transition-colors shrink-0 cursor-pointer disabled:opacity-60"
               title="Đăng xuất"
             >
-              <LogOut className="w-4 h-4" />
+              {isLoggingOut ? (
+                <Loader2 className="w-4 h-4 animate-spin text-[#C65D4B]" />
+              ) : (
+                <LogOut className="w-4 h-4" />
+              )}
             </button>
           </div>
         </div>
@@ -328,13 +392,22 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           <span className="font-black text-sm font-jp text-[#231917] tracking-wider">
             ANH SENSEI ADMIN
           </span>
-          <div 
+          <button 
+            type="button"
             onClick={handleLogout}
-            className="w-8 h-8 rounded-xl bg-[#FAF3EB] border border-[#E5D7C7] text-[#C65D4B] font-bold text-xs flex items-center justify-center cursor-pointer"
+            disabled={isLoggingOut}
+            onMouseEnter={() => router.prefetch("/login")}
+            className="w-8 h-8 rounded-xl bg-[#FAF3EB] border border-[#E5D7C7] text-[#C65D4B] font-bold text-xs flex items-center justify-center cursor-pointer disabled:opacity-60"
             title="Đăng xuất"
           >
-            {user?.fullName ? user.fullName.charAt(0).toUpperCase() : "A"}
-          </div>
+            {isLoggingOut ? (
+              <Loader2 className="w-3.5 h-3.5 animate-spin text-[#C65D4B]" />
+            ) : user?.fullName ? (
+              user.fullName.charAt(0).toUpperCase()
+            ) : (
+              "A"
+            )}
+          </button>
         </div>
 
         {/* Dynamic Page Body */}

@@ -538,7 +538,7 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
           </div>
         </Link>
 
-        {/* Skill 4: Luyện tập */}
+        {/* Skill 4: Luyện tập trắc nghiệm */}
         <Link
           href="/quizzes/1"
           className="bg-white rounded-3xl p-5 border-2 border-[#E1ECFF] shadow-sm hover:shadow-xl hover:border-blue-600 hover:-translate-y-1 transition-all duration-300 group flex flex-col justify-between space-y-4 relative overflow-hidden"
@@ -549,13 +549,13 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
               <FileText className="w-7 h-7 stroke-[2.2] drop-shadow-md text-blue-100" />
             </div>
             <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-blue-600/10 text-blue-700 border border-blue-600/20">
-              {summary?.completedLessonsCount ? `${summary.completedLessonsCount} Bài xong` : 'JLPT Quiz'}
+              {summary?.completedLessonsCount ? `${summary.completedLessonsCount} Bài xong` : 'Mini Quiz'}
             </span>
           </div>
 
           <div>
-            <h3 className="text-base font-black text-[#2C201D] group-hover:text-blue-600 transition-colors">Luyện tập</h3>
-            <p className="text-xs text-[#76685F] font-extrabold">Bài tập & Đề thi JLPT</p>
+            <h3 className="text-base font-black text-[#2C201D] group-hover:text-blue-600 transition-colors">Trắc nghiệm bài học</h3>
+            <p className="text-xs text-[#76685F] font-extrabold">Ôn tập Từ vựng & Ngữ pháp</p>
           </div>
 
           <div className="flex justify-end pt-1">
@@ -576,13 +576,13 @@ export default function LearningTypeGrid({ summary }: LearningTypeGridProps) {
               <Layers className="w-7 h-7 stroke-[2.2] drop-shadow-md text-purple-100" />
             </div>
             <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200">
-              LUYỆN ĐỀ THẬT
+              ĐỀ THI JLPT
             </span>
           </div>
 
           <div>
-            <h3 className="text-base font-black text-[#2C201D] group-hover:text-purple-600 transition-colors">Luyện JLPT</h3>
-            <p className="text-xs text-[#76685F] font-extrabold">Đề thi thật N5 • N4 • N3</p>
+            <h3 className="text-base font-black text-[#2C201D] group-hover:text-purple-600 transition-colors">Đề Thi Thật JLPT</h3>
+            <p className="text-xs text-[#76685F] font-extrabold">Kho đề thi N5 • N4 • N3</p>
           </div>
 
           <div className="flex justify-end pt-1">

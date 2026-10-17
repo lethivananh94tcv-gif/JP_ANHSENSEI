@@ -50,3 +50,11 @@ __pycache__/
 *.pyc
 scripts/tessdata/
 
+# Temporary test and crop images
+test_*.png
+scripts/**/*.png
+scripts/*.png
+scripts/n5_2012_pages/
+scripts/n5_2013_inspect/
+scripts/pdf_pages/
+

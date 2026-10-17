@@ -45,14 +45,14 @@ export default function BeginnerLetterModal({ isOpen, onClose }: BeginnerLetterM
           <div className="flex items-center justify-between px-6 pt-5 pb-3 bg-[#FFF3E8] border-b border-[#F2E0CF] relative z-20">
             <div className="flex items-center gap-2 pl-36">
               <span className="text-xs sm:text-sm font-black text-[#C65D4B] flex items-center gap-1.5">
-                <span>🌸 Bức Thư Hướng Dẫn Học Tiếng Nhật (Anh Sensei)</span>
+                <span>🌸 Hướng Dẫn Sử Dụng ANH SENSEI 📖</span>
               </span>
             </div>
 
             <button
               onClick={onClose}
               className="w-9 h-9 rounded-full bg-[#F3E5D8] hover:bg-[#C65D4B] text-[#55413C] hover:text-white flex items-center justify-center transition-all cursor-pointer shadow-2xs focus:outline-none shrink-0"
-              title="Đóng bức thư"
+              title="Đóng hướng dẫn"
             >
               <X className="w-5 h-5" />
             </button>
